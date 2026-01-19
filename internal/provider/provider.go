@@ -9,9 +9,9 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/provider/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/types"
-	"github.com/waldur/terraform-waldur-provider/internal/resources"
-	"github.com/waldur/terraform-waldur-provider/internal/datasources"
 	"github.com/waldur/terraform-waldur-provider/internal/client"
+	"github.com/waldur/terraform-waldur-provider/internal/datasources"
+	"github.com/waldur/terraform-waldur-provider/internal/resources"
 )
 
 // Ensure waldurProvider satisfies various provider interfaces.

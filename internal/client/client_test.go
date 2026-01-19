@@ -14,7 +14,7 @@ func TestListWithFilter(t *testing.T) {
 		if r.URL.Query().Get("name") != "test-project" {
 			t.Errorf("Expected name=test-project, got %s", r.URL.Query().Get("name"))
 		}
-		
+
 		// Return test data
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
@@ -36,7 +36,7 @@ func TestListWithFilter(t *testing.T) {
 	filters := map[string]string{
 		"name": "test-project",
 	}
-	
+
 	err = client.ListWithFilter(context.Background(), "/api/projects/", filters, &results)
 	if err != nil {
 		t.Fatalf("ListWithFilter failed: %v", err)
@@ -46,11 +46,11 @@ func TestListWithFilter(t *testing.T) {
 	if len(results) != 1 {
 		t.Fatalf("Expected 1 result, got %d", len(results))
 	}
-	
+
 	if results[0]["uuid"] != "abc-123" {
 		t.Errorf("Expected uuid=abc-123, got %v", results[0]["uuid"])
 	}
-	
+
 	if results[0]["name"] != "test-project" {
 		t.Errorf("Expected name=test-project, got %v", results[0]["name"])
 	}
@@ -64,7 +64,7 @@ func TestGetByUUID_WithTemplate(t *testing.T) {
 		if r.URL.Path != expectedPath {
 			t.Errorf("Expected path %s, got %s", expectedPath, r.URL.Path)
 		}
-		
+
 		// Return test data
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
@@ -101,13 +101,13 @@ func TestUpdate_WithTemplate(t *testing.T) {
 		if r.Method != http.MethodPatch {
 			t.Errorf("Expected PATCH, got %s", r.Method)
 		}
-		
+
 		// Verify path has UUID substituted
 		expectedPath := "/api/projects/abc-123/"
 		if r.URL.Path != expectedPath {
 			t.Errorf("Expected path %s, got %s", expectedPath, r.URL.Path)
 		}
-		
+
 		// Return test data
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
@@ -127,7 +127,7 @@ func TestUpdate_WithTemplate(t *testing.T) {
 	// Test Update with templated path
 	var result map[string]interface{}
 	body := map[string]string{"name": "updated-project"}
-	
+
 	err = client.Update(context.Background(), "/api/projects/{uuid}/", "abc-123", body, &result)
 	if err != nil {
 		t.Fatalf("Update failed: %v", err)
@@ -146,13 +146,13 @@ func TestDeleteByUUID_WithTemplate(t *testing.T) {
 		if r.Method != http.MethodDelete {
 			t.Errorf("Expected DELETE, got %s", r.Method)
 		}
-		
+
 		// Verify path has UUID substituted
 		expectedPath := "/api/projects/abc-123/"
 		if r.URL.Path != expectedPath {
 			t.Errorf("Expected path %s, got %s", expectedPath, r.URL.Path)
 		}
-		
+
 		w.WriteHeader(http.StatusNoContent)
 	}))
 	defer server.Close()

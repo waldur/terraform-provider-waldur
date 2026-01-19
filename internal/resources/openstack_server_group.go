@@ -164,6 +164,37 @@ func (r *OpenstackServerGroupResource) Schema(ctx context.Context, req resource.
 	}
 }
 
+func (r *OpenstackServerGroupResource) convertTFValue(v attr.Value) interface{} {
+	if v.IsNull() || v.IsUnknown() {
+		return nil
+	}
+	switch val := v.(type) {
+	case types.String:
+		return val.ValueString()
+	case types.Int64:
+		return val.ValueInt64()
+	case types.Bool:
+		return val.ValueBool()
+	case types.Float64:
+		return val.ValueFloat64()
+	case types.List:
+		items := make([]interface{}, len(val.Elements()))
+		for i, elem := range val.Elements() {
+			items[i] = r.convertTFValue(elem)
+		}
+		return items
+	case types.Object:
+		obj := make(map[string]interface{})
+		for k, attr := range val.Attributes() {
+			if converted := r.convertTFValue(attr); converted != nil {
+				obj[k] = converted
+			}
+		}
+		return obj
+	}
+	return nil
+}
+
 func (r *OpenstackServerGroupResource) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
 	// Prevent panic if the provider has not been configured.
 	if req.ProviderData == nil {
