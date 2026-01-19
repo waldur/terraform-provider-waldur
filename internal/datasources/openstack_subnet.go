@@ -10,7 +10,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
-	"github.com/waldur/terraform-waldur-provider/internal/client"
+	"github.com/waldur/terraform-provider-waldur/internal/client"
 )
 
 // Ensure provider defined types fully satisfy framework interfaces.

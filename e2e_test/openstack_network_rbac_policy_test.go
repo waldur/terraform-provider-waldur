@@ -10,8 +10,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-go/tfprotov6"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 
-	"github.com/waldur/terraform-waldur-provider/internal/provider"
-	"github.com/waldur/terraform-waldur-provider/internal/testhelpers"
+	"github.com/waldur/terraform-provider-waldur/internal/provider"
+	"github.com/waldur/terraform-provider-waldur/internal/testhelpers"
 )
 
 // TestOpenstackNetworkRbacPolicy_CRUD tests CRUD operations for OpenStack Network RBAC Policy.

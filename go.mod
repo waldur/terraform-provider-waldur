@@ -1,4 +1,4 @@
-module github.com/waldur/terraform-waldur-provider
+module github.com/waldur/terraform-provider-waldur
 
 go 1.24.0
 
