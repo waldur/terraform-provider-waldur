@@ -195,7 +195,10 @@ func (d *OpenstackSubnetDataSource) Schema(ctx context.Context, req datasource.S
 				MarkdownDescription: " ",
 			},
 			"allocation_pools": schema.ListAttribute{
-				CustomType:          types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"end": types.StringType, "start": types.StringType}}},
+				CustomType: types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+					"end":   types.StringType,
+					"start": types.StringType,
+				}}},
 				Computed:            true,
 				MarkdownDescription: " ",
 			},
@@ -229,7 +232,10 @@ func (d *OpenstackSubnetDataSource) Schema(ctx context.Context, req datasource.S
 				MarkdownDescription: "IP address of the gateway for this subnet",
 			},
 			"host_routes": schema.ListAttribute{
-				CustomType:          types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"destination": types.StringType, "nexthop": types.StringType}}},
+				CustomType: types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+					"destination": types.StringType,
+					"nexthop":     types.StringType,
+				}}},
 				Computed:            true,
 				MarkdownDescription: " ",
 			},

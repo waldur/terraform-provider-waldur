@@ -165,8 +165,8 @@ func (r *OpenstackFloatingIpResource) Schema(ctx context.Context, req resource.S
 				MarkdownDescription: " ",
 			},
 			"tenant": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "OpenStack tenant this floating IP belongs to",
+				Required:            true,
+				MarkdownDescription: "Required path parameter for resource creation",
 			},
 			"tenant_name": schema.StringAttribute{
 				Computed:            true,
@@ -190,37 +190,6 @@ func (r *OpenstackFloatingIpResource) Schema(ctx context.Context, req resource.S
 			}),
 		},
 	}
-}
-
-func (r *OpenstackFloatingIpResource) convertTFValue(v attr.Value) interface{} {
-	if v.IsNull() || v.IsUnknown() {
-		return nil
-	}
-	switch val := v.(type) {
-	case types.String:
-		return val.ValueString()
-	case types.Int64:
-		return val.ValueInt64()
-	case types.Bool:
-		return val.ValueBool()
-	case types.Float64:
-		return val.ValueFloat64()
-	case types.List:
-		items := make([]interface{}, len(val.Elements()))
-		for i, elem := range val.Elements() {
-			items[i] = r.convertTFValue(elem)
-		}
-		return items
-	case types.Object:
-		obj := make(map[string]interface{})
-		for k, attr := range val.Attributes() {
-			if converted := r.convertTFValue(attr); converted != nil {
-				obj[k] = converted
-			}
-		}
-		return obj
-	}
-	return nil
 }
 
 func (r *OpenstackFloatingIpResource) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
@@ -250,8 +219,10 @@ func (r *OpenstackFloatingIpResource) Create(ctx context.Context, req resource.C
 	if resp.Diagnostics.HasError() {
 		return
 	}
+
 	// Prepare request body
 	requestBody := map[string]interface{}{}
+	// Check if this field is a path param (skip adding to body)
 
 	// Call Waldur API to create resource
 	var result map[string]interface{}
@@ -798,6 +769,7 @@ func (r *OpenstackFloatingIpResource) Update(ctx context.Context, req resource.U
 
 	// Use UUID from state
 	data.UUID = state.UUID
+
 	// Prepare request body
 	requestBody := map[string]interface{}{}
 
@@ -1068,6 +1040,7 @@ func (r *OpenstackFloatingIpResource) Delete(ctx context.Context, req resource.D
 	if resp.Diagnostics.HasError() {
 		return
 	}
+
 	// Call Waldur API to delete resource
 	err := r.client.DeleteByUUID(ctx, "/api/openstack-floating-ips/{uuid}/", data.UUID.ValueString())
 	if err != nil {
@@ -1080,5 +1053,6 @@ func (r *OpenstackFloatingIpResource) Delete(ctx context.Context, req resource.D
 }
 
 func (r *OpenstackFloatingIpResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+
 	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }

@@ -246,37 +246,6 @@ func (r *OpenstackPortResource) Schema(ctx context.Context, req resource.SchemaR
 	}
 }
 
-func (r *OpenstackPortResource) convertTFValue(v attr.Value) interface{} {
-	if v.IsNull() || v.IsUnknown() {
-		return nil
-	}
-	switch val := v.(type) {
-	case types.String:
-		return val.ValueString()
-	case types.Int64:
-		return val.ValueInt64()
-	case types.Bool:
-		return val.ValueBool()
-	case types.Float64:
-		return val.ValueFloat64()
-	case types.List:
-		items := make([]interface{}, len(val.Elements()))
-		for i, elem := range val.Elements() {
-			items[i] = r.convertTFValue(elem)
-		}
-		return items
-	case types.Object:
-		obj := make(map[string]interface{})
-		for k, attr := range val.Attributes() {
-			if converted := r.convertTFValue(attr); converted != nil {
-				obj[k] = converted
-			}
-		}
-		return obj
-	}
-	return nil
-}
-
 func (r *OpenstackPortResource) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
 	// Prevent panic if the provider has not been configured.
 	if req.ProviderData == nil {
@@ -304,46 +273,56 @@ func (r *OpenstackPortResource) Create(ctx context.Context, req resource.CreateR
 	if resp.Diagnostics.HasError() {
 		return
 	}
+
 	// Prepare request body
 	requestBody := map[string]interface{}{}
+	// Check if this field is a path param (skip adding to body)
 	if !data.AllowedAddressPairs.IsNull() && !data.AllowedAddressPairs.IsUnknown() {
-		if v := r.convertTFValue(data.AllowedAddressPairs); v != nil {
+		if v := ConvertTFValue(data.AllowedAddressPairs); v != nil {
 			requestBody["allowed_address_pairs"] = v
 		}
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.Description.IsNull() && !data.Description.IsUnknown() {
 		if v := data.Description.ValueString(); v != "" {
 			requestBody["description"] = v
 		}
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.FixedIps.IsNull() && !data.FixedIps.IsUnknown() {
-		if v := r.convertTFValue(data.FixedIps); v != nil {
+		if v := ConvertTFValue(data.FixedIps); v != nil {
 			requestBody["fixed_ips"] = v
 		}
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.MacAddress.IsNull() && !data.MacAddress.IsUnknown() {
 		if v := data.MacAddress.ValueString(); v != "" {
 			requestBody["mac_address"] = v
 		}
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.Name.IsNull() && !data.Name.IsUnknown() {
 		if v := data.Name.ValueString(); v != "" {
 			requestBody["name"] = v
 		}
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.Network.IsNull() && !data.Network.IsUnknown() {
 		if v := data.Network.ValueString(); v != "" {
 			requestBody["network"] = v
 		}
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.PortSecurityEnabled.IsNull() && !data.PortSecurityEnabled.IsUnknown() {
 		requestBody["port_security_enabled"] = data.PortSecurityEnabled.ValueBool()
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.SecurityGroups.IsNull() && !data.SecurityGroups.IsUnknown() {
-		if v := r.convertTFValue(data.SecurityGroups); v != nil {
+		if v := ConvertTFValue(data.SecurityGroups); v != nil {
 			requestBody["security_groups"] = v
 		}
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.TargetTenant.IsNull() && !data.TargetTenant.IsUnknown() {
 		if v := data.TargetTenant.ValueString(); v != "" {
 			requestBody["target_tenant"] = v
@@ -1134,6 +1113,7 @@ func (r *OpenstackPortResource) Update(ctx context.Context, req resource.UpdateR
 
 	// Use UUID from state
 	data.UUID = state.UUID
+
 	// Prepare request body
 	requestBody := map[string]interface{}{}
 	if !data.Description.IsNull() && !data.Description.IsUnknown() {
@@ -1147,7 +1127,7 @@ func (r *OpenstackPortResource) Update(ctx context.Context, req resource.UpdateR
 		}
 	}
 	if !data.SecurityGroups.IsNull() && !data.SecurityGroups.IsUnknown() {
-		if v := r.convertTFValue(data.SecurityGroups); v != nil {
+		if v := ConvertTFValue(data.SecurityGroups); v != nil {
 			requestBody["security_groups"] = v
 		}
 	}
@@ -1545,6 +1525,7 @@ func (r *OpenstackPortResource) Delete(ctx context.Context, req resource.DeleteR
 	if resp.Diagnostics.HasError() {
 		return
 	}
+
 	// Call Waldur API to delete resource
 	err := r.client.DeleteByUUID(ctx, "/api/openstack-ports/{uuid}/", data.UUID.ValueString())
 	if err != nil {
@@ -1557,5 +1538,6 @@ func (r *OpenstackPortResource) Delete(ctx context.Context, req resource.DeleteR
 }
 
 func (r *OpenstackPortResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+
 	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }

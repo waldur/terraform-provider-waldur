@@ -213,7 +213,7 @@ func (r *OpenstackTenantResource) Schema(ctx context.Context, req resource.Schem
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
 				},
-				MarkdownDescription: "Offering UUID or URL",
+				MarkdownDescription: "Offering URL",
 			},
 			"project": schema.StringAttribute{
 				Required: true,
@@ -387,37 +387,6 @@ func (r *OpenstackTenantResource) Schema(ctx context.Context, req resource.Schem
 	}
 }
 
-func (r *OpenstackTenantResource) convertTFValue(v attr.Value) interface{} {
-	if v.IsNull() || v.IsUnknown() {
-		return nil
-	}
-	switch val := v.(type) {
-	case types.String:
-		return val.ValueString()
-	case types.Int64:
-		return val.ValueInt64()
-	case types.Bool:
-		return val.ValueBool()
-	case types.Float64:
-		return val.ValueFloat64()
-	case types.List:
-		items := make([]interface{}, len(val.Elements()))
-		for i, elem := range val.Elements() {
-			items[i] = r.convertTFValue(elem)
-		}
-		return items
-	case types.Object:
-		obj := make(map[string]interface{})
-		for k, attr := range val.Attributes() {
-			if converted := r.convertTFValue(attr); converted != nil {
-				obj[k] = converted
-			}
-		}
-		return obj
-	}
-	return nil
-}
-
 func (r *OpenstackTenantResource) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
 	// Prevent panic if the provider has not been configured.
 	if req.ProviderData == nil {
@@ -445,6 +414,7 @@ func (r *OpenstackTenantResource) Create(ctx context.Context, req resource.Creat
 	if resp.Diagnostics.HasError() {
 		return
 	}
+
 	// Phase 1: Payload Construction
 	attributes := map[string]interface{}{}
 	if !data.AvailabilityZone.IsNull() {
@@ -459,7 +429,7 @@ func (r *OpenstackTenantResource) Create(ctx context.Context, req resource.Creat
 	if !data.SecurityGroups.IsNull() {
 		items := make([]interface{}, 0)
 		for _, elem := range data.SecurityGroups.Elements() {
-			items = append(items, r.convertTFValue(elem))
+			items = append(items, ConvertTFValue(elem))
 		}
 		attributes["security_groups"] = items
 	}
@@ -877,7 +847,16 @@ func (r *OpenstackTenantResource) Create(ctx context.Context, req resource.Creat
 											attrTypes := map[string]attr.Type{
 												"description": types.StringType,
 												"name":        types.StringType,
-												"rules":       types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"cidr": types.StringType, "description": types.StringType, "direction": types.StringType, "ethertype": types.StringType, "from_port": types.Int64Type, "protocol": types.StringType, "remote_group": types.StringType, "to_port": types.Int64Type}}},
+												"rules": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+													"cidr":         types.StringType,
+													"description":  types.StringType,
+													"direction":    types.StringType,
+													"ethertype":    types.StringType,
+													"from_port":    types.Int64Type,
+													"protocol":     types.StringType,
+													"remote_group": types.StringType,
+													"to_port":      types.Int64Type,
+												}}},
 											}
 											attrValues := map[string]attr.Value{
 												"description": func() attr.Value {
@@ -892,7 +871,16 @@ func (r *OpenstackTenantResource) Create(ctx context.Context, req resource.Creat
 													}
 													return types.StringNull()
 												}(),
-												"rules": types.ListNull(types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"cidr": types.StringType, "description": types.StringType, "direction": types.StringType, "ethertype": types.StringType, "from_port": types.Int64Type, "protocol": types.StringType, "remote_group": types.StringType, "to_port": types.Int64Type}}}.ElemType),
+												"rules": types.ListNull(types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+													"cidr":         types.StringType,
+													"description":  types.StringType,
+													"direction":    types.StringType,
+													"ethertype":    types.StringType,
+													"from_port":    types.Int64Type,
+													"protocol":     types.StringType,
+													"remote_group": types.StringType,
+													"to_port":      types.Int64Type,
+												}}}.ElemType),
 											}
 											objVal, _ := types.ObjectValue(attrTypes, attrValues)
 											items = append(items, objVal)
@@ -901,7 +889,16 @@ func (r *OpenstackTenantResource) Create(ctx context.Context, req resource.Creat
 									listVal, _ := types.ListValue(types.ObjectType{AttrTypes: map[string]attr.Type{
 										"description": types.StringType,
 										"name":        types.StringType,
-										"rules":       types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"cidr": types.StringType, "description": types.StringType, "direction": types.StringType, "ethertype": types.StringType, "from_port": types.Int64Type, "protocol": types.StringType, "remote_group": types.StringType, "to_port": types.Int64Type}}},
+										"rules": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+											"cidr":         types.StringType,
+											"description":  types.StringType,
+											"direction":    types.StringType,
+											"ethertype":    types.StringType,
+											"from_port":    types.Int64Type,
+											"protocol":     types.StringType,
+											"remote_group": types.StringType,
+											"to_port":      types.Int64Type,
+										}}},
 									}}, items)
 									data.SecurityGroups = listVal
 								}
@@ -910,7 +907,16 @@ func (r *OpenstackTenantResource) Create(ctx context.Context, req resource.Creat
 									data.SecurityGroups = types.ListNull(types.ObjectType{AttrTypes: map[string]attr.Type{
 										"description": types.StringType,
 										"name":        types.StringType,
-										"rules":       types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"cidr": types.StringType, "description": types.StringType, "direction": types.StringType, "ethertype": types.StringType, "from_port": types.Int64Type, "protocol": types.StringType, "remote_group": types.StringType, "to_port": types.Int64Type}}},
+										"rules": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+											"cidr":         types.StringType,
+											"description":  types.StringType,
+											"direction":    types.StringType,
+											"ethertype":    types.StringType,
+											"from_port":    types.Int64Type,
+											"protocol":     types.StringType,
+											"remote_group": types.StringType,
+											"to_port":      types.Int64Type,
+										}}},
 									}})
 								}
 							}
@@ -1435,7 +1441,16 @@ func (r *OpenstackTenantResource) Create(ctx context.Context, req resource.Creat
 					attrTypes := map[string]attr.Type{
 						"description": types.StringType,
 						"name":        types.StringType,
-						"rules":       types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"cidr": types.StringType, "description": types.StringType, "direction": types.StringType, "ethertype": types.StringType, "from_port": types.Int64Type, "protocol": types.StringType, "remote_group": types.StringType, "to_port": types.Int64Type}}},
+						"rules": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+							"cidr":         types.StringType,
+							"description":  types.StringType,
+							"direction":    types.StringType,
+							"ethertype":    types.StringType,
+							"from_port":    types.Int64Type,
+							"protocol":     types.StringType,
+							"remote_group": types.StringType,
+							"to_port":      types.Int64Type,
+						}}},
 					}
 					attrValues := map[string]attr.Value{
 						"description": func() attr.Value {
@@ -1450,7 +1465,16 @@ func (r *OpenstackTenantResource) Create(ctx context.Context, req resource.Creat
 							}
 							return types.StringNull()
 						}(),
-						"rules": types.ListNull(types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"cidr": types.StringType, "description": types.StringType, "direction": types.StringType, "ethertype": types.StringType, "from_port": types.Int64Type, "protocol": types.StringType, "remote_group": types.StringType, "to_port": types.Int64Type}}}.ElemType),
+						"rules": types.ListNull(types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+							"cidr":         types.StringType,
+							"description":  types.StringType,
+							"direction":    types.StringType,
+							"ethertype":    types.StringType,
+							"from_port":    types.Int64Type,
+							"protocol":     types.StringType,
+							"remote_group": types.StringType,
+							"to_port":      types.Int64Type,
+						}}}.ElemType),
 					}
 					objVal, _ := types.ObjectValue(attrTypes, attrValues)
 					items = append(items, objVal)
@@ -1459,7 +1483,16 @@ func (r *OpenstackTenantResource) Create(ctx context.Context, req resource.Creat
 			listVal, _ := types.ListValue(types.ObjectType{AttrTypes: map[string]attr.Type{
 				"description": types.StringType,
 				"name":        types.StringType,
-				"rules":       types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"cidr": types.StringType, "description": types.StringType, "direction": types.StringType, "ethertype": types.StringType, "from_port": types.Int64Type, "protocol": types.StringType, "remote_group": types.StringType, "to_port": types.Int64Type}}},
+				"rules": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+					"cidr":         types.StringType,
+					"description":  types.StringType,
+					"direction":    types.StringType,
+					"ethertype":    types.StringType,
+					"from_port":    types.Int64Type,
+					"protocol":     types.StringType,
+					"remote_group": types.StringType,
+					"to_port":      types.Int64Type,
+				}}},
 			}}, items)
 			data.SecurityGroups = listVal
 		}
@@ -1468,7 +1501,16 @@ func (r *OpenstackTenantResource) Create(ctx context.Context, req resource.Creat
 			data.SecurityGroups = types.ListNull(types.ObjectType{AttrTypes: map[string]attr.Type{
 				"description": types.StringType,
 				"name":        types.StringType,
-				"rules":       types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"cidr": types.StringType, "description": types.StringType, "direction": types.StringType, "ethertype": types.StringType, "from_port": types.Int64Type, "protocol": types.StringType, "remote_group": types.StringType, "to_port": types.Int64Type}}},
+				"rules": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+					"cidr":         types.StringType,
+					"description":  types.StringType,
+					"direction":    types.StringType,
+					"ethertype":    types.StringType,
+					"from_port":    types.Int64Type,
+					"protocol":     types.StringType,
+					"remote_group": types.StringType,
+					"to_port":      types.Int64Type,
+				}}},
 			}})
 		}
 	}
@@ -1959,7 +2001,16 @@ func (r *OpenstackTenantResource) Read(ctx context.Context, req resource.ReadReq
 					attrTypes := map[string]attr.Type{
 						"description": types.StringType,
 						"name":        types.StringType,
-						"rules":       types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"cidr": types.StringType, "description": types.StringType, "direction": types.StringType, "ethertype": types.StringType, "from_port": types.Int64Type, "protocol": types.StringType, "remote_group": types.StringType, "to_port": types.Int64Type}}},
+						"rules": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+							"cidr":         types.StringType,
+							"description":  types.StringType,
+							"direction":    types.StringType,
+							"ethertype":    types.StringType,
+							"from_port":    types.Int64Type,
+							"protocol":     types.StringType,
+							"remote_group": types.StringType,
+							"to_port":      types.Int64Type,
+						}}},
 					}
 					attrValues := map[string]attr.Value{
 						"description": func() attr.Value {
@@ -1974,7 +2025,16 @@ func (r *OpenstackTenantResource) Read(ctx context.Context, req resource.ReadReq
 							}
 							return types.StringNull()
 						}(),
-						"rules": types.ListNull(types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"cidr": types.StringType, "description": types.StringType, "direction": types.StringType, "ethertype": types.StringType, "from_port": types.Int64Type, "protocol": types.StringType, "remote_group": types.StringType, "to_port": types.Int64Type}}}.ElemType),
+						"rules": types.ListNull(types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+							"cidr":         types.StringType,
+							"description":  types.StringType,
+							"direction":    types.StringType,
+							"ethertype":    types.StringType,
+							"from_port":    types.Int64Type,
+							"protocol":     types.StringType,
+							"remote_group": types.StringType,
+							"to_port":      types.Int64Type,
+						}}}.ElemType),
 					}
 					objVal, _ := types.ObjectValue(attrTypes, attrValues)
 					items = append(items, objVal)
@@ -1983,7 +2043,16 @@ func (r *OpenstackTenantResource) Read(ctx context.Context, req resource.ReadReq
 			listVal, _ := types.ListValue(types.ObjectType{AttrTypes: map[string]attr.Type{
 				"description": types.StringType,
 				"name":        types.StringType,
-				"rules":       types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"cidr": types.StringType, "description": types.StringType, "direction": types.StringType, "ethertype": types.StringType, "from_port": types.Int64Type, "protocol": types.StringType, "remote_group": types.StringType, "to_port": types.Int64Type}}},
+				"rules": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+					"cidr":         types.StringType,
+					"description":  types.StringType,
+					"direction":    types.StringType,
+					"ethertype":    types.StringType,
+					"from_port":    types.Int64Type,
+					"protocol":     types.StringType,
+					"remote_group": types.StringType,
+					"to_port":      types.Int64Type,
+				}}},
 			}}, items)
 			data.SecurityGroups = listVal
 		}
@@ -1992,7 +2061,16 @@ func (r *OpenstackTenantResource) Read(ctx context.Context, req resource.ReadReq
 			data.SecurityGroups = types.ListNull(types.ObjectType{AttrTypes: map[string]attr.Type{
 				"description": types.StringType,
 				"name":        types.StringType,
-				"rules":       types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"cidr": types.StringType, "description": types.StringType, "direction": types.StringType, "ethertype": types.StringType, "from_port": types.Int64Type, "protocol": types.StringType, "remote_group": types.StringType, "to_port": types.Int64Type}}},
+				"rules": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+					"cidr":         types.StringType,
+					"description":  types.StringType,
+					"direction":    types.StringType,
+					"ethertype":    types.StringType,
+					"from_port":    types.Int64Type,
+					"protocol":     types.StringType,
+					"remote_group": types.StringType,
+					"to_port":      types.Int64Type,
+				}}},
 			}})
 		}
 	}
@@ -2127,6 +2205,7 @@ func (r *OpenstackTenantResource) Update(ctx context.Context, req resource.Updat
 
 	// Use UUID from state
 	data.UUID = state.UUID
+
 	// Phase 1: Standard PATCH (Simple fields)
 	patchPayload := map[string]interface{}{}
 	if !data.AvailabilityZone.IsNull() && !data.AvailabilityZone.Equal(state.AvailabilityZone) {
@@ -2545,7 +2624,16 @@ func (r *OpenstackTenantResource) Update(ctx context.Context, req resource.Updat
 					attrTypes := map[string]attr.Type{
 						"description": types.StringType,
 						"name":        types.StringType,
-						"rules":       types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"cidr": types.StringType, "description": types.StringType, "direction": types.StringType, "ethertype": types.StringType, "from_port": types.Int64Type, "protocol": types.StringType, "remote_group": types.StringType, "to_port": types.Int64Type}}},
+						"rules": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+							"cidr":         types.StringType,
+							"description":  types.StringType,
+							"direction":    types.StringType,
+							"ethertype":    types.StringType,
+							"from_port":    types.Int64Type,
+							"protocol":     types.StringType,
+							"remote_group": types.StringType,
+							"to_port":      types.Int64Type,
+						}}},
 					}
 					attrValues := map[string]attr.Value{
 						"description": func() attr.Value {
@@ -2560,7 +2648,16 @@ func (r *OpenstackTenantResource) Update(ctx context.Context, req resource.Updat
 							}
 							return types.StringNull()
 						}(),
-						"rules": types.ListNull(types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"cidr": types.StringType, "description": types.StringType, "direction": types.StringType, "ethertype": types.StringType, "from_port": types.Int64Type, "protocol": types.StringType, "remote_group": types.StringType, "to_port": types.Int64Type}}}.ElemType),
+						"rules": types.ListNull(types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+							"cidr":         types.StringType,
+							"description":  types.StringType,
+							"direction":    types.StringType,
+							"ethertype":    types.StringType,
+							"from_port":    types.Int64Type,
+							"protocol":     types.StringType,
+							"remote_group": types.StringType,
+							"to_port":      types.Int64Type,
+						}}}.ElemType),
 					}
 					objVal, _ := types.ObjectValue(attrTypes, attrValues)
 					items = append(items, objVal)
@@ -2569,7 +2666,16 @@ func (r *OpenstackTenantResource) Update(ctx context.Context, req resource.Updat
 			listVal, _ := types.ListValue(types.ObjectType{AttrTypes: map[string]attr.Type{
 				"description": types.StringType,
 				"name":        types.StringType,
-				"rules":       types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"cidr": types.StringType, "description": types.StringType, "direction": types.StringType, "ethertype": types.StringType, "from_port": types.Int64Type, "protocol": types.StringType, "remote_group": types.StringType, "to_port": types.Int64Type}}},
+				"rules": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+					"cidr":         types.StringType,
+					"description":  types.StringType,
+					"direction":    types.StringType,
+					"ethertype":    types.StringType,
+					"from_port":    types.Int64Type,
+					"protocol":     types.StringType,
+					"remote_group": types.StringType,
+					"to_port":      types.Int64Type,
+				}}},
 			}}, items)
 			data.SecurityGroups = listVal
 		}
@@ -2578,7 +2684,16 @@ func (r *OpenstackTenantResource) Update(ctx context.Context, req resource.Updat
 			data.SecurityGroups = types.ListNull(types.ObjectType{AttrTypes: map[string]attr.Type{
 				"description": types.StringType,
 				"name":        types.StringType,
-				"rules":       types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"cidr": types.StringType, "description": types.StringType, "direction": types.StringType, "ethertype": types.StringType, "from_port": types.Int64Type, "protocol": types.StringType, "remote_group": types.StringType, "to_port": types.Int64Type}}},
+				"rules": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+					"cidr":         types.StringType,
+					"description":  types.StringType,
+					"direction":    types.StringType,
+					"ethertype":    types.StringType,
+					"from_port":    types.Int64Type,
+					"protocol":     types.StringType,
+					"remote_group": types.StringType,
+					"to_port":      types.Int64Type,
+				}}},
 			}})
 		}
 	}
@@ -2706,6 +2821,7 @@ func (r *OpenstackTenantResource) Delete(ctx context.Context, req resource.Delet
 	if resp.Diagnostics.HasError() {
 		return
 	}
+
 	// Order-based Delete
 	payload := map[string]interface{}{}
 
@@ -2751,5 +2867,6 @@ func (r *OpenstackTenantResource) Delete(ctx context.Context, req resource.Delet
 }
 
 func (r *OpenstackTenantResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+
 	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }

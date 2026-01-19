@@ -131,18 +131,22 @@ func (r *OpenstackNetworkRbacPolicyResource) Create(ctx context.Context, req res
 	if resp.Diagnostics.HasError() {
 		return
 	}
+
 	// Prepare request body
 	requestBody := map[string]interface{}{}
+	// Check if this field is a path param (skip adding to body)
 	if !data.Network.IsNull() && !data.Network.IsUnknown() {
 		if v := data.Network.ValueString(); v != "" {
 			requestBody["network"] = v
 		}
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.PolicyType.IsNull() && !data.PolicyType.IsUnknown() {
 		if v := data.PolicyType.ValueString(); v != "" {
 			requestBody["policy_type"] = v
 		}
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.TargetTenant.IsNull() && !data.TargetTenant.IsUnknown() {
 		if v := data.TargetTenant.ValueString(); v != "" {
 			requestBody["target_tenant"] = v
@@ -268,6 +272,7 @@ func (r *OpenstackNetworkRbacPolicyResource) Read(ctx context.Context, req resou
 
 	// Call Waldur API to read resource
 	var result map[string]interface{}
+
 	// If UUID is unknown or contains slashes (composite key), try to look it up using composite keys
 	if data.UUID.IsNull() || data.UUID.IsUnknown() || strings.Contains(data.UUID.ValueString(), "/") {
 		filters := map[string]string{}
@@ -425,6 +430,7 @@ func (r *OpenstackNetworkRbacPolicyResource) Update(ctx context.Context, req res
 
 	// Use UUID from state
 	data.UUID = state.UUID
+
 	// Prepare request body
 	requestBody := map[string]interface{}{}
 	if !data.Network.IsNull() && !data.Network.IsUnknown() {
@@ -551,6 +557,7 @@ func (r *OpenstackNetworkRbacPolicyResource) Delete(ctx context.Context, req res
 	if resp.Diagnostics.HasError() {
 		return
 	}
+
 	// Call Waldur API to delete resource
 	err := r.client.DeleteByUUID(ctx, "/api/openstack-network-rbac-policies/{uuid}/", data.UUID.ValueString())
 	if err != nil {
@@ -563,6 +570,7 @@ func (r *OpenstackNetworkRbacPolicyResource) Delete(ctx context.Context, req res
 }
 
 func (r *OpenstackNetworkRbacPolicyResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+
 	// Parse composite ID: key1/key2/...
 	parts := strings.Split(req.ID, "/")
 	if len(parts) != 0 {

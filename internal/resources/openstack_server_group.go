@@ -137,8 +137,8 @@ func (r *OpenstackServerGroupResource) Schema(ctx context.Context, req resource.
 				MarkdownDescription: " ",
 			},
 			"tenant": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: " ",
+				Required:            true,
+				MarkdownDescription: "Required path parameter for resource creation",
 			},
 			"tenant_name": schema.StringAttribute{
 				Computed:            true,
@@ -162,37 +162,6 @@ func (r *OpenstackServerGroupResource) Schema(ctx context.Context, req resource.
 			}),
 		},
 	}
-}
-
-func (r *OpenstackServerGroupResource) convertTFValue(v attr.Value) interface{} {
-	if v.IsNull() || v.IsUnknown() {
-		return nil
-	}
-	switch val := v.(type) {
-	case types.String:
-		return val.ValueString()
-	case types.Int64:
-		return val.ValueInt64()
-	case types.Bool:
-		return val.ValueBool()
-	case types.Float64:
-		return val.ValueFloat64()
-	case types.List:
-		items := make([]interface{}, len(val.Elements()))
-		for i, elem := range val.Elements() {
-			items[i] = r.convertTFValue(elem)
-		}
-		return items
-	case types.Object:
-		obj := make(map[string]interface{})
-		for k, attr := range val.Attributes() {
-			if converted := r.convertTFValue(attr); converted != nil {
-				obj[k] = converted
-			}
-		}
-		return obj
-	}
-	return nil
 }
 
 func (r *OpenstackServerGroupResource) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
@@ -222,23 +191,28 @@ func (r *OpenstackServerGroupResource) Create(ctx context.Context, req resource.
 	if resp.Diagnostics.HasError() {
 		return
 	}
+
 	// Prepare request body
 	requestBody := map[string]interface{}{}
+	// Check if this field is a path param (skip adding to body)
 	if !data.Description.IsNull() && !data.Description.IsUnknown() {
 		if v := data.Description.ValueString(); v != "" {
 			requestBody["description"] = v
 		}
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.Name.IsNull() && !data.Name.IsUnknown() {
 		if v := data.Name.ValueString(); v != "" {
 			requestBody["name"] = v
 		}
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.Policy.IsNull() && !data.Policy.IsUnknown() {
 		if v := data.Policy.ValueString(); v != "" {
 			requestBody["policy"] = v
 		}
 	}
+	// Check if this field is a path param (skip adding to body)
 
 	// Call Waldur API to create resource
 	var result map[string]interface{}
@@ -677,6 +651,7 @@ func (r *OpenstackServerGroupResource) Update(ctx context.Context, req resource.
 
 	// Use UUID from state
 	data.UUID = state.UUID
+
 	// Prepare request body
 	requestBody := map[string]interface{}{}
 	if !data.Description.IsNull() && !data.Description.IsUnknown() {
@@ -908,6 +883,7 @@ func (r *OpenstackServerGroupResource) Delete(ctx context.Context, req resource.
 	if resp.Diagnostics.HasError() {
 		return
 	}
+
 	// Call Waldur API to delete resource
 	err := r.client.DeleteByUUID(ctx, "/api/openstack-server-groups/{uuid}/", data.UUID.ValueString())
 	if err != nil {
@@ -920,5 +896,6 @@ func (r *OpenstackServerGroupResource) Delete(ctx context.Context, req resource.
 }
 
 func (r *OpenstackServerGroupResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+
 	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }

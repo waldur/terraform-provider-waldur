@@ -253,12 +253,32 @@ func (d *StructureCustomerDataSource) Schema(ctx context.Context, req datasource
 				MarkdownDescription: "Comma-separated list of notification email addresses",
 			},
 			"organization_groups": schema.ListAttribute{
-				CustomType:          types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"customers_count": types.Int64Type, "name": types.StringType, "parent": types.StringType, "parent_name": types.StringType, "parent_uuid": types.StringType, "url": types.StringType}}},
+				CustomType: types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+					"customers_count": types.Int64Type,
+					"name":            types.StringType,
+					"parent":          types.StringType,
+					"parent_name":     types.StringType,
+					"parent_uuid":     types.StringType,
+					"url":             types.StringType,
+				}}},
 				Computed:            true,
 				MarkdownDescription: " ",
 			},
 			"payment_profiles": schema.ListAttribute{
-				CustomType:          types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"attributes": types.ObjectType{AttrTypes: map[string]attr.Type{"agreement_number": types.StringType, "contract_sum": types.Int64Type, "end_date": types.StringType}}, "is_active": types.BoolType, "name": types.StringType, "organization": types.StringType, "organization_uuid": types.StringType, "payment_type": types.StringType, "payment_type_display": types.StringType, "url": types.StringType}}},
+				CustomType: types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+					"attributes": types.ObjectType{AttrTypes: map[string]attr.Type{
+						"agreement_number": types.StringType,
+						"contract_sum":     types.Int64Type,
+						"end_date":         types.StringType,
+					}},
+					"is_active":            types.BoolType,
+					"name":                 types.StringType,
+					"organization":         types.StringType,
+					"organization_uuid":    types.StringType,
+					"payment_type":         types.StringType,
+					"payment_type_display": types.StringType,
+					"url":                  types.StringType,
+				}}},
 				Computed:            true,
 				MarkdownDescription: " ",
 			},
@@ -275,7 +295,13 @@ func (d *StructureCustomerDataSource) Schema(ctx context.Context, req datasource
 				MarkdownDescription: " ",
 			},
 			"projects": schema.ListAttribute{
-				CustomType:          types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"end_date": types.StringType, "image": types.StringType, "name": types.StringType, "resource_count": types.Int64Type, "url": types.StringType}}},
+				CustomType: types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+					"end_date":       types.StringType,
+					"image":          types.StringType,
+					"name":           types.StringType,
+					"resource_count": types.Int64Type,
+					"url":            types.StringType,
+				}}},
 				Computed:            true,
 				MarkdownDescription: " ",
 			},
@@ -683,7 +709,11 @@ func (d *StructureCustomerDataSource) Read(ctx context.Context, req datasource.R
 				for _, item := range arr {
 					if objMap, ok := item.(map[string]interface{}); ok {
 						attrTypes := map[string]attr.Type{
-							"attributes":           types.ObjectType{AttrTypes: map[string]attr.Type{"agreement_number": types.StringType, "contract_sum": types.Int64Type, "end_date": types.StringType}},
+							"attributes": types.ObjectType{AttrTypes: map[string]attr.Type{
+								"agreement_number": types.StringType,
+								"contract_sum":     types.Int64Type,
+								"end_date":         types.StringType,
+							}},
 							"is_active":            types.BoolType,
 							"name":                 types.StringType,
 							"organization":         types.StringType,
@@ -693,7 +723,11 @@ func (d *StructureCustomerDataSource) Read(ctx context.Context, req datasource.R
 							"url":                  types.StringType,
 						}
 						attrValues := map[string]attr.Value{
-							"attributes": types.ObjectNull(types.ObjectType{AttrTypes: map[string]attr.Type{"agreement_number": types.StringType, "contract_sum": types.Int64Type, "end_date": types.StringType}}.AttrTypes),
+							"attributes": types.ObjectNull(types.ObjectType{AttrTypes: map[string]attr.Type{
+								"agreement_number": types.StringType,
+								"contract_sum":     types.Int64Type,
+								"end_date":         types.StringType,
+							}}.AttrTypes),
 							"is_active": func() attr.Value {
 								if v, ok := objMap["is_active"].(bool); ok {
 									return types.BoolValue(v)
@@ -742,7 +776,11 @@ func (d *StructureCustomerDataSource) Read(ctx context.Context, req datasource.R
 					}
 				}
 				listVal, _ := types.ListValue(types.ObjectType{AttrTypes: map[string]attr.Type{
-					"attributes":           types.ObjectType{AttrTypes: map[string]attr.Type{"agreement_number": types.StringType, "contract_sum": types.Int64Type, "end_date": types.StringType}},
+					"attributes": types.ObjectType{AttrTypes: map[string]attr.Type{
+						"agreement_number": types.StringType,
+						"contract_sum":     types.Int64Type,
+						"end_date":         types.StringType,
+					}},
 					"is_active":            types.BoolType,
 					"name":                 types.StringType,
 					"organization":         types.StringType,
@@ -756,7 +794,11 @@ func (d *StructureCustomerDataSource) Read(ctx context.Context, req datasource.R
 		} else {
 			if data.PaymentProfiles.IsUnknown() {
 				data.PaymentProfiles = types.ListNull(types.ObjectType{AttrTypes: map[string]attr.Type{
-					"attributes":           types.ObjectType{AttrTypes: map[string]attr.Type{"agreement_number": types.StringType, "contract_sum": types.Int64Type, "end_date": types.StringType}},
+					"attributes": types.ObjectType{AttrTypes: map[string]attr.Type{
+						"agreement_number": types.StringType,
+						"contract_sum":     types.Int64Type,
+						"end_date":         types.StringType,
+					}},
 					"is_active":            types.BoolType,
 					"name":                 types.StringType,
 					"organization":         types.StringType,
@@ -1408,7 +1450,11 @@ func (d *StructureCustomerDataSource) Read(ctx context.Context, req datasource.R
 				for _, item := range arr {
 					if objMap, ok := item.(map[string]interface{}); ok {
 						attrTypes := map[string]attr.Type{
-							"attributes":           types.ObjectType{AttrTypes: map[string]attr.Type{"agreement_number": types.StringType, "contract_sum": types.Int64Type, "end_date": types.StringType}},
+							"attributes": types.ObjectType{AttrTypes: map[string]attr.Type{
+								"agreement_number": types.StringType,
+								"contract_sum":     types.Int64Type,
+								"end_date":         types.StringType,
+							}},
 							"is_active":            types.BoolType,
 							"name":                 types.StringType,
 							"organization":         types.StringType,
@@ -1418,7 +1464,11 @@ func (d *StructureCustomerDataSource) Read(ctx context.Context, req datasource.R
 							"url":                  types.StringType,
 						}
 						attrValues := map[string]attr.Value{
-							"attributes": types.ObjectNull(types.ObjectType{AttrTypes: map[string]attr.Type{"agreement_number": types.StringType, "contract_sum": types.Int64Type, "end_date": types.StringType}}.AttrTypes),
+							"attributes": types.ObjectNull(types.ObjectType{AttrTypes: map[string]attr.Type{
+								"agreement_number": types.StringType,
+								"contract_sum":     types.Int64Type,
+								"end_date":         types.StringType,
+							}}.AttrTypes),
 							"is_active": func() attr.Value {
 								if v, ok := objMap["is_active"].(bool); ok {
 									return types.BoolValue(v)
@@ -1467,7 +1517,11 @@ func (d *StructureCustomerDataSource) Read(ctx context.Context, req datasource.R
 					}
 				}
 				listVal, _ := types.ListValue(types.ObjectType{AttrTypes: map[string]attr.Type{
-					"attributes":           types.ObjectType{AttrTypes: map[string]attr.Type{"agreement_number": types.StringType, "contract_sum": types.Int64Type, "end_date": types.StringType}},
+					"attributes": types.ObjectType{AttrTypes: map[string]attr.Type{
+						"agreement_number": types.StringType,
+						"contract_sum":     types.Int64Type,
+						"end_date":         types.StringType,
+					}},
 					"is_active":            types.BoolType,
 					"name":                 types.StringType,
 					"organization":         types.StringType,
@@ -1481,7 +1535,11 @@ func (d *StructureCustomerDataSource) Read(ctx context.Context, req datasource.R
 		} else {
 			if data.PaymentProfiles.IsUnknown() {
 				data.PaymentProfiles = types.ListNull(types.ObjectType{AttrTypes: map[string]attr.Type{
-					"attributes":           types.ObjectType{AttrTypes: map[string]attr.Type{"agreement_number": types.StringType, "contract_sum": types.Int64Type, "end_date": types.StringType}},
+					"attributes": types.ObjectType{AttrTypes: map[string]attr.Type{
+						"agreement_number": types.StringType,
+						"contract_sum":     types.Int64Type,
+						"end_date":         types.StringType,
+					}},
 					"is_active":            types.BoolType,
 					"name":                 types.StringType,
 					"organization":         types.StringType,

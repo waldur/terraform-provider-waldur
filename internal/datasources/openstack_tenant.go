@@ -233,7 +233,11 @@ func (d *OpenstackTenantDataSource) Schema(ctx context.Context, req datasource.S
 				MarkdownDescription: " ",
 			},
 			"quotas": schema.ListAttribute{
-				CustomType:          types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"limit": types.Int64Type, "name": types.StringType, "usage": types.Int64Type}}},
+				CustomType: types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+					"limit": types.Int64Type,
+					"name":  types.StringType,
+					"usage": types.Int64Type,
+				}}},
 				Computed:            true,
 				MarkdownDescription: " ",
 			},

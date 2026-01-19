@@ -224,8 +224,8 @@ func (r *OpenstackNetworkResource) Schema(ctx context.Context, req resource.Sche
 				MarkdownDescription: " ",
 			},
 			"tenant": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "OpenStack tenant this network belongs to",
+				Required:            true,
+				MarkdownDescription: "Required path parameter for resource creation",
 			},
 			"tenant_name": schema.StringAttribute{
 				Computed:            true,
@@ -255,37 +255,6 @@ func (r *OpenstackNetworkResource) Schema(ctx context.Context, req resource.Sche
 	}
 }
 
-func (r *OpenstackNetworkResource) convertTFValue(v attr.Value) interface{} {
-	if v.IsNull() || v.IsUnknown() {
-		return nil
-	}
-	switch val := v.(type) {
-	case types.String:
-		return val.ValueString()
-	case types.Int64:
-		return val.ValueInt64()
-	case types.Bool:
-		return val.ValueBool()
-	case types.Float64:
-		return val.ValueFloat64()
-	case types.List:
-		items := make([]interface{}, len(val.Elements()))
-		for i, elem := range val.Elements() {
-			items[i] = r.convertTFValue(elem)
-		}
-		return items
-	case types.Object:
-		obj := make(map[string]interface{})
-		for k, attr := range val.Attributes() {
-			if converted := r.convertTFValue(attr); converted != nil {
-				obj[k] = converted
-			}
-		}
-		return obj
-	}
-	return nil
-}
-
 func (r *OpenstackNetworkResource) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
 	// Prevent panic if the provider has not been configured.
 	if req.ProviderData == nil {
@@ -313,18 +282,22 @@ func (r *OpenstackNetworkResource) Create(ctx context.Context, req resource.Crea
 	if resp.Diagnostics.HasError() {
 		return
 	}
+
 	// Prepare request body
 	requestBody := map[string]interface{}{}
+	// Check if this field is a path param (skip adding to body)
 	if !data.Description.IsNull() && !data.Description.IsUnknown() {
 		if v := data.Description.ValueString(); v != "" {
 			requestBody["description"] = v
 		}
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.Name.IsNull() && !data.Name.IsUnknown() {
 		if v := data.Name.ValueString(); v != "" {
 			requestBody["name"] = v
 		}
 	}
+	// Check if this field is a path param (skip adding to body)
 
 	// Call Waldur API to create resource
 	var result map[string]interface{}
@@ -558,16 +531,22 @@ func (r *OpenstackNetworkResource) Create(ctx context.Context, req resource.Crea
 			for _, item := range arr {
 				if objMap, ok := item.(map[string]interface{}); ok {
 					attrTypes := map[string]attr.Type{
-						"allocation_pools": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"end": types.StringType, "start": types.StringType}}},
-						"cidr":             types.StringType,
-						"description":      types.StringType,
-						"enable_dhcp":      types.BoolType,
-						"gateway_ip":       types.StringType,
-						"ip_version":       types.Int64Type,
-						"name":             types.StringType,
+						"allocation_pools": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+							"end":   types.StringType,
+							"start": types.StringType,
+						}}},
+						"cidr":        types.StringType,
+						"description": types.StringType,
+						"enable_dhcp": types.BoolType,
+						"gateway_ip":  types.StringType,
+						"ip_version":  types.Int64Type,
+						"name":        types.StringType,
 					}
 					attrValues := map[string]attr.Value{
-						"allocation_pools": types.ListNull(types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"end": types.StringType, "start": types.StringType}}}.ElemType),
+						"allocation_pools": types.ListNull(types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+							"end":   types.StringType,
+							"start": types.StringType,
+						}}}.ElemType),
 						"cidr": func() attr.Value {
 							if v, ok := objMap["cidr"].(string); ok {
 								return types.StringValue(v)
@@ -610,26 +589,32 @@ func (r *OpenstackNetworkResource) Create(ctx context.Context, req resource.Crea
 				}
 			}
 			listVal, _ := types.ListValue(types.ObjectType{AttrTypes: map[string]attr.Type{
-				"allocation_pools": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"end": types.StringType, "start": types.StringType}}},
-				"cidr":             types.StringType,
-				"description":      types.StringType,
-				"enable_dhcp":      types.BoolType,
-				"gateway_ip":       types.StringType,
-				"ip_version":       types.Int64Type,
-				"name":             types.StringType,
+				"allocation_pools": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+					"end":   types.StringType,
+					"start": types.StringType,
+				}}},
+				"cidr":        types.StringType,
+				"description": types.StringType,
+				"enable_dhcp": types.BoolType,
+				"gateway_ip":  types.StringType,
+				"ip_version":  types.Int64Type,
+				"name":        types.StringType,
 			}}, items)
 			data.Subnets = listVal
 		}
 	} else {
 		if data.Subnets.IsUnknown() {
 			data.Subnets = types.ListNull(types.ObjectType{AttrTypes: map[string]attr.Type{
-				"allocation_pools": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"end": types.StringType, "start": types.StringType}}},
-				"cidr":             types.StringType,
-				"description":      types.StringType,
-				"enable_dhcp":      types.BoolType,
-				"gateway_ip":       types.StringType,
-				"ip_version":       types.Int64Type,
-				"name":             types.StringType,
+				"allocation_pools": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+					"end":   types.StringType,
+					"start": types.StringType,
+				}}},
+				"cidr":        types.StringType,
+				"description": types.StringType,
+				"enable_dhcp": types.BoolType,
+				"gateway_ip":  types.StringType,
+				"ip_version":  types.Int64Type,
+				"name":        types.StringType,
 			}})
 		}
 	}
@@ -928,16 +913,22 @@ func (r *OpenstackNetworkResource) Read(ctx context.Context, req resource.ReadRe
 			for _, item := range arr {
 				if objMap, ok := item.(map[string]interface{}); ok {
 					attrTypes := map[string]attr.Type{
-						"allocation_pools": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"end": types.StringType, "start": types.StringType}}},
-						"cidr":             types.StringType,
-						"description":      types.StringType,
-						"enable_dhcp":      types.BoolType,
-						"gateway_ip":       types.StringType,
-						"ip_version":       types.Int64Type,
-						"name":             types.StringType,
+						"allocation_pools": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+							"end":   types.StringType,
+							"start": types.StringType,
+						}}},
+						"cidr":        types.StringType,
+						"description": types.StringType,
+						"enable_dhcp": types.BoolType,
+						"gateway_ip":  types.StringType,
+						"ip_version":  types.Int64Type,
+						"name":        types.StringType,
 					}
 					attrValues := map[string]attr.Value{
-						"allocation_pools": types.ListNull(types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"end": types.StringType, "start": types.StringType}}}.ElemType),
+						"allocation_pools": types.ListNull(types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+							"end":   types.StringType,
+							"start": types.StringType,
+						}}}.ElemType),
 						"cidr": func() attr.Value {
 							if v, ok := objMap["cidr"].(string); ok {
 								return types.StringValue(v)
@@ -980,26 +971,32 @@ func (r *OpenstackNetworkResource) Read(ctx context.Context, req resource.ReadRe
 				}
 			}
 			listVal, _ := types.ListValue(types.ObjectType{AttrTypes: map[string]attr.Type{
-				"allocation_pools": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"end": types.StringType, "start": types.StringType}}},
-				"cidr":             types.StringType,
-				"description":      types.StringType,
-				"enable_dhcp":      types.BoolType,
-				"gateway_ip":       types.StringType,
-				"ip_version":       types.Int64Type,
-				"name":             types.StringType,
+				"allocation_pools": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+					"end":   types.StringType,
+					"start": types.StringType,
+				}}},
+				"cidr":        types.StringType,
+				"description": types.StringType,
+				"enable_dhcp": types.BoolType,
+				"gateway_ip":  types.StringType,
+				"ip_version":  types.Int64Type,
+				"name":        types.StringType,
 			}}, items)
 			data.Subnets = listVal
 		}
 	} else {
 		if data.Subnets.IsUnknown() {
 			data.Subnets = types.ListNull(types.ObjectType{AttrTypes: map[string]attr.Type{
-				"allocation_pools": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"end": types.StringType, "start": types.StringType}}},
-				"cidr":             types.StringType,
-				"description":      types.StringType,
-				"enable_dhcp":      types.BoolType,
-				"gateway_ip":       types.StringType,
-				"ip_version":       types.Int64Type,
-				"name":             types.StringType,
+				"allocation_pools": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+					"end":   types.StringType,
+					"start": types.StringType,
+				}}},
+				"cidr":        types.StringType,
+				"description": types.StringType,
+				"enable_dhcp": types.BoolType,
+				"gateway_ip":  types.StringType,
+				"ip_version":  types.Int64Type,
+				"name":        types.StringType,
 			}})
 		}
 	}
@@ -1071,6 +1068,7 @@ func (r *OpenstackNetworkResource) Update(ctx context.Context, req resource.Upda
 
 	// Use UUID from state
 	data.UUID = state.UUID
+
 	// Prepare request body
 	requestBody := map[string]interface{}{}
 	if !data.Description.IsNull() && !data.Description.IsUnknown() {
@@ -1315,16 +1313,22 @@ func (r *OpenstackNetworkResource) Update(ctx context.Context, req resource.Upda
 			for _, item := range arr {
 				if objMap, ok := item.(map[string]interface{}); ok {
 					attrTypes := map[string]attr.Type{
-						"allocation_pools": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"end": types.StringType, "start": types.StringType}}},
-						"cidr":             types.StringType,
-						"description":      types.StringType,
-						"enable_dhcp":      types.BoolType,
-						"gateway_ip":       types.StringType,
-						"ip_version":       types.Int64Type,
-						"name":             types.StringType,
+						"allocation_pools": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+							"end":   types.StringType,
+							"start": types.StringType,
+						}}},
+						"cidr":        types.StringType,
+						"description": types.StringType,
+						"enable_dhcp": types.BoolType,
+						"gateway_ip":  types.StringType,
+						"ip_version":  types.Int64Type,
+						"name":        types.StringType,
 					}
 					attrValues := map[string]attr.Value{
-						"allocation_pools": types.ListNull(types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"end": types.StringType, "start": types.StringType}}}.ElemType),
+						"allocation_pools": types.ListNull(types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+							"end":   types.StringType,
+							"start": types.StringType,
+						}}}.ElemType),
 						"cidr": func() attr.Value {
 							if v, ok := objMap["cidr"].(string); ok {
 								return types.StringValue(v)
@@ -1367,26 +1371,32 @@ func (r *OpenstackNetworkResource) Update(ctx context.Context, req resource.Upda
 				}
 			}
 			listVal, _ := types.ListValue(types.ObjectType{AttrTypes: map[string]attr.Type{
-				"allocation_pools": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"end": types.StringType, "start": types.StringType}}},
-				"cidr":             types.StringType,
-				"description":      types.StringType,
-				"enable_dhcp":      types.BoolType,
-				"gateway_ip":       types.StringType,
-				"ip_version":       types.Int64Type,
-				"name":             types.StringType,
+				"allocation_pools": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+					"end":   types.StringType,
+					"start": types.StringType,
+				}}},
+				"cidr":        types.StringType,
+				"description": types.StringType,
+				"enable_dhcp": types.BoolType,
+				"gateway_ip":  types.StringType,
+				"ip_version":  types.Int64Type,
+				"name":        types.StringType,
 			}}, items)
 			data.Subnets = listVal
 		}
 	} else {
 		if data.Subnets.IsUnknown() {
 			data.Subnets = types.ListNull(types.ObjectType{AttrTypes: map[string]attr.Type{
-				"allocation_pools": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"end": types.StringType, "start": types.StringType}}},
-				"cidr":             types.StringType,
-				"description":      types.StringType,
-				"enable_dhcp":      types.BoolType,
-				"gateway_ip":       types.StringType,
-				"ip_version":       types.Int64Type,
-				"name":             types.StringType,
+				"allocation_pools": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+					"end":   types.StringType,
+					"start": types.StringType,
+				}}},
+				"cidr":        types.StringType,
+				"description": types.StringType,
+				"enable_dhcp": types.BoolType,
+				"gateway_ip":  types.StringType,
+				"ip_version":  types.Int64Type,
+				"name":        types.StringType,
 			}})
 		}
 	}
@@ -1451,6 +1461,7 @@ func (r *OpenstackNetworkResource) Delete(ctx context.Context, req resource.Dele
 	if resp.Diagnostics.HasError() {
 		return
 	}
+
 	// Call Waldur API to delete resource
 	err := r.client.DeleteByUUID(ctx, "/api/openstack-networks/{uuid}/", data.UUID.ValueString())
 	if err != nil {
@@ -1463,5 +1474,6 @@ func (r *OpenstackNetworkResource) Delete(ctx context.Context, req resource.Dele
 }
 
 func (r *OpenstackNetworkResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+
 	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }

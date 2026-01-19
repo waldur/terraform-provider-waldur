@@ -423,41 +423,50 @@ func (r *MarketplaceOrderResource) Create(ctx context.Context, req resource.Crea
 	if resp.Diagnostics.HasError() {
 		return
 	}
+
 	// Prepare request body
 	requestBody := map[string]interface{}{}
+	// Check if this field is a path param (skip adding to body)
 	if !data.AcceptingTermsOfService.IsNull() && !data.AcceptingTermsOfService.IsUnknown() {
 		requestBody["accepting_terms_of_service"] = data.AcceptingTermsOfService.ValueBool()
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.CallbackUrl.IsNull() && !data.CallbackUrl.IsUnknown() {
 		if v := data.CallbackUrl.ValueString(); v != "" {
 			requestBody["callback_url"] = v
 		}
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.Offering.IsNull() && !data.Offering.IsUnknown() {
 		if v := data.Offering.ValueString(); v != "" {
 			requestBody["offering"] = v
 		}
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.Plan.IsNull() && !data.Plan.IsUnknown() {
 		if v := data.Plan.ValueString(); v != "" {
 			requestBody["plan"] = v
 		}
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.Project.IsNull() && !data.Project.IsUnknown() {
 		if v := data.Project.ValueString(); v != "" {
 			requestBody["project"] = v
 		}
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.RequestComment.IsNull() && !data.RequestComment.IsUnknown() {
 		if v := data.RequestComment.ValueString(); v != "" {
 			requestBody["request_comment"] = v
 		}
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.StartDate.IsNull() && !data.StartDate.IsUnknown() {
 		if v := data.StartDate.ValueString(); v != "" {
 			requestBody["start_date"] = v
 		}
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.Type.IsNull() && !data.Type.IsUnknown() {
 		if v := data.Type.ValueString(); v != "" {
 			requestBody["type"] = v
@@ -1716,6 +1725,7 @@ func (r *MarketplaceOrderResource) Update(ctx context.Context, req resource.Upda
 
 	// Use UUID from state
 	data.UUID = state.UUID
+
 	// Prepare request body
 	requestBody := map[string]interface{}{}
 
@@ -2341,6 +2351,7 @@ func (r *MarketplaceOrderResource) Delete(ctx context.Context, req resource.Dele
 	if resp.Diagnostics.HasError() {
 		return
 	}
+
 	// Call Waldur API to delete resource
 	err := r.client.DeleteByUUID(ctx, "/api/marketplace-orders/{uuid}/", data.UUID.ValueString())
 	if err != nil {
@@ -2353,5 +2364,6 @@ func (r *MarketplaceOrderResource) Delete(ctx context.Context, req resource.Dele
 }
 
 func (r *MarketplaceOrderResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+
 	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }

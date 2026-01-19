@@ -18,6 +18,7 @@ OpenstackSubnet resource
 ### Required
 
 - `name` (String)
+- `network` (String) Required path parameter for resource creation
 
 ### Optional
 
@@ -42,7 +43,6 @@ OpenstackSubnet resource
 - `ip_version` (Number) IP protocol version (4 or 6)
 - `is_connected` (Boolean) Is subnet connected to the default tenant router.
 - `modified` (String)
-- `network` (String) Network to which this subnet belongs
 - `network_name` (String)
 - `resource_type` (String)
 - `state` (String)

@@ -144,7 +144,9 @@ func (d *OpenstackPortDataSource) Schema(ctx context.Context, req datasource.Sch
 				MarkdownDescription: " ",
 			},
 			"allowed_address_pairs": schema.ListAttribute{
-				CustomType:          types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"mac_address": types.StringType}}},
+				CustomType: types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+					"mac_address": types.StringType,
+				}}},
 				Computed:            true,
 				MarkdownDescription: " ",
 			},
@@ -186,7 +188,10 @@ func (d *OpenstackPortDataSource) Schema(ctx context.Context, req datasource.Sch
 				MarkdownDescription: " ",
 			},
 			"security_groups": schema.ListAttribute{
-				CustomType:          types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"name": types.StringType, "url": types.StringType}}},
+				CustomType: types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+					"name": types.StringType,
+					"url":  types.StringType,
+				}}},
 				Computed:            true,
 				MarkdownDescription: " ",
 			},

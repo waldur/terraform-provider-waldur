@@ -176,8 +176,8 @@ func (r *OpenstackSubnetResource) Schema(ctx context.Context, req resource.Schem
 				MarkdownDescription: " ",
 			},
 			"network": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Network to which this subnet belongs",
+				Required:            true,
+				MarkdownDescription: "Required path parameter for resource creation",
 			},
 			"network_name": schema.StringAttribute{
 				Computed:            true,
@@ -215,37 +215,6 @@ func (r *OpenstackSubnetResource) Schema(ctx context.Context, req resource.Schem
 	}
 }
 
-func (r *OpenstackSubnetResource) convertTFValue(v attr.Value) interface{} {
-	if v.IsNull() || v.IsUnknown() {
-		return nil
-	}
-	switch val := v.(type) {
-	case types.String:
-		return val.ValueString()
-	case types.Int64:
-		return val.ValueInt64()
-	case types.Bool:
-		return val.ValueBool()
-	case types.Float64:
-		return val.ValueFloat64()
-	case types.List:
-		items := make([]interface{}, len(val.Elements()))
-		for i, elem := range val.Elements() {
-			items[i] = r.convertTFValue(elem)
-		}
-		return items
-	case types.Object:
-		obj := make(map[string]interface{})
-		for k, attr := range val.Attributes() {
-			if converted := r.convertTFValue(attr); converted != nil {
-				obj[k] = converted
-			}
-		}
-		return obj
-	}
-	return nil
-}
-
 func (r *OpenstackSubnetResource) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
 	// Prevent panic if the provider has not been configured.
 	if req.ProviderData == nil {
@@ -273,46 +242,56 @@ func (r *OpenstackSubnetResource) Create(ctx context.Context, req resource.Creat
 	if resp.Diagnostics.HasError() {
 		return
 	}
+
 	// Prepare request body
 	requestBody := map[string]interface{}{}
+	// Check if this field is a path param (skip adding to body)
 	if !data.AllocationPools.IsNull() && !data.AllocationPools.IsUnknown() {
-		if v := r.convertTFValue(data.AllocationPools); v != nil {
+		if v := ConvertTFValue(data.AllocationPools); v != nil {
 			requestBody["allocation_pools"] = v
 		}
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.Cidr.IsNull() && !data.Cidr.IsUnknown() {
 		if v := data.Cidr.ValueString(); v != "" {
 			requestBody["cidr"] = v
 		}
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.Description.IsNull() && !data.Description.IsUnknown() {
 		if v := data.Description.ValueString(); v != "" {
 			requestBody["description"] = v
 		}
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.DisableGateway.IsNull() && !data.DisableGateway.IsUnknown() {
 		requestBody["disable_gateway"] = data.DisableGateway.ValueBool()
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.DnsNameservers.IsNull() && !data.DnsNameservers.IsUnknown() {
-		if v := r.convertTFValue(data.DnsNameservers); v != nil {
+		if v := ConvertTFValue(data.DnsNameservers); v != nil {
 			requestBody["dns_nameservers"] = v
 		}
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.GatewayIp.IsNull() && !data.GatewayIp.IsUnknown() {
 		if v := data.GatewayIp.ValueString(); v != "" {
 			requestBody["gateway_ip"] = v
 		}
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.HostRoutes.IsNull() && !data.HostRoutes.IsUnknown() {
-		if v := r.convertTFValue(data.HostRoutes); v != nil {
+		if v := ConvertTFValue(data.HostRoutes); v != nil {
 			requestBody["host_routes"] = v
 		}
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.Name.IsNull() && !data.Name.IsUnknown() {
 		if v := data.Name.ValueString(); v != "" {
 			requestBody["name"] = v
 		}
 	}
+	// Check if this field is a path param (skip adding to body)
 
 	// Call Waldur API to create resource
 	var result map[string]interface{}
@@ -981,10 +960,11 @@ func (r *OpenstackSubnetResource) Update(ctx context.Context, req resource.Updat
 
 	// Use UUID from state
 	data.UUID = state.UUID
+
 	// Prepare request body
 	requestBody := map[string]interface{}{}
 	if !data.AllocationPools.IsNull() && !data.AllocationPools.IsUnknown() {
-		if v := r.convertTFValue(data.AllocationPools); v != nil {
+		if v := ConvertTFValue(data.AllocationPools); v != nil {
 			requestBody["allocation_pools"] = v
 		}
 	}
@@ -1002,7 +982,7 @@ func (r *OpenstackSubnetResource) Update(ctx context.Context, req resource.Updat
 		requestBody["disable_gateway"] = data.DisableGateway.ValueBool()
 	}
 	if !data.DnsNameservers.IsNull() && !data.DnsNameservers.IsUnknown() {
-		if v := r.convertTFValue(data.DnsNameservers); v != nil {
+		if v := ConvertTFValue(data.DnsNameservers); v != nil {
 			requestBody["dns_nameservers"] = v
 		}
 	}
@@ -1012,7 +992,7 @@ func (r *OpenstackSubnetResource) Update(ctx context.Context, req resource.Updat
 		}
 	}
 	if !data.HostRoutes.IsNull() && !data.HostRoutes.IsUnknown() {
-		if v := r.convertTFValue(data.HostRoutes); v != nil {
+		if v := ConvertTFValue(data.HostRoutes); v != nil {
 			requestBody["host_routes"] = v
 		}
 	}
@@ -1350,6 +1330,7 @@ func (r *OpenstackSubnetResource) Delete(ctx context.Context, req resource.Delet
 	if resp.Diagnostics.HasError() {
 		return
 	}
+
 	// Call Waldur API to delete resource
 	err := r.client.DeleteByUUID(ctx, "/api/openstack-subnets/{uuid}/", data.UUID.ValueString())
 	if err != nil {
@@ -1362,5 +1343,6 @@ func (r *OpenstackSubnetResource) Delete(ctx context.Context, req resource.Delet
 }
 
 func (r *OpenstackSubnetResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+
 	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }

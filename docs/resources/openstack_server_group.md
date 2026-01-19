@@ -18,6 +18,7 @@ OpenstackServerGroup resource
 ### Required
 
 - `name` (String)
+- `tenant` (String) Required path parameter for resource creation
 
 ### Optional
 
@@ -38,7 +39,6 @@ OpenstackServerGroup resource
 - `modified` (String)
 - `resource_type` (String)
 - `state` (String)
-- `tenant` (String)
 - `tenant_name` (String)
 - `tenant_uuid` (String)
 - `url` (String)

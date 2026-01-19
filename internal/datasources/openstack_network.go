@@ -200,7 +200,16 @@ func (d *OpenstackNetworkDataSource) Schema(ctx context.Context, req datasource.
 				MarkdownDescription: "The maximum transmission unit (MTU) value to address fragmentation.",
 			},
 			"rbac_policies": schema.ListAttribute{
-				CustomType:          types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"backend_id": types.StringType, "created": types.StringType, "network": types.StringType, "network_name": types.StringType, "policy_type": types.StringType, "target_tenant": types.StringType, "target_tenant_name": types.StringType, "url": types.StringType}}},
+				CustomType: types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+					"backend_id":         types.StringType,
+					"created":            types.StringType,
+					"network":            types.StringType,
+					"network_name":       types.StringType,
+					"policy_type":        types.StringType,
+					"target_tenant":      types.StringType,
+					"target_tenant_name": types.StringType,
+					"url":                types.StringType,
+				}}},
 				Computed:            true,
 				MarkdownDescription: " ",
 			},
@@ -213,7 +222,18 @@ func (d *OpenstackNetworkDataSource) Schema(ctx context.Context, req datasource.
 				MarkdownDescription: "VLAN ID for VLAN networks or tunnel ID for VXLAN/GRE networks",
 			},
 			"subnets": schema.ListAttribute{
-				CustomType:          types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"allocation_pools": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"end": types.StringType, "start": types.StringType}}}, "cidr": types.StringType, "description": types.StringType, "enable_dhcp": types.BoolType, "gateway_ip": types.StringType, "ip_version": types.Int64Type, "name": types.StringType}}},
+				CustomType: types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+					"allocation_pools": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+						"end":   types.StringType,
+						"start": types.StringType,
+					}}},
+					"cidr":        types.StringType,
+					"description": types.StringType,
+					"enable_dhcp": types.BoolType,
+					"gateway_ip":  types.StringType,
+					"ip_version":  types.Int64Type,
+					"name":        types.StringType,
+				}}},
 				Computed:            true,
 				MarkdownDescription: " ",
 			},
@@ -453,16 +473,22 @@ func (d *OpenstackNetworkDataSource) Read(ctx context.Context, req datasource.Re
 				for _, item := range arr {
 					if objMap, ok := item.(map[string]interface{}); ok {
 						attrTypes := map[string]attr.Type{
-							"allocation_pools": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"end": types.StringType, "start": types.StringType}}},
-							"cidr":             types.StringType,
-							"description":      types.StringType,
-							"enable_dhcp":      types.BoolType,
-							"gateway_ip":       types.StringType,
-							"ip_version":       types.Int64Type,
-							"name":             types.StringType,
+							"allocation_pools": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+								"end":   types.StringType,
+								"start": types.StringType,
+							}}},
+							"cidr":        types.StringType,
+							"description": types.StringType,
+							"enable_dhcp": types.BoolType,
+							"gateway_ip":  types.StringType,
+							"ip_version":  types.Int64Type,
+							"name":        types.StringType,
 						}
 						attrValues := map[string]attr.Value{
-							"allocation_pools": types.ListNull(types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"end": types.StringType, "start": types.StringType}}}.ElemType),
+							"allocation_pools": types.ListNull(types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+								"end":   types.StringType,
+								"start": types.StringType,
+							}}}.ElemType),
 							"cidr": func() attr.Value {
 								if v, ok := objMap["cidr"].(string); ok {
 									return types.StringValue(v)
@@ -505,26 +531,32 @@ func (d *OpenstackNetworkDataSource) Read(ctx context.Context, req datasource.Re
 					}
 				}
 				listVal, _ := types.ListValue(types.ObjectType{AttrTypes: map[string]attr.Type{
-					"allocation_pools": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"end": types.StringType, "start": types.StringType}}},
-					"cidr":             types.StringType,
-					"description":      types.StringType,
-					"enable_dhcp":      types.BoolType,
-					"gateway_ip":       types.StringType,
-					"ip_version":       types.Int64Type,
-					"name":             types.StringType,
+					"allocation_pools": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+						"end":   types.StringType,
+						"start": types.StringType,
+					}}},
+					"cidr":        types.StringType,
+					"description": types.StringType,
+					"enable_dhcp": types.BoolType,
+					"gateway_ip":  types.StringType,
+					"ip_version":  types.Int64Type,
+					"name":        types.StringType,
 				}}, items)
 				data.Subnets = listVal
 			}
 		} else {
 			if data.Subnets.IsUnknown() {
 				data.Subnets = types.ListNull(types.ObjectType{AttrTypes: map[string]attr.Type{
-					"allocation_pools": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"end": types.StringType, "start": types.StringType}}},
-					"cidr":             types.StringType,
-					"description":      types.StringType,
-					"enable_dhcp":      types.BoolType,
-					"gateway_ip":       types.StringType,
-					"ip_version":       types.Int64Type,
-					"name":             types.StringType,
+					"allocation_pools": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+						"end":   types.StringType,
+						"start": types.StringType,
+					}}},
+					"cidr":        types.StringType,
+					"description": types.StringType,
+					"enable_dhcp": types.BoolType,
+					"gateway_ip":  types.StringType,
+					"ip_version":  types.Int64Type,
+					"name":        types.StringType,
 				}})
 			}
 		}
@@ -963,16 +995,22 @@ func (d *OpenstackNetworkDataSource) Read(ctx context.Context, req datasource.Re
 				for _, item := range arr {
 					if objMap, ok := item.(map[string]interface{}); ok {
 						attrTypes := map[string]attr.Type{
-							"allocation_pools": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"end": types.StringType, "start": types.StringType}}},
-							"cidr":             types.StringType,
-							"description":      types.StringType,
-							"enable_dhcp":      types.BoolType,
-							"gateway_ip":       types.StringType,
-							"ip_version":       types.Int64Type,
-							"name":             types.StringType,
+							"allocation_pools": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+								"end":   types.StringType,
+								"start": types.StringType,
+							}}},
+							"cidr":        types.StringType,
+							"description": types.StringType,
+							"enable_dhcp": types.BoolType,
+							"gateway_ip":  types.StringType,
+							"ip_version":  types.Int64Type,
+							"name":        types.StringType,
 						}
 						attrValues := map[string]attr.Value{
-							"allocation_pools": types.ListNull(types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"end": types.StringType, "start": types.StringType}}}.ElemType),
+							"allocation_pools": types.ListNull(types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+								"end":   types.StringType,
+								"start": types.StringType,
+							}}}.ElemType),
 							"cidr": func() attr.Value {
 								if v, ok := objMap["cidr"].(string); ok {
 									return types.StringValue(v)
@@ -1015,26 +1053,32 @@ func (d *OpenstackNetworkDataSource) Read(ctx context.Context, req datasource.Re
 					}
 				}
 				listVal, _ := types.ListValue(types.ObjectType{AttrTypes: map[string]attr.Type{
-					"allocation_pools": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"end": types.StringType, "start": types.StringType}}},
-					"cidr":             types.StringType,
-					"description":      types.StringType,
-					"enable_dhcp":      types.BoolType,
-					"gateway_ip":       types.StringType,
-					"ip_version":       types.Int64Type,
-					"name":             types.StringType,
+					"allocation_pools": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+						"end":   types.StringType,
+						"start": types.StringType,
+					}}},
+					"cidr":        types.StringType,
+					"description": types.StringType,
+					"enable_dhcp": types.BoolType,
+					"gateway_ip":  types.StringType,
+					"ip_version":  types.Int64Type,
+					"name":        types.StringType,
 				}}, items)
 				data.Subnets = listVal
 			}
 		} else {
 			if data.Subnets.IsUnknown() {
 				data.Subnets = types.ListNull(types.ObjectType{AttrTypes: map[string]attr.Type{
-					"allocation_pools": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"end": types.StringType, "start": types.StringType}}},
-					"cidr":             types.StringType,
-					"description":      types.StringType,
-					"enable_dhcp":      types.BoolType,
-					"gateway_ip":       types.StringType,
-					"ip_version":       types.Int64Type,
-					"name":             types.StringType,
+					"allocation_pools": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+						"end":   types.StringType,
+						"start": types.StringType,
+					}}},
+					"cidr":        types.StringType,
+					"description": types.StringType,
+					"enable_dhcp": types.BoolType,
+					"gateway_ip":  types.StringType,
+					"ip_version":  types.Int64Type,
+					"name":        types.StringType,
 				}})
 			}
 		}

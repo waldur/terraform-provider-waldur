@@ -267,7 +267,28 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 				MarkdownDescription: " ",
 			},
 			"components": schema.ListAttribute{
-				CustomType:          types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"article_code": types.StringType, "billing_type": types.StringType, "default_limit": types.Int64Type, "description": types.StringType, "factor": types.Int64Type, "is_boolean": types.BoolType, "is_builtin": types.BoolType, "is_prepaid": types.BoolType, "limit_amount": types.Int64Type, "limit_period": types.StringType, "max_available_limit": types.Int64Type, "max_prepaid_duration": types.Int64Type, "max_value": types.Int64Type, "measured_unit": types.StringType, "min_prepaid_duration": types.Int64Type, "min_value": types.Int64Type, "name": types.StringType, "overage_component": types.StringType, "type": types.StringType, "unit_factor": types.Int64Type}}},
+				CustomType: types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+					"article_code":         types.StringType,
+					"billing_type":         types.StringType,
+					"default_limit":        types.Int64Type,
+					"description":          types.StringType,
+					"factor":               types.Int64Type,
+					"is_boolean":           types.BoolType,
+					"is_builtin":           types.BoolType,
+					"is_prepaid":           types.BoolType,
+					"limit_amount":         types.Int64Type,
+					"limit_period":         types.StringType,
+					"max_available_limit":  types.Int64Type,
+					"max_prepaid_duration": types.Int64Type,
+					"max_value":            types.Int64Type,
+					"measured_unit":        types.StringType,
+					"min_prepaid_duration": types.Int64Type,
+					"min_value":            types.Int64Type,
+					"name":                 types.StringType,
+					"overage_component":    types.StringType,
+					"type":                 types.StringType,
+					"unit_factor":          types.Int64Type,
+				}}},
 				Computed:            true,
 				MarkdownDescription: " ",
 			},
@@ -280,12 +301,19 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 				MarkdownDescription: " ",
 			},
 			"endpoints": schema.ListAttribute{
-				CustomType:          types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"name": types.StringType, "url": types.StringType}}},
+				CustomType: types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+					"name": types.StringType,
+					"url":  types.StringType,
+				}}},
 				Computed:            true,
 				MarkdownDescription: " ",
 			},
 			"files": schema.ListAttribute{
-				CustomType:          types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"created": types.StringType, "file": types.StringType, "name": types.StringType}}},
+				CustomType: types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+					"created": types.StringType,
+					"file":    types.StringType,
+					"name":    types.StringType,
+				}}},
 				Computed:            true,
 				MarkdownDescription: " ",
 			},
@@ -330,7 +358,14 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 				MarkdownDescription: " ",
 			},
 			"organization_groups": schema.ListAttribute{
-				CustomType:          types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"customers_count": types.Int64Type, "name": types.StringType, "parent": types.StringType, "parent_name": types.StringType, "parent_uuid": types.StringType, "url": types.StringType}}},
+				CustomType: types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+					"customers_count": types.Int64Type,
+					"name":            types.StringType,
+					"parent":          types.StringType,
+					"parent_name":     types.StringType,
+					"parent_uuid":     types.StringType,
+					"url":             types.StringType,
+				}}},
 				Computed:            true,
 				MarkdownDescription: " ",
 			},
@@ -343,7 +378,28 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 				MarkdownDescription: " ",
 			},
 			"partitions": schema.ListAttribute{
-				CustomType:          types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"cpu_bind": types.Int64Type, "def_cpu_per_gpu": types.Int64Type, "def_mem_per_cpu": types.Int64Type, "def_mem_per_gpu": types.Int64Type, "def_mem_per_node": types.Int64Type, "default_time": types.Int64Type, "exclusive_topo": types.BoolType, "exclusive_user": types.BoolType, "grace_time": types.Int64Type, "max_cpus_per_node": types.Int64Type, "max_cpus_per_socket": types.Int64Type, "max_mem_per_cpu": types.Int64Type, "max_mem_per_node": types.Int64Type, "max_nodes": types.Int64Type, "max_time": types.Int64Type, "min_nodes": types.Int64Type, "partition_name": types.StringType, "priority_tier": types.Int64Type, "qos": types.StringType, "req_resv": types.BoolType}}},
+				CustomType: types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+					"cpu_bind":            types.Int64Type,
+					"def_cpu_per_gpu":     types.Int64Type,
+					"def_mem_per_cpu":     types.Int64Type,
+					"def_mem_per_gpu":     types.Int64Type,
+					"def_mem_per_node":    types.Int64Type,
+					"default_time":        types.Int64Type,
+					"exclusive_topo":      types.BoolType,
+					"exclusive_user":      types.BoolType,
+					"grace_time":          types.Int64Type,
+					"max_cpus_per_node":   types.Int64Type,
+					"max_cpus_per_socket": types.Int64Type,
+					"max_mem_per_cpu":     types.Int64Type,
+					"max_mem_per_node":    types.Int64Type,
+					"max_nodes":           types.Int64Type,
+					"max_time":            types.Int64Type,
+					"min_nodes":           types.Int64Type,
+					"partition_name":      types.StringType,
+					"priority_tier":       types.Int64Type,
+					"qos":                 types.StringType,
+					"req_resv":            types.BoolType,
+				}}},
 				Computed:            true,
 				MarkdownDescription: " ",
 			},
@@ -352,7 +408,41 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 				MarkdownDescription: " ",
 			},
 			"plans": schema.ListAttribute{
-				CustomType:          types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"archived": types.BoolType, "article_code": types.StringType, "backend_id": types.StringType, "components": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"amount": types.Int64Type, "discount_rate": types.Int64Type, "discount_threshold": types.Int64Type, "future_price": types.StringType, "measured_unit": types.StringType, "name": types.StringType, "price": types.StringType, "type": types.StringType}}}, "description": types.StringType, "init_price": types.Float64Type, "is_active": types.BoolType, "max_amount": types.Int64Type, "minimal_price": types.Float64Type, "name": types.StringType, "organization_groups": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"customers_count": types.Int64Type, "name": types.StringType, "parent": types.StringType, "parent_name": types.StringType, "parent_uuid": types.StringType, "url": types.StringType}}}, "plan_type": types.StringType, "resources_count": types.Int64Type, "switch_price": types.Float64Type, "unit": types.StringType, "unit_price": types.StringType, "url": types.StringType}}},
+				CustomType: types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+					"archived":     types.BoolType,
+					"article_code": types.StringType,
+					"backend_id":   types.StringType,
+					"components": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+						"amount":             types.Int64Type,
+						"discount_rate":      types.Int64Type,
+						"discount_threshold": types.Int64Type,
+						"future_price":       types.StringType,
+						"measured_unit":      types.StringType,
+						"name":               types.StringType,
+						"price":              types.StringType,
+						"type":               types.StringType,
+					}}},
+					"description":   types.StringType,
+					"init_price":    types.Float64Type,
+					"is_active":     types.BoolType,
+					"max_amount":    types.Int64Type,
+					"minimal_price": types.Float64Type,
+					"name":          types.StringType,
+					"organization_groups": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+						"customers_count": types.Int64Type,
+						"name":            types.StringType,
+						"parent":          types.StringType,
+						"parent_name":     types.StringType,
+						"parent_uuid":     types.StringType,
+						"url":             types.StringType,
+					}}},
+					"plan_type":       types.StringType,
+					"resources_count": types.Int64Type,
+					"switch_price":    types.Float64Type,
+					"unit":            types.StringType,
+					"unit_price":      types.StringType,
+					"url":             types.StringType,
+				}}},
 				Computed:            true,
 				MarkdownDescription: " ",
 			},
@@ -361,17 +451,34 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 				MarkdownDescription: " ",
 			},
 			"promotion_campaigns": schema.ListAttribute{
-				CustomType:          types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"description": types.StringType, "discount": types.Int64Type, "discount_type": types.StringType, "end_date": types.StringType, "months": types.Int64Type, "name": types.StringType, "service_provider": types.StringType, "start_date": types.StringType, "stock": types.Int64Type}}},
+				CustomType: types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+					"description":      types.StringType,
+					"discount":         types.Int64Type,
+					"discount_type":    types.StringType,
+					"end_date":         types.StringType,
+					"months":           types.Int64Type,
+					"name":             types.StringType,
+					"service_provider": types.StringType,
+					"start_date":       types.StringType,
+					"stock":            types.Int64Type,
+				}}},
 				Computed:            true,
 				MarkdownDescription: " ",
 			},
 			"quotas": schema.ListAttribute{
-				CustomType:          types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"limit": types.Int64Type, "name": types.StringType, "usage": types.Int64Type}}},
+				CustomType: types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+					"limit": types.Int64Type,
+					"name":  types.StringType,
+					"usage": types.Int64Type,
+				}}},
 				Computed:            true,
 				MarkdownDescription: " ",
 			},
 			"roles": schema.ListAttribute{
-				CustomType:          types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"name": types.StringType, "url": types.StringType}}},
+				CustomType: types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+					"name": types.StringType,
+					"url":  types.StringType,
+				}}},
 				Computed:            true,
 				MarkdownDescription: " ",
 			},
@@ -392,7 +499,13 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 				MarkdownDescription: " ",
 			},
 			"screenshots": schema.ListAttribute{
-				CustomType:          types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"created": types.StringType, "description": types.StringType, "image": types.StringType, "name": types.StringType, "thumbnail": types.StringType}}},
+				CustomType: types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+					"created":     types.StringType,
+					"description": types.StringType,
+					"image":       types.StringType,
+					"name":        types.StringType,
+					"thumbnail":   types.StringType,
+				}}},
 				Computed:            true,
 				MarkdownDescription: " ",
 			},
@@ -401,7 +514,19 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 				MarkdownDescription: " ",
 			},
 			"software_catalogs": schema.ListAttribute{
-				CustomType:          types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"catalog": types.ObjectType{AttrTypes: map[string]attr.Type{"description": types.StringType, "name": types.StringType, "version": types.StringType}}, "package_count": types.Int64Type, "partition": types.ObjectType{AttrTypes: map[string]attr.Type{"partition_name": types.StringType, "priority_tier": types.Int64Type, "qos": types.StringType}}}}},
+				CustomType: types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+					"catalog": types.ObjectType{AttrTypes: map[string]attr.Type{
+						"description": types.StringType,
+						"name":        types.StringType,
+						"version":     types.StringType,
+					}},
+					"package_count": types.Int64Type,
+					"partition": types.ObjectType{AttrTypes: map[string]attr.Type{
+						"partition_name": types.StringType,
+						"priority_tier":  types.Int64Type,
+						"qos":            types.StringType,
+					}},
+				}}},
 				Computed:            true,
 				MarkdownDescription: " ",
 			},
@@ -1257,23 +1382,39 @@ func (d *MarketplaceOfferingDataSource) Read(ctx context.Context, req datasource
 				for _, item := range arr {
 					if objMap, ok := item.(map[string]interface{}); ok {
 						attrTypes := map[string]attr.Type{
-							"archived":            types.BoolType,
-							"article_code":        types.StringType,
-							"backend_id":          types.StringType,
-							"components":          types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"amount": types.Int64Type, "discount_rate": types.Int64Type, "discount_threshold": types.Int64Type, "future_price": types.StringType, "measured_unit": types.StringType, "name": types.StringType, "price": types.StringType, "type": types.StringType}}},
-							"description":         types.StringType,
-							"init_price":          types.Float64Type,
-							"is_active":           types.BoolType,
-							"max_amount":          types.Int64Type,
-							"minimal_price":       types.Float64Type,
-							"name":                types.StringType,
-							"organization_groups": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"customers_count": types.Int64Type, "name": types.StringType, "parent": types.StringType, "parent_name": types.StringType, "parent_uuid": types.StringType, "url": types.StringType}}},
-							"plan_type":           types.StringType,
-							"resources_count":     types.Int64Type,
-							"switch_price":        types.Float64Type,
-							"unit":                types.StringType,
-							"unit_price":          types.StringType,
-							"url":                 types.StringType,
+							"archived":     types.BoolType,
+							"article_code": types.StringType,
+							"backend_id":   types.StringType,
+							"components": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+								"amount":             types.Int64Type,
+								"discount_rate":      types.Int64Type,
+								"discount_threshold": types.Int64Type,
+								"future_price":       types.StringType,
+								"measured_unit":      types.StringType,
+								"name":               types.StringType,
+								"price":              types.StringType,
+								"type":               types.StringType,
+							}}},
+							"description":   types.StringType,
+							"init_price":    types.Float64Type,
+							"is_active":     types.BoolType,
+							"max_amount":    types.Int64Type,
+							"minimal_price": types.Float64Type,
+							"name":          types.StringType,
+							"organization_groups": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+								"customers_count": types.Int64Type,
+								"name":            types.StringType,
+								"parent":          types.StringType,
+								"parent_name":     types.StringType,
+								"parent_uuid":     types.StringType,
+								"url":             types.StringType,
+							}}},
+							"plan_type":       types.StringType,
+							"resources_count": types.Int64Type,
+							"switch_price":    types.Float64Type,
+							"unit":            types.StringType,
+							"unit_price":      types.StringType,
+							"url":             types.StringType,
 						}
 						attrValues := map[string]attr.Value{
 							"archived": func() attr.Value {
@@ -1294,7 +1435,16 @@ func (d *MarketplaceOfferingDataSource) Read(ctx context.Context, req datasource
 								}
 								return types.StringNull()
 							}(),
-							"components": types.ListNull(types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"amount": types.Int64Type, "discount_rate": types.Int64Type, "discount_threshold": types.Int64Type, "future_price": types.StringType, "measured_unit": types.StringType, "name": types.StringType, "price": types.StringType, "type": types.StringType}}}.ElemType),
+							"components": types.ListNull(types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+								"amount":             types.Int64Type,
+								"discount_rate":      types.Int64Type,
+								"discount_threshold": types.Int64Type,
+								"future_price":       types.StringType,
+								"measured_unit":      types.StringType,
+								"name":               types.StringType,
+								"price":              types.StringType,
+								"type":               types.StringType,
+							}}}.ElemType),
 							"description": func() attr.Value {
 								if v, ok := objMap["description"].(string); ok {
 									return types.StringValue(v)
@@ -1331,7 +1481,14 @@ func (d *MarketplaceOfferingDataSource) Read(ctx context.Context, req datasource
 								}
 								return types.StringNull()
 							}(),
-							"organization_groups": types.ListNull(types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"customers_count": types.Int64Type, "name": types.StringType, "parent": types.StringType, "parent_name": types.StringType, "parent_uuid": types.StringType, "url": types.StringType}}}.ElemType),
+							"organization_groups": types.ListNull(types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+								"customers_count": types.Int64Type,
+								"name":            types.StringType,
+								"parent":          types.StringType,
+								"parent_name":     types.StringType,
+								"parent_uuid":     types.StringType,
+								"url":             types.StringType,
+							}}}.ElemType),
 							"plan_type": func() attr.Value {
 								if v, ok := objMap["plan_type"].(string); ok {
 									return types.StringValue(v)
@@ -1374,46 +1531,78 @@ func (d *MarketplaceOfferingDataSource) Read(ctx context.Context, req datasource
 					}
 				}
 				listVal, _ := types.ListValue(types.ObjectType{AttrTypes: map[string]attr.Type{
-					"archived":            types.BoolType,
-					"article_code":        types.StringType,
-					"backend_id":          types.StringType,
-					"components":          types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"amount": types.Int64Type, "discount_rate": types.Int64Type, "discount_threshold": types.Int64Type, "future_price": types.StringType, "measured_unit": types.StringType, "name": types.StringType, "price": types.StringType, "type": types.StringType}}},
-					"description":         types.StringType,
-					"init_price":          types.Float64Type,
-					"is_active":           types.BoolType,
-					"max_amount":          types.Int64Type,
-					"minimal_price":       types.Float64Type,
-					"name":                types.StringType,
-					"organization_groups": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"customers_count": types.Int64Type, "name": types.StringType, "parent": types.StringType, "parent_name": types.StringType, "parent_uuid": types.StringType, "url": types.StringType}}},
-					"plan_type":           types.StringType,
-					"resources_count":     types.Int64Type,
-					"switch_price":        types.Float64Type,
-					"unit":                types.StringType,
-					"unit_price":          types.StringType,
-					"url":                 types.StringType,
+					"archived":     types.BoolType,
+					"article_code": types.StringType,
+					"backend_id":   types.StringType,
+					"components": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+						"amount":             types.Int64Type,
+						"discount_rate":      types.Int64Type,
+						"discount_threshold": types.Int64Type,
+						"future_price":       types.StringType,
+						"measured_unit":      types.StringType,
+						"name":               types.StringType,
+						"price":              types.StringType,
+						"type":               types.StringType,
+					}}},
+					"description":   types.StringType,
+					"init_price":    types.Float64Type,
+					"is_active":     types.BoolType,
+					"max_amount":    types.Int64Type,
+					"minimal_price": types.Float64Type,
+					"name":          types.StringType,
+					"organization_groups": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+						"customers_count": types.Int64Type,
+						"name":            types.StringType,
+						"parent":          types.StringType,
+						"parent_name":     types.StringType,
+						"parent_uuid":     types.StringType,
+						"url":             types.StringType,
+					}}},
+					"plan_type":       types.StringType,
+					"resources_count": types.Int64Type,
+					"switch_price":    types.Float64Type,
+					"unit":            types.StringType,
+					"unit_price":      types.StringType,
+					"url":             types.StringType,
 				}}, items)
 				data.Plans = listVal
 			}
 		} else {
 			if data.Plans.IsUnknown() {
 				data.Plans = types.ListNull(types.ObjectType{AttrTypes: map[string]attr.Type{
-					"archived":            types.BoolType,
-					"article_code":        types.StringType,
-					"backend_id":          types.StringType,
-					"components":          types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"amount": types.Int64Type, "discount_rate": types.Int64Type, "discount_threshold": types.Int64Type, "future_price": types.StringType, "measured_unit": types.StringType, "name": types.StringType, "price": types.StringType, "type": types.StringType}}},
-					"description":         types.StringType,
-					"init_price":          types.Float64Type,
-					"is_active":           types.BoolType,
-					"max_amount":          types.Int64Type,
-					"minimal_price":       types.Float64Type,
-					"name":                types.StringType,
-					"organization_groups": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"customers_count": types.Int64Type, "name": types.StringType, "parent": types.StringType, "parent_name": types.StringType, "parent_uuid": types.StringType, "url": types.StringType}}},
-					"plan_type":           types.StringType,
-					"resources_count":     types.Int64Type,
-					"switch_price":        types.Float64Type,
-					"unit":                types.StringType,
-					"unit_price":          types.StringType,
-					"url":                 types.StringType,
+					"archived":     types.BoolType,
+					"article_code": types.StringType,
+					"backend_id":   types.StringType,
+					"components": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+						"amount":             types.Int64Type,
+						"discount_rate":      types.Int64Type,
+						"discount_threshold": types.Int64Type,
+						"future_price":       types.StringType,
+						"measured_unit":      types.StringType,
+						"name":               types.StringType,
+						"price":              types.StringType,
+						"type":               types.StringType,
+					}}},
+					"description":   types.StringType,
+					"init_price":    types.Float64Type,
+					"is_active":     types.BoolType,
+					"max_amount":    types.Int64Type,
+					"minimal_price": types.Float64Type,
+					"name":          types.StringType,
+					"organization_groups": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+						"customers_count": types.Int64Type,
+						"name":            types.StringType,
+						"parent":          types.StringType,
+						"parent_name":     types.StringType,
+						"parent_uuid":     types.StringType,
+						"url":             types.StringType,
+					}}},
+					"plan_type":       types.StringType,
+					"resources_count": types.Int64Type,
+					"switch_price":    types.Float64Type,
+					"unit":            types.StringType,
+					"unit_price":      types.StringType,
+					"url":             types.StringType,
 				}})
 			}
 		}
@@ -1745,37 +1934,69 @@ func (d *MarketplaceOfferingDataSource) Read(ctx context.Context, req datasource
 				for _, item := range arr {
 					if objMap, ok := item.(map[string]interface{}); ok {
 						attrTypes := map[string]attr.Type{
-							"catalog":       types.ObjectType{AttrTypes: map[string]attr.Type{"description": types.StringType, "name": types.StringType, "version": types.StringType}},
+							"catalog": types.ObjectType{AttrTypes: map[string]attr.Type{
+								"description": types.StringType,
+								"name":        types.StringType,
+								"version":     types.StringType,
+							}},
 							"package_count": types.Int64Type,
-							"partition":     types.ObjectType{AttrTypes: map[string]attr.Type{"partition_name": types.StringType, "priority_tier": types.Int64Type, "qos": types.StringType}},
+							"partition": types.ObjectType{AttrTypes: map[string]attr.Type{
+								"partition_name": types.StringType,
+								"priority_tier":  types.Int64Type,
+								"qos":            types.StringType,
+							}},
 						}
 						attrValues := map[string]attr.Value{
-							"catalog": types.ObjectNull(types.ObjectType{AttrTypes: map[string]attr.Type{"description": types.StringType, "name": types.StringType, "version": types.StringType}}.AttrTypes),
+							"catalog": types.ObjectNull(types.ObjectType{AttrTypes: map[string]attr.Type{
+								"description": types.StringType,
+								"name":        types.StringType,
+								"version":     types.StringType,
+							}}.AttrTypes),
 							"package_count": func() attr.Value {
 								if v, ok := objMap["package_count"].(float64); ok {
 									return types.Int64Value(int64(v))
 								}
 								return types.Int64Null()
 							}(),
-							"partition": types.ObjectNull(types.ObjectType{AttrTypes: map[string]attr.Type{"partition_name": types.StringType, "priority_tier": types.Int64Type, "qos": types.StringType}}.AttrTypes),
+							"partition": types.ObjectNull(types.ObjectType{AttrTypes: map[string]attr.Type{
+								"partition_name": types.StringType,
+								"priority_tier":  types.Int64Type,
+								"qos":            types.StringType,
+							}}.AttrTypes),
 						}
 						objVal, _ := types.ObjectValue(attrTypes, attrValues)
 						items = append(items, objVal)
 					}
 				}
 				listVal, _ := types.ListValue(types.ObjectType{AttrTypes: map[string]attr.Type{
-					"catalog":       types.ObjectType{AttrTypes: map[string]attr.Type{"description": types.StringType, "name": types.StringType, "version": types.StringType}},
+					"catalog": types.ObjectType{AttrTypes: map[string]attr.Type{
+						"description": types.StringType,
+						"name":        types.StringType,
+						"version":     types.StringType,
+					}},
 					"package_count": types.Int64Type,
-					"partition":     types.ObjectType{AttrTypes: map[string]attr.Type{"partition_name": types.StringType, "priority_tier": types.Int64Type, "qos": types.StringType}},
+					"partition": types.ObjectType{AttrTypes: map[string]attr.Type{
+						"partition_name": types.StringType,
+						"priority_tier":  types.Int64Type,
+						"qos":            types.StringType,
+					}},
 				}}, items)
 				data.SoftwareCatalogs = listVal
 			}
 		} else {
 			if data.SoftwareCatalogs.IsUnknown() {
 				data.SoftwareCatalogs = types.ListNull(types.ObjectType{AttrTypes: map[string]attr.Type{
-					"catalog":       types.ObjectType{AttrTypes: map[string]attr.Type{"description": types.StringType, "name": types.StringType, "version": types.StringType}},
+					"catalog": types.ObjectType{AttrTypes: map[string]attr.Type{
+						"description": types.StringType,
+						"name":        types.StringType,
+						"version":     types.StringType,
+					}},
 					"package_count": types.Int64Type,
-					"partition":     types.ObjectType{AttrTypes: map[string]attr.Type{"partition_name": types.StringType, "priority_tier": types.Int64Type, "qos": types.StringType}},
+					"partition": types.ObjectType{AttrTypes: map[string]attr.Type{
+						"partition_name": types.StringType,
+						"priority_tier":  types.Int64Type,
+						"qos":            types.StringType,
+					}},
 				}})
 			}
 		}
@@ -2906,23 +3127,39 @@ func (d *MarketplaceOfferingDataSource) Read(ctx context.Context, req datasource
 				for _, item := range arr {
 					if objMap, ok := item.(map[string]interface{}); ok {
 						attrTypes := map[string]attr.Type{
-							"archived":            types.BoolType,
-							"article_code":        types.StringType,
-							"backend_id":          types.StringType,
-							"components":          types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"amount": types.Int64Type, "discount_rate": types.Int64Type, "discount_threshold": types.Int64Type, "future_price": types.StringType, "measured_unit": types.StringType, "name": types.StringType, "price": types.StringType, "type": types.StringType}}},
-							"description":         types.StringType,
-							"init_price":          types.Float64Type,
-							"is_active":           types.BoolType,
-							"max_amount":          types.Int64Type,
-							"minimal_price":       types.Float64Type,
-							"name":                types.StringType,
-							"organization_groups": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"customers_count": types.Int64Type, "name": types.StringType, "parent": types.StringType, "parent_name": types.StringType, "parent_uuid": types.StringType, "url": types.StringType}}},
-							"plan_type":           types.StringType,
-							"resources_count":     types.Int64Type,
-							"switch_price":        types.Float64Type,
-							"unit":                types.StringType,
-							"unit_price":          types.StringType,
-							"url":                 types.StringType,
+							"archived":     types.BoolType,
+							"article_code": types.StringType,
+							"backend_id":   types.StringType,
+							"components": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+								"amount":             types.Int64Type,
+								"discount_rate":      types.Int64Type,
+								"discount_threshold": types.Int64Type,
+								"future_price":       types.StringType,
+								"measured_unit":      types.StringType,
+								"name":               types.StringType,
+								"price":              types.StringType,
+								"type":               types.StringType,
+							}}},
+							"description":   types.StringType,
+							"init_price":    types.Float64Type,
+							"is_active":     types.BoolType,
+							"max_amount":    types.Int64Type,
+							"minimal_price": types.Float64Type,
+							"name":          types.StringType,
+							"organization_groups": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+								"customers_count": types.Int64Type,
+								"name":            types.StringType,
+								"parent":          types.StringType,
+								"parent_name":     types.StringType,
+								"parent_uuid":     types.StringType,
+								"url":             types.StringType,
+							}}},
+							"plan_type":       types.StringType,
+							"resources_count": types.Int64Type,
+							"switch_price":    types.Float64Type,
+							"unit":            types.StringType,
+							"unit_price":      types.StringType,
+							"url":             types.StringType,
 						}
 						attrValues := map[string]attr.Value{
 							"archived": func() attr.Value {
@@ -2943,7 +3180,16 @@ func (d *MarketplaceOfferingDataSource) Read(ctx context.Context, req datasource
 								}
 								return types.StringNull()
 							}(),
-							"components": types.ListNull(types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"amount": types.Int64Type, "discount_rate": types.Int64Type, "discount_threshold": types.Int64Type, "future_price": types.StringType, "measured_unit": types.StringType, "name": types.StringType, "price": types.StringType, "type": types.StringType}}}.ElemType),
+							"components": types.ListNull(types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+								"amount":             types.Int64Type,
+								"discount_rate":      types.Int64Type,
+								"discount_threshold": types.Int64Type,
+								"future_price":       types.StringType,
+								"measured_unit":      types.StringType,
+								"name":               types.StringType,
+								"price":              types.StringType,
+								"type":               types.StringType,
+							}}}.ElemType),
 							"description": func() attr.Value {
 								if v, ok := objMap["description"].(string); ok {
 									return types.StringValue(v)
@@ -2980,7 +3226,14 @@ func (d *MarketplaceOfferingDataSource) Read(ctx context.Context, req datasource
 								}
 								return types.StringNull()
 							}(),
-							"organization_groups": types.ListNull(types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"customers_count": types.Int64Type, "name": types.StringType, "parent": types.StringType, "parent_name": types.StringType, "parent_uuid": types.StringType, "url": types.StringType}}}.ElemType),
+							"organization_groups": types.ListNull(types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+								"customers_count": types.Int64Type,
+								"name":            types.StringType,
+								"parent":          types.StringType,
+								"parent_name":     types.StringType,
+								"parent_uuid":     types.StringType,
+								"url":             types.StringType,
+							}}}.ElemType),
 							"plan_type": func() attr.Value {
 								if v, ok := objMap["plan_type"].(string); ok {
 									return types.StringValue(v)
@@ -3023,46 +3276,78 @@ func (d *MarketplaceOfferingDataSource) Read(ctx context.Context, req datasource
 					}
 				}
 				listVal, _ := types.ListValue(types.ObjectType{AttrTypes: map[string]attr.Type{
-					"archived":            types.BoolType,
-					"article_code":        types.StringType,
-					"backend_id":          types.StringType,
-					"components":          types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"amount": types.Int64Type, "discount_rate": types.Int64Type, "discount_threshold": types.Int64Type, "future_price": types.StringType, "measured_unit": types.StringType, "name": types.StringType, "price": types.StringType, "type": types.StringType}}},
-					"description":         types.StringType,
-					"init_price":          types.Float64Type,
-					"is_active":           types.BoolType,
-					"max_amount":          types.Int64Type,
-					"minimal_price":       types.Float64Type,
-					"name":                types.StringType,
-					"organization_groups": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"customers_count": types.Int64Type, "name": types.StringType, "parent": types.StringType, "parent_name": types.StringType, "parent_uuid": types.StringType, "url": types.StringType}}},
-					"plan_type":           types.StringType,
-					"resources_count":     types.Int64Type,
-					"switch_price":        types.Float64Type,
-					"unit":                types.StringType,
-					"unit_price":          types.StringType,
-					"url":                 types.StringType,
+					"archived":     types.BoolType,
+					"article_code": types.StringType,
+					"backend_id":   types.StringType,
+					"components": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+						"amount":             types.Int64Type,
+						"discount_rate":      types.Int64Type,
+						"discount_threshold": types.Int64Type,
+						"future_price":       types.StringType,
+						"measured_unit":      types.StringType,
+						"name":               types.StringType,
+						"price":              types.StringType,
+						"type":               types.StringType,
+					}}},
+					"description":   types.StringType,
+					"init_price":    types.Float64Type,
+					"is_active":     types.BoolType,
+					"max_amount":    types.Int64Type,
+					"minimal_price": types.Float64Type,
+					"name":          types.StringType,
+					"organization_groups": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+						"customers_count": types.Int64Type,
+						"name":            types.StringType,
+						"parent":          types.StringType,
+						"parent_name":     types.StringType,
+						"parent_uuid":     types.StringType,
+						"url":             types.StringType,
+					}}},
+					"plan_type":       types.StringType,
+					"resources_count": types.Int64Type,
+					"switch_price":    types.Float64Type,
+					"unit":            types.StringType,
+					"unit_price":      types.StringType,
+					"url":             types.StringType,
 				}}, items)
 				data.Plans = listVal
 			}
 		} else {
 			if data.Plans.IsUnknown() {
 				data.Plans = types.ListNull(types.ObjectType{AttrTypes: map[string]attr.Type{
-					"archived":            types.BoolType,
-					"article_code":        types.StringType,
-					"backend_id":          types.StringType,
-					"components":          types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"amount": types.Int64Type, "discount_rate": types.Int64Type, "discount_threshold": types.Int64Type, "future_price": types.StringType, "measured_unit": types.StringType, "name": types.StringType, "price": types.StringType, "type": types.StringType}}},
-					"description":         types.StringType,
-					"init_price":          types.Float64Type,
-					"is_active":           types.BoolType,
-					"max_amount":          types.Int64Type,
-					"minimal_price":       types.Float64Type,
-					"name":                types.StringType,
-					"organization_groups": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"customers_count": types.Int64Type, "name": types.StringType, "parent": types.StringType, "parent_name": types.StringType, "parent_uuid": types.StringType, "url": types.StringType}}},
-					"plan_type":           types.StringType,
-					"resources_count":     types.Int64Type,
-					"switch_price":        types.Float64Type,
-					"unit":                types.StringType,
-					"unit_price":          types.StringType,
-					"url":                 types.StringType,
+					"archived":     types.BoolType,
+					"article_code": types.StringType,
+					"backend_id":   types.StringType,
+					"components": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+						"amount":             types.Int64Type,
+						"discount_rate":      types.Int64Type,
+						"discount_threshold": types.Int64Type,
+						"future_price":       types.StringType,
+						"measured_unit":      types.StringType,
+						"name":               types.StringType,
+						"price":              types.StringType,
+						"type":               types.StringType,
+					}}},
+					"description":   types.StringType,
+					"init_price":    types.Float64Type,
+					"is_active":     types.BoolType,
+					"max_amount":    types.Int64Type,
+					"minimal_price": types.Float64Type,
+					"name":          types.StringType,
+					"organization_groups": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+						"customers_count": types.Int64Type,
+						"name":            types.StringType,
+						"parent":          types.StringType,
+						"parent_name":     types.StringType,
+						"parent_uuid":     types.StringType,
+						"url":             types.StringType,
+					}}},
+					"plan_type":       types.StringType,
+					"resources_count": types.Int64Type,
+					"switch_price":    types.Float64Type,
+					"unit":            types.StringType,
+					"unit_price":      types.StringType,
+					"url":             types.StringType,
 				}})
 			}
 		}
@@ -3394,37 +3679,69 @@ func (d *MarketplaceOfferingDataSource) Read(ctx context.Context, req datasource
 				for _, item := range arr {
 					if objMap, ok := item.(map[string]interface{}); ok {
 						attrTypes := map[string]attr.Type{
-							"catalog":       types.ObjectType{AttrTypes: map[string]attr.Type{"description": types.StringType, "name": types.StringType, "version": types.StringType}},
+							"catalog": types.ObjectType{AttrTypes: map[string]attr.Type{
+								"description": types.StringType,
+								"name":        types.StringType,
+								"version":     types.StringType,
+							}},
 							"package_count": types.Int64Type,
-							"partition":     types.ObjectType{AttrTypes: map[string]attr.Type{"partition_name": types.StringType, "priority_tier": types.Int64Type, "qos": types.StringType}},
+							"partition": types.ObjectType{AttrTypes: map[string]attr.Type{
+								"partition_name": types.StringType,
+								"priority_tier":  types.Int64Type,
+								"qos":            types.StringType,
+							}},
 						}
 						attrValues := map[string]attr.Value{
-							"catalog": types.ObjectNull(types.ObjectType{AttrTypes: map[string]attr.Type{"description": types.StringType, "name": types.StringType, "version": types.StringType}}.AttrTypes),
+							"catalog": types.ObjectNull(types.ObjectType{AttrTypes: map[string]attr.Type{
+								"description": types.StringType,
+								"name":        types.StringType,
+								"version":     types.StringType,
+							}}.AttrTypes),
 							"package_count": func() attr.Value {
 								if v, ok := objMap["package_count"].(float64); ok {
 									return types.Int64Value(int64(v))
 								}
 								return types.Int64Null()
 							}(),
-							"partition": types.ObjectNull(types.ObjectType{AttrTypes: map[string]attr.Type{"partition_name": types.StringType, "priority_tier": types.Int64Type, "qos": types.StringType}}.AttrTypes),
+							"partition": types.ObjectNull(types.ObjectType{AttrTypes: map[string]attr.Type{
+								"partition_name": types.StringType,
+								"priority_tier":  types.Int64Type,
+								"qos":            types.StringType,
+							}}.AttrTypes),
 						}
 						objVal, _ := types.ObjectValue(attrTypes, attrValues)
 						items = append(items, objVal)
 					}
 				}
 				listVal, _ := types.ListValue(types.ObjectType{AttrTypes: map[string]attr.Type{
-					"catalog":       types.ObjectType{AttrTypes: map[string]attr.Type{"description": types.StringType, "name": types.StringType, "version": types.StringType}},
+					"catalog": types.ObjectType{AttrTypes: map[string]attr.Type{
+						"description": types.StringType,
+						"name":        types.StringType,
+						"version":     types.StringType,
+					}},
 					"package_count": types.Int64Type,
-					"partition":     types.ObjectType{AttrTypes: map[string]attr.Type{"partition_name": types.StringType, "priority_tier": types.Int64Type, "qos": types.StringType}},
+					"partition": types.ObjectType{AttrTypes: map[string]attr.Type{
+						"partition_name": types.StringType,
+						"priority_tier":  types.Int64Type,
+						"qos":            types.StringType,
+					}},
 				}}, items)
 				data.SoftwareCatalogs = listVal
 			}
 		} else {
 			if data.SoftwareCatalogs.IsUnknown() {
 				data.SoftwareCatalogs = types.ListNull(types.ObjectType{AttrTypes: map[string]attr.Type{
-					"catalog":       types.ObjectType{AttrTypes: map[string]attr.Type{"description": types.StringType, "name": types.StringType, "version": types.StringType}},
+					"catalog": types.ObjectType{AttrTypes: map[string]attr.Type{
+						"description": types.StringType,
+						"name":        types.StringType,
+						"version":     types.StringType,
+					}},
 					"package_count": types.Int64Type,
-					"partition":     types.ObjectType{AttrTypes: map[string]attr.Type{"partition_name": types.StringType, "priority_tier": types.Int64Type, "qos": types.StringType}},
+					"partition": types.ObjectType{AttrTypes: map[string]attr.Type{
+						"partition_name": types.StringType,
+						"priority_tier":  types.Int64Type,
+						"qos":            types.StringType,
+					}},
 				}})
 			}
 		}

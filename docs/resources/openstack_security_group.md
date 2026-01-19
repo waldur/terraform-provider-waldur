@@ -19,6 +19,7 @@ OpenstackSecurityGroup resource
 
 - `name` (String)
 - `rules` (Attributes List) (see [below for nested schema](#nestedatt--rules))
+- `tenant` (String) Required path parameter for resource creation
 
 ### Optional
 
@@ -36,7 +37,6 @@ OpenstackSecurityGroup resource
 - `modified` (String)
 - `resource_type` (String)
 - `state` (String)
-- `tenant` (String)
 - `tenant_name` (String)
 - `tenant_uuid` (String)
 - `url` (String)

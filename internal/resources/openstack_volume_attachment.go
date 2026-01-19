@@ -252,6 +252,7 @@ func (r *OpenstackVolumeAttachmentResource) Create(ctx context.Context, req reso
 	if resp.Diagnostics.HasError() {
 		return
 	}
+
 	// Link Plugin Create Logic
 	sourceUUID := data.Volume.ValueString()
 	linkPath := strings.Replace("/api/openstack-volumes/{uuid}/attach/", "{uuid}", sourceUUID, 1)
@@ -567,6 +568,7 @@ func (r *OpenstackVolumeAttachmentResource) Read(ctx context.Context, req resour
 
 	// Call Waldur API to read resource
 	var result map[string]interface{}
+
 	// For Link resources, we read the Source resource and check if Target is linked
 	parts := strings.Split(data.UUID.ValueString(), "/")
 	if len(parts) != 2 {
@@ -927,314 +929,8 @@ func (r *OpenstackVolumeAttachmentResource) Update(ctx context.Context, req reso
 
 	// Use UUID from state
 	data.UUID = state.UUID
-	// Prepare request body
-	requestBody := map[string]interface{}{}
-	if !data.Bootable.IsNull() && !data.Bootable.IsUnknown() {
-		requestBody["bootable"] = data.Bootable.ValueBool()
-	}
-	if !data.Description.IsNull() && !data.Description.IsUnknown() {
-		if v := data.Description.ValueString(); v != "" {
-			requestBody["description"] = v
-		}
-	}
-	if !data.Name.IsNull() && !data.Name.IsUnknown() {
-		if v := data.Name.ValueString(); v != "" {
-			requestBody["name"] = v
-		}
-	}
-
-	// Call Waldur API to update resource
-	var result map[string]interface{}
-
-	err := r.client.Update(ctx, "/api/openstack-volumes/{uuid}/", data.UUID.ValueString(), requestBody, &result)
-	if err != nil {
-		resp.Diagnostics.AddError(
-			"Unable to Update OpenstackVolumeAttachment",
-			"An error occurred while updating the openstack_volume_attachment: "+err.Error(),
-		)
-		return
-	}
-
-	// Update UUID from response
-	if uuid, ok := result["uuid"].(string); ok {
-		data.UUID = types.StringValue(uuid)
-	}
-
-	sourceMap := result
-	// Map response fields to data model
-	_ = sourceMap
-	if val, ok := sourceMap["access_url"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.AccessUrl = types.StringValue(str)
-		}
-	} else {
-		if data.AccessUrl.IsUnknown() {
-			data.AccessUrl = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["action"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Action = types.StringValue(str)
-		}
-	} else {
-		if data.Action.IsUnknown() {
-			data.Action = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["availability_zone"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.AvailabilityZone = types.StringValue(str)
-		}
-	} else {
-		if data.AvailabilityZone.IsUnknown() {
-			data.AvailabilityZone = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["availability_zone_name"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.AvailabilityZoneName = types.StringValue(str)
-		}
-	} else {
-		if data.AvailabilityZoneName.IsUnknown() {
-			data.AvailabilityZoneName = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["backend_id"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.BackendId = types.StringValue(str)
-		}
-	} else {
-		if data.BackendId.IsUnknown() {
-			data.BackendId = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["bootable"]; ok && val != nil {
-		if b, ok := val.(bool); ok {
-			data.Bootable = types.BoolValue(b)
-		}
-	} else {
-		if data.Bootable.IsUnknown() {
-			data.Bootable = types.BoolNull()
-		}
-	}
-	if val, ok := sourceMap["created"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Created = types.StringValue(str)
-		}
-	} else {
-		if data.Created.IsUnknown() {
-			data.Created = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["description"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Description = types.StringValue(str)
-		}
-	} else {
-		if data.Description.IsUnknown() {
-			data.Description = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["device"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Device = types.StringValue(str)
-		}
-	} else {
-		if data.Device.IsUnknown() {
-			data.Device = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["error_message"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.ErrorMessage = types.StringValue(str)
-		}
-	} else {
-		if data.ErrorMessage.IsUnknown() {
-			data.ErrorMessage = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["error_traceback"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.ErrorTraceback = types.StringValue(str)
-		}
-	} else {
-		if data.ErrorTraceback.IsUnknown() {
-			data.ErrorTraceback = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["extend_enabled"]; ok && val != nil {
-		if b, ok := val.(bool); ok {
-			data.ExtendEnabled = types.BoolValue(b)
-		}
-	} else {
-		if data.ExtendEnabled.IsUnknown() {
-			data.ExtendEnabled = types.BoolNull()
-		}
-	}
-	if val, ok := sourceMap["image"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Image = types.StringValue(str)
-		}
-	} else {
-		if data.Image.IsUnknown() {
-			data.Image = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["image_metadata"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.ImageMetadata = types.StringValue(str)
-		}
-	} else {
-		if data.ImageMetadata.IsUnknown() {
-			data.ImageMetadata = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["image_name"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.ImageName = types.StringValue(str)
-		}
-	} else {
-		if data.ImageName.IsUnknown() {
-			data.ImageName = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["instance"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Instance = types.StringValue(str)
-		}
-	} else {
-		if data.Instance.IsUnknown() {
-			data.Instance = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["instance_marketplace_uuid"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.InstanceMarketplaceUuid = types.StringValue(str)
-		}
-	} else {
-		if data.InstanceMarketplaceUuid.IsUnknown() {
-			data.InstanceMarketplaceUuid = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["instance_name"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.InstanceName = types.StringValue(str)
-		}
-	} else {
-		if data.InstanceName.IsUnknown() {
-			data.InstanceName = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["modified"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Modified = types.StringValue(str)
-		}
-	} else {
-		if data.Modified.IsUnknown() {
-			data.Modified = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["resource_type"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.ResourceType = types.StringValue(str)
-		}
-	} else {
-		if data.ResourceType.IsUnknown() {
-			data.ResourceType = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["runtime_state"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.RuntimeState = types.StringValue(str)
-		}
-	} else {
-		if data.RuntimeState.IsUnknown() {
-			data.RuntimeState = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["size"]; ok && val != nil {
-		if num, ok := val.(float64); ok {
-			data.Size = types.Int64Value(int64(num))
-		}
-	} else {
-		if data.Size.IsUnknown() {
-			data.Size = types.Int64Null()
-		}
-	}
-	if val, ok := sourceMap["source_snapshot"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.SourceSnapshot = types.StringValue(str)
-		}
-	} else {
-		if data.SourceSnapshot.IsUnknown() {
-			data.SourceSnapshot = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["state"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.State = types.StringValue(str)
-		}
-	} else {
-		if data.State.IsUnknown() {
-			data.State = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["tenant"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Tenant = types.StringValue(str)
-		}
-	} else {
-		if data.Tenant.IsUnknown() {
-			data.Tenant = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["tenant_uuid"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.TenantUuid = types.StringValue(str)
-		}
-	} else {
-		if data.TenantUuid.IsUnknown() {
-			data.TenantUuid = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["type"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Type = types.StringValue(str)
-		}
-	} else {
-		if data.Type.IsUnknown() {
-			data.Type = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["type_name"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.TypeName = types.StringValue(str)
-		}
-	} else {
-		if data.TypeName.IsUnknown() {
-			data.TypeName = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["url"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Url = types.StringValue(str)
-		}
-	} else {
-		if data.Url.IsUnknown() {
-			data.Url = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["volume"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Volume = types.StringValue(str)
-		}
-	} else {
-		if data.Volume.IsUnknown() {
-			data.Volume = types.StringNull()
-		}
-	}
-
-	// Map filter parameters from response if available
+	// Link resources typically do not support update, as they are bindings.
+	// If update logic is needed, implement it here or in resource_link.tmpl
 
 	// Save updated data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
@@ -1249,6 +945,7 @@ func (r *OpenstackVolumeAttachmentResource) Delete(ctx context.Context, req reso
 	if resp.Diagnostics.HasError() {
 		return
 	}
+
 	// Link Plugin Delete (Unlink)
 	parts := strings.Split(data.UUID.ValueString(), "/")
 	if len(parts) != 2 {
@@ -1266,6 +963,7 @@ func (r *OpenstackVolumeAttachmentResource) Delete(ctx context.Context, req reso
 }
 
 func (r *OpenstackVolumeAttachmentResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+
 	// Import ID: source_uuid/target_uuid
 	parts := strings.Split(req.ID, "/")
 	if len(parts) != 2 {

@@ -296,7 +296,10 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 				MarkdownDescription: " ",
 			},
 			"endpoints": schema.ListAttribute{
-				CustomType:          types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"name": types.StringType, "url": types.StringType}}},
+				CustomType: types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+					"name": types.StringType,
+					"url":  types.StringType,
+				}}},
 				Computed:            true,
 				MarkdownDescription: " ",
 			},
@@ -385,7 +388,10 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 				MarkdownDescription: " ",
 			},
 			"report": schema.ListAttribute{
-				CustomType:          types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"body": types.StringType, "header": types.StringType}}},
+				CustomType: types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+					"body":   types.StringType,
+					"header": types.StringType,
+				}}},
 				Computed:            true,
 				MarkdownDescription: " ",
 			},

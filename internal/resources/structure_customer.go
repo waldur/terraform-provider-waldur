@@ -450,37 +450,6 @@ func (r *StructureCustomerResource) Schema(ctx context.Context, req resource.Sch
 	}
 }
 
-func (r *StructureCustomerResource) convertTFValue(v attr.Value) interface{} {
-	if v.IsNull() || v.IsUnknown() {
-		return nil
-	}
-	switch val := v.(type) {
-	case types.String:
-		return val.ValueString()
-	case types.Int64:
-		return val.ValueInt64()
-	case types.Bool:
-		return val.ValueBool()
-	case types.Float64:
-		return val.ValueFloat64()
-	case types.List:
-		items := make([]interface{}, len(val.Elements()))
-		for i, elem := range val.Elements() {
-			items[i] = r.convertTFValue(elem)
-		}
-		return items
-	case types.Object:
-		obj := make(map[string]interface{})
-		for k, attr := range val.Attributes() {
-			if converted := r.convertTFValue(attr); converted != nil {
-				obj[k] = converted
-			}
-		}
-		return obj
-	}
-	return nil
-}
-
 func (r *StructureCustomerResource) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
 	// Prevent panic if the provider has not been configured.
 	if req.ProviderData == nil {
@@ -508,152 +477,186 @@ func (r *StructureCustomerResource) Create(ctx context.Context, req resource.Cre
 	if resp.Diagnostics.HasError() {
 		return
 	}
+
 	// Prepare request body
 	requestBody := map[string]interface{}{}
+	// Check if this field is a path param (skip adding to body)
 	if !data.Abbreviation.IsNull() && !data.Abbreviation.IsUnknown() {
 		if v := data.Abbreviation.ValueString(); v != "" {
 			requestBody["abbreviation"] = v
 		}
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.AccessSubnets.IsNull() && !data.AccessSubnets.IsUnknown() {
 		if v := data.AccessSubnets.ValueString(); v != "" {
 			requestBody["access_subnets"] = v
 		}
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.AccountingStartDate.IsNull() && !data.AccountingStartDate.IsUnknown() {
 		if v := data.AccountingStartDate.ValueString(); v != "" {
 			requestBody["accounting_start_date"] = v
 		}
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.Address.IsNull() && !data.Address.IsUnknown() {
 		if v := data.Address.ValueString(); v != "" {
 			requestBody["address"] = v
 		}
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.AgreementNumber.IsNull() && !data.AgreementNumber.IsUnknown() {
 		if v := data.AgreementNumber.ValueString(); v != "" {
 			requestBody["agreement_number"] = v
 		}
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.Archived.IsNull() && !data.Archived.IsUnknown() {
 		requestBody["archived"] = data.Archived.ValueBool()
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.BackendId.IsNull() && !data.BackendId.IsUnknown() {
 		if v := data.BackendId.ValueString(); v != "" {
 			requestBody["backend_id"] = v
 		}
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.BankAccount.IsNull() && !data.BankAccount.IsUnknown() {
 		if v := data.BankAccount.ValueString(); v != "" {
 			requestBody["bank_account"] = v
 		}
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.BankName.IsNull() && !data.BankName.IsUnknown() {
 		if v := data.BankName.ValueString(); v != "" {
 			requestBody["bank_name"] = v
 		}
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.Blocked.IsNull() && !data.Blocked.IsUnknown() {
 		requestBody["blocked"] = data.Blocked.ValueBool()
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.ContactDetails.IsNull() && !data.ContactDetails.IsUnknown() {
 		if v := data.ContactDetails.ValueString(); v != "" {
 			requestBody["contact_details"] = v
 		}
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.Country.IsNull() && !data.Country.IsUnknown() {
 		if v := data.Country.ValueString(); v != "" {
 			requestBody["country"] = v
 		}
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.DefaultTaxPercent.IsNull() && !data.DefaultTaxPercent.IsUnknown() {
 		if v := data.DefaultTaxPercent.ValueString(); v != "" {
 			requestBody["default_tax_percent"] = v
 		}
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.Description.IsNull() && !data.Description.IsUnknown() {
 		if v := data.Description.ValueString(); v != "" {
 			requestBody["description"] = v
 		}
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.DisplayBillingInfoInProjects.IsNull() && !data.DisplayBillingInfoInProjects.IsUnknown() {
 		requestBody["display_billing_info_in_projects"] = data.DisplayBillingInfoInProjects.ValueBool()
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.Domain.IsNull() && !data.Domain.IsUnknown() {
 		if v := data.Domain.ValueString(); v != "" {
 			requestBody["domain"] = v
 		}
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.Email.IsNull() && !data.Email.IsUnknown() {
 		if v := data.Email.ValueString(); v != "" {
 			requestBody["email"] = v
 		}
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.GracePeriodDays.IsNull() && !data.GracePeriodDays.IsUnknown() {
 		requestBody["grace_period_days"] = data.GracePeriodDays.ValueInt64()
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.Homepage.IsNull() && !data.Homepage.IsUnknown() {
 		if v := data.Homepage.ValueString(); v != "" {
 			requestBody["homepage"] = v
 		}
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.Image.IsNull() && !data.Image.IsUnknown() {
 		if v := data.Image.ValueString(); v != "" {
 			requestBody["image"] = v
 		}
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.Latitude.IsNull() && !data.Latitude.IsUnknown() {
 		requestBody["latitude"] = data.Latitude.ValueFloat64()
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.Longitude.IsNull() && !data.Longitude.IsUnknown() {
 		requestBody["longitude"] = data.Longitude.ValueFloat64()
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.MaxServiceAccounts.IsNull() && !data.MaxServiceAccounts.IsUnknown() {
 		requestBody["max_service_accounts"] = data.MaxServiceAccounts.ValueInt64()
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.Name.IsNull() && !data.Name.IsUnknown() {
 		if v := data.Name.ValueString(); v != "" {
 			requestBody["name"] = v
 		}
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.NativeName.IsNull() && !data.NativeName.IsUnknown() {
 		if v := data.NativeName.ValueString(); v != "" {
 			requestBody["native_name"] = v
 		}
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.NotificationEmails.IsNull() && !data.NotificationEmails.IsUnknown() {
 		if v := data.NotificationEmails.ValueString(); v != "" {
 			requestBody["notification_emails"] = v
 		}
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.PhoneNumber.IsNull() && !data.PhoneNumber.IsUnknown() {
 		if v := data.PhoneNumber.ValueString(); v != "" {
 			requestBody["phone_number"] = v
 		}
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.Postal.IsNull() && !data.Postal.IsUnknown() {
 		if v := data.Postal.ValueString(); v != "" {
 			requestBody["postal"] = v
 		}
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.ProjectMetadataChecklist.IsNull() && !data.ProjectMetadataChecklist.IsUnknown() {
 		if v := data.ProjectMetadataChecklist.ValueString(); v != "" {
 			requestBody["project_metadata_checklist"] = v
 		}
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.RegistrationCode.IsNull() && !data.RegistrationCode.IsUnknown() {
 		if v := data.RegistrationCode.ValueString(); v != "" {
 			requestBody["registration_code"] = v
 		}
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.Slug.IsNull() && !data.Slug.IsUnknown() {
 		if v := data.Slug.ValueString(); v != "" {
 			requestBody["slug"] = v
 		}
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.SponsorNumber.IsNull() && !data.SponsorNumber.IsUnknown() {
 		requestBody["sponsor_number"] = data.SponsorNumber.ValueInt64()
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.VatCode.IsNull() && !data.VatCode.IsUnknown() {
 		if v := data.VatCode.ValueString(); v != "" {
 			requestBody["vat_code"] = v
@@ -1051,7 +1054,11 @@ func (r *StructureCustomerResource) Create(ctx context.Context, req resource.Cre
 			for _, item := range arr {
 				if objMap, ok := item.(map[string]interface{}); ok {
 					attrTypes := map[string]attr.Type{
-						"attributes":           types.ObjectType{AttrTypes: map[string]attr.Type{"agreement_number": types.StringType, "contract_sum": types.Int64Type, "end_date": types.StringType}},
+						"attributes": types.ObjectType{AttrTypes: map[string]attr.Type{
+							"agreement_number": types.StringType,
+							"contract_sum":     types.Int64Type,
+							"end_date":         types.StringType,
+						}},
 						"is_active":            types.BoolType,
 						"name":                 types.StringType,
 						"organization":         types.StringType,
@@ -1061,7 +1068,11 @@ func (r *StructureCustomerResource) Create(ctx context.Context, req resource.Cre
 						"url":                  types.StringType,
 					}
 					attrValues := map[string]attr.Value{
-						"attributes": types.ObjectNull(types.ObjectType{AttrTypes: map[string]attr.Type{"agreement_number": types.StringType, "contract_sum": types.Int64Type, "end_date": types.StringType}}.AttrTypes),
+						"attributes": types.ObjectNull(types.ObjectType{AttrTypes: map[string]attr.Type{
+							"agreement_number": types.StringType,
+							"contract_sum":     types.Int64Type,
+							"end_date":         types.StringType,
+						}}.AttrTypes),
 						"is_active": func() attr.Value {
 							if v, ok := objMap["is_active"].(bool); ok {
 								return types.BoolValue(v)
@@ -1110,7 +1121,11 @@ func (r *StructureCustomerResource) Create(ctx context.Context, req resource.Cre
 				}
 			}
 			listVal, _ := types.ListValue(types.ObjectType{AttrTypes: map[string]attr.Type{
-				"attributes":           types.ObjectType{AttrTypes: map[string]attr.Type{"agreement_number": types.StringType, "contract_sum": types.Int64Type, "end_date": types.StringType}},
+				"attributes": types.ObjectType{AttrTypes: map[string]attr.Type{
+					"agreement_number": types.StringType,
+					"contract_sum":     types.Int64Type,
+					"end_date":         types.StringType,
+				}},
 				"is_active":            types.BoolType,
 				"name":                 types.StringType,
 				"organization":         types.StringType,
@@ -1124,7 +1139,11 @@ func (r *StructureCustomerResource) Create(ctx context.Context, req resource.Cre
 	} else {
 		if data.PaymentProfiles.IsUnknown() {
 			data.PaymentProfiles = types.ListNull(types.ObjectType{AttrTypes: map[string]attr.Type{
-				"attributes":           types.ObjectType{AttrTypes: map[string]attr.Type{"agreement_number": types.StringType, "contract_sum": types.Int64Type, "end_date": types.StringType}},
+				"attributes": types.ObjectType{AttrTypes: map[string]attr.Type{
+					"agreement_number": types.StringType,
+					"contract_sum":     types.Int64Type,
+					"end_date":         types.StringType,
+				}},
 				"is_active":            types.BoolType,
 				"name":                 types.StringType,
 				"organization":         types.StringType,
@@ -1724,7 +1743,11 @@ func (r *StructureCustomerResource) Read(ctx context.Context, req resource.ReadR
 			for _, item := range arr {
 				if objMap, ok := item.(map[string]interface{}); ok {
 					attrTypes := map[string]attr.Type{
-						"attributes":           types.ObjectType{AttrTypes: map[string]attr.Type{"agreement_number": types.StringType, "contract_sum": types.Int64Type, "end_date": types.StringType}},
+						"attributes": types.ObjectType{AttrTypes: map[string]attr.Type{
+							"agreement_number": types.StringType,
+							"contract_sum":     types.Int64Type,
+							"end_date":         types.StringType,
+						}},
 						"is_active":            types.BoolType,
 						"name":                 types.StringType,
 						"organization":         types.StringType,
@@ -1734,7 +1757,11 @@ func (r *StructureCustomerResource) Read(ctx context.Context, req resource.ReadR
 						"url":                  types.StringType,
 					}
 					attrValues := map[string]attr.Value{
-						"attributes": types.ObjectNull(types.ObjectType{AttrTypes: map[string]attr.Type{"agreement_number": types.StringType, "contract_sum": types.Int64Type, "end_date": types.StringType}}.AttrTypes),
+						"attributes": types.ObjectNull(types.ObjectType{AttrTypes: map[string]attr.Type{
+							"agreement_number": types.StringType,
+							"contract_sum":     types.Int64Type,
+							"end_date":         types.StringType,
+						}}.AttrTypes),
 						"is_active": func() attr.Value {
 							if v, ok := objMap["is_active"].(bool); ok {
 								return types.BoolValue(v)
@@ -1783,7 +1810,11 @@ func (r *StructureCustomerResource) Read(ctx context.Context, req resource.ReadR
 				}
 			}
 			listVal, _ := types.ListValue(types.ObjectType{AttrTypes: map[string]attr.Type{
-				"attributes":           types.ObjectType{AttrTypes: map[string]attr.Type{"agreement_number": types.StringType, "contract_sum": types.Int64Type, "end_date": types.StringType}},
+				"attributes": types.ObjectType{AttrTypes: map[string]attr.Type{
+					"agreement_number": types.StringType,
+					"contract_sum":     types.Int64Type,
+					"end_date":         types.StringType,
+				}},
 				"is_active":            types.BoolType,
 				"name":                 types.StringType,
 				"organization":         types.StringType,
@@ -1797,7 +1828,11 @@ func (r *StructureCustomerResource) Read(ctx context.Context, req resource.ReadR
 	} else {
 		if data.PaymentProfiles.IsUnknown() {
 			data.PaymentProfiles = types.ListNull(types.ObjectType{AttrTypes: map[string]attr.Type{
-				"attributes":           types.ObjectType{AttrTypes: map[string]attr.Type{"agreement_number": types.StringType, "contract_sum": types.Int64Type, "end_date": types.StringType}},
+				"attributes": types.ObjectType{AttrTypes: map[string]attr.Type{
+					"agreement_number": types.StringType,
+					"contract_sum":     types.Int64Type,
+					"end_date":         types.StringType,
+				}},
 				"is_active":            types.BoolType,
 				"name":                 types.StringType,
 				"organization":         types.StringType,
@@ -2008,6 +2043,7 @@ func (r *StructureCustomerResource) Update(ctx context.Context, req resource.Upd
 
 	// Use UUID from state
 	data.UUID = state.UUID
+
 	// Prepare request body
 	requestBody := map[string]interface{}{}
 	if !data.Abbreviation.IsNull() && !data.Abbreviation.IsUnknown() {
@@ -2553,7 +2589,11 @@ func (r *StructureCustomerResource) Update(ctx context.Context, req resource.Upd
 			for _, item := range arr {
 				if objMap, ok := item.(map[string]interface{}); ok {
 					attrTypes := map[string]attr.Type{
-						"attributes":           types.ObjectType{AttrTypes: map[string]attr.Type{"agreement_number": types.StringType, "contract_sum": types.Int64Type, "end_date": types.StringType}},
+						"attributes": types.ObjectType{AttrTypes: map[string]attr.Type{
+							"agreement_number": types.StringType,
+							"contract_sum":     types.Int64Type,
+							"end_date":         types.StringType,
+						}},
 						"is_active":            types.BoolType,
 						"name":                 types.StringType,
 						"organization":         types.StringType,
@@ -2563,7 +2603,11 @@ func (r *StructureCustomerResource) Update(ctx context.Context, req resource.Upd
 						"url":                  types.StringType,
 					}
 					attrValues := map[string]attr.Value{
-						"attributes": types.ObjectNull(types.ObjectType{AttrTypes: map[string]attr.Type{"agreement_number": types.StringType, "contract_sum": types.Int64Type, "end_date": types.StringType}}.AttrTypes),
+						"attributes": types.ObjectNull(types.ObjectType{AttrTypes: map[string]attr.Type{
+							"agreement_number": types.StringType,
+							"contract_sum":     types.Int64Type,
+							"end_date":         types.StringType,
+						}}.AttrTypes),
 						"is_active": func() attr.Value {
 							if v, ok := objMap["is_active"].(bool); ok {
 								return types.BoolValue(v)
@@ -2612,7 +2656,11 @@ func (r *StructureCustomerResource) Update(ctx context.Context, req resource.Upd
 				}
 			}
 			listVal, _ := types.ListValue(types.ObjectType{AttrTypes: map[string]attr.Type{
-				"attributes":           types.ObjectType{AttrTypes: map[string]attr.Type{"agreement_number": types.StringType, "contract_sum": types.Int64Type, "end_date": types.StringType}},
+				"attributes": types.ObjectType{AttrTypes: map[string]attr.Type{
+					"agreement_number": types.StringType,
+					"contract_sum":     types.Int64Type,
+					"end_date":         types.StringType,
+				}},
 				"is_active":            types.BoolType,
 				"name":                 types.StringType,
 				"organization":         types.StringType,
@@ -2626,7 +2674,11 @@ func (r *StructureCustomerResource) Update(ctx context.Context, req resource.Upd
 	} else {
 		if data.PaymentProfiles.IsUnknown() {
 			data.PaymentProfiles = types.ListNull(types.ObjectType{AttrTypes: map[string]attr.Type{
-				"attributes":           types.ObjectType{AttrTypes: map[string]attr.Type{"agreement_number": types.StringType, "contract_sum": types.Int64Type, "end_date": types.StringType}},
+				"attributes": types.ObjectType{AttrTypes: map[string]attr.Type{
+					"agreement_number": types.StringType,
+					"contract_sum":     types.Int64Type,
+					"end_date":         types.StringType,
+				}},
 				"is_active":            types.BoolType,
 				"name":                 types.StringType,
 				"organization":         types.StringType,
@@ -2830,6 +2882,7 @@ func (r *StructureCustomerResource) Delete(ctx context.Context, req resource.Del
 	if resp.Diagnostics.HasError() {
 		return
 	}
+
 	// Call Waldur API to delete resource
 	err := r.client.DeleteByUUID(ctx, "/api/customers/{uuid}/", data.UUID.ValueString())
 	if err != nil {
@@ -2842,5 +2895,6 @@ func (r *StructureCustomerResource) Delete(ctx context.Context, req resource.Del
 }
 
 func (r *StructureCustomerResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+
 	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }

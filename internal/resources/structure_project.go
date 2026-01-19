@@ -231,69 +231,84 @@ func (r *StructureProjectResource) Create(ctx context.Context, req resource.Crea
 	if resp.Diagnostics.HasError() {
 		return
 	}
+
 	// Prepare request body
 	requestBody := map[string]interface{}{}
+	// Check if this field is a path param (skip adding to body)
 	if !data.BackendId.IsNull() && !data.BackendId.IsUnknown() {
 		if v := data.BackendId.ValueString(); v != "" {
 			requestBody["backend_id"] = v
 		}
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.Customer.IsNull() && !data.Customer.IsUnknown() {
 		if v := data.Customer.ValueString(); v != "" {
 			requestBody["customer"] = v
 		}
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.Description.IsNull() && !data.Description.IsUnknown() {
 		if v := data.Description.ValueString(); v != "" {
 			requestBody["description"] = v
 		}
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.EndDate.IsNull() && !data.EndDate.IsUnknown() {
 		if v := data.EndDate.ValueString(); v != "" {
 			requestBody["end_date"] = v
 		}
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.GracePeriodDays.IsNull() && !data.GracePeriodDays.IsUnknown() {
 		requestBody["grace_period_days"] = data.GracePeriodDays.ValueInt64()
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.Image.IsNull() && !data.Image.IsUnknown() {
 		if v := data.Image.ValueString(); v != "" {
 			requestBody["image"] = v
 		}
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.IsIndustry.IsNull() && !data.IsIndustry.IsUnknown() {
 		requestBody["is_industry"] = data.IsIndustry.ValueBool()
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.Kind.IsNull() && !data.Kind.IsUnknown() {
 		if v := data.Kind.ValueString(); v != "" {
 			requestBody["kind"] = v
 		}
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.Name.IsNull() && !data.Name.IsUnknown() {
 		if v := data.Name.ValueString(); v != "" {
 			requestBody["name"] = v
 		}
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.OecdFos2007Code.IsNull() && !data.OecdFos2007Code.IsUnknown() {
 		if v := data.OecdFos2007Code.ValueString(); v != "" {
 			requestBody["oecd_fos_2007_code"] = v
 		}
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.Slug.IsNull() && !data.Slug.IsUnknown() {
 		if v := data.Slug.ValueString(); v != "" {
 			requestBody["slug"] = v
 		}
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.StaffNotes.IsNull() && !data.StaffNotes.IsUnknown() {
 		if v := data.StaffNotes.ValueString(); v != "" {
 			requestBody["staff_notes"] = v
 		}
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.StartDate.IsNull() && !data.StartDate.IsUnknown() {
 		if v := data.StartDate.ValueString(); v != "" {
 			requestBody["start_date"] = v
 		}
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.Type.IsNull() && !data.Type.IsUnknown() {
 		if v := data.Type.ValueString(); v != "" {
 			requestBody["type"] = v
@@ -830,6 +845,7 @@ func (r *StructureProjectResource) Update(ctx context.Context, req resource.Upda
 
 	// Use UUID from state
 	data.UUID = state.UUID
+
 	// Prepare request body
 	requestBody := map[string]interface{}{}
 	if !data.BackendId.IsNull() && !data.BackendId.IsUnknown() {
@@ -1160,6 +1176,7 @@ func (r *StructureProjectResource) Delete(ctx context.Context, req resource.Dele
 	if resp.Diagnostics.HasError() {
 		return
 	}
+
 	// Call Waldur API to delete resource
 	err := r.client.DeleteByUUID(ctx, "/api/projects/{uuid}/", data.UUID.ValueString())
 	if err != nil {
@@ -1172,5 +1189,6 @@ func (r *StructureProjectResource) Delete(ctx context.Context, req resource.Dele
 }
 
 func (r *StructureProjectResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+
 	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }

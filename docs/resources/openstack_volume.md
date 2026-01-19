@@ -17,7 +17,7 @@ OpenstackVolume resource
 
 ### Required
 
-- `offering` (String) Offering UUID or URL
+- `offering` (String) Offering URL
 - `project` (String)
 
 ### Optional

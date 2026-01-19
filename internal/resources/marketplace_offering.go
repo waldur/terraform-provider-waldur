@@ -813,37 +813,6 @@ func (r *MarketplaceOfferingResource) Schema(ctx context.Context, req resource.S
 	}
 }
 
-func (r *MarketplaceOfferingResource) convertTFValue(v attr.Value) interface{} {
-	if v.IsNull() || v.IsUnknown() {
-		return nil
-	}
-	switch val := v.(type) {
-	case types.String:
-		return val.ValueString()
-	case types.Int64:
-		return val.ValueInt64()
-	case types.Bool:
-		return val.ValueBool()
-	case types.Float64:
-		return val.ValueFloat64()
-	case types.List:
-		items := make([]interface{}, len(val.Elements()))
-		for i, elem := range val.Elements() {
-			items[i] = r.convertTFValue(elem)
-		}
-		return items
-	case types.Object:
-		obj := make(map[string]interface{})
-		for k, attr := range val.Attributes() {
-			if converted := r.convertTFValue(attr); converted != nil {
-				obj[k] = converted
-			}
-		}
-		return obj
-	}
-	return nil
-}
-
 func (r *MarketplaceOfferingResource) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
 	// Prevent panic if the provider has not been configured.
 	if req.ProviderData == nil {
@@ -871,125 +840,152 @@ func (r *MarketplaceOfferingResource) Create(ctx context.Context, req resource.C
 	if resp.Diagnostics.HasError() {
 		return
 	}
+
 	// Prepare request body
 	requestBody := map[string]interface{}{}
+	// Check if this field is a path param (skip adding to body)
 	if !data.AccessUrl.IsNull() && !data.AccessUrl.IsUnknown() {
 		if v := data.AccessUrl.ValueString(); v != "" {
 			requestBody["access_url"] = v
 		}
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.BackendId.IsNull() && !data.BackendId.IsUnknown() {
 		if v := data.BackendId.ValueString(); v != "" {
 			requestBody["backend_id"] = v
 		}
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.Billable.IsNull() && !data.Billable.IsUnknown() {
 		requestBody["billable"] = data.Billable.ValueBool()
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.Category.IsNull() && !data.Category.IsUnknown() {
 		if v := data.Category.ValueString(); v != "" {
 			requestBody["category"] = v
 		}
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.ComplianceChecklist.IsNull() && !data.ComplianceChecklist.IsUnknown() {
 		if v := data.ComplianceChecklist.ValueString(); v != "" {
 			requestBody["compliance_checklist"] = v
 		}
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.Components.IsNull() && !data.Components.IsUnknown() {
-		if v := r.convertTFValue(data.Components); v != nil {
+		if v := ConvertTFValue(data.Components); v != nil {
 			requestBody["components"] = v
 		}
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.Country.IsNull() && !data.Country.IsUnknown() {
 		if v := data.Country.ValueString(); v != "" {
 			requestBody["country"] = v
 		}
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.Customer.IsNull() && !data.Customer.IsUnknown() {
 		if v := data.Customer.ValueString(); v != "" {
 			requestBody["customer"] = v
 		}
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.DataciteDoi.IsNull() && !data.DataciteDoi.IsUnknown() {
 		if v := data.DataciteDoi.ValueString(); v != "" {
 			requestBody["datacite_doi"] = v
 		}
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.Description.IsNull() && !data.Description.IsUnknown() {
 		if v := data.Description.ValueString(); v != "" {
 			requestBody["description"] = v
 		}
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.FullDescription.IsNull() && !data.FullDescription.IsUnknown() {
 		if v := data.FullDescription.ValueString(); v != "" {
 			requestBody["full_description"] = v
 		}
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.GettingStarted.IsNull() && !data.GettingStarted.IsUnknown() {
 		if v := data.GettingStarted.ValueString(); v != "" {
 			requestBody["getting_started"] = v
 		}
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.Image.IsNull() && !data.Image.IsUnknown() {
 		if v := data.Image.ValueString(); v != "" {
 			requestBody["image"] = v
 		}
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.IntegrationGuide.IsNull() && !data.IntegrationGuide.IsUnknown() {
 		if v := data.IntegrationGuide.ValueString(); v != "" {
 			requestBody["integration_guide"] = v
 		}
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.Latitude.IsNull() && !data.Latitude.IsUnknown() {
 		requestBody["latitude"] = data.Latitude.ValueFloat64()
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.Longitude.IsNull() && !data.Longitude.IsUnknown() {
 		requestBody["longitude"] = data.Longitude.ValueFloat64()
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.Name.IsNull() && !data.Name.IsUnknown() {
 		if v := data.Name.ValueString(); v != "" {
 			requestBody["name"] = v
 		}
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.Options.IsNull() && !data.Options.IsUnknown() {
-		if v := r.convertTFValue(data.Options); v != nil {
+		if v := ConvertTFValue(data.Options); v != nil {
 			requestBody["options"] = v
 		}
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.Plans.IsNull() && !data.Plans.IsUnknown() {
-		if v := r.convertTFValue(data.Plans); v != nil {
+		if v := ConvertTFValue(data.Plans); v != nil {
 			requestBody["plans"] = v
 		}
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.PrivacyPolicyLink.IsNull() && !data.PrivacyPolicyLink.IsUnknown() {
 		if v := data.PrivacyPolicyLink.ValueString(); v != "" {
 			requestBody["privacy_policy_link"] = v
 		}
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.ResourceOptions.IsNull() && !data.ResourceOptions.IsUnknown() {
-		if v := r.convertTFValue(data.ResourceOptions); v != nil {
+		if v := ConvertTFValue(data.ResourceOptions); v != nil {
 			requestBody["resource_options"] = v
 		}
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.Shared.IsNull() && !data.Shared.IsUnknown() {
 		requestBody["shared"] = data.Shared.ValueBool()
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.Slug.IsNull() && !data.Slug.IsUnknown() {
 		if v := data.Slug.ValueString(); v != "" {
 			requestBody["slug"] = v
 		}
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.Thumbnail.IsNull() && !data.Thumbnail.IsUnknown() {
 		if v := data.Thumbnail.ValueString(); v != "" {
 			requestBody["thumbnail"] = v
 		}
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.Type.IsNull() && !data.Type.IsUnknown() {
 		if v := data.Type.ValueString(); v != "" {
 			requestBody["type"] = v
 		}
 	}
+	// Check if this field is a path param (skip adding to body)
 	if !data.VendorDetails.IsNull() && !data.VendorDetails.IsUnknown() {
 		if v := data.VendorDetails.ValueString(); v != "" {
 			requestBody["vendor_details"] = v
@@ -2255,37 +2251,69 @@ func (r *MarketplaceOfferingResource) Create(ctx context.Context, req resource.C
 			for _, item := range arr {
 				if objMap, ok := item.(map[string]interface{}); ok {
 					attrTypes := map[string]attr.Type{
-						"catalog":       types.ObjectType{AttrTypes: map[string]attr.Type{"description": types.StringType, "name": types.StringType, "version": types.StringType}},
+						"catalog": types.ObjectType{AttrTypes: map[string]attr.Type{
+							"description": types.StringType,
+							"name":        types.StringType,
+							"version":     types.StringType,
+						}},
 						"package_count": types.Int64Type,
-						"partition":     types.ObjectType{AttrTypes: map[string]attr.Type{"partition_name": types.StringType, "priority_tier": types.Int64Type, "qos": types.StringType}},
+						"partition": types.ObjectType{AttrTypes: map[string]attr.Type{
+							"partition_name": types.StringType,
+							"priority_tier":  types.Int64Type,
+							"qos":            types.StringType,
+						}},
 					}
 					attrValues := map[string]attr.Value{
-						"catalog": types.ObjectNull(types.ObjectType{AttrTypes: map[string]attr.Type{"description": types.StringType, "name": types.StringType, "version": types.StringType}}.AttrTypes),
+						"catalog": types.ObjectNull(types.ObjectType{AttrTypes: map[string]attr.Type{
+							"description": types.StringType,
+							"name":        types.StringType,
+							"version":     types.StringType,
+						}}.AttrTypes),
 						"package_count": func() attr.Value {
 							if v, ok := objMap["package_count"].(float64); ok {
 								return types.Int64Value(int64(v))
 							}
 							return types.Int64Null()
 						}(),
-						"partition": types.ObjectNull(types.ObjectType{AttrTypes: map[string]attr.Type{"partition_name": types.StringType, "priority_tier": types.Int64Type, "qos": types.StringType}}.AttrTypes),
+						"partition": types.ObjectNull(types.ObjectType{AttrTypes: map[string]attr.Type{
+							"partition_name": types.StringType,
+							"priority_tier":  types.Int64Type,
+							"qos":            types.StringType,
+						}}.AttrTypes),
 					}
 					objVal, _ := types.ObjectValue(attrTypes, attrValues)
 					items = append(items, objVal)
 				}
 			}
 			listVal, _ := types.ListValue(types.ObjectType{AttrTypes: map[string]attr.Type{
-				"catalog":       types.ObjectType{AttrTypes: map[string]attr.Type{"description": types.StringType, "name": types.StringType, "version": types.StringType}},
+				"catalog": types.ObjectType{AttrTypes: map[string]attr.Type{
+					"description": types.StringType,
+					"name":        types.StringType,
+					"version":     types.StringType,
+				}},
 				"package_count": types.Int64Type,
-				"partition":     types.ObjectType{AttrTypes: map[string]attr.Type{"partition_name": types.StringType, "priority_tier": types.Int64Type, "qos": types.StringType}},
+				"partition": types.ObjectType{AttrTypes: map[string]attr.Type{
+					"partition_name": types.StringType,
+					"priority_tier":  types.Int64Type,
+					"qos":            types.StringType,
+				}},
 			}}, items)
 			data.SoftwareCatalogs = listVal
 		}
 	} else {
 		if data.SoftwareCatalogs.IsUnknown() {
 			data.SoftwareCatalogs = types.ListNull(types.ObjectType{AttrTypes: map[string]attr.Type{
-				"catalog":       types.ObjectType{AttrTypes: map[string]attr.Type{"description": types.StringType, "name": types.StringType, "version": types.StringType}},
+				"catalog": types.ObjectType{AttrTypes: map[string]attr.Type{
+					"description": types.StringType,
+					"name":        types.StringType,
+					"version":     types.StringType,
+				}},
 				"package_count": types.Int64Type,
-				"partition":     types.ObjectType{AttrTypes: map[string]attr.Type{"partition_name": types.StringType, "priority_tier": types.Int64Type, "qos": types.StringType}},
+				"partition": types.ObjectType{AttrTypes: map[string]attr.Type{
+					"partition_name": types.StringType,
+					"priority_tier":  types.Int64Type,
+					"qos":            types.StringType,
+				}},
 			}})
 		}
 	}
@@ -3641,37 +3669,69 @@ func (r *MarketplaceOfferingResource) Read(ctx context.Context, req resource.Rea
 			for _, item := range arr {
 				if objMap, ok := item.(map[string]interface{}); ok {
 					attrTypes := map[string]attr.Type{
-						"catalog":       types.ObjectType{AttrTypes: map[string]attr.Type{"description": types.StringType, "name": types.StringType, "version": types.StringType}},
+						"catalog": types.ObjectType{AttrTypes: map[string]attr.Type{
+							"description": types.StringType,
+							"name":        types.StringType,
+							"version":     types.StringType,
+						}},
 						"package_count": types.Int64Type,
-						"partition":     types.ObjectType{AttrTypes: map[string]attr.Type{"partition_name": types.StringType, "priority_tier": types.Int64Type, "qos": types.StringType}},
+						"partition": types.ObjectType{AttrTypes: map[string]attr.Type{
+							"partition_name": types.StringType,
+							"priority_tier":  types.Int64Type,
+							"qos":            types.StringType,
+						}},
 					}
 					attrValues := map[string]attr.Value{
-						"catalog": types.ObjectNull(types.ObjectType{AttrTypes: map[string]attr.Type{"description": types.StringType, "name": types.StringType, "version": types.StringType}}.AttrTypes),
+						"catalog": types.ObjectNull(types.ObjectType{AttrTypes: map[string]attr.Type{
+							"description": types.StringType,
+							"name":        types.StringType,
+							"version":     types.StringType,
+						}}.AttrTypes),
 						"package_count": func() attr.Value {
 							if v, ok := objMap["package_count"].(float64); ok {
 								return types.Int64Value(int64(v))
 							}
 							return types.Int64Null()
 						}(),
-						"partition": types.ObjectNull(types.ObjectType{AttrTypes: map[string]attr.Type{"partition_name": types.StringType, "priority_tier": types.Int64Type, "qos": types.StringType}}.AttrTypes),
+						"partition": types.ObjectNull(types.ObjectType{AttrTypes: map[string]attr.Type{
+							"partition_name": types.StringType,
+							"priority_tier":  types.Int64Type,
+							"qos":            types.StringType,
+						}}.AttrTypes),
 					}
 					objVal, _ := types.ObjectValue(attrTypes, attrValues)
 					items = append(items, objVal)
 				}
 			}
 			listVal, _ := types.ListValue(types.ObjectType{AttrTypes: map[string]attr.Type{
-				"catalog":       types.ObjectType{AttrTypes: map[string]attr.Type{"description": types.StringType, "name": types.StringType, "version": types.StringType}},
+				"catalog": types.ObjectType{AttrTypes: map[string]attr.Type{
+					"description": types.StringType,
+					"name":        types.StringType,
+					"version":     types.StringType,
+				}},
 				"package_count": types.Int64Type,
-				"partition":     types.ObjectType{AttrTypes: map[string]attr.Type{"partition_name": types.StringType, "priority_tier": types.Int64Type, "qos": types.StringType}},
+				"partition": types.ObjectType{AttrTypes: map[string]attr.Type{
+					"partition_name": types.StringType,
+					"priority_tier":  types.Int64Type,
+					"qos":            types.StringType,
+				}},
 			}}, items)
 			data.SoftwareCatalogs = listVal
 		}
 	} else {
 		if data.SoftwareCatalogs.IsUnknown() {
 			data.SoftwareCatalogs = types.ListNull(types.ObjectType{AttrTypes: map[string]attr.Type{
-				"catalog":       types.ObjectType{AttrTypes: map[string]attr.Type{"description": types.StringType, "name": types.StringType, "version": types.StringType}},
+				"catalog": types.ObjectType{AttrTypes: map[string]attr.Type{
+					"description": types.StringType,
+					"name":        types.StringType,
+					"version":     types.StringType,
+				}},
 				"package_count": types.Int64Type,
-				"partition":     types.ObjectType{AttrTypes: map[string]attr.Type{"partition_name": types.StringType, "priority_tier": types.Int64Type, "qos": types.StringType}},
+				"partition": types.ObjectType{AttrTypes: map[string]attr.Type{
+					"partition_name": types.StringType,
+					"priority_tier":  types.Int64Type,
+					"qos":            types.StringType,
+				}},
 			}})
 		}
 	}
@@ -3770,6 +3830,7 @@ func (r *MarketplaceOfferingResource) Update(ctx context.Context, req resource.U
 
 	// Use UUID from state
 	data.UUID = state.UUID
+
 	// Prepare request body
 	requestBody := map[string]interface{}{}
 
@@ -5034,37 +5095,69 @@ func (r *MarketplaceOfferingResource) Update(ctx context.Context, req resource.U
 			for _, item := range arr {
 				if objMap, ok := item.(map[string]interface{}); ok {
 					attrTypes := map[string]attr.Type{
-						"catalog":       types.ObjectType{AttrTypes: map[string]attr.Type{"description": types.StringType, "name": types.StringType, "version": types.StringType}},
+						"catalog": types.ObjectType{AttrTypes: map[string]attr.Type{
+							"description": types.StringType,
+							"name":        types.StringType,
+							"version":     types.StringType,
+						}},
 						"package_count": types.Int64Type,
-						"partition":     types.ObjectType{AttrTypes: map[string]attr.Type{"partition_name": types.StringType, "priority_tier": types.Int64Type, "qos": types.StringType}},
+						"partition": types.ObjectType{AttrTypes: map[string]attr.Type{
+							"partition_name": types.StringType,
+							"priority_tier":  types.Int64Type,
+							"qos":            types.StringType,
+						}},
 					}
 					attrValues := map[string]attr.Value{
-						"catalog": types.ObjectNull(types.ObjectType{AttrTypes: map[string]attr.Type{"description": types.StringType, "name": types.StringType, "version": types.StringType}}.AttrTypes),
+						"catalog": types.ObjectNull(types.ObjectType{AttrTypes: map[string]attr.Type{
+							"description": types.StringType,
+							"name":        types.StringType,
+							"version":     types.StringType,
+						}}.AttrTypes),
 						"package_count": func() attr.Value {
 							if v, ok := objMap["package_count"].(float64); ok {
 								return types.Int64Value(int64(v))
 							}
 							return types.Int64Null()
 						}(),
-						"partition": types.ObjectNull(types.ObjectType{AttrTypes: map[string]attr.Type{"partition_name": types.StringType, "priority_tier": types.Int64Type, "qos": types.StringType}}.AttrTypes),
+						"partition": types.ObjectNull(types.ObjectType{AttrTypes: map[string]attr.Type{
+							"partition_name": types.StringType,
+							"priority_tier":  types.Int64Type,
+							"qos":            types.StringType,
+						}}.AttrTypes),
 					}
 					objVal, _ := types.ObjectValue(attrTypes, attrValues)
 					items = append(items, objVal)
 				}
 			}
 			listVal, _ := types.ListValue(types.ObjectType{AttrTypes: map[string]attr.Type{
-				"catalog":       types.ObjectType{AttrTypes: map[string]attr.Type{"description": types.StringType, "name": types.StringType, "version": types.StringType}},
+				"catalog": types.ObjectType{AttrTypes: map[string]attr.Type{
+					"description": types.StringType,
+					"name":        types.StringType,
+					"version":     types.StringType,
+				}},
 				"package_count": types.Int64Type,
-				"partition":     types.ObjectType{AttrTypes: map[string]attr.Type{"partition_name": types.StringType, "priority_tier": types.Int64Type, "qos": types.StringType}},
+				"partition": types.ObjectType{AttrTypes: map[string]attr.Type{
+					"partition_name": types.StringType,
+					"priority_tier":  types.Int64Type,
+					"qos":            types.StringType,
+				}},
 			}}, items)
 			data.SoftwareCatalogs = listVal
 		}
 	} else {
 		if data.SoftwareCatalogs.IsUnknown() {
 			data.SoftwareCatalogs = types.ListNull(types.ObjectType{AttrTypes: map[string]attr.Type{
-				"catalog":       types.ObjectType{AttrTypes: map[string]attr.Type{"description": types.StringType, "name": types.StringType, "version": types.StringType}},
+				"catalog": types.ObjectType{AttrTypes: map[string]attr.Type{
+					"description": types.StringType,
+					"name":        types.StringType,
+					"version":     types.StringType,
+				}},
 				"package_count": types.Int64Type,
-				"partition":     types.ObjectType{AttrTypes: map[string]attr.Type{"partition_name": types.StringType, "priority_tier": types.Int64Type, "qos": types.StringType}},
+				"partition": types.ObjectType{AttrTypes: map[string]attr.Type{
+					"partition_name": types.StringType,
+					"priority_tier":  types.Int64Type,
+					"qos":            types.StringType,
+				}},
 			}})
 		}
 	}
@@ -5156,6 +5249,7 @@ func (r *MarketplaceOfferingResource) Delete(ctx context.Context, req resource.D
 	if resp.Diagnostics.HasError() {
 		return
 	}
+
 	// Call Waldur API to delete resource
 	err := r.client.DeleteByUUID(ctx, "/api/marketplace-provider-offerings/{uuid}/", data.UUID.ValueString())
 	if err != nil {
@@ -5168,5 +5262,6 @@ func (r *MarketplaceOfferingResource) Delete(ctx context.Context, req resource.D
 }
 
 func (r *MarketplaceOfferingResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+
 	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }

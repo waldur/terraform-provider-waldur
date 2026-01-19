@@ -253,7 +253,7 @@ func (r *OpenstackVolumeResource) Schema(ctx context.Context, req resource.Schem
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
 				},
-				MarkdownDescription: "Offering UUID or URL",
+				MarkdownDescription: "Offering URL",
 			},
 			"project": schema.StringAttribute{
 				Required: true,
@@ -371,6 +371,7 @@ func (r *OpenstackVolumeResource) Create(ctx context.Context, req resource.Creat
 	if resp.Diagnostics.HasError() {
 		return
 	}
+
 	// Phase 1: Payload Construction
 	attributes := map[string]interface{}{}
 	if !data.AvailabilityZone.IsNull() {
@@ -2025,6 +2026,7 @@ func (r *OpenstackVolumeResource) Update(ctx context.Context, req resource.Updat
 
 	// Use UUID from state
 	data.UUID = state.UUID
+
 	// Phase 1: Standard PATCH (Simple fields)
 	patchPayload := map[string]interface{}{}
 	if !data.Bootable.IsNull() && !data.Bootable.Equal(state.Bootable) {
@@ -2587,6 +2589,7 @@ func (r *OpenstackVolumeResource) Delete(ctx context.Context, req resource.Delet
 	if resp.Diagnostics.HasError() {
 		return
 	}
+
 	// Order-based Delete
 	payload := map[string]interface{}{}
 
@@ -2632,5 +2635,6 @@ func (r *OpenstackVolumeResource) Delete(ctx context.Context, req resource.Delet
 }
 
 func (r *OpenstackVolumeResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+
 	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }
