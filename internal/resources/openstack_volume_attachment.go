@@ -245,10 +245,7 @@ func (r *OpenstackVolumeAttachmentResource) Configure(ctx context.Context, req r
 
 func (r *OpenstackVolumeAttachmentResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 	var data OpenstackVolumeAttachmentResourceModel
-
-	// Read Terraform plan data into the model
 	resp.Diagnostics.Append(req.Plan.Get(ctx, &data)...)
-
 	if resp.Diagnostics.HasError() {
 		return
 	}
@@ -552,7 +549,6 @@ func (r *OpenstackVolumeAttachmentResource) Create(ctx context.Context, req reso
 
 	// Map filter parameters from response if available
 
-	// Save data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
@@ -914,34 +910,14 @@ func (r *OpenstackVolumeAttachmentResource) Read(ctx context.Context, req resour
 }
 
 func (r *OpenstackVolumeAttachmentResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
-	var data OpenstackVolumeAttachmentResourceModel
-	var state OpenstackVolumeAttachmentResourceModel
-
-	// Read Terraform plan data into the model
-	resp.Diagnostics.Append(req.Plan.Get(ctx, &data)...)
-
-	// Read current state to get the UUID (which is computed and not in plan)
-	resp.Diagnostics.Append(req.State.Get(ctx, &state)...)
-
-	if resp.Diagnostics.HasError() {
-		return
-	}
-
-	// Use UUID from state
-	data.UUID = state.UUID
 	// Link resources typically do not support update, as they are bindings.
-	// If update logic is needed, implement it here or in resource_link.tmpl
-
-	// Save updated data into Terraform state
-	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
+	resp.Diagnostics.AddError("Update Not Supported", "Link resources cannot be updated.")
+	return
 }
 
 func (r *OpenstackVolumeAttachmentResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
 	var data OpenstackVolumeAttachmentResourceModel
-
-	// Read Terraform prior state data into the model
 	resp.Diagnostics.Append(req.State.Get(ctx, &data)...)
-
 	if resp.Diagnostics.HasError() {
 		return
 	}

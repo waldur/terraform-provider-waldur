@@ -224,10 +224,7 @@ func (r *StructureProjectResource) Configure(ctx context.Context, req resource.C
 
 func (r *StructureProjectResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 	var data StructureProjectResourceModel
-
-	// Read Terraform plan data into the model
 	resp.Diagnostics.Append(req.Plan.Get(ctx, &data)...)
-
 	if resp.Diagnostics.HasError() {
 		return
 	}
@@ -561,7 +558,6 @@ func (r *StructureProjectResource) Create(ctx context.Context, req resource.Crea
 
 	// Map filter parameters from response if available
 
-	// Save data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
@@ -832,18 +828,12 @@ func (r *StructureProjectResource) Read(ctx context.Context, req resource.ReadRe
 func (r *StructureProjectResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
 	var data StructureProjectResourceModel
 	var state StructureProjectResourceModel
-
-	// Read Terraform plan data into the model
 	resp.Diagnostics.Append(req.Plan.Get(ctx, &data)...)
-
-	// Read current state to get the UUID (which is computed and not in plan)
 	resp.Diagnostics.Append(req.State.Get(ctx, &state)...)
-
 	if resp.Diagnostics.HasError() {
 		return
 	}
 
-	// Use UUID from state
 	data.UUID = state.UUID
 
 	// Prepare request body
@@ -1163,16 +1153,12 @@ func (r *StructureProjectResource) Update(ctx context.Context, req resource.Upda
 
 	// Map filter parameters from response if available
 
-	// Save updated data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
 func (r *StructureProjectResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
 	var data StructureProjectResourceModel
-
-	// Read Terraform prior state data into the model
 	resp.Diagnostics.Append(req.State.Get(ctx, &data)...)
-
 	if resp.Diagnostics.HasError() {
 		return
 	}

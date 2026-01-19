@@ -184,10 +184,7 @@ func (r *OpenstackServerGroupResource) Configure(ctx context.Context, req resour
 
 func (r *OpenstackServerGroupResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 	var data OpenstackServerGroupResourceModel
-
-	// Read Terraform plan data into the model
 	resp.Diagnostics.Append(req.Plan.Get(ctx, &data)...)
-
 	if resp.Diagnostics.HasError() {
 		return
 	}
@@ -415,7 +412,6 @@ func (r *OpenstackServerGroupResource) Create(ctx context.Context, req resource.
 
 	// Map filter parameters from response if available
 
-	// Save data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
@@ -638,18 +634,12 @@ func (r *OpenstackServerGroupResource) Read(ctx context.Context, req resource.Re
 func (r *OpenstackServerGroupResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
 	var data OpenstackServerGroupResourceModel
 	var state OpenstackServerGroupResourceModel
-
-	// Read Terraform plan data into the model
 	resp.Diagnostics.Append(req.Plan.Get(ctx, &data)...)
-
-	// Read current state to get the UUID (which is computed and not in plan)
 	resp.Diagnostics.Append(req.State.Get(ctx, &state)...)
-
 	if resp.Diagnostics.HasError() {
 		return
 	}
 
-	// Use UUID from state
 	data.UUID = state.UUID
 
 	// Prepare request body
@@ -870,16 +860,12 @@ func (r *OpenstackServerGroupResource) Update(ctx context.Context, req resource.
 
 	// Map filter parameters from response if available
 
-	// Save updated data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
 func (r *OpenstackServerGroupResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
 	var data OpenstackServerGroupResourceModel
-
-	// Read Terraform prior state data into the model
 	resp.Diagnostics.Append(req.State.Get(ctx, &data)...)
-
 	if resp.Diagnostics.HasError() {
 		return
 	}

@@ -407,10 +407,7 @@ func (r *OpenstackTenantResource) Configure(ctx context.Context, req resource.Co
 
 func (r *OpenstackTenantResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 	var data OpenstackTenantResourceModel
-
-	// Read Terraform plan data into the model
 	resp.Diagnostics.Append(req.Plan.Get(ctx, &data)...)
-
 	if resp.Diagnostics.HasError() {
 		return
 	}
@@ -1625,7 +1622,6 @@ func (r *OpenstackTenantResource) Create(ctx context.Context, req resource.Creat
 
 	// Map filter parameters from response if available
 
-	// Save data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
@@ -2192,18 +2188,12 @@ func (r *OpenstackTenantResource) Read(ctx context.Context, req resource.ReadReq
 func (r *OpenstackTenantResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
 	var data OpenstackTenantResourceModel
 	var state OpenstackTenantResourceModel
-
-	// Read Terraform plan data into the model
 	resp.Diagnostics.Append(req.Plan.Get(ctx, &data)...)
-
-	// Read current state to get the UUID (which is computed and not in plan)
 	resp.Diagnostics.Append(req.State.Get(ctx, &state)...)
-
 	if resp.Diagnostics.HasError() {
 		return
 	}
 
-	// Use UUID from state
 	data.UUID = state.UUID
 
 	// Phase 1: Standard PATCH (Simple fields)
@@ -2808,16 +2798,12 @@ func (r *OpenstackTenantResource) Update(ctx context.Context, req resource.Updat
 
 	// Map filter parameters from response if available
 
-	// Save updated data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
 func (r *OpenstackTenantResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
 	var data OpenstackTenantResourceModel
-
-	// Read Terraform prior state data into the model
 	resp.Diagnostics.Append(req.State.Get(ctx, &data)...)
-
 	if resp.Diagnostics.HasError() {
 		return
 	}
