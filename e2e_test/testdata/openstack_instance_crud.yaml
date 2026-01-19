@@ -1,0 +1,437 @@
+---
+version: 2
+interactions:
+    - id: 0
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token a3ed0b7333525acb45f44f9df82b7b1b8e26cb6e
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/keys/?name=my-ssh-key
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 896
+        uncompressed: false
+        body: '[{"url":"http://127.0.0.1:8000/api/keys/2fe631e03bc14da794bec5708851155d/","uuid":"2fe631e03bc14da794bec5708851155d","name":"my-ssh-key","public_key":"ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCvaWWSBuDJsVp5BKgAPhyQ7Ngq6MGCLBPuhpxEKd8vWW0XRO01r1EPFqY5tWs8poIHn8tgDzzwnb2GfdWseQQIXNKoC4YWZRcJM8IfEPI6E7i7BZwHO07yX6nxc1NpowkTXIOZFGCAGLa9/lZfNZ7D2qouX4t8HpZRsBQO/QhLvxxEddEmcGslraRgv9Pl5BJ64OFXjKaYBUaEZww/iZTnefvQKHDyCC6zEp40ChsvewpstcXZ6zd1AOBLTTjOr7FN393fa6ASTvuYbzYpRtKhiguQBghbHZ1ZeVIFaDIsX0/YzBG0IwH8WBsjNnm7e4uRYiepUqw359dXXwnZkHTH viktor@viktor-laptop","fingerprint_md5":"6f:7b:e0:85:6c:8a:03:08:42:58:5a:d5:c8:fa:ee:07","fingerprint_sha256":"SHA256:zLuF2Rx2fGuiP5Hhr+5fY7kLRj2uYAkKtwyG2FowUxs","fingerprint_sha512":"SHA512:5n97siok0X8Y6CoYYL+qzOenXVqfoGax6IOxhta2BQgikwxtPj6Zrstcka2uFp11ExLmR5F4tq6zFdf7L1zFQw","user_uuid":"2f7757b71dbc4c5e8e1d0fc4fcb09aea","is_shared":false,"type":"ssh-rsa"}]'
+        headers:
+            Allow:
+                - GET, POST, HEAD, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "896"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Mon, 12 Jan 2026 00:25:54 GMT
+            Link:
+                - <http://127.0.0.1:8000/api/keys/?name=my-ssh-key>; rel="first", <http://127.0.0.1:8000/api/keys/?name=my-ssh-key>; rel="last"
+            Server:
+                - WSGIServer/0.2 CPython/3.11.9
+            Vary:
+                - Accept, Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+            X-Result-Count:
+                - "1"
+        status: 200 OK
+        code: 200
+        duration: 36.444204ms
+    - id: 1
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token a3ed0b7333525acb45f44f9df82b7b1b8e26cb6e
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/projects/?name=waldur-test
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 1216
+        uncompressed: false
+        body: '[{"url":"http://127.0.0.1:8000/api/projects/5573c3487f3b456891409e3b3f906fa5/","uuid":"5573c3487f3b456891409e3b3f906fa5","name":"waldur-test","slug":"agnes-ku-12","customer":"http://127.0.0.1:8000/api/customers/1fb1f539aa6a4b38a33a5f121f4ac5b8/","customer_uuid":"1fb1f539aa6a4b38a33a5f121f4ac5b8","customer_name":"ETAIS","customer_slug":"etais-1","customer_native_name":"","customer_abbreviation":"","description":"Automatically created project for Rancher cluster","customer_display_billing_info_in_projects":true,"created":"2025-06-12T18:57:37.990889+00:00","type":null,"type_name":null,"type_uuid":null,"backend_id":"","start_date":null,"end_date":null,"end_date_requested_by":null,"oecd_fos_2007_code":null,"oecd_fos_2007_label":null,"is_industry":false,"image":null,"resources_count":1,"max_service_accounts":0,"kind":"default","is_removed":false,"termination_metadata":null,"staff_notes":"","grace_period_days":null,"user_email_patterns":[],"user_affiliations":[],"user_identity_sources":[],"project_credit":null,"marketplace_resource_count":{"06e45986252244218bd062149fc3b5b5":1,"e5a5e7651f394d10958328bbc3e967eb":11},"billing_price_estimate":{"total":0.0,"current":"0.00","tax":"0.00","tax_current":"0.00"}}]'
+        headers:
+            Allow:
+                - GET, POST, HEAD, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "1216"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Mon, 12 Jan 2026 00:25:54 GMT
+            Link:
+                - <http://127.0.0.1:8000/api/projects/?name=waldur-test>; rel="first", <http://127.0.0.1:8000/api/projects/?name=waldur-test>; rel="last"
+            Server:
+                - WSGIServer/0.2 CPython/3.11.9
+            Vary:
+                - Accept, Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+            X-Result-Count:
+                - "1"
+        status: 200 OK
+        code: 200
+        duration: 85.878985ms
+    - id: 2
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token a3ed0b7333525acb45f44f9df82b7b1b8e26cb6e
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/openstack-ports/?backend_id=31771cfe-dc77-417a-bacb-460bf8fa0791
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 2073
+        uncompressed: false
+        body: '[{"url":"http://127.0.0.1:8000/api/openstack-ports/6b785c10e80b49c9b2e02cceacf856fa/","uuid":"6b785c10e80b49c9b2e02cceacf856fa","name":"","description":"","service_name":"Antelope","service_settings":"http://127.0.0.1:8000/api/service-settings/81766dac4e1b416a9cf3c3b89b37c17b/","service_settings_uuid":"81766dac4e1b416a9cf3c3b89b37c17b","service_settings_state":"OK","service_settings_error_message":"","project":"http://127.0.0.1:8000/api/projects/5573c3487f3b456891409e3b3f906fa5/","project_name":"waldur-test","project_uuid":"5573c3487f3b456891409e3b3f906fa5","customer":"http://127.0.0.1:8000/api/customers/1fb1f539aa6a4b38a33a5f121f4ac5b8/","customer_uuid":"1fb1f539aa6a4b38a33a5f121f4ac5b8","customer_name":"ETAIS","customer_native_name":"","customer_abbreviation":"","error_message":"","error_traceback":"","resource_type":"OpenStack.Port","state":"OK","created":"2025-06-12T18:57:54.625626+00:00","modified":"2026-01-12T00:25:49.163484+00:00","backend_id":"31771cfe-dc77-417a-bacb-460bf8fa0791","access_url":null,"fixed_ips":[{"subnet_id":"c807fbd9-f469-4e8e-8d4c-489a4959f433","ip_address":"192.168.42.1"}],"mac_address":"fa:16:3e:5e:7b:6e","allowed_address_pairs":[],"tenant":"http://127.0.0.1:8000/api/openstack-tenants/fdc10baab4664b158a3fa338a4d8bf2b/","tenant_name":"os-tenant-agnes-ku-12-antelope-1","tenant_uuid":"fdc10baab4664b158a3fa338a4d8bf2b","network":"http://127.0.0.1:8000/api/openstack-networks/1746208f6261483b8bbb5a6c925994cf/","network_name":"os-tenant-agnes-ku-12-ant-int-net","network_uuid":"1746208f6261483b8bbb5a6c925994cf","floating_ips":[],"device_id":"fa4ee30d-327b-4ff6-bce7-fd22feb7f5ea","device_owner":"network:router_interface","port_security_enabled":false,"security_groups":[],"admin_state_up":true,"status":"DOWN","marketplace_offering_uuid":null,"marketplace_offering_name":null,"marketplace_offering_plugin_options":null,"marketplace_category_uuid":null,"marketplace_category_name":null,"marketplace_resource_uuid":null,"marketplace_plan_uuid":null,"marketplace_resource_state":null,"is_usage_based":null,"is_limit_based":null}]'
+        headers:
+            Allow:
+                - GET, POST, HEAD, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "2073"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Mon, 12 Jan 2026 00:25:54 GMT
+            Link:
+                - <http://127.0.0.1:8000/api/openstack-ports/?backend_id=31771cfe-dc77-417a-bacb-460bf8fa0791>; rel="first", <http://127.0.0.1:8000/api/openstack-ports/?backend_id=31771cfe-dc77-417a-bacb-460bf8fa0791>; rel="last"
+            Server:
+                - WSGIServer/0.2 CPython/3.11.9
+            Vary:
+                - Accept, Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+            X-Result-Count:
+                - "1"
+        status: 200 OK
+        code: 200
+        duration: 91.216269ms
+    - id: 3
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token a3ed0b7333525acb45f44f9df82b7b1b8e26cb6e
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/marketplace-public-offerings/?name=Virtual+machine+in+waldur-dev&project_uuid=5573c3487f3b456891409e3b3f906fa5
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 4690
+        uncompressed: false
+        body: '[{"url":"http://127.0.0.1:8000/api/marketplace-public-offerings/a19ccd5770f74376b73ebe8ffd8b146a/","uuid":"a19ccd5770f74376b73ebe8ffd8b146a","created":"2025-06-12T18:57:59.165581+00:00","name":"Virtual machine in waldur-dev","slug":"virtual--1899","description":"","full_description":"","privacy_policy_link":"","access_url":"","endpoints":[],"software_catalogs":[],"partitions":[],"roles":[],"customer":"http://127.0.0.1:8000/api/customers/1fb1f539aa6a4b38a33a5f121f4ac5b8/","customer_uuid":"1fb1f539aa6a4b38a33a5f121f4ac5b8","customer_name":"ETAIS","project":"http://127.0.0.1:8000/api/projects/5573c3487f3b456891409e3b3f906fa5/","project_uuid":"5573c3487f3b456891409e3b3f906fa5","project_name":"waldur-test","category":"http://127.0.0.1:8000/api/marketplace-categories/e5a5e7651f394d10958328bbc3e967eb/","category_uuid":"e5a5e7651f394d10958328bbc3e967eb","category_title":"VMs","attributes":{},"options":{},"resource_options":{},"components":[{"uuid":"12ec72618c3d4fdfbd449b8f2a724502","billing_type":"limit","type":"cores","name":"Cores","description":"","measured_unit":"cores","unit_factor":1,"limit_period":"month","limit_amount":null,"article_code":"","max_value":null,"min_value":null,"max_available_limit":null,"is_boolean":false,"default_limit":null,"factor":1,"is_builtin":true,"is_prepaid":false,"overage_component":null,"min_prepaid_duration":null,"max_prepaid_duration":null},{"uuid":"c860142980704b3db4b4119d4f97ecea","billing_type":"limit","type":"ram","name":"RAM","description":"","measured_unit":"GB","unit_factor":1,"limit_period":"month","limit_amount":null,"article_code":"","max_value":null,"min_value":null,"max_available_limit":null,"is_boolean":false,"default_limit":null,"factor":1024,"is_builtin":true,"is_prepaid":false,"overage_component":null,"min_prepaid_duration":null,"max_prepaid_duration":null},{"uuid":"4dbc284837084a5d8734692a429eecd7","billing_type":"limit","type":"storage","name":"Storage","description":"","measured_unit":"GB","unit_factor":1,"limit_period":"month","limit_amount":null,"article_code":"","max_value":null,"min_value":null,"max_available_limit":null,"is_boolean":false,"default_limit":null,"factor":1024,"is_builtin":true,"is_prepaid":false,"overage_component":null,"min_prepaid_duration":null,"max_prepaid_duration":null}],"plugin_options":{},"state":"Active","vendor_details":"","getting_started":"","integration_guide":"","thumbnail":null,"order_count":11,"plans":[{"url":"http://127.0.0.1:8000/api/marketplace-public-offerings/7e2115284a114641b4334bd56f1e9edd/plans/c7fe38aa7038428e81a484784cf7005c/","uuid":"c7fe38aa7038428e81a484784cf7005c","name":"Default","description":"","article_code":"","max_amount":null,"archived":false,"is_active":true,"unit_price":"0.0000000000","unit":"month","init_price":0,"switch_price":0,"backend_id":"","organization_groups":[],"components":[],"prices":{},"future_prices":{},"quotas":{},"resources_count":29,"plan_type":null,"minimal_price":0}],"screenshots":[],"type":"OpenStack.Instance","shared":false,"billable":false,"scope":"http://127.0.0.1:8000/api/openstack-tenants/fdc10baab4664b158a3fa338a4d8bf2b/","scope_uuid":"fdc10baab4664b158a3fa338a4d8bf2b","scope_name":"os-tenant-agnes-ku-12-antelope-1","scope_state":"OK","scope_error_message":"","files":[],"quotas":[{"name":"network_count","usage":1,"limit":100},{"name":"volumes_size","usage":6144,"limit":-1},{"name":"storage","usage":35840,"limit":10000000},{"name":"vcpu","usage":1,"limit":5},{"name":"security_group_count","usage":8,"limit":10},{"name":"volumes","usage":2,"limit":10},{"name":"snapshots","usage":0,"limit":10},{"name":"instances","usage":1,"limit":10},{"name":"gigabytes_high-iops","usage":0,"limit":-1},{"name":"gigabytes___DEFAULT__","usage":35,"limit":-1},{"name":"gigabytes_low-iops","usage":0,"limit":-1},{"name":"security_group_rule_count","usage":10,"limit":100},{"name":"gigabytes_ultra-high-iops","usage":0,"limit":-1},{"name":"subnet_count","usage":1,"limit":100},{"name":"gigabytes_lvm","usage":0,"limit":-1},{"name":"ram","usage":1024,"limit":5120},{"name":"port_count","usage":2,"limit":500},{"name":"floating_ip_count","usage":0,"limit":50}],"paused_reason":"","datacite_doi":"","citation_count":-1,"latitude":null,"longitude":null,"country":"","backend_id":"","organization_groups":[],"image":null,"total_customers":null,"total_cost":null,"total_cost_estimated":null,"parent_description":"","parent_uuid":"7e2115284a114641b4334bd56f1e9edd","parent_name":"Antelope","backend_metadata":{},"has_compliance_requirements":false,"billing_type_classification":"mixed","compliance_checklist":null,"user_has_consent":false,"google_calendar_is_public":null,"google_calendar_link":null,"promotion_campaigns":[]}]'
+        headers:
+            Allow:
+                - GET, HEAD, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "4690"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Mon, 12 Jan 2026 00:25:54 GMT
+            Link:
+                - <http://127.0.0.1:8000/api/marketplace-public-offerings/?name=Virtual+machine+in+waldur-dev&project_uuid=5573c3487f3b456891409e3b3f906fa5>; rel="first", <http://127.0.0.1:8000/api/marketplace-public-offerings/?name=Virtual+machine+in+waldur-dev&project_uuid=5573c3487f3b456891409e3b3f906fa5>; rel="last"
+            Server:
+                - WSGIServer/0.2 CPython/3.11.9
+            Vary:
+                - Accept, Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+            X-Result-Count:
+                - "1"
+        status: 200 OK
+        code: 200
+        duration: 125.117439ms
+    - id: 4
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token a3ed0b7333525acb45f44f9df82b7b1b8e26cb6e
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/openstack-flavors/?name=m1.small&tenant_uuid=fdc10baab4664b158a3fa338a4d8bf2b
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 384
+        uncompressed: false
+        body: '[{"url":"http://127.0.0.1:8000/api/openstack-flavors/cc712a407e264b629139ba1187994d6c/","uuid":"cc712a407e264b629139ba1187994d6c","name":"m1.small","settings":"http://127.0.0.1:8000/api/service-settings/81766dac4e1b416a9cf3c3b89b37c17b/","cores":1,"ram":1024,"disk":5120,"backend_id":"b9f078f7-b328-4a43-864f-632475921b79","display_name":"m1.small (1 CPU, 1024 MB RAM, 5120 MB HDD)"}]'
+        headers:
+            Allow:
+                - GET, HEAD, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "384"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Mon, 12 Jan 2026 00:25:55 GMT
+            Link:
+                - <http://127.0.0.1:8000/api/openstack-flavors/?name=m1.small&tenant_uuid=fdc10baab4664b158a3fa338a4d8bf2b>; rel="first", <http://127.0.0.1:8000/api/openstack-flavors/?name=m1.small&tenant_uuid=fdc10baab4664b158a3fa338a4d8bf2b>; rel="last"
+            Server:
+                - WSGIServer/0.2 CPython/3.11.9
+            Vary:
+                - Accept, Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+            X-Result-Count:
+                - "1"
+        status: 200 OK
+        code: 200
+        duration: 23.245056ms
+    - id: 5
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token a3ed0b7333525acb45f44f9df82b7b1b8e26cb6e
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/openstack-images/?name=cirros&tenant_uuid=fdc10baab4664b158a3fa338a4d8bf2b
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 313
+        uncompressed: false
+        body: '[{"url":"http://127.0.0.1:8000/api/openstack-images/2ddfc8a45c4e494d87db022318fe9d71/","uuid":"2ddfc8a45c4e494d87db022318fe9d71","name":"cirros","min_disk":0,"min_ram":0,"settings":"http://127.0.0.1:8000/api/service-settings/81766dac4e1b416a9cf3c3b89b37c17b/","backend_id":"aaa4c670-e40f-40eb-88ab-dbae0ae1ba42"}]'
+        headers:
+            Allow:
+                - GET, HEAD, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "313"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Mon, 12 Jan 2026 00:25:55 GMT
+            Link:
+                - <http://127.0.0.1:8000/api/openstack-images/?name=cirros&tenant_uuid=fdc10baab4664b158a3fa338a4d8bf2b>; rel="first", <http://127.0.0.1:8000/api/openstack-images/?name=cirros&tenant_uuid=fdc10baab4664b158a3fa338a4d8bf2b>; rel="last"
+            Server:
+                - WSGIServer/0.2 CPython/3.11.9
+            Vary:
+                - Accept, Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+            X-Result-Count:
+                - "1"
+        status: 200 OK
+        code: 200
+        duration: 32.451031ms
+    - id: 6
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 832
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: '{"attributes":{"availability_zone":"","connect_directly_to_external_network":false,"data_volume_size":1024,"data_volume_type":"","data_volumes":[],"description":"","flavor":"http://127.0.0.1:8000/api/openstack-flavors/cc712a407e264b629139ba1187994d6c/","floating_ips":[],"image":"http://127.0.0.1:8000/api/openstack-images/2ddfc8a45c4e494d87db022318fe9d71/","name":"test-instance","ports":[{"port":"http://127.0.0.1:8000/api/openstack-ports/6b785c10e80b49c9b2e02cceacf856fa/"}],"security_groups":[],"ssh_public_key":"http://127.0.0.1:8000/api/keys/2fe631e03bc14da794bec5708851155d/","system_volume_size":1024,"system_volume_type":"","user_data":""},"offering":"http://127.0.0.1:8000/api/marketplace-public-offerings/a19ccd5770f74376b73ebe8ffd8b146a/","project":"http://127.0.0.1:8000/api/projects/5573c3487f3b456891409e3b3f906fa5/"}'
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token a3ed0b7333525acb45f44f9df82b7b1b8e26cb6e
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/marketplace-orders/
+        method: POST
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 2638
+        uncompressed: false
+        body: '{"offering":"http://127.0.0.1:8000/api/marketplace-public-offerings/a19ccd5770f74376b73ebe8ffd8b146a/","offering_name":"Virtual machine in waldur-dev","offering_uuid":"a19ccd5770f74376b73ebe8ffd8b146a","offering_description":"","offering_image":null,"offering_thumbnail":null,"offering_type":"OpenStack.Instance","offering_shared":false,"offering_billable":false,"offering_plugin_options":{},"provider_name":"ETAIS","provider_uuid":"1fb1f539aa6a4b38a33a5f121f4ac5b8","provider_slug":"etais-1","category_title":"VMs","category_uuid":"e5a5e7651f394d10958328bbc3e967eb","category_icon":"http://127.0.0.1:8000/api/media/44a76490432e48d08ccac1660de5aebb/","plan":null,"plan_unit":null,"plan_name":null,"plan_uuid":null,"plan_description":null,"attributes":{"availability_zone":"","connect_directly_to_external_network":false,"data_volume_size":1024,"data_volume_type":"","data_volumes":[],"description":"","flavor":"http://127.0.0.1:8000/api/openstack-flavors/cc712a407e264b629139ba1187994d6c/","floating_ips":[],"image":"http://127.0.0.1:8000/api/openstack-images/2ddfc8a45c4e494d87db022318fe9d71/","name":"test-instance","ports":[{"port":"http://127.0.0.1:8000/api/openstack-ports/6b785c10e80b49c9b2e02cceacf856fa/"}],"security_groups":[],"ssh_public_key":"http://127.0.0.1:8000/api/keys/2fe631e03bc14da794bec5708851155d/","system_volume_size":1024,"system_volume_type":"","user_data":""},"limits":{},"uuid":"d9b27097d68b4c2f856b631023373de0","created":"2026-01-12T00:25:55.337876+00:00","modified":"2026-01-12T00:25:56.429915+00:00","resource_uuid":null,"resource_type":null,"resource_name":"test-instance","cost":null,"state":"executing","output":"","marketplace_resource_uuid":"05faf66c5d884dab9f7f9fe8f1751a39","error_message":"","error_traceback":"","callback_url":null,"completed_at":null,"request_comment":null,"attachment":null,"type":"Create","slug":"etais-1-vi-12","url":"http://127.0.0.1:8000/api/marketplace-orders/d9b27097d68b4c2f856b631023373de0/","created_by":"http://127.0.0.1:8000/api/users/2f7757b71dbc4c5e8e1d0fc4fcb09aea/","created_by_username":"adminuser","created_by_full_name":"","consumer_reviewed_by":"http://127.0.0.1:8000/api/users/2f7757b71dbc4c5e8e1d0fc4fcb09aea/","consumer_reviewed_at":"2026-01-12T00:25:56.420202+00:00","consumer_reviewed_by_username":"adminuser","consumer_reviewed_by_full_name":"","project":"http://127.0.0.1:8000/api/projects/5573c3487f3b456891409e3b3f906fa5/","project_uuid":"5573c3487f3b456891409e3b3f906fa5","project_name":"waldur-test","project_description":"Automatically created project for Rancher cluster","customer_name":"ETAIS","customer_uuid":"1fb1f539aa6a4b38a33a5f121f4ac5b8"}'
+        headers:
+            Allow:
+                - GET, POST, HEAD, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "2638"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Mon, 12 Jan 2026 00:25:56 GMT
+            Location:
+                - http://127.0.0.1:8000/api/marketplace-orders/d9b27097d68b4c2f856b631023373de0/
+            Server:
+                - WSGIServer/0.2 CPython/3.11.9
+            Vary:
+                - Accept, Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+        status: 201 Created
+        code: 201
+        duration: 1.309945278s
+    - id: 7
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token a3ed0b7333525acb45f44f9df82b7b1b8e26cb6e
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/marketplace-resources/05faf66c5d884dab9f7f9fe8f1751a39/
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 8791
+        uncompressed: false
+        body: '{"offering":"http://127.0.0.1:8000/api/marketplace-public-offerings/a19ccd5770f74376b73ebe8ffd8b146a/","offering_name":"Virtual machine in waldur-dev","offering_uuid":"a19ccd5770f74376b73ebe8ffd8b146a","offering_description":"","offering_image":null,"offering_thumbnail":null,"offering_type":"OpenStack.Instance","offering_shared":false,"offering_billable":false,"offering_plugin_options":{},"provider_name":"ETAIS","provider_uuid":"1fb1f539aa6a4b38a33a5f121f4ac5b8","provider_slug":"etais-1","category_title":"VMs","category_uuid":"e5a5e7651f394d10958328bbc3e967eb","category_icon":"http://127.0.0.1:8000/api/media/44a76490432e48d08ccac1660de5aebb/","plan":null,"plan_unit":null,"plan_name":null,"plan_uuid":null,"plan_description":null,"attributes":{"name":"test-instance","image":"http://127.0.0.1:8000/api/openstack-images/2ddfc8a45c4e494d87db022318fe9d71/","ports":[{"port":"http://127.0.0.1:8000/api/openstack-ports/6b785c10e80b49c9b2e02cceacf856fa/"}],"flavor":"http://127.0.0.1:8000/api/openstack-flavors/cc712a407e264b629139ba1187994d6c/","user_data":"","description":"","data_volumes":[],"floating_ips":[],"ssh_public_key":"http://127.0.0.1:8000/api/keys/2fe631e03bc14da794bec5708851155d/","security_groups":[],"data_volume_size":1024,"data_volume_type":"","availability_zone":"","system_volume_size":1024,"system_volume_type":"","connect_directly_to_external_network":false},"limits":{},"uuid":"05faf66c5d884dab9f7f9fe8f1751a39","created":"2026-01-12T00:25:55.242045+00:00","modified":"2026-01-12T00:25:56.487568+00:00","url":"http://127.0.0.1:8000/api/marketplace-resources/05faf66c5d884dab9f7f9fe8f1751a39/","scope":null,"description":"","state":"Creating","resource_uuid":null,"backend_id":"","effective_id":"","resource_type":null,"project":"http://127.0.0.1:8000/api/projects/5573c3487f3b456891409e3b3f906fa5/","project_uuid":"5573c3487f3b456891409e3b3f906fa5","project_name":"waldur-test","project_description":"Automatically created project for Rancher cluster","project_end_date":null,"project_end_date_requested_by":null,"customer_uuid":"1fb1f539aa6a4b38a33a5f121f4ac5b8","customer_name":"ETAIS","offering_slug":"virtual--1899","parent_offering_uuid":"7e2115284a114641b4334bd56f1e9edd","parent_offering_name":"Antelope","parent_offering_slug":"os-tenan-7","parent_uuid":"11e5c1a2a7344bdeac508be608a7ff1c","parent_name":"os-tenant-agnes-ku-12-antelope-1","backend_metadata":{},"is_usage_based":false,"is_limit_based":false,"name":"test-instance","slug":"test-insta-9","current_usages":{},"can_terminate":false,"report":null,"end_date":null,"end_date_requested_by":null,"username":null,"limit_usage":{},"downscaled":false,"restrict_member_access":false,"paused":false,"endpoints":[],"error_message":"","error_traceback":"","options":{},"available_actions":[],"last_sync":"2026-01-12T00:25:55.242109+00:00","order_in_progress":{"offering":"http://127.0.0.1:8000/api/marketplace-public-offerings/a19ccd5770f74376b73ebe8ffd8b146a/","offering_name":"Virtual machine in waldur-dev","offering_uuid":"a19ccd5770f74376b73ebe8ffd8b146a","offering_description":"","offering_image":null,"offering_thumbnail":null,"offering_type":"OpenStack.Instance","offering_shared":false,"offering_billable":false,"offering_plugin_options":{},"provider_name":"ETAIS","provider_uuid":"1fb1f539aa6a4b38a33a5f121f4ac5b8","provider_slug":"etais-1","category_title":"VMs","category_uuid":"e5a5e7651f394d10958328bbc3e967eb","category_icon":"http://127.0.0.1:8000/api/media/44a76490432e48d08ccac1660de5aebb/","plan":null,"plan_unit":null,"plan_name":null,"plan_uuid":null,"plan_description":null,"attributes":{"name":"test-instance","image":"http://127.0.0.1:8000/api/openstack-images/2ddfc8a45c4e494d87db022318fe9d71/","ports":[{"port":"http://127.0.0.1:8000/api/openstack-ports/6b785c10e80b49c9b2e02cceacf856fa/"}],"flavor":"http://127.0.0.1:8000/api/openstack-flavors/cc712a407e264b629139ba1187994d6c/","user_data":"","description":"","data_volumes":[],"floating_ips":[],"ssh_public_key":"http://127.0.0.1:8000/api/keys/2fe631e03bc14da794bec5708851155d/","security_groups":[],"data_volume_size":1024,"data_volume_type":"","availability_zone":"","system_volume_size":1024,"system_volume_type":"","connect_directly_to_external_network":false},"limits":{},"uuid":"d9b27097d68b4c2f856b631023373de0","created":"2026-01-12T00:25:55.337876+00:00","modified":"2026-01-12T00:25:56.429915+00:00","resource_uuid":null,"resource_type":null,"resource_name":"test-instance","cost":null,"state":"executing","output":"","marketplace_resource_uuid":"05faf66c5d884dab9f7f9fe8f1751a39","error_message":"","error_traceback":"","callback_url":null,"completed_at":null,"request_comment":null,"attachment":null,"type":"Create","start_date":null,"slug":"etais-1-vi-12","url":"http://127.0.0.1:8000/api/marketplace-orders/d9b27097d68b4c2f856b631023373de0/","consumer_reviewed_by":"adminuser","consumer_reviewed_by_full_name":"","consumer_reviewed_by_username":"adminuser","consumer_reviewed_at":"2026-01-12T00:25:56.420202+00:00","provider_reviewed_by":null,"provider_reviewed_by_full_name":null,"provider_reviewed_by_username":null,"provider_reviewed_at":null,"created_by_username":"adminuser","created_by_full_name":"","created_by_civil_number":null,"customer_name":"ETAIS","customer_uuid":"1fb1f539aa6a4b38a33a5f121f4ac5b8","customer_slug":"etais-1","project_name":"waldur-test","project_uuid":"5573c3487f3b456891409e3b3f906fa5","project_description":"Automatically created project for Rancher cluster","project_slug":"agnes-ku-12","old_plan_name":null,"new_plan_name":null,"old_plan_uuid":null,"new_plan_uuid":null,"old_cost_estimate":0,"new_cost_estimate":null,"can_terminate":false,"termination_comment":null,"backend_id":"","order_subtype":null,"issue":null},"creation_order":{"offering":"http://127.0.0.1:8000/api/marketplace-public-offerings/a19ccd5770f74376b73ebe8ffd8b146a/","offering_name":"Virtual machine in waldur-dev","offering_uuid":"a19ccd5770f74376b73ebe8ffd8b146a","offering_description":"","offering_image":null,"offering_thumbnail":null,"offering_type":"OpenStack.Instance","offering_shared":false,"offering_billable":false,"offering_plugin_options":{},"provider_name":"ETAIS","provider_uuid":"1fb1f539aa6a4b38a33a5f121f4ac5b8","provider_slug":"etais-1","category_title":"VMs","category_uuid":"e5a5e7651f394d10958328bbc3e967eb","category_icon":"http://127.0.0.1:8000/api/media/44a76490432e48d08ccac1660de5aebb/","plan":null,"plan_unit":null,"plan_name":null,"plan_uuid":null,"plan_description":null,"attributes":{"name":"test-instance","image":"http://127.0.0.1:8000/api/openstack-images/2ddfc8a45c4e494d87db022318fe9d71/","ports":[{"port":"http://127.0.0.1:8000/api/openstack-ports/6b785c10e80b49c9b2e02cceacf856fa/"}],"flavor":"http://127.0.0.1:8000/api/openstack-flavors/cc712a407e264b629139ba1187994d6c/","user_data":"","description":"","data_volumes":[],"floating_ips":[],"ssh_public_key":"http://127.0.0.1:8000/api/keys/2fe631e03bc14da794bec5708851155d/","security_groups":[],"data_volume_size":1024,"data_volume_type":"","availability_zone":"","system_volume_size":1024,"system_volume_type":"","connect_directly_to_external_network":false},"limits":{},"uuid":"d9b27097d68b4c2f856b631023373de0","created":"2026-01-12T00:25:55.337876+00:00","modified":"2026-01-12T00:25:56.429915+00:00","resource_uuid":null,"resource_type":null,"resource_name":"test-instance","cost":null,"state":"executing","output":"","marketplace_resource_uuid":"05faf66c5d884dab9f7f9fe8f1751a39","error_message":"","error_traceback":"","callback_url":null,"completed_at":null,"request_comment":null,"attachment":null,"type":"Create","start_date":null,"slug":"etais-1-vi-12","url":"http://127.0.0.1:8000/api/marketplace-orders/d9b27097d68b4c2f856b631023373de0/","consumer_reviewed_by":"adminuser","consumer_reviewed_by_full_name":"","consumer_reviewed_by_username":"adminuser","consumer_reviewed_at":"2026-01-12T00:25:56.420202+00:00","provider_reviewed_by":null,"provider_reviewed_by_full_name":null,"provider_reviewed_by_username":null,"provider_reviewed_at":null,"created_by_username":"adminuser","created_by_full_name":"","created_by_civil_number":null,"customer_name":"ETAIS","customer_uuid":"1fb1f539aa6a4b38a33a5f121f4ac5b8","customer_slug":"etais-1","project_name":"waldur-test","project_uuid":"5573c3487f3b456891409e3b3f906fa5","project_description":"Automatically created project for Rancher cluster","project_slug":"agnes-ku-12","old_plan_name":null,"new_plan_name":null,"old_plan_uuid":null,"new_plan_uuid":null,"old_cost_estimate":0,"new_cost_estimate":null,"can_terminate":false,"termination_comment":null,"backend_id":"","order_subtype":null,"issue":null},"project_slug":"agnes-ku-12","customer_slug":"etais-1","user_requires_reconsent":false,"renewal_date":null,"offering_state":"Active","offering_components":[]}'
+        headers:
+            Allow:
+                - GET, PUT, PATCH, DELETE, HEAD, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "8791"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Mon, 12 Jan 2026 00:25:57 GMT
+            Server:
+                - WSGIServer/0.2 CPython/3.11.9
+            Vary:
+                - Accept, Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+        status: 200 OK
+        code: 200
+        duration: 69.882551ms

@@ -1,0 +1,1737 @@
+---
+version: 2
+interactions:
+    - id: 0
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token 99789d5082dd5cfc31b71b6e1ad55ed97d92f63c
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/openstack-networks/?name=91809-int-net
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 1868
+        uncompressed: false
+        body: '[{"url":"http://127.0.0.1:8000/api/openstack-networks/106f5251a9474b0ab02e6cb0aa083793/","uuid":"106f5251a9474b0ab02e6cb0aa083793","name":"91809-int-net","description":"","service_name":"UT HPC (Campus)","service_settings":"http://127.0.0.1:8000/api/service-settings/58978795d079495b83bc4a5a8b87f2fc/","service_settings_uuid":"58978795d079495b83bc4a5a8b87f2fc","service_settings_state":"OK","service_settings_error_message":"","project":"http://127.0.0.1:8000/api/projects/692b1720611346ca80bdc2f83c331137/","project_name":"91809","project_uuid":"692b1720611346ca80bdc2f83c331137","customer":"http://127.0.0.1:8000/api/customers/1ea9c174995346b5bbdcb649aa9f789c/","customer_uuid":"1ea9c174995346b5bbdcb649aa9f789c","customer_name":"UT-DevOpsCourse","customer_native_name":"","customer_abbreviation":"","error_message":"","error_traceback":"","resource_type":"OpenStack.Network","state":"OK","created":"2024-09-06T15:02:50.179909+00:00","modified":"2024-09-06T15:03:58.700232+00:00","backend_id":"fa4099b9-c9e2-4958-b2bc-801e26b56492","access_url":null,"tenant":"http://127.0.0.1:8000/api/openstack-tenants/05e5dc3d75c74b969bbd794f6f8ce1c2/","tenant_name":"91809","tenant_uuid":"05e5dc3d75c74b969bbd794f6f8ce1c2","is_external":false,"type":"vxlan","segmentation_id":994,"subnets":[{"uuid":"f2dd0c58aaef4372b8475ebc5f2dbfed","name":"91809-sub-net","description":"","cidr":"192.168.42.0/24","gateway_ip":"192.168.42.1","allocation_pools":[{"start":"192.168.42.10","end":"192.168.42.200"}],"ip_version":4,"enable_dhcp":true}],"mtu":1500,"rbac_policies":[],"marketplace_offering_uuid":null,"marketplace_offering_name":null,"marketplace_offering_plugin_options":null,"marketplace_category_uuid":null,"marketplace_category_name":null,"marketplace_resource_uuid":null,"marketplace_plan_uuid":null,"marketplace_resource_state":null,"is_usage_based":null,"is_limit_based":null}]'
+        headers:
+            Allow:
+                - GET, POST, HEAD, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "1868"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Sat, 17 Jan 2026 10:30:59 GMT
+            Link:
+                - <http://127.0.0.1:8000/api/openstack-networks/?name=91809-int-net>; rel="first", <http://127.0.0.1:8000/api/openstack-networks/?name=91809-int-net>; rel="last"
+            Server:
+                - WSGIServer/0.2 CPython/3.11.9
+            Vary:
+                - Accept, Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+            X-Result-Count:
+                - "1"
+        status: 200 OK
+        code: 200
+        duration: 51.641811ms
+    - id: 1
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token 99789d5082dd5cfc31b71b6e1ad55ed97d92f63c
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/customers/?name=UT-DevOpsCourse
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 1540
+        uncompressed: false
+        body: '[{"url":"http://127.0.0.1:8000/api/customers/1ea9c174995346b5bbdcb649aa9f789c/","uuid":"1ea9c174995346b5bbdcb649aa9f789c","created":"2021-08-27T12:24:36.152080+00:00","organization_groups":[{"uuid":"201b49d327814ec4aae5357e8ce14dcf","url":"http://127.0.0.1:8000/api/organization-groups/201b49d327814ec4aae5357e8ce14dcf/","name":"UT","parent":null,"customers_count":0}],"display_name":"UT-DevOpsCourse (UT)","backend_id":"","image":null,"blocked":false,"archived":false,"display_billing_info_in_projects":true,"default_tax_percent":"0.00","accounting_start_date":"2021-08-27T12:24:36.152469+00:00","projects_count":96,"users_count":0,"sponsor_number":null,"country_name":"Estonia","max_service_accounts":0,"project_metadata_checklist":null,"grace_period_days":null,"user_email_patterns":[],"user_affiliations":[],"user_identity_sources":[],"name":"UT-DevOpsCourse","slug":"ut-devop-1","native_name":"","abbreviation":"","description":"","contact_details":"","agreement_number":"","email":"chinmaya.dehury@ut.ee","phone_number":"","access_subnets":"","registration_code":"","homepage":"","domain":"UT","vat_code":"","postal":"","address":"","bank_name":"","latitude":null,"longitude":null,"bank_account":"","country":"EE","notification_emails":"","payment_profiles":[],"customer_credit":null,"customer_unallocated_credit":null,"is_service_provider":false,"service_provider":null,"service_provider_uuid":null,"call_managing_organization_uuid":null,"billing_price_estimate":{"total":4701.99,"current":"0.00","tax":"0.00","tax_current":"0.00"}}]'
+        headers:
+            Allow:
+                - GET, POST, HEAD, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "1540"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Sat, 17 Jan 2026 10:30:59 GMT
+            Link:
+                - <http://127.0.0.1:8000/api/customers/?name=UT-DevOpsCourse>; rel="first", <http://127.0.0.1:8000/api/customers/?name=UT-DevOpsCourse>; rel="last"
+            Server:
+                - WSGIServer/0.2 CPython/3.11.9
+            Vary:
+                - Accept, Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+            X-Result-Count:
+                - "1"
+        status: 200 OK
+        code: 200
+        duration: 140.399902ms
+    - id: 2
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token 99789d5082dd5cfc31b71b6e1ad55ed97d92f63c
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/projects/?customer=1ea9c174995346b5bbdcb649aa9f789c&name=921091
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 1173
+        uncompressed: false
+        body: '[{"url":"http://127.0.0.1:8000/api/projects/7223f14d1b4b490181e15bfbb5cca459/","uuid":"7223f14d1b4b490181e15bfbb5cca459","name":"921091","slug":"921091-3","customer":"http://127.0.0.1:8000/api/customers/1ea9c174995346b5bbdcb649aa9f789c/","customer_uuid":"1ea9c174995346b5bbdcb649aa9f789c","customer_name":"UT-DevOpsCourse","customer_slug":"ut-devop-1","customer_native_name":"","customer_abbreviation":"","description":"Project for person with matrix 921091","customer_display_billing_info_in_projects":true,"created":"2024-09-06T14:58:31.077247+00:00","type":null,"type_name":null,"type_uuid":null,"backend_id":"","start_date":null,"end_date":null,"end_date_requested_by":null,"oecd_fos_2007_code":null,"oecd_fos_2007_label":null,"is_industry":false,"image":null,"resources_count":1,"max_service_accounts":0,"kind":"default","is_removed":false,"termination_metadata":null,"staff_notes":"","grace_period_days":null,"user_email_patterns":[],"user_affiliations":[],"user_identity_sources":[],"project_credit":null,"marketplace_resource_count":{"06e45986252244218bd062149fc3b5b5":1},"billing_price_estimate":{"total":43.49,"current":"0.00","tax":"0.00","tax_current":"0.00"}}]'
+        headers:
+            Allow:
+                - GET, POST, HEAD, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "1173"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Sat, 17 Jan 2026 10:31:00 GMT
+            Link:
+                - <http://127.0.0.1:8000/api/projects/?customer=1ea9c174995346b5bbdcb649aa9f789c&name=921091>; rel="first", <http://127.0.0.1:8000/api/projects/?customer=1ea9c174995346b5bbdcb649aa9f789c&name=921091>; rel="last"
+            Server:
+                - WSGIServer/0.2 CPython/3.11.9
+            Vary:
+                - Accept, Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+            X-Result-Count:
+                - "1"
+        status: 200 OK
+        code: 200
+        duration: 53.467841ms
+    - id: 3
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token 99789d5082dd5cfc31b71b6e1ad55ed97d92f63c
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/openstack-tenants/?name=921091&project_uuid=7223f14d1b4b490181e15bfbb5cca459
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 2769
+        uncompressed: false
+        body: '[{"url":"http://127.0.0.1:8000/api/openstack-tenants/72ce60586d6f4a7db3f74a20fdc445a2/","uuid":"72ce60586d6f4a7db3f74a20fdc445a2","name":"921091","description":"","service_name":"UT HPC (Campus)","service_settings":"http://127.0.0.1:8000/api/service-settings/58978795d079495b83bc4a5a8b87f2fc/","service_settings_uuid":"58978795d079495b83bc4a5a8b87f2fc","service_settings_state":"OK","service_settings_error_message":"","project":"http://127.0.0.1:8000/api/projects/7223f14d1b4b490181e15bfbb5cca459/","project_name":"921091","project_uuid":"7223f14d1b4b490181e15bfbb5cca459","customer":"http://127.0.0.1:8000/api/customers/1ea9c174995346b5bbdcb649aa9f789c/","customer_uuid":"1ea9c174995346b5bbdcb649aa9f789c","customer_name":"UT-DevOpsCourse","customer_native_name":"","customer_abbreviation":"","error_message":"","error_traceback":"","resource_type":"OpenStack.Tenant","state":"OK","created":"2024-09-06T15:04:15.411542+00:00","modified":"2024-09-09T21:16:53.865962+00:00","backend_id":"3a13c464df3f4e70b1ae438bf34e68bb","availability_zone":"","internal_network_id":"2cf719b5-61cd-4313-8dd7-0099fef53850","external_network_id":"e0c1110b-96d6-4c45-9b8e-2d33bf11259f","quotas":[{"name":"gigabytes_rbd","usage":0,"limit":-1},{"name":"gigabytes_prod2","usage":0,"limit":-1},{"name":"storage","usage":0,"limit":51200},{"name":"gigabytes_gpfs","usage":0,"limit":-1},{"name":"gigabytes_prod","usage":0,"limit":-1},{"name":"vcpu","usage":0,"limit":10},{"name":"security_group_rule_count","usage":9,"limit":100},{"name":"instances","usage":0,"limit":10},{"name":"volumes","usage":0,"limit":10},{"name":"floating_ip_count","usage":0,"limit":50},{"name":"network_count","usage":1,"limit":100},{"name":"port_count","usage":3,"limit":500},{"name":"gigabytes___DEFAULT__","usage":0,"limit":-1},{"name":"ram","usage":0,"limit":20480},{"name":"subnet_count","usage":1,"limit":100},{"name":"gigabytes_prod3","usage":0,"limit":-1},{"name":"snapshots","usage":0,"limit":10},{"name":"security_group_count","usage":5,"limit":20}],"default_volume_type_name":"","skip_creation_of_default_router":false,"marketplace_offering_uuid":"4ce883470b7242beb7368becf614d1ec","marketplace_offering_name":"UT HPC (Campus)","marketplace_offering_plugin_options":{"storage_mode":"dynamic","homedir_prefix":"/home/","initial_uidnumber":5000,"initial_usergroup_number":6000,"username_anonymized_prefix":"waldur_","username_generation_policy":"service_provider","initial_primarygroup_number":5000},"marketplace_category_uuid":"06e45986252244218bd062149fc3b5b5","marketplace_category_name":"Private clouds","marketplace_resource_uuid":"9e2447d6086643a192783893b33607bb","marketplace_plan_uuid":"c092afb394924d7d86f14bb5d6fb984c","marketplace_resource_state":"OK","is_usage_based":false,"is_limit_based":true}]'
+        headers:
+            Allow:
+                - GET, POST, HEAD, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "2769"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Sat, 17 Jan 2026 10:31:00 GMT
+            Link:
+                - <http://127.0.0.1:8000/api/openstack-tenants/?name=921091&project_uuid=7223f14d1b4b490181e15bfbb5cca459>; rel="first", <http://127.0.0.1:8000/api/openstack-tenants/?name=921091&project_uuid=7223f14d1b4b490181e15bfbb5cca459>; rel="last"
+            Server:
+                - WSGIServer/0.2 CPython/3.11.9
+            Vary:
+                - Accept, Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+            X-Result-Count:
+                - "1"
+        status: 200 OK
+        code: 200
+        duration: 121.138445ms
+    - id: 4
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 221
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: '{"network":"http://127.0.0.1:8000/api/openstack-networks/106f5251a9474b0ab02e6cb0aa083793/","policy_type":"access_as_shared","target_tenant":"http://127.0.0.1:8000/api/openstack-tenants/72ce60586d6f4a7db3f74a20fdc445a2/"}'
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token 99789d5082dd5cfc31b71b6e1ad55ed97d92f63c
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/openstack-network-rbac-policies/
+        method: POST
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 521
+        uncompressed: false
+        body: '{"url":"http://127.0.0.1:8000/api/openstack-network-rbac-policies/9760d977c52f455e8c2fc97c99710873/","uuid":"9760d977c52f455e8c2fc97c99710873","network":"http://127.0.0.1:8000/api/openstack-networks/106f5251a9474b0ab02e6cb0aa083793/","network_name":"91809-int-net","target_tenant":"http://127.0.0.1:8000/api/openstack-tenants/72ce60586d6f4a7db3f74a20fdc445a2/","target_tenant_name":"921091","backend_id":"be5ea560-2fef-4fc2-ad30-a837d9a35b35","policy_type":"access_as_shared","created":"2026-01-17T10:31:00.506739+00:00"}'
+        headers:
+            Allow:
+                - GET, POST, HEAD, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "521"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Sat, 17 Jan 2026 10:31:00 GMT
+            Server:
+                - WSGIServer/0.2 CPython/3.11.9
+            Vary:
+                - Accept, Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+        status: 201 Created
+        code: 201
+        duration: 42.776599ms
+    - id: 5
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token 99789d5082dd5cfc31b71b6e1ad55ed97d92f63c
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/openstack-networks/?name=91809-int-net
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 2389
+        uncompressed: false
+        body: '[{"url":"http://127.0.0.1:8000/api/openstack-networks/106f5251a9474b0ab02e6cb0aa083793/","uuid":"106f5251a9474b0ab02e6cb0aa083793","name":"91809-int-net","description":"","service_name":"UT HPC (Campus)","service_settings":"http://127.0.0.1:8000/api/service-settings/58978795d079495b83bc4a5a8b87f2fc/","service_settings_uuid":"58978795d079495b83bc4a5a8b87f2fc","service_settings_state":"OK","service_settings_error_message":"","project":"http://127.0.0.1:8000/api/projects/692b1720611346ca80bdc2f83c331137/","project_name":"91809","project_uuid":"692b1720611346ca80bdc2f83c331137","customer":"http://127.0.0.1:8000/api/customers/1ea9c174995346b5bbdcb649aa9f789c/","customer_uuid":"1ea9c174995346b5bbdcb649aa9f789c","customer_name":"UT-DevOpsCourse","customer_native_name":"","customer_abbreviation":"","error_message":"","error_traceback":"","resource_type":"OpenStack.Network","state":"OK","created":"2024-09-06T15:02:50.179909+00:00","modified":"2024-09-06T15:03:58.700232+00:00","backend_id":"fa4099b9-c9e2-4958-b2bc-801e26b56492","access_url":null,"tenant":"http://127.0.0.1:8000/api/openstack-tenants/05e5dc3d75c74b969bbd794f6f8ce1c2/","tenant_name":"91809","tenant_uuid":"05e5dc3d75c74b969bbd794f6f8ce1c2","is_external":false,"type":"vxlan","segmentation_id":994,"subnets":[{"uuid":"f2dd0c58aaef4372b8475ebc5f2dbfed","name":"91809-sub-net","description":"","cidr":"192.168.42.0/24","gateway_ip":"192.168.42.1","allocation_pools":[{"start":"192.168.42.10","end":"192.168.42.200"}],"ip_version":4,"enable_dhcp":true}],"mtu":1500,"rbac_policies":[{"url":"http://127.0.0.1:8000/api/openstack-network-rbac-policies/9760d977c52f455e8c2fc97c99710873/","uuid":"9760d977c52f455e8c2fc97c99710873","network":"http://127.0.0.1:8000/api/openstack-networks/106f5251a9474b0ab02e6cb0aa083793/","network_name":"91809-int-net","target_tenant":"http://127.0.0.1:8000/api/openstack-tenants/72ce60586d6f4a7db3f74a20fdc445a2/","target_tenant_name":"921091","backend_id":"be5ea560-2fef-4fc2-ad30-a837d9a35b35","policy_type":"access_as_shared","created":"2026-01-17T10:31:00.506739+00:00"}],"marketplace_offering_uuid":null,"marketplace_offering_name":null,"marketplace_offering_plugin_options":null,"marketplace_category_uuid":null,"marketplace_category_name":null,"marketplace_resource_uuid":null,"marketplace_plan_uuid":null,"marketplace_resource_state":null,"is_usage_based":null,"is_limit_based":null}]'
+        headers:
+            Allow:
+                - GET, POST, HEAD, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "2389"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Sat, 17 Jan 2026 10:31:00 GMT
+            Link:
+                - <http://127.0.0.1:8000/api/openstack-networks/?name=91809-int-net>; rel="first", <http://127.0.0.1:8000/api/openstack-networks/?name=91809-int-net>; rel="last"
+            Server:
+                - WSGIServer/0.2 CPython/3.11.9
+            Vary:
+                - Accept, Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+            X-Result-Count:
+                - "1"
+        status: 200 OK
+        code: 200
+        duration: 87.450921ms
+    - id: 6
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token 99789d5082dd5cfc31b71b6e1ad55ed97d92f63c
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/customers/?name=UT-DevOpsCourse
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 1540
+        uncompressed: false
+        body: '[{"url":"http://127.0.0.1:8000/api/customers/1ea9c174995346b5bbdcb649aa9f789c/","uuid":"1ea9c174995346b5bbdcb649aa9f789c","created":"2021-08-27T12:24:36.152080+00:00","organization_groups":[{"uuid":"201b49d327814ec4aae5357e8ce14dcf","url":"http://127.0.0.1:8000/api/organization-groups/201b49d327814ec4aae5357e8ce14dcf/","name":"UT","parent":null,"customers_count":0}],"display_name":"UT-DevOpsCourse (UT)","backend_id":"","image":null,"blocked":false,"archived":false,"display_billing_info_in_projects":true,"default_tax_percent":"0.00","accounting_start_date":"2021-08-27T12:24:36.152469+00:00","projects_count":96,"users_count":0,"sponsor_number":null,"country_name":"Estonia","max_service_accounts":0,"project_metadata_checklist":null,"grace_period_days":null,"user_email_patterns":[],"user_affiliations":[],"user_identity_sources":[],"name":"UT-DevOpsCourse","slug":"ut-devop-1","native_name":"","abbreviation":"","description":"","contact_details":"","agreement_number":"","email":"chinmaya.dehury@ut.ee","phone_number":"","access_subnets":"","registration_code":"","homepage":"","domain":"UT","vat_code":"","postal":"","address":"","bank_name":"","latitude":null,"longitude":null,"bank_account":"","country":"EE","notification_emails":"","payment_profiles":[],"customer_credit":null,"customer_unallocated_credit":null,"is_service_provider":false,"service_provider":null,"service_provider_uuid":null,"call_managing_organization_uuid":null,"billing_price_estimate":{"total":4701.99,"current":"0.00","tax":"0.00","tax_current":"0.00"}}]'
+        headers:
+            Allow:
+                - GET, POST, HEAD, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "1540"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Sat, 17 Jan 2026 10:31:00 GMT
+            Link:
+                - <http://127.0.0.1:8000/api/customers/?name=UT-DevOpsCourse>; rel="first", <http://127.0.0.1:8000/api/customers/?name=UT-DevOpsCourse>; rel="last"
+            Server:
+                - WSGIServer/0.2 CPython/3.11.9
+            Vary:
+                - Accept, Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+            X-Result-Count:
+                - "1"
+        status: 200 OK
+        code: 200
+        duration: 95.667316ms
+    - id: 7
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token 99789d5082dd5cfc31b71b6e1ad55ed97d92f63c
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/projects/?customer=1ea9c174995346b5bbdcb649aa9f789c&name=921091
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 1173
+        uncompressed: false
+        body: '[{"url":"http://127.0.0.1:8000/api/projects/7223f14d1b4b490181e15bfbb5cca459/","uuid":"7223f14d1b4b490181e15bfbb5cca459","name":"921091","slug":"921091-3","customer":"http://127.0.0.1:8000/api/customers/1ea9c174995346b5bbdcb649aa9f789c/","customer_uuid":"1ea9c174995346b5bbdcb649aa9f789c","customer_name":"UT-DevOpsCourse","customer_slug":"ut-devop-1","customer_native_name":"","customer_abbreviation":"","description":"Project for person with matrix 921091","customer_display_billing_info_in_projects":true,"created":"2024-09-06T14:58:31.077247+00:00","type":null,"type_name":null,"type_uuid":null,"backend_id":"","start_date":null,"end_date":null,"end_date_requested_by":null,"oecd_fos_2007_code":null,"oecd_fos_2007_label":null,"is_industry":false,"image":null,"resources_count":1,"max_service_accounts":0,"kind":"default","is_removed":false,"termination_metadata":null,"staff_notes":"","grace_period_days":null,"user_email_patterns":[],"user_affiliations":[],"user_identity_sources":[],"project_credit":null,"marketplace_resource_count":{"06e45986252244218bd062149fc3b5b5":1},"billing_price_estimate":{"total":43.49,"current":"0.00","tax":"0.00","tax_current":"0.00"}}]'
+        headers:
+            Allow:
+                - GET, POST, HEAD, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "1173"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Sat, 17 Jan 2026 10:31:00 GMT
+            Link:
+                - <http://127.0.0.1:8000/api/projects/?customer=1ea9c174995346b5bbdcb649aa9f789c&name=921091>; rel="first", <http://127.0.0.1:8000/api/projects/?customer=1ea9c174995346b5bbdcb649aa9f789c&name=921091>; rel="last"
+            Server:
+                - WSGIServer/0.2 CPython/3.11.9
+            Vary:
+                - Accept, Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+            X-Result-Count:
+                - "1"
+        status: 200 OK
+        code: 200
+        duration: 44.19962ms
+    - id: 8
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token 99789d5082dd5cfc31b71b6e1ad55ed97d92f63c
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/openstack-tenants/?name=921091&project_uuid=7223f14d1b4b490181e15bfbb5cca459
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 2769
+        uncompressed: false
+        body: '[{"url":"http://127.0.0.1:8000/api/openstack-tenants/72ce60586d6f4a7db3f74a20fdc445a2/","uuid":"72ce60586d6f4a7db3f74a20fdc445a2","name":"921091","description":"","service_name":"UT HPC (Campus)","service_settings":"http://127.0.0.1:8000/api/service-settings/58978795d079495b83bc4a5a8b87f2fc/","service_settings_uuid":"58978795d079495b83bc4a5a8b87f2fc","service_settings_state":"OK","service_settings_error_message":"","project":"http://127.0.0.1:8000/api/projects/7223f14d1b4b490181e15bfbb5cca459/","project_name":"921091","project_uuid":"7223f14d1b4b490181e15bfbb5cca459","customer":"http://127.0.0.1:8000/api/customers/1ea9c174995346b5bbdcb649aa9f789c/","customer_uuid":"1ea9c174995346b5bbdcb649aa9f789c","customer_name":"UT-DevOpsCourse","customer_native_name":"","customer_abbreviation":"","error_message":"","error_traceback":"","resource_type":"OpenStack.Tenant","state":"OK","created":"2024-09-06T15:04:15.411542+00:00","modified":"2024-09-09T21:16:53.865962+00:00","backend_id":"3a13c464df3f4e70b1ae438bf34e68bb","availability_zone":"","internal_network_id":"2cf719b5-61cd-4313-8dd7-0099fef53850","external_network_id":"e0c1110b-96d6-4c45-9b8e-2d33bf11259f","quotas":[{"name":"gigabytes_rbd","usage":0,"limit":-1},{"name":"gigabytes_prod2","usage":0,"limit":-1},{"name":"storage","usage":0,"limit":51200},{"name":"gigabytes_gpfs","usage":0,"limit":-1},{"name":"gigabytes_prod","usage":0,"limit":-1},{"name":"vcpu","usage":0,"limit":10},{"name":"security_group_rule_count","usage":9,"limit":100},{"name":"instances","usage":0,"limit":10},{"name":"volumes","usage":0,"limit":10},{"name":"floating_ip_count","usage":0,"limit":50},{"name":"network_count","usage":1,"limit":100},{"name":"port_count","usage":3,"limit":500},{"name":"gigabytes___DEFAULT__","usage":0,"limit":-1},{"name":"ram","usage":0,"limit":20480},{"name":"subnet_count","usage":1,"limit":100},{"name":"gigabytes_prod3","usage":0,"limit":-1},{"name":"snapshots","usage":0,"limit":10},{"name":"security_group_count","usage":5,"limit":20}],"default_volume_type_name":"","skip_creation_of_default_router":false,"marketplace_offering_uuid":"4ce883470b7242beb7368becf614d1ec","marketplace_offering_name":"UT HPC (Campus)","marketplace_offering_plugin_options":{"storage_mode":"dynamic","homedir_prefix":"/home/","initial_uidnumber":5000,"initial_usergroup_number":6000,"username_anonymized_prefix":"waldur_","username_generation_policy":"service_provider","initial_primarygroup_number":5000},"marketplace_category_uuid":"06e45986252244218bd062149fc3b5b5","marketplace_category_name":"Private clouds","marketplace_resource_uuid":"9e2447d6086643a192783893b33607bb","marketplace_plan_uuid":"c092afb394924d7d86f14bb5d6fb984c","marketplace_resource_state":"OK","is_usage_based":false,"is_limit_based":true}]'
+        headers:
+            Allow:
+                - GET, POST, HEAD, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "2769"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Sat, 17 Jan 2026 10:31:01 GMT
+            Link:
+                - <http://127.0.0.1:8000/api/openstack-tenants/?name=921091&project_uuid=7223f14d1b4b490181e15bfbb5cca459>; rel="first", <http://127.0.0.1:8000/api/openstack-tenants/?name=921091&project_uuid=7223f14d1b4b490181e15bfbb5cca459>; rel="last"
+            Server:
+                - WSGIServer/0.2 CPython/3.11.9
+            Vary:
+                - Accept, Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+            X-Result-Count:
+                - "1"
+        status: 200 OK
+        code: 200
+        duration: 111.892073ms
+    - id: 9
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token 99789d5082dd5cfc31b71b6e1ad55ed97d92f63c
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/openstack-networks/?name=91809-int-net
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 2389
+        uncompressed: false
+        body: '[{"url":"http://127.0.0.1:8000/api/openstack-networks/106f5251a9474b0ab02e6cb0aa083793/","uuid":"106f5251a9474b0ab02e6cb0aa083793","name":"91809-int-net","description":"","service_name":"UT HPC (Campus)","service_settings":"http://127.0.0.1:8000/api/service-settings/58978795d079495b83bc4a5a8b87f2fc/","service_settings_uuid":"58978795d079495b83bc4a5a8b87f2fc","service_settings_state":"OK","service_settings_error_message":"","project":"http://127.0.0.1:8000/api/projects/692b1720611346ca80bdc2f83c331137/","project_name":"91809","project_uuid":"692b1720611346ca80bdc2f83c331137","customer":"http://127.0.0.1:8000/api/customers/1ea9c174995346b5bbdcb649aa9f789c/","customer_uuid":"1ea9c174995346b5bbdcb649aa9f789c","customer_name":"UT-DevOpsCourse","customer_native_name":"","customer_abbreviation":"","error_message":"","error_traceback":"","resource_type":"OpenStack.Network","state":"OK","created":"2024-09-06T15:02:50.179909+00:00","modified":"2024-09-06T15:03:58.700232+00:00","backend_id":"fa4099b9-c9e2-4958-b2bc-801e26b56492","access_url":null,"tenant":"http://127.0.0.1:8000/api/openstack-tenants/05e5dc3d75c74b969bbd794f6f8ce1c2/","tenant_name":"91809","tenant_uuid":"05e5dc3d75c74b969bbd794f6f8ce1c2","is_external":false,"type":"vxlan","segmentation_id":994,"subnets":[{"uuid":"f2dd0c58aaef4372b8475ebc5f2dbfed","name":"91809-sub-net","description":"","cidr":"192.168.42.0/24","gateway_ip":"192.168.42.1","allocation_pools":[{"start":"192.168.42.10","end":"192.168.42.200"}],"ip_version":4,"enable_dhcp":true}],"mtu":1500,"rbac_policies":[{"url":"http://127.0.0.1:8000/api/openstack-network-rbac-policies/9760d977c52f455e8c2fc97c99710873/","uuid":"9760d977c52f455e8c2fc97c99710873","network":"http://127.0.0.1:8000/api/openstack-networks/106f5251a9474b0ab02e6cb0aa083793/","network_name":"91809-int-net","target_tenant":"http://127.0.0.1:8000/api/openstack-tenants/72ce60586d6f4a7db3f74a20fdc445a2/","target_tenant_name":"921091","backend_id":"be5ea560-2fef-4fc2-ad30-a837d9a35b35","policy_type":"access_as_shared","created":"2026-01-17T10:31:00.506739+00:00"}],"marketplace_offering_uuid":null,"marketplace_offering_name":null,"marketplace_offering_plugin_options":null,"marketplace_category_uuid":null,"marketplace_category_name":null,"marketplace_resource_uuid":null,"marketplace_plan_uuid":null,"marketplace_resource_state":null,"is_usage_based":null,"is_limit_based":null}]'
+        headers:
+            Allow:
+                - GET, POST, HEAD, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "2389"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Sat, 17 Jan 2026 10:31:01 GMT
+            Link:
+                - <http://127.0.0.1:8000/api/openstack-networks/?name=91809-int-net>; rel="first", <http://127.0.0.1:8000/api/openstack-networks/?name=91809-int-net>; rel="last"
+            Server:
+                - WSGIServer/0.2 CPython/3.11.9
+            Vary:
+                - Accept, Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+            X-Result-Count:
+                - "1"
+        status: 200 OK
+        code: 200
+        duration: 75.729391ms
+    - id: 10
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token 99789d5082dd5cfc31b71b6e1ad55ed97d92f63c
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/customers/?name=UT-DevOpsCourse
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 1540
+        uncompressed: false
+        body: '[{"url":"http://127.0.0.1:8000/api/customers/1ea9c174995346b5bbdcb649aa9f789c/","uuid":"1ea9c174995346b5bbdcb649aa9f789c","created":"2021-08-27T12:24:36.152080+00:00","organization_groups":[{"uuid":"201b49d327814ec4aae5357e8ce14dcf","url":"http://127.0.0.1:8000/api/organization-groups/201b49d327814ec4aae5357e8ce14dcf/","name":"UT","parent":null,"customers_count":0}],"display_name":"UT-DevOpsCourse (UT)","backend_id":"","image":null,"blocked":false,"archived":false,"display_billing_info_in_projects":true,"default_tax_percent":"0.00","accounting_start_date":"2021-08-27T12:24:36.152469+00:00","projects_count":96,"users_count":0,"sponsor_number":null,"country_name":"Estonia","max_service_accounts":0,"project_metadata_checklist":null,"grace_period_days":null,"user_email_patterns":[],"user_affiliations":[],"user_identity_sources":[],"name":"UT-DevOpsCourse","slug":"ut-devop-1","native_name":"","abbreviation":"","description":"","contact_details":"","agreement_number":"","email":"chinmaya.dehury@ut.ee","phone_number":"","access_subnets":"","registration_code":"","homepage":"","domain":"UT","vat_code":"","postal":"","address":"","bank_name":"","latitude":null,"longitude":null,"bank_account":"","country":"EE","notification_emails":"","payment_profiles":[],"customer_credit":null,"customer_unallocated_credit":null,"is_service_provider":false,"service_provider":null,"service_provider_uuid":null,"call_managing_organization_uuid":null,"billing_price_estimate":{"total":4701.99,"current":"0.00","tax":"0.00","tax_current":"0.00"}}]'
+        headers:
+            Allow:
+                - GET, POST, HEAD, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "1540"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Sat, 17 Jan 2026 10:31:01 GMT
+            Link:
+                - <http://127.0.0.1:8000/api/customers/?name=UT-DevOpsCourse>; rel="first", <http://127.0.0.1:8000/api/customers/?name=UT-DevOpsCourse>; rel="last"
+            Server:
+                - WSGIServer/0.2 CPython/3.11.9
+            Vary:
+                - Accept, Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+            X-Result-Count:
+                - "1"
+        status: 200 OK
+        code: 200
+        duration: 90.703301ms
+    - id: 11
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token 99789d5082dd5cfc31b71b6e1ad55ed97d92f63c
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/projects/?customer=1ea9c174995346b5bbdcb649aa9f789c&name=921091
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 1173
+        uncompressed: false
+        body: '[{"url":"http://127.0.0.1:8000/api/projects/7223f14d1b4b490181e15bfbb5cca459/","uuid":"7223f14d1b4b490181e15bfbb5cca459","name":"921091","slug":"921091-3","customer":"http://127.0.0.1:8000/api/customers/1ea9c174995346b5bbdcb649aa9f789c/","customer_uuid":"1ea9c174995346b5bbdcb649aa9f789c","customer_name":"UT-DevOpsCourse","customer_slug":"ut-devop-1","customer_native_name":"","customer_abbreviation":"","description":"Project for person with matrix 921091","customer_display_billing_info_in_projects":true,"created":"2024-09-06T14:58:31.077247+00:00","type":null,"type_name":null,"type_uuid":null,"backend_id":"","start_date":null,"end_date":null,"end_date_requested_by":null,"oecd_fos_2007_code":null,"oecd_fos_2007_label":null,"is_industry":false,"image":null,"resources_count":1,"max_service_accounts":0,"kind":"default","is_removed":false,"termination_metadata":null,"staff_notes":"","grace_period_days":null,"user_email_patterns":[],"user_affiliations":[],"user_identity_sources":[],"project_credit":null,"marketplace_resource_count":{"06e45986252244218bd062149fc3b5b5":1},"billing_price_estimate":{"total":43.49,"current":"0.00","tax":"0.00","tax_current":"0.00"}}]'
+        headers:
+            Allow:
+                - GET, POST, HEAD, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "1173"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Sat, 17 Jan 2026 10:31:01 GMT
+            Link:
+                - <http://127.0.0.1:8000/api/projects/?customer=1ea9c174995346b5bbdcb649aa9f789c&name=921091>; rel="first", <http://127.0.0.1:8000/api/projects/?customer=1ea9c174995346b5bbdcb649aa9f789c&name=921091>; rel="last"
+            Server:
+                - WSGIServer/0.2 CPython/3.11.9
+            Vary:
+                - Accept, Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+            X-Result-Count:
+                - "1"
+        status: 200 OK
+        code: 200
+        duration: 52.231136ms
+    - id: 12
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token 99789d5082dd5cfc31b71b6e1ad55ed97d92f63c
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/openstack-tenants/?name=921091&project_uuid=7223f14d1b4b490181e15bfbb5cca459
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 2769
+        uncompressed: false
+        body: '[{"url":"http://127.0.0.1:8000/api/openstack-tenants/72ce60586d6f4a7db3f74a20fdc445a2/","uuid":"72ce60586d6f4a7db3f74a20fdc445a2","name":"921091","description":"","service_name":"UT HPC (Campus)","service_settings":"http://127.0.0.1:8000/api/service-settings/58978795d079495b83bc4a5a8b87f2fc/","service_settings_uuid":"58978795d079495b83bc4a5a8b87f2fc","service_settings_state":"OK","service_settings_error_message":"","project":"http://127.0.0.1:8000/api/projects/7223f14d1b4b490181e15bfbb5cca459/","project_name":"921091","project_uuid":"7223f14d1b4b490181e15bfbb5cca459","customer":"http://127.0.0.1:8000/api/customers/1ea9c174995346b5bbdcb649aa9f789c/","customer_uuid":"1ea9c174995346b5bbdcb649aa9f789c","customer_name":"UT-DevOpsCourse","customer_native_name":"","customer_abbreviation":"","error_message":"","error_traceback":"","resource_type":"OpenStack.Tenant","state":"OK","created":"2024-09-06T15:04:15.411542+00:00","modified":"2024-09-09T21:16:53.865962+00:00","backend_id":"3a13c464df3f4e70b1ae438bf34e68bb","availability_zone":"","internal_network_id":"2cf719b5-61cd-4313-8dd7-0099fef53850","external_network_id":"e0c1110b-96d6-4c45-9b8e-2d33bf11259f","quotas":[{"name":"gigabytes_rbd","usage":0,"limit":-1},{"name":"gigabytes_prod2","usage":0,"limit":-1},{"name":"storage","usage":0,"limit":51200},{"name":"gigabytes_gpfs","usage":0,"limit":-1},{"name":"gigabytes_prod","usage":0,"limit":-1},{"name":"vcpu","usage":0,"limit":10},{"name":"security_group_rule_count","usage":9,"limit":100},{"name":"instances","usage":0,"limit":10},{"name":"volumes","usage":0,"limit":10},{"name":"floating_ip_count","usage":0,"limit":50},{"name":"network_count","usage":1,"limit":100},{"name":"port_count","usage":3,"limit":500},{"name":"gigabytes___DEFAULT__","usage":0,"limit":-1},{"name":"ram","usage":0,"limit":20480},{"name":"subnet_count","usage":1,"limit":100},{"name":"gigabytes_prod3","usage":0,"limit":-1},{"name":"snapshots","usage":0,"limit":10},{"name":"security_group_count","usage":5,"limit":20}],"default_volume_type_name":"","skip_creation_of_default_router":false,"marketplace_offering_uuid":"4ce883470b7242beb7368becf614d1ec","marketplace_offering_name":"UT HPC (Campus)","marketplace_offering_plugin_options":{"storage_mode":"dynamic","homedir_prefix":"/home/","initial_uidnumber":5000,"initial_usergroup_number":6000,"username_anonymized_prefix":"waldur_","username_generation_policy":"service_provider","initial_primarygroup_number":5000},"marketplace_category_uuid":"06e45986252244218bd062149fc3b5b5","marketplace_category_name":"Private clouds","marketplace_resource_uuid":"9e2447d6086643a192783893b33607bb","marketplace_plan_uuid":"c092afb394924d7d86f14bb5d6fb984c","marketplace_resource_state":"OK","is_usage_based":false,"is_limit_based":true}]'
+        headers:
+            Allow:
+                - GET, POST, HEAD, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "2769"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Sat, 17 Jan 2026 10:31:01 GMT
+            Link:
+                - <http://127.0.0.1:8000/api/openstack-tenants/?name=921091&project_uuid=7223f14d1b4b490181e15bfbb5cca459>; rel="first", <http://127.0.0.1:8000/api/openstack-tenants/?name=921091&project_uuid=7223f14d1b4b490181e15bfbb5cca459>; rel="last"
+            Server:
+                - WSGIServer/0.2 CPython/3.11.9
+            Vary:
+                - Accept, Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+            X-Result-Count:
+                - "1"
+        status: 200 OK
+        code: 200
+        duration: 107.703221ms
+    - id: 13
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token 99789d5082dd5cfc31b71b6e1ad55ed97d92f63c
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/openstack-network-rbac-policies/?network=http%3A%2F%2F127.0.0.1%3A8000%2Fapi%2Fopenstack-networks%2F106f5251a9474b0ab02e6cb0aa083793%2F&target_tenant=http%3A%2F%2F127.0.0.1%3A8000%2Fapi%2Fopenstack-tenants%2F72ce60586d6f4a7db3f74a20fdc445a2%2F
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 523
+        uncompressed: false
+        body: '[{"url":"http://127.0.0.1:8000/api/openstack-network-rbac-policies/9760d977c52f455e8c2fc97c99710873/","uuid":"9760d977c52f455e8c2fc97c99710873","network":"http://127.0.0.1:8000/api/openstack-networks/106f5251a9474b0ab02e6cb0aa083793/","network_name":"91809-int-net","target_tenant":"http://127.0.0.1:8000/api/openstack-tenants/72ce60586d6f4a7db3f74a20fdc445a2/","target_tenant_name":"921091","backend_id":"be5ea560-2fef-4fc2-ad30-a837d9a35b35","policy_type":"access_as_shared","created":"2026-01-17T10:31:00.506739+00:00"}]'
+        headers:
+            Allow:
+                - GET, POST, HEAD, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "523"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Sat, 17 Jan 2026 10:31:01 GMT
+            Link:
+                - <http://127.0.0.1:8000/api/openstack-network-rbac-policies/?network=http%3A%2F%2F127.0.0.1%3A8000%2Fapi%2Fopenstack-networks%2F106f5251a9474b0ab02e6cb0aa083793%2F&target_tenant=http%3A%2F%2F127.0.0.1%3A8000%2Fapi%2Fopenstack-tenants%2F72ce60586d6f4a7db3f74a20fdc445a2%2F>; rel="first", <http://127.0.0.1:8000/api/openstack-network-rbac-policies/?network=http%3A%2F%2F127.0.0.1%3A8000%2Fapi%2Fopenstack-networks%2F106f5251a9474b0ab02e6cb0aa083793%2F&target_tenant=http%3A%2F%2F127.0.0.1%3A8000%2Fapi%2Fopenstack-tenants%2F72ce60586d6f4a7db3f74a20fdc445a2%2F>; rel="last"
+            Server:
+                - WSGIServer/0.2 CPython/3.11.9
+            Vary:
+                - Accept, Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+            X-Result-Count:
+                - "1"
+        status: 200 OK
+        code: 200
+        duration: 24.074931ms
+    - id: 14
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token 99789d5082dd5cfc31b71b6e1ad55ed97d92f63c
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/openstack-network-rbac-policies/9760d977c52f455e8c2fc97c99710873/
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 521
+        uncompressed: false
+        body: '{"url":"http://127.0.0.1:8000/api/openstack-network-rbac-policies/9760d977c52f455e8c2fc97c99710873/","uuid":"9760d977c52f455e8c2fc97c99710873","network":"http://127.0.0.1:8000/api/openstack-networks/106f5251a9474b0ab02e6cb0aa083793/","network_name":"91809-int-net","target_tenant":"http://127.0.0.1:8000/api/openstack-tenants/72ce60586d6f4a7db3f74a20fdc445a2/","target_tenant_name":"921091","backend_id":"be5ea560-2fef-4fc2-ad30-a837d9a35b35","policy_type":"access_as_shared","created":"2026-01-17T10:31:00.506739+00:00"}'
+        headers:
+            Allow:
+                - GET, PUT, PATCH, DELETE, HEAD, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "521"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Sat, 17 Jan 2026 10:31:01 GMT
+            Server:
+                - WSGIServer/0.2 CPython/3.11.9
+            Vary:
+                - Accept, Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+        status: 200 OK
+        code: 200
+        duration: 59.068415ms
+    - id: 15
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token 99789d5082dd5cfc31b71b6e1ad55ed97d92f63c
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/openstack-networks/?name=91809-int-net
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 2389
+        uncompressed: false
+        body: '[{"url":"http://127.0.0.1:8000/api/openstack-networks/106f5251a9474b0ab02e6cb0aa083793/","uuid":"106f5251a9474b0ab02e6cb0aa083793","name":"91809-int-net","description":"","service_name":"UT HPC (Campus)","service_settings":"http://127.0.0.1:8000/api/service-settings/58978795d079495b83bc4a5a8b87f2fc/","service_settings_uuid":"58978795d079495b83bc4a5a8b87f2fc","service_settings_state":"OK","service_settings_error_message":"","project":"http://127.0.0.1:8000/api/projects/692b1720611346ca80bdc2f83c331137/","project_name":"91809","project_uuid":"692b1720611346ca80bdc2f83c331137","customer":"http://127.0.0.1:8000/api/customers/1ea9c174995346b5bbdcb649aa9f789c/","customer_uuid":"1ea9c174995346b5bbdcb649aa9f789c","customer_name":"UT-DevOpsCourse","customer_native_name":"","customer_abbreviation":"","error_message":"","error_traceback":"","resource_type":"OpenStack.Network","state":"OK","created":"2024-09-06T15:02:50.179909+00:00","modified":"2024-09-06T15:03:58.700232+00:00","backend_id":"fa4099b9-c9e2-4958-b2bc-801e26b56492","access_url":null,"tenant":"http://127.0.0.1:8000/api/openstack-tenants/05e5dc3d75c74b969bbd794f6f8ce1c2/","tenant_name":"91809","tenant_uuid":"05e5dc3d75c74b969bbd794f6f8ce1c2","is_external":false,"type":"vxlan","segmentation_id":994,"subnets":[{"uuid":"f2dd0c58aaef4372b8475ebc5f2dbfed","name":"91809-sub-net","description":"","cidr":"192.168.42.0/24","gateway_ip":"192.168.42.1","allocation_pools":[{"start":"192.168.42.10","end":"192.168.42.200"}],"ip_version":4,"enable_dhcp":true}],"mtu":1500,"rbac_policies":[{"url":"http://127.0.0.1:8000/api/openstack-network-rbac-policies/9760d977c52f455e8c2fc97c99710873/","uuid":"9760d977c52f455e8c2fc97c99710873","network":"http://127.0.0.1:8000/api/openstack-networks/106f5251a9474b0ab02e6cb0aa083793/","network_name":"91809-int-net","target_tenant":"http://127.0.0.1:8000/api/openstack-tenants/72ce60586d6f4a7db3f74a20fdc445a2/","target_tenant_name":"921091","backend_id":"be5ea560-2fef-4fc2-ad30-a837d9a35b35","policy_type":"access_as_shared","created":"2026-01-17T10:31:00.506739+00:00"}],"marketplace_offering_uuid":null,"marketplace_offering_name":null,"marketplace_offering_plugin_options":null,"marketplace_category_uuid":null,"marketplace_category_name":null,"marketplace_resource_uuid":null,"marketplace_plan_uuid":null,"marketplace_resource_state":null,"is_usage_based":null,"is_limit_based":null}]'
+        headers:
+            Allow:
+                - GET, POST, HEAD, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "2389"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Sat, 17 Jan 2026 10:31:02 GMT
+            Link:
+                - <http://127.0.0.1:8000/api/openstack-networks/?name=91809-int-net>; rel="first", <http://127.0.0.1:8000/api/openstack-networks/?name=91809-int-net>; rel="last"
+            Server:
+                - WSGIServer/0.2 CPython/3.11.9
+            Vary:
+                - Accept, Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+            X-Result-Count:
+                - "1"
+        status: 200 OK
+        code: 200
+        duration: 95.959962ms
+    - id: 16
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token 99789d5082dd5cfc31b71b6e1ad55ed97d92f63c
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/customers/?name=UT-DevOpsCourse
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 1540
+        uncompressed: false
+        body: '[{"url":"http://127.0.0.1:8000/api/customers/1ea9c174995346b5bbdcb649aa9f789c/","uuid":"1ea9c174995346b5bbdcb649aa9f789c","created":"2021-08-27T12:24:36.152080+00:00","organization_groups":[{"uuid":"201b49d327814ec4aae5357e8ce14dcf","url":"http://127.0.0.1:8000/api/organization-groups/201b49d327814ec4aae5357e8ce14dcf/","name":"UT","parent":null,"customers_count":0}],"display_name":"UT-DevOpsCourse (UT)","backend_id":"","image":null,"blocked":false,"archived":false,"display_billing_info_in_projects":true,"default_tax_percent":"0.00","accounting_start_date":"2021-08-27T12:24:36.152469+00:00","projects_count":96,"users_count":0,"sponsor_number":null,"country_name":"Estonia","max_service_accounts":0,"project_metadata_checklist":null,"grace_period_days":null,"user_email_patterns":[],"user_affiliations":[],"user_identity_sources":[],"name":"UT-DevOpsCourse","slug":"ut-devop-1","native_name":"","abbreviation":"","description":"","contact_details":"","agreement_number":"","email":"chinmaya.dehury@ut.ee","phone_number":"","access_subnets":"","registration_code":"","homepage":"","domain":"UT","vat_code":"","postal":"","address":"","bank_name":"","latitude":null,"longitude":null,"bank_account":"","country":"EE","notification_emails":"","payment_profiles":[],"customer_credit":null,"customer_unallocated_credit":null,"is_service_provider":false,"service_provider":null,"service_provider_uuid":null,"call_managing_organization_uuid":null,"billing_price_estimate":{"total":4701.99,"current":"0.00","tax":"0.00","tax_current":"0.00"}}]'
+        headers:
+            Allow:
+                - GET, POST, HEAD, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "1540"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Sat, 17 Jan 2026 10:31:02 GMT
+            Link:
+                - <http://127.0.0.1:8000/api/customers/?name=UT-DevOpsCourse>; rel="first", <http://127.0.0.1:8000/api/customers/?name=UT-DevOpsCourse>; rel="last"
+            Server:
+                - WSGIServer/0.2 CPython/3.11.9
+            Vary:
+                - Accept, Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+            X-Result-Count:
+                - "1"
+        status: 200 OK
+        code: 200
+        duration: 101.094285ms
+    - id: 17
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token 99789d5082dd5cfc31b71b6e1ad55ed97d92f63c
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/projects/?customer=1ea9c174995346b5bbdcb649aa9f789c&name=921091
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 1173
+        uncompressed: false
+        body: '[{"url":"http://127.0.0.1:8000/api/projects/7223f14d1b4b490181e15bfbb5cca459/","uuid":"7223f14d1b4b490181e15bfbb5cca459","name":"921091","slug":"921091-3","customer":"http://127.0.0.1:8000/api/customers/1ea9c174995346b5bbdcb649aa9f789c/","customer_uuid":"1ea9c174995346b5bbdcb649aa9f789c","customer_name":"UT-DevOpsCourse","customer_slug":"ut-devop-1","customer_native_name":"","customer_abbreviation":"","description":"Project for person with matrix 921091","customer_display_billing_info_in_projects":true,"created":"2024-09-06T14:58:31.077247+00:00","type":null,"type_name":null,"type_uuid":null,"backend_id":"","start_date":null,"end_date":null,"end_date_requested_by":null,"oecd_fos_2007_code":null,"oecd_fos_2007_label":null,"is_industry":false,"image":null,"resources_count":1,"max_service_accounts":0,"kind":"default","is_removed":false,"termination_metadata":null,"staff_notes":"","grace_period_days":null,"user_email_patterns":[],"user_affiliations":[],"user_identity_sources":[],"project_credit":null,"marketplace_resource_count":{"06e45986252244218bd062149fc3b5b5":1},"billing_price_estimate":{"total":43.49,"current":"0.00","tax":"0.00","tax_current":"0.00"}}]'
+        headers:
+            Allow:
+                - GET, POST, HEAD, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "1173"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Sat, 17 Jan 2026 10:31:02 GMT
+            Link:
+                - <http://127.0.0.1:8000/api/projects/?customer=1ea9c174995346b5bbdcb649aa9f789c&name=921091>; rel="first", <http://127.0.0.1:8000/api/projects/?customer=1ea9c174995346b5bbdcb649aa9f789c&name=921091>; rel="last"
+            Server:
+                - WSGIServer/0.2 CPython/3.11.9
+            Vary:
+                - Accept, Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+            X-Result-Count:
+                - "1"
+        status: 200 OK
+        code: 200
+        duration: 37.511735ms
+    - id: 18
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token 99789d5082dd5cfc31b71b6e1ad55ed97d92f63c
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/openstack-tenants/?name=921091&project_uuid=7223f14d1b4b490181e15bfbb5cca459
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 2769
+        uncompressed: false
+        body: '[{"url":"http://127.0.0.1:8000/api/openstack-tenants/72ce60586d6f4a7db3f74a20fdc445a2/","uuid":"72ce60586d6f4a7db3f74a20fdc445a2","name":"921091","description":"","service_name":"UT HPC (Campus)","service_settings":"http://127.0.0.1:8000/api/service-settings/58978795d079495b83bc4a5a8b87f2fc/","service_settings_uuid":"58978795d079495b83bc4a5a8b87f2fc","service_settings_state":"OK","service_settings_error_message":"","project":"http://127.0.0.1:8000/api/projects/7223f14d1b4b490181e15bfbb5cca459/","project_name":"921091","project_uuid":"7223f14d1b4b490181e15bfbb5cca459","customer":"http://127.0.0.1:8000/api/customers/1ea9c174995346b5bbdcb649aa9f789c/","customer_uuid":"1ea9c174995346b5bbdcb649aa9f789c","customer_name":"UT-DevOpsCourse","customer_native_name":"","customer_abbreviation":"","error_message":"","error_traceback":"","resource_type":"OpenStack.Tenant","state":"OK","created":"2024-09-06T15:04:15.411542+00:00","modified":"2024-09-09T21:16:53.865962+00:00","backend_id":"3a13c464df3f4e70b1ae438bf34e68bb","availability_zone":"","internal_network_id":"2cf719b5-61cd-4313-8dd7-0099fef53850","external_network_id":"e0c1110b-96d6-4c45-9b8e-2d33bf11259f","quotas":[{"name":"gigabytes_rbd","usage":0,"limit":-1},{"name":"gigabytes_prod2","usage":0,"limit":-1},{"name":"storage","usage":0,"limit":51200},{"name":"gigabytes_gpfs","usage":0,"limit":-1},{"name":"gigabytes_prod","usage":0,"limit":-1},{"name":"vcpu","usage":0,"limit":10},{"name":"security_group_rule_count","usage":9,"limit":100},{"name":"instances","usage":0,"limit":10},{"name":"volumes","usage":0,"limit":10},{"name":"floating_ip_count","usage":0,"limit":50},{"name":"network_count","usage":1,"limit":100},{"name":"port_count","usage":3,"limit":500},{"name":"gigabytes___DEFAULT__","usage":0,"limit":-1},{"name":"ram","usage":0,"limit":20480},{"name":"subnet_count","usage":1,"limit":100},{"name":"gigabytes_prod3","usage":0,"limit":-1},{"name":"snapshots","usage":0,"limit":10},{"name":"security_group_count","usage":5,"limit":20}],"default_volume_type_name":"","skip_creation_of_default_router":false,"marketplace_offering_uuid":"4ce883470b7242beb7368becf614d1ec","marketplace_offering_name":"UT HPC (Campus)","marketplace_offering_plugin_options":{"storage_mode":"dynamic","homedir_prefix":"/home/","initial_uidnumber":5000,"initial_usergroup_number":6000,"username_anonymized_prefix":"waldur_","username_generation_policy":"service_provider","initial_primarygroup_number":5000},"marketplace_category_uuid":"06e45986252244218bd062149fc3b5b5","marketplace_category_name":"Private clouds","marketplace_resource_uuid":"9e2447d6086643a192783893b33607bb","marketplace_plan_uuid":"c092afb394924d7d86f14bb5d6fb984c","marketplace_resource_state":"OK","is_usage_based":false,"is_limit_based":true}]'
+        headers:
+            Allow:
+                - GET, POST, HEAD, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "2769"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Sat, 17 Jan 2026 10:31:02 GMT
+            Link:
+                - <http://127.0.0.1:8000/api/openstack-tenants/?name=921091&project_uuid=7223f14d1b4b490181e15bfbb5cca459>; rel="first", <http://127.0.0.1:8000/api/openstack-tenants/?name=921091&project_uuid=7223f14d1b4b490181e15bfbb5cca459>; rel="last"
+            Server:
+                - WSGIServer/0.2 CPython/3.11.9
+            Vary:
+                - Accept, Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+            X-Result-Count:
+                - "1"
+        status: 200 OK
+        code: 200
+        duration: 119.868102ms
+    - id: 19
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token 99789d5082dd5cfc31b71b6e1ad55ed97d92f63c
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/openstack-network-rbac-policies/?network=http%3A%2F%2F127.0.0.1%3A8000%2Fapi%2Fopenstack-networks%2F106f5251a9474b0ab02e6cb0aa083793%2F&target_tenant=http%3A%2F%2F127.0.0.1%3A8000%2Fapi%2Fopenstack-tenants%2F72ce60586d6f4a7db3f74a20fdc445a2%2F
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 523
+        uncompressed: false
+        body: '[{"url":"http://127.0.0.1:8000/api/openstack-network-rbac-policies/9760d977c52f455e8c2fc97c99710873/","uuid":"9760d977c52f455e8c2fc97c99710873","network":"http://127.0.0.1:8000/api/openstack-networks/106f5251a9474b0ab02e6cb0aa083793/","network_name":"91809-int-net","target_tenant":"http://127.0.0.1:8000/api/openstack-tenants/72ce60586d6f4a7db3f74a20fdc445a2/","target_tenant_name":"921091","backend_id":"be5ea560-2fef-4fc2-ad30-a837d9a35b35","policy_type":"access_as_shared","created":"2026-01-17T10:31:00.506739+00:00"}]'
+        headers:
+            Allow:
+                - GET, POST, HEAD, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "523"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Sat, 17 Jan 2026 10:31:02 GMT
+            Link:
+                - <http://127.0.0.1:8000/api/openstack-network-rbac-policies/?network=http%3A%2F%2F127.0.0.1%3A8000%2Fapi%2Fopenstack-networks%2F106f5251a9474b0ab02e6cb0aa083793%2F&target_tenant=http%3A%2F%2F127.0.0.1%3A8000%2Fapi%2Fopenstack-tenants%2F72ce60586d6f4a7db3f74a20fdc445a2%2F>; rel="first", <http://127.0.0.1:8000/api/openstack-network-rbac-policies/?network=http%3A%2F%2F127.0.0.1%3A8000%2Fapi%2Fopenstack-networks%2F106f5251a9474b0ab02e6cb0aa083793%2F&target_tenant=http%3A%2F%2F127.0.0.1%3A8000%2Fapi%2Fopenstack-tenants%2F72ce60586d6f4a7db3f74a20fdc445a2%2F>; rel="last"
+            Server:
+                - WSGIServer/0.2 CPython/3.11.9
+            Vary:
+                - Accept, Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+            X-Result-Count:
+                - "1"
+        status: 200 OK
+        code: 200
+        duration: 30.711176ms
+    - id: 20
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token 99789d5082dd5cfc31b71b6e1ad55ed97d92f63c
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/openstack-network-rbac-policies/9760d977c52f455e8c2fc97c99710873/
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 521
+        uncompressed: false
+        body: '{"url":"http://127.0.0.1:8000/api/openstack-network-rbac-policies/9760d977c52f455e8c2fc97c99710873/","uuid":"9760d977c52f455e8c2fc97c99710873","network":"http://127.0.0.1:8000/api/openstack-networks/106f5251a9474b0ab02e6cb0aa083793/","network_name":"91809-int-net","target_tenant":"http://127.0.0.1:8000/api/openstack-tenants/72ce60586d6f4a7db3f74a20fdc445a2/","target_tenant_name":"921091","backend_id":"be5ea560-2fef-4fc2-ad30-a837d9a35b35","policy_type":"access_as_shared","created":"2026-01-17T10:31:00.506739+00:00"}'
+        headers:
+            Allow:
+                - GET, PUT, PATCH, DELETE, HEAD, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "521"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Sat, 17 Jan 2026 10:31:02 GMT
+            Server:
+                - WSGIServer/0.2 CPython/3.11.9
+            Vary:
+                - Accept, Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+        status: 200 OK
+        code: 200
+        duration: 66.891502ms
+    - id: 21
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 223
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: '{"network":"http://127.0.0.1:8000/api/openstack-networks/106f5251a9474b0ab02e6cb0aa083793/","policy_type":"access_as_external","target_tenant":"http://127.0.0.1:8000/api/openstack-tenants/72ce60586d6f4a7db3f74a20fdc445a2/"}'
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token 99789d5082dd5cfc31b71b6e1ad55ed97d92f63c
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/openstack-network-rbac-policies/9760d977c52f455e8c2fc97c99710873/
+        method: PATCH
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 523
+        uncompressed: false
+        body: '{"url":"http://127.0.0.1:8000/api/openstack-network-rbac-policies/9760d977c52f455e8c2fc97c99710873/","uuid":"9760d977c52f455e8c2fc97c99710873","network":"http://127.0.0.1:8000/api/openstack-networks/106f5251a9474b0ab02e6cb0aa083793/","network_name":"91809-int-net","target_tenant":"http://127.0.0.1:8000/api/openstack-tenants/72ce60586d6f4a7db3f74a20fdc445a2/","target_tenant_name":"921091","backend_id":"be5ea560-2fef-4fc2-ad30-a837d9a35b35","policy_type":"access_as_external","created":"2026-01-17T10:31:00.506739+00:00"}'
+        headers:
+            Allow:
+                - GET, PUT, PATCH, DELETE, HEAD, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "523"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Sat, 17 Jan 2026 10:31:02 GMT
+            Server:
+                - WSGIServer/0.2 CPython/3.11.9
+            Vary:
+                - Accept, Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+        status: 200 OK
+        code: 200
+        duration: 31.68921ms
+    - id: 22
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token 99789d5082dd5cfc31b71b6e1ad55ed97d92f63c
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/openstack-networks/?name=91809-int-net
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 2391
+        uncompressed: false
+        body: '[{"url":"http://127.0.0.1:8000/api/openstack-networks/106f5251a9474b0ab02e6cb0aa083793/","uuid":"106f5251a9474b0ab02e6cb0aa083793","name":"91809-int-net","description":"","service_name":"UT HPC (Campus)","service_settings":"http://127.0.0.1:8000/api/service-settings/58978795d079495b83bc4a5a8b87f2fc/","service_settings_uuid":"58978795d079495b83bc4a5a8b87f2fc","service_settings_state":"OK","service_settings_error_message":"","project":"http://127.0.0.1:8000/api/projects/692b1720611346ca80bdc2f83c331137/","project_name":"91809","project_uuid":"692b1720611346ca80bdc2f83c331137","customer":"http://127.0.0.1:8000/api/customers/1ea9c174995346b5bbdcb649aa9f789c/","customer_uuid":"1ea9c174995346b5bbdcb649aa9f789c","customer_name":"UT-DevOpsCourse","customer_native_name":"","customer_abbreviation":"","error_message":"","error_traceback":"","resource_type":"OpenStack.Network","state":"OK","created":"2024-09-06T15:02:50.179909+00:00","modified":"2024-09-06T15:03:58.700232+00:00","backend_id":"fa4099b9-c9e2-4958-b2bc-801e26b56492","access_url":null,"tenant":"http://127.0.0.1:8000/api/openstack-tenants/05e5dc3d75c74b969bbd794f6f8ce1c2/","tenant_name":"91809","tenant_uuid":"05e5dc3d75c74b969bbd794f6f8ce1c2","is_external":false,"type":"vxlan","segmentation_id":994,"subnets":[{"uuid":"f2dd0c58aaef4372b8475ebc5f2dbfed","name":"91809-sub-net","description":"","cidr":"192.168.42.0/24","gateway_ip":"192.168.42.1","allocation_pools":[{"start":"192.168.42.10","end":"192.168.42.200"}],"ip_version":4,"enable_dhcp":true}],"mtu":1500,"rbac_policies":[{"url":"http://127.0.0.1:8000/api/openstack-network-rbac-policies/9760d977c52f455e8c2fc97c99710873/","uuid":"9760d977c52f455e8c2fc97c99710873","network":"http://127.0.0.1:8000/api/openstack-networks/106f5251a9474b0ab02e6cb0aa083793/","network_name":"91809-int-net","target_tenant":"http://127.0.0.1:8000/api/openstack-tenants/72ce60586d6f4a7db3f74a20fdc445a2/","target_tenant_name":"921091","backend_id":"be5ea560-2fef-4fc2-ad30-a837d9a35b35","policy_type":"access_as_external","created":"2026-01-17T10:31:00.506739+00:00"}],"marketplace_offering_uuid":null,"marketplace_offering_name":null,"marketplace_offering_plugin_options":null,"marketplace_category_uuid":null,"marketplace_category_name":null,"marketplace_resource_uuid":null,"marketplace_plan_uuid":null,"marketplace_resource_state":null,"is_usage_based":null,"is_limit_based":null}]'
+        headers:
+            Allow:
+                - GET, POST, HEAD, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "2391"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Sat, 17 Jan 2026 10:31:03 GMT
+            Link:
+                - <http://127.0.0.1:8000/api/openstack-networks/?name=91809-int-net>; rel="first", <http://127.0.0.1:8000/api/openstack-networks/?name=91809-int-net>; rel="last"
+            Server:
+                - WSGIServer/0.2 CPython/3.11.9
+            Vary:
+                - Accept, Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+            X-Result-Count:
+                - "1"
+        status: 200 OK
+        code: 200
+        duration: 111.485953ms
+    - id: 23
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token 99789d5082dd5cfc31b71b6e1ad55ed97d92f63c
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/customers/?name=UT-DevOpsCourse
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 1540
+        uncompressed: false
+        body: '[{"url":"http://127.0.0.1:8000/api/customers/1ea9c174995346b5bbdcb649aa9f789c/","uuid":"1ea9c174995346b5bbdcb649aa9f789c","created":"2021-08-27T12:24:36.152080+00:00","organization_groups":[{"uuid":"201b49d327814ec4aae5357e8ce14dcf","url":"http://127.0.0.1:8000/api/organization-groups/201b49d327814ec4aae5357e8ce14dcf/","name":"UT","parent":null,"customers_count":0}],"display_name":"UT-DevOpsCourse (UT)","backend_id":"","image":null,"blocked":false,"archived":false,"display_billing_info_in_projects":true,"default_tax_percent":"0.00","accounting_start_date":"2021-08-27T12:24:36.152469+00:00","projects_count":96,"users_count":0,"sponsor_number":null,"country_name":"Estonia","max_service_accounts":0,"project_metadata_checklist":null,"grace_period_days":null,"user_email_patterns":[],"user_affiliations":[],"user_identity_sources":[],"name":"UT-DevOpsCourse","slug":"ut-devop-1","native_name":"","abbreviation":"","description":"","contact_details":"","agreement_number":"","email":"chinmaya.dehury@ut.ee","phone_number":"","access_subnets":"","registration_code":"","homepage":"","domain":"UT","vat_code":"","postal":"","address":"","bank_name":"","latitude":null,"longitude":null,"bank_account":"","country":"EE","notification_emails":"","payment_profiles":[],"customer_credit":null,"customer_unallocated_credit":null,"is_service_provider":false,"service_provider":null,"service_provider_uuid":null,"call_managing_organization_uuid":null,"billing_price_estimate":{"total":4701.99,"current":"0.00","tax":"0.00","tax_current":"0.00"}}]'
+        headers:
+            Allow:
+                - GET, POST, HEAD, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "1540"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Sat, 17 Jan 2026 10:31:03 GMT
+            Link:
+                - <http://127.0.0.1:8000/api/customers/?name=UT-DevOpsCourse>; rel="first", <http://127.0.0.1:8000/api/customers/?name=UT-DevOpsCourse>; rel="last"
+            Server:
+                - WSGIServer/0.2 CPython/3.11.9
+            Vary:
+                - Accept, Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+            X-Result-Count:
+                - "1"
+        status: 200 OK
+        code: 200
+        duration: 120.465572ms
+    - id: 24
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token 99789d5082dd5cfc31b71b6e1ad55ed97d92f63c
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/projects/?customer=1ea9c174995346b5bbdcb649aa9f789c&name=921091
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 1173
+        uncompressed: false
+        body: '[{"url":"http://127.0.0.1:8000/api/projects/7223f14d1b4b490181e15bfbb5cca459/","uuid":"7223f14d1b4b490181e15bfbb5cca459","name":"921091","slug":"921091-3","customer":"http://127.0.0.1:8000/api/customers/1ea9c174995346b5bbdcb649aa9f789c/","customer_uuid":"1ea9c174995346b5bbdcb649aa9f789c","customer_name":"UT-DevOpsCourse","customer_slug":"ut-devop-1","customer_native_name":"","customer_abbreviation":"","description":"Project for person with matrix 921091","customer_display_billing_info_in_projects":true,"created":"2024-09-06T14:58:31.077247+00:00","type":null,"type_name":null,"type_uuid":null,"backend_id":"","start_date":null,"end_date":null,"end_date_requested_by":null,"oecd_fos_2007_code":null,"oecd_fos_2007_label":null,"is_industry":false,"image":null,"resources_count":1,"max_service_accounts":0,"kind":"default","is_removed":false,"termination_metadata":null,"staff_notes":"","grace_period_days":null,"user_email_patterns":[],"user_affiliations":[],"user_identity_sources":[],"project_credit":null,"marketplace_resource_count":{"06e45986252244218bd062149fc3b5b5":1},"billing_price_estimate":{"total":43.49,"current":"0.00","tax":"0.00","tax_current":"0.00"}}]'
+        headers:
+            Allow:
+                - GET, POST, HEAD, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "1173"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Sat, 17 Jan 2026 10:31:03 GMT
+            Link:
+                - <http://127.0.0.1:8000/api/projects/?customer=1ea9c174995346b5bbdcb649aa9f789c&name=921091>; rel="first", <http://127.0.0.1:8000/api/projects/?customer=1ea9c174995346b5bbdcb649aa9f789c&name=921091>; rel="last"
+            Server:
+                - WSGIServer/0.2 CPython/3.11.9
+            Vary:
+                - Accept, Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+            X-Result-Count:
+                - "1"
+        status: 200 OK
+        code: 200
+        duration: 54.944253ms
+    - id: 25
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token 99789d5082dd5cfc31b71b6e1ad55ed97d92f63c
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/openstack-tenants/?name=921091&project_uuid=7223f14d1b4b490181e15bfbb5cca459
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 2769
+        uncompressed: false
+        body: '[{"url":"http://127.0.0.1:8000/api/openstack-tenants/72ce60586d6f4a7db3f74a20fdc445a2/","uuid":"72ce60586d6f4a7db3f74a20fdc445a2","name":"921091","description":"","service_name":"UT HPC (Campus)","service_settings":"http://127.0.0.1:8000/api/service-settings/58978795d079495b83bc4a5a8b87f2fc/","service_settings_uuid":"58978795d079495b83bc4a5a8b87f2fc","service_settings_state":"OK","service_settings_error_message":"","project":"http://127.0.0.1:8000/api/projects/7223f14d1b4b490181e15bfbb5cca459/","project_name":"921091","project_uuid":"7223f14d1b4b490181e15bfbb5cca459","customer":"http://127.0.0.1:8000/api/customers/1ea9c174995346b5bbdcb649aa9f789c/","customer_uuid":"1ea9c174995346b5bbdcb649aa9f789c","customer_name":"UT-DevOpsCourse","customer_native_name":"","customer_abbreviation":"","error_message":"","error_traceback":"","resource_type":"OpenStack.Tenant","state":"OK","created":"2024-09-06T15:04:15.411542+00:00","modified":"2024-09-09T21:16:53.865962+00:00","backend_id":"3a13c464df3f4e70b1ae438bf34e68bb","availability_zone":"","internal_network_id":"2cf719b5-61cd-4313-8dd7-0099fef53850","external_network_id":"e0c1110b-96d6-4c45-9b8e-2d33bf11259f","quotas":[{"name":"gigabytes_rbd","usage":0,"limit":-1},{"name":"gigabytes_prod2","usage":0,"limit":-1},{"name":"storage","usage":0,"limit":51200},{"name":"gigabytes_gpfs","usage":0,"limit":-1},{"name":"gigabytes_prod","usage":0,"limit":-1},{"name":"vcpu","usage":0,"limit":10},{"name":"security_group_rule_count","usage":9,"limit":100},{"name":"instances","usage":0,"limit":10},{"name":"volumes","usage":0,"limit":10},{"name":"floating_ip_count","usage":0,"limit":50},{"name":"network_count","usage":1,"limit":100},{"name":"port_count","usage":3,"limit":500},{"name":"gigabytes___DEFAULT__","usage":0,"limit":-1},{"name":"ram","usage":0,"limit":20480},{"name":"subnet_count","usage":1,"limit":100},{"name":"gigabytes_prod3","usage":0,"limit":-1},{"name":"snapshots","usage":0,"limit":10},{"name":"security_group_count","usage":5,"limit":20}],"default_volume_type_name":"","skip_creation_of_default_router":false,"marketplace_offering_uuid":"4ce883470b7242beb7368becf614d1ec","marketplace_offering_name":"UT HPC (Campus)","marketplace_offering_plugin_options":{"storage_mode":"dynamic","homedir_prefix":"/home/","initial_uidnumber":5000,"initial_usergroup_number":6000,"username_anonymized_prefix":"waldur_","username_generation_policy":"service_provider","initial_primarygroup_number":5000},"marketplace_category_uuid":"06e45986252244218bd062149fc3b5b5","marketplace_category_name":"Private clouds","marketplace_resource_uuid":"9e2447d6086643a192783893b33607bb","marketplace_plan_uuid":"c092afb394924d7d86f14bb5d6fb984c","marketplace_resource_state":"OK","is_usage_based":false,"is_limit_based":true}]'
+        headers:
+            Allow:
+                - GET, POST, HEAD, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "2769"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Sat, 17 Jan 2026 10:31:03 GMT
+            Link:
+                - <http://127.0.0.1:8000/api/openstack-tenants/?name=921091&project_uuid=7223f14d1b4b490181e15bfbb5cca459>; rel="first", <http://127.0.0.1:8000/api/openstack-tenants/?name=921091&project_uuid=7223f14d1b4b490181e15bfbb5cca459>; rel="last"
+            Server:
+                - WSGIServer/0.2 CPython/3.11.9
+            Vary:
+                - Accept, Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+            X-Result-Count:
+                - "1"
+        status: 200 OK
+        code: 200
+        duration: 138.981364ms
+    - id: 26
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token 99789d5082dd5cfc31b71b6e1ad55ed97d92f63c
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/openstack-networks/?name=91809-int-net
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 2391
+        uncompressed: false
+        body: '[{"url":"http://127.0.0.1:8000/api/openstack-networks/106f5251a9474b0ab02e6cb0aa083793/","uuid":"106f5251a9474b0ab02e6cb0aa083793","name":"91809-int-net","description":"","service_name":"UT HPC (Campus)","service_settings":"http://127.0.0.1:8000/api/service-settings/58978795d079495b83bc4a5a8b87f2fc/","service_settings_uuid":"58978795d079495b83bc4a5a8b87f2fc","service_settings_state":"OK","service_settings_error_message":"","project":"http://127.0.0.1:8000/api/projects/692b1720611346ca80bdc2f83c331137/","project_name":"91809","project_uuid":"692b1720611346ca80bdc2f83c331137","customer":"http://127.0.0.1:8000/api/customers/1ea9c174995346b5bbdcb649aa9f789c/","customer_uuid":"1ea9c174995346b5bbdcb649aa9f789c","customer_name":"UT-DevOpsCourse","customer_native_name":"","customer_abbreviation":"","error_message":"","error_traceback":"","resource_type":"OpenStack.Network","state":"OK","created":"2024-09-06T15:02:50.179909+00:00","modified":"2024-09-06T15:03:58.700232+00:00","backend_id":"fa4099b9-c9e2-4958-b2bc-801e26b56492","access_url":null,"tenant":"http://127.0.0.1:8000/api/openstack-tenants/05e5dc3d75c74b969bbd794f6f8ce1c2/","tenant_name":"91809","tenant_uuid":"05e5dc3d75c74b969bbd794f6f8ce1c2","is_external":false,"type":"vxlan","segmentation_id":994,"subnets":[{"uuid":"f2dd0c58aaef4372b8475ebc5f2dbfed","name":"91809-sub-net","description":"","cidr":"192.168.42.0/24","gateway_ip":"192.168.42.1","allocation_pools":[{"start":"192.168.42.10","end":"192.168.42.200"}],"ip_version":4,"enable_dhcp":true}],"mtu":1500,"rbac_policies":[{"url":"http://127.0.0.1:8000/api/openstack-network-rbac-policies/9760d977c52f455e8c2fc97c99710873/","uuid":"9760d977c52f455e8c2fc97c99710873","network":"http://127.0.0.1:8000/api/openstack-networks/106f5251a9474b0ab02e6cb0aa083793/","network_name":"91809-int-net","target_tenant":"http://127.0.0.1:8000/api/openstack-tenants/72ce60586d6f4a7db3f74a20fdc445a2/","target_tenant_name":"921091","backend_id":"be5ea560-2fef-4fc2-ad30-a837d9a35b35","policy_type":"access_as_external","created":"2026-01-17T10:31:00.506739+00:00"}],"marketplace_offering_uuid":null,"marketplace_offering_name":null,"marketplace_offering_plugin_options":null,"marketplace_category_uuid":null,"marketplace_category_name":null,"marketplace_resource_uuid":null,"marketplace_plan_uuid":null,"marketplace_resource_state":null,"is_usage_based":null,"is_limit_based":null}]'
+        headers:
+            Allow:
+                - GET, POST, HEAD, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "2391"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Sat, 17 Jan 2026 10:31:03 GMT
+            Link:
+                - <http://127.0.0.1:8000/api/openstack-networks/?name=91809-int-net>; rel="first", <http://127.0.0.1:8000/api/openstack-networks/?name=91809-int-net>; rel="last"
+            Server:
+                - WSGIServer/0.2 CPython/3.11.9
+            Vary:
+                - Accept, Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+            X-Result-Count:
+                - "1"
+        status: 200 OK
+        code: 200
+        duration: 74.514829ms
+    - id: 27
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token 99789d5082dd5cfc31b71b6e1ad55ed97d92f63c
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/customers/?name=UT-DevOpsCourse
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 1540
+        uncompressed: false
+        body: '[{"url":"http://127.0.0.1:8000/api/customers/1ea9c174995346b5bbdcb649aa9f789c/","uuid":"1ea9c174995346b5bbdcb649aa9f789c","created":"2021-08-27T12:24:36.152080+00:00","organization_groups":[{"uuid":"201b49d327814ec4aae5357e8ce14dcf","url":"http://127.0.0.1:8000/api/organization-groups/201b49d327814ec4aae5357e8ce14dcf/","name":"UT","parent":null,"customers_count":0}],"display_name":"UT-DevOpsCourse (UT)","backend_id":"","image":null,"blocked":false,"archived":false,"display_billing_info_in_projects":true,"default_tax_percent":"0.00","accounting_start_date":"2021-08-27T12:24:36.152469+00:00","projects_count":96,"users_count":0,"sponsor_number":null,"country_name":"Estonia","max_service_accounts":0,"project_metadata_checklist":null,"grace_period_days":null,"user_email_patterns":[],"user_affiliations":[],"user_identity_sources":[],"name":"UT-DevOpsCourse","slug":"ut-devop-1","native_name":"","abbreviation":"","description":"","contact_details":"","agreement_number":"","email":"chinmaya.dehury@ut.ee","phone_number":"","access_subnets":"","registration_code":"","homepage":"","domain":"UT","vat_code":"","postal":"","address":"","bank_name":"","latitude":null,"longitude":null,"bank_account":"","country":"EE","notification_emails":"","payment_profiles":[],"customer_credit":null,"customer_unallocated_credit":null,"is_service_provider":false,"service_provider":null,"service_provider_uuid":null,"call_managing_organization_uuid":null,"billing_price_estimate":{"total":4701.99,"current":"0.00","tax":"0.00","tax_current":"0.00"}}]'
+        headers:
+            Allow:
+                - GET, POST, HEAD, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "1540"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Sat, 17 Jan 2026 10:31:03 GMT
+            Link:
+                - <http://127.0.0.1:8000/api/customers/?name=UT-DevOpsCourse>; rel="first", <http://127.0.0.1:8000/api/customers/?name=UT-DevOpsCourse>; rel="last"
+            Server:
+                - WSGIServer/0.2 CPython/3.11.9
+            Vary:
+                - Accept, Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+            X-Result-Count:
+                - "1"
+        status: 200 OK
+        code: 200
+        duration: 83.649591ms
+    - id: 28
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token 99789d5082dd5cfc31b71b6e1ad55ed97d92f63c
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/projects/?customer=1ea9c174995346b5bbdcb649aa9f789c&name=921091
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 1173
+        uncompressed: false
+        body: '[{"url":"http://127.0.0.1:8000/api/projects/7223f14d1b4b490181e15bfbb5cca459/","uuid":"7223f14d1b4b490181e15bfbb5cca459","name":"921091","slug":"921091-3","customer":"http://127.0.0.1:8000/api/customers/1ea9c174995346b5bbdcb649aa9f789c/","customer_uuid":"1ea9c174995346b5bbdcb649aa9f789c","customer_name":"UT-DevOpsCourse","customer_slug":"ut-devop-1","customer_native_name":"","customer_abbreviation":"","description":"Project for person with matrix 921091","customer_display_billing_info_in_projects":true,"created":"2024-09-06T14:58:31.077247+00:00","type":null,"type_name":null,"type_uuid":null,"backend_id":"","start_date":null,"end_date":null,"end_date_requested_by":null,"oecd_fos_2007_code":null,"oecd_fos_2007_label":null,"is_industry":false,"image":null,"resources_count":1,"max_service_accounts":0,"kind":"default","is_removed":false,"termination_metadata":null,"staff_notes":"","grace_period_days":null,"user_email_patterns":[],"user_affiliations":[],"user_identity_sources":[],"project_credit":null,"marketplace_resource_count":{"06e45986252244218bd062149fc3b5b5":1},"billing_price_estimate":{"total":43.49,"current":"0.00","tax":"0.00","tax_current":"0.00"}}]'
+        headers:
+            Allow:
+                - GET, POST, HEAD, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "1173"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Sat, 17 Jan 2026 10:31:03 GMT
+            Link:
+                - <http://127.0.0.1:8000/api/projects/?customer=1ea9c174995346b5bbdcb649aa9f789c&name=921091>; rel="first", <http://127.0.0.1:8000/api/projects/?customer=1ea9c174995346b5bbdcb649aa9f789c&name=921091>; rel="last"
+            Server:
+                - WSGIServer/0.2 CPython/3.11.9
+            Vary:
+                - Accept, Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+            X-Result-Count:
+                - "1"
+        status: 200 OK
+        code: 200
+        duration: 43.459691ms
+    - id: 29
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token 99789d5082dd5cfc31b71b6e1ad55ed97d92f63c
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/openstack-tenants/?name=921091&project_uuid=7223f14d1b4b490181e15bfbb5cca459
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 2769
+        uncompressed: false
+        body: '[{"url":"http://127.0.0.1:8000/api/openstack-tenants/72ce60586d6f4a7db3f74a20fdc445a2/","uuid":"72ce60586d6f4a7db3f74a20fdc445a2","name":"921091","description":"","service_name":"UT HPC (Campus)","service_settings":"http://127.0.0.1:8000/api/service-settings/58978795d079495b83bc4a5a8b87f2fc/","service_settings_uuid":"58978795d079495b83bc4a5a8b87f2fc","service_settings_state":"OK","service_settings_error_message":"","project":"http://127.0.0.1:8000/api/projects/7223f14d1b4b490181e15bfbb5cca459/","project_name":"921091","project_uuid":"7223f14d1b4b490181e15bfbb5cca459","customer":"http://127.0.0.1:8000/api/customers/1ea9c174995346b5bbdcb649aa9f789c/","customer_uuid":"1ea9c174995346b5bbdcb649aa9f789c","customer_name":"UT-DevOpsCourse","customer_native_name":"","customer_abbreviation":"","error_message":"","error_traceback":"","resource_type":"OpenStack.Tenant","state":"OK","created":"2024-09-06T15:04:15.411542+00:00","modified":"2024-09-09T21:16:53.865962+00:00","backend_id":"3a13c464df3f4e70b1ae438bf34e68bb","availability_zone":"","internal_network_id":"2cf719b5-61cd-4313-8dd7-0099fef53850","external_network_id":"e0c1110b-96d6-4c45-9b8e-2d33bf11259f","quotas":[{"name":"gigabytes_rbd","usage":0,"limit":-1},{"name":"gigabytes_prod2","usage":0,"limit":-1},{"name":"storage","usage":0,"limit":51200},{"name":"gigabytes_gpfs","usage":0,"limit":-1},{"name":"gigabytes_prod","usage":0,"limit":-1},{"name":"vcpu","usage":0,"limit":10},{"name":"security_group_rule_count","usage":9,"limit":100},{"name":"instances","usage":0,"limit":10},{"name":"volumes","usage":0,"limit":10},{"name":"floating_ip_count","usage":0,"limit":50},{"name":"network_count","usage":1,"limit":100},{"name":"port_count","usage":3,"limit":500},{"name":"gigabytes___DEFAULT__","usage":0,"limit":-1},{"name":"ram","usage":0,"limit":20480},{"name":"subnet_count","usage":1,"limit":100},{"name":"gigabytes_prod3","usage":0,"limit":-1},{"name":"snapshots","usage":0,"limit":10},{"name":"security_group_count","usage":5,"limit":20}],"default_volume_type_name":"","skip_creation_of_default_router":false,"marketplace_offering_uuid":"4ce883470b7242beb7368becf614d1ec","marketplace_offering_name":"UT HPC (Campus)","marketplace_offering_plugin_options":{"storage_mode":"dynamic","homedir_prefix":"/home/","initial_uidnumber":5000,"initial_usergroup_number":6000,"username_anonymized_prefix":"waldur_","username_generation_policy":"service_provider","initial_primarygroup_number":5000},"marketplace_category_uuid":"06e45986252244218bd062149fc3b5b5","marketplace_category_name":"Private clouds","marketplace_resource_uuid":"9e2447d6086643a192783893b33607bb","marketplace_plan_uuid":"c092afb394924d7d86f14bb5d6fb984c","marketplace_resource_state":"OK","is_usage_based":false,"is_limit_based":true}]'
+        headers:
+            Allow:
+                - GET, POST, HEAD, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "2769"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Sat, 17 Jan 2026 10:31:04 GMT
+            Link:
+                - <http://127.0.0.1:8000/api/openstack-tenants/?name=921091&project_uuid=7223f14d1b4b490181e15bfbb5cca459>; rel="first", <http://127.0.0.1:8000/api/openstack-tenants/?name=921091&project_uuid=7223f14d1b4b490181e15bfbb5cca459>; rel="last"
+            Server:
+                - WSGIServer/0.2 CPython/3.11.9
+            Vary:
+                - Accept, Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+            X-Result-Count:
+                - "1"
+        status: 200 OK
+        code: 200
+        duration: 105.374236ms
+    - id: 30
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token 99789d5082dd5cfc31b71b6e1ad55ed97d92f63c
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/openstack-network-rbac-policies/9760d977c52f455e8c2fc97c99710873/
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 523
+        uncompressed: false
+        body: '{"url":"http://127.0.0.1:8000/api/openstack-network-rbac-policies/9760d977c52f455e8c2fc97c99710873/","uuid":"9760d977c52f455e8c2fc97c99710873","network":"http://127.0.0.1:8000/api/openstack-networks/106f5251a9474b0ab02e6cb0aa083793/","network_name":"91809-int-net","target_tenant":"http://127.0.0.1:8000/api/openstack-tenants/72ce60586d6f4a7db3f74a20fdc445a2/","target_tenant_name":"921091","backend_id":"be5ea560-2fef-4fc2-ad30-a837d9a35b35","policy_type":"access_as_external","created":"2026-01-17T10:31:00.506739+00:00"}'
+        headers:
+            Allow:
+                - GET, PUT, PATCH, DELETE, HEAD, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "523"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Sat, 17 Jan 2026 10:31:04 GMT
+            Server:
+                - WSGIServer/0.2 CPython/3.11.9
+            Vary:
+                - Accept, Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+        status: 200 OK
+        code: 200
+        duration: 18.145492ms
+    - id: 31
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token 99789d5082dd5cfc31b71b6e1ad55ed97d92f63c
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/openstack-network-rbac-policies/9760d977c52f455e8c2fc97c99710873/
+        method: DELETE
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 0
+        uncompressed: false
+        body: ""
+        headers:
+            Allow:
+                - GET, PUT, PATCH, DELETE, HEAD, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "0"
+            Date:
+                - Sat, 17 Jan 2026 10:31:04 GMT
+            Server:
+                - WSGIServer/0.2 CPython/3.11.9
+            Vary:
+                - Accept, Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+        status: 204 No Content
+        code: 204
+        duration: 31.48052ms

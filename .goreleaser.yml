@@ -1,0 +1,62 @@
+# GoReleaser configuration for terraform-waldur-provider
+
+before:
+  hooks:
+    - go mod tidy
+
+builds:
+  - env:
+      - CGO_ENABLED=0
+    mod_timestamp: '<no value>'
+    flags:
+      - -trimpath
+    ldflags:
+      - '-s -w -X main.version=<no value>'
+    goos:
+      - linux
+      - darwin
+      - windows
+    goarch:
+      - amd64
+      - arm64
+      - arm
+    goarm:
+      - '7'
+    ignore:
+      - goos: windows
+        goarch: arm
+      - goos: windows
+        goarch: arm64
+    binary: '<no value>_v<no value>'
+
+archives:
+  - format: zip
+    name_template: '<no value>_<no value>_<no value>_<no value>'
+
+checksum:
+  name_template: '<no value>_<no value>_SHA256SUMS'
+  algorithm: sha256
+
+signs:
+  - artifacts: checksum
+    args:
+      - "--batch"
+      - "--local-user"
+      - "<no value>"
+      - "--output"
+      - "${signature}"
+      - "--detach-sign"
+      - "${artifact}"
+
+release:
+  draft: false
+  prerelease: auto
+
+changelog:
+  skip: false
+  sort: asc
+  filters:
+    exclude:
+      - '^docs:'
+      - '^test:'
+      - '^chore:'
