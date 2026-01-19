@@ -77,19 +77,19 @@ func (d *OpenstackPortDataSource) Schema(ctx context.Context, req datasource.Sch
 			},
 			"admin_state_up": schema.BoolAttribute{
 				Optional:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"backend_id": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"device_id": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"device_owner": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"exclude_subnet_uuids": schema.StringAttribute{
 				Optional:            true,
@@ -105,15 +105,15 @@ func (d *OpenstackPortDataSource) Schema(ctx context.Context, req datasource.Sch
 			},
 			"mac_address": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"name": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"name_exact": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"network_name": schema.StringAttribute{
 				Optional:            true,
@@ -129,49 +129,49 @@ func (d *OpenstackPortDataSource) Schema(ctx context.Context, req datasource.Sch
 			},
 			"status": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"tenant": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"tenant_uuid": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"access_url": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"allowed_address_pairs": schema.ListAttribute{
 				CustomType:          types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"mac_address": types.StringType}}},
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"created": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"description": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"error_message": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"error_traceback": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"floating_ips": schema.ListAttribute{
 				CustomType:          types.ListType{ElemType: types.StringType},
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"modified": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"network": schema.StringAttribute{
 				Computed:            true,
@@ -183,24 +183,24 @@ func (d *OpenstackPortDataSource) Schema(ctx context.Context, req datasource.Sch
 			},
 			"resource_type": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"security_groups": schema.ListAttribute{
 				CustomType:          types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"name": types.StringType, "url": types.StringType}}},
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"state": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"tenant_name": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"url": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 		},
 	}

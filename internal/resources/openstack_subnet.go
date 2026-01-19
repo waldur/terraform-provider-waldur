@@ -77,7 +77,7 @@ func (r *OpenstackSubnetResource) Schema(ctx context.Context, req resource.Schem
 			},
 			"access_url": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"allocation_pools": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
@@ -94,25 +94,25 @@ func (r *OpenstackSubnetResource) Schema(ctx context.Context, req resource.Schem
 				},
 				Optional:            true,
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"backend_id": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"cidr": schema.StringAttribute{
 				Optional:            true,
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"created": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"description": schema.StringAttribute{
 				Optional:            true,
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"disable_gateway": schema.BoolAttribute{
 				Optional:            true,
@@ -123,7 +123,7 @@ func (r *OpenstackSubnetResource) Schema(ctx context.Context, req resource.Schem
 				CustomType:          types.ListType{ElemType: types.StringType},
 				Optional:            true,
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"enable_dhcp": schema.BoolAttribute{
 				Computed:            true,
@@ -131,11 +131,11 @@ func (r *OpenstackSubnetResource) Schema(ctx context.Context, req resource.Schem
 			},
 			"error_message": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"error_traceback": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"gateway_ip": schema.StringAttribute{
 				Optional:            true,
@@ -147,7 +147,7 @@ func (r *OpenstackSubnetResource) Schema(ctx context.Context, req resource.Schem
 					Attributes: map[string]schema.Attribute{
 						"destination": schema.StringAttribute{
 							Required:            true,
-							MarkdownDescription: "",
+							MarkdownDescription: " ",
 						},
 						"nexthop": schema.StringAttribute{
 							Required:            true,
@@ -157,7 +157,7 @@ func (r *OpenstackSubnetResource) Schema(ctx context.Context, req resource.Schem
 				},
 				Optional:            true,
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"ip_version": schema.Int64Attribute{
 				Computed:            true,
@@ -169,11 +169,11 @@ func (r *OpenstackSubnetResource) Schema(ctx context.Context, req resource.Schem
 			},
 			"modified": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"name": schema.StringAttribute{
 				Required:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"network": schema.StringAttribute{
 				Computed:            true,
@@ -181,27 +181,27 @@ func (r *OpenstackSubnetResource) Schema(ctx context.Context, req resource.Schem
 			},
 			"network_name": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"resource_type": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"state": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"tenant": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"tenant_name": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"url": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 		},
 

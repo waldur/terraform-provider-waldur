@@ -128,23 +128,23 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 			},
 			"attributes": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"billable": schema.BoolAttribute{
 				Optional:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"can_create_offering_user": schema.BoolAttribute{
 				Optional:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"category_group_uuid": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"category_uuid": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"created": schema.StringAttribute{
 				Optional:            true,
@@ -152,15 +152,15 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 			},
 			"customer": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"customer_uuid": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"description": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"has_active_terms_of_service": schema.BoolAttribute{
 				Optional:            true,
@@ -180,19 +180,19 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 			},
 			"name": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"name_exact": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"organization_group_uuid": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"parent_uuid": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"project_uuid": schema.StringAttribute{
 				Optional:            true,
@@ -220,15 +220,15 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 			},
 			"shared": schema.BoolAttribute{
 				Optional:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"state": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"type": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"user_has_consent": schema.BoolAttribute{
 				Optional:            true,
@@ -248,15 +248,15 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 			},
 			"backend_id": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"category": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"category_title": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"citation_count": schema.Int64Attribute{
 				Computed:            true,
@@ -264,42 +264,42 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 			},
 			"compliance_checklist": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"components": schema.ListAttribute{
 				CustomType:          types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"article_code": types.StringType, "billing_type": types.StringType, "default_limit": types.Int64Type, "description": types.StringType, "factor": types.Int64Type, "is_boolean": types.BoolType, "is_builtin": types.BoolType, "is_prepaid": types.BoolType, "limit_amount": types.Int64Type, "limit_period": types.StringType, "max_available_limit": types.Int64Type, "max_prepaid_duration": types.Int64Type, "max_value": types.Int64Type, "measured_unit": types.StringType, "min_prepaid_duration": types.Int64Type, "min_value": types.Int64Type, "name": types.StringType, "overage_component": types.StringType, "type": types.StringType, "unit_factor": types.Int64Type}}},
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"country": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"datacite_doi": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"endpoints": schema.ListAttribute{
 				CustomType:          types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"name": types.StringType, "url": types.StringType}}},
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"files": schema.ListAttribute{
 				CustomType:          types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"created": types.StringType, "file": types.StringType, "name": types.StringType}}},
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"full_description": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"getting_started": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"google_calendar_is_public": schema.BoolAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"google_calendar_link": schema.StringAttribute{
 				Computed:            true,
@@ -307,127 +307,127 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 			},
 			"has_compliance_requirements": schema.BoolAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"image": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"integration_guide": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"latitude": schema.Float64Attribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"longitude": schema.Float64Attribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"order_count": schema.Int64Attribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"organization_groups": schema.ListAttribute{
 				CustomType:          types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"customers_count": types.Int64Type, "name": types.StringType, "parent": types.StringType, "parent_name": types.StringType, "parent_uuid": types.StringType, "url": types.StringType}}},
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"parent_description": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"parent_name": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"partitions": schema.ListAttribute{
 				CustomType:          types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"cpu_bind": types.Int64Type, "def_cpu_per_gpu": types.Int64Type, "def_mem_per_cpu": types.Int64Type, "def_mem_per_gpu": types.Int64Type, "def_mem_per_node": types.Int64Type, "default_time": types.Int64Type, "exclusive_topo": types.BoolType, "exclusive_user": types.BoolType, "grace_time": types.Int64Type, "max_cpus_per_node": types.Int64Type, "max_cpus_per_socket": types.Int64Type, "max_mem_per_cpu": types.Int64Type, "max_mem_per_node": types.Int64Type, "max_nodes": types.Int64Type, "max_time": types.Int64Type, "min_nodes": types.Int64Type, "partition_name": types.StringType, "priority_tier": types.Int64Type, "qos": types.StringType, "req_resv": types.BoolType}}},
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"paused_reason": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"plans": schema.ListAttribute{
 				CustomType:          types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"archived": types.BoolType, "article_code": types.StringType, "backend_id": types.StringType, "components": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"amount": types.Int64Type, "discount_rate": types.Int64Type, "discount_threshold": types.Int64Type, "future_price": types.StringType, "measured_unit": types.StringType, "name": types.StringType, "price": types.StringType, "type": types.StringType}}}, "description": types.StringType, "init_price": types.Float64Type, "is_active": types.BoolType, "max_amount": types.Int64Type, "minimal_price": types.Float64Type, "name": types.StringType, "organization_groups": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"customers_count": types.Int64Type, "name": types.StringType, "parent": types.StringType, "parent_name": types.StringType, "parent_uuid": types.StringType, "url": types.StringType}}}, "plan_type": types.StringType, "resources_count": types.Int64Type, "switch_price": types.Float64Type, "unit": types.StringType, "unit_price": types.StringType, "url": types.StringType}}},
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"privacy_policy_link": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"promotion_campaigns": schema.ListAttribute{
 				CustomType:          types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"description": types.StringType, "discount": types.Int64Type, "discount_type": types.StringType, "end_date": types.StringType, "months": types.Int64Type, "name": types.StringType, "service_provider": types.StringType, "start_date": types.StringType, "stock": types.Int64Type}}},
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"quotas": schema.ListAttribute{
 				CustomType:          types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"limit": types.Int64Type, "name": types.StringType, "usage": types.Int64Type}}},
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"roles": schema.ListAttribute{
 				CustomType:          types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"name": types.StringType, "url": types.StringType}}},
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"scope": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"scope_error_message": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"scope_name": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"scope_state": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"screenshots": schema.ListAttribute{
 				CustomType:          types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"created": types.StringType, "description": types.StringType, "image": types.StringType, "name": types.StringType, "thumbnail": types.StringType}}},
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"slug": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"software_catalogs": schema.ListAttribute{
 				CustomType:          types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"catalog": types.ObjectType{AttrTypes: map[string]attr.Type{"description": types.StringType, "name": types.StringType, "version": types.StringType}}, "package_count": types.Int64Type, "partition": types.ObjectType{AttrTypes: map[string]attr.Type{"partition_name": types.StringType, "priority_tier": types.Int64Type, "qos": types.StringType}}}}},
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"thumbnail": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"total_cost": schema.Int64Attribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"total_cost_estimated": schema.Int64Attribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"total_customers": schema.Int64Attribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"url": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"vendor_details": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 		},
 	}

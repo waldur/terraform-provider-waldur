@@ -88,7 +88,7 @@ func (d *OpenstackSubnetDataSource) Schema(ctx context.Context, req datasource.S
 			},
 			"backend_id": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"can_manage": schema.BoolAttribute{
 				Optional:            true,
@@ -96,27 +96,27 @@ func (d *OpenstackSubnetDataSource) Schema(ctx context.Context, req datasource.S
 			},
 			"customer": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"customer_abbreviation": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"customer_name": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"customer_native_name": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"customer_uuid": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"description": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"direct_only": schema.BoolAttribute{
 				Optional:            true,
@@ -124,43 +124,43 @@ func (d *OpenstackSubnetDataSource) Schema(ctx context.Context, req datasource.S
 			},
 			"enable_dhcp": schema.BoolAttribute{
 				Optional:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"external_ip": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"ip_version": schema.Int64Attribute{
 				Optional:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"name": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"name_exact": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"network": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"network_uuid": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"project": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"project_name": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"project_uuid": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"rbac_only": schema.BoolAttribute{
 				Optional:            true,
@@ -168,15 +168,15 @@ func (d *OpenstackSubnetDataSource) Schema(ctx context.Context, req datasource.S
 			},
 			"service_settings_name": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"service_settings_uuid": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"state": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"tenant": schema.StringAttribute{
 				Optional:            true,
@@ -188,24 +188,24 @@ func (d *OpenstackSubnetDataSource) Schema(ctx context.Context, req datasource.S
 			},
 			"uuid": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"access_url": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"allocation_pools": schema.ListAttribute{
 				CustomType:          types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"end": types.StringType, "start": types.StringType}}},
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"cidr": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"created": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"disable_gateway": schema.BoolAttribute{
 				Computed:            true,
@@ -214,15 +214,15 @@ func (d *OpenstackSubnetDataSource) Schema(ctx context.Context, req datasource.S
 			"dns_nameservers": schema.ListAttribute{
 				CustomType:          types.ListType{ElemType: types.StringType},
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"error_message": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"error_traceback": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"gateway_ip": schema.StringAttribute{
 				Computed:            true,
@@ -231,7 +231,7 @@ func (d *OpenstackSubnetDataSource) Schema(ctx context.Context, req datasource.S
 			"host_routes": schema.ListAttribute{
 				CustomType:          types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"destination": types.StringType, "nexthop": types.StringType}}},
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"is_connected": schema.BoolAttribute{
 				Computed:            true,
@@ -239,23 +239,23 @@ func (d *OpenstackSubnetDataSource) Schema(ctx context.Context, req datasource.S
 			},
 			"modified": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"network_name": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"resource_type": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"tenant_name": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"url": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 		},
 	}

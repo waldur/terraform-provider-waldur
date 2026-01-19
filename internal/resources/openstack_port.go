@@ -81,7 +81,7 @@ func (r *OpenstackPortResource) Schema(ctx context.Context, req resource.SchemaR
 			},
 			"access_url": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"admin_state_up": schema.BoolAttribute{
 				Computed:            true,
@@ -93,18 +93,18 @@ func (r *OpenstackPortResource) Schema(ctx context.Context, req resource.SchemaR
 						"ip_address": schema.StringAttribute{
 							Optional:            true,
 							Computed:            true,
-							MarkdownDescription: "",
+							MarkdownDescription: " ",
 						},
 						"mac_address": schema.StringAttribute{
 							Optional:            true,
 							Computed:            true,
-							MarkdownDescription: "",
+							MarkdownDescription: " ",
 						},
 					},
 				},
 				Optional:            true,
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"backend_id": schema.StringAttribute{
 				Computed:            true,
@@ -112,12 +112,12 @@ func (r *OpenstackPortResource) Schema(ctx context.Context, req resource.SchemaR
 			},
 			"created": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"description": schema.StringAttribute{
 				Optional:            true,
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"device_id": schema.StringAttribute{
 				Computed:            true,
@@ -129,11 +129,11 @@ func (r *OpenstackPortResource) Schema(ctx context.Context, req resource.SchemaR
 			},
 			"error_message": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"error_traceback": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"fixed_ips": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
@@ -150,12 +150,12 @@ func (r *OpenstackPortResource) Schema(ctx context.Context, req resource.SchemaR
 				},
 				Optional:            true,
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"floating_ips": schema.ListAttribute{
 				CustomType:          types.ListType{ElemType: types.StringType},
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"mac_address": schema.StringAttribute{
 				Optional:            true,
@@ -164,11 +164,11 @@ func (r *OpenstackPortResource) Schema(ctx context.Context, req resource.SchemaR
 			},
 			"modified": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"name": schema.StringAttribute{
 				Required:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"network": schema.StringAttribute{
 				Optional:            true,
@@ -177,11 +177,11 @@ func (r *OpenstackPortResource) Schema(ctx context.Context, req resource.SchemaR
 			},
 			"network_name": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"network_uuid": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"port_security_enabled": schema.BoolAttribute{
 				Optional:            true,
@@ -190,24 +190,24 @@ func (r *OpenstackPortResource) Schema(ctx context.Context, req resource.SchemaR
 			},
 			"resource_type": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"security_groups": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"name": schema.StringAttribute{
 							Required:            true,
-							MarkdownDescription: "",
+							MarkdownDescription: " ",
 						},
 					},
 				},
 				Optional:            true,
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"state": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"status": schema.StringAttribute{
 				Computed:            true,
@@ -224,15 +224,15 @@ func (r *OpenstackPortResource) Schema(ctx context.Context, req resource.SchemaR
 			},
 			"tenant_name": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"tenant_uuid": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"url": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 		},
 

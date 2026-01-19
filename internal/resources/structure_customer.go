@@ -102,7 +102,7 @@ func (r *StructureCustomerResource) Schema(ctx context.Context, req resource.Sch
 			"abbreviation": schema.StringAttribute{
 				Optional:            true,
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"access_subnets": schema.StringAttribute{
 				Optional:            true,
@@ -112,22 +112,22 @@ func (r *StructureCustomerResource) Schema(ctx context.Context, req resource.Sch
 			"accounting_start_date": schema.StringAttribute{
 				Optional:            true,
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"address": schema.StringAttribute{
 				Optional:            true,
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"agreement_number": schema.StringAttribute{
 				Optional:            true,
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"archived": schema.BoolAttribute{
 				Optional:            true,
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"backend_id": schema.StringAttribute{
 				Optional:            true,
@@ -137,76 +137,76 @@ func (r *StructureCustomerResource) Schema(ctx context.Context, req resource.Sch
 			"bank_account": schema.StringAttribute{
 				Optional:            true,
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"bank_name": schema.StringAttribute{
 				Optional:            true,
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"blocked": schema.BoolAttribute{
 				Optional:            true,
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"call_managing_organization_uuid": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"contact_details": schema.StringAttribute{
 				Optional:            true,
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"country": schema.StringAttribute{
 				Optional:            true,
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"country_name": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"created": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"customer_credit": schema.Float64Attribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"customer_unallocated_credit": schema.Float64Attribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"default_tax_percent": schema.StringAttribute{
 				Optional:            true,
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"description": schema.StringAttribute{
 				Optional:            true,
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"display_billing_info_in_projects": schema.BoolAttribute{
 				Optional:            true,
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"display_name": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"domain": schema.StringAttribute{
 				Optional:            true,
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"email": schema.StringAttribute{
 				Optional:            true,
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"grace_period_days": schema.Int64Attribute{
 				Optional:            true,
@@ -216,26 +216,26 @@ func (r *StructureCustomerResource) Schema(ctx context.Context, req resource.Sch
 			"homepage": schema.StringAttribute{
 				Optional:            true,
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"image": schema.StringAttribute{
 				Optional:            true,
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"is_service_provider": schema.BoolAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"latitude": schema.Float64Attribute{
 				Optional:            true,
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"longitude": schema.Float64Attribute{
 				Optional:            true,
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"max_service_accounts": schema.Int64Attribute{
 				Optional:            true,
@@ -244,12 +244,12 @@ func (r *StructureCustomerResource) Schema(ctx context.Context, req resource.Sch
 			},
 			"name": schema.StringAttribute{
 				Required:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"native_name": schema.StringAttribute{
 				Optional:            true,
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"notification_emails": schema.StringAttribute{
 				Optional:            true,
@@ -261,34 +261,34 @@ func (r *StructureCustomerResource) Schema(ctx context.Context, req resource.Sch
 					Attributes: map[string]schema.Attribute{
 						"customers_count": schema.Int64Attribute{
 							Computed:            true,
-							MarkdownDescription: "",
+							MarkdownDescription: " ",
 						},
 						"name": schema.StringAttribute{
 							Optional:            true,
 							Computed:            true,
-							MarkdownDescription: "",
+							MarkdownDescription: " ",
 						},
 						"parent": schema.StringAttribute{
 							Optional:            true,
 							Computed:            true,
-							MarkdownDescription: "",
+							MarkdownDescription: " ",
 						},
 						"parent_name": schema.StringAttribute{
 							Computed:            true,
-							MarkdownDescription: "",
+							MarkdownDescription: " ",
 						},
 						"parent_uuid": schema.StringAttribute{
 							Computed:            true,
-							MarkdownDescription: "",
+							MarkdownDescription: " ",
 						},
 						"url": schema.StringAttribute{
 							Computed:            true,
-							MarkdownDescription: "",
+							MarkdownDescription: " ",
 						},
 					},
 				},
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"payment_profiles": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
@@ -298,74 +298,74 @@ func (r *StructureCustomerResource) Schema(ctx context.Context, req resource.Sch
 								"agreement_number": schema.StringAttribute{
 									Optional:            true,
 									Computed:            true,
-									MarkdownDescription: "",
+									MarkdownDescription: " ",
 								},
 								"contract_sum": schema.Int64Attribute{
 									Optional:            true,
 									Computed:            true,
-									MarkdownDescription: "",
+									MarkdownDescription: " ",
 								},
 								"end_date": schema.StringAttribute{
 									Optional:            true,
 									Computed:            true,
-									MarkdownDescription: "",
+									MarkdownDescription: " ",
 								},
 							},
 							Optional:            true,
 							Computed:            true,
-							MarkdownDescription: "",
+							MarkdownDescription: " ",
 						},
 						"is_active": schema.BoolAttribute{
 							Optional:            true,
 							Computed:            true,
-							MarkdownDescription: "",
+							MarkdownDescription: " ",
 						},
 						"name": schema.StringAttribute{
 							Optional:            true,
 							Computed:            true,
-							MarkdownDescription: "",
+							MarkdownDescription: " ",
 						},
 						"organization": schema.StringAttribute{
 							Optional:            true,
 							Computed:            true,
-							MarkdownDescription: "",
+							MarkdownDescription: " ",
 						},
 						"organization_uuid": schema.StringAttribute{
 							Computed:            true,
-							MarkdownDescription: "",
+							MarkdownDescription: " ",
 						},
 						"payment_type": schema.StringAttribute{
 							Optional:            true,
 							Computed:            true,
-							MarkdownDescription: "",
+							MarkdownDescription: " ",
 						},
 						"payment_type_display": schema.StringAttribute{
 							Computed:            true,
-							MarkdownDescription: "",
+							MarkdownDescription: " ",
 						},
 						"url": schema.StringAttribute{
 							Computed:            true,
-							MarkdownDescription: "",
+							MarkdownDescription: " ",
 						},
 					},
 				},
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"phone_number": schema.StringAttribute{
 				Optional:            true,
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"postal": schema.StringAttribute{
 				Optional:            true,
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"project_metadata_checklist": schema.StringAttribute{
 				Optional:            true,
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"projects": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
@@ -378,47 +378,47 @@ func (r *StructureCustomerResource) Schema(ctx context.Context, req resource.Sch
 						"image": schema.StringAttribute{
 							Optional:            true,
 							Computed:            true,
-							MarkdownDescription: "",
+							MarkdownDescription: " ",
 						},
 						"name": schema.StringAttribute{
 							Optional:            true,
 							Computed:            true,
-							MarkdownDescription: "",
+							MarkdownDescription: " ",
 						},
 						"resource_count": schema.Int64Attribute{
 							Computed:            true,
-							MarkdownDescription: "",
+							MarkdownDescription: " ",
 						},
 						"url": schema.StringAttribute{
 							Computed:            true,
-							MarkdownDescription: "",
+							MarkdownDescription: " ",
 						},
 					},
 				},
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"projects_count": schema.Int64Attribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"registration_code": schema.StringAttribute{
 				Optional:            true,
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"service_provider": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"service_provider_uuid": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"slug": schema.StringAttribute{
 				Optional:            true,
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"sponsor_number": schema.Int64Attribute{
 				Optional:            true,
@@ -427,11 +427,11 @@ func (r *StructureCustomerResource) Schema(ctx context.Context, req resource.Sch
 			},
 			"url": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"users_count": schema.Int64Attribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"vat_code": schema.StringAttribute{
 				Optional:            true,

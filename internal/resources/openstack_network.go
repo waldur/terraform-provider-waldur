@@ -73,28 +73,28 @@ func (r *OpenstackNetworkResource) Schema(ctx context.Context, req resource.Sche
 			},
 			"access_url": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"backend_id": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"created": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"description": schema.StringAttribute{
 				Optional:            true,
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"error_message": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"error_traceback": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"is_external": schema.BoolAttribute{
 				Computed:            true,
@@ -102,7 +102,7 @@ func (r *OpenstackNetworkResource) Schema(ctx context.Context, req resource.Sche
 			},
 			"modified": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"mtu": schema.Int64Attribute{
 				Computed:            true,
@@ -110,27 +110,27 @@ func (r *OpenstackNetworkResource) Schema(ctx context.Context, req resource.Sche
 			},
 			"name": schema.StringAttribute{
 				Required:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"rbac_policies": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"backend_id": schema.StringAttribute{
 							Computed:            true,
-							MarkdownDescription: "",
+							MarkdownDescription: " ",
 						},
 						"created": schema.StringAttribute{
 							Computed:            true,
-							MarkdownDescription: "",
+							MarkdownDescription: " ",
 						},
 						"network": schema.StringAttribute{
 							Optional:            true,
 							Computed:            true,
-							MarkdownDescription: "",
+							MarkdownDescription: " ",
 						},
 						"network_name": schema.StringAttribute{
 							Computed:            true,
-							MarkdownDescription: "",
+							MarkdownDescription: " ",
 						},
 						"policy_type": schema.StringAttribute{
 							Optional:            true,
@@ -140,24 +140,24 @@ func (r *OpenstackNetworkResource) Schema(ctx context.Context, req resource.Sche
 						"target_tenant": schema.StringAttribute{
 							Optional:            true,
 							Computed:            true,
-							MarkdownDescription: "",
+							MarkdownDescription: " ",
 						},
 						"target_tenant_name": schema.StringAttribute{
 							Computed:            true,
-							MarkdownDescription: "",
+							MarkdownDescription: " ",
 						},
 						"url": schema.StringAttribute{
 							Computed:            true,
-							MarkdownDescription: "",
+							MarkdownDescription: " ",
 						},
 					},
 				},
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"resource_type": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"segmentation_id": schema.Int64Attribute{
 				Computed:            true,
@@ -165,7 +165,7 @@ func (r *OpenstackNetworkResource) Schema(ctx context.Context, req resource.Sche
 			},
 			"state": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"subnets": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
@@ -186,7 +186,7 @@ func (r *OpenstackNetworkResource) Schema(ctx context.Context, req resource.Sche
 								},
 							},
 							Computed:            true,
-							MarkdownDescription: "",
+							MarkdownDescription: " ",
 						},
 						"cidr": schema.StringAttribute{
 							Optional:            true,
@@ -196,7 +196,7 @@ func (r *OpenstackNetworkResource) Schema(ctx context.Context, req resource.Sche
 						"description": schema.StringAttribute{
 							Optional:            true,
 							Computed:            true,
-							MarkdownDescription: "",
+							MarkdownDescription: " ",
 						},
 						"enable_dhcp": schema.BoolAttribute{
 							Optional:            true,
@@ -216,12 +216,12 @@ func (r *OpenstackNetworkResource) Schema(ctx context.Context, req resource.Sche
 						"name": schema.StringAttribute{
 							Optional:            true,
 							Computed:            true,
-							MarkdownDescription: "",
+							MarkdownDescription: " ",
 						},
 					},
 				},
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"tenant": schema.StringAttribute{
 				Computed:            true,
@@ -229,11 +229,11 @@ func (r *OpenstackNetworkResource) Schema(ctx context.Context, req resource.Sche
 			},
 			"tenant_name": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"tenant_uuid": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"type": schema.StringAttribute{
 				Computed:            true,
@@ -241,7 +241,7 @@ func (r *OpenstackNetworkResource) Schema(ctx context.Context, req resource.Sche
 			},
 			"url": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 		},
 

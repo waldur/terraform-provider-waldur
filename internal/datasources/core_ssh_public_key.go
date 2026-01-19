@@ -61,19 +61,19 @@ func (d *CoreSshPublicKeyDataSource) Schema(ctx context.Context, req datasource.
 			},
 			"fingerprint_md5": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"fingerprint_sha256": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"fingerprint_sha512": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"is_shared": schema.BoolAttribute{
 				Optional:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"modified": schema.StringAttribute{
 				Optional:            true,
@@ -81,31 +81,31 @@ func (d *CoreSshPublicKeyDataSource) Schema(ctx context.Context, req datasource.
 			},
 			"name": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"name_exact": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"user_uuid": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"uuid": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"public_key": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"type": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"url": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 		},
 	}

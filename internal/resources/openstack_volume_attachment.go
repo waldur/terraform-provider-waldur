@@ -83,11 +83,11 @@ func (r *OpenstackVolumeAttachmentResource) Schema(ctx context.Context, req reso
 			},
 			"access_url": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"action": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"availability_zone": schema.StringAttribute{
 				Optional:            true,
@@ -96,7 +96,7 @@ func (r *OpenstackVolumeAttachmentResource) Schema(ctx context.Context, req reso
 			},
 			"availability_zone_name": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"backend_id": schema.StringAttribute{
 				Computed:            true,
@@ -109,12 +109,12 @@ func (r *OpenstackVolumeAttachmentResource) Schema(ctx context.Context, req reso
 			},
 			"created": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"description": schema.StringAttribute{
 				Optional:            true,
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"device": schema.StringAttribute{
 				Computed:            true,
@@ -122,15 +122,15 @@ func (r *OpenstackVolumeAttachmentResource) Schema(ctx context.Context, req reso
 			},
 			"error_message": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"error_traceback": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"extend_enabled": schema.BoolAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"image": schema.StringAttribute{
 				Optional:            true,
@@ -151,28 +151,28 @@ func (r *OpenstackVolumeAttachmentResource) Schema(ctx context.Context, req reso
 			},
 			"instance_marketplace_uuid": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"instance_name": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"modified": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"name": schema.StringAttribute{
 				Optional:            true,
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"resource_type": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"runtime_state": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"size": schema.Int64Attribute{
 				Optional:            true,
@@ -185,16 +185,16 @@ func (r *OpenstackVolumeAttachmentResource) Schema(ctx context.Context, req reso
 			},
 			"state": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"tenant": schema.StringAttribute{
 				Optional:            true,
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"tenant_uuid": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"type": schema.StringAttribute{
 				Optional:            true,
@@ -203,11 +203,11 @@ func (r *OpenstackVolumeAttachmentResource) Schema(ctx context.Context, req reso
 			},
 			"type_name": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"url": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "",
+				MarkdownDescription: " ",
 			},
 			"volume": schema.StringAttribute{
 				Required:            true,
