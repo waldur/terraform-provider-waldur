@@ -61,7 +61,7 @@ func (r *OpenstackNetworkResource) Metadata(ctx context.Context, req resource.Me
 
 func (r *OpenstackNetworkResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "OpenstackNetwork resource",
+		MarkdownDescription: "Openstack Network resource",
 
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
@@ -654,8 +654,6 @@ func (r *OpenstackNetworkResource) Create(ctx context.Context, req resource.Crea
 		}
 	}
 
-	// Map filter parameters from response if available
-
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
@@ -1034,8 +1032,6 @@ func (r *OpenstackNetworkResource) Read(ctx context.Context, req resource.ReadRe
 			data.Url = types.StringNull()
 		}
 	}
-
-	// Map filter parameters from response if available
 
 	// Save updated data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
@@ -1428,8 +1424,6 @@ func (r *OpenstackNetworkResource) Update(ctx context.Context, req resource.Upda
 			data.Url = types.StringNull()
 		}
 	}
-
-	// Map filter parameters from response if available
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }

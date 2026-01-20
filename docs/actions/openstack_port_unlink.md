@@ -3,12 +3,12 @@
 page_title: "waldur_openstack_port_unlink Action - waldur"
 subcategory: ""
 description: |-
-  Perform unlink action on openstack_port
+  Perform unlink action on openstack port
 ---
 
 # waldur_openstack_port_unlink (Action)
 
-Perform unlink action on openstack_port
+Perform unlink action on openstack port
 
 
 
@@ -17,4 +17,4 @@ Perform unlink action on openstack_port
 
 ### Required
 
-- `uuid` (String) The UUID of the openstack_port
+- `uuid` (String) The UUID of the openstack port

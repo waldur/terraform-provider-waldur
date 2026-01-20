@@ -3,12 +3,12 @@
 page_title: "waldur_openstack_security_group Data Source - waldur"
 subcategory: ""
 description: |-
-  OpenstackSecurityGroup data source - lookup by name or UUID
+  Openstack Security Group data source - lookup by name or UUID
 ---
 
 # waldur_openstack_security_group (Data Source)
 
-OpenstackSecurityGroup data source - lookup by name or UUID
+Openstack Security Group data source - lookup by name or UUID
 
 
 

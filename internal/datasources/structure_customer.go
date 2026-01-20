@@ -88,7 +88,7 @@ func (d *StructureCustomerDataSource) Metadata(ctx context.Context, req datasour
 
 func (d *StructureCustomerDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "StructureCustomer data source - lookup by name or UUID",
+		MarkdownDescription: "Structure Customer data source - lookup by name or UUID",
 
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
@@ -977,8 +977,6 @@ func (d *StructureCustomerDataSource) Read(ctx context.Context, req datasource.R
 				data.VatCode = types.StringNull()
 			}
 		}
-
-		// Map filter parameters from response if available
 		if val, ok := sourceMap["abbreviation"]; ok && val != nil {
 			if str, ok := val.(string); ok {
 				data.Abbreviation = types.StringValue(str)
@@ -1718,8 +1716,6 @@ func (d *StructureCustomerDataSource) Read(ctx context.Context, req datasource.R
 				data.VatCode = types.StringNull()
 			}
 		}
-
-		// Map filter parameters from response if available
 		if val, ok := sourceMap["abbreviation"]; ok && val != nil {
 			if str, ok := val.(string); ok {
 				data.Abbreviation = types.StringValue(str)

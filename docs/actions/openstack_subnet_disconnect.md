@@ -3,12 +3,12 @@
 page_title: "waldur_openstack_subnet_disconnect Action - waldur"
 subcategory: ""
 description: |-
-  Perform disconnect action on openstack_subnet
+  Perform disconnect action on openstack subnet
 ---
 
 # waldur_openstack_subnet_disconnect (Action)
 
-Perform disconnect action on openstack_subnet
+Perform disconnect action on openstack subnet
 
 
 
@@ -17,4 +17,4 @@ Perform disconnect action on openstack_subnet
 
 ### Required
 
-- `uuid` (String) The UUID of the openstack_subnet
+- `uuid` (String) The UUID of the openstack subnet

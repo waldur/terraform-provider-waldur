@@ -3,12 +3,12 @@
 page_title: "waldur_openstack_tenant Resource - waldur"
 subcategory: ""
 description: |-
-  OpenstackTenant resource
+  Openstack Tenant resource
 ---
 
 # waldur_openstack_tenant (Resource)
 
-OpenstackTenant resource
+Openstack Tenant resource
 
 
 

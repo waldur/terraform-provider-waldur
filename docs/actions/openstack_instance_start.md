@@ -3,12 +3,12 @@
 page_title: "waldur_openstack_instance_start Action - waldur"
 subcategory: ""
 description: |-
-  Perform start action on openstack_instance
+  Perform start action on openstack instance
 ---
 
 # waldur_openstack_instance_start (Action)
 
-Perform start action on openstack_instance
+Perform start action on openstack instance
 
 
 
@@ -17,4 +17,4 @@ Perform start action on openstack_instance
 
 ### Required
 
-- `uuid` (String) The UUID of the openstack_instance
+- `uuid` (String) The UUID of the openstack instance

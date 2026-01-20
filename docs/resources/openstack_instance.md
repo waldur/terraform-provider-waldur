@@ -3,12 +3,12 @@
 page_title: "waldur_openstack_instance Resource - waldur"
 subcategory: ""
 description: |-
-  OpenstackInstance resource
+  Openstack Instance resource
 ---
 
 # waldur_openstack_instance (Resource)
 
-OpenstackInstance resource
+Openstack Instance resource
 
 
 

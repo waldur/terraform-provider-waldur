@@ -65,7 +65,7 @@ func (d *OpenstackSecurityGroupDataSource) Metadata(ctx context.Context, req dat
 
 func (d *OpenstackSecurityGroupDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "OpenstackSecurityGroup data source - lookup by name or UUID",
+		MarkdownDescription: "Openstack Security Group data source - lookup by name or UUID",
 
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
@@ -454,8 +454,6 @@ func (d *OpenstackSecurityGroupDataSource) Read(ctx context.Context, req datasou
 				data.Url = types.StringNull()
 			}
 		}
-
-		// Map filter parameters from response if available
 		if val, ok := sourceMap["backend_id"]; ok && val != nil {
 			if str, ok := val.(string); ok {
 				data.BackendId = types.StringValue(str)
@@ -867,8 +865,6 @@ func (d *OpenstackSecurityGroupDataSource) Read(ctx context.Context, req datasou
 				data.Url = types.StringNull()
 			}
 		}
-
-		// Map filter parameters from response if available
 		if val, ok := sourceMap["backend_id"]; ok && val != nil {
 			if str, ok := val.(string); ok {
 				data.BackendId = types.StringValue(str)

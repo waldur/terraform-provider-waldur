@@ -71,7 +71,7 @@ func (r *OpenstackVolumeAttachmentResource) Metadata(ctx context.Context, req re
 
 func (r *OpenstackVolumeAttachmentResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "OpenstackVolumeAttachment resource",
+		MarkdownDescription: "Openstack Volume Attachment resource",
 
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
@@ -547,8 +547,6 @@ func (r *OpenstackVolumeAttachmentResource) Create(ctx context.Context, req reso
 		}
 	}
 
-	// Map filter parameters from response if available
-
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
@@ -902,8 +900,6 @@ func (r *OpenstackVolumeAttachmentResource) Read(ctx context.Context, req resour
 			data.Volume = types.StringNull()
 		}
 	}
-
-	// Map filter parameters from response if available
 
 	// Save updated data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)

@@ -110,7 +110,7 @@ func (d *MarketplaceResourceDataSource) Metadata(ctx context.Context, req dataso
 
 func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "MarketplaceResource data source - lookup by name or UUID",
+		MarkdownDescription: "Marketplace Resource data source - lookup by name or UUID",
 
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
@@ -912,8 +912,6 @@ func (d *MarketplaceResourceDataSource) Read(ctx context.Context, req datasource
 				data.Username = types.StringNull()
 			}
 		}
-
-		// Map filter parameters from response if available
 		if val, ok := sourceMap["backend_id"]; ok && val != nil {
 			if str, ok := val.(string); ok {
 				data.BackendId = types.StringValue(str)
@@ -1678,8 +1676,6 @@ func (d *MarketplaceResourceDataSource) Read(ctx context.Context, req datasource
 				data.Username = types.StringNull()
 			}
 		}
-
-		// Map filter parameters from response if available
 		if val, ok := sourceMap["backend_id"]; ok && val != nil {
 			if str, ok := val.(string); ok {
 				data.BackendId = types.StringValue(str)

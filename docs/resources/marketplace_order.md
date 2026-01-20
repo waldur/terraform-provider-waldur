@@ -3,12 +3,12 @@
 page_title: "waldur_marketplace_order Resource - waldur"
 subcategory: ""
 description: |-
-  MarketplaceOrder resource
+  Marketplace Order resource
 ---
 
 # waldur_marketplace_order (Resource)
 
-MarketplaceOrder resource
+Marketplace Order resource
 
 
 

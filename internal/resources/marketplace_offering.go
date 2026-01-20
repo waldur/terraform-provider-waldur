@@ -98,7 +98,7 @@ func (r *MarketplaceOfferingResource) Metadata(ctx context.Context, req resource
 
 func (r *MarketplaceOfferingResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "MarketplaceOffering resource",
+		MarkdownDescription: "Marketplace Offering resource",
 
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
@@ -2349,8 +2349,6 @@ func (r *MarketplaceOfferingResource) Create(ctx context.Context, req resource.C
 		}
 	}
 
-	// Map filter parameters from response if available
-
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
@@ -3765,8 +3763,6 @@ func (r *MarketplaceOfferingResource) Read(ctx context.Context, req resource.Rea
 			data.VendorDetails = types.StringNull()
 		}
 	}
-
-	// Map filter parameters from response if available
 
 	// Save updated data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)

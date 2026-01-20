@@ -3,12 +3,12 @@
 page_title: "waldur_openstack_volume_type Data Source - waldur"
 subcategory: ""
 description: |-
-  OpenstackVolumeType data source - lookup by name or UUID
+  Openstack Volume Type data source - lookup by name or UUID
 ---
 
 # waldur_openstack_volume_type (Data Source)
 
-OpenstackVolumeType data source - lookup by name or UUID
+Openstack Volume Type data source - lookup by name or UUID
 
 
 

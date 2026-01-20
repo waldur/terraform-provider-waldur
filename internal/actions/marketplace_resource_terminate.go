@@ -28,10 +28,10 @@ func (a *MarketplaceResourceTerminateAction) Metadata(ctx context.Context, req a
 }
 func (a *MarketplaceResourceTerminateAction) Schema(ctx context.Context, req action.SchemaRequest, resp *action.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		Description: "Perform terminate action on marketplace_resource",
+		Description: "Perform terminate action on marketplace resource",
 		Attributes: map[string]schema.Attribute{
 			"uuid": schema.StringAttribute{
-				Description: "The UUID of the marketplace_resource",
+				Description: "The UUID of the marketplace resource",
 				Required:    true,
 			},
 		},

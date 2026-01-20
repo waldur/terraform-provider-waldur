@@ -3,12 +3,12 @@
 page_title: "waldur_structure_customer Data Source - waldur"
 subcategory: ""
 description: |-
-  StructureCustomer data source - lookup by name or UUID
+  Structure Customer data source - lookup by name or UUID
 ---
 
 # waldur_structure_customer (Data Source)
 
-StructureCustomer data source - lookup by name or UUID
+Structure Customer data source - lookup by name or UUID
 
 
 

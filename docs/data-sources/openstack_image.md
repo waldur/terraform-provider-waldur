@@ -3,12 +3,12 @@
 page_title: "waldur_openstack_image Data Source - waldur"
 subcategory: ""
 description: |-
-  OpenstackImage data source - lookup by name or UUID
+  Openstack Image data source - lookup by name or UUID
 ---
 
 # waldur_openstack_image (Data Source)
 
-OpenstackImage data source - lookup by name or UUID
+Openstack Image data source - lookup by name or UUID
 
 
 

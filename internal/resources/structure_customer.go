@@ -89,7 +89,7 @@ func (r *StructureCustomerResource) Metadata(ctx context.Context, req resource.M
 
 func (r *StructureCustomerResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "StructureCustomer resource",
+		MarkdownDescription: "Structure Customer resource",
 
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
@@ -1292,8 +1292,6 @@ func (r *StructureCustomerResource) Create(ctx context.Context, req resource.Cre
 		}
 	}
 
-	// Map filter parameters from response if available
-
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
@@ -1979,8 +1977,6 @@ func (r *StructureCustomerResource) Read(ctx context.Context, req resource.ReadR
 			data.VatCode = types.StringNull()
 		}
 	}
-
-	// Map filter parameters from response if available
 
 	// Save updated data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
@@ -2819,8 +2815,6 @@ func (r *StructureCustomerResource) Update(ctx context.Context, req resource.Upd
 			data.VatCode = types.StringNull()
 		}
 	}
-
-	// Map filter parameters from response if available
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }

@@ -80,7 +80,7 @@ func (d *OpenstackTenantDataSource) Metadata(ctx context.Context, req datasource
 
 func (d *OpenstackTenantDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "OpenstackTenant data source - lookup by name or UUID",
+		MarkdownDescription: "Openstack Tenant data source - lookup by name or UUID",
 
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
@@ -611,8 +611,6 @@ func (d *OpenstackTenantDataSource) Read(ctx context.Context, req datasource.Rea
 				data.UserUsername = types.StringNull()
 			}
 		}
-
-		// Map filter parameters from response if available
 		if val, ok := sourceMap["backend_id"]; ok && val != nil {
 			if str, ok := val.(string); ok {
 				data.BackendId = types.StringValue(str)
@@ -1090,8 +1088,6 @@ func (d *OpenstackTenantDataSource) Read(ctx context.Context, req datasource.Rea
 				data.UserUsername = types.StringNull()
 			}
 		}
-
-		// Map filter parameters from response if available
 		if val, ok := sourceMap["backend_id"]; ok && val != nil {
 			if str, ok := val.(string); ok {
 				data.BackendId = types.StringValue(str)

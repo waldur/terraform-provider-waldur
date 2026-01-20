@@ -3,12 +3,12 @@
 page_title: "waldur_openstack_volume_unlink Action - waldur"
 subcategory: ""
 description: |-
-  Perform unlink action on openstack_volume
+  Perform unlink action on openstack volume
 ---
 
 # waldur_openstack_volume_unlink (Action)
 
-Perform unlink action on openstack_volume
+Perform unlink action on openstack volume
 
 
 
@@ -17,4 +17,4 @@ Perform unlink action on openstack_volume
 
 ### Required
 
-- `uuid` (String) The UUID of the openstack_volume
+- `uuid` (String) The UUID of the openstack volume

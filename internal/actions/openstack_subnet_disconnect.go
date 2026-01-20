@@ -28,10 +28,10 @@ func (a *OpenstackSubnetDisconnectAction) Metadata(ctx context.Context, req acti
 }
 func (a *OpenstackSubnetDisconnectAction) Schema(ctx context.Context, req action.SchemaRequest, resp *action.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		Description: "Perform disconnect action on openstack_subnet",
+		Description: "Perform disconnect action on openstack subnet",
 		Attributes: map[string]schema.Attribute{
 			"uuid": schema.StringAttribute{
-				Description: "The UUID of the openstack_subnet",
+				Description: "The UUID of the openstack subnet",
 				Required:    true,
 			},
 		},

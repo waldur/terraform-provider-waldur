@@ -3,12 +3,12 @@
 page_title: "waldur_structure_project Data Source - waldur"
 subcategory: ""
 description: |-
-  StructureProject data source - lookup by name or UUID
+  Structure Project data source - lookup by name or UUID
 ---
 
 # waldur_structure_project (Data Source)
 
-StructureProject data source - lookup by name or UUID
+Structure Project data source - lookup by name or UUID
 
 
 

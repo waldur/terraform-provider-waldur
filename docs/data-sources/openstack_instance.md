@@ -3,12 +3,12 @@
 page_title: "waldur_openstack_instance Data Source - waldur"
 subcategory: ""
 description: |-
-  OpenstackInstance data source - lookup by name or UUID
+  Openstack Instance data source - lookup by name or UUID
 ---
 
 # waldur_openstack_instance (Data Source)
 
-OpenstackInstance data source - lookup by name or UUID
+Openstack Instance data source - lookup by name or UUID
 
 
 

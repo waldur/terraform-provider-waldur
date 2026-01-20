@@ -3,12 +3,12 @@
 page_title: "waldur_openstack_network_pull Action - waldur"
 subcategory: ""
 description: |-
-  Perform pull action on openstack_network
+  Perform pull action on openstack network
 ---
 
 # waldur_openstack_network_pull (Action)
 
-Perform pull action on openstack_network
+Perform pull action on openstack network
 
 
 
@@ -17,4 +17,4 @@ Perform pull action on openstack_network
 
 ### Required
 
-- `uuid` (String) The UUID of the openstack_network
+- `uuid` (String) The UUID of the openstack network

@@ -28,10 +28,10 @@ func (a *OpenstackVolumePullAction) Metadata(ctx context.Context, req action.Met
 }
 func (a *OpenstackVolumePullAction) Schema(ctx context.Context, req action.SchemaRequest, resp *action.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		Description: "Perform pull action on openstack_volume",
+		Description: "Perform pull action on openstack volume",
 		Attributes: map[string]schema.Attribute{
 			"uuid": schema.StringAttribute{
-				Description: "The UUID of the openstack_volume",
+				Description: "The UUID of the openstack volume",
 				Required:    true,
 			},
 		},

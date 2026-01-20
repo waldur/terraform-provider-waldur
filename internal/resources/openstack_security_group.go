@@ -56,7 +56,7 @@ func (r *OpenstackSecurityGroupResource) Metadata(ctx context.Context, req resou
 
 func (r *OpenstackSecurityGroupResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "OpenstackSecurityGroup resource",
+		MarkdownDescription: "Openstack Security Group resource",
 
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
@@ -455,8 +455,6 @@ func (r *OpenstackSecurityGroupResource) Create(ctx context.Context, req resourc
 		}
 	}
 
-	// Map filter parameters from response if available
-
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
@@ -705,8 +703,6 @@ func (r *OpenstackSecurityGroupResource) Read(ctx context.Context, req resource.
 			data.Url = types.StringNull()
 		}
 	}
-
-	// Map filter parameters from response if available
 
 	// Save updated data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
@@ -969,8 +965,6 @@ func (r *OpenstackSecurityGroupResource) Update(ctx context.Context, req resourc
 			data.Url = types.StringNull()
 		}
 	}
-
-	// Map filter parameters from response if available
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }

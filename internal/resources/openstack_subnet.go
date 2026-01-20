@@ -65,7 +65,7 @@ func (r *OpenstackSubnetResource) Metadata(ctx context.Context, req resource.Met
 
 func (r *OpenstackSubnetResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "OpenstackSubnet resource",
+		MarkdownDescription: "Openstack Subnet resource",
 
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
@@ -591,8 +591,6 @@ func (r *OpenstackSubnetResource) Create(ctx context.Context, req resource.Creat
 		}
 	}
 
-	// Map filter parameters from response if available
-
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
@@ -920,8 +918,6 @@ func (r *OpenstackSubnetResource) Read(ctx context.Context, req resource.ReadReq
 			data.Url = types.StringNull()
 		}
 	}
-
-	// Map filter parameters from response if available
 
 	// Save updated data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
@@ -1291,8 +1287,6 @@ func (r *OpenstackSubnetResource) Update(ctx context.Context, req resource.Updat
 			data.Url = types.StringNull()
 		}
 	}
-
-	// Map filter parameters from response if available
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }

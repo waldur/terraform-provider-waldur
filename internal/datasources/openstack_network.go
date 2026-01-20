@@ -71,7 +71,7 @@ func (d *OpenstackNetworkDataSource) Metadata(ctx context.Context, req datasourc
 
 func (d *OpenstackNetworkDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "OpenstackNetwork data source - lookup by name or UUID",
+		MarkdownDescription: "Openstack Network data source - lookup by name or UUID",
 
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
@@ -578,8 +578,6 @@ func (d *OpenstackNetworkDataSource) Read(ctx context.Context, req datasource.Re
 				data.Url = types.StringNull()
 			}
 		}
-
-		// Map filter parameters from response if available
 		if val, ok := sourceMap["backend_id"]; ok && val != nil {
 			if str, ok := val.(string); ok {
 				data.BackendId = types.StringValue(str)
@@ -1100,8 +1098,6 @@ func (d *OpenstackNetworkDataSource) Read(ctx context.Context, req datasource.Re
 				data.Url = types.StringNull()
 			}
 		}
-
-		// Map filter parameters from response if available
 		if val, ok := sourceMap["backend_id"]; ok && val != nil {
 			if str, ok := val.(string); ok {
 				data.BackendId = types.StringValue(str)

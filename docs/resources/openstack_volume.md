@@ -3,12 +3,12 @@
 page_title: "waldur_openstack_volume Resource - waldur"
 subcategory: ""
 description: |-
-  OpenstackVolume resource
+  Openstack Volume resource
 ---
 
 # waldur_openstack_volume (Resource)
 
-OpenstackVolume resource
+Openstack Volume resource
 
 
 

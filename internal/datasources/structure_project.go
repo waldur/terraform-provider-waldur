@@ -70,7 +70,7 @@ func (d *StructureProjectDataSource) Metadata(ctx context.Context, req datasourc
 
 func (d *StructureProjectDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "StructureProject data source - lookup by name or UUID",
+		MarkdownDescription: "Structure Project data source - lookup by name or UUID",
 
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
@@ -446,8 +446,6 @@ func (d *StructureProjectDataSource) Read(ctx context.Context, req datasource.Re
 				data.Url = types.StringNull()
 			}
 		}
-
-		// Map filter parameters from response if available
 		if val, ok := sourceMap["backend_id"]; ok && val != nil {
 			if str, ok := val.(string); ok {
 				data.BackendId = types.StringValue(str)
@@ -803,8 +801,6 @@ func (d *StructureProjectDataSource) Read(ctx context.Context, req datasource.Re
 				data.Url = types.StringNull()
 			}
 		}
-
-		// Map filter parameters from response if available
 		if val, ok := sourceMap["backend_id"]; ok && val != nil {
 			if str, ok := val.(string); ok {
 				data.BackendId = types.StringValue(str)

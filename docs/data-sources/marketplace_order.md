@@ -3,12 +3,12 @@
 page_title: "waldur_marketplace_order Data Source - waldur"
 subcategory: ""
 description: |-
-  MarketplaceOrder data source - lookup by name or UUID
+  Marketplace Order data source - lookup by name or UUID
 ---
 
 # waldur_marketplace_order (Data Source)
 
-MarketplaceOrder data source - lookup by name or UUID
+Marketplace Order data source - lookup by name or UUID
 
 
 

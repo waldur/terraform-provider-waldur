@@ -3,12 +3,12 @@
 page_title: "waldur_openstack_server_group Resource - waldur"
 subcategory: ""
 description: |-
-  OpenstackServerGroup resource
+  Openstack Server Group resource
 ---
 
 # waldur_openstack_server_group (Resource)
 
-OpenstackServerGroup resource
+Openstack Server Group resource
 
 
 

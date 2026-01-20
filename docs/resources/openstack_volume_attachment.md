@@ -3,12 +3,12 @@
 page_title: "waldur_openstack_volume_attachment Resource - waldur"
 subcategory: ""
 description: |-
-  OpenstackVolumeAttachment resource
+  Openstack Volume Attachment resource
 ---
 
 # waldur_openstack_volume_attachment (Resource)
 
-OpenstackVolumeAttachment resource
+Openstack Volume Attachment resource
 
 
 

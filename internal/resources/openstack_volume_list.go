@@ -794,8 +794,6 @@ func (l *OpenstackVolumeList) List(ctx context.Context, req list.ListRequest, st
 				}
 			}
 
-			// Map filter parameters from response if available
-
 			// Set the resource state
 			// For ListResource, we generally return the "Resource" state matching the main resource schema.
 			// This allows `terraform plan` to correlate if using `terraform query`.

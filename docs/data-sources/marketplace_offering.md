@@ -3,12 +3,12 @@
 page_title: "waldur_marketplace_offering Data Source - waldur"
 subcategory: ""
 description: |-
-  MarketplaceOffering data source - lookup by name or UUID
+  Marketplace Offering data source - lookup by name or UUID
 ---
 
 # waldur_marketplace_offering (Data Source)
 
-MarketplaceOffering data source - lookup by name or UUID
+Marketplace Offering data source - lookup by name or UUID
 
 
 

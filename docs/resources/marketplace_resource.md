@@ -3,12 +3,12 @@
 page_title: "waldur_marketplace_resource Resource - waldur"
 subcategory: ""
 description: |-
-  MarketplaceResource resource
+  Marketplace Resource resource
 ---
 
 # waldur_marketplace_resource (Resource)
 
-MarketplaceResource resource
+Marketplace Resource resource
 
 
 

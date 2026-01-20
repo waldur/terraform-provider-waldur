@@ -3,12 +3,12 @@
 page_title: "waldur_openstack_subnet Data Source - waldur"
 subcategory: ""
 description: |-
-  OpenstackSubnet data source - lookup by name or UUID
+  Openstack Subnet data source - lookup by name or UUID
 ---
 
 # waldur_openstack_subnet (Data Source)
 
-OpenstackSubnet data source - lookup by name or UUID
+Openstack Subnet data source - lookup by name or UUID
 
 
 

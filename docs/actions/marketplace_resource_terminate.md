@@ -3,12 +3,12 @@
 page_title: "waldur_marketplace_resource_terminate Action - waldur"
 subcategory: ""
 description: |-
-  Perform terminate action on marketplace_resource
+  Perform terminate action on marketplace resource
 ---
 
 # waldur_marketplace_resource_terminate (Action)
 
-Perform terminate action on marketplace_resource
+Perform terminate action on marketplace resource
 
 
 
@@ -17,4 +17,4 @@ Perform terminate action on marketplace_resource
 
 ### Required
 
-- `uuid` (String) The UUID of the marketplace_resource
+- `uuid` (String) The UUID of the marketplace resource

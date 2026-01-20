@@ -3,12 +3,12 @@
 page_title: "waldur_openstack_network_rbac_policy Resource - waldur"
 subcategory: ""
 description: |-
-  OpenstackNetworkRbacPolicy resource
+  Openstack Network Rbac Policy resource
 ---
 
 # waldur_openstack_network_rbac_policy (Resource)
 
-OpenstackNetworkRbacPolicy resource
+Openstack Network Rbac Policy resource
 
 
 

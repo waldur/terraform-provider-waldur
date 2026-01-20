@@ -120,7 +120,7 @@ func (r *OpenstackInstanceResource) Metadata(ctx context.Context, req resource.M
 
 func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "OpenstackInstance resource",
+		MarkdownDescription: "Openstack Instance resource",
 
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
@@ -2593,8 +2593,6 @@ func (r *OpenstackInstanceResource) Create(ctx context.Context, req resource.Cre
 									}})
 								}
 							}
-
-							// Map filter parameters from response if available
 						} else {
 							tflog.Warn(ctx, "Failed to fetch plugin resource: "+err.Error())
 						}
@@ -4126,8 +4124,6 @@ func (r *OpenstackInstanceResource) Create(ctx context.Context, req resource.Cre
 		}
 	}
 
-	// Map filter parameters from response if available
-
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
@@ -5622,8 +5618,6 @@ func (r *OpenstackInstanceResource) Read(ctx context.Context, req resource.ReadR
 			}})
 		}
 	}
-
-	// Map filter parameters from response if available
 
 	// Save updated data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
@@ -7237,8 +7231,6 @@ func (r *OpenstackInstanceResource) Update(ctx context.Context, req resource.Upd
 			}})
 		}
 	}
-
-	// Map filter parameters from response if available
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }

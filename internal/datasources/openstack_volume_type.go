@@ -43,7 +43,7 @@ func (d *OpenstackVolumeTypeDataSource) Metadata(ctx context.Context, req dataso
 
 func (d *OpenstackVolumeTypeDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "OpenstackVolumeType data source - lookup by name or UUID",
+		MarkdownDescription: "Openstack Volume Type data source - lookup by name or UUID",
 
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
@@ -158,8 +158,6 @@ func (d *OpenstackVolumeTypeDataSource) Read(ctx context.Context, req datasource
 				data.Url = types.StringNull()
 			}
 		}
-
-		// Map filter parameters from response if available
 		if val, ok := sourceMap["name"]; ok && val != nil {
 			if str, ok := val.(string); ok {
 				data.Name = types.StringValue(str)
@@ -282,8 +280,6 @@ func (d *OpenstackVolumeTypeDataSource) Read(ctx context.Context, req datasource
 				data.Url = types.StringNull()
 			}
 		}
-
-		// Map filter parameters from response if available
 		if val, ok := sourceMap["name"]; ok && val != nil {
 			if str, ok := val.(string); ok {
 				data.Name = types.StringValue(str)

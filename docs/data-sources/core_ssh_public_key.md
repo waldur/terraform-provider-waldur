@@ -3,12 +3,12 @@
 page_title: "waldur_core_ssh_public_key Data Source - waldur"
 subcategory: ""
 description: |-
-  CoreSshPublicKey data source - lookup by name or UUID
+  Core Ssh Public Key data source - lookup by name or UUID
 ---
 
 # waldur_core_ssh_public_key (Data Source)
 
-CoreSshPublicKey data source - lookup by name or UUID
+Core Ssh Public Key data source - lookup by name or UUID
 
 
 

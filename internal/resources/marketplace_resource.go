@@ -98,7 +98,7 @@ func (r *MarketplaceResourceResource) Metadata(ctx context.Context, req resource
 
 func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "MarketplaceResource resource",
+		MarkdownDescription: "Marketplace Resource resource",
 
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
@@ -407,7 +407,6 @@ func (r *MarketplaceResourceResource) Configure(ctx context.Context, req resourc
 
 func (r *MarketplaceResourceResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 	resp.Diagnostics.AddError("Creation Not Supported", "This resource cannot be created via the API.")
-	return
 }
 
 func (r *MarketplaceResourceResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
@@ -1036,8 +1035,6 @@ func (r *MarketplaceResourceResource) Read(ctx context.Context, req resource.Rea
 			data.Username = types.StringNull()
 		}
 	}
-
-	// Map filter parameters from response if available
 
 	// Save updated data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
@@ -1686,8 +1683,6 @@ func (r *MarketplaceResourceResource) Update(ctx context.Context, req resource.U
 			data.Username = types.StringNull()
 		}
 	}
-
-	// Map filter parameters from response if available
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }

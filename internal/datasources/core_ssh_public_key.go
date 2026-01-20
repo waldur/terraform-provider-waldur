@@ -47,7 +47,7 @@ func (d *CoreSshPublicKeyDataSource) Metadata(ctx context.Context, req datasourc
 
 func (d *CoreSshPublicKeyDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "CoreSshPublicKey data source - lookup by name or UUID",
+		MarkdownDescription: "Core Ssh Public Key data source - lookup by name or UUID",
 
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
@@ -187,8 +187,6 @@ func (d *CoreSshPublicKeyDataSource) Read(ctx context.Context, req datasource.Re
 				data.Url = types.StringNull()
 			}
 		}
-
-		// Map filter parameters from response if available
 		if val, ok := sourceMap["created"]; ok && val != nil {
 			if str, ok := val.(string); ok {
 				data.Created = types.StringValue(str)
@@ -344,8 +342,6 @@ func (d *CoreSshPublicKeyDataSource) Read(ctx context.Context, req datasource.Re
 				data.Url = types.StringNull()
 			}
 		}
-
-		// Map filter parameters from response if available
 		if val, ok := sourceMap["created"]; ok && val != nil {
 			if str, ok := val.(string); ok {
 				data.Created = types.StringValue(str)

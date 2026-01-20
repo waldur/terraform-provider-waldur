@@ -3,12 +3,12 @@
 page_title: "waldur_openstack_flavor Data Source - waldur"
 subcategory: ""
 description: |-
-  OpenstackFlavor data source - lookup by name or UUID
+  Openstack Flavor data source - lookup by name or UUID
 ---
 
 # waldur_openstack_flavor (Data Source)
 
-OpenstackFlavor data source - lookup by name or UUID
+Openstack Flavor data source - lookup by name or UUID
 
 
 

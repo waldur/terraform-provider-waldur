@@ -3,12 +3,12 @@
 page_title: "waldur_openstack_tenant Data Source - waldur"
 subcategory: ""
 description: |-
-  OpenstackTenant data source - lookup by name or UUID
+  Openstack Tenant data source - lookup by name or UUID
 ---
 
 # waldur_openstack_tenant (Data Source)
 
-OpenstackTenant data source - lookup by name or UUID
+Openstack Tenant data source - lookup by name or UUID
 
 
 

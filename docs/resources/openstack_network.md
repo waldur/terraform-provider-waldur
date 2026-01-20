@@ -3,12 +3,12 @@
 page_title: "waldur_openstack_network Resource - waldur"
 subcategory: ""
 description: |-
-  OpenstackNetwork resource
+  Openstack Network resource
 ---
 
 # waldur_openstack_network (Resource)
 
-OpenstackNetwork resource
+Openstack Network resource
 
 
 

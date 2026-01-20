@@ -3,12 +3,12 @@
 page_title: "waldur_openstack_floating_ip Resource - waldur"
 subcategory: ""
 description: |-
-  OpenstackFloatingIp resource
+  Openstack Floating Ip resource
 ---
 
 # waldur_openstack_floating_ip (Resource)
 
-OpenstackFloatingIp resource
+Openstack Floating Ip resource
 
 
 

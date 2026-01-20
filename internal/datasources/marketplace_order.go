@@ -105,7 +105,7 @@ func (d *MarketplaceOrderDataSource) Metadata(ctx context.Context, req datasourc
 
 func (d *MarketplaceOrderDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "MarketplaceOrder data source - lookup by name or UUID",
+		MarkdownDescription: "Marketplace Order data source - lookup by name or UUID",
 
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
@@ -918,8 +918,6 @@ func (d *MarketplaceOrderDataSource) Read(ctx context.Context, req datasource.Re
 				data.Url = types.StringNull()
 			}
 		}
-
-		// Map filter parameters from response if available
 		if val, ok := sourceMap["can_approve_as_consumer"]; ok && val != nil {
 			if b, ok := val.(bool); ok {
 				data.CanApproveAsConsumer = types.BoolValue(b)
@@ -1588,8 +1586,6 @@ func (d *MarketplaceOrderDataSource) Read(ctx context.Context, req datasource.Re
 				data.Url = types.StringNull()
 			}
 		}
-
-		// Map filter parameters from response if available
 		if val, ok := sourceMap["can_approve_as_consumer"]; ok && val != nil {
 			if b, ok := val.(bool); ok {
 				data.CanApproveAsConsumer = types.BoolValue(b)

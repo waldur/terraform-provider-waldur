@@ -3,12 +3,12 @@
 page_title: "waldur_openstack_instance_stop Action - waldur"
 subcategory: ""
 description: |-
-  Perform stop action on openstack_instance
+  Perform stop action on openstack instance
 ---
 
 # waldur_openstack_instance_stop (Action)
 
-Perform stop action on openstack_instance
+Perform stop action on openstack instance
 
 
 
@@ -17,4 +17,4 @@ Perform stop action on openstack_instance
 
 ### Required
 
-- `uuid` (String) The UUID of the openstack_instance
+- `uuid` (String) The UUID of the openstack instance

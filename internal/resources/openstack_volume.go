@@ -98,7 +98,7 @@ func (r *OpenstackVolumeResource) Metadata(ctx context.Context, req resource.Met
 
 func (r *OpenstackVolumeResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "OpenstackVolume resource",
+		MarkdownDescription: "Openstack Volume resource",
 
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
@@ -932,8 +932,6 @@ func (r *OpenstackVolumeResource) Create(ctx context.Context, req resource.Creat
 									data.Url = types.StringNull()
 								}
 							}
-
-							// Map filter parameters from response if available
 						} else {
 							tflog.Warn(ctx, "Failed to fetch plugin resource: "+err.Error())
 						}
@@ -1484,8 +1482,6 @@ func (r *OpenstackVolumeResource) Create(ctx context.Context, req resource.Creat
 		}
 	}
 
-	// Map filter parameters from response if available
-
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
@@ -1999,8 +1995,6 @@ func (r *OpenstackVolumeResource) Read(ctx context.Context, req resource.ReadReq
 			data.Url = types.StringNull()
 		}
 	}
-
-	// Map filter parameters from response if available
 
 	// Save updated data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
@@ -2563,8 +2557,6 @@ func (r *OpenstackVolumeResource) Update(ctx context.Context, req resource.Updat
 			data.Url = types.StringNull()
 		}
 	}
-
-	// Map filter parameters from response if available
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }

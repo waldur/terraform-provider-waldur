@@ -78,7 +78,7 @@ func (d *OpenstackSubnetDataSource) Metadata(ctx context.Context, req datasource
 
 func (d *OpenstackSubnetDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "OpenstackSubnet data source - lookup by name or UUID",
+		MarkdownDescription: "Openstack Subnet data source - lookup by name or UUID",
 
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
@@ -545,8 +545,6 @@ func (d *OpenstackSubnetDataSource) Read(ctx context.Context, req datasource.Rea
 				data.Url = types.StringNull()
 			}
 		}
-
-		// Map filter parameters from response if available
 		if val, ok := sourceMap["backend_id"]; ok && val != nil {
 			if str, ok := val.(string); ok {
 				data.BackendId = types.StringValue(str)
@@ -1032,8 +1030,6 @@ func (d *OpenstackSubnetDataSource) Read(ctx context.Context, req datasource.Rea
 				data.Url = types.StringNull()
 			}
 		}
-
-		// Map filter parameters from response if available
 		if val, ok := sourceMap["backend_id"]; ok && val != nil {
 			if str, ok := val.(string); ok {
 				data.BackendId = types.StringValue(str)

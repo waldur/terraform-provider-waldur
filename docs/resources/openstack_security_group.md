@@ -3,12 +3,12 @@
 page_title: "waldur_openstack_security_group Resource - waldur"
 subcategory: ""
 description: |-
-  OpenstackSecurityGroup resource
+  Openstack Security Group resource
 ---
 
 # waldur_openstack_security_group (Resource)
 
-OpenstackSecurityGroup resource
+Openstack Security Group resource
 
 
 

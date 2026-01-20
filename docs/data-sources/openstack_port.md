@@ -3,12 +3,12 @@
 page_title: "waldur_openstack_port Data Source - waldur"
 subcategory: ""
 description: |-
-  OpenstackPort data source - lookup by name or UUID
+  Openstack Port data source - lookup by name or UUID
 ---
 
 # waldur_openstack_port (Data Source)
 
-OpenstackPort data source - lookup by name or UUID
+Openstack Port data source - lookup by name or UUID
 
 
 

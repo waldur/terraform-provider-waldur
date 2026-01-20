@@ -67,7 +67,7 @@ func (d *OpenstackPortDataSource) Metadata(ctx context.Context, req datasource.M
 
 func (d *OpenstackPortDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "OpenstackPort data source - lookup by name or UUID",
+		MarkdownDescription: "Openstack Port data source - lookup by name or UUID",
 
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
@@ -471,8 +471,6 @@ func (d *OpenstackPortDataSource) Read(ctx context.Context, req datasource.ReadR
 				data.Url = types.StringNull()
 			}
 		}
-
-		// Map filter parameters from response if available
 		if val, ok := sourceMap["admin_state_up"]; ok && val != nil {
 			if b, ok := val.(bool); ok {
 				data.AdminStateUp = types.BoolValue(b)
@@ -860,8 +858,6 @@ func (d *OpenstackPortDataSource) Read(ctx context.Context, req datasource.ReadR
 				data.Url = types.StringNull()
 			}
 		}
-
-		// Map filter parameters from response if available
 		if val, ok := sourceMap["admin_state_up"]; ok && val != nil {
 			if b, ok := val.(bool); ok {
 				data.AdminStateUp = types.BoolValue(b)

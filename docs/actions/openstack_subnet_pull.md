@@ -3,12 +3,12 @@
 page_title: "waldur_openstack_subnet_pull Action - waldur"
 subcategory: ""
 description: |-
-  Perform pull action on openstack_subnet
+  Perform pull action on openstack subnet
 ---
 
 # waldur_openstack_subnet_pull (Action)
 
-Perform pull action on openstack_subnet
+Perform pull action on openstack subnet
 
 
 
@@ -17,4 +17,4 @@ Perform pull action on openstack_subnet
 
 ### Required
 
-- `uuid` (String) The UUID of the openstack_subnet
+- `uuid` (String) The UUID of the openstack subnet

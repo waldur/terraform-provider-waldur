@@ -69,7 +69,7 @@ func (r *OpenstackPortResource) Metadata(ctx context.Context, req resource.Metad
 
 func (r *OpenstackPortResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "OpenstackPort resource",
+		MarkdownDescription: "Openstack Port resource",
 
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
@@ -684,8 +684,6 @@ func (r *OpenstackPortResource) Create(ctx context.Context, req resource.CreateR
 		}
 	}
 
-	// Map filter parameters from response if available
-
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
@@ -1073,8 +1071,6 @@ func (r *OpenstackPortResource) Read(ctx context.Context, req resource.ReadReque
 			data.Url = types.StringNull()
 		}
 	}
-
-	// Map filter parameters from response if available
 
 	// Save updated data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
@@ -1486,8 +1482,6 @@ func (r *OpenstackPortResource) Update(ctx context.Context, req resource.UpdateR
 			data.Url = types.StringNull()
 		}
 	}
-
-	// Map filter parameters from response if available
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }

@@ -3,12 +3,12 @@
 page_title: "waldur_openstack_port Resource - waldur"
 subcategory: ""
 description: |-
-  OpenstackPort resource
+  Openstack Port resource
 ---
 
 # waldur_openstack_port (Resource)
 
-OpenstackPort resource
+Openstack Port resource
 
 
 

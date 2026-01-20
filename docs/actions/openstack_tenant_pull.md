@@ -3,12 +3,12 @@
 page_title: "waldur_openstack_tenant_pull Action - waldur"
 subcategory: ""
 description: |-
-  Perform pull action on openstack_tenant
+  Perform pull action on openstack tenant
 ---
 
 # waldur_openstack_tenant_pull (Action)
 
-Perform pull action on openstack_tenant
+Perform pull action on openstack tenant
 
 
 
@@ -17,4 +17,4 @@ Perform pull action on openstack_tenant
 
 ### Required
 
-- `uuid` (String) The UUID of the openstack_tenant
+- `uuid` (String) The UUID of the openstack tenant

@@ -3,12 +3,12 @@
 page_title: "waldur_structure_customer Resource - waldur"
 subcategory: ""
 description: |-
-  StructureCustomer resource
+  Structure Customer resource
 ---
 
 # waldur_structure_customer (Resource)
 
-StructureCustomer resource
+Structure Customer resource
 
 
 

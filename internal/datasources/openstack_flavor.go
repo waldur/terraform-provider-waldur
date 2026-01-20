@@ -54,7 +54,7 @@ func (d *OpenstackFlavorDataSource) Metadata(ctx context.Context, req datasource
 
 func (d *OpenstackFlavorDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "OpenstackFlavor data source - lookup by name or UUID",
+		MarkdownDescription: "Openstack Flavor data source - lookup by name or UUID",
 
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
@@ -222,8 +222,6 @@ func (d *OpenstackFlavorDataSource) Read(ctx context.Context, req datasource.Rea
 				data.Url = types.StringNull()
 			}
 		}
-
-		// Map filter parameters from response if available
 		if val, ok := sourceMap["cores"]; ok && val != nil {
 			if num, ok := val.(float64); ok {
 				data.Cores = types.Int64Value(int64(num))
@@ -435,8 +433,6 @@ func (d *OpenstackFlavorDataSource) Read(ctx context.Context, req datasource.Rea
 				data.Url = types.StringNull()
 			}
 		}
-
-		// Map filter parameters from response if available
 		if val, ok := sourceMap["cores"]; ok && val != nil {
 			if num, ok := val.(float64); ok {
 				data.Cores = types.Int64Value(int64(num))

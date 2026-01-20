@@ -3,12 +3,12 @@
 page_title: "waldur_structure_project Resource - waldur"
 subcategory: ""
 description: |-
-  StructureProject resource
+  Structure Project resource
 ---
 
 # waldur_structure_project (Resource)
 
-StructureProject resource
+Structure Project resource
 
 
 

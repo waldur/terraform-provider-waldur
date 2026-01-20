@@ -49,7 +49,7 @@ func (r *OpenstackNetworkRbacPolicyResource) Metadata(ctx context.Context, req r
 
 func (r *OpenstackNetworkRbacPolicyResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "OpenstackNetworkRbacPolicy resource",
+		MarkdownDescription: "Openstack Network Rbac Policy resource",
 
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
@@ -240,8 +240,6 @@ func (r *OpenstackNetworkRbacPolicyResource) Create(ctx context.Context, req res
 		}
 	}
 
-	// Map filter parameters from response if available
-
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
@@ -393,8 +391,6 @@ func (r *OpenstackNetworkRbacPolicyResource) Read(ctx context.Context, req resou
 		}
 	}
 
-	// Map filter parameters from response if available
-
 	// Save updated data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
@@ -520,8 +516,6 @@ func (r *OpenstackNetworkRbacPolicyResource) Update(ctx context.Context, req res
 			data.Url = types.StringNull()
 		}
 	}
-
-	// Map filter parameters from response if available
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }

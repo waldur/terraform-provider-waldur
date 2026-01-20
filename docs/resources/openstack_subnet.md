@@ -3,12 +3,12 @@
 page_title: "waldur_openstack_subnet Resource - waldur"
 subcategory: ""
 description: |-
-  OpenstackSubnet resource
+  Openstack Subnet resource
 ---
 
 # waldur_openstack_subnet (Resource)
 
-OpenstackSubnet resource
+Openstack Subnet resource
 
 
 

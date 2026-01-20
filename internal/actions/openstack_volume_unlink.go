@@ -28,10 +28,10 @@ func (a *OpenstackVolumeUnlinkAction) Metadata(ctx context.Context, req action.M
 }
 func (a *OpenstackVolumeUnlinkAction) Schema(ctx context.Context, req action.SchemaRequest, resp *action.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		Description: "Perform unlink action on openstack_volume",
+		Description: "Perform unlink action on openstack volume",
 		Attributes: map[string]schema.Attribute{
 			"uuid": schema.StringAttribute{
-				Description: "The UUID of the openstack_volume",
+				Description: "The UUID of the openstack volume",
 				Required:    true,
 			},
 		},
