@@ -238,240 +238,7 @@ func (r *OpenstackFloatingIpResource) Create(ctx context.Context, req resource.C
 		data.UUID = types.StringValue(uuid)
 	}
 
-	sourceMap := result
-	// Map response fields to data model
-	_ = sourceMap
-	if val, ok := sourceMap["access_url"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.AccessUrl = types.StringValue(str)
-		}
-	} else {
-		if data.AccessUrl.IsUnknown() {
-			data.AccessUrl = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["address"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Address = types.StringValue(str)
-		}
-	} else {
-		if data.Address.IsUnknown() {
-			data.Address = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["backend_id"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.BackendId = types.StringValue(str)
-		}
-	} else {
-		if data.BackendId.IsUnknown() {
-			data.BackendId = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["backend_network_id"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.BackendNetworkId = types.StringValue(str)
-		}
-	} else {
-		if data.BackendNetworkId.IsUnknown() {
-			data.BackendNetworkId = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["created"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Created = types.StringValue(str)
-		}
-	} else {
-		if data.Created.IsUnknown() {
-			data.Created = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["description"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Description = types.StringValue(str)
-		}
-	} else {
-		if data.Description.IsUnknown() {
-			data.Description = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["error_message"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.ErrorMessage = types.StringValue(str)
-		}
-	} else {
-		if data.ErrorMessage.IsUnknown() {
-			data.ErrorMessage = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["error_traceback"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.ErrorTraceback = types.StringValue(str)
-		}
-	} else {
-		if data.ErrorTraceback.IsUnknown() {
-			data.ErrorTraceback = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["external_address"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.ExternalAddress = types.StringValue(str)
-		}
-	} else {
-		if data.ExternalAddress.IsUnknown() {
-			data.ExternalAddress = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["instance_name"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.InstanceName = types.StringValue(str)
-		}
-	} else {
-		if data.InstanceName.IsUnknown() {
-			data.InstanceName = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["instance_url"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.InstanceUrl = types.StringValue(str)
-		}
-	} else {
-		if data.InstanceUrl.IsUnknown() {
-			data.InstanceUrl = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["instance_uuid"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.InstanceUuid = types.StringValue(str)
-		}
-	} else {
-		if data.InstanceUuid.IsUnknown() {
-			data.InstanceUuid = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["modified"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Modified = types.StringValue(str)
-		}
-	} else {
-		if data.Modified.IsUnknown() {
-			data.Modified = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["port"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Port = types.StringValue(str)
-		}
-	} else {
-		if data.Port.IsUnknown() {
-			data.Port = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["port_fixed_ips"]; ok && val != nil {
-		// List of objects
-		if arr, ok := val.([]interface{}); ok {
-			items := make([]attr.Value, 0, len(arr))
-			for _, item := range arr {
-				if objMap, ok := item.(map[string]interface{}); ok {
-					attrTypes := map[string]attr.Type{
-						"ip_address": types.StringType,
-						"subnet_id":  types.StringType,
-					}
-					attrValues := map[string]attr.Value{
-						"ip_address": func() attr.Value {
-							if v, ok := objMap["ip_address"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"subnet_id": func() attr.Value {
-							if v, ok := objMap["subnet_id"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-					}
-					objVal, _ := types.ObjectValue(attrTypes, attrValues)
-					items = append(items, objVal)
-				}
-			}
-			listVal, _ := types.ListValue(types.ObjectType{AttrTypes: map[string]attr.Type{
-				"ip_address": types.StringType,
-				"subnet_id":  types.StringType,
-			}}, items)
-			data.PortFixedIps = listVal
-		}
-	} else {
-		if data.PortFixedIps.IsUnknown() {
-			data.PortFixedIps = types.ListNull(types.ObjectType{AttrTypes: map[string]attr.Type{
-				"ip_address": types.StringType,
-				"subnet_id":  types.StringType,
-			}})
-		}
-	}
-	if val, ok := sourceMap["resource_type"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.ResourceType = types.StringValue(str)
-		}
-	} else {
-		if data.ResourceType.IsUnknown() {
-			data.ResourceType = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["runtime_state"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.RuntimeState = types.StringValue(str)
-		}
-	} else {
-		if data.RuntimeState.IsUnknown() {
-			data.RuntimeState = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["state"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.State = types.StringValue(str)
-		}
-	} else {
-		if data.State.IsUnknown() {
-			data.State = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["tenant"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Tenant = types.StringValue(str)
-		}
-	} else {
-		if data.Tenant.IsUnknown() {
-			data.Tenant = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["tenant_name"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.TenantName = types.StringValue(str)
-		}
-	} else {
-		if data.TenantName.IsUnknown() {
-			data.TenantName = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["tenant_uuid"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.TenantUuid = types.StringValue(str)
-		}
-	} else {
-		if data.TenantUuid.IsUnknown() {
-			data.TenantUuid = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["url"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Url = types.StringValue(str)
-		}
-	} else {
-		if data.Url.IsUnknown() {
-			data.Url = types.StringNull()
-		}
-	}
+	r.updateFromValue(ctx, &data, result)
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
@@ -505,7 +272,45 @@ func (r *OpenstackFloatingIpResource) Read(ctx context.Context, req resource.Rea
 		data.UUID = types.StringValue(uuid)
 	}
 
-	sourceMap := result
+	if uuid, ok := result["uuid"].(string); ok {
+		data.UUID = types.StringValue(uuid)
+	}
+
+	r.updateFromValue(ctx, &data, result)
+
+	// Save updated data into Terraform state
+	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
+}
+
+func (r *OpenstackFloatingIpResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
+	resp.Diagnostics.AddError("Update Not Supported", "This resource cannot be updated via the API.")
+	return
+}
+
+func (r *OpenstackFloatingIpResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
+	var data OpenstackFloatingIpResourceModel
+	resp.Diagnostics.Append(req.State.Get(ctx, &data)...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	// Call Waldur API to delete resource
+	err := r.client.DeleteByUUID(ctx, "/api/openstack-floating-ips/{uuid}/", data.UUID.ValueString())
+	if err != nil {
+		resp.Diagnostics.AddError(
+			"Unable to Delete OpenstackFloatingIp",
+			"An error occurred while deleting the openstack_floating_ip: "+err.Error(),
+		)
+		return
+	}
+}
+
+func (r *OpenstackFloatingIpResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+
+	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
+}
+
+func (r *OpenstackFloatingIpResource) updateFromValue(ctx context.Context, data *OpenstackFloatingIpResourceModel, sourceMap map[string]interface{}) {
 	// Map response fields to data model
 	_ = sourceMap
 	if val, ok := sourceMap["access_url"]; ok && val != nil {
@@ -739,35 +544,4 @@ func (r *OpenstackFloatingIpResource) Read(ctx context.Context, req resource.Rea
 			data.Url = types.StringNull()
 		}
 	}
-
-	// Save updated data into Terraform state
-	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
-}
-
-func (r *OpenstackFloatingIpResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
-	resp.Diagnostics.AddError("Update Not Supported", "This resource cannot be updated via the API.")
-	return
-}
-
-func (r *OpenstackFloatingIpResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
-	var data OpenstackFloatingIpResourceModel
-	resp.Diagnostics.Append(req.State.Get(ctx, &data)...)
-	if resp.Diagnostics.HasError() {
-		return
-	}
-
-	// Call Waldur API to delete resource
-	err := r.client.DeleteByUUID(ctx, "/api/openstack-floating-ips/{uuid}/", data.UUID.ValueString())
-	if err != nil {
-		resp.Diagnostics.AddError(
-			"Unable to Delete OpenstackFloatingIp",
-			"An error occurred while deleting the openstack_floating_ip: "+err.Error(),
-		)
-		return
-	}
-}
-
-func (r *OpenstackFloatingIpResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
-
-	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }

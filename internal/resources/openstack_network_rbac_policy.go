@@ -164,81 +164,7 @@ func (r *OpenstackNetworkRbacPolicyResource) Create(ctx context.Context, req res
 	}
 	data.UUID = types.StringValue(compositeID)
 
-	sourceMap := result
-	// Map response fields to data model
-	_ = sourceMap
-	if val, ok := sourceMap["backend_id"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.BackendId = types.StringValue(str)
-		}
-	} else {
-		if data.BackendId.IsUnknown() {
-			data.BackendId = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["created"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Created = types.StringValue(str)
-		}
-	} else {
-		if data.Created.IsUnknown() {
-			data.Created = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["network"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Network = types.StringValue(str)
-		}
-	} else {
-		if data.Network.IsUnknown() {
-			data.Network = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["network_name"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.NetworkName = types.StringValue(str)
-		}
-	} else {
-		if data.NetworkName.IsUnknown() {
-			data.NetworkName = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["policy_type"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.PolicyType = types.StringValue(str)
-		}
-	} else {
-		if data.PolicyType.IsUnknown() {
-			data.PolicyType = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["target_tenant"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.TargetTenant = types.StringValue(str)
-		}
-	} else {
-		if data.TargetTenant.IsUnknown() {
-			data.TargetTenant = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["target_tenant_name"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.TargetTenantName = types.StringValue(str)
-		}
-	} else {
-		if data.TargetTenantName.IsUnknown() {
-			data.TargetTenantName = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["url"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Url = types.StringValue(str)
-		}
-	} else {
-		if data.Url.IsUnknown() {
-			data.Url = types.StringNull()
-		}
-	}
+	r.updateFromValue(ctx, &data, result)
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
@@ -315,81 +241,11 @@ func (r *OpenstackNetworkRbacPolicyResource) Read(ctx context.Context, req resou
 		data.UUID = types.StringValue(uuid)
 	}
 
-	sourceMap := result
-	// Map response fields to data model
-	_ = sourceMap
-	if val, ok := sourceMap["backend_id"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.BackendId = types.StringValue(str)
-		}
-	} else {
-		if data.BackendId.IsUnknown() {
-			data.BackendId = types.StringNull()
-		}
+	if uuid, ok := result["uuid"].(string); ok {
+		data.UUID = types.StringValue(uuid)
 	}
-	if val, ok := sourceMap["created"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Created = types.StringValue(str)
-		}
-	} else {
-		if data.Created.IsUnknown() {
-			data.Created = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["network"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Network = types.StringValue(str)
-		}
-	} else {
-		if data.Network.IsUnknown() {
-			data.Network = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["network_name"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.NetworkName = types.StringValue(str)
-		}
-	} else {
-		if data.NetworkName.IsUnknown() {
-			data.NetworkName = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["policy_type"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.PolicyType = types.StringValue(str)
-		}
-	} else {
-		if data.PolicyType.IsUnknown() {
-			data.PolicyType = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["target_tenant"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.TargetTenant = types.StringValue(str)
-		}
-	} else {
-		if data.TargetTenant.IsUnknown() {
-			data.TargetTenant = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["target_tenant_name"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.TargetTenantName = types.StringValue(str)
-		}
-	} else {
-		if data.TargetTenantName.IsUnknown() {
-			data.TargetTenantName = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["url"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Url = types.StringValue(str)
-		}
-	} else {
-		if data.Url.IsUnknown() {
-			data.Url = types.StringNull()
-		}
-	}
+
+	r.updateFromValue(ctx, &data, result)
 
 	// Save updated data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
@@ -441,7 +297,46 @@ func (r *OpenstackNetworkRbacPolicyResource) Update(ctx context.Context, req res
 		data.UUID = types.StringValue(uuid)
 	}
 
-	sourceMap := result
+	r.updateFromValue(ctx, &data, result)
+
+	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
+}
+
+func (r *OpenstackNetworkRbacPolicyResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
+	var data OpenstackNetworkRbacPolicyResourceModel
+	resp.Diagnostics.Append(req.State.Get(ctx, &data)...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	// Call Waldur API to delete resource
+	err := r.client.DeleteByUUID(ctx, "/api/openstack-network-rbac-policies/{uuid}/", data.UUID.ValueString())
+	if err != nil {
+		resp.Diagnostics.AddError(
+			"Unable to Delete OpenstackNetworkRbacPolicy",
+			"An error occurred while deleting the openstack_network_rbac_policy: "+err.Error(),
+		)
+		return
+	}
+}
+
+func (r *OpenstackNetworkRbacPolicyResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+
+	// Parse composite ID: key1/key2/...
+	parts := strings.Split(req.ID, "/")
+	if len(parts) != 0 {
+		resp.Diagnostics.AddError(
+			"Invalid Import ID",
+			"Expected format: <network>/<target_tenant>",
+		)
+		return
+	}
+	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), req.ID)...)
+	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("network"), parts[0])...)
+	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("target_tenant"), parts[1])...)
+}
+
+func (r *OpenstackNetworkRbacPolicyResource) updateFromValue(ctx context.Context, data *OpenstackNetworkRbacPolicyResourceModel, sourceMap map[string]interface{}) {
 	// Map response fields to data model
 	_ = sourceMap
 	if val, ok := sourceMap["backend_id"]; ok && val != nil {
@@ -516,40 +411,4 @@ func (r *OpenstackNetworkRbacPolicyResource) Update(ctx context.Context, req res
 			data.Url = types.StringNull()
 		}
 	}
-
-	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
-}
-
-func (r *OpenstackNetworkRbacPolicyResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
-	var data OpenstackNetworkRbacPolicyResourceModel
-	resp.Diagnostics.Append(req.State.Get(ctx, &data)...)
-	if resp.Diagnostics.HasError() {
-		return
-	}
-
-	// Call Waldur API to delete resource
-	err := r.client.DeleteByUUID(ctx, "/api/openstack-network-rbac-policies/{uuid}/", data.UUID.ValueString())
-	if err != nil {
-		resp.Diagnostics.AddError(
-			"Unable to Delete OpenstackNetworkRbacPolicy",
-			"An error occurred while deleting the openstack_network_rbac_policy: "+err.Error(),
-		)
-		return
-	}
-}
-
-func (r *OpenstackNetworkRbacPolicyResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
-
-	// Parse composite ID: key1/key2/...
-	parts := strings.Split(req.ID, "/")
-	if len(parts) != 0 {
-		resp.Diagnostics.AddError(
-			"Invalid Import ID",
-			"Expected format: <network>/<target_tenant>",
-		)
-		return
-	}
-	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), req.ID)...)
-	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("network"), parts[0])...)
-	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("target_tenant"), parts[1])...)
 }

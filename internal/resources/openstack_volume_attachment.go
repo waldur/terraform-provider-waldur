@@ -627,7 +627,59 @@ func (r *OpenstackVolumeAttachmentResource) Read(ctx context.Context, req resour
 		data.UUID = types.StringValue(uuid)
 	}
 
-	sourceMap := result
+	if uuid, ok := result["uuid"].(string); ok {
+		data.UUID = types.StringValue(uuid)
+	}
+
+	r.updateFromValue(ctx, &data, result)
+
+	// Save updated data into Terraform state
+	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
+}
+
+func (r *OpenstackVolumeAttachmentResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
+	// Link resources typically do not support update, as they are bindings.
+	resp.Diagnostics.AddError("Update Not Supported", "Link resources cannot be updated.")
+	return
+}
+
+func (r *OpenstackVolumeAttachmentResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
+	var data OpenstackVolumeAttachmentResourceModel
+	resp.Diagnostics.Append(req.State.Get(ctx, &data)...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	// Link Plugin Delete (Unlink)
+	parts := strings.Split(data.UUID.ValueString(), "/")
+	if len(parts) != 2 {
+		resp.Diagnostics.AddError("Invalid Link ID", "Expected source_uuid/target_uuid")
+		return
+	}
+	sourceUUID := parts[0]
+	unlinkPath := strings.Replace("/api/openstack-volumes/{uuid}/detach/", "{uuid}", sourceUUID, 1)
+
+	err := r.client.Post(ctx, unlinkPath, nil, nil)
+	if err != nil {
+		resp.Diagnostics.AddError("Unlink Failed", err.Error())
+		return
+	}
+}
+
+func (r *OpenstackVolumeAttachmentResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+
+	// Import ID: source_uuid/target_uuid
+	parts := strings.Split(req.ID, "/")
+	if len(parts) != 2 {
+		resp.Diagnostics.AddError("Invalid Import ID", "Expected format: <volume_uuid>/<instance_uuid>")
+		return
+	}
+	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), req.ID)...)
+	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("volume"), parts[0])...)
+	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("instance"), parts[1])...)
+}
+
+func (r *OpenstackVolumeAttachmentResource) updateFromValue(ctx context.Context, data *OpenstackVolumeAttachmentResourceModel, sourceMap map[string]interface{}) {
 	// Map response fields to data model
 	_ = sourceMap
 	if val, ok := sourceMap["access_url"]; ok && val != nil {
@@ -900,49 +952,4 @@ func (r *OpenstackVolumeAttachmentResource) Read(ctx context.Context, req resour
 			data.Volume = types.StringNull()
 		}
 	}
-
-	// Save updated data into Terraform state
-	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
-}
-
-func (r *OpenstackVolumeAttachmentResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
-	// Link resources typically do not support update, as they are bindings.
-	resp.Diagnostics.AddError("Update Not Supported", "Link resources cannot be updated.")
-	return
-}
-
-func (r *OpenstackVolumeAttachmentResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
-	var data OpenstackVolumeAttachmentResourceModel
-	resp.Diagnostics.Append(req.State.Get(ctx, &data)...)
-	if resp.Diagnostics.HasError() {
-		return
-	}
-
-	// Link Plugin Delete (Unlink)
-	parts := strings.Split(data.UUID.ValueString(), "/")
-	if len(parts) != 2 {
-		resp.Diagnostics.AddError("Invalid Link ID", "Expected source_uuid/target_uuid")
-		return
-	}
-	sourceUUID := parts[0]
-	unlinkPath := strings.Replace("/api/openstack-volumes/{uuid}/detach/", "{uuid}", sourceUUID, 1)
-
-	err := r.client.Post(ctx, unlinkPath, nil, nil)
-	if err != nil {
-		resp.Diagnostics.AddError("Unlink Failed", err.Error())
-		return
-	}
-}
-
-func (r *OpenstackVolumeAttachmentResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
-
-	// Import ID: source_uuid/target_uuid
-	parts := strings.Split(req.ID, "/")
-	if len(parts) != 2 {
-		resp.Diagnostics.AddError("Invalid Import ID", "Expected format: <volume_uuid>/<instance_uuid>")
-		return
-	}
-	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), req.ID)...)
-	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("volume"), parts[0])...)
-	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("instance"), parts[1])...)
 }

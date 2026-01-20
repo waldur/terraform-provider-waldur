@@ -305,234 +305,7 @@ func (r *StructureProjectResource) Create(ctx context.Context, req resource.Crea
 		data.UUID = types.StringValue(uuid)
 	}
 
-	sourceMap := result
-	// Map response fields to data model
-	_ = sourceMap
-	if val, ok := sourceMap["backend_id"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.BackendId = types.StringValue(str)
-		}
-	} else {
-		if data.BackendId.IsUnknown() {
-			data.BackendId = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["created"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Created = types.StringValue(str)
-		}
-	} else {
-		if data.Created.IsUnknown() {
-			data.Created = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["customer"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Customer = types.StringValue(str)
-		}
-	} else {
-		if data.Customer.IsUnknown() {
-			data.Customer = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["customer_display_billing_info_in_projects"]; ok && val != nil {
-		if b, ok := val.(bool); ok {
-			data.CustomerDisplayBillingInfoInProjects = types.BoolValue(b)
-		}
-	} else {
-		if data.CustomerDisplayBillingInfoInProjects.IsUnknown() {
-			data.CustomerDisplayBillingInfoInProjects = types.BoolNull()
-		}
-	}
-	if val, ok := sourceMap["customer_slug"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.CustomerSlug = types.StringValue(str)
-		}
-	} else {
-		if data.CustomerSlug.IsUnknown() {
-			data.CustomerSlug = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["description"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Description = types.StringValue(str)
-		}
-	} else {
-		if data.Description.IsUnknown() {
-			data.Description = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["end_date"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.EndDate = types.StringValue(str)
-		}
-	} else {
-		if data.EndDate.IsUnknown() {
-			data.EndDate = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["end_date_requested_by"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.EndDateRequestedBy = types.StringValue(str)
-		}
-	} else {
-		if data.EndDateRequestedBy.IsUnknown() {
-			data.EndDateRequestedBy = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["grace_period_days"]; ok && val != nil {
-		if num, ok := val.(float64); ok {
-			data.GracePeriodDays = types.Int64Value(int64(num))
-		}
-	} else {
-		if data.GracePeriodDays.IsUnknown() {
-			data.GracePeriodDays = types.Int64Null()
-		}
-	}
-	if val, ok := sourceMap["image"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Image = types.StringValue(str)
-		}
-	} else {
-		if data.Image.IsUnknown() {
-			data.Image = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["is_industry"]; ok && val != nil {
-		if b, ok := val.(bool); ok {
-			data.IsIndustry = types.BoolValue(b)
-		}
-	} else {
-		if data.IsIndustry.IsUnknown() {
-			data.IsIndustry = types.BoolNull()
-		}
-	}
-	if val, ok := sourceMap["is_removed"]; ok && val != nil {
-		if b, ok := val.(bool); ok {
-			data.IsRemoved = types.BoolValue(b)
-		}
-	} else {
-		if data.IsRemoved.IsUnknown() {
-			data.IsRemoved = types.BoolNull()
-		}
-	}
-	if val, ok := sourceMap["kind"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Kind = types.StringValue(str)
-		}
-	} else {
-		if data.Kind.IsUnknown() {
-			data.Kind = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["max_service_accounts"]; ok && val != nil {
-		if num, ok := val.(float64); ok {
-			data.MaxServiceAccounts = types.Int64Value(int64(num))
-		}
-	} else {
-		if data.MaxServiceAccounts.IsUnknown() {
-			data.MaxServiceAccounts = types.Int64Null()
-		}
-	}
-	if val, ok := sourceMap["oecd_fos_2007_code"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.OecdFos2007Code = types.StringValue(str)
-		}
-	} else {
-		if data.OecdFos2007Code.IsUnknown() {
-			data.OecdFos2007Code = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["oecd_fos_2007_label"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.OecdFos2007Label = types.StringValue(str)
-		}
-	} else {
-		if data.OecdFos2007Label.IsUnknown() {
-			data.OecdFos2007Label = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["project_credit"]; ok && val != nil {
-		if num, ok := val.(float64); ok {
-			data.ProjectCredit = types.Float64Value(num)
-		}
-	} else {
-		if data.ProjectCredit.IsUnknown() {
-			data.ProjectCredit = types.Float64Null()
-		}
-	}
-	if val, ok := sourceMap["resources_count"]; ok && val != nil {
-		if num, ok := val.(float64); ok {
-			data.ResourcesCount = types.Int64Value(int64(num))
-		}
-	} else {
-		if data.ResourcesCount.IsUnknown() {
-			data.ResourcesCount = types.Int64Null()
-		}
-	}
-	if val, ok := sourceMap["slug"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Slug = types.StringValue(str)
-		}
-	} else {
-		if data.Slug.IsUnknown() {
-			data.Slug = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["staff_notes"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.StaffNotes = types.StringValue(str)
-		}
-	} else {
-		if data.StaffNotes.IsUnknown() {
-			data.StaffNotes = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["start_date"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.StartDate = types.StringValue(str)
-		}
-	} else {
-		if data.StartDate.IsUnknown() {
-			data.StartDate = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["type"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Type = types.StringValue(str)
-		}
-	} else {
-		if data.Type.IsUnknown() {
-			data.Type = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["type_name"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.TypeName = types.StringValue(str)
-		}
-	} else {
-		if data.TypeName.IsUnknown() {
-			data.TypeName = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["type_uuid"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.TypeUuid = types.StringValue(str)
-		}
-	} else {
-		if data.TypeUuid.IsUnknown() {
-			data.TypeUuid = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["url"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Url = types.StringValue(str)
-		}
-	} else {
-		if data.Url.IsUnknown() {
-			data.Url = types.StringNull()
-		}
-	}
+	r.updateFromValue(ctx, &data, result)
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
@@ -566,234 +339,11 @@ func (r *StructureProjectResource) Read(ctx context.Context, req resource.ReadRe
 		data.UUID = types.StringValue(uuid)
 	}
 
-	sourceMap := result
-	// Map response fields to data model
-	_ = sourceMap
-	if val, ok := sourceMap["backend_id"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.BackendId = types.StringValue(str)
-		}
-	} else {
-		if data.BackendId.IsUnknown() {
-			data.BackendId = types.StringNull()
-		}
+	if uuid, ok := result["uuid"].(string); ok {
+		data.UUID = types.StringValue(uuid)
 	}
-	if val, ok := sourceMap["created"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Created = types.StringValue(str)
-		}
-	} else {
-		if data.Created.IsUnknown() {
-			data.Created = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["customer"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Customer = types.StringValue(str)
-		}
-	} else {
-		if data.Customer.IsUnknown() {
-			data.Customer = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["customer_display_billing_info_in_projects"]; ok && val != nil {
-		if b, ok := val.(bool); ok {
-			data.CustomerDisplayBillingInfoInProjects = types.BoolValue(b)
-		}
-	} else {
-		if data.CustomerDisplayBillingInfoInProjects.IsUnknown() {
-			data.CustomerDisplayBillingInfoInProjects = types.BoolNull()
-		}
-	}
-	if val, ok := sourceMap["customer_slug"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.CustomerSlug = types.StringValue(str)
-		}
-	} else {
-		if data.CustomerSlug.IsUnknown() {
-			data.CustomerSlug = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["description"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Description = types.StringValue(str)
-		}
-	} else {
-		if data.Description.IsUnknown() {
-			data.Description = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["end_date"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.EndDate = types.StringValue(str)
-		}
-	} else {
-		if data.EndDate.IsUnknown() {
-			data.EndDate = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["end_date_requested_by"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.EndDateRequestedBy = types.StringValue(str)
-		}
-	} else {
-		if data.EndDateRequestedBy.IsUnknown() {
-			data.EndDateRequestedBy = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["grace_period_days"]; ok && val != nil {
-		if num, ok := val.(float64); ok {
-			data.GracePeriodDays = types.Int64Value(int64(num))
-		}
-	} else {
-		if data.GracePeriodDays.IsUnknown() {
-			data.GracePeriodDays = types.Int64Null()
-		}
-	}
-	if val, ok := sourceMap["image"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Image = types.StringValue(str)
-		}
-	} else {
-		if data.Image.IsUnknown() {
-			data.Image = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["is_industry"]; ok && val != nil {
-		if b, ok := val.(bool); ok {
-			data.IsIndustry = types.BoolValue(b)
-		}
-	} else {
-		if data.IsIndustry.IsUnknown() {
-			data.IsIndustry = types.BoolNull()
-		}
-	}
-	if val, ok := sourceMap["is_removed"]; ok && val != nil {
-		if b, ok := val.(bool); ok {
-			data.IsRemoved = types.BoolValue(b)
-		}
-	} else {
-		if data.IsRemoved.IsUnknown() {
-			data.IsRemoved = types.BoolNull()
-		}
-	}
-	if val, ok := sourceMap["kind"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Kind = types.StringValue(str)
-		}
-	} else {
-		if data.Kind.IsUnknown() {
-			data.Kind = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["max_service_accounts"]; ok && val != nil {
-		if num, ok := val.(float64); ok {
-			data.MaxServiceAccounts = types.Int64Value(int64(num))
-		}
-	} else {
-		if data.MaxServiceAccounts.IsUnknown() {
-			data.MaxServiceAccounts = types.Int64Null()
-		}
-	}
-	if val, ok := sourceMap["oecd_fos_2007_code"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.OecdFos2007Code = types.StringValue(str)
-		}
-	} else {
-		if data.OecdFos2007Code.IsUnknown() {
-			data.OecdFos2007Code = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["oecd_fos_2007_label"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.OecdFos2007Label = types.StringValue(str)
-		}
-	} else {
-		if data.OecdFos2007Label.IsUnknown() {
-			data.OecdFos2007Label = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["project_credit"]; ok && val != nil {
-		if num, ok := val.(float64); ok {
-			data.ProjectCredit = types.Float64Value(num)
-		}
-	} else {
-		if data.ProjectCredit.IsUnknown() {
-			data.ProjectCredit = types.Float64Null()
-		}
-	}
-	if val, ok := sourceMap["resources_count"]; ok && val != nil {
-		if num, ok := val.(float64); ok {
-			data.ResourcesCount = types.Int64Value(int64(num))
-		}
-	} else {
-		if data.ResourcesCount.IsUnknown() {
-			data.ResourcesCount = types.Int64Null()
-		}
-	}
-	if val, ok := sourceMap["slug"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Slug = types.StringValue(str)
-		}
-	} else {
-		if data.Slug.IsUnknown() {
-			data.Slug = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["staff_notes"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.StaffNotes = types.StringValue(str)
-		}
-	} else {
-		if data.StaffNotes.IsUnknown() {
-			data.StaffNotes = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["start_date"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.StartDate = types.StringValue(str)
-		}
-	} else {
-		if data.StartDate.IsUnknown() {
-			data.StartDate = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["type"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Type = types.StringValue(str)
-		}
-	} else {
-		if data.Type.IsUnknown() {
-			data.Type = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["type_name"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.TypeName = types.StringValue(str)
-		}
-	} else {
-		if data.TypeName.IsUnknown() {
-			data.TypeName = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["type_uuid"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.TypeUuid = types.StringValue(str)
-		}
-	} else {
-		if data.TypeUuid.IsUnknown() {
-			data.TypeUuid = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["url"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Url = types.StringValue(str)
-		}
-	} else {
-		if data.Url.IsUnknown() {
-			data.Url = types.StringNull()
-		}
-	}
+
+	r.updateFromValue(ctx, &data, result)
 
 	// Save updated data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
@@ -896,7 +446,35 @@ func (r *StructureProjectResource) Update(ctx context.Context, req resource.Upda
 		data.UUID = types.StringValue(uuid)
 	}
 
-	sourceMap := result
+	r.updateFromValue(ctx, &data, result)
+
+	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
+}
+
+func (r *StructureProjectResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
+	var data StructureProjectResourceModel
+	resp.Diagnostics.Append(req.State.Get(ctx, &data)...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	// Call Waldur API to delete resource
+	err := r.client.DeleteByUUID(ctx, "/api/projects/{uuid}/", data.UUID.ValueString())
+	if err != nil {
+		resp.Diagnostics.AddError(
+			"Unable to Delete StructureProject",
+			"An error occurred while deleting the structure_project: "+err.Error(),
+		)
+		return
+	}
+}
+
+func (r *StructureProjectResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+
+	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
+}
+
+func (r *StructureProjectResource) updateFromValue(ctx context.Context, data *StructureProjectResourceModel, sourceMap map[string]interface{}) {
 	// Map response fields to data model
 	_ = sourceMap
 	if val, ok := sourceMap["backend_id"]; ok && val != nil {
@@ -1124,29 +702,4 @@ func (r *StructureProjectResource) Update(ctx context.Context, req resource.Upda
 			data.Url = types.StringNull()
 		}
 	}
-
-	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
-}
-
-func (r *StructureProjectResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
-	var data StructureProjectResourceModel
-	resp.Diagnostics.Append(req.State.Get(ctx, &data)...)
-	if resp.Diagnostics.HasError() {
-		return
-	}
-
-	// Call Waldur API to delete resource
-	err := r.client.DeleteByUUID(ctx, "/api/projects/{uuid}/", data.UUID.ValueString())
-	if err != nil {
-		resp.Diagnostics.AddError(
-			"Unable to Delete StructureProject",
-			"An error occurred while deleting the structure_project: "+err.Error(),
-		)
-		return
-	}
-}
-
-func (r *StructureProjectResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
-
-	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }
