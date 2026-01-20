@@ -236,11 +236,6 @@ func (r *OpenstackNetworkRbacPolicyResource) Read(ctx context.Context, req resou
 		return
 	}
 
-	// Update UUID from response
-	if uuid, ok := result["uuid"].(string); ok {
-		data.UUID = types.StringValue(uuid)
-	}
-
 	r.updateFromValue(ctx, &data, result)
 
 	// Save updated data into Terraform state
