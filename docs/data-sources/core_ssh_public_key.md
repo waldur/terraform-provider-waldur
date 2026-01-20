@@ -24,10 +24,10 @@ Core Ssh Public Key data source - lookup by name or UUID
 - `id` (String) Resource UUID
 - `is_shared` (Boolean)
 - `modified` (String) Modified after
-- `name` (String)
-- `name_exact` (String)
-- `user_uuid` (String)
-- `uuid` (String)
+- `name` (String) Name
+- `name_exact` (String) Name (exact)
+- `user_uuid` (String) User UUID
+- `uuid` (String) UUID
 
 ### Read-Only
 

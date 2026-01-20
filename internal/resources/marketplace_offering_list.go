@@ -38,11 +38,11 @@ func (l *MarketplaceOfferingList) ListResourceConfigSchema(ctx context.Context, 
 				Optional:    true,
 			},
 			"attributes": schema.StringAttribute{
-				Description: "",
+				Description: "Offering attributes (JSON)",
 				Optional:    true,
 			},
 			"billable": schema.BoolAttribute{
-				Description: "",
+				Description: "Billable",
 				Optional:    true,
 			},
 			"can_create_offering_user": schema.BoolAttribute{
@@ -50,11 +50,11 @@ func (l *MarketplaceOfferingList) ListResourceConfigSchema(ctx context.Context, 
 				Optional:    true,
 			},
 			"category_group_uuid": schema.StringAttribute{
-				Description: "",
+				Description: "Category group UUID",
 				Optional:    true,
 			},
 			"category_uuid": schema.StringAttribute{
-				Description: "",
+				Description: "Category UUID",
 				Optional:    true,
 			},
 			"created": schema.StringAttribute{
@@ -62,15 +62,15 @@ func (l *MarketplaceOfferingList) ListResourceConfigSchema(ctx context.Context, 
 				Optional:    true,
 			},
 			"customer": schema.StringAttribute{
-				Description: "",
+				Description: "Customer URL",
 				Optional:    true,
 			},
 			"customer_uuid": schema.StringAttribute{
-				Description: "",
+				Description: "Customer UUID",
 				Optional:    true,
 			},
 			"description": schema.StringAttribute{
-				Description: "",
+				Description: "Description contains",
 				Optional:    true,
 			},
 			"has_active_terms_of_service": schema.BoolAttribute{
@@ -90,11 +90,11 @@ func (l *MarketplaceOfferingList) ListResourceConfigSchema(ctx context.Context, 
 				Optional:    true,
 			},
 			"name": schema.StringAttribute{
-				Description: "",
+				Description: "Name",
 				Optional:    true,
 			},
 			"name_exact": schema.StringAttribute{
-				Description: "",
+				Description: "Name (exact)",
 				Optional:    true,
 			},
 			"page": schema.Int64Attribute{
@@ -106,7 +106,7 @@ func (l *MarketplaceOfferingList) ListResourceConfigSchema(ctx context.Context, 
 				Optional:    true,
 			},
 			"parent_uuid": schema.StringAttribute{
-				Description: "",
+				Description: "Parent offering UUID",
 				Optional:    true,
 			},
 			"project_uuid": schema.StringAttribute{
@@ -134,7 +134,7 @@ func (l *MarketplaceOfferingList) ListResourceConfigSchema(ctx context.Context, 
 				Optional:    true,
 			},
 			"shared": schema.BoolAttribute{
-				Description: "",
+				Description: "Shared",
 				Optional:    true,
 			},
 			"user_has_consent": schema.BoolAttribute{
@@ -356,6 +356,15 @@ func (l *MarketplaceOfferingList) List(ctx context.Context, req list.ListRequest
 			} else {
 				if data.Billable.IsUnknown() {
 					data.Billable = types.BoolNull()
+				}
+			}
+			if val, ok := sourceMap["billing_type_classification"]; ok && val != nil {
+				if str, ok := val.(string); ok {
+					data.BillingTypeClassification = types.StringValue(str)
+				}
+			} else {
+				if data.BillingTypeClassification.IsUnknown() {
+					data.BillingTypeClassification = types.StringNull()
 				}
 			}
 			if val, ok := sourceMap["category"]; ok && val != nil {

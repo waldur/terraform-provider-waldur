@@ -30,15 +30,15 @@ func (l *MarketplaceOrderList) ListResourceConfigSchema(ctx context.Context, req
 	resp.Schema = schema.Schema{
 		Attributes: map[string]schema.Attribute{
 			"can_approve_as_consumer": schema.BoolAttribute{
-				Description: "",
+				Description: "Can approve as consumer",
 				Optional:    true,
 			},
 			"can_approve_as_provider": schema.BoolAttribute{
-				Description: "",
+				Description: "Can approve as provider",
 				Optional:    true,
 			},
 			"category_uuid": schema.StringAttribute{
-				Description: "",
+				Description: "Category UUID",
 				Optional:    true,
 			},
 			"created": schema.StringAttribute{
@@ -46,7 +46,7 @@ func (l *MarketplaceOrderList) ListResourceConfigSchema(ctx context.Context, req
 				Optional:    true,
 			},
 			"customer_uuid": schema.StringAttribute{
-				Description: "",
+				Description: "Customer UUID",
 				Optional:    true,
 			},
 			"modified": schema.StringAttribute{
@@ -58,7 +58,7 @@ func (l *MarketplaceOrderList) ListResourceConfigSchema(ctx context.Context, req
 				Optional:    true,
 			},
 			"offering_uuid": schema.StringAttribute{
-				Description: "",
+				Description: "Offering UUID",
 				Optional:    true,
 			},
 			"page": schema.Int64Attribute{
@@ -74,11 +74,11 @@ func (l *MarketplaceOrderList) ListResourceConfigSchema(ctx context.Context, req
 				Optional:    true,
 			},
 			"project_uuid": schema.StringAttribute{
-				Description: "",
+				Description: "Project UUID",
 				Optional:    true,
 			},
 			"provider_uuid": schema.StringAttribute{
-				Description: "",
+				Description: "Provider UUID",
 				Optional:    true,
 			},
 			"query": schema.StringAttribute{
@@ -86,15 +86,19 @@ func (l *MarketplaceOrderList) ListResourceConfigSchema(ctx context.Context, req
 				Optional:    true,
 			},
 			"resource": schema.StringAttribute{
-				Description: "",
+				Description: "Resource URL",
+				Optional:    true,
+			},
+			"resource_name": schema.StringAttribute{
+				Description: "Resource name",
 				Optional:    true,
 			},
 			"resource_uuid": schema.StringAttribute{
-				Description: "",
+				Description: "Resource UUID",
 				Optional:    true,
 			},
 			"service_manager_uuid": schema.StringAttribute{
-				Description: "",
+				Description: "Service manager UUID",
 				Optional:    true,
 			},
 		},
@@ -134,6 +138,7 @@ type MarketplaceOrderListModel struct {
 	ProviderUuid         types.String `tfsdk:"provider_uuid"`
 	Query                types.String `tfsdk:"query"`
 	Resource             types.String `tfsdk:"resource"`
+	ResourceName         types.String `tfsdk:"resource_name"`
 	ResourceUuid         types.String `tfsdk:"resource_uuid"`
 	ServiceManagerUuid   types.String `tfsdk:"service_manager_uuid"`
 }
@@ -194,6 +199,9 @@ func (l *MarketplaceOrderList) List(ctx context.Context, req list.ListRequest, s
 	}
 	if !config.Resource.IsNull() && !config.Resource.IsUnknown() {
 		filters["resource"] = config.Resource.ValueString()
+	}
+	if !config.ResourceName.IsNull() && !config.ResourceName.IsUnknown() {
+		filters["resource_name"] = config.ResourceName.ValueString()
 	}
 	if !config.ResourceUuid.IsNull() && !config.ResourceUuid.IsUnknown() {
 		filters["resource_uuid"] = config.ResourceUuid.ValueString()
@@ -557,12 +565,12 @@ func (l *MarketplaceOrderList) List(ctx context.Context, req list.ListRequest, s
 				}
 			}
 			if val, ok := sourceMap["old_cost_estimate"]; ok && val != nil {
-				if str, ok := val.(string); ok {
-					data.OldCostEstimate = types.StringValue(str)
+				if num, ok := val.(float64); ok {
+					data.OldCostEstimate = types.Float64Value(num)
 				}
 			} else {
 				if data.OldCostEstimate.IsUnknown() {
-					data.OldCostEstimate = types.StringNull()
+					data.OldCostEstimate = types.Float64Null()
 				}
 			}
 			if val, ok := sourceMap["old_plan_name"]; ok && val != nil {
@@ -581,6 +589,15 @@ func (l *MarketplaceOrderList) List(ctx context.Context, req list.ListRequest, s
 			} else {
 				if data.OldPlanUuid.IsUnknown() {
 					data.OldPlanUuid = types.StringNull()
+				}
+			}
+			if val, ok := sourceMap["order_subtype"]; ok && val != nil {
+				if str, ok := val.(string); ok {
+					data.OrderSubtype = types.StringValue(str)
+				}
+			} else {
+				if data.OrderSubtype.IsUnknown() {
+					data.OrderSubtype = types.StringNull()
 				}
 			}
 			if val, ok := sourceMap["output"]; ok && val != nil {
@@ -766,6 +783,15 @@ func (l *MarketplaceOrderList) List(ctx context.Context, req list.ListRequest, s
 			} else {
 				if data.ResourceUuid.IsUnknown() {
 					data.ResourceUuid = types.StringNull()
+				}
+			}
+			if val, ok := sourceMap["slug"]; ok && val != nil {
+				if str, ok := val.(string); ok {
+					data.Slug = types.StringValue(str)
+				}
+			} else {
+				if data.Slug.IsUnknown() {
+					data.Slug = types.StringNull()
 				}
 			}
 			if val, ok := sourceMap["start_date"]; ok && val != nil {

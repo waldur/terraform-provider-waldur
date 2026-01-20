@@ -19,33 +19,33 @@ Marketplace Offering data source - lookup by name or UUID
 
 - `accessible_via_calls` (Boolean) Accessible via calls
 - `allowed_customer_uuid` (String) Allowed customer UUID
-- `attributes` (String)
-- `billable` (Boolean)
+- `attributes` (String) Offering attributes (JSON)
+- `billable` (Boolean) Billable
 - `can_create_offering_user` (Boolean)
-- `category_group_uuid` (String)
-- `category_uuid` (String)
+- `category_group_uuid` (String) Category group UUID
+- `category_uuid` (String) Category UUID
 - `created` (String) Created after
-- `customer` (String)
-- `customer_uuid` (String)
-- `description` (String)
+- `customer` (String) Customer URL
+- `customer_uuid` (String) Customer UUID
+- `description` (String) Description contains
 - `has_active_terms_of_service` (Boolean) Has Active Terms of Service
 - `has_terms_of_service` (Boolean) Has Terms of Service
 - `id` (String) Resource UUID
 - `keyword` (String) Keyword
 - `modified` (String) Modified after
-- `name` (String)
-- `name_exact` (String)
-- `organization_group_uuid` (String)
-- `parent_uuid` (String)
+- `name` (String) Name
+- `name_exact` (String) Name (exact)
+- `organization_group_uuid` (String) Organization group UUID
+- `parent_uuid` (String) Parent offering UUID
 - `project_uuid` (String) Project UUID
 - `query` (String) Search by offering name, slug or description
 - `resource_customer_uuid` (String) Resource customer UUID
 - `resource_project_uuid` (String) Resource project UUID
 - `scope_uuid` (String) Scope UUID
 - `service_manager_uuid` (String) Service manager UUID
-- `shared` (Boolean)
-- `state` (String)
-- `type` (String)
+- `shared` (Boolean) Shared
+- `state` (String) Offering state
+- `type` (String) Offering type
 - `user_has_consent` (Boolean) User Has Consent
 - `user_has_offering_user` (Boolean) User Has Offering User
 - `uuid_list` (String) Comma-separated offering UUIDs
@@ -54,12 +54,13 @@ Marketplace Offering data source - lookup by name or UUID
 
 - `access_url` (String) Publicly accessible offering access URL
 - `backend_id` (String)
+- `billing_type_classification` (String) Classify offering components by billing type. Returns 'limit_only', 'usage_only', or 'mixed'.
 - `category` (String)
 - `category_title` (String)
 - `citation_count` (Number) Number of citations of a DOI
 - `compliance_checklist` (String)
 - `components` (List of Object) (see [below for nested schema](#nestedatt--components))
-- `country` (String)
+- `country` (String) Country code (ISO 3166-1 alpha-2)
 - `datacite_doi` (String)
 - `endpoints` (List of Object) (see [below for nested schema](#nestedatt--endpoints))
 - `files` (List of Object) (see [below for nested schema](#nestedatt--files))
@@ -88,7 +89,7 @@ Marketplace Offering data source - lookup by name or UUID
 - `scope_name` (String)
 - `scope_state` (String)
 - `screenshots` (List of Object) (see [below for nested schema](#nestedatt--screenshots))
-- `slug` (String)
+- `slug` (String) URL-friendly identifier. Only editable by staff users.
 - `software_catalogs` (List of Object) (see [below for nested schema](#nestedatt--software_catalogs))
 - `thumbnail` (String)
 - `total_cost` (Number)

@@ -18,13 +18,13 @@ Openstack Volume Type data source - lookup by name or UUID
 ### Optional
 
 - `id` (String) Resource UUID
-- `name` (String)
-- `name_exact` (String)
-- `offering_uuid` (String)
-- `settings` (String)
-- `settings_uuid` (String)
-- `tenant` (String)
-- `tenant_uuid` (String)
+- `name` (String) Name
+- `name_exact` (String) Name (exact)
+- `offering_uuid` (String) Offering UUID
+- `settings` (String) Settings URL
+- `settings_uuid` (String) Settings UUID
+- `tenant` (String) Tenant URL
+- `tenant_uuid` (String) Tenant UUID
 
 ### Read-Only
 

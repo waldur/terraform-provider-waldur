@@ -30,7 +30,7 @@ func (l *StructureCustomerList) ListResourceConfigSchema(ctx context.Context, re
 	resp.Schema = schema.Schema{
 		Attributes: map[string]schema.Attribute{
 			"abbreviation": schema.StringAttribute{
-				Description: "",
+				Description: "Abbreviation",
 				Optional:    true,
 			},
 			"agreement_number": schema.StringAttribute{
@@ -46,19 +46,19 @@ func (l *StructureCustomerList) ListResourceConfigSchema(ctx context.Context, re
 				Optional:    true,
 			},
 			"contact_details": schema.StringAttribute{
-				Description: "",
+				Description: "Contact details",
 				Optional:    true,
 			},
 			"name": schema.StringAttribute{
-				Description: "",
+				Description: "Name",
 				Optional:    true,
 			},
 			"name_exact": schema.StringAttribute{
-				Description: "",
+				Description: "Name (exact)",
 				Optional:    true,
 			},
 			"native_name": schema.StringAttribute{
-				Description: "",
+				Description: "Native name",
 				Optional:    true,
 			},
 			"o": schema.StringAttribute{
@@ -66,7 +66,7 @@ func (l *StructureCustomerList) ListResourceConfigSchema(ctx context.Context, re
 				Optional:    true,
 			},
 			"organization_group_name": schema.StringAttribute{
-				Description: "",
+				Description: "Organization group name",
 				Optional:    true,
 			},
 			"owned_by_current_user": schema.BoolAttribute{
@@ -709,75 +709,6 @@ func (l *StructureCustomerList) List(ctx context.Context, req list.ListRequest, 
 			} else {
 				if data.ProjectMetadataChecklist.IsUnknown() {
 					data.ProjectMetadataChecklist = types.StringNull()
-				}
-			}
-			if val, ok := sourceMap["projects"]; ok && val != nil {
-				// List of objects
-				if arr, ok := val.([]interface{}); ok {
-					items := make([]attr.Value, 0, len(arr))
-					for _, item := range arr {
-						if objMap, ok := item.(map[string]interface{}); ok {
-							attrTypes := map[string]attr.Type{
-								"end_date":       types.StringType,
-								"image":          types.StringType,
-								"name":           types.StringType,
-								"resource_count": types.Int64Type,
-								"url":            types.StringType,
-							}
-							attrValues := map[string]attr.Value{
-								"end_date": func() attr.Value {
-									if v, ok := objMap["end_date"].(string); ok {
-										return types.StringValue(v)
-									}
-									return types.StringNull()
-								}(),
-								"image": func() attr.Value {
-									if v, ok := objMap["image"].(string); ok {
-										return types.StringValue(v)
-									}
-									return types.StringNull()
-								}(),
-								"name": func() attr.Value {
-									if v, ok := objMap["name"].(string); ok {
-										return types.StringValue(v)
-									}
-									return types.StringNull()
-								}(),
-								"resource_count": func() attr.Value {
-									if v, ok := objMap["resource_count"].(float64); ok {
-										return types.Int64Value(int64(v))
-									}
-									return types.Int64Null()
-								}(),
-								"url": func() attr.Value {
-									if v, ok := objMap["url"].(string); ok {
-										return types.StringValue(v)
-									}
-									return types.StringNull()
-								}(),
-							}
-							objVal, _ := types.ObjectValue(attrTypes, attrValues)
-							items = append(items, objVal)
-						}
-					}
-					listVal, _ := types.ListValue(types.ObjectType{AttrTypes: map[string]attr.Type{
-						"end_date":       types.StringType,
-						"image":          types.StringType,
-						"name":           types.StringType,
-						"resource_count": types.Int64Type,
-						"url":            types.StringType,
-					}}, items)
-					data.Projects = listVal
-				}
-			} else {
-				if data.Projects.IsUnknown() {
-					data.Projects = types.ListNull(types.ObjectType{AttrTypes: map[string]attr.Type{
-						"end_date":       types.StringType,
-						"image":          types.StringType,
-						"name":           types.StringType,
-						"resource_count": types.Int64Type,
-						"url":            types.StringType,
-					}})
 				}
 			}
 			if val, ok := sourceMap["projects_count"]; ok && val != nil {

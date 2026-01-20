@@ -23,16 +23,16 @@ Structure Project resource
 ### Optional
 
 - `backend_id` (String)
-- `description` (String)
-- `end_date` (String)
+- `description` (String) Project description (HTML content will be sanitized)
+- `end_date` (String) Project end date. Setting this field requires DELETE_PROJECT permission.
 - `grace_period_days` (Number) Number of extra days after project end date before resources are terminated. Overrides customer-level setting.
 - `image` (String)
 - `is_industry` (Boolean)
 - `kind` (String)
 - `oecd_fos_2007_code` (String)
-- `slug` (String)
-- `staff_notes` (String)
-- `start_date` (String)
+- `slug` (String) URL-friendly identifier. Only editable by staff users.
+- `staff_notes` (String) Internal notes visible only to staff and support users (HTML content will be sanitized)
+- `start_date` (String) Project start date. Cannot be edited after the start date has arrived.
 - `timeouts` (Block, Optional) (see [below for nested schema](#nestedblock--timeouts))
 - `type` (String)
 
@@ -45,9 +45,9 @@ Structure Project resource
 - `id` (String) Resource UUID (used as Terraform ID)
 - `is_removed` (Boolean)
 - `max_service_accounts` (Number) Maximum number of service accounts allowed
-- `oecd_fos_2007_label` (String)
+- `oecd_fos_2007_label` (String) Human-readable label for the OECD FOS 2007 classification code
 - `project_credit` (Number)
-- `resources_count` (Number)
+- `resources_count` (Number) Number of active resources in this project
 - `type_name` (String)
 - `type_uuid` (String)
 - `url` (String)

@@ -18,36 +18,38 @@ description: |-
 ### Optional
 
 - `backend_id` (String) Backend ID
-- `category_uuid` (String)
+- `category_uuid` (String) Category UUID
 - `component_count` (Number) Filter by exact number of components
 - `created` (String) Created after
-- `customer` (String)
-- `customer_uuid` (String)
-- `downscaled` (Boolean)
+- `customer` (String) Customer URL
+- `customer_uuid` (String) Customer UUID
+- `downscaled` (Boolean) Downscaled
 - `has_terminate_date` (Boolean) Has termination date
+- `is_attached` (Boolean) Filter by attached state
 - `lexis_links_supported` (Boolean) LEXIS links supported
 - `limit_based` (Boolean) Filter by limit-based offerings
 - `limit_component_count` (Number) Filter by exact number of limit-based components
 - `modified` (String) Modified after
-- `name` (String)
-- `name_exact` (String)
+- `name` (String) Name
+- `name_exact` (String) Name (exact)
 - `offering` (String)
-- `offering_billable` (Boolean)
+- `offering_billable` (Boolean) Offering billable
 - `offering_shared` (Boolean) Offering shared
-- `offering_type` (String)
+- `offering_type` (String) Offering type
 - `only_limit_based` (Boolean) Filter resources with only limit-based components
 - `only_usage_based` (Boolean) Filter resources with only usage-based components
 - `page` (Number) A page number within the paginated result set.
 - `page_size` (Number) Number of results to return per page.
 - `parent_offering_uuid` (String)
-- `paused` (Boolean)
-- `plan_uuid` (String)
-- `project_name` (String)
-- `project_uuid` (String)
-- `provider_uuid` (String)
+- `paused` (Boolean) Paused
+- `plan_uuid` (String) Plan UUID
+- `project_name` (String) Project name
+- `project_uuid` (String) Project UUID
+- `provider_uuid` (String) Provider UUID
 - `query` (String) Search by resource UUID, name, slug, backend ID, effective ID, IPs or hypervisor
-- `restrict_member_access` (Boolean)
+- `restrict_member_access` (Boolean) Restrict member access
 - `runtime_state` (String) Runtime state
-- `service_manager_uuid` (String) Service Manager UUID
+- `service_manager_uuid` (String) Service manager UUID
 - `usage_based` (Boolean) Filter by usage-based offerings
+- `visible_to_providers` (Boolean) Include only resources visible to service providers
 - `visible_to_username` (String) Visible to username

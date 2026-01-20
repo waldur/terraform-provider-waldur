@@ -100,12 +100,12 @@ func (r *StructureProjectResource) Schema(ctx context.Context, req resource.Sche
 			"description": schema.StringAttribute{
 				Optional:            true,
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Project description (HTML content will be sanitized)",
 			},
 			"end_date": schema.StringAttribute{
 				Optional:            true,
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Project end date. Setting this field requires DELETE_PROJECT permission.",
 			},
 			"end_date_requested_by": schema.StringAttribute{
 				Computed:            true,
@@ -150,7 +150,7 @@ func (r *StructureProjectResource) Schema(ctx context.Context, req resource.Sche
 			},
 			"oecd_fos_2007_label": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Human-readable label for the OECD FOS 2007 classification code",
 			},
 			"project_credit": schema.Float64Attribute{
 				Computed:            true,
@@ -158,22 +158,22 @@ func (r *StructureProjectResource) Schema(ctx context.Context, req resource.Sche
 			},
 			"resources_count": schema.Int64Attribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Number of active resources in this project",
 			},
 			"slug": schema.StringAttribute{
 				Optional:            true,
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "URL-friendly identifier. Only editable by staff users.",
 			},
 			"staff_notes": schema.StringAttribute{
 				Optional:            true,
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Internal notes visible only to staff and support users (HTML content will be sanitized)",
 			},
 			"start_date": schema.StringAttribute{
 				Optional:            true,
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Project start date. Cannot be edited after the start date has arrived.",
 			},
 			"type": schema.StringAttribute{
 				Optional:            true,

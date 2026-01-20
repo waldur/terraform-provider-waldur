@@ -69,6 +69,7 @@ type OpenstackTenantDataSourceModel struct {
 	ServiceSettings             types.String `tfsdk:"service_settings"`
 	ServiceSettingsErrorMessage types.String `tfsdk:"service_settings_error_message"`
 	ServiceSettingsState        types.String `tfsdk:"service_settings_state"`
+	SkipCreationOfDefaultRouter types.Bool   `tfsdk:"skip_creation_of_default_router"`
 	Url                         types.String `tfsdk:"url"`
 	UserPassword                types.String `tfsdk:"user_password"`
 	UserUsername                types.String `tfsdk:"user_username"`
@@ -90,7 +91,7 @@ func (d *OpenstackTenantDataSource) Schema(ctx context.Context, req datasource.S
 			},
 			"backend_id": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Backend ID",
 			},
 			"can_manage": schema.BoolAttribute{
 				Optional:            true,
@@ -98,67 +99,67 @@ func (d *OpenstackTenantDataSource) Schema(ctx context.Context, req datasource.S
 			},
 			"customer": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Customer UUID",
 			},
 			"customer_abbreviation": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Customer abbreviation",
 			},
 			"customer_name": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Customer name",
 			},
 			"customer_native_name": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Customer native name",
 			},
 			"customer_uuid": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Customer UUID",
 			},
 			"description": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Description",
 			},
 			"external_ip": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "External IP",
 			},
 			"name": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Name",
 			},
 			"name_exact": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Name (exact)",
 			},
 			"project": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Project UUID",
 			},
 			"project_name": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Project name",
 			},
 			"project_uuid": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Project UUID",
 			},
 			"service_settings_name": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Service settings name",
 			},
 			"service_settings_uuid": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Service settings UUID",
 			},
 			"state": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "State",
 			},
 			"uuid": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "UUID",
 			},
 			"access_url": schema.StringAttribute{
 				Computed:            true,
@@ -258,6 +259,10 @@ func (d *OpenstackTenantDataSource) Schema(ctx context.Context, req datasource.S
 				MarkdownDescription: " ",
 			},
 			"service_settings_state": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: " ",
+			},
+			"skip_creation_of_default_router": schema.BoolAttribute{
 				Computed:            true,
 				MarkdownDescription: " ",
 			},
@@ -582,6 +587,15 @@ func (d *OpenstackTenantDataSource) Read(ctx context.Context, req datasource.Rea
 		} else {
 			if data.ServiceSettingsState.IsUnknown() {
 				data.ServiceSettingsState = types.StringNull()
+			}
+		}
+		if val, ok := sourceMap["skip_creation_of_default_router"]; ok && val != nil {
+			if b, ok := val.(bool); ok {
+				data.SkipCreationOfDefaultRouter = types.BoolValue(b)
+			}
+		} else {
+			if data.SkipCreationOfDefaultRouter.IsUnknown() {
+				data.SkipCreationOfDefaultRouter = types.BoolNull()
 			}
 		}
 		if val, ok := sourceMap["url"]; ok && val != nil {
@@ -1059,6 +1073,15 @@ func (d *OpenstackTenantDataSource) Read(ctx context.Context, req datasource.Rea
 		} else {
 			if data.ServiceSettingsState.IsUnknown() {
 				data.ServiceSettingsState = types.StringNull()
+			}
+		}
+		if val, ok := sourceMap["skip_creation_of_default_router"]; ok && val != nil {
+			if b, ok := val.(bool); ok {
+				data.SkipCreationOfDefaultRouter = types.BoolValue(b)
+			}
+		} else {
+			if data.SkipCreationOfDefaultRouter.IsUnknown() {
+				data.SkipCreationOfDefaultRouter = types.BoolNull()
 			}
 		}
 		if val, ok := sourceMap["url"]; ok && val != nil {

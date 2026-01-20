@@ -27,7 +27,7 @@ Marketplace Offering resource
 - `backend_id` (String)
 - `billable` (Boolean) Purchase and usage is invoiced.
 - `compliance_checklist` (String)
-- `country` (String)
+- `country` (String) Country code (ISO 3166-1 alpha-2)
 - `customer` (String)
 - `datacite_doi` (String)
 - `description` (String)
@@ -41,13 +41,14 @@ Marketplace Offering resource
 - `privacy_policy_link` (String)
 - `resource_options` (Attributes) (see [below for nested schema](#nestedatt--resource_options))
 - `shared` (Boolean) Accessible to all customers.
-- `slug` (String)
+- `slug` (String) URL-friendly identifier. Only editable by staff users.
 - `thumbnail` (String)
 - `timeouts` (Block, Optional) (see [below for nested schema](#nestedblock--timeouts))
 - `vendor_details` (String)
 
 ### Read-Only
 
+- `billing_type_classification` (String) Classify offering components by billing type. Returns 'limit_only', 'usage_only', or 'mixed'.
 - `category_title` (String)
 - `category_uuid` (String)
 - `citation_count` (Number) Number of citations of a DOI
@@ -143,7 +144,7 @@ Optional:
 Optional:
 
 - `name` (String)
-- `url` (String)
+- `url` (String) URL of the access endpoint
 
 
 <a id="nestedatt--files"></a>
@@ -183,9 +184,9 @@ Optional:
 
 Read-Only:
 
-- `customers_count` (Number)
-- `parent_name` (String)
-- `parent_uuid` (String)
+- `customers_count` (Number) Number of customers in this organization group
+- `parent_name` (String) Name of the parent organization group
+- `parent_uuid` (String) UUID of the parent organization group
 - `url` (String)
 
 

@@ -109,11 +109,11 @@ func (d *OpenstackPortDataSource) Schema(ctx context.Context, req datasource.Sch
 			},
 			"name": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Name",
 			},
 			"name_exact": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Name (exact)",
 			},
 			"network_name": schema.StringAttribute{
 				Optional:            true,
@@ -133,11 +133,11 @@ func (d *OpenstackPortDataSource) Schema(ctx context.Context, req datasource.Sch
 			},
 			"tenant": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Tenant URL",
 			},
 			"tenant_uuid": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Tenant UUID",
 			},
 			"access_url": schema.StringAttribute{
 				Computed:            true,

@@ -81,19 +81,19 @@ func (d *CoreSshPublicKeyDataSource) Schema(ctx context.Context, req datasource.
 			},
 			"name": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Name",
 			},
 			"name_exact": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Name (exact)",
 			},
 			"user_uuid": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "User UUID",
 			},
 			"uuid": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "UUID",
 			},
 			"public_key": schema.StringAttribute{
 				Computed:            true,

@@ -53,11 +53,13 @@ type MarketplaceResourceResourceModel struct {
 	Name                      types.String   `tfsdk:"name"`
 	Offering                  types.String   `tfsdk:"offering"`
 	OfferingBillable          types.Bool     `tfsdk:"offering_billable"`
+	OfferingComponents        types.List     `tfsdk:"offering_components"`
 	OfferingDescription       types.String   `tfsdk:"offering_description"`
 	OfferingImage             types.String   `tfsdk:"offering_image"`
 	OfferingName              types.String   `tfsdk:"offering_name"`
 	OfferingShared            types.Bool     `tfsdk:"offering_shared"`
 	OfferingSlug              types.String   `tfsdk:"offering_slug"`
+	OfferingState             types.String   `tfsdk:"offering_state"`
 	OfferingThumbnail         types.String   `tfsdk:"offering_thumbnail"`
 	OfferingType              types.String   `tfsdk:"offering_type"`
 	OfferingUuid              types.String   `tfsdk:"offering_uuid"`
@@ -174,7 +176,7 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 						"url": schema.StringAttribute{
 							Optional:            true,
 							Computed:            true,
-							MarkdownDescription: " ",
+							MarkdownDescription: "URL of the access endpoint",
 						},
 					},
 				},
@@ -214,6 +216,112 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 				Computed:            true,
 				MarkdownDescription: "Purchase and usage is invoiced.",
 			},
+			"offering_components": schema.ListNestedAttribute{
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: map[string]schema.Attribute{
+						"article_code": schema.StringAttribute{
+							Optional:            true,
+							Computed:            true,
+							MarkdownDescription: " ",
+						},
+						"billing_type": schema.StringAttribute{
+							Optional:            true,
+							Computed:            true,
+							MarkdownDescription: " ",
+						},
+						"default_limit": schema.Int64Attribute{
+							Optional:            true,
+							Computed:            true,
+							MarkdownDescription: " ",
+						},
+						"description": schema.StringAttribute{
+							Optional:            true,
+							Computed:            true,
+							MarkdownDescription: " ",
+						},
+						"factor": schema.Int64Attribute{
+							Computed:            true,
+							MarkdownDescription: " ",
+						},
+						"is_boolean": schema.BoolAttribute{
+							Optional:            true,
+							Computed:            true,
+							MarkdownDescription: " ",
+						},
+						"is_builtin": schema.BoolAttribute{
+							Computed:            true,
+							MarkdownDescription: " ",
+						},
+						"is_prepaid": schema.BoolAttribute{
+							Optional:            true,
+							Computed:            true,
+							MarkdownDescription: " ",
+						},
+						"limit_amount": schema.Int64Attribute{
+							Optional:            true,
+							Computed:            true,
+							MarkdownDescription: " ",
+						},
+						"limit_period": schema.StringAttribute{
+							Optional:            true,
+							Computed:            true,
+							MarkdownDescription: " ",
+						},
+						"max_available_limit": schema.Int64Attribute{
+							Optional:            true,
+							Computed:            true,
+							MarkdownDescription: " ",
+						},
+						"max_prepaid_duration": schema.Int64Attribute{
+							Optional:            true,
+							Computed:            true,
+							MarkdownDescription: " ",
+						},
+						"max_value": schema.Int64Attribute{
+							Optional:            true,
+							Computed:            true,
+							MarkdownDescription: " ",
+						},
+						"measured_unit": schema.StringAttribute{
+							Optional:            true,
+							Computed:            true,
+							MarkdownDescription: "Unit of measurement, for example, GB.",
+						},
+						"min_prepaid_duration": schema.Int64Attribute{
+							Optional:            true,
+							Computed:            true,
+							MarkdownDescription: " ",
+						},
+						"min_value": schema.Int64Attribute{
+							Optional:            true,
+							Computed:            true,
+							MarkdownDescription: " ",
+						},
+						"name": schema.StringAttribute{
+							Optional:            true,
+							Computed:            true,
+							MarkdownDescription: "Display name for the measured unit, for example, Floating IP.",
+						},
+						"overage_component": schema.StringAttribute{
+							Optional:            true,
+							Computed:            true,
+							MarkdownDescription: " ",
+						},
+						"type": schema.StringAttribute{
+							Optional:            true,
+							Computed:            true,
+							MarkdownDescription: "Unique internal name of the measured unit, for example floating_ip.",
+						},
+						"unit_factor": schema.Int64Attribute{
+							Optional:            true,
+							Computed:            true,
+							MarkdownDescription: "The conversion factor from backend units to measured_unit",
+						},
+					},
+				},
+				Computed:            true,
+				MarkdownDescription: " ",
+			},
 			"offering_description": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: " ",
@@ -231,6 +339,10 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 				MarkdownDescription: "Accessible to all customers.",
 			},
 			"offering_slug": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: " ",
+			},
+			"offering_state": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: " ",
 			},
@@ -326,12 +438,12 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 						"body": schema.StringAttribute{
 							Optional:            true,
 							Computed:            true,
-							MarkdownDescription: " ",
+							MarkdownDescription: "Section body content",
 						},
 						"header": schema.StringAttribute{
 							Optional:            true,
 							Computed:            true,
-							MarkdownDescription: " ",
+							MarkdownDescription: "Section header text",
 						},
 					},
 				},
@@ -357,7 +469,7 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 			"slug": schema.StringAttribute{
 				Optional:            true,
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "URL-friendly identifier. Only editable by staff users.",
 			},
 			"state": schema.StringAttribute{
 				Computed:            true,
@@ -739,6 +851,210 @@ func (r *MarketplaceResourceResource) updateFromValue(ctx context.Context, data 
 			data.OfferingBillable = types.BoolNull()
 		}
 	}
+	if val, ok := sourceMap["offering_components"]; ok && val != nil {
+		// List of objects
+		if arr, ok := val.([]interface{}); ok {
+			items := make([]attr.Value, 0, len(arr))
+			for _, item := range arr {
+				if objMap, ok := item.(map[string]interface{}); ok {
+					attrTypes := map[string]attr.Type{
+						"article_code":         types.StringType,
+						"billing_type":         types.StringType,
+						"default_limit":        types.Int64Type,
+						"description":          types.StringType,
+						"factor":               types.Int64Type,
+						"is_boolean":           types.BoolType,
+						"is_builtin":           types.BoolType,
+						"is_prepaid":           types.BoolType,
+						"limit_amount":         types.Int64Type,
+						"limit_period":         types.StringType,
+						"max_available_limit":  types.Int64Type,
+						"max_prepaid_duration": types.Int64Type,
+						"max_value":            types.Int64Type,
+						"measured_unit":        types.StringType,
+						"min_prepaid_duration": types.Int64Type,
+						"min_value":            types.Int64Type,
+						"name":                 types.StringType,
+						"overage_component":    types.StringType,
+						"type":                 types.StringType,
+						"unit_factor":          types.Int64Type,
+					}
+					attrValues := map[string]attr.Value{
+						"article_code": func() attr.Value {
+							if v, ok := objMap["article_code"].(string); ok {
+								return types.StringValue(v)
+							}
+							return types.StringNull()
+						}(),
+						"billing_type": func() attr.Value {
+							if v, ok := objMap["billing_type"].(string); ok {
+								return types.StringValue(v)
+							}
+							return types.StringNull()
+						}(),
+						"default_limit": func() attr.Value {
+							if v, ok := objMap["default_limit"].(float64); ok {
+								return types.Int64Value(int64(v))
+							}
+							return types.Int64Null()
+						}(),
+						"description": func() attr.Value {
+							if v, ok := objMap["description"].(string); ok {
+								return types.StringValue(v)
+							}
+							return types.StringNull()
+						}(),
+						"factor": func() attr.Value {
+							if v, ok := objMap["factor"].(float64); ok {
+								return types.Int64Value(int64(v))
+							}
+							return types.Int64Null()
+						}(),
+						"is_boolean": func() attr.Value {
+							if v, ok := objMap["is_boolean"].(bool); ok {
+								return types.BoolValue(v)
+							}
+							return types.BoolNull()
+						}(),
+						"is_builtin": func() attr.Value {
+							if v, ok := objMap["is_builtin"].(bool); ok {
+								return types.BoolValue(v)
+							}
+							return types.BoolNull()
+						}(),
+						"is_prepaid": func() attr.Value {
+							if v, ok := objMap["is_prepaid"].(bool); ok {
+								return types.BoolValue(v)
+							}
+							return types.BoolNull()
+						}(),
+						"limit_amount": func() attr.Value {
+							if v, ok := objMap["limit_amount"].(float64); ok {
+								return types.Int64Value(int64(v))
+							}
+							return types.Int64Null()
+						}(),
+						"limit_period": func() attr.Value {
+							if v, ok := objMap["limit_period"].(string); ok {
+								return types.StringValue(v)
+							}
+							return types.StringNull()
+						}(),
+						"max_available_limit": func() attr.Value {
+							if v, ok := objMap["max_available_limit"].(float64); ok {
+								return types.Int64Value(int64(v))
+							}
+							return types.Int64Null()
+						}(),
+						"max_prepaid_duration": func() attr.Value {
+							if v, ok := objMap["max_prepaid_duration"].(float64); ok {
+								return types.Int64Value(int64(v))
+							}
+							return types.Int64Null()
+						}(),
+						"max_value": func() attr.Value {
+							if v, ok := objMap["max_value"].(float64); ok {
+								return types.Int64Value(int64(v))
+							}
+							return types.Int64Null()
+						}(),
+						"measured_unit": func() attr.Value {
+							if v, ok := objMap["measured_unit"].(string); ok {
+								return types.StringValue(v)
+							}
+							return types.StringNull()
+						}(),
+						"min_prepaid_duration": func() attr.Value {
+							if v, ok := objMap["min_prepaid_duration"].(float64); ok {
+								return types.Int64Value(int64(v))
+							}
+							return types.Int64Null()
+						}(),
+						"min_value": func() attr.Value {
+							if v, ok := objMap["min_value"].(float64); ok {
+								return types.Int64Value(int64(v))
+							}
+							return types.Int64Null()
+						}(),
+						"name": func() attr.Value {
+							if v, ok := objMap["name"].(string); ok {
+								return types.StringValue(v)
+							}
+							return types.StringNull()
+						}(),
+						"overage_component": func() attr.Value {
+							if v, ok := objMap["overage_component"].(string); ok {
+								return types.StringValue(v)
+							}
+							return types.StringNull()
+						}(),
+						"type": func() attr.Value {
+							if v, ok := objMap["type"].(string); ok {
+								return types.StringValue(v)
+							}
+							return types.StringNull()
+						}(),
+						"unit_factor": func() attr.Value {
+							if v, ok := objMap["unit_factor"].(float64); ok {
+								return types.Int64Value(int64(v))
+							}
+							return types.Int64Null()
+						}(),
+					}
+					objVal, _ := types.ObjectValue(attrTypes, attrValues)
+					items = append(items, objVal)
+				}
+			}
+			listVal, _ := types.ListValue(types.ObjectType{AttrTypes: map[string]attr.Type{
+				"article_code":         types.StringType,
+				"billing_type":         types.StringType,
+				"default_limit":        types.Int64Type,
+				"description":          types.StringType,
+				"factor":               types.Int64Type,
+				"is_boolean":           types.BoolType,
+				"is_builtin":           types.BoolType,
+				"is_prepaid":           types.BoolType,
+				"limit_amount":         types.Int64Type,
+				"limit_period":         types.StringType,
+				"max_available_limit":  types.Int64Type,
+				"max_prepaid_duration": types.Int64Type,
+				"max_value":            types.Int64Type,
+				"measured_unit":        types.StringType,
+				"min_prepaid_duration": types.Int64Type,
+				"min_value":            types.Int64Type,
+				"name":                 types.StringType,
+				"overage_component":    types.StringType,
+				"type":                 types.StringType,
+				"unit_factor":          types.Int64Type,
+			}}, items)
+			data.OfferingComponents = listVal
+		}
+	} else {
+		if data.OfferingComponents.IsUnknown() {
+			data.OfferingComponents = types.ListNull(types.ObjectType{AttrTypes: map[string]attr.Type{
+				"article_code":         types.StringType,
+				"billing_type":         types.StringType,
+				"default_limit":        types.Int64Type,
+				"description":          types.StringType,
+				"factor":               types.Int64Type,
+				"is_boolean":           types.BoolType,
+				"is_builtin":           types.BoolType,
+				"is_prepaid":           types.BoolType,
+				"limit_amount":         types.Int64Type,
+				"limit_period":         types.StringType,
+				"max_available_limit":  types.Int64Type,
+				"max_prepaid_duration": types.Int64Type,
+				"max_value":            types.Int64Type,
+				"measured_unit":        types.StringType,
+				"min_prepaid_duration": types.Int64Type,
+				"min_value":            types.Int64Type,
+				"name":                 types.StringType,
+				"overage_component":    types.StringType,
+				"type":                 types.StringType,
+				"unit_factor":          types.Int64Type,
+			}})
+		}
+	}
 	if val, ok := sourceMap["offering_description"]; ok && val != nil {
 		if str, ok := val.(string); ok {
 			data.OfferingDescription = types.StringValue(str)
@@ -782,6 +1098,15 @@ func (r *MarketplaceResourceResource) updateFromValue(ctx context.Context, data 
 	} else {
 		if data.OfferingSlug.IsUnknown() {
 			data.OfferingSlug = types.StringNull()
+		}
+	}
+	if val, ok := sourceMap["offering_state"]; ok && val != nil {
+		if str, ok := val.(string); ok {
+			data.OfferingState = types.StringValue(str)
+		}
+	} else {
+		if data.OfferingState.IsUnknown() {
+			data.OfferingState = types.StringNull()
 		}
 	}
 	if val, ok := sourceMap["offering_thumbnail"]; ok && val != nil {

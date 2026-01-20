@@ -77,6 +77,7 @@ type OpenstackTenantResourceModel struct {
 	ServiceSettingsUuid         types.String   `tfsdk:"service_settings_uuid"`
 	SkipConnectionExtnet        types.Bool     `tfsdk:"skip_connection_extnet"`
 	SkipCreationOfDefaultRouter types.Bool     `tfsdk:"skip_creation_of_default_router"`
+	SkipCreationOfDefaultSubnet types.Bool     `tfsdk:"skip_creation_of_default_subnet"`
 	State                       types.String   `tfsdk:"state"`
 	SubnetCidr                  types.String   `tfsdk:"subnet_cidr"`
 	Url                         types.String   `tfsdk:"url"`
@@ -354,6 +355,11 @@ func (r *OpenstackTenantResource) Schema(ctx context.Context, req resource.Schem
 				Computed:            true,
 				MarkdownDescription: " ",
 			},
+			"skip_creation_of_default_subnet": schema.BoolAttribute{
+				Optional:            true,
+				Computed:            true,
+				MarkdownDescription: " ",
+			},
 			"state": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: " ",
@@ -435,6 +441,9 @@ func (r *OpenstackTenantResource) Create(ctx context.Context, req resource.Creat
 	}
 	if !data.SkipCreationOfDefaultRouter.IsNull() {
 		attributes["skip_creation_of_default_router"] = data.SkipCreationOfDefaultRouter.ValueBool()
+	}
+	if !data.SkipCreationOfDefaultSubnet.IsNull() {
+		attributes["skip_creation_of_default_subnet"] = data.SkipCreationOfDefaultSubnet.ValueBool()
 	}
 	if !data.SubnetCidr.IsNull() {
 		attributes["subnet_cidr"] = data.SubnetCidr.ValueString()
@@ -629,6 +638,12 @@ func (r *OpenstackTenantResource) Update(ctx context.Context, req resource.Updat
 	}
 	if !data.Name.IsNull() && !data.Name.Equal(state.Name) {
 		patchPayload["name"] = data.Name.ValueString()
+	}
+	if !data.SkipCreationOfDefaultRouter.IsNull() && !data.SkipCreationOfDefaultRouter.Equal(state.SkipCreationOfDefaultRouter) {
+		patchPayload["skip_creation_of_default_router"] = data.SkipCreationOfDefaultRouter.ValueBool()
+	}
+	if !data.SkipCreationOfDefaultSubnet.IsNull() && !data.SkipCreationOfDefaultSubnet.Equal(state.SkipCreationOfDefaultSubnet) {
+		patchPayload["skip_creation_of_default_subnet"] = data.SkipCreationOfDefaultSubnet.ValueBool()
 	}
 
 	if len(patchPayload) > 0 {
@@ -1229,6 +1244,15 @@ func (r *OpenstackTenantResource) updateFromValue(ctx context.Context, data *Ope
 	} else {
 		if data.SkipCreationOfDefaultRouter.IsUnknown() {
 			data.SkipCreationOfDefaultRouter = types.BoolNull()
+		}
+	}
+	if val, ok := sourceMap["skip_creation_of_default_subnet"]; ok && val != nil {
+		if b, ok := val.(bool); ok {
+			data.SkipCreationOfDefaultSubnet = types.BoolValue(b)
+		}
+	} else {
+		if data.SkipCreationOfDefaultSubnet.IsUnknown() {
+			data.SkipCreationOfDefaultSubnet = types.BoolNull()
 		}
 	}
 	if val, ok := sourceMap["state"]; ok && val != nil {

@@ -17,20 +17,21 @@ description: |-
 
 ### Optional
 
-- `can_approve_as_consumer` (Boolean)
-- `can_approve_as_provider` (Boolean)
-- `category_uuid` (String)
+- `can_approve_as_consumer` (Boolean) Can approve as consumer
+- `can_approve_as_provider` (Boolean) Can approve as provider
+- `category_uuid` (String) Category UUID
 - `created` (String) Created after
-- `customer_uuid` (String)
+- `customer_uuid` (String) Customer UUID
 - `modified` (String) Modified after
 - `offering` (String)
-- `offering_uuid` (String)
+- `offering_uuid` (String) Offering UUID
 - `page` (Number) A page number within the paginated result set.
 - `page_size` (Number) Number of results to return per page.
 - `parent_offering_uuid` (String)
-- `project_uuid` (String)
-- `provider_uuid` (String)
+- `project_uuid` (String) Project UUID
+- `provider_uuid` (String) Provider UUID
 - `query` (String) Search by order UUID, slug, project name or resource name
-- `resource` (String)
-- `resource_uuid` (String)
-- `service_manager_uuid` (String)
+- `resource` (String) Resource URL
+- `resource_name` (String) Resource name
+- `resource_uuid` (String) Resource UUID
+- `service_manager_uuid` (String) Service manager UUID

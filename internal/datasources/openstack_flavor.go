@@ -88,19 +88,19 @@ func (d *OpenstackFlavorDataSource) Schema(ctx context.Context, req datasource.S
 			},
 			"name": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Name",
 			},
 			"name_exact": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Name (exact)",
 			},
 			"name_iregex": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Name (regex)",
 			},
 			"offering_uuid": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Offering UUID",
 			},
 			"ram": schema.Int64Attribute{
 				Optional:            true,
@@ -116,19 +116,19 @@ func (d *OpenstackFlavorDataSource) Schema(ctx context.Context, req datasource.S
 			},
 			"settings": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Settings URL",
 			},
 			"settings_uuid": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Settings UUID",
 			},
 			"tenant": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Tenant URL",
 			},
 			"tenant_uuid": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Tenant UUID",
 			},
 			"backend_id": schema.StringAttribute{
 				Computed:            true,

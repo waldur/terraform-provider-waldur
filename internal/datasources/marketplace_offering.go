@@ -60,6 +60,7 @@ type MarketplaceOfferingDataSourceModel struct {
 	UuidList                  types.String  `tfsdk:"uuid_list"`
 	AccessUrl                 types.String  `tfsdk:"access_url"`
 	BackendId                 types.String  `tfsdk:"backend_id"`
+	BillingTypeClassification types.String  `tfsdk:"billing_type_classification"`
 	Category                  types.String  `tfsdk:"category"`
 	CategoryTitle             types.String  `tfsdk:"category_title"`
 	CitationCount             types.Int64   `tfsdk:"citation_count"`
@@ -128,11 +129,11 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 			},
 			"attributes": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Offering attributes (JSON)",
 			},
 			"billable": schema.BoolAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Billable",
 			},
 			"can_create_offering_user": schema.BoolAttribute{
 				Optional:            true,
@@ -140,11 +141,11 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 			},
 			"category_group_uuid": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Category group UUID",
 			},
 			"category_uuid": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Category UUID",
 			},
 			"created": schema.StringAttribute{
 				Optional:            true,
@@ -152,15 +153,15 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 			},
 			"customer": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Customer URL",
 			},
 			"customer_uuid": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Customer UUID",
 			},
 			"description": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Description contains",
 			},
 			"has_active_terms_of_service": schema.BoolAttribute{
 				Optional:            true,
@@ -180,19 +181,19 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 			},
 			"name": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Name",
 			},
 			"name_exact": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Name (exact)",
 			},
 			"organization_group_uuid": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Organization group UUID",
 			},
 			"parent_uuid": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Parent offering UUID",
 			},
 			"project_uuid": schema.StringAttribute{
 				Optional:            true,
@@ -220,15 +221,15 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 			},
 			"shared": schema.BoolAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Shared",
 			},
 			"state": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Offering state",
 			},
 			"type": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Offering type",
 			},
 			"user_has_consent": schema.BoolAttribute{
 				Optional:            true,
@@ -249,6 +250,10 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 			"backend_id": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: " ",
+			},
+			"billing_type_classification": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "Classify offering components by billing type. Returns 'limit_only', 'usage_only', or 'mixed'.",
 			},
 			"category": schema.StringAttribute{
 				Computed:            true,
@@ -294,7 +299,7 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 			},
 			"country": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Country code (ISO 3166-1 alpha-2)",
 			},
 			"datacite_doi": schema.StringAttribute{
 				Computed:            true,
@@ -511,7 +516,7 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 			},
 			"slug": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "URL-friendly identifier. Only editable by staff users.",
 			},
 			"software_catalogs": schema.ListAttribute{
 				CustomType: types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
@@ -623,6 +628,15 @@ func (d *MarketplaceOfferingDataSource) Read(ctx context.Context, req datasource
 		} else {
 			if data.BackendId.IsUnknown() {
 				data.BackendId = types.StringNull()
+			}
+		}
+		if val, ok := sourceMap["billing_type_classification"]; ok && val != nil {
+			if str, ok := val.(string); ok {
+				data.BillingTypeClassification = types.StringValue(str)
+			}
+		} else {
+			if data.BillingTypeClassification.IsUnknown() {
+				data.BillingTypeClassification = types.StringNull()
 			}
 		}
 		if val, ok := sourceMap["category"]; ok && val != nil {
@@ -2366,6 +2380,15 @@ func (d *MarketplaceOfferingDataSource) Read(ctx context.Context, req datasource
 		} else {
 			if data.BackendId.IsUnknown() {
 				data.BackendId = types.StringNull()
+			}
+		}
+		if val, ok := sourceMap["billing_type_classification"]; ok && val != nil {
+			if str, ok := val.(string); ok {
+				data.BillingTypeClassification = types.StringValue(str)
+			}
+		} else {
+			if data.BillingTypeClassification.IsUnknown() {
+				data.BillingTypeClassification = types.StringNull()
 			}
 		}
 		if val, ok := sourceMap["category"]; ok && val != nil {

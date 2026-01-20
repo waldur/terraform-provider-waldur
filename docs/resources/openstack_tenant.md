@@ -28,6 +28,7 @@ Openstack Tenant resource
 - `security_groups` (Attributes List) (see [below for nested schema](#nestedatt--security_groups))
 - `skip_connection_extnet` (Boolean)
 - `skip_creation_of_default_router` (Boolean)
+- `skip_creation_of_default_subnet` (Boolean)
 - `subnet_cidr` (String)
 - `timeouts` (Block, Optional) (see [below for nested schema](#nestedblock--timeouts))
 

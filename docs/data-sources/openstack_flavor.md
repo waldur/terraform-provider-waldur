@@ -24,17 +24,17 @@ Openstack Flavor data source - lookup by name or UUID
 - `disk__gte` (Number)
 - `disk__lte` (Number)
 - `id` (String) Resource UUID
-- `name` (String)
-- `name_exact` (String)
-- `name_iregex` (String)
-- `offering_uuid` (String)
+- `name` (String) Name
+- `name_exact` (String) Name (exact)
+- `name_iregex` (String) Name (regex)
+- `offering_uuid` (String) Offering UUID
 - `ram` (Number)
 - `ram__gte` (Number)
 - `ram__lte` (Number)
-- `settings` (String)
-- `settings_uuid` (String)
-- `tenant` (String)
-- `tenant_uuid` (String)
+- `settings` (String) Settings URL
+- `settings_uuid` (String) Settings UUID
+- `tenant` (String) Tenant URL
+- `tenant_uuid` (String) Tenant UUID
 
 ### Read-Only
 

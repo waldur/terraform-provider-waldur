@@ -30,7 +30,7 @@ func (l *OpenstackNetworkList) ListResourceConfigSchema(ctx context.Context, req
 	resp.Schema = schema.Schema{
 		Attributes: map[string]schema.Attribute{
 			"backend_id": schema.StringAttribute{
-				Description: "",
+				Description: "Backend ID",
 				Optional:    true,
 			},
 			"can_manage": schema.BoolAttribute{
@@ -38,27 +38,27 @@ func (l *OpenstackNetworkList) ListResourceConfigSchema(ctx context.Context, req
 				Optional:    true,
 			},
 			"customer": schema.StringAttribute{
-				Description: "",
+				Description: "Customer UUID",
 				Optional:    true,
 			},
 			"customer_abbreviation": schema.StringAttribute{
-				Description: "",
+				Description: "Customer abbreviation",
 				Optional:    true,
 			},
 			"customer_name": schema.StringAttribute{
-				Description: "",
+				Description: "Customer name",
 				Optional:    true,
 			},
 			"customer_native_name": schema.StringAttribute{
-				Description: "",
+				Description: "Customer native name",
 				Optional:    true,
 			},
 			"customer_uuid": schema.StringAttribute{
-				Description: "",
+				Description: "Customer UUID",
 				Optional:    true,
 			},
 			"description": schema.StringAttribute{
-				Description: "",
+				Description: "Description",
 				Optional:    true,
 			},
 			"direct_only": schema.BoolAttribute{
@@ -66,7 +66,7 @@ func (l *OpenstackNetworkList) ListResourceConfigSchema(ctx context.Context, req
 				Optional:    true,
 			},
 			"external_ip": schema.StringAttribute{
-				Description: "",
+				Description: "External IP",
 				Optional:    true,
 			},
 			"is_external": schema.BoolAttribute{
@@ -74,11 +74,11 @@ func (l *OpenstackNetworkList) ListResourceConfigSchema(ctx context.Context, req
 				Optional:    true,
 			},
 			"name": schema.StringAttribute{
-				Description: "",
+				Description: "Name",
 				Optional:    true,
 			},
 			"name_exact": schema.StringAttribute{
-				Description: "",
+				Description: "Name (exact)",
 				Optional:    true,
 			},
 			"page": schema.Int64Attribute{
@@ -90,15 +90,15 @@ func (l *OpenstackNetworkList) ListResourceConfigSchema(ctx context.Context, req
 				Optional:    true,
 			},
 			"project": schema.StringAttribute{
-				Description: "",
+				Description: "Project UUID",
 				Optional:    true,
 			},
 			"project_name": schema.StringAttribute{
-				Description: "",
+				Description: "Project name",
 				Optional:    true,
 			},
 			"project_uuid": schema.StringAttribute{
-				Description: "",
+				Description: "Project UUID",
 				Optional:    true,
 			},
 			"rbac_only": schema.BoolAttribute{
@@ -106,11 +106,11 @@ func (l *OpenstackNetworkList) ListResourceConfigSchema(ctx context.Context, req
 				Optional:    true,
 			},
 			"service_settings_name": schema.StringAttribute{
-				Description: "",
+				Description: "Service settings name",
 				Optional:    true,
 			},
 			"service_settings_uuid": schema.StringAttribute{
-				Description: "",
+				Description: "Service settings UUID",
 				Optional:    true,
 			},
 			"tenant": schema.StringAttribute{
@@ -126,7 +126,7 @@ func (l *OpenstackNetworkList) ListResourceConfigSchema(ctx context.Context, req
 				Optional:    true,
 			},
 			"uuid": schema.StringAttribute{
-				Description: "",
+				Description: "UUID",
 				Optional:    true,
 			},
 		},

@@ -18,40 +18,43 @@ Marketplace Resource data source - lookup by name or UUID
 ### Optional
 
 - `backend_id` (String) Backend ID
-- `category_uuid` (String)
+- `category_uuid` (String) Category UUID
 - `component_count` (Number) Filter by exact number of components
 - `created` (String) Created after
-- `customer` (String)
-- `customer_uuid` (String)
-- `downscaled` (Boolean)
+- `customer` (String) Customer URL
+- `customer_uuid` (String) Customer UUID
+- `downscaled` (Boolean) Downscaled
 - `has_terminate_date` (Boolean) Has termination date
 - `id` (String) Resource UUID
+- `is_attached` (Boolean) Filter by attached state
 - `lexis_links_supported` (Boolean) LEXIS links supported
 - `limit_based` (Boolean) Filter by limit-based offerings
 - `limit_component_count` (Number) Filter by exact number of limit-based components
 - `modified` (String) Modified after
-- `name` (String)
-- `name_exact` (String)
+- `name` (String) Name
+- `name_exact` (String) Name (exact)
 - `offering` (String)
-- `offering_billable` (Boolean)
+- `offering_billable` (Boolean) Offering billable
 - `offering_shared` (Boolean) Offering shared
 - `offering_slug` (String) Multiple values may be separated by commas.
-- `offering_type` (String)
+- `offering_type` (String) Offering type
 - `offering_uuid` (String) Multiple values may be separated by commas.
 - `only_limit_based` (Boolean) Filter resources with only limit-based components
 - `only_usage_based` (Boolean) Filter resources with only usage-based components
+- `order_state` (String) Order state
 - `parent_offering_uuid` (String)
-- `paused` (Boolean)
-- `plan_uuid` (String)
-- `project_name` (String)
-- `project_uuid` (String)
-- `provider_uuid` (String)
+- `paused` (Boolean) Paused
+- `plan_uuid` (String) Plan UUID
+- `project_name` (String) Project name
+- `project_uuid` (String) Project UUID
+- `provider_uuid` (String) Provider UUID
 - `query` (String) Search by resource UUID, name, slug, backend ID, effective ID, IPs or hypervisor
-- `restrict_member_access` (Boolean)
+- `restrict_member_access` (Boolean) Restrict member access
 - `runtime_state` (String) Runtime state
-- `service_manager_uuid` (String) Service Manager UUID
-- `state` (String)
+- `service_manager_uuid` (String) Service manager UUID
+- `state` (String) Resource state
 - `usage_based` (Boolean) Filter by usage-based offerings
+- `visible_to_providers` (Boolean) Include only resources visible to service providers
 - `visible_to_username` (String) Visible to username
 
 ### Read-Only
@@ -69,9 +72,11 @@ Marketplace Resource data source - lookup by name or UUID
 - `error_message` (String)
 - `error_traceback` (String)
 - `last_sync` (String)
+- `offering_components` (List of Object) (see [below for nested schema](#nestedatt--offering_components))
 - `offering_description` (String)
 - `offering_image` (String)
 - `offering_name` (String)
+- `offering_state` (String)
 - `offering_thumbnail` (String)
 - `parent_name` (String)
 - `parent_offering_name` (String)
@@ -91,7 +96,7 @@ Marketplace Resource data source - lookup by name or UUID
 - `resource_type` (String)
 - `resource_uuid` (String)
 - `scope` (String)
-- `slug` (String)
+- `slug` (String) URL-friendly identifier. Only editable by staff users.
 - `url` (String)
 - `user_requires_reconsent` (Boolean) Check if the current user needs to re-consent for this resource's offering.
 - `username` (String)
@@ -103,6 +108,33 @@ Read-Only:
 
 - `name` (String)
 - `url` (String)
+
+
+<a id="nestedatt--offering_components"></a>
+### Nested Schema for `offering_components`
+
+Read-Only:
+
+- `article_code` (String)
+- `billing_type` (String)
+- `default_limit` (Number)
+- `description` (String)
+- `factor` (Number)
+- `is_boolean` (Boolean)
+- `is_builtin` (Boolean)
+- `is_prepaid` (Boolean)
+- `limit_amount` (Number)
+- `limit_period` (String)
+- `max_available_limit` (Number)
+- `max_prepaid_duration` (Number)
+- `max_value` (Number)
+- `measured_unit` (String)
+- `min_prepaid_duration` (Number)
+- `min_value` (Number)
+- `name` (String)
+- `overage_component` (String)
+- `type` (String)
+- `unit_factor` (Number)
 
 
 <a id="nestedatt--report"></a>

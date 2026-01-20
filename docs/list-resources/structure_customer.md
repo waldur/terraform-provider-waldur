@@ -17,16 +17,16 @@ description: |-
 
 ### Optional
 
-- `abbreviation` (String)
+- `abbreviation` (String) Abbreviation
 - `agreement_number` (String)
 - `archived` (Boolean)
 - `backend_id` (String)
-- `contact_details` (String)
-- `name` (String)
-- `name_exact` (String)
-- `native_name` (String)
+- `contact_details` (String) Contact details
+- `name` (String) Name
+- `name_exact` (String) Name (exact)
+- `native_name` (String) Native name
 - `o` (String) Which field to use when ordering the results.
-- `organization_group_name` (String)
+- `organization_group_name` (String) Organization group name
 - `owned_by_current_user` (Boolean) Return a list of customers where current user is owner.
 - `page` (Number) A page number within the paginated result set.
 - `page_size` (Number) Number of results to return per page.

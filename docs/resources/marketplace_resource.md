@@ -23,7 +23,7 @@ Marketplace Resource resource
 - `offering` (String)
 - `paused` (Boolean)
 - `plan` (String)
-- `slug` (String)
+- `slug` (String) URL-friendly identifier. Only editable by staff users.
 - `timeouts` (Block, Optional) (see [below for nested schema](#nestedblock--timeouts))
 
 ### Read-Only
@@ -46,11 +46,13 @@ Marketplace Resource resource
 - `last_sync` (String)
 - `modified` (String)
 - `offering_billable` (Boolean) Purchase and usage is invoiced.
+- `offering_components` (Attributes List) (see [below for nested schema](#nestedatt--offering_components))
 - `offering_description` (String)
 - `offering_image` (String)
 - `offering_name` (String)
 - `offering_shared` (Boolean) Accessible to all customers.
 - `offering_slug` (String)
+- `offering_state` (String)
 - `offering_thumbnail` (String)
 - `offering_type` (String)
 - `offering_uuid` (String)
@@ -96,7 +98,37 @@ Optional:
 Optional:
 
 - `name` (String)
-- `url` (String)
+- `url` (String) URL of the access endpoint
+
+
+<a id="nestedatt--offering_components"></a>
+### Nested Schema for `offering_components`
+
+Optional:
+
+- `article_code` (String)
+- `billing_type` (String)
+- `default_limit` (Number)
+- `description` (String)
+- `is_boolean` (Boolean)
+- `is_prepaid` (Boolean)
+- `limit_amount` (Number)
+- `limit_period` (String)
+- `max_available_limit` (Number)
+- `max_prepaid_duration` (Number)
+- `max_value` (Number)
+- `measured_unit` (String) Unit of measurement, for example, GB.
+- `min_prepaid_duration` (Number)
+- `min_value` (Number)
+- `name` (String) Display name for the measured unit, for example, Floating IP.
+- `overage_component` (String)
+- `type` (String) Unique internal name of the measured unit, for example floating_ip.
+- `unit_factor` (Number) The conversion factor from backend units to measured_unit
+
+Read-Only:
+
+- `factor` (Number)
+- `is_builtin` (Boolean)
 
 
 <a id="nestedatt--report"></a>
@@ -104,5 +136,5 @@ Optional:
 
 Optional:
 
-- `body` (String)
-- `header` (String)
+- `body` (String) Section body content
+- `header` (String) Section header text

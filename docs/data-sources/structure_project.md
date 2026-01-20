@@ -23,24 +23,24 @@ Structure Project data source - lookup by name or UUID
 - `conceal_finished_projects` (Boolean) Conceal finished projects
 - `created` (String) Created after
 - `customer` (String) Multiple values may be separated by commas.
-- `customer_abbreviation` (String)
-- `customer_name` (String)
-- `customer_native_name` (String)
-- `description` (String)
+- `customer_abbreviation` (String) Customer abbreviation
+- `customer_name` (String) Customer name
+- `customer_native_name` (String) Customer native name
+- `description` (String) Description
 - `id` (String) Resource UUID
 - `include_terminated` (Boolean) Include soft-deleted (terminated) projects. Only available to staff and support users, or users with organizational roles who can see their terminated projects.
-- `is_removed` (Boolean)
+- `is_removed` (Boolean) Is removed
 - `modified` (String) Modified after
-- `name` (String)
-- `name_exact` (String)
+- `name` (String) Name
+- `name_exact` (String) Name (exact)
 - `query` (String) Filter by name, slug, UUID, backend ID or resource effective ID
-- `slug` (String)
+- `slug` (String) Slug
 
 ### Read-Only
 
 - `customer_display_billing_info_in_projects` (Boolean)
 - `customer_slug` (String)
-- `end_date` (String)
+- `end_date` (String) Project end date. Setting this field requires DELETE_PROJECT permission.
 - `end_date_requested_by` (String)
 - `grace_period_days` (Number) Number of extra days after project end date before resources are terminated. Overrides customer-level setting.
 - `image` (String)
@@ -48,11 +48,11 @@ Structure Project data source - lookup by name or UUID
 - `kind` (String)
 - `max_service_accounts` (Number) Maximum number of service accounts allowed
 - `oecd_fos_2007_code` (String)
-- `oecd_fos_2007_label` (String)
+- `oecd_fos_2007_label` (String) Human-readable label for the OECD FOS 2007 classification code
 - `project_credit` (Number)
-- `resources_count` (Number)
-- `staff_notes` (String)
-- `start_date` (String)
+- `resources_count` (Number) Number of active resources in this project
+- `staff_notes` (String) Internal notes visible only to staff and support users (HTML content will be sanitized)
+- `start_date` (String) Project start date. Cannot be edited after the start date has arrived.
 - `type` (String)
 - `type_name` (String)
 - `type_uuid` (String)

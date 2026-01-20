@@ -63,11 +63,11 @@ func (l *OpenstackPortList) ListResourceConfigSchema(ctx context.Context, req li
 				Optional:    true,
 			},
 			"name": schema.StringAttribute{
-				Description: "",
+				Description: "Name",
 				Optional:    true,
 			},
 			"name_exact": schema.StringAttribute{
-				Description: "",
+				Description: "Name (exact)",
 				Optional:    true,
 			},
 			"network_name": schema.StringAttribute{
@@ -95,11 +95,11 @@ func (l *OpenstackPortList) ListResourceConfigSchema(ctx context.Context, req li
 				Optional:    true,
 			},
 			"tenant": schema.StringAttribute{
-				Description: "",
+				Description: "Tenant URL",
 				Optional:    true,
 			},
 			"tenant_uuid": schema.StringAttribute{
-				Description: "",
+				Description: "Tenant UUID",
 				Optional:    true,
 			},
 		},

@@ -17,26 +17,27 @@ Marketplace Order data source - lookup by name or UUID
 
 ### Optional
 
-- `can_approve_as_consumer` (Boolean)
-- `can_approve_as_provider` (Boolean)
-- `category_uuid` (String)
+- `can_approve_as_consumer` (Boolean) Can approve as consumer
+- `can_approve_as_provider` (Boolean) Can approve as provider
+- `category_uuid` (String) Category UUID
 - `created` (String) Created after
-- `customer_uuid` (String)
+- `customer_uuid` (String) Customer UUID
 - `id` (String) Resource UUID
 - `modified` (String) Modified after
 - `offering` (String)
 - `offering_slug` (String) Multiple values may be separated by commas.
-- `offering_type` (String)
-- `offering_uuid` (String)
+- `offering_type` (String) Offering type
+- `offering_uuid` (String) Offering UUID
 - `parent_offering_uuid` (String)
-- `project_uuid` (String)
-- `provider_uuid` (String)
+- `project_uuid` (String) Project UUID
+- `provider_uuid` (String) Provider UUID
 - `query` (String) Search by order UUID, slug, project name or resource name
-- `resource` (String)
-- `resource_uuid` (String)
-- `service_manager_uuid` (String)
-- `state` (String)
-- `type` (String)
+- `resource` (String) Resource URL
+- `resource_name` (String) Resource name
+- `resource_uuid` (String) Resource UUID
+- `service_manager_uuid` (String) Service manager UUID
+- `state` (String) Order state
+- `type` (String) Order type
 
 ### Read-Only
 
@@ -69,9 +70,10 @@ Marketplace Order data source - lookup by name or UUID
 - `offering_name` (String)
 - `offering_shared` (Boolean) Accessible to all customers.
 - `offering_thumbnail` (String)
-- `old_cost_estimate` (String)
+- `old_cost_estimate` (Number)
 - `old_plan_name` (String)
 - `old_plan_uuid` (String)
+- `order_subtype` (String)
 - `output` (String)
 - `plan` (String)
 - `plan_description` (String)
@@ -87,8 +89,8 @@ Marketplace Order data source - lookup by name or UUID
 - `provider_reviewed_by_username` (String) Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters
 - `provider_slug` (String)
 - `request_comment` (String)
-- `resource_name` (String)
 - `resource_type` (String)
+- `slug` (String)
 - `start_date` (String) Enables delayed processing of resource provisioning order.
 - `termination_comment` (String)
 - `url` (String)

@@ -32,7 +32,7 @@ Structure Customer resource
 - `bank_name` (String)
 - `blocked` (Boolean)
 - `contact_details` (String)
-- `country` (String)
+- `country` (String) Country code (ISO 3166-1 alpha-2)
 - `default_tax_percent` (String)
 - `description` (String)
 - `display_billing_info_in_projects` (Boolean)
@@ -48,9 +48,9 @@ Structure Customer resource
 - `notification_emails` (String) Comma-separated list of notification email addresses
 - `phone_number` (String)
 - `postal` (String)
-- `project_metadata_checklist` (String)
+- `project_metadata_checklist` (String) Checklist to be used for project metadata validation in this organization
 - `registration_code` (String)
-- `slug` (String)
+- `slug` (String) URL-friendly identifier. Only editable by staff users.
 - `sponsor_number` (Number) External ID of the sponsor covering the costs
 - `timeouts` (Block, Optional) (see [below for nested schema](#nestedblock--timeouts))
 - `vat_code` (String) VAT number
@@ -58,21 +58,20 @@ Structure Customer resource
 ### Read-Only
 
 - `call_managing_organization_uuid` (String)
-- `country_name` (String)
+- `country_name` (String) Human-readable country name
 - `created` (String)
 - `customer_credit` (Number)
 - `customer_unallocated_credit` (Number)
-- `display_name` (String)
+- `display_name` (String) Display name of the organization (includes native name if available)
 - `id` (String) Resource UUID (used as Terraform ID)
 - `is_service_provider` (Boolean)
-- `organization_groups` (Attributes List) (see [below for nested schema](#nestedatt--organization_groups))
+- `organization_groups` (Attributes List) Organization groups this customer belongs to (see [below for nested schema](#nestedatt--organization_groups))
 - `payment_profiles` (Attributes List) (see [below for nested schema](#nestedatt--payment_profiles))
-- `projects` (Attributes List) (see [below for nested schema](#nestedatt--projects))
-- `projects_count` (Number)
+- `projects_count` (Number) Number of projects in this organization
 - `service_provider` (String)
 - `service_provider_uuid` (String)
 - `url` (String)
-- `users_count` (Number)
+- `users_count` (Number) Number of users with access to this organization
 
 <a id="nestedblock--timeouts"></a>
 ### Nested Schema for `timeouts`
@@ -94,9 +93,9 @@ Optional:
 
 Read-Only:
 
-- `customers_count` (Number)
-- `parent_name` (String)
-- `parent_uuid` (String)
+- `customers_count` (Number) Number of customers in this organization group
+- `parent_name` (String) Name of the parent organization group
+- `parent_uuid` (String) UUID of the parent organization group
 - `url` (String)
 
 
@@ -125,19 +124,3 @@ Optional:
 - `agreement_number` (String)
 - `contract_sum` (Number)
 - `end_date` (String)
-
-
-
-<a id="nestedatt--projects"></a>
-### Nested Schema for `projects`
-
-Optional:
-
-- `end_date` (String) The date is inclusive. Once reached, all project resource will be scheduled for termination.
-- `image` (String)
-- `name` (String)
-
-Read-Only:
-
-- `resource_count` (Number)
-- `url` (String)

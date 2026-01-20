@@ -70,9 +70,10 @@ type MarketplaceOrderResourceModel struct {
 	OfferingThumbnail          types.String   `tfsdk:"offering_thumbnail"`
 	OfferingType               types.String   `tfsdk:"offering_type"`
 	OfferingUuid               types.String   `tfsdk:"offering_uuid"`
-	OldCostEstimate            types.String   `tfsdk:"old_cost_estimate"`
+	OldCostEstimate            types.Float64  `tfsdk:"old_cost_estimate"`
 	OldPlanName                types.String   `tfsdk:"old_plan_name"`
 	OldPlanUuid                types.String   `tfsdk:"old_plan_uuid"`
+	OrderSubtype               types.String   `tfsdk:"order_subtype"`
 	Output                     types.String   `tfsdk:"output"`
 	Plan                       types.String   `tfsdk:"plan"`
 	PlanDescription            types.String   `tfsdk:"plan_description"`
@@ -93,6 +94,7 @@ type MarketplaceOrderResourceModel struct {
 	ResourceName               types.String   `tfsdk:"resource_name"`
 	ResourceType               types.String   `tfsdk:"resource_type"`
 	ResourceUuid               types.String   `tfsdk:"resource_uuid"`
+	Slug                       types.String   `tfsdk:"slug"`
 	StartDate                  types.String   `tfsdk:"start_date"`
 	State                      types.String   `tfsdk:"state"`
 	TerminationComment         types.String   `tfsdk:"termination_comment"`
@@ -273,7 +275,7 @@ func (r *MarketplaceOrderResource) Schema(ctx context.Context, req resource.Sche
 				Computed:            true,
 				MarkdownDescription: " ",
 			},
-			"old_cost_estimate": schema.StringAttribute{
+			"old_cost_estimate": schema.Float64Attribute{
 				Computed:            true,
 				MarkdownDescription: " ",
 			},
@@ -282,6 +284,10 @@ func (r *MarketplaceOrderResource) Schema(ctx context.Context, req resource.Sche
 				MarkdownDescription: " ",
 			},
 			"old_plan_uuid": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: " ",
+			},
+			"order_subtype": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: " ",
 			},
@@ -370,6 +376,10 @@ func (r *MarketplaceOrderResource) Schema(ctx context.Context, req resource.Sche
 				Computed:            true,
 				MarkdownDescription: " ",
 			},
+			"slug": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "URL-friendly identifier. Only editable by staff users.",
+			},
 			"start_date": schema.StringAttribute{
 				Optional:            true,
 				Computed:            true,
@@ -452,6 +462,11 @@ func (r *MarketplaceOrderResource) Create(ctx context.Context, req resource.Crea
 	if !data.RequestComment.IsNull() && !data.RequestComment.IsUnknown() {
 		if v := data.RequestComment.ValueString(); v != "" {
 			requestBody["request_comment"] = v
+		}
+	}
+	if !data.Slug.IsNull() && !data.Slug.IsUnknown() {
+		if v := data.Slug.ValueString(); v != "" {
+			requestBody["slug"] = v
 		}
 	}
 	if !data.StartDate.IsNull() && !data.StartDate.IsUnknown() {
@@ -897,12 +912,12 @@ func (r *MarketplaceOrderResource) updateFromValue(ctx context.Context, data *Ma
 		}
 	}
 	if val, ok := sourceMap["old_cost_estimate"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.OldCostEstimate = types.StringValue(str)
+		if num, ok := val.(float64); ok {
+			data.OldCostEstimate = types.Float64Value(num)
 		}
 	} else {
 		if data.OldCostEstimate.IsUnknown() {
-			data.OldCostEstimate = types.StringNull()
+			data.OldCostEstimate = types.Float64Null()
 		}
 	}
 	if val, ok := sourceMap["old_plan_name"]; ok && val != nil {
@@ -921,6 +936,15 @@ func (r *MarketplaceOrderResource) updateFromValue(ctx context.Context, data *Ma
 	} else {
 		if data.OldPlanUuid.IsUnknown() {
 			data.OldPlanUuid = types.StringNull()
+		}
+	}
+	if val, ok := sourceMap["order_subtype"]; ok && val != nil {
+		if str, ok := val.(string); ok {
+			data.OrderSubtype = types.StringValue(str)
+		}
+	} else {
+		if data.OrderSubtype.IsUnknown() {
+			data.OrderSubtype = types.StringNull()
 		}
 	}
 	if val, ok := sourceMap["output"]; ok && val != nil {
@@ -1106,6 +1130,15 @@ func (r *MarketplaceOrderResource) updateFromValue(ctx context.Context, data *Ma
 	} else {
 		if data.ResourceUuid.IsUnknown() {
 			data.ResourceUuid = types.StringNull()
+		}
+	}
+	if val, ok := sourceMap["slug"]; ok && val != nil {
+		if str, ok := val.(string); ok {
+			data.Slug = types.StringValue(str)
+		}
+	} else {
+		if data.Slug.IsUnknown() {
+			data.Slug = types.StringNull()
 		}
 	}
 	if val, ok := sourceMap["start_date"]; ok && val != nil {

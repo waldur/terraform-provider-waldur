@@ -36,6 +36,7 @@ type MarketplaceResourceDataSourceModel struct {
 	CustomerUuid              types.String  `tfsdk:"customer_uuid"`
 	Downscaled                types.Bool    `tfsdk:"downscaled"`
 	HasTerminateDate          types.Bool    `tfsdk:"has_terminate_date"`
+	IsAttached                types.Bool    `tfsdk:"is_attached"`
 	LexisLinksSupported       types.Bool    `tfsdk:"lexis_links_supported"`
 	LimitBased                types.Bool    `tfsdk:"limit_based"`
 	LimitComponentCount       types.Float64 `tfsdk:"limit_component_count"`
@@ -50,6 +51,7 @@ type MarketplaceResourceDataSourceModel struct {
 	OfferingUuid              types.String  `tfsdk:"offering_uuid"`
 	OnlyLimitBased            types.Bool    `tfsdk:"only_limit_based"`
 	OnlyUsageBased            types.Bool    `tfsdk:"only_usage_based"`
+	OrderState                types.String  `tfsdk:"order_state"`
 	ParentOfferingUuid        types.String  `tfsdk:"parent_offering_uuid"`
 	Paused                    types.Bool    `tfsdk:"paused"`
 	PlanUuid                  types.String  `tfsdk:"plan_uuid"`
@@ -62,6 +64,7 @@ type MarketplaceResourceDataSourceModel struct {
 	ServiceManagerUuid        types.String  `tfsdk:"service_manager_uuid"`
 	State                     types.String  `tfsdk:"state"`
 	UsageBased                types.Bool    `tfsdk:"usage_based"`
+	VisibleToProviders        types.Bool    `tfsdk:"visible_to_providers"`
 	VisibleToUsername         types.String  `tfsdk:"visible_to_username"`
 	AvailableActions          types.List    `tfsdk:"available_actions"`
 	CanTerminate              types.Bool    `tfsdk:"can_terminate"`
@@ -76,9 +79,11 @@ type MarketplaceResourceDataSourceModel struct {
 	ErrorMessage              types.String  `tfsdk:"error_message"`
 	ErrorTraceback            types.String  `tfsdk:"error_traceback"`
 	LastSync                  types.String  `tfsdk:"last_sync"`
+	OfferingComponents        types.List    `tfsdk:"offering_components"`
 	OfferingDescription       types.String  `tfsdk:"offering_description"`
 	OfferingImage             types.String  `tfsdk:"offering_image"`
 	OfferingName              types.String  `tfsdk:"offering_name"`
+	OfferingState             types.String  `tfsdk:"offering_state"`
 	OfferingThumbnail         types.String  `tfsdk:"offering_thumbnail"`
 	ParentName                types.String  `tfsdk:"parent_name"`
 	ParentOfferingName        types.String  `tfsdk:"parent_offering_name"`
@@ -124,7 +129,7 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 			},
 			"category_uuid": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Category UUID",
 			},
 			"component_count": schema.Float64Attribute{
 				Optional:            true,
@@ -136,19 +141,23 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 			},
 			"customer": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Customer URL",
 			},
 			"customer_uuid": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Customer UUID",
 			},
 			"downscaled": schema.BoolAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Downscaled",
 			},
 			"has_terminate_date": schema.BoolAttribute{
 				Optional:            true,
 				MarkdownDescription: "Has termination date",
+			},
+			"is_attached": schema.BoolAttribute{
+				Optional:            true,
+				MarkdownDescription: "Filter by attached state",
 			},
 			"lexis_links_supported": schema.BoolAttribute{
 				Optional:            true,
@@ -168,11 +177,11 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 			},
 			"name": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Name",
 			},
 			"name_exact": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Name (exact)",
 			},
 			"offering": schema.StringAttribute{
 				Optional:            true,
@@ -180,7 +189,7 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 			},
 			"offering_billable": schema.BoolAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Offering billable",
 			},
 			"offering_shared": schema.BoolAttribute{
 				Optional:            true,
@@ -192,7 +201,7 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 			},
 			"offering_type": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Offering type",
 			},
 			"offering_uuid": schema.StringAttribute{
 				Optional:            true,
@@ -206,29 +215,33 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 				Optional:            true,
 				MarkdownDescription: "Filter resources with only usage-based components",
 			},
+			"order_state": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Order state",
+			},
 			"parent_offering_uuid": schema.StringAttribute{
 				Optional:            true,
 				MarkdownDescription: " ",
 			},
 			"paused": schema.BoolAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Paused",
 			},
 			"plan_uuid": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Plan UUID",
 			},
 			"project_name": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Project name",
 			},
 			"project_uuid": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Project UUID",
 			},
 			"provider_uuid": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Provider UUID",
 			},
 			"query": schema.StringAttribute{
 				Optional:            true,
@@ -236,7 +249,7 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 			},
 			"restrict_member_access": schema.BoolAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Restrict member access",
 			},
 			"runtime_state": schema.StringAttribute{
 				Optional:            true,
@@ -244,15 +257,19 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 			},
 			"service_manager_uuid": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "Service Manager UUID",
+				MarkdownDescription: "Service manager UUID",
 			},
 			"state": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Resource state",
 			},
 			"usage_based": schema.BoolAttribute{
 				Optional:            true,
 				MarkdownDescription: "Filter by usage-based offerings",
+			},
+			"visible_to_providers": schema.BoolAttribute{
+				Optional:            true,
+				MarkdownDescription: "Include only resources visible to service providers",
 			},
 			"visible_to_username": schema.StringAttribute{
 				Optional:            true,
@@ -315,6 +332,32 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 				Computed:            true,
 				MarkdownDescription: " ",
 			},
+			"offering_components": schema.ListAttribute{
+				CustomType: types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+					"article_code":         types.StringType,
+					"billing_type":         types.StringType,
+					"default_limit":        types.Int64Type,
+					"description":          types.StringType,
+					"factor":               types.Int64Type,
+					"is_boolean":           types.BoolType,
+					"is_builtin":           types.BoolType,
+					"is_prepaid":           types.BoolType,
+					"limit_amount":         types.Int64Type,
+					"limit_period":         types.StringType,
+					"max_available_limit":  types.Int64Type,
+					"max_prepaid_duration": types.Int64Type,
+					"max_value":            types.Int64Type,
+					"measured_unit":        types.StringType,
+					"min_prepaid_duration": types.Int64Type,
+					"min_value":            types.Int64Type,
+					"name":                 types.StringType,
+					"overage_component":    types.StringType,
+					"type":                 types.StringType,
+					"unit_factor":          types.Int64Type,
+				}}},
+				Computed:            true,
+				MarkdownDescription: " ",
+			},
 			"offering_description": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: " ",
@@ -324,6 +367,10 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 				MarkdownDescription: " ",
 			},
 			"offering_name": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: " ",
+			},
+			"offering_state": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: " ",
 			},
@@ -409,7 +456,7 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 			},
 			"slug": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "URL-friendly identifier. Only editable by staff users.",
 			},
 			"url": schema.StringAttribute{
 				Computed:            true,
@@ -645,6 +692,210 @@ func (d *MarketplaceResourceDataSource) Read(ctx context.Context, req datasource
 				data.LastSync = types.StringNull()
 			}
 		}
+		if val, ok := sourceMap["offering_components"]; ok && val != nil {
+			// List of objects
+			if arr, ok := val.([]interface{}); ok {
+				items := make([]attr.Value, 0, len(arr))
+				for _, item := range arr {
+					if objMap, ok := item.(map[string]interface{}); ok {
+						attrTypes := map[string]attr.Type{
+							"article_code":         types.StringType,
+							"billing_type":         types.StringType,
+							"default_limit":        types.Int64Type,
+							"description":          types.StringType,
+							"factor":               types.Int64Type,
+							"is_boolean":           types.BoolType,
+							"is_builtin":           types.BoolType,
+							"is_prepaid":           types.BoolType,
+							"limit_amount":         types.Int64Type,
+							"limit_period":         types.StringType,
+							"max_available_limit":  types.Int64Type,
+							"max_prepaid_duration": types.Int64Type,
+							"max_value":            types.Int64Type,
+							"measured_unit":        types.StringType,
+							"min_prepaid_duration": types.Int64Type,
+							"min_value":            types.Int64Type,
+							"name":                 types.StringType,
+							"overage_component":    types.StringType,
+							"type":                 types.StringType,
+							"unit_factor":          types.Int64Type,
+						}
+						attrValues := map[string]attr.Value{
+							"article_code": func() attr.Value {
+								if v, ok := objMap["article_code"].(string); ok {
+									return types.StringValue(v)
+								}
+								return types.StringNull()
+							}(),
+							"billing_type": func() attr.Value {
+								if v, ok := objMap["billing_type"].(string); ok {
+									return types.StringValue(v)
+								}
+								return types.StringNull()
+							}(),
+							"default_limit": func() attr.Value {
+								if v, ok := objMap["default_limit"].(float64); ok {
+									return types.Int64Value(int64(v))
+								}
+								return types.Int64Null()
+							}(),
+							"description": func() attr.Value {
+								if v, ok := objMap["description"].(string); ok {
+									return types.StringValue(v)
+								}
+								return types.StringNull()
+							}(),
+							"factor": func() attr.Value {
+								if v, ok := objMap["factor"].(float64); ok {
+									return types.Int64Value(int64(v))
+								}
+								return types.Int64Null()
+							}(),
+							"is_boolean": func() attr.Value {
+								if v, ok := objMap["is_boolean"].(bool); ok {
+									return types.BoolValue(v)
+								}
+								return types.BoolNull()
+							}(),
+							"is_builtin": func() attr.Value {
+								if v, ok := objMap["is_builtin"].(bool); ok {
+									return types.BoolValue(v)
+								}
+								return types.BoolNull()
+							}(),
+							"is_prepaid": func() attr.Value {
+								if v, ok := objMap["is_prepaid"].(bool); ok {
+									return types.BoolValue(v)
+								}
+								return types.BoolNull()
+							}(),
+							"limit_amount": func() attr.Value {
+								if v, ok := objMap["limit_amount"].(float64); ok {
+									return types.Int64Value(int64(v))
+								}
+								return types.Int64Null()
+							}(),
+							"limit_period": func() attr.Value {
+								if v, ok := objMap["limit_period"].(string); ok {
+									return types.StringValue(v)
+								}
+								return types.StringNull()
+							}(),
+							"max_available_limit": func() attr.Value {
+								if v, ok := objMap["max_available_limit"].(float64); ok {
+									return types.Int64Value(int64(v))
+								}
+								return types.Int64Null()
+							}(),
+							"max_prepaid_duration": func() attr.Value {
+								if v, ok := objMap["max_prepaid_duration"].(float64); ok {
+									return types.Int64Value(int64(v))
+								}
+								return types.Int64Null()
+							}(),
+							"max_value": func() attr.Value {
+								if v, ok := objMap["max_value"].(float64); ok {
+									return types.Int64Value(int64(v))
+								}
+								return types.Int64Null()
+							}(),
+							"measured_unit": func() attr.Value {
+								if v, ok := objMap["measured_unit"].(string); ok {
+									return types.StringValue(v)
+								}
+								return types.StringNull()
+							}(),
+							"min_prepaid_duration": func() attr.Value {
+								if v, ok := objMap["min_prepaid_duration"].(float64); ok {
+									return types.Int64Value(int64(v))
+								}
+								return types.Int64Null()
+							}(),
+							"min_value": func() attr.Value {
+								if v, ok := objMap["min_value"].(float64); ok {
+									return types.Int64Value(int64(v))
+								}
+								return types.Int64Null()
+							}(),
+							"name": func() attr.Value {
+								if v, ok := objMap["name"].(string); ok {
+									return types.StringValue(v)
+								}
+								return types.StringNull()
+							}(),
+							"overage_component": func() attr.Value {
+								if v, ok := objMap["overage_component"].(string); ok {
+									return types.StringValue(v)
+								}
+								return types.StringNull()
+							}(),
+							"type": func() attr.Value {
+								if v, ok := objMap["type"].(string); ok {
+									return types.StringValue(v)
+								}
+								return types.StringNull()
+							}(),
+							"unit_factor": func() attr.Value {
+								if v, ok := objMap["unit_factor"].(float64); ok {
+									return types.Int64Value(int64(v))
+								}
+								return types.Int64Null()
+							}(),
+						}
+						objVal, _ := types.ObjectValue(attrTypes, attrValues)
+						items = append(items, objVal)
+					}
+				}
+				listVal, _ := types.ListValue(types.ObjectType{AttrTypes: map[string]attr.Type{
+					"article_code":         types.StringType,
+					"billing_type":         types.StringType,
+					"default_limit":        types.Int64Type,
+					"description":          types.StringType,
+					"factor":               types.Int64Type,
+					"is_boolean":           types.BoolType,
+					"is_builtin":           types.BoolType,
+					"is_prepaid":           types.BoolType,
+					"limit_amount":         types.Int64Type,
+					"limit_period":         types.StringType,
+					"max_available_limit":  types.Int64Type,
+					"max_prepaid_duration": types.Int64Type,
+					"max_value":            types.Int64Type,
+					"measured_unit":        types.StringType,
+					"min_prepaid_duration": types.Int64Type,
+					"min_value":            types.Int64Type,
+					"name":                 types.StringType,
+					"overage_component":    types.StringType,
+					"type":                 types.StringType,
+					"unit_factor":          types.Int64Type,
+				}}, items)
+				data.OfferingComponents = listVal
+			}
+		} else {
+			if data.OfferingComponents.IsUnknown() {
+				data.OfferingComponents = types.ListNull(types.ObjectType{AttrTypes: map[string]attr.Type{
+					"article_code":         types.StringType,
+					"billing_type":         types.StringType,
+					"default_limit":        types.Int64Type,
+					"description":          types.StringType,
+					"factor":               types.Int64Type,
+					"is_boolean":           types.BoolType,
+					"is_builtin":           types.BoolType,
+					"is_prepaid":           types.BoolType,
+					"limit_amount":         types.Int64Type,
+					"limit_period":         types.StringType,
+					"max_available_limit":  types.Int64Type,
+					"max_prepaid_duration": types.Int64Type,
+					"max_value":            types.Int64Type,
+					"measured_unit":        types.StringType,
+					"min_prepaid_duration": types.Int64Type,
+					"min_value":            types.Int64Type,
+					"name":                 types.StringType,
+					"overage_component":    types.StringType,
+					"type":                 types.StringType,
+					"unit_factor":          types.Int64Type,
+				}})
+			}
+		}
 		if val, ok := sourceMap["offering_description"]; ok && val != nil {
 			if str, ok := val.(string); ok {
 				data.OfferingDescription = types.StringValue(str)
@@ -670,6 +921,15 @@ func (d *MarketplaceResourceDataSource) Read(ctx context.Context, req datasource
 		} else {
 			if data.OfferingName.IsUnknown() {
 				data.OfferingName = types.StringNull()
+			}
+		}
+		if val, ok := sourceMap["offering_state"]; ok && val != nil {
+			if str, ok := val.(string); ok {
+				data.OfferingState = types.StringValue(str)
+			}
+		} else {
+			if data.OfferingState.IsUnknown() {
+				data.OfferingState = types.StringNull()
 			}
 		}
 		if val, ok := sourceMap["offering_thumbnail"]; ok && val != nil {
@@ -952,6 +1212,11 @@ func (d *MarketplaceResourceDataSource) Read(ctx context.Context, req datasource
 				data.HasTerminateDate = types.BoolValue(b)
 			}
 		}
+		if val, ok := sourceMap["is_attached"]; ok && val != nil {
+			if b, ok := val.(bool); ok {
+				data.IsAttached = types.BoolValue(b)
+			}
+		}
 		if val, ok := sourceMap["lexis_links_supported"]; ok && val != nil {
 			if b, ok := val.(bool); ok {
 				data.LexisLinksSupported = types.BoolValue(b)
@@ -1022,6 +1287,11 @@ func (d *MarketplaceResourceDataSource) Read(ctx context.Context, req datasource
 				data.OnlyUsageBased = types.BoolValue(b)
 			}
 		}
+		if val, ok := sourceMap["order_state"]; ok && val != nil {
+			if str, ok := val.(string); ok {
+				data.OrderState = types.StringValue(str)
+			}
+		}
 		if val, ok := sourceMap["parent_offering_uuid"]; ok && val != nil {
 			if str, ok := val.(string); ok {
 				data.ParentOfferingUuid = types.StringValue(str)
@@ -1082,6 +1352,11 @@ func (d *MarketplaceResourceDataSource) Read(ctx context.Context, req datasource
 				data.UsageBased = types.BoolValue(b)
 			}
 		}
+		if val, ok := sourceMap["visible_to_providers"]; ok && val != nil {
+			if b, ok := val.(bool); ok {
+				data.VisibleToProviders = types.BoolValue(b)
+			}
+		}
 		if val, ok := sourceMap["visible_to_username"]; ok && val != nil {
 			if str, ok := val.(string); ok {
 				data.VisibleToUsername = types.StringValue(str)
@@ -1116,6 +1391,9 @@ func (d *MarketplaceResourceDataSource) Read(ctx context.Context, req datasource
 		}
 		if !data.HasTerminateDate.IsNull() {
 			filters["has_terminate_date"] = fmt.Sprintf("%t", data.HasTerminateDate.ValueBool())
+		}
+		if !data.IsAttached.IsNull() {
+			filters["is_attached"] = fmt.Sprintf("%t", data.IsAttached.ValueBool())
 		}
 		if !data.LexisLinksSupported.IsNull() {
 			filters["lexis_links_supported"] = fmt.Sprintf("%t", data.LexisLinksSupported.ValueBool())
@@ -1159,6 +1437,9 @@ func (d *MarketplaceResourceDataSource) Read(ctx context.Context, req datasource
 		if !data.OnlyUsageBased.IsNull() {
 			filters["only_usage_based"] = fmt.Sprintf("%t", data.OnlyUsageBased.ValueBool())
 		}
+		if !data.OrderState.IsNull() {
+			filters["order_state"] = data.OrderState.ValueString()
+		}
 		if !data.ParentOfferingUuid.IsNull() {
 			filters["parent_offering_uuid"] = data.ParentOfferingUuid.ValueString()
 		}
@@ -1194,6 +1475,9 @@ func (d *MarketplaceResourceDataSource) Read(ctx context.Context, req datasource
 		}
 		if !data.UsageBased.IsNull() {
 			filters["usage_based"] = fmt.Sprintf("%t", data.UsageBased.ValueBool())
+		}
+		if !data.VisibleToProviders.IsNull() {
+			filters["visible_to_providers"] = fmt.Sprintf("%t", data.VisibleToProviders.ValueBool())
 		}
 		if !data.VisibleToUsername.IsNull() {
 			filters["visible_to_username"] = data.VisibleToUsername.ValueString()
@@ -1409,6 +1693,210 @@ func (d *MarketplaceResourceDataSource) Read(ctx context.Context, req datasource
 				data.LastSync = types.StringNull()
 			}
 		}
+		if val, ok := sourceMap["offering_components"]; ok && val != nil {
+			// List of objects
+			if arr, ok := val.([]interface{}); ok {
+				items := make([]attr.Value, 0, len(arr))
+				for _, item := range arr {
+					if objMap, ok := item.(map[string]interface{}); ok {
+						attrTypes := map[string]attr.Type{
+							"article_code":         types.StringType,
+							"billing_type":         types.StringType,
+							"default_limit":        types.Int64Type,
+							"description":          types.StringType,
+							"factor":               types.Int64Type,
+							"is_boolean":           types.BoolType,
+							"is_builtin":           types.BoolType,
+							"is_prepaid":           types.BoolType,
+							"limit_amount":         types.Int64Type,
+							"limit_period":         types.StringType,
+							"max_available_limit":  types.Int64Type,
+							"max_prepaid_duration": types.Int64Type,
+							"max_value":            types.Int64Type,
+							"measured_unit":        types.StringType,
+							"min_prepaid_duration": types.Int64Type,
+							"min_value":            types.Int64Type,
+							"name":                 types.StringType,
+							"overage_component":    types.StringType,
+							"type":                 types.StringType,
+							"unit_factor":          types.Int64Type,
+						}
+						attrValues := map[string]attr.Value{
+							"article_code": func() attr.Value {
+								if v, ok := objMap["article_code"].(string); ok {
+									return types.StringValue(v)
+								}
+								return types.StringNull()
+							}(),
+							"billing_type": func() attr.Value {
+								if v, ok := objMap["billing_type"].(string); ok {
+									return types.StringValue(v)
+								}
+								return types.StringNull()
+							}(),
+							"default_limit": func() attr.Value {
+								if v, ok := objMap["default_limit"].(float64); ok {
+									return types.Int64Value(int64(v))
+								}
+								return types.Int64Null()
+							}(),
+							"description": func() attr.Value {
+								if v, ok := objMap["description"].(string); ok {
+									return types.StringValue(v)
+								}
+								return types.StringNull()
+							}(),
+							"factor": func() attr.Value {
+								if v, ok := objMap["factor"].(float64); ok {
+									return types.Int64Value(int64(v))
+								}
+								return types.Int64Null()
+							}(),
+							"is_boolean": func() attr.Value {
+								if v, ok := objMap["is_boolean"].(bool); ok {
+									return types.BoolValue(v)
+								}
+								return types.BoolNull()
+							}(),
+							"is_builtin": func() attr.Value {
+								if v, ok := objMap["is_builtin"].(bool); ok {
+									return types.BoolValue(v)
+								}
+								return types.BoolNull()
+							}(),
+							"is_prepaid": func() attr.Value {
+								if v, ok := objMap["is_prepaid"].(bool); ok {
+									return types.BoolValue(v)
+								}
+								return types.BoolNull()
+							}(),
+							"limit_amount": func() attr.Value {
+								if v, ok := objMap["limit_amount"].(float64); ok {
+									return types.Int64Value(int64(v))
+								}
+								return types.Int64Null()
+							}(),
+							"limit_period": func() attr.Value {
+								if v, ok := objMap["limit_period"].(string); ok {
+									return types.StringValue(v)
+								}
+								return types.StringNull()
+							}(),
+							"max_available_limit": func() attr.Value {
+								if v, ok := objMap["max_available_limit"].(float64); ok {
+									return types.Int64Value(int64(v))
+								}
+								return types.Int64Null()
+							}(),
+							"max_prepaid_duration": func() attr.Value {
+								if v, ok := objMap["max_prepaid_duration"].(float64); ok {
+									return types.Int64Value(int64(v))
+								}
+								return types.Int64Null()
+							}(),
+							"max_value": func() attr.Value {
+								if v, ok := objMap["max_value"].(float64); ok {
+									return types.Int64Value(int64(v))
+								}
+								return types.Int64Null()
+							}(),
+							"measured_unit": func() attr.Value {
+								if v, ok := objMap["measured_unit"].(string); ok {
+									return types.StringValue(v)
+								}
+								return types.StringNull()
+							}(),
+							"min_prepaid_duration": func() attr.Value {
+								if v, ok := objMap["min_prepaid_duration"].(float64); ok {
+									return types.Int64Value(int64(v))
+								}
+								return types.Int64Null()
+							}(),
+							"min_value": func() attr.Value {
+								if v, ok := objMap["min_value"].(float64); ok {
+									return types.Int64Value(int64(v))
+								}
+								return types.Int64Null()
+							}(),
+							"name": func() attr.Value {
+								if v, ok := objMap["name"].(string); ok {
+									return types.StringValue(v)
+								}
+								return types.StringNull()
+							}(),
+							"overage_component": func() attr.Value {
+								if v, ok := objMap["overage_component"].(string); ok {
+									return types.StringValue(v)
+								}
+								return types.StringNull()
+							}(),
+							"type": func() attr.Value {
+								if v, ok := objMap["type"].(string); ok {
+									return types.StringValue(v)
+								}
+								return types.StringNull()
+							}(),
+							"unit_factor": func() attr.Value {
+								if v, ok := objMap["unit_factor"].(float64); ok {
+									return types.Int64Value(int64(v))
+								}
+								return types.Int64Null()
+							}(),
+						}
+						objVal, _ := types.ObjectValue(attrTypes, attrValues)
+						items = append(items, objVal)
+					}
+				}
+				listVal, _ := types.ListValue(types.ObjectType{AttrTypes: map[string]attr.Type{
+					"article_code":         types.StringType,
+					"billing_type":         types.StringType,
+					"default_limit":        types.Int64Type,
+					"description":          types.StringType,
+					"factor":               types.Int64Type,
+					"is_boolean":           types.BoolType,
+					"is_builtin":           types.BoolType,
+					"is_prepaid":           types.BoolType,
+					"limit_amount":         types.Int64Type,
+					"limit_period":         types.StringType,
+					"max_available_limit":  types.Int64Type,
+					"max_prepaid_duration": types.Int64Type,
+					"max_value":            types.Int64Type,
+					"measured_unit":        types.StringType,
+					"min_prepaid_duration": types.Int64Type,
+					"min_value":            types.Int64Type,
+					"name":                 types.StringType,
+					"overage_component":    types.StringType,
+					"type":                 types.StringType,
+					"unit_factor":          types.Int64Type,
+				}}, items)
+				data.OfferingComponents = listVal
+			}
+		} else {
+			if data.OfferingComponents.IsUnknown() {
+				data.OfferingComponents = types.ListNull(types.ObjectType{AttrTypes: map[string]attr.Type{
+					"article_code":         types.StringType,
+					"billing_type":         types.StringType,
+					"default_limit":        types.Int64Type,
+					"description":          types.StringType,
+					"factor":               types.Int64Type,
+					"is_boolean":           types.BoolType,
+					"is_builtin":           types.BoolType,
+					"is_prepaid":           types.BoolType,
+					"limit_amount":         types.Int64Type,
+					"limit_period":         types.StringType,
+					"max_available_limit":  types.Int64Type,
+					"max_prepaid_duration": types.Int64Type,
+					"max_value":            types.Int64Type,
+					"measured_unit":        types.StringType,
+					"min_prepaid_duration": types.Int64Type,
+					"min_value":            types.Int64Type,
+					"name":                 types.StringType,
+					"overage_component":    types.StringType,
+					"type":                 types.StringType,
+					"unit_factor":          types.Int64Type,
+				}})
+			}
+		}
 		if val, ok := sourceMap["offering_description"]; ok && val != nil {
 			if str, ok := val.(string); ok {
 				data.OfferingDescription = types.StringValue(str)
@@ -1434,6 +1922,15 @@ func (d *MarketplaceResourceDataSource) Read(ctx context.Context, req datasource
 		} else {
 			if data.OfferingName.IsUnknown() {
 				data.OfferingName = types.StringNull()
+			}
+		}
+		if val, ok := sourceMap["offering_state"]; ok && val != nil {
+			if str, ok := val.(string); ok {
+				data.OfferingState = types.StringValue(str)
+			}
+		} else {
+			if data.OfferingState.IsUnknown() {
+				data.OfferingState = types.StringNull()
 			}
 		}
 		if val, ok := sourceMap["offering_thumbnail"]; ok && val != nil {
@@ -1716,6 +2213,11 @@ func (d *MarketplaceResourceDataSource) Read(ctx context.Context, req datasource
 				data.HasTerminateDate = types.BoolValue(b)
 			}
 		}
+		if val, ok := sourceMap["is_attached"]; ok && val != nil {
+			if b, ok := val.(bool); ok {
+				data.IsAttached = types.BoolValue(b)
+			}
+		}
 		if val, ok := sourceMap["lexis_links_supported"]; ok && val != nil {
 			if b, ok := val.(bool); ok {
 				data.LexisLinksSupported = types.BoolValue(b)
@@ -1786,6 +2288,11 @@ func (d *MarketplaceResourceDataSource) Read(ctx context.Context, req datasource
 				data.OnlyUsageBased = types.BoolValue(b)
 			}
 		}
+		if val, ok := sourceMap["order_state"]; ok && val != nil {
+			if str, ok := val.(string); ok {
+				data.OrderState = types.StringValue(str)
+			}
+		}
 		if val, ok := sourceMap["parent_offering_uuid"]; ok && val != nil {
 			if str, ok := val.(string); ok {
 				data.ParentOfferingUuid = types.StringValue(str)
@@ -1844,6 +2351,11 @@ func (d *MarketplaceResourceDataSource) Read(ctx context.Context, req datasource
 		if val, ok := sourceMap["usage_based"]; ok && val != nil {
 			if b, ok := val.(bool); ok {
 				data.UsageBased = types.BoolValue(b)
+			}
+		}
+		if val, ok := sourceMap["visible_to_providers"]; ok && val != nil {
+			if b, ok := val.(bool); ok {
+				data.VisibleToProviders = types.BoolValue(b)
 			}
 		}
 		if val, ok := sourceMap["visible_to_username"]; ok && val != nil {

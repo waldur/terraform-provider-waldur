@@ -104,19 +104,19 @@ func (d *StructureProjectDataSource) Schema(ctx context.Context, req datasource.
 			},
 			"customer_abbreviation": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Customer abbreviation",
 			},
 			"customer_name": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Customer name",
 			},
 			"customer_native_name": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Customer native name",
 			},
 			"description": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Description",
 			},
 			"include_terminated": schema.BoolAttribute{
 				Optional:            true,
@@ -124,7 +124,7 @@ func (d *StructureProjectDataSource) Schema(ctx context.Context, req datasource.
 			},
 			"is_removed": schema.BoolAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Is removed",
 			},
 			"modified": schema.StringAttribute{
 				Optional:            true,
@@ -132,11 +132,11 @@ func (d *StructureProjectDataSource) Schema(ctx context.Context, req datasource.
 			},
 			"name": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Name",
 			},
 			"name_exact": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Name (exact)",
 			},
 			"query": schema.StringAttribute{
 				Optional:            true,
@@ -144,7 +144,7 @@ func (d *StructureProjectDataSource) Schema(ctx context.Context, req datasource.
 			},
 			"slug": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Slug",
 			},
 			"customer_display_billing_info_in_projects": schema.BoolAttribute{
 				Computed:            true,
@@ -156,7 +156,7 @@ func (d *StructureProjectDataSource) Schema(ctx context.Context, req datasource.
 			},
 			"end_date": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Project end date. Setting this field requires DELETE_PROJECT permission.",
 			},
 			"end_date_requested_by": schema.StringAttribute{
 				Computed:            true,
@@ -188,7 +188,7 @@ func (d *StructureProjectDataSource) Schema(ctx context.Context, req datasource.
 			},
 			"oecd_fos_2007_label": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Human-readable label for the OECD FOS 2007 classification code",
 			},
 			"project_credit": schema.Float64Attribute{
 				Computed:            true,
@@ -196,15 +196,15 @@ func (d *StructureProjectDataSource) Schema(ctx context.Context, req datasource.
 			},
 			"resources_count": schema.Int64Attribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Number of active resources in this project",
 			},
 			"staff_notes": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Internal notes visible only to staff and support users (HTML content will be sanitized)",
 			},
 			"start_date": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Project start date. Cannot be edited after the start date has arrived.",
 			},
 			"type": schema.StringAttribute{
 				Computed:            true,

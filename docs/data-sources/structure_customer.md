@@ -17,17 +17,17 @@ Structure Customer data source - lookup by name or UUID
 
 ### Optional
 
-- `abbreviation` (String)
+- `abbreviation` (String) Abbreviation
 - `agreement_number` (String)
 - `archived` (Boolean)
 - `backend_id` (String)
-- `contact_details` (String)
+- `contact_details` (String) Contact details
 - `id` (String) Resource UUID
-- `name` (String)
-- `name_exact` (String)
-- `native_name` (String)
-- `organization_group_name` (String)
-- `organization_group_uuid` (String) organization_group_uuid
+- `name` (String) Name
+- `name_exact` (String) Name (exact)
+- `native_name` (String) Native name
+- `organization_group_name` (String) Organization group name
+- `organization_group_uuid` (String) Organization group UUID
 - `owned_by_current_user` (Boolean) Return a list of customers where current user is owner.
 - `query` (String) Filter by name, native name, abbreviation, domain, UUID, registration code or agreement number
 - `registration_code` (String)
@@ -41,15 +41,15 @@ Structure Customer data source - lookup by name or UUID
 - `bank_name` (String)
 - `blocked` (Boolean)
 - `call_managing_organization_uuid` (String)
-- `country` (String)
-- `country_name` (String)
+- `country` (String) Country code (ISO 3166-1 alpha-2)
+- `country_name` (String) Human-readable country name
 - `created` (String)
 - `customer_credit` (Number)
 - `customer_unallocated_credit` (Number)
 - `default_tax_percent` (String)
 - `description` (String)
 - `display_billing_info_in_projects` (Boolean)
-- `display_name` (String)
+- `display_name` (String) Display name of the organization (includes native name if available)
 - `domain` (String)
 - `email` (String)
 - `grace_period_days` (Number) Number of extra days after project end date before resources are terminated
@@ -60,19 +60,18 @@ Structure Customer data source - lookup by name or UUID
 - `longitude` (Number)
 - `max_service_accounts` (Number) Maximum number of service accounts allowed
 - `notification_emails` (String) Comma-separated list of notification email addresses
-- `organization_groups` (List of Object) (see [below for nested schema](#nestedatt--organization_groups))
+- `organization_groups` (List of Object) Organization groups this customer belongs to (see [below for nested schema](#nestedatt--organization_groups))
 - `payment_profiles` (List of Object) (see [below for nested schema](#nestedatt--payment_profiles))
 - `phone_number` (String)
 - `postal` (String)
-- `project_metadata_checklist` (String)
-- `projects` (List of Object) (see [below for nested schema](#nestedatt--projects))
-- `projects_count` (Number)
+- `project_metadata_checklist` (String) Checklist to be used for project metadata validation in this organization
+- `projects_count` (Number) Number of projects in this organization
 - `service_provider` (String)
 - `service_provider_uuid` (String)
-- `slug` (String)
+- `slug` (String) URL-friendly identifier. Only editable by staff users.
 - `sponsor_number` (Number) External ID of the sponsor covering the costs
 - `url` (String)
-- `users_count` (Number)
+- `users_count` (Number) Number of users with access to this organization
 - `vat_code` (String) VAT number
 
 <a id="nestedatt--organization_groups"></a>
@@ -110,16 +109,3 @@ Read-Only:
 - `agreement_number` (String)
 - `contract_sum` (Number)
 - `end_date` (String)
-
-
-
-<a id="nestedatt--projects"></a>
-### Nested Schema for `projects`
-
-Read-Only:
-
-- `end_date` (String)
-- `image` (String)
-- `name` (String)
-- `resource_count` (Number)
-- `url` (String)

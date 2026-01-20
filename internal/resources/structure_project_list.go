@@ -49,19 +49,19 @@ func (l *StructureProjectList) ListResourceConfigSchema(ctx context.Context, req
 				Optional:    true,
 			},
 			"customer_abbreviation": schema.StringAttribute{
-				Description: "",
+				Description: "Customer abbreviation",
 				Optional:    true,
 			},
 			"customer_name": schema.StringAttribute{
-				Description: "",
+				Description: "Customer name",
 				Optional:    true,
 			},
 			"customer_native_name": schema.StringAttribute{
-				Description: "",
+				Description: "Customer native name",
 				Optional:    true,
 			},
 			"description": schema.StringAttribute{
-				Description: "",
+				Description: "Description",
 				Optional:    true,
 			},
 			"include_terminated": schema.BoolAttribute{
@@ -69,7 +69,7 @@ func (l *StructureProjectList) ListResourceConfigSchema(ctx context.Context, req
 				Optional:    true,
 			},
 			"is_removed": schema.BoolAttribute{
-				Description: "",
+				Description: "Is removed",
 				Optional:    true,
 			},
 			"modified": schema.StringAttribute{
@@ -77,11 +77,11 @@ func (l *StructureProjectList) ListResourceConfigSchema(ctx context.Context, req
 				Optional:    true,
 			},
 			"name": schema.StringAttribute{
-				Description: "",
+				Description: "Name",
 				Optional:    true,
 			},
 			"name_exact": schema.StringAttribute{
-				Description: "",
+				Description: "Name (exact)",
 				Optional:    true,
 			},
 			"page": schema.Int64Attribute{
@@ -97,7 +97,7 @@ func (l *StructureProjectList) ListResourceConfigSchema(ctx context.Context, req
 				Optional:    true,
 			},
 			"slug": schema.StringAttribute{
-				Description: "",
+				Description: "Slug",
 				Optional:    true,
 			},
 		},

@@ -22,16 +22,16 @@ description: |-
 - `can_manage` (Boolean) Return a list of projects where current user is manager or a customer owner.
 - `conceal_finished_projects` (Boolean) Conceal finished projects
 - `created` (String) Created after
-- `customer_abbreviation` (String)
-- `customer_name` (String)
-- `customer_native_name` (String)
-- `description` (String)
+- `customer_abbreviation` (String) Customer abbreviation
+- `customer_name` (String) Customer name
+- `customer_native_name` (String) Customer native name
+- `description` (String) Description
 - `include_terminated` (Boolean) Include soft-deleted (terminated) projects. Only available to staff and support users, or users with organizational roles who can see their terminated projects.
-- `is_removed` (Boolean)
+- `is_removed` (Boolean) Is removed
 - `modified` (String) Modified after
-- `name` (String)
-- `name_exact` (String)
+- `name` (String) Name
+- `name_exact` (String) Name (exact)
 - `page` (Number) A page number within the paginated result set.
 - `page_size` (Number) Number of results to return per page.
 - `query` (String) Filter by name, slug, UUID, backend ID or resource effective ID
-- `slug` (String)
+- `slug` (String) Slug

@@ -17,25 +17,25 @@ Openstack Tenant data source - lookup by name or UUID
 
 ### Optional
 
-- `backend_id` (String)
+- `backend_id` (String) Backend ID
 - `can_manage` (Boolean) Can manage
-- `customer` (String)
-- `customer_abbreviation` (String)
-- `customer_name` (String)
-- `customer_native_name` (String)
-- `customer_uuid` (String)
-- `description` (String)
-- `external_ip` (String)
+- `customer` (String) Customer UUID
+- `customer_abbreviation` (String) Customer abbreviation
+- `customer_name` (String) Customer name
+- `customer_native_name` (String) Customer native name
+- `customer_uuid` (String) Customer UUID
+- `description` (String) Description
+- `external_ip` (String) External IP
 - `id` (String) Resource UUID
-- `name` (String)
-- `name_exact` (String)
-- `project` (String)
-- `project_name` (String)
-- `project_uuid` (String)
-- `service_settings_name` (String)
-- `service_settings_uuid` (String)
-- `state` (String)
-- `uuid` (String)
+- `name` (String) Name
+- `name_exact` (String) Name (exact)
+- `project` (String) Project UUID
+- `project_name` (String) Project name
+- `project_uuid` (String) Project UUID
+- `service_settings_name` (String) Service settings name
+- `service_settings_uuid` (String) Service settings UUID
+- `state` (String) State
+- `uuid` (String) UUID
 
 ### Read-Only
 
@@ -63,6 +63,7 @@ Openstack Tenant data source - lookup by name or UUID
 - `service_settings` (String)
 - `service_settings_error_message` (String)
 - `service_settings_state` (String)
+- `skip_creation_of_default_router` (Boolean)
 - `url` (String)
 - `user_password` (String) Password of the tenant user
 - `user_username` (String) Username of the tenant user

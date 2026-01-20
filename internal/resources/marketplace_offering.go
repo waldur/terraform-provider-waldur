@@ -35,6 +35,7 @@ type MarketplaceOfferingResourceModel struct {
 	AccessUrl                 types.String   `tfsdk:"access_url"`
 	BackendId                 types.String   `tfsdk:"backend_id"`
 	Billable                  types.Bool     `tfsdk:"billable"`
+	BillingTypeClassification types.String   `tfsdk:"billing_type_classification"`
 	Category                  types.String   `tfsdk:"category"`
 	CategoryTitle             types.String   `tfsdk:"category_title"`
 	CategoryUuid              types.String   `tfsdk:"category_uuid"`
@@ -122,6 +123,10 @@ func (r *MarketplaceOfferingResource) Schema(ctx context.Context, req resource.S
 				Optional:            true,
 				Computed:            true,
 				MarkdownDescription: "Purchase and usage is invoiced.",
+			},
+			"billing_type_classification": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "Classify offering components by billing type. Returns 'limit_only', 'usage_only', or 'mixed'.",
 			},
 			"category": schema.StringAttribute{
 				Required:            true,
@@ -242,7 +247,7 @@ func (r *MarketplaceOfferingResource) Schema(ctx context.Context, req resource.S
 			"country": schema.StringAttribute{
 				Optional:            true,
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Country code (ISO 3166-1 alpha-2)",
 			},
 			"created": schema.StringAttribute{
 				Computed:            true,
@@ -274,7 +279,7 @@ func (r *MarketplaceOfferingResource) Schema(ctx context.Context, req resource.S
 						"url": schema.StringAttribute{
 							Optional:            true,
 							Computed:            true,
-							MarkdownDescription: " ",
+							MarkdownDescription: "URL of the access endpoint",
 						},
 					},
 				},
@@ -395,7 +400,7 @@ func (r *MarketplaceOfferingResource) Schema(ctx context.Context, req resource.S
 					Attributes: map[string]schema.Attribute{
 						"customers_count": schema.Int64Attribute{
 							Computed:            true,
-							MarkdownDescription: " ",
+							MarkdownDescription: "Number of customers in this organization group",
 						},
 						"name": schema.StringAttribute{
 							Optional:            true,
@@ -409,11 +414,11 @@ func (r *MarketplaceOfferingResource) Schema(ctx context.Context, req resource.S
 						},
 						"parent_name": schema.StringAttribute{
 							Computed:            true,
-							MarkdownDescription: " ",
+							MarkdownDescription: "Name of the parent organization group",
 						},
 						"parent_uuid": schema.StringAttribute{
 							Computed:            true,
-							MarkdownDescription: " ",
+							MarkdownDescription: "UUID of the parent organization group",
 						},
 						"url": schema.StringAttribute{
 							Computed:            true,
@@ -711,7 +716,7 @@ func (r *MarketplaceOfferingResource) Schema(ctx context.Context, req resource.S
 			"slug": schema.StringAttribute{
 				Optional:            true,
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "URL-friendly identifier. Only editable by staff users.",
 			},
 			"software_catalogs": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
@@ -1056,6 +1061,15 @@ func (r *MarketplaceOfferingResource) updateFromValue(ctx context.Context, data 
 	} else {
 		if data.Billable.IsUnknown() {
 			data.Billable = types.BoolNull()
+		}
+	}
+	if val, ok := sourceMap["billing_type_classification"]; ok && val != nil {
+		if str, ok := val.(string); ok {
+			data.BillingTypeClassification = types.StringValue(str)
+		}
+	} else {
+		if data.BillingTypeClassification.IsUnknown() {
+			data.BillingTypeClassification = types.StringNull()
 		}
 	}
 	if val, ok := sourceMap["category"]; ok && val != nil {

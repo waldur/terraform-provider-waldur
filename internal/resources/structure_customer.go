@@ -70,7 +70,6 @@ type StructureCustomerResourceModel struct {
 	PhoneNumber                  types.String   `tfsdk:"phone_number"`
 	Postal                       types.String   `tfsdk:"postal"`
 	ProjectMetadataChecklist     types.String   `tfsdk:"project_metadata_checklist"`
-	Projects                     types.List     `tfsdk:"projects"`
 	ProjectsCount                types.Int64    `tfsdk:"projects_count"`
 	RegistrationCode             types.String   `tfsdk:"registration_code"`
 	ServiceProvider              types.String   `tfsdk:"service_provider"`
@@ -161,11 +160,11 @@ func (r *StructureCustomerResource) Schema(ctx context.Context, req resource.Sch
 			"country": schema.StringAttribute{
 				Optional:            true,
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Country code (ISO 3166-1 alpha-2)",
 			},
 			"country_name": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Human-readable country name",
 			},
 			"created": schema.StringAttribute{
 				Computed:            true,
@@ -196,7 +195,7 @@ func (r *StructureCustomerResource) Schema(ctx context.Context, req resource.Sch
 			},
 			"display_name": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Display name of the organization (includes native name if available)",
 			},
 			"domain": schema.StringAttribute{
 				Optional:            true,
@@ -261,7 +260,7 @@ func (r *StructureCustomerResource) Schema(ctx context.Context, req resource.Sch
 					Attributes: map[string]schema.Attribute{
 						"customers_count": schema.Int64Attribute{
 							Computed:            true,
-							MarkdownDescription: " ",
+							MarkdownDescription: "Number of customers in this organization group",
 						},
 						"name": schema.StringAttribute{
 							Optional:            true,
@@ -275,11 +274,11 @@ func (r *StructureCustomerResource) Schema(ctx context.Context, req resource.Sch
 						},
 						"parent_name": schema.StringAttribute{
 							Computed:            true,
-							MarkdownDescription: " ",
+							MarkdownDescription: "Name of the parent organization group",
 						},
 						"parent_uuid": schema.StringAttribute{
 							Computed:            true,
-							MarkdownDescription: " ",
+							MarkdownDescription: "UUID of the parent organization group",
 						},
 						"url": schema.StringAttribute{
 							Computed:            true,
@@ -288,7 +287,7 @@ func (r *StructureCustomerResource) Schema(ctx context.Context, req resource.Sch
 					},
 				},
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Organization groups this customer belongs to",
 			},
 			"payment_profiles": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
@@ -365,42 +364,11 @@ func (r *StructureCustomerResource) Schema(ctx context.Context, req resource.Sch
 			"project_metadata_checklist": schema.StringAttribute{
 				Optional:            true,
 				Computed:            true,
-				MarkdownDescription: " ",
-			},
-			"projects": schema.ListNestedAttribute{
-				NestedObject: schema.NestedAttributeObject{
-					Attributes: map[string]schema.Attribute{
-						"end_date": schema.StringAttribute{
-							Optional:            true,
-							Computed:            true,
-							MarkdownDescription: "The date is inclusive. Once reached, all project resource will be scheduled for termination.",
-						},
-						"image": schema.StringAttribute{
-							Optional:            true,
-							Computed:            true,
-							MarkdownDescription: " ",
-						},
-						"name": schema.StringAttribute{
-							Optional:            true,
-							Computed:            true,
-							MarkdownDescription: " ",
-						},
-						"resource_count": schema.Int64Attribute{
-							Computed:            true,
-							MarkdownDescription: " ",
-						},
-						"url": schema.StringAttribute{
-							Computed:            true,
-							MarkdownDescription: " ",
-						},
-					},
-				},
-				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Checklist to be used for project metadata validation in this organization",
 			},
 			"projects_count": schema.Int64Attribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Number of projects in this organization",
 			},
 			"registration_code": schema.StringAttribute{
 				Optional:            true,
@@ -418,7 +386,7 @@ func (r *StructureCustomerResource) Schema(ctx context.Context, req resource.Sch
 			"slug": schema.StringAttribute{
 				Optional:            true,
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "URL-friendly identifier. Only editable by staff users.",
 			},
 			"sponsor_number": schema.Int64Attribute{
 				Optional:            true,
@@ -431,7 +399,7 @@ func (r *StructureCustomerResource) Schema(ctx context.Context, req resource.Sch
 			},
 			"users_count": schema.Int64Attribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Number of users with access to this organization",
 			},
 			"vat_code": schema.StringAttribute{
 				Optional:            true,
@@ -1382,75 +1350,6 @@ func (r *StructureCustomerResource) updateFromValue(ctx context.Context, data *S
 	} else {
 		if data.ProjectMetadataChecklist.IsUnknown() {
 			data.ProjectMetadataChecklist = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["projects"]; ok && val != nil {
-		// List of objects
-		if arr, ok := val.([]interface{}); ok {
-			items := make([]attr.Value, 0, len(arr))
-			for _, item := range arr {
-				if objMap, ok := item.(map[string]interface{}); ok {
-					attrTypes := map[string]attr.Type{
-						"end_date":       types.StringType,
-						"image":          types.StringType,
-						"name":           types.StringType,
-						"resource_count": types.Int64Type,
-						"url":            types.StringType,
-					}
-					attrValues := map[string]attr.Value{
-						"end_date": func() attr.Value {
-							if v, ok := objMap["end_date"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"image": func() attr.Value {
-							if v, ok := objMap["image"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"name": func() attr.Value {
-							if v, ok := objMap["name"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"resource_count": func() attr.Value {
-							if v, ok := objMap["resource_count"].(float64); ok {
-								return types.Int64Value(int64(v))
-							}
-							return types.Int64Null()
-						}(),
-						"url": func() attr.Value {
-							if v, ok := objMap["url"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-					}
-					objVal, _ := types.ObjectValue(attrTypes, attrValues)
-					items = append(items, objVal)
-				}
-			}
-			listVal, _ := types.ListValue(types.ObjectType{AttrTypes: map[string]attr.Type{
-				"end_date":       types.StringType,
-				"image":          types.StringType,
-				"name":           types.StringType,
-				"resource_count": types.Int64Type,
-				"url":            types.StringType,
-			}}, items)
-			data.Projects = listVal
-		}
-	} else {
-		if data.Projects.IsUnknown() {
-			data.Projects = types.ListNull(types.ObjectType{AttrTypes: map[string]attr.Type{
-				"end_date":       types.StringType,
-				"image":          types.StringType,
-				"name":           types.StringType,
-				"resource_count": types.Int64Type,
-				"url":            types.StringType,
-			}})
 		}
 	}
 	if val, ok := sourceMap["projects_count"]; ok && val != nil {

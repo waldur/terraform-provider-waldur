@@ -71,7 +71,6 @@ type StructureCustomerDataSourceModel struct {
 	PhoneNumber                  types.String  `tfsdk:"phone_number"`
 	Postal                       types.String  `tfsdk:"postal"`
 	ProjectMetadataChecklist     types.String  `tfsdk:"project_metadata_checklist"`
-	Projects                     types.List    `tfsdk:"projects"`
 	ProjectsCount                types.Int64   `tfsdk:"projects_count"`
 	ServiceProvider              types.String  `tfsdk:"service_provider"`
 	ServiceProviderUuid          types.String  `tfsdk:"service_provider_uuid"`
@@ -98,7 +97,7 @@ func (d *StructureCustomerDataSource) Schema(ctx context.Context, req datasource
 			},
 			"abbreviation": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Abbreviation",
 			},
 			"agreement_number": schema.StringAttribute{
 				Optional:            true,
@@ -114,27 +113,27 @@ func (d *StructureCustomerDataSource) Schema(ctx context.Context, req datasource
 			},
 			"contact_details": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Contact details",
 			},
 			"name": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Name",
 			},
 			"name_exact": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Name (exact)",
 			},
 			"native_name": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Native name",
 			},
 			"organization_group_name": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Organization group name",
 			},
 			"organization_group_uuid": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "organization_group_uuid",
+				MarkdownDescription: "Organization group UUID",
 			},
 			"owned_by_current_user": schema.BoolAttribute{
 				Optional:            true,
@@ -178,11 +177,11 @@ func (d *StructureCustomerDataSource) Schema(ctx context.Context, req datasource
 			},
 			"country": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Country code (ISO 3166-1 alpha-2)",
 			},
 			"country_name": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Human-readable country name",
 			},
 			"created": schema.StringAttribute{
 				Computed:            true,
@@ -210,7 +209,7 @@ func (d *StructureCustomerDataSource) Schema(ctx context.Context, req datasource
 			},
 			"display_name": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Display name of the organization (includes native name if available)",
 			},
 			"domain": schema.StringAttribute{
 				Computed:            true,
@@ -262,7 +261,7 @@ func (d *StructureCustomerDataSource) Schema(ctx context.Context, req datasource
 					"url":             types.StringType,
 				}}},
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Organization groups this customer belongs to",
 			},
 			"payment_profiles": schema.ListAttribute{
 				CustomType: types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
@@ -292,22 +291,11 @@ func (d *StructureCustomerDataSource) Schema(ctx context.Context, req datasource
 			},
 			"project_metadata_checklist": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
-			},
-			"projects": schema.ListAttribute{
-				CustomType: types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
-					"end_date":       types.StringType,
-					"image":          types.StringType,
-					"name":           types.StringType,
-					"resource_count": types.Int64Type,
-					"url":            types.StringType,
-				}}},
-				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Checklist to be used for project metadata validation in this organization",
 			},
 			"projects_count": schema.Int64Attribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Number of projects in this organization",
 			},
 			"service_provider": schema.StringAttribute{
 				Computed:            true,
@@ -319,7 +307,7 @@ func (d *StructureCustomerDataSource) Schema(ctx context.Context, req datasource
 			},
 			"slug": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "URL-friendly identifier. Only editable by staff users.",
 			},
 			"sponsor_number": schema.Int64Attribute{
 				Computed:            true,
@@ -331,7 +319,7 @@ func (d *StructureCustomerDataSource) Schema(ctx context.Context, req datasource
 			},
 			"users_count": schema.Int64Attribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Number of users with access to this organization",
 			},
 			"vat_code": schema.StringAttribute{
 				Computed:            true,
@@ -834,75 +822,6 @@ func (d *StructureCustomerDataSource) Read(ctx context.Context, req datasource.R
 		} else {
 			if data.ProjectMetadataChecklist.IsUnknown() {
 				data.ProjectMetadataChecklist = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["projects"]; ok && val != nil {
-			// List of objects
-			if arr, ok := val.([]interface{}); ok {
-				items := make([]attr.Value, 0, len(arr))
-				for _, item := range arr {
-					if objMap, ok := item.(map[string]interface{}); ok {
-						attrTypes := map[string]attr.Type{
-							"end_date":       types.StringType,
-							"image":          types.StringType,
-							"name":           types.StringType,
-							"resource_count": types.Int64Type,
-							"url":            types.StringType,
-						}
-						attrValues := map[string]attr.Value{
-							"end_date": func() attr.Value {
-								if v, ok := objMap["end_date"].(string); ok {
-									return types.StringValue(v)
-								}
-								return types.StringNull()
-							}(),
-							"image": func() attr.Value {
-								if v, ok := objMap["image"].(string); ok {
-									return types.StringValue(v)
-								}
-								return types.StringNull()
-							}(),
-							"name": func() attr.Value {
-								if v, ok := objMap["name"].(string); ok {
-									return types.StringValue(v)
-								}
-								return types.StringNull()
-							}(),
-							"resource_count": func() attr.Value {
-								if v, ok := objMap["resource_count"].(float64); ok {
-									return types.Int64Value(int64(v))
-								}
-								return types.Int64Null()
-							}(),
-							"url": func() attr.Value {
-								if v, ok := objMap["url"].(string); ok {
-									return types.StringValue(v)
-								}
-								return types.StringNull()
-							}(),
-						}
-						objVal, _ := types.ObjectValue(attrTypes, attrValues)
-						items = append(items, objVal)
-					}
-				}
-				listVal, _ := types.ListValue(types.ObjectType{AttrTypes: map[string]attr.Type{
-					"end_date":       types.StringType,
-					"image":          types.StringType,
-					"name":           types.StringType,
-					"resource_count": types.Int64Type,
-					"url":            types.StringType,
-				}}, items)
-				data.Projects = listVal
-			}
-		} else {
-			if data.Projects.IsUnknown() {
-				data.Projects = types.ListNull(types.ObjectType{AttrTypes: map[string]attr.Type{
-					"end_date":       types.StringType,
-					"image":          types.StringType,
-					"name":           types.StringType,
-					"resource_count": types.Int64Type,
-					"url":            types.StringType,
-				}})
 			}
 		}
 		if val, ok := sourceMap["projects_count"]; ok && val != nil {
@@ -1573,75 +1492,6 @@ func (d *StructureCustomerDataSource) Read(ctx context.Context, req datasource.R
 		} else {
 			if data.ProjectMetadataChecklist.IsUnknown() {
 				data.ProjectMetadataChecklist = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["projects"]; ok && val != nil {
-			// List of objects
-			if arr, ok := val.([]interface{}); ok {
-				items := make([]attr.Value, 0, len(arr))
-				for _, item := range arr {
-					if objMap, ok := item.(map[string]interface{}); ok {
-						attrTypes := map[string]attr.Type{
-							"end_date":       types.StringType,
-							"image":          types.StringType,
-							"name":           types.StringType,
-							"resource_count": types.Int64Type,
-							"url":            types.StringType,
-						}
-						attrValues := map[string]attr.Value{
-							"end_date": func() attr.Value {
-								if v, ok := objMap["end_date"].(string); ok {
-									return types.StringValue(v)
-								}
-								return types.StringNull()
-							}(),
-							"image": func() attr.Value {
-								if v, ok := objMap["image"].(string); ok {
-									return types.StringValue(v)
-								}
-								return types.StringNull()
-							}(),
-							"name": func() attr.Value {
-								if v, ok := objMap["name"].(string); ok {
-									return types.StringValue(v)
-								}
-								return types.StringNull()
-							}(),
-							"resource_count": func() attr.Value {
-								if v, ok := objMap["resource_count"].(float64); ok {
-									return types.Int64Value(int64(v))
-								}
-								return types.Int64Null()
-							}(),
-							"url": func() attr.Value {
-								if v, ok := objMap["url"].(string); ok {
-									return types.StringValue(v)
-								}
-								return types.StringNull()
-							}(),
-						}
-						objVal, _ := types.ObjectValue(attrTypes, attrValues)
-						items = append(items, objVal)
-					}
-				}
-				listVal, _ := types.ListValue(types.ObjectType{AttrTypes: map[string]attr.Type{
-					"end_date":       types.StringType,
-					"image":          types.StringType,
-					"name":           types.StringType,
-					"resource_count": types.Int64Type,
-					"url":            types.StringType,
-				}}, items)
-				data.Projects = listVal
-			}
-		} else {
-			if data.Projects.IsUnknown() {
-				data.Projects = types.ListNull(types.ObjectType{AttrTypes: map[string]attr.Type{
-					"end_date":       types.StringType,
-					"image":          types.StringType,
-					"name":           types.StringType,
-					"resource_count": types.Int64Type,
-					"url":            types.StringType,
-				}})
 			}
 		}
 		if val, ok := sourceMap["projects_count"]; ok && val != nil {

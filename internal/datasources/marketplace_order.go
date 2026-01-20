@@ -41,6 +41,7 @@ type MarketplaceOrderDataSourceModel struct {
 	ProviderUuid               types.String  `tfsdk:"provider_uuid"`
 	Query                      types.String  `tfsdk:"query"`
 	Resource                   types.String  `tfsdk:"resource"`
+	ResourceName               types.String  `tfsdk:"resource_name"`
 	ResourceUuid               types.String  `tfsdk:"resource_uuid"`
 	ServiceManagerUuid         types.String  `tfsdk:"service_manager_uuid"`
 	State                      types.String  `tfsdk:"state"`
@@ -74,9 +75,10 @@ type MarketplaceOrderDataSourceModel struct {
 	OfferingName               types.String  `tfsdk:"offering_name"`
 	OfferingShared             types.Bool    `tfsdk:"offering_shared"`
 	OfferingThumbnail          types.String  `tfsdk:"offering_thumbnail"`
-	OldCostEstimate            types.String  `tfsdk:"old_cost_estimate"`
+	OldCostEstimate            types.Float64 `tfsdk:"old_cost_estimate"`
 	OldPlanName                types.String  `tfsdk:"old_plan_name"`
 	OldPlanUuid                types.String  `tfsdk:"old_plan_uuid"`
+	OrderSubtype               types.String  `tfsdk:"order_subtype"`
 	Output                     types.String  `tfsdk:"output"`
 	Plan                       types.String  `tfsdk:"plan"`
 	PlanDescription            types.String  `tfsdk:"plan_description"`
@@ -92,8 +94,8 @@ type MarketplaceOrderDataSourceModel struct {
 	ProviderReviewedByUsername types.String  `tfsdk:"provider_reviewed_by_username"`
 	ProviderSlug               types.String  `tfsdk:"provider_slug"`
 	RequestComment             types.String  `tfsdk:"request_comment"`
-	ResourceName               types.String  `tfsdk:"resource_name"`
 	ResourceType               types.String  `tfsdk:"resource_type"`
+	Slug                       types.String  `tfsdk:"slug"`
 	StartDate                  types.String  `tfsdk:"start_date"`
 	TerminationComment         types.String  `tfsdk:"termination_comment"`
 	Url                        types.String  `tfsdk:"url"`
@@ -115,15 +117,15 @@ func (d *MarketplaceOrderDataSource) Schema(ctx context.Context, req datasource.
 			},
 			"can_approve_as_consumer": schema.BoolAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Can approve as consumer",
 			},
 			"can_approve_as_provider": schema.BoolAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Can approve as provider",
 			},
 			"category_uuid": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Category UUID",
 			},
 			"created": schema.StringAttribute{
 				Optional:            true,
@@ -131,7 +133,7 @@ func (d *MarketplaceOrderDataSource) Schema(ctx context.Context, req datasource.
 			},
 			"customer_uuid": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Customer UUID",
 			},
 			"modified": schema.StringAttribute{
 				Optional:            true,
@@ -147,11 +149,11 @@ func (d *MarketplaceOrderDataSource) Schema(ctx context.Context, req datasource.
 			},
 			"offering_type": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Offering type",
 			},
 			"offering_uuid": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Offering UUID",
 			},
 			"parent_offering_uuid": schema.StringAttribute{
 				Optional:            true,
@@ -159,11 +161,11 @@ func (d *MarketplaceOrderDataSource) Schema(ctx context.Context, req datasource.
 			},
 			"project_uuid": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Project UUID",
 			},
 			"provider_uuid": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Provider UUID",
 			},
 			"query": schema.StringAttribute{
 				Optional:            true,
@@ -171,23 +173,27 @@ func (d *MarketplaceOrderDataSource) Schema(ctx context.Context, req datasource.
 			},
 			"resource": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Resource URL",
+			},
+			"resource_name": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Resource name",
 			},
 			"resource_uuid": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Resource UUID",
 			},
 			"service_manager_uuid": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Service manager UUID",
 			},
 			"state": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Order state",
 			},
 			"type": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Order type",
 			},
 			"activation_price": schema.Float64Attribute{
 				Computed:            true,
@@ -305,7 +311,7 @@ func (d *MarketplaceOrderDataSource) Schema(ctx context.Context, req datasource.
 				Computed:            true,
 				MarkdownDescription: " ",
 			},
-			"old_cost_estimate": schema.StringAttribute{
+			"old_cost_estimate": schema.Float64Attribute{
 				Computed:            true,
 				MarkdownDescription: " ",
 			},
@@ -314,6 +320,10 @@ func (d *MarketplaceOrderDataSource) Schema(ctx context.Context, req datasource.
 				MarkdownDescription: " ",
 			},
 			"old_plan_uuid": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: " ",
+			},
+			"order_subtype": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: " ",
 			},
@@ -377,11 +387,11 @@ func (d *MarketplaceOrderDataSource) Schema(ctx context.Context, req datasource.
 				Computed:            true,
 				MarkdownDescription: " ",
 			},
-			"resource_name": schema.StringAttribute{
+			"resource_type": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: " ",
 			},
-			"resource_type": schema.StringAttribute{
+			"slug": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: " ",
 			},
@@ -712,12 +722,12 @@ func (d *MarketplaceOrderDataSource) Read(ctx context.Context, req datasource.Re
 			}
 		}
 		if val, ok := sourceMap["old_cost_estimate"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.OldCostEstimate = types.StringValue(str)
+			if num, ok := val.(float64); ok {
+				data.OldCostEstimate = types.Float64Value(num)
 			}
 		} else {
 			if data.OldCostEstimate.IsUnknown() {
-				data.OldCostEstimate = types.StringNull()
+				data.OldCostEstimate = types.Float64Null()
 			}
 		}
 		if val, ok := sourceMap["old_plan_name"]; ok && val != nil {
@@ -736,6 +746,15 @@ func (d *MarketplaceOrderDataSource) Read(ctx context.Context, req datasource.Re
 		} else {
 			if data.OldPlanUuid.IsUnknown() {
 				data.OldPlanUuid = types.StringNull()
+			}
+		}
+		if val, ok := sourceMap["order_subtype"]; ok && val != nil {
+			if str, ok := val.(string); ok {
+				data.OrderSubtype = types.StringValue(str)
+			}
+		} else {
+			if data.OrderSubtype.IsUnknown() {
+				data.OrderSubtype = types.StringNull()
 			}
 		}
 		if val, ok := sourceMap["output"]; ok && val != nil {
@@ -873,15 +892,6 @@ func (d *MarketplaceOrderDataSource) Read(ctx context.Context, req datasource.Re
 				data.RequestComment = types.StringNull()
 			}
 		}
-		if val, ok := sourceMap["resource_name"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.ResourceName = types.StringValue(str)
-			}
-		} else {
-			if data.ResourceName.IsUnknown() {
-				data.ResourceName = types.StringNull()
-			}
-		}
 		if val, ok := sourceMap["resource_type"]; ok && val != nil {
 			if str, ok := val.(string); ok {
 				data.ResourceType = types.StringValue(str)
@@ -889,6 +899,15 @@ func (d *MarketplaceOrderDataSource) Read(ctx context.Context, req datasource.Re
 		} else {
 			if data.ResourceType.IsUnknown() {
 				data.ResourceType = types.StringNull()
+			}
+		}
+		if val, ok := sourceMap["slug"]; ok && val != nil {
+			if str, ok := val.(string); ok {
+				data.Slug = types.StringValue(str)
+			}
+		} else {
+			if data.Slug.IsUnknown() {
+				data.Slug = types.StringNull()
 			}
 		}
 		if val, ok := sourceMap["start_date"]; ok && val != nil {
@@ -993,6 +1012,11 @@ func (d *MarketplaceOrderDataSource) Read(ctx context.Context, req datasource.Re
 				data.Resource = types.StringValue(str)
 			}
 		}
+		if val, ok := sourceMap["resource_name"]; ok && val != nil {
+			if str, ok := val.(string); ok {
+				data.ResourceName = types.StringValue(str)
+			}
+		}
 		if val, ok := sourceMap["resource_uuid"]; ok && val != nil {
 			if str, ok := val.(string); ok {
 				data.ResourceUuid = types.StringValue(str)
@@ -1063,6 +1087,9 @@ func (d *MarketplaceOrderDataSource) Read(ctx context.Context, req datasource.Re
 		}
 		if !data.Resource.IsNull() {
 			filters["resource"] = data.Resource.ValueString()
+		}
+		if !data.ResourceName.IsNull() {
+			filters["resource_name"] = data.ResourceName.ValueString()
 		}
 		if !data.ResourceUuid.IsNull() {
 			filters["resource_uuid"] = data.ResourceUuid.ValueString()
@@ -1380,12 +1407,12 @@ func (d *MarketplaceOrderDataSource) Read(ctx context.Context, req datasource.Re
 			}
 		}
 		if val, ok := sourceMap["old_cost_estimate"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.OldCostEstimate = types.StringValue(str)
+			if num, ok := val.(float64); ok {
+				data.OldCostEstimate = types.Float64Value(num)
 			}
 		} else {
 			if data.OldCostEstimate.IsUnknown() {
-				data.OldCostEstimate = types.StringNull()
+				data.OldCostEstimate = types.Float64Null()
 			}
 		}
 		if val, ok := sourceMap["old_plan_name"]; ok && val != nil {
@@ -1404,6 +1431,15 @@ func (d *MarketplaceOrderDataSource) Read(ctx context.Context, req datasource.Re
 		} else {
 			if data.OldPlanUuid.IsUnknown() {
 				data.OldPlanUuid = types.StringNull()
+			}
+		}
+		if val, ok := sourceMap["order_subtype"]; ok && val != nil {
+			if str, ok := val.(string); ok {
+				data.OrderSubtype = types.StringValue(str)
+			}
+		} else {
+			if data.OrderSubtype.IsUnknown() {
+				data.OrderSubtype = types.StringNull()
 			}
 		}
 		if val, ok := sourceMap["output"]; ok && val != nil {
@@ -1541,15 +1577,6 @@ func (d *MarketplaceOrderDataSource) Read(ctx context.Context, req datasource.Re
 				data.RequestComment = types.StringNull()
 			}
 		}
-		if val, ok := sourceMap["resource_name"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.ResourceName = types.StringValue(str)
-			}
-		} else {
-			if data.ResourceName.IsUnknown() {
-				data.ResourceName = types.StringNull()
-			}
-		}
 		if val, ok := sourceMap["resource_type"]; ok && val != nil {
 			if str, ok := val.(string); ok {
 				data.ResourceType = types.StringValue(str)
@@ -1557,6 +1584,15 @@ func (d *MarketplaceOrderDataSource) Read(ctx context.Context, req datasource.Re
 		} else {
 			if data.ResourceType.IsUnknown() {
 				data.ResourceType = types.StringNull()
+			}
+		}
+		if val, ok := sourceMap["slug"]; ok && val != nil {
+			if str, ok := val.(string); ok {
+				data.Slug = types.StringValue(str)
+			}
+		} else {
+			if data.Slug.IsUnknown() {
+				data.Slug = types.StringNull()
 			}
 		}
 		if val, ok := sourceMap["start_date"]; ok && val != nil {
@@ -1659,6 +1695,11 @@ func (d *MarketplaceOrderDataSource) Read(ctx context.Context, req datasource.Re
 		if val, ok := sourceMap["resource"]; ok && val != nil {
 			if str, ok := val.(string); ok {
 				data.Resource = types.StringValue(str)
+			}
+		}
+		if val, ok := sourceMap["resource_name"]; ok && val != nil {
+			if str, ok := val.(string); ok {
+				data.ResourceName = types.StringValue(str)
 			}
 		}
 		if val, ok := sourceMap["resource_uuid"]; ok && val != nil {

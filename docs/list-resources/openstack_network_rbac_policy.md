@@ -17,12 +17,12 @@ description: |-
 
 ### Optional
 
-- `network` (String)
-- `network_uuid` (String)
+- `network` (String) Network URL
+- `network_uuid` (String) Network UUID
 - `page` (Number) A page number within the paginated result set.
 - `page_size` (Number) Number of results to return per page.
 - `policy_type` (String) Type of access granted - either shared access or external network access
-- `target_tenant` (String)
-- `target_tenant_uuid` (String)
-- `tenant` (String)
-- `tenant_uuid` (String)
+- `target_tenant` (String) Target tenant URL
+- `target_tenant_uuid` (String) Target tenant UUID
+- `tenant` (String) Tenant URL
+- `tenant_uuid` (String) Tenant UUID

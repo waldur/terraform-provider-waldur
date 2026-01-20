@@ -29,11 +29,11 @@ func (l *OpenstackNetworkRbacPolicyList) ListResourceConfigSchema(ctx context.Co
 	resp.Schema = schema.Schema{
 		Attributes: map[string]schema.Attribute{
 			"network": schema.StringAttribute{
-				Description: "",
+				Description: "Network URL",
 				Optional:    true,
 			},
 			"network_uuid": schema.StringAttribute{
-				Description: "",
+				Description: "Network UUID",
 				Optional:    true,
 			},
 			"page": schema.Int64Attribute{
@@ -49,19 +49,19 @@ func (l *OpenstackNetworkRbacPolicyList) ListResourceConfigSchema(ctx context.Co
 				Optional:    true,
 			},
 			"target_tenant": schema.StringAttribute{
-				Description: "",
+				Description: "Target tenant URL",
 				Optional:    true,
 			},
 			"target_tenant_uuid": schema.StringAttribute{
-				Description: "",
+				Description: "Target tenant UUID",
 				Optional:    true,
 			},
 			"tenant": schema.StringAttribute{
-				Description: "",
+				Description: "Tenant URL",
 				Optional:    true,
 			},
 			"tenant_uuid": schema.StringAttribute{
-				Description: "",
+				Description: "Tenant UUID",
 				Optional:    true,
 			},
 		},

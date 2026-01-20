@@ -19,31 +19,31 @@ description: |-
 
 - `accessible_via_calls` (Boolean) Accessible via calls
 - `allowed_customer_uuid` (String) Allowed customer UUID
-- `attributes` (String)
-- `billable` (Boolean)
+- `attributes` (String) Offering attributes (JSON)
+- `billable` (Boolean) Billable
 - `can_create_offering_user` (Boolean)
-- `category_group_uuid` (String)
-- `category_uuid` (String)
+- `category_group_uuid` (String) Category group UUID
+- `category_uuid` (String) Category UUID
 - `created` (String) Created after
-- `customer` (String)
-- `customer_uuid` (String)
-- `description` (String)
+- `customer` (String) Customer URL
+- `customer_uuid` (String) Customer UUID
+- `description` (String) Description contains
 - `has_active_terms_of_service` (Boolean) Has Active Terms of Service
 - `has_terms_of_service` (Boolean) Has Terms of Service
 - `keyword` (String) Keyword
 - `modified` (String) Modified after
-- `name` (String)
-- `name_exact` (String)
+- `name` (String) Name
+- `name_exact` (String) Name (exact)
 - `page` (Number) A page number within the paginated result set.
 - `page_size` (Number) Number of results to return per page.
-- `parent_uuid` (String)
+- `parent_uuid` (String) Parent offering UUID
 - `project_uuid` (String) Project UUID
 - `query` (String) Search by offering name, slug or description
 - `resource_customer_uuid` (String) Resource customer UUID
 - `resource_project_uuid` (String) Resource project UUID
 - `scope_uuid` (String) Scope UUID
 - `service_manager_uuid` (String) Service manager UUID
-- `shared` (Boolean)
+- `shared` (Boolean) Shared
 - `user_has_consent` (Boolean) User Has Consent
 - `user_has_offering_user` (Boolean) User Has Offering User
 - `uuid_list` (String) Comma-separated offering UUIDs
