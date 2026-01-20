@@ -4,11 +4,14 @@ import (
 	"context"
 	"net/http"
 
+	"github.com/hashicorp/terraform-plugin-framework/action"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
+	"github.com/hashicorp/terraform-plugin-framework/list"
 	"github.com/hashicorp/terraform-plugin-framework/provider"
 	"github.com/hashicorp/terraform-plugin-framework/provider/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/waldur/terraform-provider-waldur/internal/actions"
 	"github.com/waldur/terraform-provider-waldur/internal/client"
 	"github.com/waldur/terraform-provider-waldur/internal/datasources"
 	"github.com/waldur/terraform-provider-waldur/internal/resources"
@@ -16,6 +19,8 @@ import (
 
 // Ensure waldurProvider satisfies various provider interfaces.
 var _ provider.Provider = &waldurProvider{}
+var _ provider.ProviderWithActions = &waldurProvider{}
+var _ provider.ProviderWithListResources = &waldurProvider{}
 
 // waldurProvider defines the provider implementation.
 type waldurProvider struct {
@@ -120,6 +125,56 @@ func (p *waldurProvider) DataSources(ctx context.Context) []func() datasource.Da
 		datasources.NewOpenstackImageDataSource,
 		datasources.NewOpenstackVolumeTypeDataSource,
 		datasources.NewOpenstackPortDataSource,
+	}
+}
+
+func (p *waldurProvider) Actions(ctx context.Context) []func() action.Action {
+	return []func() action.Action{
+		actions.NewMarketplaceResourcePullAction,
+		actions.NewMarketplaceResourceTerminateAction,
+		actions.NewMarketplaceResourceUnlinkAction,
+		actions.NewOpenstackTenantPullAction,
+		actions.NewOpenstackTenantUnlinkAction,
+		actions.NewOpenstackVolumePullAction,
+		actions.NewOpenstackVolumeUnlinkAction,
+		actions.NewOpenstackInstanceStartAction,
+		actions.NewOpenstackInstanceStopAction,
+		actions.NewOpenstackInstanceRestartAction,
+		actions.NewOpenstackInstancePullAction,
+		actions.NewOpenstackInstanceUnlinkAction,
+		actions.NewOpenstackNetworkPullAction,
+		actions.NewOpenstackNetworkUnlinkAction,
+		actions.NewOpenstackSubnetConnectAction,
+		actions.NewOpenstackSubnetDisconnectAction,
+		actions.NewOpenstackSubnetPullAction,
+		actions.NewOpenstackSubnetUnlinkAction,
+		actions.NewOpenstackPortEnablePortAction,
+		actions.NewOpenstackPortDisablePortAction,
+		actions.NewOpenstackPortEnablePortSecurityAction,
+		actions.NewOpenstackPortDisablePortSecurityAction,
+		actions.NewOpenstackPortPullAction,
+		actions.NewOpenstackPortUnlinkAction,
+	}
+}
+
+func (p *waldurProvider) ListResources(ctx context.Context) []func() list.ListResource {
+	return []func() list.ListResource{
+		resources.NewStructureProjectList,
+		resources.NewStructureCustomerList,
+		resources.NewMarketplaceOrderList,
+		resources.NewMarketplaceOfferingList,
+		resources.NewMarketplaceResourceList,
+		resources.NewOpenstackTenantList,
+		resources.NewOpenstackVolumeList,
+		resources.NewOpenstackVolumeAttachmentList,
+		resources.NewOpenstackInstanceList,
+		resources.NewOpenstackSecurityGroupList,
+		resources.NewOpenstackNetworkList,
+		resources.NewOpenstackServerGroupList,
+		resources.NewOpenstackSubnetList,
+		resources.NewOpenstackNetworkRbacPolicyList,
+		resources.NewOpenstackFloatingIpList,
+		resources.NewOpenstackPortList,
 	}
 }
 

@@ -56,6 +56,35 @@ provider "waldur" {
 | `waldur_openstack_floating_ip` | Manages a FloatingIp |
 | `waldur_openstack_port` | Manages a Port |
 
+## Actions
+
+| Action | Resource | Description |
+|--------|----------|-------------|
+| `waldur_marketplace_resource_pull` | `waldur_marketplace_resource` | Pull action |
+| `waldur_marketplace_resource_terminate` | `waldur_marketplace_resource` | Terminate action |
+| `waldur_marketplace_resource_unlink` | `waldur_marketplace_resource` | Unlink action |
+| `waldur_openstack_tenant_pull` | `waldur_openstack_tenant` | Pull action |
+| `waldur_openstack_tenant_unlink` | `waldur_openstack_tenant` | Unlink action |
+| `waldur_openstack_volume_pull` | `waldur_openstack_volume` | Pull action |
+| `waldur_openstack_volume_unlink` | `waldur_openstack_volume` | Unlink action |
+| `waldur_openstack_instance_start` | `waldur_openstack_instance` | Start action |
+| `waldur_openstack_instance_stop` | `waldur_openstack_instance` | Stop action |
+| `waldur_openstack_instance_restart` | `waldur_openstack_instance` | Restart action |
+| `waldur_openstack_instance_pull` | `waldur_openstack_instance` | Pull action |
+| `waldur_openstack_instance_unlink` | `waldur_openstack_instance` | Unlink action |
+| `waldur_openstack_network_pull` | `waldur_openstack_network` | Pull action |
+| `waldur_openstack_network_unlink` | `waldur_openstack_network` | Unlink action |
+| `waldur_openstack_subnet_connect` | `waldur_openstack_subnet` | Connect action |
+| `waldur_openstack_subnet_disconnect` | `waldur_openstack_subnet` | Disconnect action |
+| `waldur_openstack_subnet_pull` | `waldur_openstack_subnet` | Pull action |
+| `waldur_openstack_subnet_unlink` | `waldur_openstack_subnet` | Unlink action |
+| `waldur_openstack_port_enable_port` | `waldur_openstack_port` | EnablePort action |
+| `waldur_openstack_port_disable_port` | `waldur_openstack_port` | DisablePort action |
+| `waldur_openstack_port_enable_port_security` | `waldur_openstack_port` | EnablePortSecurity action |
+| `waldur_openstack_port_disable_port_security` | `waldur_openstack_port` | DisablePortSecurity action |
+| `waldur_openstack_port_pull` | `waldur_openstack_port` | Pull action |
+| `waldur_openstack_port_unlink` | `waldur_openstack_port` | Unlink action |
+
 ## Data Sources
 
 | Data Source | Description |
