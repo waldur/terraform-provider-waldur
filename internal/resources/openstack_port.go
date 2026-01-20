@@ -318,8 +318,8 @@ func (r *OpenstackPortResource) Create(ctx context.Context, req resource.CreateR
 	err := r.client.Create(ctx, "/api/openstack-ports/", requestBody, &result)
 	if err != nil {
 		resp.Diagnostics.AddError(
-			"Unable to Create OpenstackPort",
-			"An error occurred while creating the openstack_port: "+err.Error(),
+			"Unable to Create Openstack Port",
+			"An error occurred while creating the Openstack Port: "+err.Error(),
 		)
 		return
 	}
@@ -351,8 +351,8 @@ func (r *OpenstackPortResource) Read(ctx context.Context, req resource.ReadReque
 	err := r.client.GetByUUID(ctx, retrievePath, data.UUID.ValueString(), &result)
 	if err != nil {
 		resp.Diagnostics.AddError(
-			"Unable to Read OpenstackPort",
-			"An error occurred while reading the openstack_port: "+err.Error(),
+			"Unable to Read Openstack Port",
+			"An error occurred while reading the Openstack Port: "+err.Error(),
 		)
 		return
 	}
@@ -412,8 +412,8 @@ func (r *OpenstackPortResource) Update(ctx context.Context, req resource.UpdateR
 	err := r.client.Update(ctx, "/api/openstack-ports/{uuid}/", data.UUID.ValueString(), requestBody, &result)
 	if err != nil {
 		resp.Diagnostics.AddError(
-			"Unable to Update OpenstackPort",
-			"An error occurred while updating the openstack_port: "+err.Error(),
+			"Unable to Update Openstack Port",
+			"An error occurred while updating the Openstack Port: "+err.Error(),
 		)
 		return
 	}
@@ -439,8 +439,8 @@ func (r *OpenstackPortResource) Delete(ctx context.Context, req resource.DeleteR
 	err := r.client.DeleteByUUID(ctx, "/api/openstack-ports/{uuid}/", data.UUID.ValueString())
 	if err != nil {
 		resp.Diagnostics.AddError(
-			"Unable to Delete OpenstackPort",
-			"An error occurred while deleting the openstack_port: "+err.Error(),
+			"Unable to Delete Openstack Port",
+			"An error occurred while deleting the Openstack Port: "+err.Error(),
 		)
 		return
 	}

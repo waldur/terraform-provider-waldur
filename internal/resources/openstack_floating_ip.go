@@ -228,8 +228,8 @@ func (r *OpenstackFloatingIpResource) Create(ctx context.Context, req resource.C
 	err := r.client.Post(ctx, createPath, requestBody, &result)
 	if err != nil {
 		resp.Diagnostics.AddError(
-			"Unable to Create OpenstackFloatingIp",
-			"An error occurred while creating the openstack_floating_ip: "+err.Error(),
+			"Unable to Create Openstack Floating Ip",
+			"An error occurred while creating the Openstack Floating Ip: "+err.Error(),
 		)
 		return
 	}
@@ -261,8 +261,8 @@ func (r *OpenstackFloatingIpResource) Read(ctx context.Context, req resource.Rea
 	err := r.client.GetByUUID(ctx, retrievePath, data.UUID.ValueString(), &result)
 	if err != nil {
 		resp.Diagnostics.AddError(
-			"Unable to Read OpenstackFloatingIp",
-			"An error occurred while reading the openstack_floating_ip: "+err.Error(),
+			"Unable to Read Openstack Floating Ip",
+			"An error occurred while reading the Openstack Floating Ip: "+err.Error(),
 		)
 		return
 	}
@@ -298,8 +298,8 @@ func (r *OpenstackFloatingIpResource) Delete(ctx context.Context, req resource.D
 	err := r.client.DeleteByUUID(ctx, "/api/openstack-floating-ips/{uuid}/", data.UUID.ValueString())
 	if err != nil {
 		resp.Diagnostics.AddError(
-			"Unable to Delete OpenstackFloatingIp",
-			"An error occurred while deleting the openstack_floating_ip: "+err.Error(),
+			"Unable to Delete Openstack Floating Ip",
+			"An error occurred while deleting the Openstack Floating Ip: "+err.Error(),
 		)
 		return
 	}

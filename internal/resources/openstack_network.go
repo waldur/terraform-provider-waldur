@@ -297,8 +297,8 @@ func (r *OpenstackNetworkResource) Create(ctx context.Context, req resource.Crea
 	err := r.client.Post(ctx, createPath, requestBody, &result)
 	if err != nil {
 		resp.Diagnostics.AddError(
-			"Unable to Create OpenstackNetwork",
-			"An error occurred while creating the openstack_network: "+err.Error(),
+			"Unable to Create Openstack Network",
+			"An error occurred while creating the Openstack Network: "+err.Error(),
 		)
 		return
 	}
@@ -330,8 +330,8 @@ func (r *OpenstackNetworkResource) Read(ctx context.Context, req resource.ReadRe
 	err := r.client.GetByUUID(ctx, retrievePath, data.UUID.ValueString(), &result)
 	if err != nil {
 		resp.Diagnostics.AddError(
-			"Unable to Read OpenstackNetwork",
-			"An error occurred while reading the openstack_network: "+err.Error(),
+			"Unable to Read Openstack Network",
+			"An error occurred while reading the Openstack Network: "+err.Error(),
 		)
 		return
 	}
@@ -381,8 +381,8 @@ func (r *OpenstackNetworkResource) Update(ctx context.Context, req resource.Upda
 	err := r.client.Update(ctx, "/api/openstack-networks/{uuid}/", data.UUID.ValueString(), requestBody, &result)
 	if err != nil {
 		resp.Diagnostics.AddError(
-			"Unable to Update OpenstackNetwork",
-			"An error occurred while updating the openstack_network: "+err.Error(),
+			"Unable to Update Openstack Network",
+			"An error occurred while updating the Openstack Network: "+err.Error(),
 		)
 		return
 	}
@@ -408,8 +408,8 @@ func (r *OpenstackNetworkResource) Delete(ctx context.Context, req resource.Dele
 	err := r.client.DeleteByUUID(ctx, "/api/openstack-networks/{uuid}/", data.UUID.ValueString())
 	if err != nil {
 		resp.Diagnostics.AddError(
-			"Unable to Delete OpenstackNetwork",
-			"An error occurred while deleting the openstack_network: "+err.Error(),
+			"Unable to Delete Openstack Network",
+			"An error occurred while deleting the Openstack Network: "+err.Error(),
 		)
 		return
 	}

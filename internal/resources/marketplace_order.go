@@ -470,8 +470,8 @@ func (r *MarketplaceOrderResource) Create(ctx context.Context, req resource.Crea
 	err := r.client.Create(ctx, "/api/marketplace-orders/", requestBody, &result)
 	if err != nil {
 		resp.Diagnostics.AddError(
-			"Unable to Create MarketplaceOrder",
-			"An error occurred while creating the marketplace_order: "+err.Error(),
+			"Unable to Create Marketplace Order",
+			"An error occurred while creating the Marketplace Order: "+err.Error(),
 		)
 		return
 	}
@@ -503,8 +503,8 @@ func (r *MarketplaceOrderResource) Read(ctx context.Context, req resource.ReadRe
 	err := r.client.GetByUUID(ctx, retrievePath, data.UUID.ValueString(), &result)
 	if err != nil {
 		resp.Diagnostics.AddError(
-			"Unable to Read MarketplaceOrder",
-			"An error occurred while reading the marketplace_order: "+err.Error(),
+			"Unable to Read Marketplace Order",
+			"An error occurred while reading the Marketplace Order: "+err.Error(),
 		)
 		return
 	}
@@ -540,8 +540,8 @@ func (r *MarketplaceOrderResource) Delete(ctx context.Context, req resource.Dele
 	err := r.client.DeleteByUUID(ctx, "/api/marketplace-orders/{uuid}/", data.UUID.ValueString())
 	if err != nil {
 		resp.Diagnostics.AddError(
-			"Unable to Delete MarketplaceOrder",
-			"An error occurred while deleting the marketplace_order: "+err.Error(),
+			"Unable to Delete Marketplace Order",
+			"An error occurred while deleting the Marketplace Order: "+err.Error(),
 		)
 		return
 	}

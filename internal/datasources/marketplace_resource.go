@@ -462,8 +462,8 @@ func (d *MarketplaceResourceDataSource) Read(ctx context.Context, req datasource
 		err := d.client.GetByUUID(ctx, "/api/marketplace-resources/{uuid}/", data.UUID.ValueString(), &item)
 		if err != nil {
 			resp.Diagnostics.AddError(
-				"Unable to Read Resource",
-				"An error occurred while reading the marketplace_resource by UUID: "+err.Error(),
+				"Unable to Read Marketplace Resource",
+				"An error occurred while reading the Marketplace Resource by UUID: "+err.Error(),
 			)
 			return
 		}
@@ -1210,8 +1210,8 @@ func (d *MarketplaceResourceDataSource) Read(ctx context.Context, req datasource
 		err := d.client.ListWithFilter(ctx, "/api/marketplace-resources/", filters, &results)
 		if err != nil {
 			resp.Diagnostics.AddError(
-				"Unable to List Resource",
-				"An error occurred while filtering marketplace_resource: "+err.Error(),
+				"Unable to List Marketplace Resource",
+				"An error occurred while filtering Marketplace Resource: "+err.Error(),
 			)
 			return
 		}
@@ -1219,16 +1219,16 @@ func (d *MarketplaceResourceDataSource) Read(ctx context.Context, req datasource
 		// Check results
 		if len(results) == 0 {
 			resp.Diagnostics.AddError(
-				"Resource Not Found",
-				"No marketplace_resource found with provided filters.",
+				"Marketplace Resource Not Found",
+				"No Marketplace Resource found with provided filters.",
 			)
 			return
 		}
 
 		if len(results) > 1 {
 			resp.Diagnostics.AddError(
-				"Multiple Resources Found",
-				fmt.Sprintf("Found %d marketplace_resources with provided filters. Please use more specific filters or lookup by UUID.", len(results)),
+				"Multiple Marketplace Resources Found",
+				fmt.Sprintf("Found %d Marketplace Resources with provided filters. Please use more specific filters or lookup by UUID.", len(results)),
 			)
 			return
 		}

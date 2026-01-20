@@ -211,8 +211,8 @@ func (r *OpenstackServerGroupResource) Create(ctx context.Context, req resource.
 	err := r.client.Post(ctx, createPath, requestBody, &result)
 	if err != nil {
 		resp.Diagnostics.AddError(
-			"Unable to Create OpenstackServerGroup",
-			"An error occurred while creating the openstack_server_group: "+err.Error(),
+			"Unable to Create Openstack Server Group",
+			"An error occurred while creating the Openstack Server Group: "+err.Error(),
 		)
 		return
 	}
@@ -244,8 +244,8 @@ func (r *OpenstackServerGroupResource) Read(ctx context.Context, req resource.Re
 	err := r.client.GetByUUID(ctx, retrievePath, data.UUID.ValueString(), &result)
 	if err != nil {
 		resp.Diagnostics.AddError(
-			"Unable to Read OpenstackServerGroup",
-			"An error occurred while reading the openstack_server_group: "+err.Error(),
+			"Unable to Read Openstack Server Group",
+			"An error occurred while reading the Openstack Server Group: "+err.Error(),
 		)
 		return
 	}
@@ -300,8 +300,8 @@ func (r *OpenstackServerGroupResource) Update(ctx context.Context, req resource.
 	err := r.client.Update(ctx, "/api/openstack-server-groups/{uuid}/", data.UUID.ValueString(), requestBody, &result)
 	if err != nil {
 		resp.Diagnostics.AddError(
-			"Unable to Update OpenstackServerGroup",
-			"An error occurred while updating the openstack_server_group: "+err.Error(),
+			"Unable to Update Openstack Server Group",
+			"An error occurred while updating the Openstack Server Group: "+err.Error(),
 		)
 		return
 	}
@@ -327,8 +327,8 @@ func (r *OpenstackServerGroupResource) Delete(ctx context.Context, req resource.
 	err := r.client.DeleteByUUID(ctx, "/api/openstack-server-groups/{uuid}/", data.UUID.ValueString())
 	if err != nil {
 		resp.Diagnostics.AddError(
-			"Unable to Delete OpenstackServerGroup",
-			"An error occurred while deleting the openstack_server_group: "+err.Error(),
+			"Unable to Delete Openstack Server Group",
+			"An error occurred while deleting the Openstack Server Group: "+err.Error(),
 		)
 		return
 	}

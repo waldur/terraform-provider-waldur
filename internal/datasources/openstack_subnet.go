@@ -302,8 +302,8 @@ func (d *OpenstackSubnetDataSource) Read(ctx context.Context, req datasource.Rea
 		err := d.client.GetByUUID(ctx, "/api/openstack-subnets/{uuid}/", data.UUID.ValueString(), &item)
 		if err != nil {
 			resp.Diagnostics.AddError(
-				"Unable to Read Subnet",
-				"An error occurred while reading the openstack_subnet by UUID: "+err.Error(),
+				"Unable to Read Openstack Subnet",
+				"An error occurred while reading the Openstack Subnet by UUID: "+err.Error(),
 			)
 			return
 		}
@@ -771,8 +771,8 @@ func (d *OpenstackSubnetDataSource) Read(ctx context.Context, req datasource.Rea
 		err := d.client.ListWithFilter(ctx, "/api/openstack-subnets/", filters, &results)
 		if err != nil {
 			resp.Diagnostics.AddError(
-				"Unable to List Subnet",
-				"An error occurred while filtering openstack_subnet: "+err.Error(),
+				"Unable to List Openstack Subnet",
+				"An error occurred while filtering Openstack Subnet: "+err.Error(),
 			)
 			return
 		}
@@ -780,16 +780,16 @@ func (d *OpenstackSubnetDataSource) Read(ctx context.Context, req datasource.Rea
 		// Check results
 		if len(results) == 0 {
 			resp.Diagnostics.AddError(
-				"Subnet Not Found",
-				"No openstack_subnet found with provided filters.",
+				"Openstack Subnet Not Found",
+				"No Openstack Subnet found with provided filters.",
 			)
 			return
 		}
 
 		if len(results) > 1 {
 			resp.Diagnostics.AddError(
-				"Multiple Subnets Found",
-				fmt.Sprintf("Found %d openstack_subnets with provided filters. Please use more specific filters or lookup by UUID.", len(results)),
+				"Multiple Openstack Subnets Found",
+				fmt.Sprintf("Found %d Openstack Subnets with provided filters. Please use more specific filters or lookup by UUID.", len(results)),
 			)
 			return
 		}

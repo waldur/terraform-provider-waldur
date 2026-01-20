@@ -295,8 +295,8 @@ func (r *StructureProjectResource) Create(ctx context.Context, req resource.Crea
 	err := r.client.Create(ctx, "/api/projects/", requestBody, &result)
 	if err != nil {
 		resp.Diagnostics.AddError(
-			"Unable to Create StructureProject",
-			"An error occurred while creating the structure_project: "+err.Error(),
+			"Unable to Create Structure Project",
+			"An error occurred while creating the Structure Project: "+err.Error(),
 		)
 		return
 	}
@@ -328,8 +328,8 @@ func (r *StructureProjectResource) Read(ctx context.Context, req resource.ReadRe
 	err := r.client.GetByUUID(ctx, retrievePath, data.UUID.ValueString(), &result)
 	if err != nil {
 		resp.Diagnostics.AddError(
-			"Unable to Read StructureProject",
-			"An error occurred while reading the structure_project: "+err.Error(),
+			"Unable to Read Structure Project",
+			"An error occurred while reading the Structure Project: "+err.Error(),
 		)
 		return
 	}
@@ -435,8 +435,8 @@ func (r *StructureProjectResource) Update(ctx context.Context, req resource.Upda
 	err := r.client.Update(ctx, "/api/projects/{uuid}/", data.UUID.ValueString(), requestBody, &result)
 	if err != nil {
 		resp.Diagnostics.AddError(
-			"Unable to Update StructureProject",
-			"An error occurred while updating the structure_project: "+err.Error(),
+			"Unable to Update Structure Project",
+			"An error occurred while updating the Structure Project: "+err.Error(),
 		)
 		return
 	}
@@ -462,8 +462,8 @@ func (r *StructureProjectResource) Delete(ctx context.Context, req resource.Dele
 	err := r.client.DeleteByUUID(ctx, "/api/projects/{uuid}/", data.UUID.ValueString())
 	if err != nil {
 		resp.Diagnostics.AddError(
-			"Unable to Delete StructureProject",
-			"An error occurred while deleting the structure_project: "+err.Error(),
+			"Unable to Delete Structure Project",
+			"An error occurred while deleting the Structure Project: "+err.Error(),
 		)
 		return
 	}

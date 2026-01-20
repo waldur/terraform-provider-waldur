@@ -593,8 +593,8 @@ func (r *OpenstackTenantResource) Read(ctx context.Context, req resource.ReadReq
 	err := r.client.GetByUUID(ctx, retrievePath, data.UUID.ValueString(), &result)
 	if err != nil {
 		resp.Diagnostics.AddError(
-			"Unable to Read OpenstackTenant",
-			"An error occurred while reading the openstack_tenant: "+err.Error(),
+			"Unable to Read Openstack Tenant",
+			"An error occurred while reading the Openstack Tenant: "+err.Error(),
 		)
 		return
 	}

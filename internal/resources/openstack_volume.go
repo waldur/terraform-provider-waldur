@@ -543,8 +543,8 @@ func (r *OpenstackVolumeResource) Read(ctx context.Context, req resource.ReadReq
 	err := r.client.GetByUUID(ctx, retrievePath, data.UUID.ValueString(), &result)
 	if err != nil {
 		resp.Diagnostics.AddError(
-			"Unable to Read OpenstackVolume",
-			"An error occurred while reading the openstack_volume: "+err.Error(),
+			"Unable to Read Openstack Volume",
+			"An error occurred while reading the Openstack Volume: "+err.Error(),
 		)
 		return
 	}

@@ -245,8 +245,8 @@ func (d *OpenstackSecurityGroupDataSource) Read(ctx context.Context, req datasou
 		err := d.client.GetByUUID(ctx, "/api/openstack-security-groups/{uuid}/", data.UUID.ValueString(), &item)
 		if err != nil {
 			resp.Diagnostics.AddError(
-				"Unable to Read SecurityGroup",
-				"An error occurred while reading the openstack_security_group by UUID: "+err.Error(),
+				"Unable to Read Openstack Security Group",
+				"An error occurred while reading the Openstack Security Group by UUID: "+err.Error(),
 			)
 			return
 		}
@@ -640,8 +640,8 @@ func (d *OpenstackSecurityGroupDataSource) Read(ctx context.Context, req datasou
 		err := d.client.ListWithFilter(ctx, "/api/openstack-security-groups/", filters, &results)
 		if err != nil {
 			resp.Diagnostics.AddError(
-				"Unable to List SecurityGroup",
-				"An error occurred while filtering openstack_security_group: "+err.Error(),
+				"Unable to List Openstack Security Group",
+				"An error occurred while filtering Openstack Security Group: "+err.Error(),
 			)
 			return
 		}
@@ -649,16 +649,16 @@ func (d *OpenstackSecurityGroupDataSource) Read(ctx context.Context, req datasou
 		// Check results
 		if len(results) == 0 {
 			resp.Diagnostics.AddError(
-				"SecurityGroup Not Found",
-				"No openstack_security_group found with provided filters.",
+				"Openstack Security Group Not Found",
+				"No Openstack Security Group found with provided filters.",
 			)
 			return
 		}
 
 		if len(results) > 1 {
 			resp.Diagnostics.AddError(
-				"Multiple SecurityGroups Found",
-				fmt.Sprintf("Found %d openstack_security_groups with provided filters. Please use more specific filters or lookup by UUID.", len(results)),
+				"Multiple Openstack Security Groups Found",
+				fmt.Sprintf("Found %d Openstack Security Groups with provided filters. Please use more specific filters or lookup by UUID.", len(results)),
 			)
 			return
 		}

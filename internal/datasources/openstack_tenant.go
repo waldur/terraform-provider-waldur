@@ -312,8 +312,8 @@ func (d *OpenstackTenantDataSource) Read(ctx context.Context, req datasource.Rea
 		err := d.client.GetByUUID(ctx, "/api/openstack-tenants/{uuid}/", data.UUID.ValueString(), &item)
 		if err != nil {
 			resp.Diagnostics.AddError(
-				"Unable to Read Tenant",
-				"An error occurred while reading the openstack_tenant by UUID: "+err.Error(),
+				"Unable to Read Openstack Tenant",
+				"An error occurred while reading the Openstack Tenant by UUID: "+err.Error(),
 			)
 			return
 		}
@@ -773,8 +773,8 @@ func (d *OpenstackTenantDataSource) Read(ctx context.Context, req datasource.Rea
 		err := d.client.ListWithFilter(ctx, "/api/openstack-tenants/", filters, &results)
 		if err != nil {
 			resp.Diagnostics.AddError(
-				"Unable to List Tenant",
-				"An error occurred while filtering openstack_tenant: "+err.Error(),
+				"Unable to List Openstack Tenant",
+				"An error occurred while filtering Openstack Tenant: "+err.Error(),
 			)
 			return
 		}
@@ -782,16 +782,16 @@ func (d *OpenstackTenantDataSource) Read(ctx context.Context, req datasource.Rea
 		// Check results
 		if len(results) == 0 {
 			resp.Diagnostics.AddError(
-				"Tenant Not Found",
-				"No openstack_tenant found with provided filters.",
+				"Openstack Tenant Not Found",
+				"No Openstack Tenant found with provided filters.",
 			)
 			return
 		}
 
 		if len(results) > 1 {
 			resp.Diagnostics.AddError(
-				"Multiple Tenants Found",
-				fmt.Sprintf("Found %d openstack_tenants with provided filters. Please use more specific filters or lookup by UUID.", len(results)),
+				"Multiple Openstack Tenants Found",
+				fmt.Sprintf("Found %d Openstack Tenants with provided filters. Please use more specific filters or lookup by UUID.", len(results)),
 			)
 			return
 		}

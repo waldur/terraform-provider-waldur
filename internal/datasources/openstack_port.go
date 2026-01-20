@@ -246,8 +246,8 @@ func (d *OpenstackPortDataSource) Read(ctx context.Context, req datasource.ReadR
 		err := d.client.GetByUUID(ctx, "/api/openstack-ports/{uuid}/", data.UUID.ValueString(), &item)
 		if err != nil {
 			resp.Diagnostics.AddError(
-				"Unable to Read Port",
-				"An error occurred while reading the openstack_port by UUID: "+err.Error(),
+				"Unable to Read Openstack Port",
+				"An error occurred while reading the Openstack Port by UUID: "+err.Error(),
 			)
 			return
 		}
@@ -617,8 +617,8 @@ func (d *OpenstackPortDataSource) Read(ctx context.Context, req datasource.ReadR
 		err := d.client.ListWithFilter(ctx, "/api/openstack-ports/", filters, &results)
 		if err != nil {
 			resp.Diagnostics.AddError(
-				"Unable to List Port",
-				"An error occurred while filtering openstack_port: "+err.Error(),
+				"Unable to List Openstack Port",
+				"An error occurred while filtering Openstack Port: "+err.Error(),
 			)
 			return
 		}
@@ -626,16 +626,16 @@ func (d *OpenstackPortDataSource) Read(ctx context.Context, req datasource.ReadR
 		// Check results
 		if len(results) == 0 {
 			resp.Diagnostics.AddError(
-				"Port Not Found",
-				"No openstack_port found with provided filters.",
+				"Openstack Port Not Found",
+				"No Openstack Port found with provided filters.",
 			)
 			return
 		}
 
 		if len(results) > 1 {
 			resp.Diagnostics.AddError(
-				"Multiple Ports Found",
-				fmt.Sprintf("Found %d openstack_ports with provided filters. Please use more specific filters or lookup by UUID.", len(results)),
+				"Multiple Openstack Ports Found",
+				fmt.Sprintf("Found %d Openstack Ports with provided filters. Please use more specific filters or lookup by UUID.", len(results)),
 			)
 			return
 		}

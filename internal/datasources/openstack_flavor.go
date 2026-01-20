@@ -181,8 +181,8 @@ func (d *OpenstackFlavorDataSource) Read(ctx context.Context, req datasource.Rea
 		err := d.client.GetByUUID(ctx, "/api/openstack-flavors/{uuid}/", data.UUID.ValueString(), &item)
 		if err != nil {
 			resp.Diagnostics.AddError(
-				"Unable to Read Flavor",
-				"An error occurred while reading the openstack_flavor by UUID: "+err.Error(),
+				"Unable to Read Openstack Flavor",
+				"An error occurred while reading the Openstack Flavor by UUID: "+err.Error(),
 			)
 			return
 		}
@@ -376,8 +376,8 @@ func (d *OpenstackFlavorDataSource) Read(ctx context.Context, req datasource.Rea
 		err := d.client.ListWithFilter(ctx, "/api/openstack-flavors/", filters, &results)
 		if err != nil {
 			resp.Diagnostics.AddError(
-				"Unable to List Flavor",
-				"An error occurred while filtering openstack_flavor: "+err.Error(),
+				"Unable to List Openstack Flavor",
+				"An error occurred while filtering Openstack Flavor: "+err.Error(),
 			)
 			return
 		}
@@ -385,16 +385,16 @@ func (d *OpenstackFlavorDataSource) Read(ctx context.Context, req datasource.Rea
 		// Check results
 		if len(results) == 0 {
 			resp.Diagnostics.AddError(
-				"Flavor Not Found",
-				"No openstack_flavor found with provided filters.",
+				"Openstack Flavor Not Found",
+				"No Openstack Flavor found with provided filters.",
 			)
 			return
 		}
 
 		if len(results) > 1 {
 			resp.Diagnostics.AddError(
-				"Multiple Flavors Found",
-				fmt.Sprintf("Found %d openstack_flavors with provided filters. Please use more specific filters or lookup by UUID.", len(results)),
+				"Multiple Openstack Flavors Found",
+				fmt.Sprintf("Found %d Openstack Flavors with provided filters. Please use more specific filters or lookup by UUID.", len(results)),
 			)
 			return
 		}

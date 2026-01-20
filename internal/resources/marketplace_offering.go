@@ -956,8 +956,8 @@ func (r *MarketplaceOfferingResource) Create(ctx context.Context, req resource.C
 	err := r.client.Create(ctx, "/api/marketplace-provider-offerings/", requestBody, &result)
 	if err != nil {
 		resp.Diagnostics.AddError(
-			"Unable to Create MarketplaceOffering",
-			"An error occurred while creating the marketplace_offering: "+err.Error(),
+			"Unable to Create Marketplace Offering",
+			"An error occurred while creating the Marketplace Offering: "+err.Error(),
 		)
 		return
 	}
@@ -989,8 +989,8 @@ func (r *MarketplaceOfferingResource) Read(ctx context.Context, req resource.Rea
 	err := r.client.GetByUUID(ctx, retrievePath, data.UUID.ValueString(), &result)
 	if err != nil {
 		resp.Diagnostics.AddError(
-			"Unable to Read MarketplaceOffering",
-			"An error occurred while reading the marketplace_offering: "+err.Error(),
+			"Unable to Read Marketplace Offering",
+			"An error occurred while reading the Marketplace Offering: "+err.Error(),
 		)
 		return
 	}
@@ -1026,8 +1026,8 @@ func (r *MarketplaceOfferingResource) Delete(ctx context.Context, req resource.D
 	err := r.client.DeleteByUUID(ctx, "/api/marketplace-provider-offerings/{uuid}/", data.UUID.ValueString())
 	if err != nil {
 		resp.Diagnostics.AddError(
-			"Unable to Delete MarketplaceOffering",
-			"An error occurred while deleting the marketplace_offering: "+err.Error(),
+			"Unable to Delete Marketplace Offering",
+			"An error occurred while deleting the Marketplace Offering: "+err.Error(),
 		)
 		return
 	}

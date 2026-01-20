@@ -285,8 +285,8 @@ func (r *OpenstackSubnetResource) Create(ctx context.Context, req resource.Creat
 	err := r.client.Post(ctx, createPath, requestBody, &result)
 	if err != nil {
 		resp.Diagnostics.AddError(
-			"Unable to Create OpenstackSubnet",
-			"An error occurred while creating the openstack_subnet: "+err.Error(),
+			"Unable to Create Openstack Subnet",
+			"An error occurred while creating the Openstack Subnet: "+err.Error(),
 		)
 		return
 	}
@@ -318,8 +318,8 @@ func (r *OpenstackSubnetResource) Read(ctx context.Context, req resource.ReadReq
 	err := r.client.GetByUUID(ctx, retrievePath, data.UUID.ValueString(), &result)
 	if err != nil {
 		resp.Diagnostics.AddError(
-			"Unable to Read OpenstackSubnet",
-			"An error occurred while reading the openstack_subnet: "+err.Error(),
+			"Unable to Read Openstack Subnet",
+			"An error occurred while reading the Openstack Subnet: "+err.Error(),
 		)
 		return
 	}
@@ -397,8 +397,8 @@ func (r *OpenstackSubnetResource) Update(ctx context.Context, req resource.Updat
 	err := r.client.Update(ctx, "/api/openstack-subnets/{uuid}/", data.UUID.ValueString(), requestBody, &result)
 	if err != nil {
 		resp.Diagnostics.AddError(
-			"Unable to Update OpenstackSubnet",
-			"An error occurred while updating the openstack_subnet: "+err.Error(),
+			"Unable to Update Openstack Subnet",
+			"An error occurred while updating the Openstack Subnet: "+err.Error(),
 		)
 		return
 	}
@@ -424,8 +424,8 @@ func (r *OpenstackSubnetResource) Delete(ctx context.Context, req resource.Delet
 	err := r.client.DeleteByUUID(ctx, "/api/openstack-subnets/{uuid}/", data.UUID.ValueString())
 	if err != nil {
 		resp.Diagnostics.AddError(
-			"Unable to Delete OpenstackSubnet",
-			"An error occurred while deleting the openstack_subnet: "+err.Error(),
+			"Unable to Delete Openstack Subnet",
+			"An error occurred while deleting the Openstack Subnet: "+err.Error(),
 		)
 		return
 	}

@@ -284,8 +284,8 @@ func (d *OpenstackNetworkDataSource) Read(ctx context.Context, req datasource.Re
 		err := d.client.GetByUUID(ctx, "/api/openstack-networks/{uuid}/", data.UUID.ValueString(), &item)
 		if err != nil {
 			resp.Diagnostics.AddError(
-				"Unable to Read Network",
-				"An error occurred while reading the openstack_network by UUID: "+err.Error(),
+				"Unable to Read Openstack Network",
+				"An error occurred while reading the Openstack Network by UUID: "+err.Error(),
 			)
 			return
 		}
@@ -788,8 +788,8 @@ func (d *OpenstackNetworkDataSource) Read(ctx context.Context, req datasource.Re
 		err := d.client.ListWithFilter(ctx, "/api/openstack-networks/", filters, &results)
 		if err != nil {
 			resp.Diagnostics.AddError(
-				"Unable to List Network",
-				"An error occurred while filtering openstack_network: "+err.Error(),
+				"Unable to List Openstack Network",
+				"An error occurred while filtering Openstack Network: "+err.Error(),
 			)
 			return
 		}
@@ -797,16 +797,16 @@ func (d *OpenstackNetworkDataSource) Read(ctx context.Context, req datasource.Re
 		// Check results
 		if len(results) == 0 {
 			resp.Diagnostics.AddError(
-				"Network Not Found",
-				"No openstack_network found with provided filters.",
+				"Openstack Network Not Found",
+				"No Openstack Network found with provided filters.",
 			)
 			return
 		}
 
 		if len(results) > 1 {
 			resp.Diagnostics.AddError(
-				"Multiple Networks Found",
-				fmt.Sprintf("Found %d openstack_networks with provided filters. Please use more specific filters or lookup by UUID.", len(results)),
+				"Multiple Openstack Networks Found",
+				fmt.Sprintf("Found %d Openstack Networks with provided filters. Please use more specific filters or lookup by UUID.", len(results)),
 			)
 			return
 		}

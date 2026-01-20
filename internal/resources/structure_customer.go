@@ -628,8 +628,8 @@ func (r *StructureCustomerResource) Create(ctx context.Context, req resource.Cre
 	err := r.client.Create(ctx, "/api/customers/", requestBody, &result)
 	if err != nil {
 		resp.Diagnostics.AddError(
-			"Unable to Create StructureCustomer",
-			"An error occurred while creating the structure_customer: "+err.Error(),
+			"Unable to Create Structure Customer",
+			"An error occurred while creating the Structure Customer: "+err.Error(),
 		)
 		return
 	}
@@ -661,8 +661,8 @@ func (r *StructureCustomerResource) Read(ctx context.Context, req resource.ReadR
 	err := r.client.GetByUUID(ctx, retrievePath, data.UUID.ValueString(), &result)
 	if err != nil {
 		resp.Diagnostics.AddError(
-			"Unable to Read StructureCustomer",
-			"An error occurred while reading the structure_customer: "+err.Error(),
+			"Unable to Read Structure Customer",
+			"An error occurred while reading the Structure Customer: "+err.Error(),
 		)
 		return
 	}
@@ -851,8 +851,8 @@ func (r *StructureCustomerResource) Update(ctx context.Context, req resource.Upd
 	err := r.client.Update(ctx, "/api/customers/{uuid}/", data.UUID.ValueString(), requestBody, &result)
 	if err != nil {
 		resp.Diagnostics.AddError(
-			"Unable to Update StructureCustomer",
-			"An error occurred while updating the structure_customer: "+err.Error(),
+			"Unable to Update Structure Customer",
+			"An error occurred while updating the Structure Customer: "+err.Error(),
 		)
 		return
 	}
@@ -878,8 +878,8 @@ func (r *StructureCustomerResource) Delete(ctx context.Context, req resource.Del
 	err := r.client.DeleteByUUID(ctx, "/api/customers/{uuid}/", data.UUID.ValueString())
 	if err != nil {
 		resp.Diagnostics.AddError(
-			"Unable to Delete StructureCustomer",
-			"An error occurred while deleting the structure_customer: "+err.Error(),
+			"Unable to Delete Structure Customer",
+			"An error occurred while deleting the Structure Customer: "+err.Error(),
 		)
 		return
 	}

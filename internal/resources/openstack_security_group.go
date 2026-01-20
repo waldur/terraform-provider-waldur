@@ -228,8 +228,8 @@ func (r *OpenstackSecurityGroupResource) Create(ctx context.Context, req resourc
 	err := r.client.Post(ctx, createPath, requestBody, &result)
 	if err != nil {
 		resp.Diagnostics.AddError(
-			"Unable to Create OpenstackSecurityGroup",
-			"An error occurred while creating the openstack_security_group: "+err.Error(),
+			"Unable to Create Openstack Security Group",
+			"An error occurred while creating the Openstack Security Group: "+err.Error(),
 		)
 		return
 	}
@@ -261,8 +261,8 @@ func (r *OpenstackSecurityGroupResource) Read(ctx context.Context, req resource.
 	err := r.client.GetByUUID(ctx, retrievePath, data.UUID.ValueString(), &result)
 	if err != nil {
 		resp.Diagnostics.AddError(
-			"Unable to Read OpenstackSecurityGroup",
-			"An error occurred while reading the openstack_security_group: "+err.Error(),
+			"Unable to Read Openstack Security Group",
+			"An error occurred while reading the Openstack Security Group: "+err.Error(),
 		)
 		return
 	}
@@ -312,8 +312,8 @@ func (r *OpenstackSecurityGroupResource) Update(ctx context.Context, req resourc
 	err := r.client.Update(ctx, "/api/openstack-security-groups/{uuid}/", data.UUID.ValueString(), requestBody, &result)
 	if err != nil {
 		resp.Diagnostics.AddError(
-			"Unable to Update OpenstackSecurityGroup",
-			"An error occurred while updating the openstack_security_group: "+err.Error(),
+			"Unable to Update Openstack Security Group",
+			"An error occurred while updating the Openstack Security Group: "+err.Error(),
 		)
 		return
 	}
@@ -339,8 +339,8 @@ func (r *OpenstackSecurityGroupResource) Delete(ctx context.Context, req resourc
 	err := r.client.DeleteByUUID(ctx, "/api/openstack-security-groups/{uuid}/", data.UUID.ValueString())
 	if err != nil {
 		resp.Diagnostics.AddError(
-			"Unable to Delete OpenstackSecurityGroup",
-			"An error occurred while deleting the openstack_security_group: "+err.Error(),
+			"Unable to Delete Openstack Security Group",
+			"An error occurred while deleting the Openstack Security Group: "+err.Error(),
 		)
 		return
 	}

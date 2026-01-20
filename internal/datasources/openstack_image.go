@@ -136,8 +136,8 @@ func (d *OpenstackImageDataSource) Read(ctx context.Context, req datasource.Read
 		err := d.client.GetByUUID(ctx, "/api/openstack-images/{uuid}/", data.UUID.ValueString(), &item)
 		if err != nil {
 			resp.Diagnostics.AddError(
-				"Unable to Read Image",
-				"An error occurred while reading the openstack_image by UUID: "+err.Error(),
+				"Unable to Read Openstack Image",
+				"An error occurred while reading the Openstack Image by UUID: "+err.Error(),
 			)
 			return
 		}
@@ -260,8 +260,8 @@ func (d *OpenstackImageDataSource) Read(ctx context.Context, req datasource.Read
 		err := d.client.ListWithFilter(ctx, "/api/openstack-images/", filters, &results)
 		if err != nil {
 			resp.Diagnostics.AddError(
-				"Unable to List Image",
-				"An error occurred while filtering openstack_image: "+err.Error(),
+				"Unable to List Openstack Image",
+				"An error occurred while filtering Openstack Image: "+err.Error(),
 			)
 			return
 		}
@@ -269,16 +269,16 @@ func (d *OpenstackImageDataSource) Read(ctx context.Context, req datasource.Read
 		// Check results
 		if len(results) == 0 {
 			resp.Diagnostics.AddError(
-				"Image Not Found",
-				"No openstack_image found with provided filters.",
+				"Openstack Image Not Found",
+				"No Openstack Image found with provided filters.",
 			)
 			return
 		}
 
 		if len(results) > 1 {
 			resp.Diagnostics.AddError(
-				"Multiple Images Found",
-				fmt.Sprintf("Found %d openstack_images with provided filters. Please use more specific filters or lookup by UUID.", len(results)),
+				"Multiple Openstack Images Found",
+				fmt.Sprintf("Found %d Openstack Images with provided filters. Please use more specific filters or lookup by UUID.", len(results)),
 			)
 			return
 		}

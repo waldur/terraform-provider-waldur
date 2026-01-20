@@ -144,8 +144,8 @@ func (r *OpenstackNetworkRbacPolicyResource) Create(ctx context.Context, req res
 	err := r.client.Create(ctx, "/api/openstack-network-rbac-policies/", requestBody, &result)
 	if err != nil {
 		resp.Diagnostics.AddError(
-			"Unable to Create OpenstackNetworkRbacPolicy",
-			"An error occurred while creating the openstack_network_rbac_policy: "+err.Error(),
+			"Unable to Create Openstack Network Rbac Policy",
+			"An error occurred while creating the Openstack Network Rbac Policy: "+err.Error(),
 		)
 		return
 	}
@@ -230,8 +230,8 @@ func (r *OpenstackNetworkRbacPolicyResource) Read(ctx context.Context, req resou
 	err := r.client.GetByUUID(ctx, retrievePath, data.UUID.ValueString(), &result)
 	if err != nil {
 		resp.Diagnostics.AddError(
-			"Unable to Read OpenstackNetworkRbacPolicy",
-			"An error occurred while reading the openstack_network_rbac_policy: "+err.Error(),
+			"Unable to Read Openstack Network Rbac Policy",
+			"An error occurred while reading the Openstack Network Rbac Policy: "+err.Error(),
 		)
 		return
 	}
@@ -286,8 +286,8 @@ func (r *OpenstackNetworkRbacPolicyResource) Update(ctx context.Context, req res
 	err := r.client.Update(ctx, "/api/openstack-network-rbac-policies/{uuid}/", data.UUID.ValueString(), requestBody, &result)
 	if err != nil {
 		resp.Diagnostics.AddError(
-			"Unable to Update OpenstackNetworkRbacPolicy",
-			"An error occurred while updating the openstack_network_rbac_policy: "+err.Error(),
+			"Unable to Update Openstack Network Rbac Policy",
+			"An error occurred while updating the Openstack Network Rbac Policy: "+err.Error(),
 		)
 		return
 	}
@@ -313,8 +313,8 @@ func (r *OpenstackNetworkRbacPolicyResource) Delete(ctx context.Context, req res
 	err := r.client.DeleteByUUID(ctx, "/api/openstack-network-rbac-policies/{uuid}/", data.UUID.ValueString())
 	if err != nil {
 		resp.Diagnostics.AddError(
-			"Unable to Delete OpenstackNetworkRbacPolicy",
-			"An error occurred while deleting the openstack_network_rbac_policy: "+err.Error(),
+			"Unable to Delete Openstack Network Rbac Policy",
+			"An error occurred while deleting the Openstack Network Rbac Policy: "+err.Error(),
 		)
 		return
 	}

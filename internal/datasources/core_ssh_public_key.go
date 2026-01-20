@@ -146,8 +146,8 @@ func (d *CoreSshPublicKeyDataSource) Read(ctx context.Context, req datasource.Re
 		err := d.client.GetByUUID(ctx, "/api/keys/{uuid}/", data.UUID.ValueString(), &item)
 		if err != nil {
 			resp.Diagnostics.AddError(
-				"Unable to Read SshPublicKey",
-				"An error occurred while reading the core_ssh_public_key by UUID: "+err.Error(),
+				"Unable to Read Core Ssh Public Key",
+				"An error occurred while reading the Core Ssh Public Key by UUID: "+err.Error(),
 			)
 			return
 		}
@@ -285,8 +285,8 @@ func (d *CoreSshPublicKeyDataSource) Read(ctx context.Context, req datasource.Re
 		err := d.client.ListWithFilter(ctx, "/api/keys/", filters, &results)
 		if err != nil {
 			resp.Diagnostics.AddError(
-				"Unable to List SshPublicKey",
-				"An error occurred while filtering core_ssh_public_key: "+err.Error(),
+				"Unable to List Core Ssh Public Key",
+				"An error occurred while filtering Core Ssh Public Key: "+err.Error(),
 			)
 			return
 		}
@@ -294,16 +294,16 @@ func (d *CoreSshPublicKeyDataSource) Read(ctx context.Context, req datasource.Re
 		// Check results
 		if len(results) == 0 {
 			resp.Diagnostics.AddError(
-				"SshPublicKey Not Found",
-				"No core_ssh_public_key found with provided filters.",
+				"Core Ssh Public Key Not Found",
+				"No Core Ssh Public Key found with provided filters.",
 			)
 			return
 		}
 
 		if len(results) > 1 {
 			resp.Diagnostics.AddError(
-				"Multiple SshPublicKeys Found",
-				fmt.Sprintf("Found %d core_ssh_public_keys with provided filters. Please use more specific filters or lookup by UUID.", len(results)),
+				"Multiple Core Ssh Public Keys Found",
+				fmt.Sprintf("Found %d Core Ssh Public Keys with provided filters. Please use more specific filters or lookup by UUID.", len(results)),
 			)
 			return
 		}

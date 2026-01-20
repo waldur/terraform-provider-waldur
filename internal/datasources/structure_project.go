@@ -261,8 +261,8 @@ func (d *StructureProjectDataSource) Read(ctx context.Context, req datasource.Re
 		err := d.client.GetByUUID(ctx, "/api/projects/{uuid}/", data.UUID.ValueString(), &item)
 		if err != nil {
 			resp.Diagnostics.AddError(
-				"Unable to Read Project",
-				"An error occurred while reading the structure_project by UUID: "+err.Error(),
+				"Unable to Read Structure Project",
+				"An error occurred while reading the Structure Project by UUID: "+err.Error(),
 			)
 			return
 		}
@@ -600,8 +600,8 @@ func (d *StructureProjectDataSource) Read(ctx context.Context, req datasource.Re
 		err := d.client.ListWithFilter(ctx, "/api/projects/", filters, &results)
 		if err != nil {
 			resp.Diagnostics.AddError(
-				"Unable to List Project",
-				"An error occurred while filtering structure_project: "+err.Error(),
+				"Unable to List Structure Project",
+				"An error occurred while filtering Structure Project: "+err.Error(),
 			)
 			return
 		}
@@ -609,16 +609,16 @@ func (d *StructureProjectDataSource) Read(ctx context.Context, req datasource.Re
 		// Check results
 		if len(results) == 0 {
 			resp.Diagnostics.AddError(
-				"Project Not Found",
-				"No structure_project found with provided filters.",
+				"Structure Project Not Found",
+				"No Structure Project found with provided filters.",
 			)
 			return
 		}
 
 		if len(results) > 1 {
 			resp.Diagnostics.AddError(
-				"Multiple Projects Found",
-				fmt.Sprintf("Found %d structure_projects with provided filters. Please use more specific filters or lookup by UUID.", len(results)),
+				"Multiple Structure Projects Found",
+				fmt.Sprintf("Found %d Structure Projects with provided filters. Please use more specific filters or lookup by UUID.", len(results)),
 			)
 			return
 		}

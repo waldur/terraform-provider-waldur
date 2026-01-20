@@ -126,8 +126,8 @@ func (d *OpenstackVolumeTypeDataSource) Read(ctx context.Context, req datasource
 		err := d.client.GetByUUID(ctx, "/api/openstack-volume-types/{uuid}/", data.UUID.ValueString(), &item)
 		if err != nil {
 			resp.Diagnostics.AddError(
-				"Unable to Read VolumeType",
-				"An error occurred while reading the openstack_volume_type by UUID: "+err.Error(),
+				"Unable to Read Openstack Volume Type",
+				"An error occurred while reading the Openstack Volume Type by UUID: "+err.Error(),
 			)
 			return
 		}
@@ -232,8 +232,8 @@ func (d *OpenstackVolumeTypeDataSource) Read(ctx context.Context, req datasource
 		err := d.client.ListWithFilter(ctx, "/api/openstack-volume-types/", filters, &results)
 		if err != nil {
 			resp.Diagnostics.AddError(
-				"Unable to List VolumeType",
-				"An error occurred while filtering openstack_volume_type: "+err.Error(),
+				"Unable to List Openstack Volume Type",
+				"An error occurred while filtering Openstack Volume Type: "+err.Error(),
 			)
 			return
 		}
@@ -241,16 +241,16 @@ func (d *OpenstackVolumeTypeDataSource) Read(ctx context.Context, req datasource
 		// Check results
 		if len(results) == 0 {
 			resp.Diagnostics.AddError(
-				"VolumeType Not Found",
-				"No openstack_volume_type found with provided filters.",
+				"Openstack Volume Type Not Found",
+				"No Openstack Volume Type found with provided filters.",
 			)
 			return
 		}
 
 		if len(results) > 1 {
 			resp.Diagnostics.AddError(
-				"Multiple VolumeTypes Found",
-				fmt.Sprintf("Found %d openstack_volume_types with provided filters. Please use more specific filters or lookup by UUID.", len(results)),
+				"Multiple Openstack Volume Types Found",
+				fmt.Sprintf("Found %d Openstack Volume Types with provided filters. Please use more specific filters or lookup by UUID.", len(results)),
 			)
 			return
 		}

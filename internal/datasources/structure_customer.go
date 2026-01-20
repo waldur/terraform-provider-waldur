@@ -376,8 +376,8 @@ func (d *StructureCustomerDataSource) Read(ctx context.Context, req datasource.R
 		err := d.client.GetByUUID(ctx, "/api/customers/{uuid}/", data.UUID.ValueString(), &item)
 		if err != nil {
 			resp.Diagnostics.AddError(
-				"Unable to Read Customer",
-				"An error occurred while reading the structure_customer by UUID: "+err.Error(),
+				"Unable to Read Structure Customer",
+				"An error occurred while reading the Structure Customer by UUID: "+err.Error(),
 			)
 			return
 		}
@@ -1099,8 +1099,8 @@ func (d *StructureCustomerDataSource) Read(ctx context.Context, req datasource.R
 		err := d.client.ListWithFilter(ctx, "/api/customers/", filters, &results)
 		if err != nil {
 			resp.Diagnostics.AddError(
-				"Unable to List Customer",
-				"An error occurred while filtering structure_customer: "+err.Error(),
+				"Unable to List Structure Customer",
+				"An error occurred while filtering Structure Customer: "+err.Error(),
 			)
 			return
 		}
@@ -1108,16 +1108,16 @@ func (d *StructureCustomerDataSource) Read(ctx context.Context, req datasource.R
 		// Check results
 		if len(results) == 0 {
 			resp.Diagnostics.AddError(
-				"Customer Not Found",
-				"No structure_customer found with provided filters.",
+				"Structure Customer Not Found",
+				"No Structure Customer found with provided filters.",
 			)
 			return
 		}
 
 		if len(results) > 1 {
 			resp.Diagnostics.AddError(
-				"Multiple Customers Found",
-				fmt.Sprintf("Found %d structure_customers with provided filters. Please use more specific filters or lookup by UUID.", len(results)),
+				"Multiple Structure Customers Found",
+				fmt.Sprintf("Found %d Structure Customers with provided filters. Please use more specific filters or lookup by UUID.", len(results)),
 			)
 			return
 		}

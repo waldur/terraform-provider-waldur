@@ -556,8 +556,8 @@ func (d *OpenstackInstanceDataSource) Read(ctx context.Context, req datasource.R
 		err := d.client.GetByUUID(ctx, "/api/openstack-instances/{uuid}/", data.UUID.ValueString(), &item)
 		if err != nil {
 			resp.Diagnostics.AddError(
-				"Unable to Read Instance",
-				"An error occurred while reading the openstack_instance by UUID: "+err.Error(),
+				"Unable to Read Openstack Instance",
+				"An error occurred while reading the Openstack Instance by UUID: "+err.Error(),
 			)
 			return
 		}
@@ -1935,8 +1935,8 @@ func (d *OpenstackInstanceDataSource) Read(ctx context.Context, req datasource.R
 		err := d.client.ListWithFilter(ctx, "/api/openstack-instances/", filters, &results)
 		if err != nil {
 			resp.Diagnostics.AddError(
-				"Unable to List Instance",
-				"An error occurred while filtering openstack_instance: "+err.Error(),
+				"Unable to List Openstack Instance",
+				"An error occurred while filtering Openstack Instance: "+err.Error(),
 			)
 			return
 		}
@@ -1944,16 +1944,16 @@ func (d *OpenstackInstanceDataSource) Read(ctx context.Context, req datasource.R
 		// Check results
 		if len(results) == 0 {
 			resp.Diagnostics.AddError(
-				"Instance Not Found",
-				"No openstack_instance found with provided filters.",
+				"Openstack Instance Not Found",
+				"No Openstack Instance found with provided filters.",
 			)
 			return
 		}
 
 		if len(results) > 1 {
 			resp.Diagnostics.AddError(
-				"Multiple Instances Found",
-				fmt.Sprintf("Found %d openstack_instances with provided filters. Please use more specific filters or lookup by UUID.", len(results)),
+				"Multiple Openstack Instances Found",
+				fmt.Sprintf("Found %d Openstack Instances with provided filters. Please use more specific filters or lookup by UUID.", len(results)),
 			)
 			return
 		}

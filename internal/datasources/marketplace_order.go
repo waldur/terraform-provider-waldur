@@ -436,8 +436,8 @@ func (d *MarketplaceOrderDataSource) Read(ctx context.Context, req datasource.Re
 		err := d.client.GetByUUID(ctx, "/api/marketplace-orders/{uuid}/", data.UUID.ValueString(), &item)
 		if err != nil {
 			resp.Diagnostics.AddError(
-				"Unable to Read Order",
-				"An error occurred while reading the marketplace_order by UUID: "+err.Error(),
+				"Unable to Read Marketplace Order",
+				"An error occurred while reading the Marketplace Order by UUID: "+err.Error(),
 			)
 			return
 		}
@@ -1088,8 +1088,8 @@ func (d *MarketplaceOrderDataSource) Read(ctx context.Context, req datasource.Re
 		err := d.client.ListWithFilter(ctx, "/api/marketplace-orders/", filters, &results)
 		if err != nil {
 			resp.Diagnostics.AddError(
-				"Unable to List Order",
-				"An error occurred while filtering marketplace_order: "+err.Error(),
+				"Unable to List Marketplace Order",
+				"An error occurred while filtering Marketplace Order: "+err.Error(),
 			)
 			return
 		}
@@ -1097,16 +1097,16 @@ func (d *MarketplaceOrderDataSource) Read(ctx context.Context, req datasource.Re
 		// Check results
 		if len(results) == 0 {
 			resp.Diagnostics.AddError(
-				"Order Not Found",
-				"No marketplace_order found with provided filters.",
+				"Marketplace Order Not Found",
+				"No Marketplace Order found with provided filters.",
 			)
 			return
 		}
 
 		if len(results) > 1 {
 			resp.Diagnostics.AddError(
-				"Multiple Orders Found",
-				fmt.Sprintf("Found %d marketplace_orders with provided filters. Please use more specific filters or lookup by UUID.", len(results)),
+				"Multiple Marketplace Orders Found",
+				fmt.Sprintf("Found %d Marketplace Orders with provided filters. Please use more specific filters or lookup by UUID.", len(results)),
 			)
 			return
 		}

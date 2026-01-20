@@ -427,8 +427,8 @@ func (r *MarketplaceResourceResource) Read(ctx context.Context, req resource.Rea
 	err := r.client.GetByUUID(ctx, retrievePath, data.UUID.ValueString(), &result)
 	if err != nil {
 		resp.Diagnostics.AddError(
-			"Unable to Read MarketplaceResource",
-			"An error occurred while reading the marketplace_resource: "+err.Error(),
+			"Unable to Read Marketplace Resource",
+			"An error occurred while reading the Marketplace Resource: "+err.Error(),
 		)
 		return
 	}
@@ -483,8 +483,8 @@ func (r *MarketplaceResourceResource) Update(ctx context.Context, req resource.U
 	err := r.client.Update(ctx, "/api/marketplace-resources/{uuid}/", data.UUID.ValueString(), requestBody, &result)
 	if err != nil {
 		resp.Diagnostics.AddError(
-			"Unable to Update MarketplaceResource",
-			"An error occurred while updating the marketplace_resource: "+err.Error(),
+			"Unable to Update Marketplace Resource",
+			"An error occurred while updating the Marketplace Resource: "+err.Error(),
 		)
 		return
 	}

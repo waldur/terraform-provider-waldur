@@ -593,8 +593,8 @@ func (d *MarketplaceOfferingDataSource) Read(ctx context.Context, req datasource
 		err := d.client.GetByUUID(ctx, "/api/marketplace-public-offerings/{uuid}/", data.UUID.ValueString(), &item)
 		if err != nil {
 			resp.Diagnostics.AddError(
-				"Unable to Read Offering",
-				"An error occurred while reading the marketplace_offering by UUID: "+err.Error(),
+				"Unable to Read Marketplace Offering",
+				"An error occurred while reading the Marketplace Offering by UUID: "+err.Error(),
 			)
 			return
 		}
@@ -2320,8 +2320,8 @@ func (d *MarketplaceOfferingDataSource) Read(ctx context.Context, req datasource
 		err := d.client.ListWithFilter(ctx, "/api/marketplace-public-offerings/", filters, &results)
 		if err != nil {
 			resp.Diagnostics.AddError(
-				"Unable to List Offering",
-				"An error occurred while filtering marketplace_offering: "+err.Error(),
+				"Unable to List Marketplace Offering",
+				"An error occurred while filtering Marketplace Offering: "+err.Error(),
 			)
 			return
 		}
@@ -2329,16 +2329,16 @@ func (d *MarketplaceOfferingDataSource) Read(ctx context.Context, req datasource
 		// Check results
 		if len(results) == 0 {
 			resp.Diagnostics.AddError(
-				"Offering Not Found",
-				"No marketplace_offering found with provided filters.",
+				"Marketplace Offering Not Found",
+				"No Marketplace Offering found with provided filters.",
 			)
 			return
 		}
 
 		if len(results) > 1 {
 			resp.Diagnostics.AddError(
-				"Multiple Offerings Found",
-				fmt.Sprintf("Found %d marketplace_offerings with provided filters. Please use more specific filters or lookup by UUID.", len(results)),
+				"Multiple Marketplace Offerings Found",
+				fmt.Sprintf("Found %d Marketplace Offerings with provided filters. Please use more specific filters or lookup by UUID.", len(results)),
 			)
 			return
 		}

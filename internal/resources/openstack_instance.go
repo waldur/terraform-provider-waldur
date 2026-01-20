@@ -1223,8 +1223,8 @@ func (r *OpenstackInstanceResource) Read(ctx context.Context, req resource.ReadR
 	err := r.client.GetByUUID(ctx, retrievePath, data.UUID.ValueString(), &result)
 	if err != nil {
 		resp.Diagnostics.AddError(
-			"Unable to Read OpenstackInstance",
-			"An error occurred while reading the openstack_instance: "+err.Error(),
+			"Unable to Read Openstack Instance",
+			"An error occurred while reading the Openstack Instance: "+err.Error(),
 		)
 		return
 	}
