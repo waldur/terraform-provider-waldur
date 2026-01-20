@@ -273,53 +273,40 @@ func (r *OpenstackPortResource) Create(ctx context.Context, req resource.CreateR
 
 	// Prepare request body
 	requestBody := map[string]interface{}{}
-	// Check if this field is a path param (skip adding to body)
 	if !data.AllowedAddressPairs.IsNull() && !data.AllowedAddressPairs.IsUnknown() {
 		if v := ConvertTFValue(data.AllowedAddressPairs); v != nil {
 			requestBody["allowed_address_pairs"] = v
 		}
 	}
-	// Check if this field is a path param (skip adding to body)
 	if !data.Description.IsNull() && !data.Description.IsUnknown() {
 		if v := data.Description.ValueString(); v != "" {
 			requestBody["description"] = v
 		}
 	}
-	// Check if this field is a path param (skip adding to body)
 	if !data.FixedIps.IsNull() && !data.FixedIps.IsUnknown() {
 		if v := ConvertTFValue(data.FixedIps); v != nil {
 			requestBody["fixed_ips"] = v
 		}
 	}
-	// Check if this field is a path param (skip adding to body)
 	if !data.MacAddress.IsNull() && !data.MacAddress.IsUnknown() {
 		if v := data.MacAddress.ValueString(); v != "" {
 			requestBody["mac_address"] = v
 		}
 	}
-	// Check if this field is a path param (skip adding to body)
-	if !data.Name.IsNull() && !data.Name.IsUnknown() {
-		if v := data.Name.ValueString(); v != "" {
-			requestBody["name"] = v
-		}
-	}
-	// Check if this field is a path param (skip adding to body)
+	requestBody["name"] = data.Name.ValueString()
 	if !data.Network.IsNull() && !data.Network.IsUnknown() {
 		if v := data.Network.ValueString(); v != "" {
 			requestBody["network"] = v
 		}
 	}
-	// Check if this field is a path param (skip adding to body)
 	if !data.PortSecurityEnabled.IsNull() && !data.PortSecurityEnabled.IsUnknown() {
 		requestBody["port_security_enabled"] = data.PortSecurityEnabled.ValueBool()
 	}
-	// Check if this field is a path param (skip adding to body)
 	if !data.SecurityGroups.IsNull() && !data.SecurityGroups.IsUnknown() {
 		if v := ConvertTFValue(data.SecurityGroups); v != nil {
 			requestBody["security_groups"] = v
 		}
 	}
-	// Check if this field is a path param (skip adding to body)
 	if !data.TargetTenant.IsNull() && !data.TargetTenant.IsUnknown() {
 		if v := data.TargetTenant.ValueString(); v != "" {
 			requestBody["target_tenant"] = v

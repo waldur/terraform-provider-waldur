@@ -111,7 +111,6 @@ func (l *StructureCustomerList) Configure(ctx context.Context, req resource.Conf
 }
 
 type StructureCustomerListModel struct {
-	// Add filter fields here if added to schema
 	Abbreviation          types.String `tfsdk:"abbreviation"`
 	AgreementNumber       types.String `tfsdk:"agreement_number"`
 	Archived              types.Bool   `tfsdk:"archived"`

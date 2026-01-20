@@ -119,7 +119,6 @@ func (l *MarketplaceOrderList) Configure(ctx context.Context, req resource.Confi
 }
 
 type MarketplaceOrderListModel struct {
-	// Add filter fields here if added to schema
 	CanApproveAsConsumer types.Bool   `tfsdk:"can_approve_as_consumer"`
 	CanApproveAsProvider types.Bool   `tfsdk:"can_approve_as_provider"`
 	CategoryUuid         types.String `tfsdk:"category_uuid"`

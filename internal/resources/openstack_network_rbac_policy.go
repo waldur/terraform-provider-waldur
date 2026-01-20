@@ -131,24 +131,13 @@ func (r *OpenstackNetworkRbacPolicyResource) Create(ctx context.Context, req res
 
 	// Prepare request body
 	requestBody := map[string]interface{}{}
-	// Check if this field is a path param (skip adding to body)
-	if !data.Network.IsNull() && !data.Network.IsUnknown() {
-		if v := data.Network.ValueString(); v != "" {
-			requestBody["network"] = v
-		}
-	}
-	// Check if this field is a path param (skip adding to body)
+	requestBody["network"] = data.Network.ValueString()
 	if !data.PolicyType.IsNull() && !data.PolicyType.IsUnknown() {
 		if v := data.PolicyType.ValueString(); v != "" {
 			requestBody["policy_type"] = v
 		}
 	}
-	// Check if this field is a path param (skip adding to body)
-	if !data.TargetTenant.IsNull() && !data.TargetTenant.IsUnknown() {
-		if v := data.TargetTenant.ValueString(); v != "" {
-			requestBody["target_tenant"] = v
-		}
-	}
+	requestBody["target_tenant"] = data.TargetTenant.ValueString()
 
 	// Call Waldur API to create resource
 	var result map[string]interface{}

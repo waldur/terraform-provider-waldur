@@ -124,7 +124,6 @@ func (l *OpenstackPortList) Configure(ctx context.Context, req resource.Configur
 }
 
 type OpenstackPortListModel struct {
-	// Add filter fields here if added to schema
 	AdminStateUp       types.Bool   `tfsdk:"admin_state_up"`
 	BackendId          types.String `tfsdk:"backend_id"`
 	DeviceId           types.String `tfsdk:"device_id"`

@@ -191,25 +191,17 @@ func (r *OpenstackServerGroupResource) Create(ctx context.Context, req resource.
 
 	// Prepare request body
 	requestBody := map[string]interface{}{}
-	// Check if this field is a path param (skip adding to body)
 	if !data.Description.IsNull() && !data.Description.IsUnknown() {
 		if v := data.Description.ValueString(); v != "" {
 			requestBody["description"] = v
 		}
 	}
-	// Check if this field is a path param (skip adding to body)
-	if !data.Name.IsNull() && !data.Name.IsUnknown() {
-		if v := data.Name.ValueString(); v != "" {
-			requestBody["name"] = v
-		}
-	}
-	// Check if this field is a path param (skip adding to body)
+	requestBody["name"] = data.Name.ValueString()
 	if !data.Policy.IsNull() && !data.Policy.IsUnknown() {
 		if v := data.Policy.ValueString(); v != "" {
 			requestBody["policy"] = v
 		}
 	}
-	// Check if this field is a path param (skip adding to body)
 
 	// Call Waldur API to create resource
 	var result map[string]interface{}

@@ -152,7 +152,6 @@ func (l *OpenstackInstanceList) Configure(ctx context.Context, req resource.Conf
 }
 
 type OpenstackInstanceListModel struct {
-	// Add filter fields here if added to schema
 	AttachVolumeUuid     types.String `tfsdk:"attach_volume_uuid"`
 	AvailabilityZoneName types.String `tfsdk:"availability_zone_name"`
 	BackendId            types.String `tfsdk:"backend_id"`

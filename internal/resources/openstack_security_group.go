@@ -210,25 +210,15 @@ func (r *OpenstackSecurityGroupResource) Create(ctx context.Context, req resourc
 
 	// Prepare request body
 	requestBody := map[string]interface{}{}
-	// Check if this field is a path param (skip adding to body)
 	if !data.Description.IsNull() && !data.Description.IsUnknown() {
 		if v := data.Description.ValueString(); v != "" {
 			requestBody["description"] = v
 		}
 	}
-	// Check if this field is a path param (skip adding to body)
-	if !data.Name.IsNull() && !data.Name.IsUnknown() {
-		if v := data.Name.ValueString(); v != "" {
-			requestBody["name"] = v
-		}
+	requestBody["name"] = data.Name.ValueString()
+	if v := ConvertTFValue(data.Rules); v != nil {
+		requestBody["rules"] = v
 	}
-	// Check if this field is a path param (skip adding to body)
-	if !data.Rules.IsNull() && !data.Rules.IsUnknown() {
-		if v := ConvertTFValue(data.Rules); v != nil {
-			requestBody["rules"] = v
-		}
-	}
-	// Check if this field is a path param (skip adding to body)
 
 	// Call Waldur API to create resource
 	var result map[string]interface{}

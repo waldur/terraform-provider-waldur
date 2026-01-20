@@ -2,9 +2,11 @@ package resources
 
 import (
 	"context"
+	"fmt"
 	"strings"
 
 	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
+	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -34,6 +36,7 @@ type MarketplaceOrderResourceModel struct {
 	AcceptingTermsOfService    types.Bool     `tfsdk:"accepting_terms_of_service"`
 	ActivationPrice            types.Float64  `tfsdk:"activation_price"`
 	Attachment                 types.String   `tfsdk:"attachment"`
+	Attributes                 types.Map      `tfsdk:"attributes"`
 	BackendId                  types.String   `tfsdk:"backend_id"`
 	CallbackUrl                types.String   `tfsdk:"callback_url"`
 	CanTerminate               types.Bool     `tfsdk:"can_terminate"`
@@ -127,6 +130,11 @@ func (r *MarketplaceOrderResource) Schema(ctx context.Context, req resource.Sche
 				Optional:            true,
 				Computed:            true,
 				MarkdownDescription: " ",
+			},
+			"attributes": schema.MapAttribute{
+				ElementType:         types.StringType,
+				Required:            true,
+				MarkdownDescription: "Order attributes",
 			},
 			"backend_id": schema.StringAttribute{
 				Optional:            true,
@@ -423,47 +431,34 @@ func (r *MarketplaceOrderResource) Create(ctx context.Context, req resource.Crea
 
 	// Prepare request body
 	requestBody := map[string]interface{}{}
-	// Check if this field is a path param (skip adding to body)
 	if !data.AcceptingTermsOfService.IsNull() && !data.AcceptingTermsOfService.IsUnknown() {
 		requestBody["accepting_terms_of_service"] = data.AcceptingTermsOfService.ValueBool()
 	}
-	// Check if this field is a path param (skip adding to body)
+	if v := ConvertTFValue(data.Attributes); v != nil {
+		requestBody["attributes"] = v
+	}
 	if !data.CallbackUrl.IsNull() && !data.CallbackUrl.IsUnknown() {
 		if v := data.CallbackUrl.ValueString(); v != "" {
 			requestBody["callback_url"] = v
 		}
 	}
-	// Check if this field is a path param (skip adding to body)
-	if !data.Offering.IsNull() && !data.Offering.IsUnknown() {
-		if v := data.Offering.ValueString(); v != "" {
-			requestBody["offering"] = v
-		}
-	}
-	// Check if this field is a path param (skip adding to body)
+	requestBody["offering"] = data.Offering.ValueString()
 	if !data.Plan.IsNull() && !data.Plan.IsUnknown() {
 		if v := data.Plan.ValueString(); v != "" {
 			requestBody["plan"] = v
 		}
 	}
-	// Check if this field is a path param (skip adding to body)
-	if !data.Project.IsNull() && !data.Project.IsUnknown() {
-		if v := data.Project.ValueString(); v != "" {
-			requestBody["project"] = v
-		}
-	}
-	// Check if this field is a path param (skip adding to body)
+	requestBody["project"] = data.Project.ValueString()
 	if !data.RequestComment.IsNull() && !data.RequestComment.IsUnknown() {
 		if v := data.RequestComment.ValueString(); v != "" {
 			requestBody["request_comment"] = v
 		}
 	}
-	// Check if this field is a path param (skip adding to body)
 	if !data.StartDate.IsNull() && !data.StartDate.IsUnknown() {
 		if v := data.StartDate.ValueString(); v != "" {
 			requestBody["start_date"] = v
 		}
 	}
-	// Check if this field is a path param (skip adding to body)
 	if !data.Type.IsNull() && !data.Type.IsUnknown() {
 		if v := data.Type.ValueString(); v != "" {
 			requestBody["type"] = v
@@ -513,6 +508,28 @@ func (r *MarketplaceOrderResource) Create(ctx context.Context, req resource.Crea
 	} else {
 		if data.Attachment.IsUnknown() {
 			data.Attachment = types.StringNull()
+		}
+	}
+	if val, ok := sourceMap["attributes"]; ok && val != nil {
+		// Map of strings
+		if val, ok := sourceMap["attributes"]; ok && val != nil {
+			if objMap, ok := val.(map[string]interface{}); ok {
+				items := make(map[string]attr.Value)
+				for k, v := range objMap {
+					if str, ok := v.(string); ok {
+						items[k] = types.StringValue(str)
+					} else if num, ok := v.(float64); ok {
+						items[k] = types.StringValue(fmt.Sprintf("%v", num))
+					} else if b, ok := v.(bool); ok {
+						items[k] = types.StringValue(fmt.Sprintf("%v", b))
+					}
+				}
+				data.Attributes, _ = types.MapValue(types.StringType, items)
+			}
+		}
+	} else {
+		if data.Attributes.IsUnknown() {
+			data.Attributes = types.MapNull(types.StringType)
 		}
 	}
 	if val, ok := sourceMap["backend_id"]; ok && val != nil {
@@ -1137,6 +1154,28 @@ func (r *MarketplaceOrderResource) Read(ctx context.Context, req resource.ReadRe
 	} else {
 		if data.Attachment.IsUnknown() {
 			data.Attachment = types.StringNull()
+		}
+	}
+	if val, ok := sourceMap["attributes"]; ok && val != nil {
+		// Map of strings
+		if val, ok := sourceMap["attributes"]; ok && val != nil {
+			if objMap, ok := val.(map[string]interface{}); ok {
+				items := make(map[string]attr.Value)
+				for k, v := range objMap {
+					if str, ok := v.(string); ok {
+						items[k] = types.StringValue(str)
+					} else if num, ok := v.(float64); ok {
+						items[k] = types.StringValue(fmt.Sprintf("%v", num))
+					} else if b, ok := v.(bool); ok {
+						items[k] = types.StringValue(fmt.Sprintf("%v", b))
+					}
+				}
+				data.Attributes, _ = types.MapValue(types.StringType, items)
+			}
+		}
+	} else {
+		if data.Attributes.IsUnknown() {
+			data.Attributes = types.MapNull(types.StringType)
 		}
 	}
 	if val, ok := sourceMap["backend_id"]; ok && val != nil {

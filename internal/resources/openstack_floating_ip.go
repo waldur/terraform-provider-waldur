@@ -219,7 +219,6 @@ func (r *OpenstackFloatingIpResource) Create(ctx context.Context, req resource.C
 
 	// Prepare request body
 	requestBody := map[string]interface{}{}
-	// Check if this field is a path param (skip adding to body)
 
 	// Call Waldur API to create resource
 	var result map[string]interface{}

@@ -34,6 +34,14 @@ func ConvertTFValue(v attr.Value) interface{} {
 			}
 		}
 		return obj
+	case types.Map:
+		obj := make(map[string]interface{})
+		for k, attr := range val.Elements() {
+			if converted := ConvertTFValue(attr); converted != nil {
+				obj[k] = converted
+			}
+		}
+		return obj
 	}
 	return nil
 }

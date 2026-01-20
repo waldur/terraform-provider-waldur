@@ -392,7 +392,7 @@ func (r *OpenstackVolumeResource) Create(ctx context.Context, req resource.Creat
 
 	payload := map[string]interface{}{
 		"project":    data.Project.ValueString(),
-		"offering":   data.Offering.ValueString(), // Assuming offering is passed as URL or UUID handled by API
+		"offering":   data.Offering.ValueString(),
 		"attributes": attributes,
 	}
 

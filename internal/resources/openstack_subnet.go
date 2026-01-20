@@ -242,53 +242,40 @@ func (r *OpenstackSubnetResource) Create(ctx context.Context, req resource.Creat
 
 	// Prepare request body
 	requestBody := map[string]interface{}{}
-	// Check if this field is a path param (skip adding to body)
 	if !data.AllocationPools.IsNull() && !data.AllocationPools.IsUnknown() {
 		if v := ConvertTFValue(data.AllocationPools); v != nil {
 			requestBody["allocation_pools"] = v
 		}
 	}
-	// Check if this field is a path param (skip adding to body)
 	if !data.Cidr.IsNull() && !data.Cidr.IsUnknown() {
 		if v := data.Cidr.ValueString(); v != "" {
 			requestBody["cidr"] = v
 		}
 	}
-	// Check if this field is a path param (skip adding to body)
 	if !data.Description.IsNull() && !data.Description.IsUnknown() {
 		if v := data.Description.ValueString(); v != "" {
 			requestBody["description"] = v
 		}
 	}
-	// Check if this field is a path param (skip adding to body)
 	if !data.DisableGateway.IsNull() && !data.DisableGateway.IsUnknown() {
 		requestBody["disable_gateway"] = data.DisableGateway.ValueBool()
 	}
-	// Check if this field is a path param (skip adding to body)
 	if !data.DnsNameservers.IsNull() && !data.DnsNameservers.IsUnknown() {
 		if v := ConvertTFValue(data.DnsNameservers); v != nil {
 			requestBody["dns_nameservers"] = v
 		}
 	}
-	// Check if this field is a path param (skip adding to body)
 	if !data.GatewayIp.IsNull() && !data.GatewayIp.IsUnknown() {
 		if v := data.GatewayIp.ValueString(); v != "" {
 			requestBody["gateway_ip"] = v
 		}
 	}
-	// Check if this field is a path param (skip adding to body)
 	if !data.HostRoutes.IsNull() && !data.HostRoutes.IsUnknown() {
 		if v := ConvertTFValue(data.HostRoutes); v != nil {
 			requestBody["host_routes"] = v
 		}
 	}
-	// Check if this field is a path param (skip adding to body)
-	if !data.Name.IsNull() && !data.Name.IsUnknown() {
-		if v := data.Name.ValueString(); v != "" {
-			requestBody["name"] = v
-		}
-	}
-	// Check if this field is a path param (skip adding to body)
+	requestBody["name"] = data.Name.ValueString()
 
 	// Call Waldur API to create resource
 	var result map[string]interface{}

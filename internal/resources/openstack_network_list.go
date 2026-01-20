@@ -151,7 +151,6 @@ func (l *OpenstackNetworkList) Configure(ctx context.Context, req resource.Confi
 }
 
 type OpenstackNetworkListModel struct {
-	// Add filter fields here if added to schema
 	BackendId            types.String `tfsdk:"backend_id"`
 	CanManage            types.Bool   `tfsdk:"can_manage"`
 	Customer             types.String `tfsdk:"customer"`

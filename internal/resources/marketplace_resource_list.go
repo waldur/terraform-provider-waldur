@@ -188,7 +188,6 @@ func (l *MarketplaceResourceList) Configure(ctx context.Context, req resource.Co
 }
 
 type MarketplaceResourceListModel struct {
-	// Add filter fields here if added to schema
 	BackendId            types.String  `tfsdk:"backend_id"`
 	CategoryUuid         types.String  `tfsdk:"category_uuid"`
 	ComponentCount       types.Float64 `tfsdk:"component_count"`

@@ -86,7 +86,6 @@ func (l *OpenstackNetworkRbacPolicyList) Configure(ctx context.Context, req reso
 }
 
 type OpenstackNetworkRbacPolicyListModel struct {
-	// Add filter fields here if added to schema
 	Network          types.String `tfsdk:"network"`
 	NetworkUuid      types.String `tfsdk:"network_uuid"`
 	Page             types.Int64  `tfsdk:"page"`

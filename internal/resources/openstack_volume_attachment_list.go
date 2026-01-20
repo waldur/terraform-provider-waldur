@@ -162,7 +162,6 @@ func (l *OpenstackVolumeAttachmentList) Configure(ctx context.Context, req resou
 }
 
 type OpenstackVolumeAttachmentListModel struct {
-	// Add filter fields here if added to schema
 	AttachInstanceUuid   types.String `tfsdk:"attach_instance_uuid"`
 	AvailabilityZoneName types.String `tfsdk:"availability_zone_name"`
 	BackendId            types.String `tfsdk:"backend_id"`

@@ -171,7 +171,6 @@ func (l *MarketplaceOfferingList) Configure(ctx context.Context, req resource.Co
 }
 
 type MarketplaceOfferingListModel struct {
-	// Add filter fields here if added to schema
 	AccessibleViaCalls      types.Bool   `tfsdk:"accessible_via_calls"`
 	AllowedCustomerUuid     types.String `tfsdk:"allowed_customer_uuid"`
 	Attributes              types.String `tfsdk:"attributes"`

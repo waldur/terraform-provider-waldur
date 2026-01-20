@@ -840,149 +840,111 @@ func (r *MarketplaceOfferingResource) Create(ctx context.Context, req resource.C
 
 	// Prepare request body
 	requestBody := map[string]interface{}{}
-	// Check if this field is a path param (skip adding to body)
 	if !data.AccessUrl.IsNull() && !data.AccessUrl.IsUnknown() {
 		if v := data.AccessUrl.ValueString(); v != "" {
 			requestBody["access_url"] = v
 		}
 	}
-	// Check if this field is a path param (skip adding to body)
 	if !data.BackendId.IsNull() && !data.BackendId.IsUnknown() {
 		if v := data.BackendId.ValueString(); v != "" {
 			requestBody["backend_id"] = v
 		}
 	}
-	// Check if this field is a path param (skip adding to body)
 	if !data.Billable.IsNull() && !data.Billable.IsUnknown() {
 		requestBody["billable"] = data.Billable.ValueBool()
 	}
-	// Check if this field is a path param (skip adding to body)
-	if !data.Category.IsNull() && !data.Category.IsUnknown() {
-		if v := data.Category.ValueString(); v != "" {
-			requestBody["category"] = v
-		}
-	}
-	// Check if this field is a path param (skip adding to body)
+	requestBody["category"] = data.Category.ValueString()
 	if !data.ComplianceChecklist.IsNull() && !data.ComplianceChecklist.IsUnknown() {
 		if v := data.ComplianceChecklist.ValueString(); v != "" {
 			requestBody["compliance_checklist"] = v
 		}
 	}
-	// Check if this field is a path param (skip adding to body)
 	if !data.Components.IsNull() && !data.Components.IsUnknown() {
 		if v := ConvertTFValue(data.Components); v != nil {
 			requestBody["components"] = v
 		}
 	}
-	// Check if this field is a path param (skip adding to body)
 	if !data.Country.IsNull() && !data.Country.IsUnknown() {
 		if v := data.Country.ValueString(); v != "" {
 			requestBody["country"] = v
 		}
 	}
-	// Check if this field is a path param (skip adding to body)
 	if !data.Customer.IsNull() && !data.Customer.IsUnknown() {
 		if v := data.Customer.ValueString(); v != "" {
 			requestBody["customer"] = v
 		}
 	}
-	// Check if this field is a path param (skip adding to body)
 	if !data.DataciteDoi.IsNull() && !data.DataciteDoi.IsUnknown() {
 		if v := data.DataciteDoi.ValueString(); v != "" {
 			requestBody["datacite_doi"] = v
 		}
 	}
-	// Check if this field is a path param (skip adding to body)
 	if !data.Description.IsNull() && !data.Description.IsUnknown() {
 		if v := data.Description.ValueString(); v != "" {
 			requestBody["description"] = v
 		}
 	}
-	// Check if this field is a path param (skip adding to body)
 	if !data.FullDescription.IsNull() && !data.FullDescription.IsUnknown() {
 		if v := data.FullDescription.ValueString(); v != "" {
 			requestBody["full_description"] = v
 		}
 	}
-	// Check if this field is a path param (skip adding to body)
 	if !data.GettingStarted.IsNull() && !data.GettingStarted.IsUnknown() {
 		if v := data.GettingStarted.ValueString(); v != "" {
 			requestBody["getting_started"] = v
 		}
 	}
-	// Check if this field is a path param (skip adding to body)
 	if !data.Image.IsNull() && !data.Image.IsUnknown() {
 		if v := data.Image.ValueString(); v != "" {
 			requestBody["image"] = v
 		}
 	}
-	// Check if this field is a path param (skip adding to body)
 	if !data.IntegrationGuide.IsNull() && !data.IntegrationGuide.IsUnknown() {
 		if v := data.IntegrationGuide.ValueString(); v != "" {
 			requestBody["integration_guide"] = v
 		}
 	}
-	// Check if this field is a path param (skip adding to body)
 	if !data.Latitude.IsNull() && !data.Latitude.IsUnknown() {
 		requestBody["latitude"] = data.Latitude.ValueFloat64()
 	}
-	// Check if this field is a path param (skip adding to body)
 	if !data.Longitude.IsNull() && !data.Longitude.IsUnknown() {
 		requestBody["longitude"] = data.Longitude.ValueFloat64()
 	}
-	// Check if this field is a path param (skip adding to body)
-	if !data.Name.IsNull() && !data.Name.IsUnknown() {
-		if v := data.Name.ValueString(); v != "" {
-			requestBody["name"] = v
-		}
-	}
-	// Check if this field is a path param (skip adding to body)
+	requestBody["name"] = data.Name.ValueString()
 	if !data.Options.IsNull() && !data.Options.IsUnknown() {
 		if v := ConvertTFValue(data.Options); v != nil {
 			requestBody["options"] = v
 		}
 	}
-	// Check if this field is a path param (skip adding to body)
 	if !data.Plans.IsNull() && !data.Plans.IsUnknown() {
 		if v := ConvertTFValue(data.Plans); v != nil {
 			requestBody["plans"] = v
 		}
 	}
-	// Check if this field is a path param (skip adding to body)
 	if !data.PrivacyPolicyLink.IsNull() && !data.PrivacyPolicyLink.IsUnknown() {
 		if v := data.PrivacyPolicyLink.ValueString(); v != "" {
 			requestBody["privacy_policy_link"] = v
 		}
 	}
-	// Check if this field is a path param (skip adding to body)
 	if !data.ResourceOptions.IsNull() && !data.ResourceOptions.IsUnknown() {
 		if v := ConvertTFValue(data.ResourceOptions); v != nil {
 			requestBody["resource_options"] = v
 		}
 	}
-	// Check if this field is a path param (skip adding to body)
 	if !data.Shared.IsNull() && !data.Shared.IsUnknown() {
 		requestBody["shared"] = data.Shared.ValueBool()
 	}
-	// Check if this field is a path param (skip adding to body)
 	if !data.Slug.IsNull() && !data.Slug.IsUnknown() {
 		if v := data.Slug.ValueString(); v != "" {
 			requestBody["slug"] = v
 		}
 	}
-	// Check if this field is a path param (skip adding to body)
 	if !data.Thumbnail.IsNull() && !data.Thumbnail.IsUnknown() {
 		if v := data.Thumbnail.ValueString(); v != "" {
 			requestBody["thumbnail"] = v
 		}
 	}
-	// Check if this field is a path param (skip adding to body)
-	if !data.Type.IsNull() && !data.Type.IsUnknown() {
-		if v := data.Type.ValueString(); v != "" {
-			requestBody["type"] = v
-		}
-	}
-	// Check if this field is a path param (skip adding to body)
+	requestBody["type"] = data.Type.ValueString()
 	if !data.VendorDetails.IsNull() && !data.VendorDetails.IsUnknown() {
 		if v := data.VendorDetails.ValueString(); v != "" {
 			requestBody["vendor_details"] = v
