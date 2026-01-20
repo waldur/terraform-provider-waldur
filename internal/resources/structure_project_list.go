@@ -27,8 +27,80 @@ func (l *StructureProjectList) Metadata(ctx context.Context, req resource.Metada
 
 func (l *StructureProjectList) ListResourceConfigSchema(ctx context.Context, req list.ListResourceSchemaRequest, resp *list.ListResourceSchemaResponse) {
 	resp.Schema = schema.Schema{
-		// Filter parameters can be added here if needed
-		Attributes: map[string]schema.Attribute{},
+		Attributes: map[string]schema.Attribute{
+			"backend_id": schema.StringAttribute{
+				Description: "",
+				Optional:    true,
+			},
+			"can_admin": schema.BoolAttribute{
+				Description: "Return a list of projects where current user is admin.",
+				Optional:    true,
+			},
+			"can_manage": schema.BoolAttribute{
+				Description: "Return a list of projects where current user is manager or a customer owner.",
+				Optional:    true,
+			},
+			"conceal_finished_projects": schema.BoolAttribute{
+				Description: "Conceal finished projects",
+				Optional:    true,
+			},
+			"created": schema.StringAttribute{
+				Description: "Created after",
+				Optional:    true,
+			},
+			"customer_abbreviation": schema.StringAttribute{
+				Description: "",
+				Optional:    true,
+			},
+			"customer_name": schema.StringAttribute{
+				Description: "",
+				Optional:    true,
+			},
+			"customer_native_name": schema.StringAttribute{
+				Description: "",
+				Optional:    true,
+			},
+			"description": schema.StringAttribute{
+				Description: "",
+				Optional:    true,
+			},
+			"include_terminated": schema.BoolAttribute{
+				Description: "Include soft-deleted (terminated) projects. Only available to staff and support users, or users with organizational roles who can see their terminated projects.",
+				Optional:    true,
+			},
+			"is_removed": schema.BoolAttribute{
+				Description: "",
+				Optional:    true,
+			},
+			"modified": schema.StringAttribute{
+				Description: "Modified after",
+				Optional:    true,
+			},
+			"name": schema.StringAttribute{
+				Description: "",
+				Optional:    true,
+			},
+			"name_exact": schema.StringAttribute{
+				Description: "",
+				Optional:    true,
+			},
+			"page": schema.Int64Attribute{
+				Description: "A page number within the paginated result set.",
+				Optional:    true,
+			},
+			"page_size": schema.Int64Attribute{
+				Description: "Number of results to return per page.",
+				Optional:    true,
+			},
+			"query": schema.StringAttribute{
+				Description: "Filter by name, slug, UUID, backend ID or resource effective ID",
+				Optional:    true,
+			},
+			"slug": schema.StringAttribute{
+				Description: "",
+				Optional:    true,
+			},
+		},
 	}
 }
 
@@ -51,6 +123,24 @@ func (l *StructureProjectList) Configure(ctx context.Context, req resource.Confi
 
 type StructureProjectListModel struct {
 	// Add filter fields here if added to schema
+	BackendId               types.String `tfsdk:"backend_id"`
+	CanAdmin                types.Bool   `tfsdk:"can_admin"`
+	CanManage               types.Bool   `tfsdk:"can_manage"`
+	ConcealFinishedProjects types.Bool   `tfsdk:"conceal_finished_projects"`
+	Created                 types.String `tfsdk:"created"`
+	CustomerAbbreviation    types.String `tfsdk:"customer_abbreviation"`
+	CustomerName            types.String `tfsdk:"customer_name"`
+	CustomerNativeName      types.String `tfsdk:"customer_native_name"`
+	Description             types.String `tfsdk:"description"`
+	IncludeTerminated       types.Bool   `tfsdk:"include_terminated"`
+	IsRemoved               types.Bool   `tfsdk:"is_removed"`
+	Modified                types.String `tfsdk:"modified"`
+	Name                    types.String `tfsdk:"name"`
+	NameExact               types.String `tfsdk:"name_exact"`
+	Page                    types.Int64  `tfsdk:"page"`
+	PageSize                types.Int64  `tfsdk:"page_size"`
+	Query                   types.String `tfsdk:"query"`
+	Slug                    types.String `tfsdk:"slug"`
 }
 
 func (l *StructureProjectList) List(ctx context.Context, req list.ListRequest, stream *list.ListResultsStream) {
@@ -63,9 +153,66 @@ func (l *StructureProjectList) List(ctx context.Context, req list.ListRequest, s
 		return
 	}
 
+	// Prepare filters
+	filters := make(map[string]string)
+	if !config.BackendId.IsNull() && !config.BackendId.IsUnknown() {
+		filters["backend_id"] = config.BackendId.ValueString()
+	}
+	if !config.CanAdmin.IsNull() && !config.CanAdmin.IsUnknown() {
+		filters["can_admin"] = fmt.Sprintf("%t", config.CanAdmin.ValueBool())
+	}
+	if !config.CanManage.IsNull() && !config.CanManage.IsUnknown() {
+		filters["can_manage"] = fmt.Sprintf("%t", config.CanManage.ValueBool())
+	}
+	if !config.ConcealFinishedProjects.IsNull() && !config.ConcealFinishedProjects.IsUnknown() {
+		filters["conceal_finished_projects"] = fmt.Sprintf("%t", config.ConcealFinishedProjects.ValueBool())
+	}
+	if !config.Created.IsNull() && !config.Created.IsUnknown() {
+		filters["created"] = config.Created.ValueString()
+	}
+	if !config.CustomerAbbreviation.IsNull() && !config.CustomerAbbreviation.IsUnknown() {
+		filters["customer_abbreviation"] = config.CustomerAbbreviation.ValueString()
+	}
+	if !config.CustomerName.IsNull() && !config.CustomerName.IsUnknown() {
+		filters["customer_name"] = config.CustomerName.ValueString()
+	}
+	if !config.CustomerNativeName.IsNull() && !config.CustomerNativeName.IsUnknown() {
+		filters["customer_native_name"] = config.CustomerNativeName.ValueString()
+	}
+	if !config.Description.IsNull() && !config.Description.IsUnknown() {
+		filters["description"] = config.Description.ValueString()
+	}
+	if !config.IncludeTerminated.IsNull() && !config.IncludeTerminated.IsUnknown() {
+		filters["include_terminated"] = fmt.Sprintf("%t", config.IncludeTerminated.ValueBool())
+	}
+	if !config.IsRemoved.IsNull() && !config.IsRemoved.IsUnknown() {
+		filters["is_removed"] = fmt.Sprintf("%t", config.IsRemoved.ValueBool())
+	}
+	if !config.Modified.IsNull() && !config.Modified.IsUnknown() {
+		filters["modified"] = config.Modified.ValueString()
+	}
+	if !config.Name.IsNull() && !config.Name.IsUnknown() {
+		filters["name"] = config.Name.ValueString()
+	}
+	if !config.NameExact.IsNull() && !config.NameExact.IsUnknown() {
+		filters["name_exact"] = config.NameExact.ValueString()
+	}
+	if !config.Page.IsNull() && !config.Page.IsUnknown() {
+		filters["page"] = fmt.Sprintf("%d", config.Page.ValueInt64())
+	}
+	if !config.PageSize.IsNull() && !config.PageSize.IsUnknown() {
+		filters["page_size"] = fmt.Sprintf("%d", config.PageSize.ValueInt64())
+	}
+	if !config.Query.IsNull() && !config.Query.IsUnknown() {
+		filters["query"] = config.Query.ValueString()
+	}
+	if !config.Slug.IsNull() && !config.Slug.IsUnknown() {
+		filters["slug"] = config.Slug.ValueString()
+	}
+
 	// Call API
 	var listResult []map[string]interface{}
-	err := l.client.List(ctx, "/api/projects/", &listResult)
+	err := l.client.ListWithFilter(ctx, "/api/projects/", filters, &listResult)
 	if err != nil {
 		// Return error diagnostics
 		resp.AddError("Failed to list resources", err.Error())
@@ -315,6 +462,42 @@ func (l *StructureProjectList) List(ctx context.Context, req list.ListRequest, s
 			}
 
 			// Map filter parameters from response if available
+			if val, ok := sourceMap["backend_id"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["can_admin"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["can_manage"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["conceal_finished_projects"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["created"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["customer_abbreviation"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["customer_name"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["customer_native_name"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["description"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["include_terminated"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["is_removed"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["modified"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["name"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["name_exact"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["page"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["page_size"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["query"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["slug"]; ok && val != nil {
+			}
 
 			// Set the resource state
 			// For ListResource, we generally return the "Resource" state matching the main resource schema.

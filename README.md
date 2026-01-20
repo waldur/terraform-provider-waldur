@@ -25,15 +25,16 @@ terraform {
 
 ```hcl
 provider "waldur" {
-  endpoint = "https://your-waldur-instance.com/api/"
-  token    = "your-api-token"
+  # Endpoint and token are optional if environment variables are set
+  # endpoint = "https://your-waldur-instance.com/api/"
+  # token    = "your-api-token"
 }
 ```
 
-| Argument | Description | Required |
-|----------|-------------|----------|
-| `endpoint` | The Waldur API endpoint URL | Yes |
-| `token` | API authentication token | Yes |
+| Argument | Description | Required | Default |
+|----------|-------------|----------|---------|
+| `endpoint` | The Waldur API endpoint URL | No | `WALDUR_API_URL` env var |
+| `token` | API authentication token | No | `WALDUR_ACCESS_TOKEN` env var |
 
 ## Resources
 

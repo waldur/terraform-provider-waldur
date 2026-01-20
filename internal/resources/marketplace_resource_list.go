@@ -29,8 +29,144 @@ func (l *MarketplaceResourceList) Metadata(ctx context.Context, req resource.Met
 
 func (l *MarketplaceResourceList) ListResourceConfigSchema(ctx context.Context, req list.ListResourceSchemaRequest, resp *list.ListResourceSchemaResponse) {
 	resp.Schema = schema.Schema{
-		// Filter parameters can be added here if needed
-		Attributes: map[string]schema.Attribute{},
+		Attributes: map[string]schema.Attribute{
+			"backend_id": schema.StringAttribute{
+				Description: "Backend ID",
+				Optional:    true,
+			},
+			"category_uuid": schema.StringAttribute{
+				Description: "",
+				Optional:    true,
+			},
+			"component_count": schema.Float64Attribute{
+				Description: "Filter by exact number of components",
+				Optional:    true,
+			},
+			"created": schema.StringAttribute{
+				Description: "Created after",
+				Optional:    true,
+			},
+			"customer": schema.StringAttribute{
+				Description: "",
+				Optional:    true,
+			},
+			"customer_uuid": schema.StringAttribute{
+				Description: "",
+				Optional:    true,
+			},
+			"downscaled": schema.BoolAttribute{
+				Description: "",
+				Optional:    true,
+			},
+			"has_terminate_date": schema.BoolAttribute{
+				Description: "Has termination date",
+				Optional:    true,
+			},
+			"lexis_links_supported": schema.BoolAttribute{
+				Description: "LEXIS links supported",
+				Optional:    true,
+			},
+			"limit_based": schema.BoolAttribute{
+				Description: "Filter by limit-based offerings",
+				Optional:    true,
+			},
+			"limit_component_count": schema.Float64Attribute{
+				Description: "Filter by exact number of limit-based components",
+				Optional:    true,
+			},
+			"modified": schema.StringAttribute{
+				Description: "Modified after",
+				Optional:    true,
+			},
+			"name": schema.StringAttribute{
+				Description: "",
+				Optional:    true,
+			},
+			"name_exact": schema.StringAttribute{
+				Description: "",
+				Optional:    true,
+			},
+			"offering": schema.StringAttribute{
+				Description: "",
+				Optional:    true,
+			},
+			"offering_billable": schema.BoolAttribute{
+				Description: "",
+				Optional:    true,
+			},
+			"offering_shared": schema.BoolAttribute{
+				Description: "Offering shared",
+				Optional:    true,
+			},
+			"offering_type": schema.StringAttribute{
+				Description: "",
+				Optional:    true,
+			},
+			"only_limit_based": schema.BoolAttribute{
+				Description: "Filter resources with only limit-based components",
+				Optional:    true,
+			},
+			"only_usage_based": schema.BoolAttribute{
+				Description: "Filter resources with only usage-based components",
+				Optional:    true,
+			},
+			"page": schema.Int64Attribute{
+				Description: "A page number within the paginated result set.",
+				Optional:    true,
+			},
+			"page_size": schema.Int64Attribute{
+				Description: "Number of results to return per page.",
+				Optional:    true,
+			},
+			"parent_offering_uuid": schema.StringAttribute{
+				Description: "",
+				Optional:    true,
+			},
+			"paused": schema.BoolAttribute{
+				Description: "",
+				Optional:    true,
+			},
+			"plan_uuid": schema.StringAttribute{
+				Description: "",
+				Optional:    true,
+			},
+			"project_name": schema.StringAttribute{
+				Description: "",
+				Optional:    true,
+			},
+			"project_uuid": schema.StringAttribute{
+				Description: "",
+				Optional:    true,
+			},
+			"provider_uuid": schema.StringAttribute{
+				Description: "",
+				Optional:    true,
+			},
+			"query": schema.StringAttribute{
+				Description: "Search by resource UUID, name, slug, backend ID, effective ID, IPs or hypervisor",
+				Optional:    true,
+			},
+			"restrict_member_access": schema.BoolAttribute{
+				Description: "",
+				Optional:    true,
+			},
+			"runtime_state": schema.StringAttribute{
+				Description: "Runtime state",
+				Optional:    true,
+			},
+			"service_manager_uuid": schema.StringAttribute{
+				Description: "Service Manager UUID",
+				Optional:    true,
+			},
+			"usage_based": schema.BoolAttribute{
+				Description: "Filter by usage-based offerings",
+				Optional:    true,
+			},
+			"visible_to_username": schema.StringAttribute{
+				Description: "Visible to username",
+				Optional:    true,
+			},
+		},
 	}
 }
 
@@ -53,6 +189,40 @@ func (l *MarketplaceResourceList) Configure(ctx context.Context, req resource.Co
 
 type MarketplaceResourceListModel struct {
 	// Add filter fields here if added to schema
+	BackendId            types.String  `tfsdk:"backend_id"`
+	CategoryUuid         types.String  `tfsdk:"category_uuid"`
+	ComponentCount       types.Float64 `tfsdk:"component_count"`
+	Created              types.String  `tfsdk:"created"`
+	Customer             types.String  `tfsdk:"customer"`
+	CustomerUuid         types.String  `tfsdk:"customer_uuid"`
+	Downscaled           types.Bool    `tfsdk:"downscaled"`
+	HasTerminateDate     types.Bool    `tfsdk:"has_terminate_date"`
+	LexisLinksSupported  types.Bool    `tfsdk:"lexis_links_supported"`
+	LimitBased           types.Bool    `tfsdk:"limit_based"`
+	LimitComponentCount  types.Float64 `tfsdk:"limit_component_count"`
+	Modified             types.String  `tfsdk:"modified"`
+	Name                 types.String  `tfsdk:"name"`
+	NameExact            types.String  `tfsdk:"name_exact"`
+	Offering             types.String  `tfsdk:"offering"`
+	OfferingBillable     types.Bool    `tfsdk:"offering_billable"`
+	OfferingShared       types.Bool    `tfsdk:"offering_shared"`
+	OfferingType         types.String  `tfsdk:"offering_type"`
+	OnlyLimitBased       types.Bool    `tfsdk:"only_limit_based"`
+	OnlyUsageBased       types.Bool    `tfsdk:"only_usage_based"`
+	Page                 types.Int64   `tfsdk:"page"`
+	PageSize             types.Int64   `tfsdk:"page_size"`
+	ParentOfferingUuid   types.String  `tfsdk:"parent_offering_uuid"`
+	Paused               types.Bool    `tfsdk:"paused"`
+	PlanUuid             types.String  `tfsdk:"plan_uuid"`
+	ProjectName          types.String  `tfsdk:"project_name"`
+	ProjectUuid          types.String  `tfsdk:"project_uuid"`
+	ProviderUuid         types.String  `tfsdk:"provider_uuid"`
+	Query                types.String  `tfsdk:"query"`
+	RestrictMemberAccess types.Bool    `tfsdk:"restrict_member_access"`
+	RuntimeState         types.String  `tfsdk:"runtime_state"`
+	ServiceManagerUuid   types.String  `tfsdk:"service_manager_uuid"`
+	UsageBased           types.Bool    `tfsdk:"usage_based"`
+	VisibleToUsername    types.String  `tfsdk:"visible_to_username"`
 }
 
 func (l *MarketplaceResourceList) List(ctx context.Context, req list.ListRequest, stream *list.ListResultsStream) {
@@ -65,9 +235,114 @@ func (l *MarketplaceResourceList) List(ctx context.Context, req list.ListRequest
 		return
 	}
 
+	// Prepare filters
+	filters := make(map[string]string)
+	if !config.BackendId.IsNull() && !config.BackendId.IsUnknown() {
+		filters["backend_id"] = config.BackendId.ValueString()
+	}
+	if !config.CategoryUuid.IsNull() && !config.CategoryUuid.IsUnknown() {
+		filters["category_uuid"] = config.CategoryUuid.ValueString()
+	}
+	if !config.ComponentCount.IsNull() && !config.ComponentCount.IsUnknown() {
+		filters["component_count"] = fmt.Sprintf("%f", config.ComponentCount.ValueFloat64())
+	}
+	if !config.Created.IsNull() && !config.Created.IsUnknown() {
+		filters["created"] = config.Created.ValueString()
+	}
+	if !config.Customer.IsNull() && !config.Customer.IsUnknown() {
+		filters["customer"] = config.Customer.ValueString()
+	}
+	if !config.CustomerUuid.IsNull() && !config.CustomerUuid.IsUnknown() {
+		filters["customer_uuid"] = config.CustomerUuid.ValueString()
+	}
+	if !config.Downscaled.IsNull() && !config.Downscaled.IsUnknown() {
+		filters["downscaled"] = fmt.Sprintf("%t", config.Downscaled.ValueBool())
+	}
+	if !config.HasTerminateDate.IsNull() && !config.HasTerminateDate.IsUnknown() {
+		filters["has_terminate_date"] = fmt.Sprintf("%t", config.HasTerminateDate.ValueBool())
+	}
+	if !config.LexisLinksSupported.IsNull() && !config.LexisLinksSupported.IsUnknown() {
+		filters["lexis_links_supported"] = fmt.Sprintf("%t", config.LexisLinksSupported.ValueBool())
+	}
+	if !config.LimitBased.IsNull() && !config.LimitBased.IsUnknown() {
+		filters["limit_based"] = fmt.Sprintf("%t", config.LimitBased.ValueBool())
+	}
+	if !config.LimitComponentCount.IsNull() && !config.LimitComponentCount.IsUnknown() {
+		filters["limit_component_count"] = fmt.Sprintf("%f", config.LimitComponentCount.ValueFloat64())
+	}
+	if !config.Modified.IsNull() && !config.Modified.IsUnknown() {
+		filters["modified"] = config.Modified.ValueString()
+	}
+	if !config.Name.IsNull() && !config.Name.IsUnknown() {
+		filters["name"] = config.Name.ValueString()
+	}
+	if !config.NameExact.IsNull() && !config.NameExact.IsUnknown() {
+		filters["name_exact"] = config.NameExact.ValueString()
+	}
+	if !config.Offering.IsNull() && !config.Offering.IsUnknown() {
+		filters["offering"] = config.Offering.ValueString()
+	}
+	if !config.OfferingBillable.IsNull() && !config.OfferingBillable.IsUnknown() {
+		filters["offering_billable"] = fmt.Sprintf("%t", config.OfferingBillable.ValueBool())
+	}
+	if !config.OfferingShared.IsNull() && !config.OfferingShared.IsUnknown() {
+		filters["offering_shared"] = fmt.Sprintf("%t", config.OfferingShared.ValueBool())
+	}
+	if !config.OfferingType.IsNull() && !config.OfferingType.IsUnknown() {
+		filters["offering_type"] = config.OfferingType.ValueString()
+	}
+	if !config.OnlyLimitBased.IsNull() && !config.OnlyLimitBased.IsUnknown() {
+		filters["only_limit_based"] = fmt.Sprintf("%t", config.OnlyLimitBased.ValueBool())
+	}
+	if !config.OnlyUsageBased.IsNull() && !config.OnlyUsageBased.IsUnknown() {
+		filters["only_usage_based"] = fmt.Sprintf("%t", config.OnlyUsageBased.ValueBool())
+	}
+	if !config.Page.IsNull() && !config.Page.IsUnknown() {
+		filters["page"] = fmt.Sprintf("%d", config.Page.ValueInt64())
+	}
+	if !config.PageSize.IsNull() && !config.PageSize.IsUnknown() {
+		filters["page_size"] = fmt.Sprintf("%d", config.PageSize.ValueInt64())
+	}
+	if !config.ParentOfferingUuid.IsNull() && !config.ParentOfferingUuid.IsUnknown() {
+		filters["parent_offering_uuid"] = config.ParentOfferingUuid.ValueString()
+	}
+	if !config.Paused.IsNull() && !config.Paused.IsUnknown() {
+		filters["paused"] = fmt.Sprintf("%t", config.Paused.ValueBool())
+	}
+	if !config.PlanUuid.IsNull() && !config.PlanUuid.IsUnknown() {
+		filters["plan_uuid"] = config.PlanUuid.ValueString()
+	}
+	if !config.ProjectName.IsNull() && !config.ProjectName.IsUnknown() {
+		filters["project_name"] = config.ProjectName.ValueString()
+	}
+	if !config.ProjectUuid.IsNull() && !config.ProjectUuid.IsUnknown() {
+		filters["project_uuid"] = config.ProjectUuid.ValueString()
+	}
+	if !config.ProviderUuid.IsNull() && !config.ProviderUuid.IsUnknown() {
+		filters["provider_uuid"] = config.ProviderUuid.ValueString()
+	}
+	if !config.Query.IsNull() && !config.Query.IsUnknown() {
+		filters["query"] = config.Query.ValueString()
+	}
+	if !config.RestrictMemberAccess.IsNull() && !config.RestrictMemberAccess.IsUnknown() {
+		filters["restrict_member_access"] = fmt.Sprintf("%t", config.RestrictMemberAccess.ValueBool())
+	}
+	if !config.RuntimeState.IsNull() && !config.RuntimeState.IsUnknown() {
+		filters["runtime_state"] = config.RuntimeState.ValueString()
+	}
+	if !config.ServiceManagerUuid.IsNull() && !config.ServiceManagerUuid.IsUnknown() {
+		filters["service_manager_uuid"] = config.ServiceManagerUuid.ValueString()
+	}
+	if !config.UsageBased.IsNull() && !config.UsageBased.IsUnknown() {
+		filters["usage_based"] = fmt.Sprintf("%t", config.UsageBased.ValueBool())
+	}
+	if !config.VisibleToUsername.IsNull() && !config.VisibleToUsername.IsUnknown() {
+		filters["visible_to_username"] = config.VisibleToUsername.ValueString()
+	}
+
 	// Call API
 	var listResult []map[string]interface{}
-	err := l.client.List(ctx, "/api/marketplace-resources/", &listResult)
+	err := l.client.ListWithFilter(ctx, "/api/marketplace-resources/", filters, &listResult)
 	if err != nil {
 		// Return error diagnostics
 		resp.AddError("Failed to list resources", err.Error())
@@ -686,6 +961,74 @@ func (l *MarketplaceResourceList) List(ctx context.Context, req list.ListRequest
 			}
 
 			// Map filter parameters from response if available
+			if val, ok := sourceMap["backend_id"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["category_uuid"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["component_count"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["created"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["customer"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["customer_uuid"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["downscaled"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["has_terminate_date"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["lexis_links_supported"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["limit_based"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["limit_component_count"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["modified"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["name"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["name_exact"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["offering"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["offering_billable"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["offering_shared"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["offering_type"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["only_limit_based"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["only_usage_based"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["page"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["page_size"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["parent_offering_uuid"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["paused"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["plan_uuid"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["project_name"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["project_uuid"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["provider_uuid"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["query"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["restrict_member_access"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["runtime_state"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["service_manager_uuid"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["usage_based"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["visible_to_username"]; ok && val != nil {
+			}
 
 			// Set the resource state
 			// For ListResource, we generally return the "Resource" state matching the main resource schema.

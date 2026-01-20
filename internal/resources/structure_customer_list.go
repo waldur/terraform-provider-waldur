@@ -28,8 +28,68 @@ func (l *StructureCustomerList) Metadata(ctx context.Context, req resource.Metad
 
 func (l *StructureCustomerList) ListResourceConfigSchema(ctx context.Context, req list.ListResourceSchemaRequest, resp *list.ListResourceSchemaResponse) {
 	resp.Schema = schema.Schema{
-		// Filter parameters can be added here if needed
-		Attributes: map[string]schema.Attribute{},
+		Attributes: map[string]schema.Attribute{
+			"abbreviation": schema.StringAttribute{
+				Description: "",
+				Optional:    true,
+			},
+			"agreement_number": schema.StringAttribute{
+				Description: "",
+				Optional:    true,
+			},
+			"archived": schema.BoolAttribute{
+				Description: "",
+				Optional:    true,
+			},
+			"backend_id": schema.StringAttribute{
+				Description: "",
+				Optional:    true,
+			},
+			"contact_details": schema.StringAttribute{
+				Description: "",
+				Optional:    true,
+			},
+			"name": schema.StringAttribute{
+				Description: "",
+				Optional:    true,
+			},
+			"name_exact": schema.StringAttribute{
+				Description: "",
+				Optional:    true,
+			},
+			"native_name": schema.StringAttribute{
+				Description: "",
+				Optional:    true,
+			},
+			"o": schema.StringAttribute{
+				Description: "Which field to use when ordering the results.",
+				Optional:    true,
+			},
+			"organization_group_name": schema.StringAttribute{
+				Description: "",
+				Optional:    true,
+			},
+			"owned_by_current_user": schema.BoolAttribute{
+				Description: "Return a list of customers where current user is owner.",
+				Optional:    true,
+			},
+			"page": schema.Int64Attribute{
+				Description: "A page number within the paginated result set.",
+				Optional:    true,
+			},
+			"page_size": schema.Int64Attribute{
+				Description: "Number of results to return per page.",
+				Optional:    true,
+			},
+			"query": schema.StringAttribute{
+				Description: "Filter by name, native name, abbreviation, domain, UUID, registration code or agreement number",
+				Optional:    true,
+			},
+			"registration_code": schema.StringAttribute{
+				Description: "",
+				Optional:    true,
+			},
+		},
 	}
 }
 
@@ -52,6 +112,21 @@ func (l *StructureCustomerList) Configure(ctx context.Context, req resource.Conf
 
 type StructureCustomerListModel struct {
 	// Add filter fields here if added to schema
+	Abbreviation          types.String `tfsdk:"abbreviation"`
+	AgreementNumber       types.String `tfsdk:"agreement_number"`
+	Archived              types.Bool   `tfsdk:"archived"`
+	BackendId             types.String `tfsdk:"backend_id"`
+	ContactDetails        types.String `tfsdk:"contact_details"`
+	Name                  types.String `tfsdk:"name"`
+	NameExact             types.String `tfsdk:"name_exact"`
+	NativeName            types.String `tfsdk:"native_name"`
+	O                     types.String `tfsdk:"o"`
+	OrganizationGroupName types.String `tfsdk:"organization_group_name"`
+	OwnedByCurrentUser    types.Bool   `tfsdk:"owned_by_current_user"`
+	Page                  types.Int64  `tfsdk:"page"`
+	PageSize              types.Int64  `tfsdk:"page_size"`
+	Query                 types.String `tfsdk:"query"`
+	RegistrationCode      types.String `tfsdk:"registration_code"`
 }
 
 func (l *StructureCustomerList) List(ctx context.Context, req list.ListRequest, stream *list.ListResultsStream) {
@@ -64,9 +139,57 @@ func (l *StructureCustomerList) List(ctx context.Context, req list.ListRequest, 
 		return
 	}
 
+	// Prepare filters
+	filters := make(map[string]string)
+	if !config.Abbreviation.IsNull() && !config.Abbreviation.IsUnknown() {
+		filters["abbreviation"] = config.Abbreviation.ValueString()
+	}
+	if !config.AgreementNumber.IsNull() && !config.AgreementNumber.IsUnknown() {
+		filters["agreement_number"] = config.AgreementNumber.ValueString()
+	}
+	if !config.Archived.IsNull() && !config.Archived.IsUnknown() {
+		filters["archived"] = fmt.Sprintf("%t", config.Archived.ValueBool())
+	}
+	if !config.BackendId.IsNull() && !config.BackendId.IsUnknown() {
+		filters["backend_id"] = config.BackendId.ValueString()
+	}
+	if !config.ContactDetails.IsNull() && !config.ContactDetails.IsUnknown() {
+		filters["contact_details"] = config.ContactDetails.ValueString()
+	}
+	if !config.Name.IsNull() && !config.Name.IsUnknown() {
+		filters["name"] = config.Name.ValueString()
+	}
+	if !config.NameExact.IsNull() && !config.NameExact.IsUnknown() {
+		filters["name_exact"] = config.NameExact.ValueString()
+	}
+	if !config.NativeName.IsNull() && !config.NativeName.IsUnknown() {
+		filters["native_name"] = config.NativeName.ValueString()
+	}
+	if !config.O.IsNull() && !config.O.IsUnknown() {
+		filters["o"] = config.O.ValueString()
+	}
+	if !config.OrganizationGroupName.IsNull() && !config.OrganizationGroupName.IsUnknown() {
+		filters["organization_group_name"] = config.OrganizationGroupName.ValueString()
+	}
+	if !config.OwnedByCurrentUser.IsNull() && !config.OwnedByCurrentUser.IsUnknown() {
+		filters["owned_by_current_user"] = fmt.Sprintf("%t", config.OwnedByCurrentUser.ValueBool())
+	}
+	if !config.Page.IsNull() && !config.Page.IsUnknown() {
+		filters["page"] = fmt.Sprintf("%d", config.Page.ValueInt64())
+	}
+	if !config.PageSize.IsNull() && !config.PageSize.IsUnknown() {
+		filters["page_size"] = fmt.Sprintf("%d", config.PageSize.ValueInt64())
+	}
+	if !config.Query.IsNull() && !config.Query.IsUnknown() {
+		filters["query"] = config.Query.ValueString()
+	}
+	if !config.RegistrationCode.IsNull() && !config.RegistrationCode.IsUnknown() {
+		filters["registration_code"] = config.RegistrationCode.ValueString()
+	}
+
 	// Call API
 	var listResult []map[string]interface{}
-	err := l.client.List(ctx, "/api/customers/", &listResult)
+	err := l.client.ListWithFilter(ctx, "/api/customers/", filters, &listResult)
 	if err != nil {
 		// Return error diagnostics
 		resp.AddError("Failed to list resources", err.Error())
@@ -741,6 +864,36 @@ func (l *StructureCustomerList) List(ctx context.Context, req list.ListRequest, 
 			}
 
 			// Map filter parameters from response if available
+			if val, ok := sourceMap["abbreviation"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["agreement_number"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["archived"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["backend_id"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["contact_details"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["name"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["name_exact"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["native_name"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["o"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["organization_group_name"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["owned_by_current_user"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["page"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["page_size"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["query"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["registration_code"]; ok && val != nil {
+			}
 
 			// Set the resource state
 			// For ListResource, we generally return the "Resource" state matching the main resource schema.

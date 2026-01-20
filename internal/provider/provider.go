@@ -3,6 +3,7 @@ package provider
 import (
 	"context"
 	"net/http"
+	"os"
 
 	"github.com/hashicorp/terraform-plugin-framework/action"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
@@ -46,12 +47,12 @@ func (p *waldurProvider) Schema(ctx context.Context, req provider.SchemaRequest,
 	resp.Schema = schema.Schema{
 		Attributes: map[string]schema.Attribute{
 			"endpoint": schema.StringAttribute{
-				MarkdownDescription: "Waldur API endpoint URL",
-				Required:            true,
+				MarkdownDescription: "Waldur API endpoint URL. Can also be set via the `WALDUR_API_URL` environment variable.",
+				Optional:            true,
 			},
 			"token": schema.StringAttribute{
-				MarkdownDescription: "API authentication token",
-				Required:            true,
+				MarkdownDescription: "API authentication token. Can also be set via the `WALDUR_ACCESS_TOKEN` environment variable.",
+				Optional:            true,
 				Sensitive:           true,
 			},
 		},
@@ -67,10 +68,40 @@ func (p *waldurProvider) Configure(ctx context.Context, req provider.ConfigureRe
 		return
 	}
 
+	endpoint := data.Endpoint.ValueString()
+	if endpoint == "" {
+		endpoint = os.Getenv("WALDUR_API_URL")
+	}
+
+	token := data.Token.ValueString()
+	if token == "" {
+		token = os.Getenv("WALDUR_ACCESS_TOKEN")
+	}
+
+	if endpoint == "" {
+		resp.Diagnostics.AddError(
+			"Missing API Endpoint",
+			"The provider cannot be configured as there is no API endpoint URL. "+
+				"Set the 'endpoint' value in the configuration or use the WALDUR_API_URL environment variable.",
+		)
+	}
+
+	if token == "" {
+		resp.Diagnostics.AddError(
+			"Missing API Token",
+			"The provider cannot be configured as there is no API token. "+
+				"Set the 'token' value in the configuration or use the WALDUR_ACCESS_TOKEN environment variable.",
+		)
+	}
+
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
 	// Create API client
 	apiClient, err := client.NewClient(&client.Config{
-		Endpoint:   data.Endpoint.ValueString(),
-		Token:      data.Token.ValueString(),
+		Endpoint:   endpoint,
+		Token:      token,
 		HTTPClient: p.httpClient, // Pass through custom HTTP client for testing
 	})
 	if err != nil {

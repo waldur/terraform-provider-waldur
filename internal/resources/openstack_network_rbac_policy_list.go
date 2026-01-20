@@ -27,8 +27,44 @@ func (l *OpenstackNetworkRbacPolicyList) Metadata(ctx context.Context, req resou
 
 func (l *OpenstackNetworkRbacPolicyList) ListResourceConfigSchema(ctx context.Context, req list.ListResourceSchemaRequest, resp *list.ListResourceSchemaResponse) {
 	resp.Schema = schema.Schema{
-		// Filter parameters can be added here if needed
-		Attributes: map[string]schema.Attribute{},
+		Attributes: map[string]schema.Attribute{
+			"network": schema.StringAttribute{
+				Description: "",
+				Optional:    true,
+			},
+			"network_uuid": schema.StringAttribute{
+				Description: "",
+				Optional:    true,
+			},
+			"page": schema.Int64Attribute{
+				Description: "A page number within the paginated result set.",
+				Optional:    true,
+			},
+			"page_size": schema.Int64Attribute{
+				Description: "Number of results to return per page.",
+				Optional:    true,
+			},
+			"policy_type": schema.StringAttribute{
+				Description: "Type of access granted - either shared access or external network access",
+				Optional:    true,
+			},
+			"target_tenant": schema.StringAttribute{
+				Description: "",
+				Optional:    true,
+			},
+			"target_tenant_uuid": schema.StringAttribute{
+				Description: "",
+				Optional:    true,
+			},
+			"tenant": schema.StringAttribute{
+				Description: "",
+				Optional:    true,
+			},
+			"tenant_uuid": schema.StringAttribute{
+				Description: "",
+				Optional:    true,
+			},
+		},
 	}
 }
 
@@ -51,6 +87,15 @@ func (l *OpenstackNetworkRbacPolicyList) Configure(ctx context.Context, req reso
 
 type OpenstackNetworkRbacPolicyListModel struct {
 	// Add filter fields here if added to schema
+	Network          types.String `tfsdk:"network"`
+	NetworkUuid      types.String `tfsdk:"network_uuid"`
+	Page             types.Int64  `tfsdk:"page"`
+	PageSize         types.Int64  `tfsdk:"page_size"`
+	PolicyType       types.String `tfsdk:"policy_type"`
+	TargetTenant     types.String `tfsdk:"target_tenant"`
+	TargetTenantUuid types.String `tfsdk:"target_tenant_uuid"`
+	Tenant           types.String `tfsdk:"tenant"`
+	TenantUuid       types.String `tfsdk:"tenant_uuid"`
 }
 
 func (l *OpenstackNetworkRbacPolicyList) List(ctx context.Context, req list.ListRequest, stream *list.ListResultsStream) {
@@ -63,9 +108,39 @@ func (l *OpenstackNetworkRbacPolicyList) List(ctx context.Context, req list.List
 		return
 	}
 
+	// Prepare filters
+	filters := make(map[string]string)
+	if !config.Network.IsNull() && !config.Network.IsUnknown() {
+		filters["network"] = config.Network.ValueString()
+	}
+	if !config.NetworkUuid.IsNull() && !config.NetworkUuid.IsUnknown() {
+		filters["network_uuid"] = config.NetworkUuid.ValueString()
+	}
+	if !config.Page.IsNull() && !config.Page.IsUnknown() {
+		filters["page"] = fmt.Sprintf("%d", config.Page.ValueInt64())
+	}
+	if !config.PageSize.IsNull() && !config.PageSize.IsUnknown() {
+		filters["page_size"] = fmt.Sprintf("%d", config.PageSize.ValueInt64())
+	}
+	if !config.PolicyType.IsNull() && !config.PolicyType.IsUnknown() {
+		filters["policy_type"] = config.PolicyType.ValueString()
+	}
+	if !config.TargetTenant.IsNull() && !config.TargetTenant.IsUnknown() {
+		filters["target_tenant"] = config.TargetTenant.ValueString()
+	}
+	if !config.TargetTenantUuid.IsNull() && !config.TargetTenantUuid.IsUnknown() {
+		filters["target_tenant_uuid"] = config.TargetTenantUuid.ValueString()
+	}
+	if !config.Tenant.IsNull() && !config.Tenant.IsUnknown() {
+		filters["tenant"] = config.Tenant.ValueString()
+	}
+	if !config.TenantUuid.IsNull() && !config.TenantUuid.IsUnknown() {
+		filters["tenant_uuid"] = config.TenantUuid.ValueString()
+	}
+
 	// Call API
 	var listResult []map[string]interface{}
-	err := l.client.List(ctx, "/api/openstack-network-rbac-policies/", &listResult)
+	err := l.client.ListWithFilter(ctx, "/api/openstack-network-rbac-policies/", filters, &listResult)
 	if err != nil {
 		// Return error diagnostics
 		resp.AddError("Failed to list resources", err.Error())
@@ -162,6 +237,24 @@ func (l *OpenstackNetworkRbacPolicyList) List(ctx context.Context, req list.List
 			}
 
 			// Map filter parameters from response if available
+			if val, ok := sourceMap["network"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["network_uuid"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["page"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["page_size"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["policy_type"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["target_tenant"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["target_tenant_uuid"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["tenant"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["tenant_uuid"]; ok && val != nil {
+			}
 
 			// Set the resource state
 			// For ListResource, we generally return the "Resource" state matching the main resource schema.

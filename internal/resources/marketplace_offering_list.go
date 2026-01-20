@@ -28,8 +28,128 @@ func (l *MarketplaceOfferingList) Metadata(ctx context.Context, req resource.Met
 
 func (l *MarketplaceOfferingList) ListResourceConfigSchema(ctx context.Context, req list.ListResourceSchemaRequest, resp *list.ListResourceSchemaResponse) {
 	resp.Schema = schema.Schema{
-		// Filter parameters can be added here if needed
-		Attributes: map[string]schema.Attribute{},
+		Attributes: map[string]schema.Attribute{
+			"accessible_via_calls": schema.BoolAttribute{
+				Description: "Accessible via calls",
+				Optional:    true,
+			},
+			"allowed_customer_uuid": schema.StringAttribute{
+				Description: "Allowed customer UUID",
+				Optional:    true,
+			},
+			"attributes": schema.StringAttribute{
+				Description: "",
+				Optional:    true,
+			},
+			"billable": schema.BoolAttribute{
+				Description: "",
+				Optional:    true,
+			},
+			"can_create_offering_user": schema.BoolAttribute{
+				Description: "",
+				Optional:    true,
+			},
+			"category_group_uuid": schema.StringAttribute{
+				Description: "",
+				Optional:    true,
+			},
+			"category_uuid": schema.StringAttribute{
+				Description: "",
+				Optional:    true,
+			},
+			"created": schema.StringAttribute{
+				Description: "Created after",
+				Optional:    true,
+			},
+			"customer": schema.StringAttribute{
+				Description: "",
+				Optional:    true,
+			},
+			"customer_uuid": schema.StringAttribute{
+				Description: "",
+				Optional:    true,
+			},
+			"description": schema.StringAttribute{
+				Description: "",
+				Optional:    true,
+			},
+			"has_active_terms_of_service": schema.BoolAttribute{
+				Description: "Has Active Terms of Service",
+				Optional:    true,
+			},
+			"has_terms_of_service": schema.BoolAttribute{
+				Description: "Has Terms of Service",
+				Optional:    true,
+			},
+			"keyword": schema.StringAttribute{
+				Description: "Keyword",
+				Optional:    true,
+			},
+			"modified": schema.StringAttribute{
+				Description: "Modified after",
+				Optional:    true,
+			},
+			"name": schema.StringAttribute{
+				Description: "",
+				Optional:    true,
+			},
+			"name_exact": schema.StringAttribute{
+				Description: "",
+				Optional:    true,
+			},
+			"page": schema.Int64Attribute{
+				Description: "A page number within the paginated result set.",
+				Optional:    true,
+			},
+			"page_size": schema.Int64Attribute{
+				Description: "Number of results to return per page.",
+				Optional:    true,
+			},
+			"parent_uuid": schema.StringAttribute{
+				Description: "",
+				Optional:    true,
+			},
+			"project_uuid": schema.StringAttribute{
+				Description: "Project UUID",
+				Optional:    true,
+			},
+			"query": schema.StringAttribute{
+				Description: "Search by offering name, slug or description",
+				Optional:    true,
+			},
+			"resource_customer_uuid": schema.StringAttribute{
+				Description: "Resource customer UUID",
+				Optional:    true,
+			},
+			"resource_project_uuid": schema.StringAttribute{
+				Description: "Resource project UUID",
+				Optional:    true,
+			},
+			"scope_uuid": schema.StringAttribute{
+				Description: "Scope UUID",
+				Optional:    true,
+			},
+			"service_manager_uuid": schema.StringAttribute{
+				Description: "Service manager UUID",
+				Optional:    true,
+			},
+			"shared": schema.BoolAttribute{
+				Description: "",
+				Optional:    true,
+			},
+			"user_has_consent": schema.BoolAttribute{
+				Description: "User Has Consent",
+				Optional:    true,
+			},
+			"user_has_offering_user": schema.BoolAttribute{
+				Description: "User Has Offering User",
+				Optional:    true,
+			},
+			"uuid_list": schema.StringAttribute{
+				Description: "Comma-separated offering UUIDs",
+				Optional:    true,
+			},
+		},
 	}
 }
 
@@ -52,6 +172,36 @@ func (l *MarketplaceOfferingList) Configure(ctx context.Context, req resource.Co
 
 type MarketplaceOfferingListModel struct {
 	// Add filter fields here if added to schema
+	AccessibleViaCalls      types.Bool   `tfsdk:"accessible_via_calls"`
+	AllowedCustomerUuid     types.String `tfsdk:"allowed_customer_uuid"`
+	Attributes              types.String `tfsdk:"attributes"`
+	Billable                types.Bool   `tfsdk:"billable"`
+	CanCreateOfferingUser   types.Bool   `tfsdk:"can_create_offering_user"`
+	CategoryGroupUuid       types.String `tfsdk:"category_group_uuid"`
+	CategoryUuid            types.String `tfsdk:"category_uuid"`
+	Created                 types.String `tfsdk:"created"`
+	Customer                types.String `tfsdk:"customer"`
+	CustomerUuid            types.String `tfsdk:"customer_uuid"`
+	Description             types.String `tfsdk:"description"`
+	HasActiveTermsOfService types.Bool   `tfsdk:"has_active_terms_of_service"`
+	HasTermsOfService       types.Bool   `tfsdk:"has_terms_of_service"`
+	Keyword                 types.String `tfsdk:"keyword"`
+	Modified                types.String `tfsdk:"modified"`
+	Name                    types.String `tfsdk:"name"`
+	NameExact               types.String `tfsdk:"name_exact"`
+	Page                    types.Int64  `tfsdk:"page"`
+	PageSize                types.Int64  `tfsdk:"page_size"`
+	ParentUuid              types.String `tfsdk:"parent_uuid"`
+	ProjectUuid             types.String `tfsdk:"project_uuid"`
+	Query                   types.String `tfsdk:"query"`
+	ResourceCustomerUuid    types.String `tfsdk:"resource_customer_uuid"`
+	ResourceProjectUuid     types.String `tfsdk:"resource_project_uuid"`
+	ScopeUuid               types.String `tfsdk:"scope_uuid"`
+	ServiceManagerUuid      types.String `tfsdk:"service_manager_uuid"`
+	Shared                  types.Bool   `tfsdk:"shared"`
+	UserHasConsent          types.Bool   `tfsdk:"user_has_consent"`
+	UserHasOfferingUser     types.Bool   `tfsdk:"user_has_offering_user"`
+	UuidList                types.String `tfsdk:"uuid_list"`
 }
 
 func (l *MarketplaceOfferingList) List(ctx context.Context, req list.ListRequest, stream *list.ListResultsStream) {
@@ -64,9 +214,102 @@ func (l *MarketplaceOfferingList) List(ctx context.Context, req list.ListRequest
 		return
 	}
 
+	// Prepare filters
+	filters := make(map[string]string)
+	if !config.AccessibleViaCalls.IsNull() && !config.AccessibleViaCalls.IsUnknown() {
+		filters["accessible_via_calls"] = fmt.Sprintf("%t", config.AccessibleViaCalls.ValueBool())
+	}
+	if !config.AllowedCustomerUuid.IsNull() && !config.AllowedCustomerUuid.IsUnknown() {
+		filters["allowed_customer_uuid"] = config.AllowedCustomerUuid.ValueString()
+	}
+	if !config.Attributes.IsNull() && !config.Attributes.IsUnknown() {
+		filters["attributes"] = config.Attributes.ValueString()
+	}
+	if !config.Billable.IsNull() && !config.Billable.IsUnknown() {
+		filters["billable"] = fmt.Sprintf("%t", config.Billable.ValueBool())
+	}
+	if !config.CanCreateOfferingUser.IsNull() && !config.CanCreateOfferingUser.IsUnknown() {
+		filters["can_create_offering_user"] = fmt.Sprintf("%t", config.CanCreateOfferingUser.ValueBool())
+	}
+	if !config.CategoryGroupUuid.IsNull() && !config.CategoryGroupUuid.IsUnknown() {
+		filters["category_group_uuid"] = config.CategoryGroupUuid.ValueString()
+	}
+	if !config.CategoryUuid.IsNull() && !config.CategoryUuid.IsUnknown() {
+		filters["category_uuid"] = config.CategoryUuid.ValueString()
+	}
+	if !config.Created.IsNull() && !config.Created.IsUnknown() {
+		filters["created"] = config.Created.ValueString()
+	}
+	if !config.Customer.IsNull() && !config.Customer.IsUnknown() {
+		filters["customer"] = config.Customer.ValueString()
+	}
+	if !config.CustomerUuid.IsNull() && !config.CustomerUuid.IsUnknown() {
+		filters["customer_uuid"] = config.CustomerUuid.ValueString()
+	}
+	if !config.Description.IsNull() && !config.Description.IsUnknown() {
+		filters["description"] = config.Description.ValueString()
+	}
+	if !config.HasActiveTermsOfService.IsNull() && !config.HasActiveTermsOfService.IsUnknown() {
+		filters["has_active_terms_of_service"] = fmt.Sprintf("%t", config.HasActiveTermsOfService.ValueBool())
+	}
+	if !config.HasTermsOfService.IsNull() && !config.HasTermsOfService.IsUnknown() {
+		filters["has_terms_of_service"] = fmt.Sprintf("%t", config.HasTermsOfService.ValueBool())
+	}
+	if !config.Keyword.IsNull() && !config.Keyword.IsUnknown() {
+		filters["keyword"] = config.Keyword.ValueString()
+	}
+	if !config.Modified.IsNull() && !config.Modified.IsUnknown() {
+		filters["modified"] = config.Modified.ValueString()
+	}
+	if !config.Name.IsNull() && !config.Name.IsUnknown() {
+		filters["name"] = config.Name.ValueString()
+	}
+	if !config.NameExact.IsNull() && !config.NameExact.IsUnknown() {
+		filters["name_exact"] = config.NameExact.ValueString()
+	}
+	if !config.Page.IsNull() && !config.Page.IsUnknown() {
+		filters["page"] = fmt.Sprintf("%d", config.Page.ValueInt64())
+	}
+	if !config.PageSize.IsNull() && !config.PageSize.IsUnknown() {
+		filters["page_size"] = fmt.Sprintf("%d", config.PageSize.ValueInt64())
+	}
+	if !config.ParentUuid.IsNull() && !config.ParentUuid.IsUnknown() {
+		filters["parent_uuid"] = config.ParentUuid.ValueString()
+	}
+	if !config.ProjectUuid.IsNull() && !config.ProjectUuid.IsUnknown() {
+		filters["project_uuid"] = config.ProjectUuid.ValueString()
+	}
+	if !config.Query.IsNull() && !config.Query.IsUnknown() {
+		filters["query"] = config.Query.ValueString()
+	}
+	if !config.ResourceCustomerUuid.IsNull() && !config.ResourceCustomerUuid.IsUnknown() {
+		filters["resource_customer_uuid"] = config.ResourceCustomerUuid.ValueString()
+	}
+	if !config.ResourceProjectUuid.IsNull() && !config.ResourceProjectUuid.IsUnknown() {
+		filters["resource_project_uuid"] = config.ResourceProjectUuid.ValueString()
+	}
+	if !config.ScopeUuid.IsNull() && !config.ScopeUuid.IsUnknown() {
+		filters["scope_uuid"] = config.ScopeUuid.ValueString()
+	}
+	if !config.ServiceManagerUuid.IsNull() && !config.ServiceManagerUuid.IsUnknown() {
+		filters["service_manager_uuid"] = config.ServiceManagerUuid.ValueString()
+	}
+	if !config.Shared.IsNull() && !config.Shared.IsUnknown() {
+		filters["shared"] = fmt.Sprintf("%t", config.Shared.ValueBool())
+	}
+	if !config.UserHasConsent.IsNull() && !config.UserHasConsent.IsUnknown() {
+		filters["user_has_consent"] = fmt.Sprintf("%t", config.UserHasConsent.ValueBool())
+	}
+	if !config.UserHasOfferingUser.IsNull() && !config.UserHasOfferingUser.IsUnknown() {
+		filters["user_has_offering_user"] = fmt.Sprintf("%t", config.UserHasOfferingUser.ValueBool())
+	}
+	if !config.UuidList.IsNull() && !config.UuidList.IsUnknown() {
+		filters["uuid_list"] = config.UuidList.ValueString()
+	}
+
 	// Call API
 	var listResult []map[string]interface{}
-	err := l.client.List(ctx, "/api/marketplace-provider-offerings/", &listResult)
+	err := l.client.ListWithFilter(ctx, "/api/marketplace-provider-offerings/", filters, &listResult)
 	if err != nil {
 		// Return error diagnostics
 		resp.AddError("Failed to list resources", err.Error())
@@ -1470,6 +1713,66 @@ func (l *MarketplaceOfferingList) List(ctx context.Context, req list.ListRequest
 			}
 
 			// Map filter parameters from response if available
+			if val, ok := sourceMap["accessible_via_calls"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["allowed_customer_uuid"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["attributes"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["billable"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["can_create_offering_user"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["category_group_uuid"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["category_uuid"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["created"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["customer"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["customer_uuid"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["description"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["has_active_terms_of_service"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["has_terms_of_service"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["keyword"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["modified"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["name"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["name_exact"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["page"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["page_size"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["parent_uuid"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["project_uuid"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["query"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["resource_customer_uuid"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["resource_project_uuid"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["scope_uuid"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["service_manager_uuid"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["shared"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["user_has_consent"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["user_has_offering_user"]; ok && val != nil {
+			}
+			if val, ok := sourceMap["uuid_list"]; ok && val != nil {
+			}
 
 			// Set the resource state
 			// For ListResource, we generally return the "Resource" state matching the main resource schema.
