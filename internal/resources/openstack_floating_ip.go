@@ -272,10 +272,6 @@ func (r *OpenstackFloatingIpResource) Read(ctx context.Context, req resource.Rea
 		data.UUID = types.StringValue(uuid)
 	}
 
-	if uuid, ok := result["uuid"].(string); ok {
-		data.UUID = types.StringValue(uuid)
-	}
-
 	r.updateFromValue(ctx, &data, result)
 
 	// Save updated data into Terraform state
@@ -284,7 +280,6 @@ func (r *OpenstackFloatingIpResource) Read(ctx context.Context, req resource.Rea
 
 func (r *OpenstackFloatingIpResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
 	resp.Diagnostics.AddError("Update Not Supported", "This resource cannot be updated via the API.")
-	return
 }
 
 func (r *OpenstackFloatingIpResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {

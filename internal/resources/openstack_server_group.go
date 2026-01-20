@@ -255,10 +255,6 @@ func (r *OpenstackServerGroupResource) Read(ctx context.Context, req resource.Re
 		data.UUID = types.StringValue(uuid)
 	}
 
-	if uuid, ok := result["uuid"].(string); ok {
-		data.UUID = types.StringValue(uuid)
-	}
-
 	r.updateFromValue(ctx, &data, result)
 
 	// Save updated data into Terraform state

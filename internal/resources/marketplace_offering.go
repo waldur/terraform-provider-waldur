@@ -1000,10 +1000,6 @@ func (r *MarketplaceOfferingResource) Read(ctx context.Context, req resource.Rea
 		data.UUID = types.StringValue(uuid)
 	}
 
-	if uuid, ok := result["uuid"].(string); ok {
-		data.UUID = types.StringValue(uuid)
-	}
-
 	r.updateFromValue(ctx, &data, result)
 
 	// Save updated data into Terraform state
@@ -1012,7 +1008,6 @@ func (r *MarketplaceOfferingResource) Read(ctx context.Context, req resource.Rea
 
 func (r *MarketplaceOfferingResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
 	resp.Diagnostics.AddError("Update Not Supported", "This resource cannot be updated via the API.")
-	return
 }
 
 func (r *MarketplaceOfferingResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {

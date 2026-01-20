@@ -627,10 +627,6 @@ func (r *OpenstackVolumeAttachmentResource) Read(ctx context.Context, req resour
 		data.UUID = types.StringValue(uuid)
 	}
 
-	if uuid, ok := result["uuid"].(string); ok {
-		data.UUID = types.StringValue(uuid)
-	}
-
 	r.updateFromValue(ctx, &data, result)
 
 	// Save updated data into Terraform state
@@ -640,7 +636,6 @@ func (r *OpenstackVolumeAttachmentResource) Read(ctx context.Context, req resour
 func (r *OpenstackVolumeAttachmentResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
 	// Link resources typically do not support update, as they are bindings.
 	resp.Diagnostics.AddError("Update Not Supported", "Link resources cannot be updated.")
-	return
 }
 
 func (r *OpenstackVolumeAttachmentResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
