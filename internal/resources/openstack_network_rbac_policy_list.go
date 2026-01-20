@@ -237,24 +237,6 @@ func (l *OpenstackNetworkRbacPolicyList) List(ctx context.Context, req list.List
 			}
 
 			// Map filter parameters from response if available
-			if val, ok := sourceMap["network"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["network_uuid"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["page"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["page_size"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["policy_type"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["target_tenant"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["target_tenant_uuid"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["tenant"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["tenant_uuid"]; ok && val != nil {
-			}
 
 			// Set the resource state
 			// For ListResource, we generally return the "Resource" state matching the main resource schema.

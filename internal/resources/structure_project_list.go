@@ -462,42 +462,6 @@ func (l *StructureProjectList) List(ctx context.Context, req list.ListRequest, s
 			}
 
 			// Map filter parameters from response if available
-			if val, ok := sourceMap["backend_id"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["can_admin"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["can_manage"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["conceal_finished_projects"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["created"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["customer_abbreviation"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["customer_name"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["customer_native_name"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["description"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["include_terminated"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["is_removed"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["modified"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["name"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["name_exact"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["page"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["page_size"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["query"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["slug"]; ok && val != nil {
-			}
 
 			// Set the resource state
 			// For ListResource, we generally return the "Resource" state matching the main resource schema.

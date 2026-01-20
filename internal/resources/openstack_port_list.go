@@ -591,42 +591,6 @@ func (l *OpenstackPortList) List(ctx context.Context, req list.ListRequest, stre
 			}
 
 			// Map filter parameters from response if available
-			if val, ok := sourceMap["admin_state_up"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["backend_id"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["device_id"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["device_owner"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["exclude_subnet_uuids"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["fixed_ips"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["has_device_owner"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["mac_address"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["name"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["name_exact"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["network_name"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["network_uuid"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["page"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["page_size"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["query"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["status"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["tenant"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["tenant_uuid"]; ok && val != nil {
-			}
 
 			// Set the resource state
 			// For ListResource, we generally return the "Resource" state matching the main resource schema.

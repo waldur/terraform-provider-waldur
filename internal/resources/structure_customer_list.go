@@ -864,36 +864,6 @@ func (l *StructureCustomerList) List(ctx context.Context, req list.ListRequest, 
 			}
 
 			// Map filter parameters from response if available
-			if val, ok := sourceMap["abbreviation"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["agreement_number"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["archived"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["backend_id"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["contact_details"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["name"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["name_exact"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["native_name"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["o"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["organization_group_name"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["owned_by_current_user"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["page"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["page_size"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["query"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["registration_code"]; ok && val != nil {
-			}
 
 			// Set the resource state
 			// For ListResource, we generally return the "Resource" state matching the main resource schema.

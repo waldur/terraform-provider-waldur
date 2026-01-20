@@ -816,40 +816,6 @@ func (l *MarketplaceOrderList) List(ctx context.Context, req list.ListRequest, s
 			}
 
 			// Map filter parameters from response if available
-			if val, ok := sourceMap["can_approve_as_consumer"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["can_approve_as_provider"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["category_uuid"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["created"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["customer_uuid"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["modified"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["offering"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["offering_uuid"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["page"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["page_size"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["parent_offering_uuid"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["project_uuid"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["provider_uuid"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["query"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["resource"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["resource_uuid"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["service_manager_uuid"]; ok && val != nil {
-			}
 
 			// Set the resource state
 			// For ListResource, we generally return the "Resource" state matching the main resource schema.

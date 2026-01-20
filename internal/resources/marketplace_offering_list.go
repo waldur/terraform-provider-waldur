@@ -1713,66 +1713,6 @@ func (l *MarketplaceOfferingList) List(ctx context.Context, req list.ListRequest
 			}
 
 			// Map filter parameters from response if available
-			if val, ok := sourceMap["accessible_via_calls"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["allowed_customer_uuid"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["attributes"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["billable"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["can_create_offering_user"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["category_group_uuid"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["category_uuid"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["created"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["customer"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["customer_uuid"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["description"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["has_active_terms_of_service"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["has_terms_of_service"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["keyword"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["modified"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["name"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["name_exact"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["page"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["page_size"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["parent_uuid"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["project_uuid"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["query"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["resource_customer_uuid"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["resource_project_uuid"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["scope_uuid"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["service_manager_uuid"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["shared"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["user_has_consent"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["user_has_offering_user"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["uuid_list"]; ok && val != nil {
-			}
 
 			// Set the resource state
 			// For ListResource, we generally return the "Resource" state matching the main resource schema.

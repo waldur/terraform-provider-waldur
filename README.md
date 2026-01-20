@@ -26,7 +26,7 @@ terraform {
 ```hcl
 provider "waldur" {
   # Endpoint and token are optional if environment variables are set
-  # endpoint = "https://your-waldur-instance.com/api/"
+  # endpoint = "https://your-waldur-instance.com"
   # token    = "your-api-token"
 }
 ```

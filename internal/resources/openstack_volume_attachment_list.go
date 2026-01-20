@@ -578,62 +578,6 @@ func (l *OpenstackVolumeAttachmentList) List(ctx context.Context, req list.ListR
 			}
 
 			// Map filter parameters from response if available
-			if val, ok := sourceMap["attach_instance_uuid"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["availability_zone_name"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["backend_id"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["can_manage"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["customer"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["customer_abbreviation"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["customer_name"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["customer_native_name"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["customer_uuid"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["description"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["external_ip"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["instance"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["instance_uuid"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["name"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["name_exact"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["page"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["page_size"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["project"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["project_name"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["project_uuid"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["runtime_state"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["service_settings_name"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["service_settings_uuid"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["snapshot"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["snapshot_uuid"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["tenant"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["tenant_uuid"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["uuid"]; ok && val != nil {
-			}
 
 			// Set the resource state
 			// For ListResource, we generally return the "Resource" state matching the main resource schema.

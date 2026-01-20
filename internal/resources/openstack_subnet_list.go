@@ -603,60 +603,6 @@ func (l *OpenstackSubnetList) List(ctx context.Context, req list.ListRequest, st
 			}
 
 			// Map filter parameters from response if available
-			if val, ok := sourceMap["backend_id"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["can_manage"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["customer"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["customer_abbreviation"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["customer_name"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["customer_native_name"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["customer_uuid"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["description"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["direct_only"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["enable_dhcp"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["external_ip"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["ip_version"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["name"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["name_exact"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["network"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["network_uuid"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["page"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["page_size"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["project"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["project_name"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["project_uuid"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["rbac_only"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["service_settings_name"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["service_settings_uuid"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["tenant"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["tenant_uuid"]; ok && val != nil {
-			}
-			if val, ok := sourceMap["uuid"]; ok && val != nil {
-			}
 
 			// Set the resource state
 			// For ListResource, we generally return the "Resource" state matching the main resource schema.
