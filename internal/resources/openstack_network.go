@@ -277,7 +277,10 @@ func (r *OpenstackNetworkResource) Schema(ctx context.Context, req resource.Sche
 				MarkdownDescription: " ",
 			},
 			"tenant": schema.StringAttribute{
-				Required:            true,
+				Required: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.RequiresReplace(),
+				},
 				MarkdownDescription: "Required path parameter for resource creation",
 			},
 			"tenant_name": schema.StringAttribute{
@@ -380,6 +383,11 @@ func (r *OpenstackNetworkResource) Read(ctx context.Context, req resource.ReadRe
 	var apiResp OpenstackNetworkApiResponse
 	err := r.client.GetByUUID(ctx, retrievePath, data.UUID.ValueString(), &apiResp)
 	if err != nil {
+		if client.IsNotFoundError(err) {
+			resp.State.RemoveResource(ctx)
+			return
+		}
+
 		resp.Diagnostics.AddError(
 			"Unable to Read Openstack Network",
 			"An error occurred while reading the Openstack Network: "+err.Error(),

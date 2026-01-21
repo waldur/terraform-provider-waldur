@@ -13,6 +13,9 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64planmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -364,8 +367,11 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 				MarkdownDescription: " ",
 			},
 			"availability_zone": schema.StringAttribute{
-				Optional:            true,
-				Computed:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.RequiresReplace(),
+				},
 				MarkdownDescription: "Availability zone where this instance is located",
 			},
 			"availability_zone_name": schema.StringAttribute{
@@ -377,8 +383,11 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 				MarkdownDescription: "Instance ID in the OpenStack backend",
 			},
 			"connect_directly_to_external_network": schema.BoolAttribute{
-				Optional:            true,
-				Computed:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.Bool{
+					boolplanmodifier.RequiresReplace(),
+				},
 				MarkdownDescription: "If True, instance will be connected directly to external network",
 			},
 			"cores": schema.Int64Attribute{
@@ -410,13 +419,19 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 				MarkdownDescription: " ",
 			},
 			"data_volume_size": schema.Int64Attribute{
-				Optional:            true,
-				Computed:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.Int64{
+					int64planmodifier.RequiresReplace(),
+				},
 				MarkdownDescription: "Size of the data volume in MiB. Minimum size is 1024 MiB (1 GiB)",
 			},
 			"data_volume_type": schema.StringAttribute{
-				Optional:            true,
-				Computed:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.RequiresReplace(),
+				},
 				MarkdownDescription: "Volume type for the data volume",
 			},
 			"data_volumes": schema.ListNestedAttribute{
@@ -433,13 +448,19 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 						},
 					},
 				},
-				Optional:            true,
-				Computed:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.List{
+					listplanmodifier.RequiresReplace(),
+				},
 				MarkdownDescription: "Additional data volumes to attach to the instance",
 			},
 			"delete_volumes": schema.BoolAttribute{
-				Optional:            true,
-				Computed:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.Bool{
+					boolplanmodifier.RequiresReplace(),
+				},
 				MarkdownDescription: "Termination attribute",
 			},
 			"description": schema.StringAttribute{
@@ -470,8 +491,11 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 				MarkdownDescription: " ",
 			},
 			"flavor": schema.StringAttribute{
-				Optional:            true,
-				Computed:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.RequiresReplace(),
+				},
 				MarkdownDescription: "The flavor to use for the instance",
 			},
 			"flavor_disk": schema.Int64Attribute{
@@ -552,8 +576,11 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 				MarkdownDescription: "Name of the hypervisor hosting this instance",
 			},
 			"image": schema.StringAttribute{
-				Optional:            true,
-				Computed:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.RequiresReplace(),
+				},
 				MarkdownDescription: "The OS image to use for the instance",
 			},
 			"image_name": schema.StringAttribute{
@@ -790,10 +817,7 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 										MarkdownDescription: " ",
 									},
 									"project": schema.StringAttribute{
-										Computed: true,
-										PlanModifiers: []planmodifier.String{
-											stringplanmodifier.RequiresReplace(),
-										},
+										Computed:            true,
 										MarkdownDescription: " ",
 									},
 									"project_name": schema.StringAttribute{
@@ -960,8 +984,11 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 				MarkdownDescription: "Memory size in MiB",
 			},
 			"release_floating_ips": schema.BoolAttribute{
-				Optional:            true,
-				Computed:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.Bool{
+					boolplanmodifier.RequiresReplace(),
+				},
 				MarkdownDescription: "Termination attribute",
 			},
 			"resource_type": schema.StringAttribute{
@@ -1095,8 +1122,11 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 				MarkdownDescription: " ",
 			},
 			"ssh_public_key": schema.StringAttribute{
-				Optional:            true,
-				Computed:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.RequiresReplace(),
+				},
 				MarkdownDescription: " ",
 			},
 			"start_time": schema.StringAttribute{
@@ -1108,13 +1138,19 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 				MarkdownDescription: " ",
 			},
 			"system_volume_size": schema.Int64Attribute{
-				Optional:            true,
-				Computed:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.Int64{
+					int64planmodifier.RequiresReplace(),
+				},
 				MarkdownDescription: "Size of the system volume in MiB. Minimum size is 1024 MiB (1 GiB)",
 			},
 			"system_volume_type": schema.StringAttribute{
-				Optional:            true,
-				Computed:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.RequiresReplace(),
+				},
 				MarkdownDescription: "Volume type for the system volume",
 			},
 			"tenant": schema.StringAttribute{
@@ -1130,8 +1166,11 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 				MarkdownDescription: " ",
 			},
 			"user_data": schema.StringAttribute{
-				Optional:            true,
-				Computed:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.RequiresReplace(),
+				},
 				MarkdownDescription: "Additional data that will be added to instance on provisioning",
 			},
 			"volumes": schema.ListNestedAttribute{
@@ -1447,6 +1486,11 @@ func (r *OpenstackInstanceResource) Read(ctx context.Context, req resource.ReadR
 	var apiResp OpenstackInstanceApiResponse
 	err := r.client.GetByUUID(ctx, retrievePath, data.UUID.ValueString(), &apiResp)
 	if err != nil {
+		if client.IsNotFoundError(err) {
+			resp.State.RemoveResource(ctx)
+			return
+		}
+
 		resp.Diagnostics.AddError(
 			"Unable to Read Openstack Instance",
 			"An error occurred while reading the Openstack Instance: "+err.Error(),
@@ -1602,6 +1646,10 @@ func (r *OpenstackInstanceResource) Update(ctx context.Context, req resource.Upd
 
 	err := r.client.GetByUUID(ctx, retrievePath, data.UUID.ValueString(), &apiResp)
 	if err != nil {
+		if client.IsNotFoundError(err) {
+			resp.State.RemoveResource(ctx)
+			return
+		}
 		resp.Diagnostics.AddError("Failed to Read Resource After Update", err.Error())
 		return
 	}

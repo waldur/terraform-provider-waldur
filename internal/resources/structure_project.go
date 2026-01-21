@@ -358,6 +358,11 @@ func (r *StructureProjectResource) Read(ctx context.Context, req resource.ReadRe
 	var apiResp StructureProjectApiResponse
 	err := r.client.GetByUUID(ctx, retrievePath, data.UUID.ValueString(), &apiResp)
 	if err != nil {
+		if client.IsNotFoundError(err) {
+			resp.State.RemoveResource(ctx)
+			return
+		}
+
 		resp.Diagnostics.AddError(
 			"Unable to Read Structure Project",
 			"An error occurred while reading the Structure Project: "+err.Error(),

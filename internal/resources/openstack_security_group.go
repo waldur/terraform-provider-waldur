@@ -189,7 +189,10 @@ func (r *OpenstackSecurityGroupResource) Schema(ctx context.Context, req resourc
 				MarkdownDescription: " ",
 			},
 			"tenant": schema.StringAttribute{
-				Required:            true,
+				Required: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.RequiresReplace(),
+				},
 				MarkdownDescription: "Required path parameter for resource creation",
 			},
 			"tenant_name": schema.StringAttribute{
@@ -291,6 +294,11 @@ func (r *OpenstackSecurityGroupResource) Read(ctx context.Context, req resource.
 	var apiResp OpenstackSecurityGroupApiResponse
 	err := r.client.GetByUUID(ctx, retrievePath, data.UUID.ValueString(), &apiResp)
 	if err != nil {
+		if client.IsNotFoundError(err) {
+			resp.State.RemoveResource(ctx)
+			return
+		}
+
 		resp.Diagnostics.AddError(
 			"Unable to Read Openstack Security Group",
 			"An error occurred while reading the Openstack Security Group: "+err.Error(),

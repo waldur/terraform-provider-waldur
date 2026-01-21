@@ -10,6 +10,9 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/float64planmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -302,18 +305,27 @@ func (r *MarketplaceOfferingResource) Schema(ctx context.Context, req resource.S
 				},
 			},
 			"access_url": schema.StringAttribute{
-				Optional:            true,
-				Computed:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.RequiresReplace(),
+				},
 				MarkdownDescription: "Publicly accessible offering access URL",
 			},
 			"backend_id": schema.StringAttribute{
-				Optional:            true,
-				Computed:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.RequiresReplace(),
+				},
 				MarkdownDescription: " ",
 			},
 			"billable": schema.BoolAttribute{
-				Optional:            true,
-				Computed:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.Bool{
+					boolplanmodifier.RequiresReplace(),
+				},
 				MarkdownDescription: "Purchase and usage is invoiced.",
 			},
 			"billing_type_classification": schema.StringAttribute{
@@ -321,7 +333,10 @@ func (r *MarketplaceOfferingResource) Schema(ctx context.Context, req resource.S
 				MarkdownDescription: "Classify offering components by billing type. Returns 'limit_only', 'usage_only', or 'mixed'.",
 			},
 			"category": schema.StringAttribute{
-				Required:            true,
+				Required: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.RequiresReplace(),
+				},
 				MarkdownDescription: " ",
 			},
 			"category_title": schema.StringAttribute{
@@ -337,8 +352,11 @@ func (r *MarketplaceOfferingResource) Schema(ctx context.Context, req resource.S
 				MarkdownDescription: "Number of citations of a DOI",
 			},
 			"compliance_checklist": schema.StringAttribute{
-				Optional:            true,
-				Computed:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.RequiresReplace(),
+				},
 				MarkdownDescription: " ",
 			},
 			"components": schema.ListNestedAttribute{
@@ -437,8 +455,11 @@ func (r *MarketplaceOfferingResource) Schema(ctx context.Context, req resource.S
 				MarkdownDescription: " ",
 			},
 			"country": schema.StringAttribute{
-				Optional:            true,
-				Computed:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.RequiresReplace(),
+				},
 				MarkdownDescription: "Country code (ISO 3166-1 alpha-2)",
 			},
 			"created": schema.StringAttribute{
@@ -446,18 +467,27 @@ func (r *MarketplaceOfferingResource) Schema(ctx context.Context, req resource.S
 				MarkdownDescription: " ",
 			},
 			"customer": schema.StringAttribute{
-				Optional:            true,
-				Computed:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.RequiresReplace(),
+				},
 				MarkdownDescription: " ",
 			},
 			"datacite_doi": schema.StringAttribute{
-				Optional:            true,
-				Computed:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.RequiresReplace(),
+				},
 				MarkdownDescription: " ",
 			},
 			"description": schema.StringAttribute{
-				Optional:            true,
-				Computed:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.RequiresReplace(),
+				},
 				MarkdownDescription: " ",
 			},
 			"endpoints": schema.ListNestedAttribute{
@@ -501,13 +531,19 @@ func (r *MarketplaceOfferingResource) Schema(ctx context.Context, req resource.S
 				MarkdownDescription: " ",
 			},
 			"full_description": schema.StringAttribute{
-				Optional:            true,
-				Computed:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.RequiresReplace(),
+				},
 				MarkdownDescription: " ",
 			},
 			"getting_started": schema.StringAttribute{
-				Optional:            true,
-				Computed:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.RequiresReplace(),
+				},
 				MarkdownDescription: " ",
 			},
 			"google_calendar_is_public": schema.BoolAttribute{
@@ -523,13 +559,19 @@ func (r *MarketplaceOfferingResource) Schema(ctx context.Context, req resource.S
 				MarkdownDescription: " ",
 			},
 			"image": schema.StringAttribute{
-				Optional:            true,
-				Computed:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.RequiresReplace(),
+				},
 				MarkdownDescription: " ",
 			},
 			"integration_guide": schema.StringAttribute{
-				Optional:            true,
-				Computed:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.RequiresReplace(),
+				},
 				MarkdownDescription: " ",
 			},
 			"integration_status": schema.ListNestedAttribute{
@@ -558,17 +600,26 @@ func (r *MarketplaceOfferingResource) Schema(ctx context.Context, req resource.S
 				MarkdownDescription: " ",
 			},
 			"latitude": schema.Float64Attribute{
-				Optional:            true,
-				Computed:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.Float64{
+					float64planmodifier.RequiresReplace(),
+				},
 				MarkdownDescription: " ",
 			},
 			"longitude": schema.Float64Attribute{
-				Optional:            true,
-				Computed:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.Float64{
+					float64planmodifier.RequiresReplace(),
+				},
 				MarkdownDescription: " ",
 			},
 			"name": schema.StringAttribute{
-				Required:            true,
+				Required: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.RequiresReplace(),
+				},
 				MarkdownDescription: " ",
 			},
 			"options": schema.SingleNestedAttribute{
@@ -579,8 +630,11 @@ func (r *MarketplaceOfferingResource) Schema(ctx context.Context, req resource.S
 						MarkdownDescription: " ",
 					},
 				},
-				Optional:            true,
-				Computed:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.Object{
+					objectplanmodifier.RequiresReplace(),
+				},
 				MarkdownDescription: " ",
 			},
 			"order_count": schema.Int64Attribute{
@@ -793,8 +847,11 @@ func (r *MarketplaceOfferingResource) Schema(ctx context.Context, req resource.S
 				MarkdownDescription: " ",
 			},
 			"privacy_policy_link": schema.StringAttribute{
-				Optional:            true,
-				Computed:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.RequiresReplace(),
+				},
 				MarkdownDescription: " ",
 			},
 			"quotas": schema.ListNestedAttribute{
@@ -828,8 +885,11 @@ func (r *MarketplaceOfferingResource) Schema(ctx context.Context, req resource.S
 						MarkdownDescription: " ",
 					},
 				},
-				Optional:            true,
-				Computed:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.Object{
+					objectplanmodifier.RequiresReplace(),
+				},
 				MarkdownDescription: " ",
 			},
 			"roles": schema.ListNestedAttribute{
@@ -901,13 +961,19 @@ func (r *MarketplaceOfferingResource) Schema(ctx context.Context, req resource.S
 				MarkdownDescription: " ",
 			},
 			"shared": schema.BoolAttribute{
-				Optional:            true,
-				Computed:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.Bool{
+					boolplanmodifier.RequiresReplace(),
+				},
 				MarkdownDescription: "Accessible to all customers.",
 			},
 			"slug": schema.StringAttribute{
-				Optional:            true,
-				Computed:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.RequiresReplace(),
+				},
 				MarkdownDescription: "URL-friendly identifier. Only editable by staff users.",
 			},
 			"software_catalogs": schema.ListNestedAttribute{
@@ -969,8 +1035,11 @@ func (r *MarketplaceOfferingResource) Schema(ctx context.Context, req resource.S
 				MarkdownDescription: " ",
 			},
 			"thumbnail": schema.StringAttribute{
-				Optional:            true,
-				Computed:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.RequiresReplace(),
+				},
 				MarkdownDescription: " ",
 			},
 			"total_cost": schema.Int64Attribute{
@@ -986,7 +1055,10 @@ func (r *MarketplaceOfferingResource) Schema(ctx context.Context, req resource.S
 				MarkdownDescription: " ",
 			},
 			"type": schema.StringAttribute{
-				Required:            true,
+				Required: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.RequiresReplace(),
+				},
 				MarkdownDescription: " ",
 			},
 			"url": schema.StringAttribute{
@@ -994,8 +1066,11 @@ func (r *MarketplaceOfferingResource) Schema(ctx context.Context, req resource.S
 				MarkdownDescription: " ",
 			},
 			"vendor_details": schema.StringAttribute{
-				Optional:            true,
-				Computed:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.RequiresReplace(),
+				},
 				MarkdownDescription: " ",
 			},
 		},
@@ -1183,6 +1258,11 @@ func (r *MarketplaceOfferingResource) Read(ctx context.Context, req resource.Rea
 	var apiResp MarketplaceOfferingApiResponse
 	err := r.client.GetByUUID(ctx, retrievePath, data.UUID.ValueString(), &apiResp)
 	if err != nil {
+		if client.IsNotFoundError(err) {
+			resp.State.RemoveResource(ctx)
+			return
+		}
+
 		resp.Diagnostics.AddError(
 			"Unable to Read Marketplace Offering",
 			"An error occurred while reading the Marketplace Offering: "+err.Error(),

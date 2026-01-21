@@ -10,6 +10,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -151,8 +153,11 @@ func (r *OpenstackPortResource) Schema(ctx context.Context, req resource.SchemaR
 						},
 					},
 				},
-				Optional:            true,
-				Computed:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.List{
+					listplanmodifier.RequiresReplace(),
+				},
 				MarkdownDescription: " ",
 			},
 			"backend_id": schema.StringAttribute{
@@ -197,8 +202,11 @@ func (r *OpenstackPortResource) Schema(ctx context.Context, req resource.SchemaR
 						},
 					},
 				},
-				Optional:            true,
-				Computed:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.List{
+					listplanmodifier.RequiresReplace(),
+				},
 				MarkdownDescription: " ",
 			},
 			"floating_ips": schema.ListAttribute{
@@ -207,8 +215,11 @@ func (r *OpenstackPortResource) Schema(ctx context.Context, req resource.SchemaR
 				MarkdownDescription: " ",
 			},
 			"mac_address": schema.StringAttribute{
-				Optional:            true,
-				Computed:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.RequiresReplace(),
+				},
 				MarkdownDescription: "MAC address of the port",
 			},
 			"modified": schema.StringAttribute{
@@ -220,8 +231,11 @@ func (r *OpenstackPortResource) Schema(ctx context.Context, req resource.SchemaR
 				MarkdownDescription: " ",
 			},
 			"network": schema.StringAttribute{
-				Optional:            true,
-				Computed:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.RequiresReplace(),
+				},
 				MarkdownDescription: "Network to which this port belongs",
 			},
 			"network_name": schema.StringAttribute{
@@ -233,8 +247,11 @@ func (r *OpenstackPortResource) Schema(ctx context.Context, req resource.SchemaR
 				MarkdownDescription: " ",
 			},
 			"port_security_enabled": schema.BoolAttribute{
-				Optional:            true,
-				Computed:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.Bool{
+					boolplanmodifier.RequiresReplace(),
+				},
 				MarkdownDescription: "If True, security groups and rules will be applied to this port",
 			},
 			"resource_type": schema.StringAttribute{
@@ -397,6 +414,11 @@ func (r *OpenstackPortResource) Read(ctx context.Context, req resource.ReadReque
 	var apiResp OpenstackPortApiResponse
 	err := r.client.GetByUUID(ctx, retrievePath, data.UUID.ValueString(), &apiResp)
 	if err != nil {
+		if client.IsNotFoundError(err) {
+			resp.State.RemoveResource(ctx)
+			return
+		}
+
 		resp.Diagnostics.AddError(
 			"Unable to Read Openstack Port",
 			"An error occurred while reading the Openstack Port: "+err.Error(),

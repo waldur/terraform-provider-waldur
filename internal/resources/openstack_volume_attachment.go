@@ -9,6 +9,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -128,8 +129,11 @@ func (r *OpenstackVolumeAttachmentResource) Schema(ctx context.Context, req reso
 				MarkdownDescription: " ",
 			},
 			"availability_zone": schema.StringAttribute{
-				Optional:            true,
-				Computed:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.RequiresReplace(),
+				},
 				MarkdownDescription: "Availability zone where this volume is located",
 			},
 			"availability_zone_name": schema.StringAttribute{
@@ -171,8 +175,11 @@ func (r *OpenstackVolumeAttachmentResource) Schema(ctx context.Context, req reso
 				MarkdownDescription: " ",
 			},
 			"image": schema.StringAttribute{
-				Optional:            true,
-				Computed:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.RequiresReplace(),
+				},
 				MarkdownDescription: "Image that this volume was created from, if any",
 			},
 			"image_metadata": schema.StringAttribute{
@@ -213,8 +220,11 @@ func (r *OpenstackVolumeAttachmentResource) Schema(ctx context.Context, req reso
 				MarkdownDescription: " ",
 			},
 			"size": schema.Int64Attribute{
-				Optional:            true,
-				Computed:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.Int64{
+					int64planmodifier.RequiresReplace(),
+				},
 				MarkdownDescription: "Size in MiB",
 			},
 			"source_snapshot": schema.StringAttribute{
@@ -226,8 +236,11 @@ func (r *OpenstackVolumeAttachmentResource) Schema(ctx context.Context, req reso
 				MarkdownDescription: " ",
 			},
 			"tenant": schema.StringAttribute{
-				Optional:            true,
-				Computed:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.RequiresReplace(),
+				},
 				MarkdownDescription: " ",
 			},
 			"tenant_uuid": schema.StringAttribute{
@@ -235,8 +248,11 @@ func (r *OpenstackVolumeAttachmentResource) Schema(ctx context.Context, req reso
 				MarkdownDescription: " ",
 			},
 			"type": schema.StringAttribute{
-				Optional:            true,
-				Computed:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.RequiresReplace(),
+				},
 				MarkdownDescription: "Type of the volume (e.g. SSD, HDD)",
 			},
 			"type_name": schema.StringAttribute{
@@ -248,7 +264,10 @@ func (r *OpenstackVolumeAttachmentResource) Schema(ctx context.Context, req reso
 				MarkdownDescription: " ",
 			},
 			"volume": schema.StringAttribute{
-				Required:            true,
+				Required: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.RequiresReplace(),
+				},
 				MarkdownDescription: "Source resource UUID",
 			},
 		},
@@ -337,6 +356,10 @@ func (r *OpenstackVolumeAttachmentResource) Read(ctx context.Context, req resour
 	var result map[string]interface{}
 	err := r.client.GetByUUID(ctx, sourcePath, sourceUUID, &result)
 	if err != nil {
+		if client.IsNotFoundError(err) {
+			resp.State.RemoveResource(ctx)
+			return
+		}
 		resp.Diagnostics.AddError("Unable to Read Source Resource", err.Error())
 		return
 	}

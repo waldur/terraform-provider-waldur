@@ -706,6 +706,11 @@ func (r *StructureCustomerResource) Read(ctx context.Context, req resource.ReadR
 	var apiResp StructureCustomerApiResponse
 	err := r.client.GetByUUID(ctx, retrievePath, data.UUID.ValueString(), &apiResp)
 	if err != nil {
+		if client.IsNotFoundError(err) {
+			resp.State.RemoveResource(ctx)
+			return
+		}
+
 		resp.Diagnostics.AddError(
 			"Unable to Read Structure Customer",
 			"An error occurred while reading the Structure Customer: "+err.Error(),

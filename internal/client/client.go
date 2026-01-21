@@ -242,3 +242,11 @@ func (c *Client) DeleteByUUID(ctx context.Context, path string, uuid string) err
 	}
 	return c.Delete(ctx, fullPath)
 }
+
+// IsNotFoundError checks if an error represents a 404 Not Found response
+func IsNotFoundError(err error) bool {
+	if err == nil {
+		return false
+	}
+	return strings.Contains(err.Error(), "HTTP 404")
+}

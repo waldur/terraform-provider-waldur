@@ -200,7 +200,10 @@ func (r *OpenstackFloatingIpResource) Schema(ctx context.Context, req resource.S
 				MarkdownDescription: " ",
 			},
 			"tenant": schema.StringAttribute{
-				Required:            true,
+				Required: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.RequiresReplace(),
+				},
 				MarkdownDescription: "Required path parameter for resource creation",
 			},
 			"tenant_name": schema.StringAttribute{
@@ -292,6 +295,11 @@ func (r *OpenstackFloatingIpResource) Read(ctx context.Context, req resource.Rea
 	var apiResp OpenstackFloatingIpApiResponse
 	err := r.client.GetByUUID(ctx, retrievePath, data.UUID.ValueString(), &apiResp)
 	if err != nil {
+		if client.IsNotFoundError(err) {
+			resp.State.RemoveResource(ctx)
+			return
+		}
+
 		resp.Diagnostics.AddError(
 			"Unable to Read Openstack Floating Ip",
 			"An error occurred while reading the Openstack Floating Ip: "+err.Error(),

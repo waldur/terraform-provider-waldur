@@ -10,6 +10,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -247,8 +248,11 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 				MarkdownDescription: " ",
 			},
 			"downscaled": schema.BoolAttribute{
-				Optional:            true,
-				Computed:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.Bool{
+					boolplanmodifier.RequiresReplace(),
+				},
 				MarkdownDescription: " ",
 			},
 			"effective_id": schema.StringAttribute{
@@ -478,13 +482,19 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 				MarkdownDescription: " ",
 			},
 			"paused": schema.BoolAttribute{
-				Optional:            true,
-				Computed:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.Bool{
+					boolplanmodifier.RequiresReplace(),
+				},
 				MarkdownDescription: " ",
 			},
 			"plan": schema.StringAttribute{
-				Optional:            true,
-				Computed:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.RequiresReplace(),
+				},
 				MarkdownDescription: " ",
 			},
 			"plan_description": schema.StringAttribute{
@@ -566,8 +576,11 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 				MarkdownDescription: " ",
 			},
 			"slug": schema.StringAttribute{
-				Optional:            true,
-				Computed:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.RequiresReplace(),
+				},
 				MarkdownDescription: "URL-friendly identifier. Only editable by staff users.",
 			},
 			"state": schema.StringAttribute{
@@ -637,6 +650,11 @@ func (r *MarketplaceResourceResource) Read(ctx context.Context, req resource.Rea
 	var apiResp MarketplaceResourceApiResponse
 	err := r.client.GetByUUID(ctx, retrievePath, data.UUID.ValueString(), &apiResp)
 	if err != nil {
+		if client.IsNotFoundError(err) {
+			resp.State.RemoveResource(ctx)
+			return
+		}
+
 		resp.Diagnostics.AddError(
 			"Unable to Read Marketplace Resource",
 			"An error occurred while reading the Marketplace Resource: "+err.Error(),

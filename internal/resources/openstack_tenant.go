@@ -13,6 +13,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -422,8 +423,11 @@ func (r *OpenstackTenantResource) Schema(ctx context.Context, req resource.Schem
 				MarkdownDescription: " ",
 			},
 			"skip_connection_extnet": schema.BoolAttribute{
-				Optional:            true,
-				Computed:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.Bool{
+					boolplanmodifier.RequiresReplace(),
+				},
 				MarkdownDescription: " ",
 			},
 			"skip_creation_of_default_router": schema.BoolAttribute{
@@ -441,8 +445,11 @@ func (r *OpenstackTenantResource) Schema(ctx context.Context, req resource.Schem
 				MarkdownDescription: " ",
 			},
 			"subnet_cidr": schema.StringAttribute{
-				Optional:            true,
-				Computed:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.RequiresReplace(),
+				},
 				MarkdownDescription: " ",
 			},
 			"url": schema.StringAttribute{
@@ -677,6 +684,11 @@ func (r *OpenstackTenantResource) Read(ctx context.Context, req resource.ReadReq
 	var apiResp OpenstackTenantApiResponse
 	err := r.client.GetByUUID(ctx, retrievePath, data.UUID.ValueString(), &apiResp)
 	if err != nil {
+		if client.IsNotFoundError(err) {
+			resp.State.RemoveResource(ctx)
+			return
+		}
+
 		resp.Diagnostics.AddError(
 			"Unable to Read Openstack Tenant",
 			"An error occurred while reading the Openstack Tenant: "+err.Error(),
@@ -778,6 +790,10 @@ func (r *OpenstackTenantResource) Update(ctx context.Context, req resource.Updat
 
 	err := r.client.GetByUUID(ctx, retrievePath, data.UUID.ValueString(), &apiResp)
 	if err != nil {
+		if client.IsNotFoundError(err) {
+			resp.State.RemoveResource(ctx)
+			return
+		}
 		resp.Diagnostics.AddError("Failed to Read Resource After Update", err.Error())
 		return
 	}

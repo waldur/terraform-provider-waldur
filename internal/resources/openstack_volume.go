@@ -177,8 +177,11 @@ func (r *OpenstackVolumeResource) Schema(ctx context.Context, req resource.Schem
 				MarkdownDescription: " ",
 			},
 			"availability_zone": schema.StringAttribute{
-				Optional:            true,
-				Computed:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.RequiresReplace(),
+				},
 				MarkdownDescription: "Availability zone where this volume is located",
 			},
 			"availability_zone_name": schema.StringAttribute{
@@ -239,8 +242,11 @@ func (r *OpenstackVolumeResource) Schema(ctx context.Context, req resource.Schem
 				MarkdownDescription: " ",
 			},
 			"image": schema.StringAttribute{
-				Optional:            true,
-				Computed:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.RequiresReplace(),
+				},
 				MarkdownDescription: "Image that this volume was created from, if any",
 			},
 			"image_metadata": schema.StringAttribute{
@@ -602,6 +608,11 @@ func (r *OpenstackVolumeResource) Read(ctx context.Context, req resource.ReadReq
 	var apiResp OpenstackVolumeApiResponse
 	err := r.client.GetByUUID(ctx, retrievePath, data.UUID.ValueString(), &apiResp)
 	if err != nil {
+		if client.IsNotFoundError(err) {
+			resp.State.RemoveResource(ctx)
+			return
+		}
+
 		resp.Diagnostics.AddError(
 			"Unable to Read Openstack Volume",
 			"An error occurred while reading the Openstack Volume: "+err.Error(),
@@ -687,6 +698,10 @@ func (r *OpenstackVolumeResource) Update(ctx context.Context, req resource.Updat
 
 	err := r.client.GetByUUID(ctx, retrievePath, data.UUID.ValueString(), &apiResp)
 	if err != nil {
+		if client.IsNotFoundError(err) {
+			resp.State.RemoveResource(ctx)
+			return
+		}
 		resp.Diagnostics.AddError("Failed to Read Resource After Update", err.Error())
 		return
 	}

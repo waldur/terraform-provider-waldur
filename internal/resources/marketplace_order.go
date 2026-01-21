@@ -9,6 +9,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/mapplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -195,8 +197,11 @@ func (r *MarketplaceOrderResource) Schema(ctx context.Context, req resource.Sche
 				},
 			},
 			"accepting_terms_of_service": schema.BoolAttribute{
-				Optional:            true,
-				Computed:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.Bool{
+					boolplanmodifier.RequiresReplace(),
+				},
 				MarkdownDescription: " ",
 			},
 			"activation_price": schema.Float64Attribute{
@@ -204,23 +209,35 @@ func (r *MarketplaceOrderResource) Schema(ctx context.Context, req resource.Sche
 				MarkdownDescription: " ",
 			},
 			"attachment": schema.StringAttribute{
-				Optional:            true,
-				Computed:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.RequiresReplace(),
+				},
 				MarkdownDescription: " ",
 			},
 			"attributes": schema.MapAttribute{
-				ElementType:         types.StringType,
-				Required:            true,
+				ElementType: types.StringType,
+				Required:    true,
+				PlanModifiers: []planmodifier.Map{
+					mapplanmodifier.RequiresReplace(),
+				},
 				MarkdownDescription: "Order attributes",
 			},
 			"backend_id": schema.StringAttribute{
-				Optional:            true,
-				Computed:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.RequiresReplace(),
+				},
 				MarkdownDescription: " ",
 			},
 			"callback_url": schema.StringAttribute{
-				Optional:            true,
-				Computed:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.RequiresReplace(),
+				},
 				MarkdownDescription: " ",
 			},
 			"can_terminate": schema.BoolAttribute{
@@ -371,8 +388,11 @@ func (r *MarketplaceOrderResource) Schema(ctx context.Context, req resource.Sche
 				MarkdownDescription: " ",
 			},
 			"plan": schema.StringAttribute{
-				Optional:            true,
-				Computed:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.RequiresReplace(),
+				},
 				MarkdownDescription: " ",
 			},
 			"plan_description": schema.StringAttribute{
@@ -435,8 +455,11 @@ func (r *MarketplaceOrderResource) Schema(ctx context.Context, req resource.Sche
 				MarkdownDescription: " ",
 			},
 			"request_comment": schema.StringAttribute{
-				Optional:            true,
-				Computed:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.RequiresReplace(),
+				},
 				MarkdownDescription: " ",
 			},
 			"resource_name": schema.StringAttribute{
@@ -456,8 +479,11 @@ func (r *MarketplaceOrderResource) Schema(ctx context.Context, req resource.Sche
 				MarkdownDescription: "URL-friendly identifier. Only editable by staff users.",
 			},
 			"start_date": schema.StringAttribute{
-				Optional:            true,
-				Computed:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.RequiresReplace(),
+				},
 				MarkdownDescription: "Enables delayed processing of resource provisioning order.",
 			},
 			"state": schema.StringAttribute{
@@ -469,8 +495,11 @@ func (r *MarketplaceOrderResource) Schema(ctx context.Context, req resource.Sche
 				MarkdownDescription: " ",
 			},
 			"type": schema.StringAttribute{
-				Optional:            true,
-				Computed:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.RequiresReplace(),
+				},
 				MarkdownDescription: " ",
 			},
 			"url": schema.StringAttribute{
@@ -590,6 +619,11 @@ func (r *MarketplaceOrderResource) Read(ctx context.Context, req resource.ReadRe
 	var apiResp MarketplaceOrderApiResponse
 	err := r.client.GetByUUID(ctx, retrievePath, data.UUID.ValueString(), &apiResp)
 	if err != nil {
+		if client.IsNotFoundError(err) {
+			resp.State.RemoveResource(ctx)
+			return
+		}
+
 		resp.Diagnostics.AddError(
 			"Unable to Read Marketplace Order",
 			"An error occurred while reading the Marketplace Order: "+err.Error(),

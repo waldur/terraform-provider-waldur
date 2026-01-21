@@ -248,6 +248,11 @@ func (r *OpenstackNetworkRbacPolicyResource) Read(ctx context.Context, req resou
 	var apiResp OpenstackNetworkRbacPolicyApiResponse
 	err := r.client.GetByUUID(ctx, retrievePath, data.UUID.ValueString(), &apiResp)
 	if err != nil {
+		if client.IsNotFoundError(err) {
+			resp.State.RemoveResource(ctx)
+			return
+		}
+
 		resp.Diagnostics.AddError(
 			"Unable to Read Openstack Network Rbac Policy",
 			"An error occurred while reading the Openstack Network Rbac Policy: "+err.Error(),
