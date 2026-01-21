@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/list"
 	"github.com/hashicorp/terraform-plugin-framework/list/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
@@ -138,7 +139,7 @@ func (l *OpenstackNetworkRbacPolicyList) List(ctx context.Context, req list.List
 	}
 
 	// Call API
-	var listResult []map[string]interface{}
+	var listResult []OpenstackNetworkRbacPolicyApiResponse
 	err := l.client.ListWithFilter(ctx, "/api/openstack-network-rbac-policies/", filters, &listResult)
 	if err != nil {
 		// Return error diagnostics
@@ -149,111 +150,36 @@ func (l *OpenstackNetworkRbacPolicyList) List(ctx context.Context, req list.List
 
 	// Stream results
 	stream.Results = func(push func(list.ListResult) bool) {
-		for _, item := range listResult {
+		for _, apiResp := range listResult {
 			result := req.NewListResult(ctx)
 
 			// Map item to model
 			var data OpenstackNetworkRbacPolicyResourceModel
+			model := &data
 
-			// Initialize lists and objects to empty/null if needed (or rely on map logic)
+			var diags diag.Diagnostics
 
-			sourceMap := item
-
-			// Reuse the mapResponseFields logic (embedded here or via shared template)
-			// Map response fields to data model
-			_ = sourceMap
-			if val, ok := sourceMap["backend_id"]; ok && val != nil {
-				if str, ok := val.(string); ok {
-					data.BackendId = types.StringValue(str)
-				}
-			} else {
-				if data.BackendId.IsUnknown() {
-					data.BackendId = types.StringNull()
-				}
-			}
-			if val, ok := sourceMap["created"]; ok && val != nil {
-				if str, ok := val.(string); ok {
-					data.Created = types.StringValue(str)
-				}
-			} else {
-				if data.Created.IsUnknown() {
-					data.Created = types.StringNull()
-				}
-			}
-			if val, ok := sourceMap["network"]; ok && val != nil {
-				if str, ok := val.(string); ok {
-					data.Network = types.StringValue(str)
-				}
-			} else {
-				if data.Network.IsUnknown() {
-					data.Network = types.StringNull()
-				}
-			}
-			if val, ok := sourceMap["network_name"]; ok && val != nil {
-				if str, ok := val.(string); ok {
-					data.NetworkName = types.StringValue(str)
-				}
-			} else {
-				if data.NetworkName.IsUnknown() {
-					data.NetworkName = types.StringNull()
-				}
-			}
-			if val, ok := sourceMap["policy_type"]; ok && val != nil {
-				if str, ok := val.(string); ok {
-					data.PolicyType = types.StringValue(str)
-				}
-			} else {
-				if data.PolicyType.IsUnknown() {
-					data.PolicyType = types.StringNull()
-				}
-			}
-			if val, ok := sourceMap["target_tenant"]; ok && val != nil {
-				if str, ok := val.(string); ok {
-					data.TargetTenant = types.StringValue(str)
-				}
-			} else {
-				if data.TargetTenant.IsUnknown() {
-					data.TargetTenant = types.StringNull()
-				}
-			}
-			if val, ok := sourceMap["target_tenant_name"]; ok && val != nil {
-				if str, ok := val.(string); ok {
-					data.TargetTenantName = types.StringValue(str)
-				}
-			} else {
-				if data.TargetTenantName.IsUnknown() {
-					data.TargetTenantName = types.StringNull()
-				}
-			}
-			if val, ok := sourceMap["url"]; ok && val != nil {
-				if str, ok := val.(string); ok {
-					data.Url = types.StringValue(str)
-				}
-			} else {
-				if data.Url.IsUnknown() {
-					data.Url = types.StringNull()
-				}
-			}
+			model.UUID = types.StringPointerValue(apiResp.UUID)
+			model.BackendId = types.StringPointerValue(apiResp.BackendId)
+			model.Created = types.StringPointerValue(apiResp.Created)
+			model.Network = types.StringPointerValue(apiResp.Network)
+			model.NetworkName = types.StringPointerValue(apiResp.NetworkName)
+			model.PolicyType = types.StringPointerValue(apiResp.PolicyType)
+			model.TargetTenant = types.StringPointerValue(apiResp.TargetTenant)
+			model.TargetTenantName = types.StringPointerValue(apiResp.TargetTenantName)
+			model.Url = types.StringPointerValue(apiResp.Url)
 
 			// Set the resource state
 			// For ListResource, we generally return the "Resource" state matching the main resource schema.
 			// This allows `terraform plan` to correlate if using `terraform query`.
 
-			diags := result.Resource.Set(ctx, &data)
+			setDiags := result.Resource.Set(ctx, &data)
+			diags.Append(setDiags...)
 			result.Diagnostics.Append(diags...)
 
 			// Set Identity if possible (usually UUID)
 			if !data.UUID.IsNull() && !data.UUID.IsUnknown() {
-				// Identity value must match what the resource uses for Import?
-				// Typically implicit. For now just setting Resource is key.
-				// result.Identity.Set(ctx, data.UUID.ValueString())
-				// The doc says: "An error is returned if a list result in the stream contains a null identity"
 				result.Diagnostics.Append(result.Identity.Set(ctx, data.UUID.ValueString())...)
-			} else {
-				// Try to fallback to "uuid" from map if model failed
-				if uuid, ok := item["uuid"].(string); ok {
-					result.Diagnostics.Append(result.Identity.Set(ctx, uuid)...)
-				}
 			}
 
 			if !push(result) {

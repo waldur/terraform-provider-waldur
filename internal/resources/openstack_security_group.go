@@ -6,6 +6,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
+	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -27,6 +28,51 @@ func NewOpenstackSecurityGroupResource() resource.Resource {
 // OpenstackSecurityGroupResource defines the resource implementation.
 type OpenstackSecurityGroupResource struct {
 	client *client.Client
+}
+
+// OpenstackSecurityGroupApiResponse is the API response model.
+type OpenstackSecurityGroupApiResponse struct {
+	UUID *string `json:"uuid"`
+
+	AccessUrl      *string                               `json:"access_url" tfsdk:"access_url"`
+	BackendId      *string                               `json:"backend_id" tfsdk:"backend_id"`
+	Created        *string                               `json:"created" tfsdk:"created"`
+	Description    *string                               `json:"description" tfsdk:"description"`
+	ErrorMessage   *string                               `json:"error_message" tfsdk:"error_message"`
+	ErrorTraceback *string                               `json:"error_traceback" tfsdk:"error_traceback"`
+	Modified       *string                               `json:"modified" tfsdk:"modified"`
+	ResourceType   *string                               `json:"resource_type" tfsdk:"resource_type"`
+	Rules          []OpenstackSecurityGroupRulesResponse `json:"rules" tfsdk:"rules"`
+	State          *string                               `json:"state" tfsdk:"state"`
+	Tenant         *string                               `json:"tenant" tfsdk:"tenant"`
+	TenantName     *string                               `json:"tenant_name" tfsdk:"tenant_name"`
+	TenantUuid     *string                               `json:"tenant_uuid" tfsdk:"tenant_uuid"`
+	Url            *string                               `json:"url" tfsdk:"url"`
+}
+
+type OpenstackSecurityGroupRulesResponse struct {
+	Cidr        *string `json:"cidr" tfsdk:"cidr"`
+	Description *string `json:"description" tfsdk:"description"`
+	Direction   *string `json:"direction" tfsdk:"direction"`
+	Ethertype   *string `json:"ethertype" tfsdk:"ethertype"`
+	FromPort    *int64  `json:"from_port" tfsdk:"from_port"`
+	Protocol    *string `json:"protocol" tfsdk:"protocol"`
+	RemoteGroup *string `json:"remote_group" tfsdk:"remote_group"`
+	ToPort      *int64  `json:"to_port" tfsdk:"to_port"`
+}
+
+var openstacksecuritygroup_rulesAttrTypes = map[string]attr.Type{
+	"cidr":         types.StringType,
+	"description":  types.StringType,
+	"direction":    types.StringType,
+	"ethertype":    types.StringType,
+	"from_port":    types.Int64Type,
+	"protocol":     types.StringType,
+	"remote_group": types.StringType,
+	"to_port":      types.Int64Type,
+}
+var openstacksecuritygroup_rulesObjectType = types.ObjectType{
+	AttrTypes: openstacksecuritygroup_rulesAttrTypes,
 }
 
 // OpenstackSecurityGroupResourceModel describes the resource data model.
@@ -208,7 +254,11 @@ func (r *OpenstackSecurityGroupResource) Create(ctx context.Context, req resourc
 		return
 	}
 
-	// Prepare request body
+	// Call Waldur API to create resource
+	var apiResp OpenstackSecurityGroupApiResponse
+	// Custom create operation via parent resource
+	createPath := "/api/openstack-tenants/{uuid}/create_security_group/"
+	createPath = strings.Replace(createPath, "{uuid}", data.Tenant.ValueString(), 1) // Prepare request body
 	requestBody := map[string]interface{}{}
 	if !data.Description.IsNull() && !data.Description.IsUnknown() {
 		if v := data.Description.ValueString(); v != "" {
@@ -219,13 +269,7 @@ func (r *OpenstackSecurityGroupResource) Create(ctx context.Context, req resourc
 	if v := ConvertTFValue(data.Rules); v != nil {
 		requestBody["rules"] = v
 	}
-
-	// Call Waldur API to create resource
-	var result map[string]interface{}
-	// Custom create operation via parent resource
-	createPath := "/api/openstack-tenants/{uuid}/create_security_group/"
-	createPath = strings.Replace(createPath, "{uuid}", data.Tenant.ValueString(), 1)
-	err := r.client.Post(ctx, createPath, requestBody, &result)
+	err := r.client.Post(ctx, createPath, requestBody, &apiResp)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Unable to Create Openstack Security Group",
@@ -234,11 +278,11 @@ func (r *OpenstackSecurityGroupResource) Create(ctx context.Context, req resourc
 		return
 	}
 	// Extract UUID from response
-	if uuid, ok := result["uuid"].(string); ok {
-		data.UUID = types.StringValue(uuid)
+	if apiResp.UUID != nil {
+		data.UUID = types.StringPointerValue(apiResp.UUID)
 	}
 
-	r.updateFromValue(ctx, &data, result)
+	resp.Diagnostics.Append(r.mapResponseToModel(ctx, apiResp, &data)...)
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
@@ -254,11 +298,11 @@ func (r *OpenstackSecurityGroupResource) Read(ctx context.Context, req resource.
 	}
 
 	// Call Waldur API to read resource
-	var result map[string]interface{}
 
 	retrievePath := strings.Replace("/api/openstack-security-groups/{uuid}/", "{uuid}", data.UUID.ValueString(), 1)
 
-	err := r.client.GetByUUID(ctx, retrievePath, data.UUID.ValueString(), &result)
+	var apiResp OpenstackSecurityGroupApiResponse
+	err := r.client.GetByUUID(ctx, retrievePath, data.UUID.ValueString(), &apiResp)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Unable to Read Openstack Security Group",
@@ -267,7 +311,7 @@ func (r *OpenstackSecurityGroupResource) Read(ctx context.Context, req resource.
 		return
 	}
 
-	r.updateFromValue(ctx, &data, result)
+	resp.Diagnostics.Append(r.mapResponseToModel(ctx, apiResp, &data)...)
 
 	// Save updated data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
@@ -281,8 +325,6 @@ func (r *OpenstackSecurityGroupResource) Update(ctx context.Context, req resourc
 	if resp.Diagnostics.HasError() {
 		return
 	}
-
-	data.UUID = state.UUID
 
 	// Prepare request body
 	requestBody := map[string]interface{}{}
@@ -298,9 +340,9 @@ func (r *OpenstackSecurityGroupResource) Update(ctx context.Context, req resourc
 	}
 
 	// Call Waldur API to update resource
-	var result map[string]interface{}
+	var apiResp OpenstackSecurityGroupApiResponse
 
-	err := r.client.Update(ctx, "/api/openstack-security-groups/{uuid}/", data.UUID.ValueString(), requestBody, &result)
+	err := r.client.Update(ctx, "/api/openstack-security-groups/{uuid}/", data.UUID.ValueString(), requestBody, &apiResp)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Unable to Update Openstack Security Group",
@@ -310,11 +352,11 @@ func (r *OpenstackSecurityGroupResource) Update(ctx context.Context, req resourc
 	}
 
 	// Update UUID from response
-	if uuid, ok := result["uuid"].(string); ok {
-		data.UUID = types.StringValue(uuid)
+	if apiResp.UUID != nil {
+		data.UUID = types.StringPointerValue(apiResp.UUID)
 	}
 
-	r.updateFromValue(ctx, &data, result)
+	resp.Diagnostics.Append(r.mapResponseToModel(ctx, apiResp, &data)...)
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
@@ -342,220 +384,26 @@ func (r *OpenstackSecurityGroupResource) ImportState(ctx context.Context, req re
 	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }
 
-func (r *OpenstackSecurityGroupResource) updateFromValue(ctx context.Context, data *OpenstackSecurityGroupResourceModel, sourceMap map[string]interface{}) {
-	// Map response fields to data model
-	_ = sourceMap
-	if val, ok := sourceMap["access_url"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.AccessUrl = types.StringValue(str)
-		}
-	} else {
-		if data.AccessUrl.IsUnknown() {
-			data.AccessUrl = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["backend_id"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.BackendId = types.StringValue(str)
-		}
-	} else {
-		if data.BackendId.IsUnknown() {
-			data.BackendId = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["created"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Created = types.StringValue(str)
-		}
-	} else {
-		if data.Created.IsUnknown() {
-			data.Created = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["description"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Description = types.StringValue(str)
-		}
-	} else {
-		if data.Description.IsUnknown() {
-			data.Description = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["error_message"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.ErrorMessage = types.StringValue(str)
-		}
-	} else {
-		if data.ErrorMessage.IsUnknown() {
-			data.ErrorMessage = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["error_traceback"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.ErrorTraceback = types.StringValue(str)
-		}
-	} else {
-		if data.ErrorTraceback.IsUnknown() {
-			data.ErrorTraceback = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["modified"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Modified = types.StringValue(str)
-		}
-	} else {
-		if data.Modified.IsUnknown() {
-			data.Modified = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["resource_type"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.ResourceType = types.StringValue(str)
-		}
-	} else {
-		if data.ResourceType.IsUnknown() {
-			data.ResourceType = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["rules"]; ok && val != nil {
-		// List of objects
-		if arr, ok := val.([]interface{}); ok {
-			items := make([]attr.Value, 0, len(arr))
-			for _, item := range arr {
-				if objMap, ok := item.(map[string]interface{}); ok {
-					attrTypes := map[string]attr.Type{
-						"cidr":         types.StringType,
-						"description":  types.StringType,
-						"direction":    types.StringType,
-						"ethertype":    types.StringType,
-						"from_port":    types.Int64Type,
-						"protocol":     types.StringType,
-						"remote_group": types.StringType,
-						"to_port":      types.Int64Type,
-					}
-					attrValues := map[string]attr.Value{
-						"cidr": func() attr.Value {
-							if v, ok := objMap["cidr"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"description": func() attr.Value {
-							if v, ok := objMap["description"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"direction": func() attr.Value {
-							if v, ok := objMap["direction"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"ethertype": func() attr.Value {
-							if v, ok := objMap["ethertype"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"from_port": func() attr.Value {
-							if v, ok := objMap["from_port"].(float64); ok {
-								return types.Int64Value(int64(v))
-							}
-							return types.Int64Null()
-						}(),
-						"protocol": func() attr.Value {
-							if v, ok := objMap["protocol"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"remote_group": func() attr.Value {
-							if v, ok := objMap["remote_group"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"to_port": func() attr.Value {
-							if v, ok := objMap["to_port"].(float64); ok {
-								return types.Int64Value(int64(v))
-							}
-							return types.Int64Null()
-						}(),
-					}
-					objVal, _ := types.ObjectValue(attrTypes, attrValues)
-					items = append(items, objVal)
-				}
-			}
-			listVal, _ := types.ListValue(types.ObjectType{AttrTypes: map[string]attr.Type{
-				"cidr":         types.StringType,
-				"description":  types.StringType,
-				"direction":    types.StringType,
-				"ethertype":    types.StringType,
-				"from_port":    types.Int64Type,
-				"protocol":     types.StringType,
-				"remote_group": types.StringType,
-				"to_port":      types.Int64Type,
-			}}, items)
-			data.Rules = listVal
-		}
-	} else {
-		if data.Rules.IsUnknown() {
-			data.Rules = types.ListNull(types.ObjectType{AttrTypes: map[string]attr.Type{
-				"cidr":         types.StringType,
-				"description":  types.StringType,
-				"direction":    types.StringType,
-				"ethertype":    types.StringType,
-				"from_port":    types.Int64Type,
-				"protocol":     types.StringType,
-				"remote_group": types.StringType,
-				"to_port":      types.Int64Type,
-			}})
-		}
-	}
-	if val, ok := sourceMap["state"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.State = types.StringValue(str)
-		}
-	} else {
-		if data.State.IsUnknown() {
-			data.State = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["tenant"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Tenant = types.StringValue(str)
-		}
-	} else {
-		if data.Tenant.IsUnknown() {
-			data.Tenant = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["tenant_name"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.TenantName = types.StringValue(str)
-		}
-	} else {
-		if data.TenantName.IsUnknown() {
-			data.TenantName = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["tenant_uuid"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.TenantUuid = types.StringValue(str)
-		}
-	} else {
-		if data.TenantUuid.IsUnknown() {
-			data.TenantUuid = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["url"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Url = types.StringValue(str)
-		}
-	} else {
-		if data.Url.IsUnknown() {
-			data.Url = types.StringNull()
-		}
-	}
+func (r *OpenstackSecurityGroupResource) mapResponseToModel(ctx context.Context, apiResp OpenstackSecurityGroupApiResponse, model *OpenstackSecurityGroupResourceModel) diag.Diagnostics {
+	var diags diag.Diagnostics
+
+	model.UUID = types.StringPointerValue(apiResp.UUID)
+	model.AccessUrl = types.StringPointerValue(apiResp.AccessUrl)
+	model.BackendId = types.StringPointerValue(apiResp.BackendId)
+	model.Created = types.StringPointerValue(apiResp.Created)
+	model.Description = types.StringPointerValue(apiResp.Description)
+	model.ErrorMessage = types.StringPointerValue(apiResp.ErrorMessage)
+	model.ErrorTraceback = types.StringPointerValue(apiResp.ErrorTraceback)
+	model.Modified = types.StringPointerValue(apiResp.Modified)
+	model.ResourceType = types.StringPointerValue(apiResp.ResourceType)
+	listValRules, listDiagsRules := types.ListValueFrom(ctx, openstacksecuritygroup_rulesObjectType, apiResp.Rules)
+	diags.Append(listDiagsRules...)
+	model.Rules = listValRules
+	model.State = types.StringPointerValue(apiResp.State)
+	model.Tenant = types.StringPointerValue(apiResp.Tenant)
+	model.TenantName = types.StringPointerValue(apiResp.TenantName)
+	model.TenantUuid = types.StringPointerValue(apiResp.TenantUuid)
+	model.Url = types.StringPointerValue(apiResp.Url)
+
+	return diags
 }

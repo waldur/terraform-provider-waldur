@@ -7,6 +7,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/waldur/terraform-provider-waldur/internal/client"
@@ -22,6 +23,52 @@ func NewOpenstackSecurityGroupDataSource() datasource.DataSource {
 // OpenstackSecurityGroupDataSource defines the data source implementation.
 type OpenstackSecurityGroupDataSource struct {
 	client *client.Client
+}
+
+// OpenstackSecurityGroupApiResponse is the API response model.
+type OpenstackSecurityGroupApiResponse struct {
+	UUID *string `json:"uuid"`
+
+	AccessUrl      *string                               `json:"access_url" tfsdk:"access_url"`
+	Created        *string                               `json:"created" tfsdk:"created"`
+	ErrorMessage   *string                               `json:"error_message" tfsdk:"error_message"`
+	ErrorTraceback *string                               `json:"error_traceback" tfsdk:"error_traceback"`
+	Modified       *string                               `json:"modified" tfsdk:"modified"`
+	ResourceType   *string                               `json:"resource_type" tfsdk:"resource_type"`
+	Rules          []OpenstackSecurityGroupRulesResponse `json:"rules" tfsdk:"rules"`
+	TenantName     *string                               `json:"tenant_name" tfsdk:"tenant_name"`
+	Url            *string                               `json:"url" tfsdk:"url"`
+}
+
+type OpenstackSecurityGroupRulesResponse struct {
+	Cidr            *string `json:"cidr" tfsdk:"cidr"`
+	Description     *string `json:"description" tfsdk:"description"`
+	Direction       *string `json:"direction" tfsdk:"direction"`
+	Ethertype       *string `json:"ethertype" tfsdk:"ethertype"`
+	FromPort        *int64  `json:"from_port" tfsdk:"from_port"`
+	Id              *int64  `json:"id" tfsdk:"id"`
+	Protocol        *string `json:"protocol" tfsdk:"protocol"`
+	RemoteGroup     *string `json:"remote_group" tfsdk:"remote_group"`
+	RemoteGroupName *string `json:"remote_group_name" tfsdk:"remote_group_name"`
+	RemoteGroupUuid *string `json:"remote_group_uuid" tfsdk:"remote_group_uuid"`
+	ToPort          *int64  `json:"to_port" tfsdk:"to_port"`
+}
+
+var openstacksecuritygroup_rulesAttrTypes = map[string]attr.Type{
+	"cidr":              types.StringType,
+	"description":       types.StringType,
+	"direction":         types.StringType,
+	"ethertype":         types.StringType,
+	"from_port":         types.Int64Type,
+	"id":                types.Int64Type,
+	"protocol":          types.StringType,
+	"remote_group":      types.StringType,
+	"remote_group_name": types.StringType,
+	"remote_group_uuid": types.StringType,
+	"to_port":           types.Int64Type,
+}
+var openstacksecuritygroup_rulesObjectType = types.ObjectType{
+	AttrTypes: openstacksecuritygroup_rulesAttrTypes,
 }
 
 // OpenstackSecurityGroupDataSourceModel describes the data source data model.
@@ -240,9 +287,9 @@ func (d *OpenstackSecurityGroupDataSource) Read(ctx context.Context, req datasou
 
 	// Check if UUID is provided for direct lookup
 	if !data.UUID.IsNull() && data.UUID.ValueString() != "" {
-		var item map[string]interface{}
+		var apiResp OpenstackSecurityGroupApiResponse
 
-		err := d.client.GetByUUID(ctx, "/api/openstack-security-groups/{uuid}/", data.UUID.ValueString(), &item)
+		err := d.client.GetByUUID(ctx, "/api/openstack-security-groups/{uuid}/", data.UUID.ValueString(), &apiResp)
 		if err != nil {
 			resp.Diagnostics.AddError(
 				"Unable to Read Openstack Security Group",
@@ -251,318 +298,11 @@ func (d *OpenstackSecurityGroupDataSource) Read(ctx context.Context, req datasou
 			return
 		}
 
-		// Extract data from single result
-		if uuid, ok := item["uuid"].(string); ok {
-			data.UUID = types.StringValue(uuid)
-		}
-
-		sourceMap := item
-		// Map response fields to data model
-		_ = sourceMap
-		if val, ok := sourceMap["access_url"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.AccessUrl = types.StringValue(str)
-			}
-		} else {
-			if data.AccessUrl.IsUnknown() {
-				data.AccessUrl = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["created"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Created = types.StringValue(str)
-			}
-		} else {
-			if data.Created.IsUnknown() {
-				data.Created = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["error_message"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.ErrorMessage = types.StringValue(str)
-			}
-		} else {
-			if data.ErrorMessage.IsUnknown() {
-				data.ErrorMessage = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["error_traceback"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.ErrorTraceback = types.StringValue(str)
-			}
-		} else {
-			if data.ErrorTraceback.IsUnknown() {
-				data.ErrorTraceback = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["modified"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Modified = types.StringValue(str)
-			}
-		} else {
-			if data.Modified.IsUnknown() {
-				data.Modified = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["resource_type"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.ResourceType = types.StringValue(str)
-			}
-		} else {
-			if data.ResourceType.IsUnknown() {
-				data.ResourceType = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["rules"]; ok && val != nil {
-			// List of objects
-			if arr, ok := val.([]interface{}); ok {
-				items := make([]attr.Value, 0, len(arr))
-				for _, item := range arr {
-					if objMap, ok := item.(map[string]interface{}); ok {
-						attrTypes := map[string]attr.Type{
-							"cidr":              types.StringType,
-							"description":       types.StringType,
-							"direction":         types.StringType,
-							"ethertype":         types.StringType,
-							"from_port":         types.Int64Type,
-							"id":                types.Int64Type,
-							"protocol":          types.StringType,
-							"remote_group":      types.StringType,
-							"remote_group_name": types.StringType,
-							"remote_group_uuid": types.StringType,
-							"to_port":           types.Int64Type,
-						}
-						attrValues := map[string]attr.Value{
-							"cidr": func() attr.Value {
-								if v, ok := objMap["cidr"].(string); ok {
-									return types.StringValue(v)
-								}
-								return types.StringNull()
-							}(),
-							"description": func() attr.Value {
-								if v, ok := objMap["description"].(string); ok {
-									return types.StringValue(v)
-								}
-								return types.StringNull()
-							}(),
-							"direction": func() attr.Value {
-								if v, ok := objMap["direction"].(string); ok {
-									return types.StringValue(v)
-								}
-								return types.StringNull()
-							}(),
-							"ethertype": func() attr.Value {
-								if v, ok := objMap["ethertype"].(string); ok {
-									return types.StringValue(v)
-								}
-								return types.StringNull()
-							}(),
-							"from_port": func() attr.Value {
-								if v, ok := objMap["from_port"].(float64); ok {
-									return types.Int64Value(int64(v))
-								}
-								return types.Int64Null()
-							}(),
-							"id": func() attr.Value {
-								if v, ok := objMap["id"].(float64); ok {
-									return types.Int64Value(int64(v))
-								}
-								return types.Int64Null()
-							}(),
-							"protocol": func() attr.Value {
-								if v, ok := objMap["protocol"].(string); ok {
-									return types.StringValue(v)
-								}
-								return types.StringNull()
-							}(),
-							"remote_group": func() attr.Value {
-								if v, ok := objMap["remote_group"].(string); ok {
-									return types.StringValue(v)
-								}
-								return types.StringNull()
-							}(),
-							"remote_group_name": func() attr.Value {
-								if v, ok := objMap["remote_group_name"].(string); ok {
-									return types.StringValue(v)
-								}
-								return types.StringNull()
-							}(),
-							"remote_group_uuid": func() attr.Value {
-								if v, ok := objMap["remote_group_uuid"].(string); ok {
-									return types.StringValue(v)
-								}
-								return types.StringNull()
-							}(),
-							"to_port": func() attr.Value {
-								if v, ok := objMap["to_port"].(float64); ok {
-									return types.Int64Value(int64(v))
-								}
-								return types.Int64Null()
-							}(),
-						}
-						objVal, _ := types.ObjectValue(attrTypes, attrValues)
-						items = append(items, objVal)
-					}
-				}
-				listVal, _ := types.ListValue(types.ObjectType{AttrTypes: map[string]attr.Type{
-					"cidr":              types.StringType,
-					"description":       types.StringType,
-					"direction":         types.StringType,
-					"ethertype":         types.StringType,
-					"from_port":         types.Int64Type,
-					"id":                types.Int64Type,
-					"protocol":          types.StringType,
-					"remote_group":      types.StringType,
-					"remote_group_name": types.StringType,
-					"remote_group_uuid": types.StringType,
-					"to_port":           types.Int64Type,
-				}}, items)
-				data.Rules = listVal
-			}
-		} else {
-			if data.Rules.IsUnknown() {
-				data.Rules = types.ListNull(types.ObjectType{AttrTypes: map[string]attr.Type{
-					"cidr":              types.StringType,
-					"description":       types.StringType,
-					"direction":         types.StringType,
-					"ethertype":         types.StringType,
-					"from_port":         types.Int64Type,
-					"id":                types.Int64Type,
-					"protocol":          types.StringType,
-					"remote_group":      types.StringType,
-					"remote_group_name": types.StringType,
-					"remote_group_uuid": types.StringType,
-					"to_port":           types.Int64Type,
-				}})
-			}
-		}
-		if val, ok := sourceMap["tenant_name"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.TenantName = types.StringValue(str)
-			}
-		} else {
-			if data.TenantName.IsUnknown() {
-				data.TenantName = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["url"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Url = types.StringValue(str)
-			}
-		} else {
-			if data.Url.IsUnknown() {
-				data.Url = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["backend_id"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.BackendId = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["can_manage"]; ok && val != nil {
-			if b, ok := val.(bool); ok {
-				data.CanManage = types.BoolValue(b)
-			}
-		}
-		if val, ok := sourceMap["customer"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Customer = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["customer_abbreviation"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.CustomerAbbreviation = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["customer_name"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.CustomerName = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["customer_native_name"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.CustomerNativeName = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["customer_uuid"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.CustomerUuid = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["description"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Description = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["external_ip"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.ExternalIp = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["name"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Name = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["name_exact"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.NameExact = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["project"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Project = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["project_name"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.ProjectName = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["project_uuid"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.ProjectUuid = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["query"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Query = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["service_settings_name"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.ServiceSettingsName = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["service_settings_uuid"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.ServiceSettingsUuid = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["state"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.State = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["tenant"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Tenant = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["tenant_uuid"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.TenantUuid = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["uuid"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Uuid = types.StringValue(str)
-			}
-		}
+		resp.Diagnostics.Append(d.mapResponseToModel(ctx, apiResp, &data)...)
 
 	} else {
 		// Filter by provided parameters
-		var results []map[string]interface{}
+		var results []OpenstackSecurityGroupApiResponse
 
 		filters := map[string]string{}
 		if !data.BackendId.IsNull() {
@@ -663,315 +403,28 @@ func (d *OpenstackSecurityGroupDataSource) Read(ctx context.Context, req datasou
 			return
 		}
 
-		// Extract data from the single result
-		if uuid, ok := results[0]["uuid"].(string); ok {
-			data.UUID = types.StringValue(uuid)
-		}
-		sourceMap := results[0]
-		// Map response fields to data model
-		_ = sourceMap
-		if val, ok := sourceMap["access_url"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.AccessUrl = types.StringValue(str)
-			}
-		} else {
-			if data.AccessUrl.IsUnknown() {
-				data.AccessUrl = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["created"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Created = types.StringValue(str)
-			}
-		} else {
-			if data.Created.IsUnknown() {
-				data.Created = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["error_message"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.ErrorMessage = types.StringValue(str)
-			}
-		} else {
-			if data.ErrorMessage.IsUnknown() {
-				data.ErrorMessage = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["error_traceback"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.ErrorTraceback = types.StringValue(str)
-			}
-		} else {
-			if data.ErrorTraceback.IsUnknown() {
-				data.ErrorTraceback = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["modified"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Modified = types.StringValue(str)
-			}
-		} else {
-			if data.Modified.IsUnknown() {
-				data.Modified = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["resource_type"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.ResourceType = types.StringValue(str)
-			}
-		} else {
-			if data.ResourceType.IsUnknown() {
-				data.ResourceType = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["rules"]; ok && val != nil {
-			// List of objects
-			if arr, ok := val.([]interface{}); ok {
-				items := make([]attr.Value, 0, len(arr))
-				for _, item := range arr {
-					if objMap, ok := item.(map[string]interface{}); ok {
-						attrTypes := map[string]attr.Type{
-							"cidr":              types.StringType,
-							"description":       types.StringType,
-							"direction":         types.StringType,
-							"ethertype":         types.StringType,
-							"from_port":         types.Int64Type,
-							"id":                types.Int64Type,
-							"protocol":          types.StringType,
-							"remote_group":      types.StringType,
-							"remote_group_name": types.StringType,
-							"remote_group_uuid": types.StringType,
-							"to_port":           types.Int64Type,
-						}
-						attrValues := map[string]attr.Value{
-							"cidr": func() attr.Value {
-								if v, ok := objMap["cidr"].(string); ok {
-									return types.StringValue(v)
-								}
-								return types.StringNull()
-							}(),
-							"description": func() attr.Value {
-								if v, ok := objMap["description"].(string); ok {
-									return types.StringValue(v)
-								}
-								return types.StringNull()
-							}(),
-							"direction": func() attr.Value {
-								if v, ok := objMap["direction"].(string); ok {
-									return types.StringValue(v)
-								}
-								return types.StringNull()
-							}(),
-							"ethertype": func() attr.Value {
-								if v, ok := objMap["ethertype"].(string); ok {
-									return types.StringValue(v)
-								}
-								return types.StringNull()
-							}(),
-							"from_port": func() attr.Value {
-								if v, ok := objMap["from_port"].(float64); ok {
-									return types.Int64Value(int64(v))
-								}
-								return types.Int64Null()
-							}(),
-							"id": func() attr.Value {
-								if v, ok := objMap["id"].(float64); ok {
-									return types.Int64Value(int64(v))
-								}
-								return types.Int64Null()
-							}(),
-							"protocol": func() attr.Value {
-								if v, ok := objMap["protocol"].(string); ok {
-									return types.StringValue(v)
-								}
-								return types.StringNull()
-							}(),
-							"remote_group": func() attr.Value {
-								if v, ok := objMap["remote_group"].(string); ok {
-									return types.StringValue(v)
-								}
-								return types.StringNull()
-							}(),
-							"remote_group_name": func() attr.Value {
-								if v, ok := objMap["remote_group_name"].(string); ok {
-									return types.StringValue(v)
-								}
-								return types.StringNull()
-							}(),
-							"remote_group_uuid": func() attr.Value {
-								if v, ok := objMap["remote_group_uuid"].(string); ok {
-									return types.StringValue(v)
-								}
-								return types.StringNull()
-							}(),
-							"to_port": func() attr.Value {
-								if v, ok := objMap["to_port"].(float64); ok {
-									return types.Int64Value(int64(v))
-								}
-								return types.Int64Null()
-							}(),
-						}
-						objVal, _ := types.ObjectValue(attrTypes, attrValues)
-						items = append(items, objVal)
-					}
-				}
-				listVal, _ := types.ListValue(types.ObjectType{AttrTypes: map[string]attr.Type{
-					"cidr":              types.StringType,
-					"description":       types.StringType,
-					"direction":         types.StringType,
-					"ethertype":         types.StringType,
-					"from_port":         types.Int64Type,
-					"id":                types.Int64Type,
-					"protocol":          types.StringType,
-					"remote_group":      types.StringType,
-					"remote_group_name": types.StringType,
-					"remote_group_uuid": types.StringType,
-					"to_port":           types.Int64Type,
-				}}, items)
-				data.Rules = listVal
-			}
-		} else {
-			if data.Rules.IsUnknown() {
-				data.Rules = types.ListNull(types.ObjectType{AttrTypes: map[string]attr.Type{
-					"cidr":              types.StringType,
-					"description":       types.StringType,
-					"direction":         types.StringType,
-					"ethertype":         types.StringType,
-					"from_port":         types.Int64Type,
-					"id":                types.Int64Type,
-					"protocol":          types.StringType,
-					"remote_group":      types.StringType,
-					"remote_group_name": types.StringType,
-					"remote_group_uuid": types.StringType,
-					"to_port":           types.Int64Type,
-				}})
-			}
-		}
-		if val, ok := sourceMap["tenant_name"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.TenantName = types.StringValue(str)
-			}
-		} else {
-			if data.TenantName.IsUnknown() {
-				data.TenantName = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["url"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Url = types.StringValue(str)
-			}
-		} else {
-			if data.Url.IsUnknown() {
-				data.Url = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["backend_id"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.BackendId = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["can_manage"]; ok && val != nil {
-			if b, ok := val.(bool); ok {
-				data.CanManage = types.BoolValue(b)
-			}
-		}
-		if val, ok := sourceMap["customer"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Customer = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["customer_abbreviation"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.CustomerAbbreviation = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["customer_name"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.CustomerName = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["customer_native_name"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.CustomerNativeName = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["customer_uuid"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.CustomerUuid = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["description"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Description = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["external_ip"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.ExternalIp = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["name"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Name = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["name_exact"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.NameExact = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["project"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Project = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["project_name"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.ProjectName = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["project_uuid"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.ProjectUuid = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["query"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Query = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["service_settings_name"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.ServiceSettingsName = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["service_settings_uuid"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.ServiceSettingsUuid = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["state"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.State = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["tenant"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Tenant = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["tenant_uuid"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.TenantUuid = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["uuid"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Uuid = types.StringValue(str)
-			}
-		}
+		resp.Diagnostics.Append(d.mapResponseToModel(ctx, results[0], &data)...)
 	}
 
 	// Save data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
+}
+
+func (d *OpenstackSecurityGroupDataSource) mapResponseToModel(ctx context.Context, apiResp OpenstackSecurityGroupApiResponse, model *OpenstackSecurityGroupDataSourceModel) diag.Diagnostics {
+	var diags diag.Diagnostics
+
+	model.UUID = types.StringPointerValue(apiResp.UUID)
+	model.AccessUrl = types.StringPointerValue(apiResp.AccessUrl)
+	model.Created = types.StringPointerValue(apiResp.Created)
+	model.ErrorMessage = types.StringPointerValue(apiResp.ErrorMessage)
+	model.ErrorTraceback = types.StringPointerValue(apiResp.ErrorTraceback)
+	model.Modified = types.StringPointerValue(apiResp.Modified)
+	model.ResourceType = types.StringPointerValue(apiResp.ResourceType)
+	listValRules, listDiagsRules := types.ListValueFrom(ctx, openstacksecuritygroup_rulesObjectType, apiResp.Rules)
+	diags.Append(listDiagsRules...)
+	model.Rules = listValRules
+	model.TenantName = types.StringPointerValue(apiResp.TenantName)
+	model.Url = types.StringPointerValue(apiResp.Url)
+
+	return diags
 }

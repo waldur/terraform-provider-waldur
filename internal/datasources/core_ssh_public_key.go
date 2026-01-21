@@ -6,6 +6,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/waldur/terraform-provider-waldur/internal/client"
@@ -21,6 +22,15 @@ func NewCoreSshPublicKeyDataSource() datasource.DataSource {
 // CoreSshPublicKeyDataSource defines the data source implementation.
 type CoreSshPublicKeyDataSource struct {
 	client *client.Client
+}
+
+// CoreSshPublicKeyApiResponse is the API response model.
+type CoreSshPublicKeyApiResponse struct {
+	UUID *string `json:"uuid"`
+
+	PublicKey *string `json:"public_key" tfsdk:"public_key"`
+	Type      *string `json:"type" tfsdk:"type"`
+	Url       *string `json:"url" tfsdk:"url"`
 }
 
 // CoreSshPublicKeyDataSourceModel describes the data source data model.
@@ -141,9 +151,9 @@ func (d *CoreSshPublicKeyDataSource) Read(ctx context.Context, req datasource.Re
 
 	// Check if UUID is provided for direct lookup
 	if !data.UUID.IsNull() && data.UUID.ValueString() != "" {
-		var item map[string]interface{}
+		var apiResp CoreSshPublicKeyApiResponse
 
-		err := d.client.GetByUUID(ctx, "/api/keys/{uuid}/", data.UUID.ValueString(), &item)
+		err := d.client.GetByUUID(ctx, "/api/keys/{uuid}/", data.UUID.ValueString(), &apiResp)
 		if err != nil {
 			resp.Diagnostics.AddError(
 				"Unable to Read Core Ssh Public Key",
@@ -152,95 +162,11 @@ func (d *CoreSshPublicKeyDataSource) Read(ctx context.Context, req datasource.Re
 			return
 		}
 
-		// Extract data from single result
-		if uuid, ok := item["uuid"].(string); ok {
-			data.UUID = types.StringValue(uuid)
-		}
-
-		sourceMap := item
-		// Map response fields to data model
-		_ = sourceMap
-		if val, ok := sourceMap["public_key"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.PublicKey = types.StringValue(str)
-			}
-		} else {
-			if data.PublicKey.IsUnknown() {
-				data.PublicKey = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["type"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Type = types.StringValue(str)
-			}
-		} else {
-			if data.Type.IsUnknown() {
-				data.Type = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["url"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Url = types.StringValue(str)
-			}
-		} else {
-			if data.Url.IsUnknown() {
-				data.Url = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["created"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Created = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["fingerprint_md5"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.FingerprintMd5 = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["fingerprint_sha256"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.FingerprintSha256 = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["fingerprint_sha512"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.FingerprintSha512 = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["is_shared"]; ok && val != nil {
-			if b, ok := val.(bool); ok {
-				data.IsShared = types.BoolValue(b)
-			}
-		}
-		if val, ok := sourceMap["modified"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Modified = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["name"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Name = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["name_exact"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.NameExact = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["user_uuid"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.UserUuid = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["uuid"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Uuid = types.StringValue(str)
-			}
-		}
+		resp.Diagnostics.Append(d.mapResponseToModel(ctx, apiResp, &data)...)
 
 	} else {
 		// Filter by provided parameters
-		var results []map[string]interface{}
+		var results []CoreSshPublicKeyApiResponse
 
 		filters := map[string]string{}
 		if !data.Created.IsNull() {
@@ -308,92 +234,20 @@ func (d *CoreSshPublicKeyDataSource) Read(ctx context.Context, req datasource.Re
 			return
 		}
 
-		// Extract data from the single result
-		if uuid, ok := results[0]["uuid"].(string); ok {
-			data.UUID = types.StringValue(uuid)
-		}
-		sourceMap := results[0]
-		// Map response fields to data model
-		_ = sourceMap
-		if val, ok := sourceMap["public_key"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.PublicKey = types.StringValue(str)
-			}
-		} else {
-			if data.PublicKey.IsUnknown() {
-				data.PublicKey = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["type"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Type = types.StringValue(str)
-			}
-		} else {
-			if data.Type.IsUnknown() {
-				data.Type = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["url"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Url = types.StringValue(str)
-			}
-		} else {
-			if data.Url.IsUnknown() {
-				data.Url = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["created"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Created = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["fingerprint_md5"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.FingerprintMd5 = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["fingerprint_sha256"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.FingerprintSha256 = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["fingerprint_sha512"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.FingerprintSha512 = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["is_shared"]; ok && val != nil {
-			if b, ok := val.(bool); ok {
-				data.IsShared = types.BoolValue(b)
-			}
-		}
-		if val, ok := sourceMap["modified"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Modified = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["name"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Name = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["name_exact"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.NameExact = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["user_uuid"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.UserUuid = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["uuid"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Uuid = types.StringValue(str)
-			}
-		}
+		resp.Diagnostics.Append(d.mapResponseToModel(ctx, results[0], &data)...)
 	}
 
 	// Save data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
+}
+
+func (d *CoreSshPublicKeyDataSource) mapResponseToModel(ctx context.Context, apiResp CoreSshPublicKeyApiResponse, model *CoreSshPublicKeyDataSourceModel) diag.Diagnostics {
+	var diags diag.Diagnostics
+
+	model.UUID = types.StringPointerValue(apiResp.UUID)
+	model.PublicKey = types.StringPointerValue(apiResp.PublicKey)
+	model.Type = types.StringPointerValue(apiResp.Type)
+	model.Url = types.StringPointerValue(apiResp.Url)
+
+	return diags
 }

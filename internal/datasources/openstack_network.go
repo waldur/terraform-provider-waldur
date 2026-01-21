@@ -7,6 +7,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/waldur/terraform-provider-waldur/internal/client"
@@ -22,6 +23,87 @@ func NewOpenstackNetworkDataSource() datasource.DataSource {
 // OpenstackNetworkDataSource defines the data source implementation.
 type OpenstackNetworkDataSource struct {
 	client *client.Client
+}
+
+// OpenstackNetworkApiResponse is the API response model.
+type OpenstackNetworkApiResponse struct {
+	UUID *string `json:"uuid"`
+
+	AccessUrl      *string                                `json:"access_url" tfsdk:"access_url"`
+	Created        *string                                `json:"created" tfsdk:"created"`
+	ErrorMessage   *string                                `json:"error_message" tfsdk:"error_message"`
+	ErrorTraceback *string                                `json:"error_traceback" tfsdk:"error_traceback"`
+	Modified       *string                                `json:"modified" tfsdk:"modified"`
+	Mtu            *int64                                 `json:"mtu" tfsdk:"mtu"`
+	RbacPolicies   []OpenstackNetworkRbacPoliciesResponse `json:"rbac_policies" tfsdk:"rbac_policies"`
+	ResourceType   *string                                `json:"resource_type" tfsdk:"resource_type"`
+	SegmentationId *int64                                 `json:"segmentation_id" tfsdk:"segmentation_id"`
+	Subnets        []OpenstackNetworkSubnetsResponse      `json:"subnets" tfsdk:"subnets"`
+	TenantName     *string                                `json:"tenant_name" tfsdk:"tenant_name"`
+	Url            *string                                `json:"url" tfsdk:"url"`
+}
+
+type OpenstackNetworkRbacPoliciesResponse struct {
+	BackendId        *string `json:"backend_id" tfsdk:"backend_id"`
+	Created          *string `json:"created" tfsdk:"created"`
+	Network          *string `json:"network" tfsdk:"network"`
+	NetworkName      *string `json:"network_name" tfsdk:"network_name"`
+	PolicyType       *string `json:"policy_type" tfsdk:"policy_type"`
+	TargetTenant     *string `json:"target_tenant" tfsdk:"target_tenant"`
+	TargetTenantName *string `json:"target_tenant_name" tfsdk:"target_tenant_name"`
+	Url              *string `json:"url" tfsdk:"url"`
+}
+
+type OpenstackNetworkSubnetsResponse struct {
+	AllocationPools []OpenstackNetworkSubnetsAllocationPoolsResponse `json:"allocation_pools" tfsdk:"allocation_pools"`
+	Cidr            *string                                          `json:"cidr" tfsdk:"cidr"`
+	Description     *string                                          `json:"description" tfsdk:"description"`
+	EnableDhcp      *bool                                            `json:"enable_dhcp" tfsdk:"enable_dhcp"`
+	GatewayIp       *string                                          `json:"gateway_ip" tfsdk:"gateway_ip"`
+	IpVersion       *int64                                           `json:"ip_version" tfsdk:"ip_version"`
+}
+
+type OpenstackNetworkSubnetsAllocationPoolsResponse struct {
+	End   *string `json:"end" tfsdk:"end"`
+	Start *string `json:"start" tfsdk:"start"`
+}
+
+var openstacknetwork_rbac_policiesAttrTypes = map[string]attr.Type{
+	"backend_id":         types.StringType,
+	"created":            types.StringType,
+	"network":            types.StringType,
+	"network_name":       types.StringType,
+	"policy_type":        types.StringType,
+	"target_tenant":      types.StringType,
+	"target_tenant_name": types.StringType,
+	"url":                types.StringType,
+}
+var openstacknetwork_rbac_policiesObjectType = types.ObjectType{
+	AttrTypes: openstacknetwork_rbac_policiesAttrTypes,
+}
+
+var openstacknetwork_subnetsAttrTypes = map[string]attr.Type{
+	"allocation_pools": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+		"end":   types.StringType,
+		"start": types.StringType,
+	}}},
+	"cidr":        types.StringType,
+	"description": types.StringType,
+	"enable_dhcp": types.BoolType,
+	"gateway_ip":  types.StringType,
+	"ip_version":  types.Int64Type,
+	"name":        types.StringType,
+}
+var openstacknetwork_subnetsObjectType = types.ObjectType{
+	AttrTypes: openstacknetwork_subnetsAttrTypes,
+}
+
+var openstacknetworksubnets_allocation_poolsAttrTypes = map[string]attr.Type{
+	"end":   types.StringType,
+	"start": types.StringType,
+}
+var openstacknetworksubnets_allocation_poolsObjectType = types.ObjectType{
+	AttrTypes: openstacknetworksubnets_allocation_poolsAttrTypes,
 }
 
 // OpenstackNetworkDataSourceModel describes the data source data model.
@@ -279,9 +361,9 @@ func (d *OpenstackNetworkDataSource) Read(ctx context.Context, req datasource.Re
 
 	// Check if UUID is provided for direct lookup
 	if !data.UUID.IsNull() && data.UUID.ValueString() != "" {
-		var item map[string]interface{}
+		var apiResp OpenstackNetworkApiResponse
 
-		err := d.client.GetByUUID(ctx, "/api/openstack-networks/{uuid}/", data.UUID.ValueString(), &item)
+		err := d.client.GetByUUID(ctx, "/api/openstack-networks/{uuid}/", data.UUID.ValueString(), &apiResp)
 		if err != nil {
 			resp.Diagnostics.AddError(
 				"Unable to Read Openstack Network",
@@ -290,418 +372,11 @@ func (d *OpenstackNetworkDataSource) Read(ctx context.Context, req datasource.Re
 			return
 		}
 
-		// Extract data from single result
-		if uuid, ok := item["uuid"].(string); ok {
-			data.UUID = types.StringValue(uuid)
-		}
-
-		sourceMap := item
-		// Map response fields to data model
-		_ = sourceMap
-		if val, ok := sourceMap["access_url"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.AccessUrl = types.StringValue(str)
-			}
-		} else {
-			if data.AccessUrl.IsUnknown() {
-				data.AccessUrl = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["created"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Created = types.StringValue(str)
-			}
-		} else {
-			if data.Created.IsUnknown() {
-				data.Created = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["error_message"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.ErrorMessage = types.StringValue(str)
-			}
-		} else {
-			if data.ErrorMessage.IsUnknown() {
-				data.ErrorMessage = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["error_traceback"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.ErrorTraceback = types.StringValue(str)
-			}
-		} else {
-			if data.ErrorTraceback.IsUnknown() {
-				data.ErrorTraceback = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["modified"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Modified = types.StringValue(str)
-			}
-		} else {
-			if data.Modified.IsUnknown() {
-				data.Modified = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["mtu"]; ok && val != nil {
-			if num, ok := val.(float64); ok {
-				data.Mtu = types.Int64Value(int64(num))
-			}
-		} else {
-			if data.Mtu.IsUnknown() {
-				data.Mtu = types.Int64Null()
-			}
-		}
-		if val, ok := sourceMap["rbac_policies"]; ok && val != nil {
-			// List of objects
-			if arr, ok := val.([]interface{}); ok {
-				items := make([]attr.Value, 0, len(arr))
-				for _, item := range arr {
-					if objMap, ok := item.(map[string]interface{}); ok {
-						attrTypes := map[string]attr.Type{
-							"backend_id":         types.StringType,
-							"created":            types.StringType,
-							"network":            types.StringType,
-							"network_name":       types.StringType,
-							"policy_type":        types.StringType,
-							"target_tenant":      types.StringType,
-							"target_tenant_name": types.StringType,
-							"url":                types.StringType,
-						}
-						attrValues := map[string]attr.Value{
-							"backend_id": func() attr.Value {
-								if v, ok := objMap["backend_id"].(string); ok {
-									return types.StringValue(v)
-								}
-								return types.StringNull()
-							}(),
-							"created": func() attr.Value {
-								if v, ok := objMap["created"].(string); ok {
-									return types.StringValue(v)
-								}
-								return types.StringNull()
-							}(),
-							"network": func() attr.Value {
-								if v, ok := objMap["network"].(string); ok {
-									return types.StringValue(v)
-								}
-								return types.StringNull()
-							}(),
-							"network_name": func() attr.Value {
-								if v, ok := objMap["network_name"].(string); ok {
-									return types.StringValue(v)
-								}
-								return types.StringNull()
-							}(),
-							"policy_type": func() attr.Value {
-								if v, ok := objMap["policy_type"].(string); ok {
-									return types.StringValue(v)
-								}
-								return types.StringNull()
-							}(),
-							"target_tenant": func() attr.Value {
-								if v, ok := objMap["target_tenant"].(string); ok {
-									return types.StringValue(v)
-								}
-								return types.StringNull()
-							}(),
-							"target_tenant_name": func() attr.Value {
-								if v, ok := objMap["target_tenant_name"].(string); ok {
-									return types.StringValue(v)
-								}
-								return types.StringNull()
-							}(),
-							"url": func() attr.Value {
-								if v, ok := objMap["url"].(string); ok {
-									return types.StringValue(v)
-								}
-								return types.StringNull()
-							}(),
-						}
-						objVal, _ := types.ObjectValue(attrTypes, attrValues)
-						items = append(items, objVal)
-					}
-				}
-				listVal, _ := types.ListValue(types.ObjectType{AttrTypes: map[string]attr.Type{
-					"backend_id":         types.StringType,
-					"created":            types.StringType,
-					"network":            types.StringType,
-					"network_name":       types.StringType,
-					"policy_type":        types.StringType,
-					"target_tenant":      types.StringType,
-					"target_tenant_name": types.StringType,
-					"url":                types.StringType,
-				}}, items)
-				data.RbacPolicies = listVal
-			}
-		} else {
-			if data.RbacPolicies.IsUnknown() {
-				data.RbacPolicies = types.ListNull(types.ObjectType{AttrTypes: map[string]attr.Type{
-					"backend_id":         types.StringType,
-					"created":            types.StringType,
-					"network":            types.StringType,
-					"network_name":       types.StringType,
-					"policy_type":        types.StringType,
-					"target_tenant":      types.StringType,
-					"target_tenant_name": types.StringType,
-					"url":                types.StringType,
-				}})
-			}
-		}
-		if val, ok := sourceMap["resource_type"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.ResourceType = types.StringValue(str)
-			}
-		} else {
-			if data.ResourceType.IsUnknown() {
-				data.ResourceType = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["segmentation_id"]; ok && val != nil {
-			if num, ok := val.(float64); ok {
-				data.SegmentationId = types.Int64Value(int64(num))
-			}
-		} else {
-			if data.SegmentationId.IsUnknown() {
-				data.SegmentationId = types.Int64Null()
-			}
-		}
-		if val, ok := sourceMap["subnets"]; ok && val != nil {
-			// List of objects
-			if arr, ok := val.([]interface{}); ok {
-				items := make([]attr.Value, 0, len(arr))
-				for _, item := range arr {
-					if objMap, ok := item.(map[string]interface{}); ok {
-						attrTypes := map[string]attr.Type{
-							"allocation_pools": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
-								"end":   types.StringType,
-								"start": types.StringType,
-							}}},
-							"cidr":        types.StringType,
-							"description": types.StringType,
-							"enable_dhcp": types.BoolType,
-							"gateway_ip":  types.StringType,
-							"ip_version":  types.Int64Type,
-							"name":        types.StringType,
-						}
-						attrValues := map[string]attr.Value{
-							"allocation_pools": types.ListNull(types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
-								"end":   types.StringType,
-								"start": types.StringType,
-							}}}.ElemType),
-							"cidr": func() attr.Value {
-								if v, ok := objMap["cidr"].(string); ok {
-									return types.StringValue(v)
-								}
-								return types.StringNull()
-							}(),
-							"description": func() attr.Value {
-								if v, ok := objMap["description"].(string); ok {
-									return types.StringValue(v)
-								}
-								return types.StringNull()
-							}(),
-							"enable_dhcp": func() attr.Value {
-								if v, ok := objMap["enable_dhcp"].(bool); ok {
-									return types.BoolValue(v)
-								}
-								return types.BoolNull()
-							}(),
-							"gateway_ip": func() attr.Value {
-								if v, ok := objMap["gateway_ip"].(string); ok {
-									return types.StringValue(v)
-								}
-								return types.StringNull()
-							}(),
-							"ip_version": func() attr.Value {
-								if v, ok := objMap["ip_version"].(float64); ok {
-									return types.Int64Value(int64(v))
-								}
-								return types.Int64Null()
-							}(),
-							"name": func() attr.Value {
-								if v, ok := objMap["name"].(string); ok {
-									return types.StringValue(v)
-								}
-								return types.StringNull()
-							}(),
-						}
-						objVal, _ := types.ObjectValue(attrTypes, attrValues)
-						items = append(items, objVal)
-					}
-				}
-				listVal, _ := types.ListValue(types.ObjectType{AttrTypes: map[string]attr.Type{
-					"allocation_pools": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
-						"end":   types.StringType,
-						"start": types.StringType,
-					}}},
-					"cidr":        types.StringType,
-					"description": types.StringType,
-					"enable_dhcp": types.BoolType,
-					"gateway_ip":  types.StringType,
-					"ip_version":  types.Int64Type,
-					"name":        types.StringType,
-				}}, items)
-				data.Subnets = listVal
-			}
-		} else {
-			if data.Subnets.IsUnknown() {
-				data.Subnets = types.ListNull(types.ObjectType{AttrTypes: map[string]attr.Type{
-					"allocation_pools": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
-						"end":   types.StringType,
-						"start": types.StringType,
-					}}},
-					"cidr":        types.StringType,
-					"description": types.StringType,
-					"enable_dhcp": types.BoolType,
-					"gateway_ip":  types.StringType,
-					"ip_version":  types.Int64Type,
-					"name":        types.StringType,
-				}})
-			}
-		}
-		if val, ok := sourceMap["tenant_name"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.TenantName = types.StringValue(str)
-			}
-		} else {
-			if data.TenantName.IsUnknown() {
-				data.TenantName = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["url"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Url = types.StringValue(str)
-			}
-		} else {
-			if data.Url.IsUnknown() {
-				data.Url = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["backend_id"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.BackendId = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["can_manage"]; ok && val != nil {
-			if b, ok := val.(bool); ok {
-				data.CanManage = types.BoolValue(b)
-			}
-		}
-		if val, ok := sourceMap["customer"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Customer = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["customer_abbreviation"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.CustomerAbbreviation = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["customer_name"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.CustomerName = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["customer_native_name"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.CustomerNativeName = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["customer_uuid"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.CustomerUuid = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["description"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Description = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["direct_only"]; ok && val != nil {
-			if b, ok := val.(bool); ok {
-				data.DirectOnly = types.BoolValue(b)
-			}
-		}
-		if val, ok := sourceMap["external_ip"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.ExternalIp = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["is_external"]; ok && val != nil {
-			if b, ok := val.(bool); ok {
-				data.IsExternal = types.BoolValue(b)
-			}
-		}
-		if val, ok := sourceMap["name"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Name = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["name_exact"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.NameExact = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["project"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Project = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["project_name"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.ProjectName = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["project_uuid"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.ProjectUuid = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["rbac_only"]; ok && val != nil {
-			if b, ok := val.(bool); ok {
-				data.RbacOnly = types.BoolValue(b)
-			}
-		}
-		if val, ok := sourceMap["service_settings_name"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.ServiceSettingsName = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["service_settings_uuid"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.ServiceSettingsUuid = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["state"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.State = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["tenant"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Tenant = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["tenant_uuid"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.TenantUuid = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["type"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Type = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["uuid"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Uuid = types.StringValue(str)
-			}
-		}
+		resp.Diagnostics.Append(d.mapResponseToModel(ctx, apiResp, &data)...)
 
 	} else {
 		// Filter by provided parameters
-		var results []map[string]interface{}
+		var results []OpenstackNetworkApiResponse
 
 		filters := map[string]string{}
 		if !data.BackendId.IsNull() {
@@ -811,415 +486,33 @@ func (d *OpenstackNetworkDataSource) Read(ctx context.Context, req datasource.Re
 			return
 		}
 
-		// Extract data from the single result
-		if uuid, ok := results[0]["uuid"].(string); ok {
-			data.UUID = types.StringValue(uuid)
-		}
-		sourceMap := results[0]
-		// Map response fields to data model
-		_ = sourceMap
-		if val, ok := sourceMap["access_url"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.AccessUrl = types.StringValue(str)
-			}
-		} else {
-			if data.AccessUrl.IsUnknown() {
-				data.AccessUrl = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["created"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Created = types.StringValue(str)
-			}
-		} else {
-			if data.Created.IsUnknown() {
-				data.Created = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["error_message"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.ErrorMessage = types.StringValue(str)
-			}
-		} else {
-			if data.ErrorMessage.IsUnknown() {
-				data.ErrorMessage = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["error_traceback"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.ErrorTraceback = types.StringValue(str)
-			}
-		} else {
-			if data.ErrorTraceback.IsUnknown() {
-				data.ErrorTraceback = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["modified"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Modified = types.StringValue(str)
-			}
-		} else {
-			if data.Modified.IsUnknown() {
-				data.Modified = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["mtu"]; ok && val != nil {
-			if num, ok := val.(float64); ok {
-				data.Mtu = types.Int64Value(int64(num))
-			}
-		} else {
-			if data.Mtu.IsUnknown() {
-				data.Mtu = types.Int64Null()
-			}
-		}
-		if val, ok := sourceMap["rbac_policies"]; ok && val != nil {
-			// List of objects
-			if arr, ok := val.([]interface{}); ok {
-				items := make([]attr.Value, 0, len(arr))
-				for _, item := range arr {
-					if objMap, ok := item.(map[string]interface{}); ok {
-						attrTypes := map[string]attr.Type{
-							"backend_id":         types.StringType,
-							"created":            types.StringType,
-							"network":            types.StringType,
-							"network_name":       types.StringType,
-							"policy_type":        types.StringType,
-							"target_tenant":      types.StringType,
-							"target_tenant_name": types.StringType,
-							"url":                types.StringType,
-						}
-						attrValues := map[string]attr.Value{
-							"backend_id": func() attr.Value {
-								if v, ok := objMap["backend_id"].(string); ok {
-									return types.StringValue(v)
-								}
-								return types.StringNull()
-							}(),
-							"created": func() attr.Value {
-								if v, ok := objMap["created"].(string); ok {
-									return types.StringValue(v)
-								}
-								return types.StringNull()
-							}(),
-							"network": func() attr.Value {
-								if v, ok := objMap["network"].(string); ok {
-									return types.StringValue(v)
-								}
-								return types.StringNull()
-							}(),
-							"network_name": func() attr.Value {
-								if v, ok := objMap["network_name"].(string); ok {
-									return types.StringValue(v)
-								}
-								return types.StringNull()
-							}(),
-							"policy_type": func() attr.Value {
-								if v, ok := objMap["policy_type"].(string); ok {
-									return types.StringValue(v)
-								}
-								return types.StringNull()
-							}(),
-							"target_tenant": func() attr.Value {
-								if v, ok := objMap["target_tenant"].(string); ok {
-									return types.StringValue(v)
-								}
-								return types.StringNull()
-							}(),
-							"target_tenant_name": func() attr.Value {
-								if v, ok := objMap["target_tenant_name"].(string); ok {
-									return types.StringValue(v)
-								}
-								return types.StringNull()
-							}(),
-							"url": func() attr.Value {
-								if v, ok := objMap["url"].(string); ok {
-									return types.StringValue(v)
-								}
-								return types.StringNull()
-							}(),
-						}
-						objVal, _ := types.ObjectValue(attrTypes, attrValues)
-						items = append(items, objVal)
-					}
-				}
-				listVal, _ := types.ListValue(types.ObjectType{AttrTypes: map[string]attr.Type{
-					"backend_id":         types.StringType,
-					"created":            types.StringType,
-					"network":            types.StringType,
-					"network_name":       types.StringType,
-					"policy_type":        types.StringType,
-					"target_tenant":      types.StringType,
-					"target_tenant_name": types.StringType,
-					"url":                types.StringType,
-				}}, items)
-				data.RbacPolicies = listVal
-			}
-		} else {
-			if data.RbacPolicies.IsUnknown() {
-				data.RbacPolicies = types.ListNull(types.ObjectType{AttrTypes: map[string]attr.Type{
-					"backend_id":         types.StringType,
-					"created":            types.StringType,
-					"network":            types.StringType,
-					"network_name":       types.StringType,
-					"policy_type":        types.StringType,
-					"target_tenant":      types.StringType,
-					"target_tenant_name": types.StringType,
-					"url":                types.StringType,
-				}})
-			}
-		}
-		if val, ok := sourceMap["resource_type"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.ResourceType = types.StringValue(str)
-			}
-		} else {
-			if data.ResourceType.IsUnknown() {
-				data.ResourceType = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["segmentation_id"]; ok && val != nil {
-			if num, ok := val.(float64); ok {
-				data.SegmentationId = types.Int64Value(int64(num))
-			}
-		} else {
-			if data.SegmentationId.IsUnknown() {
-				data.SegmentationId = types.Int64Null()
-			}
-		}
-		if val, ok := sourceMap["subnets"]; ok && val != nil {
-			// List of objects
-			if arr, ok := val.([]interface{}); ok {
-				items := make([]attr.Value, 0, len(arr))
-				for _, item := range arr {
-					if objMap, ok := item.(map[string]interface{}); ok {
-						attrTypes := map[string]attr.Type{
-							"allocation_pools": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
-								"end":   types.StringType,
-								"start": types.StringType,
-							}}},
-							"cidr":        types.StringType,
-							"description": types.StringType,
-							"enable_dhcp": types.BoolType,
-							"gateway_ip":  types.StringType,
-							"ip_version":  types.Int64Type,
-							"name":        types.StringType,
-						}
-						attrValues := map[string]attr.Value{
-							"allocation_pools": types.ListNull(types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
-								"end":   types.StringType,
-								"start": types.StringType,
-							}}}.ElemType),
-							"cidr": func() attr.Value {
-								if v, ok := objMap["cidr"].(string); ok {
-									return types.StringValue(v)
-								}
-								return types.StringNull()
-							}(),
-							"description": func() attr.Value {
-								if v, ok := objMap["description"].(string); ok {
-									return types.StringValue(v)
-								}
-								return types.StringNull()
-							}(),
-							"enable_dhcp": func() attr.Value {
-								if v, ok := objMap["enable_dhcp"].(bool); ok {
-									return types.BoolValue(v)
-								}
-								return types.BoolNull()
-							}(),
-							"gateway_ip": func() attr.Value {
-								if v, ok := objMap["gateway_ip"].(string); ok {
-									return types.StringValue(v)
-								}
-								return types.StringNull()
-							}(),
-							"ip_version": func() attr.Value {
-								if v, ok := objMap["ip_version"].(float64); ok {
-									return types.Int64Value(int64(v))
-								}
-								return types.Int64Null()
-							}(),
-							"name": func() attr.Value {
-								if v, ok := objMap["name"].(string); ok {
-									return types.StringValue(v)
-								}
-								return types.StringNull()
-							}(),
-						}
-						objVal, _ := types.ObjectValue(attrTypes, attrValues)
-						items = append(items, objVal)
-					}
-				}
-				listVal, _ := types.ListValue(types.ObjectType{AttrTypes: map[string]attr.Type{
-					"allocation_pools": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
-						"end":   types.StringType,
-						"start": types.StringType,
-					}}},
-					"cidr":        types.StringType,
-					"description": types.StringType,
-					"enable_dhcp": types.BoolType,
-					"gateway_ip":  types.StringType,
-					"ip_version":  types.Int64Type,
-					"name":        types.StringType,
-				}}, items)
-				data.Subnets = listVal
-			}
-		} else {
-			if data.Subnets.IsUnknown() {
-				data.Subnets = types.ListNull(types.ObjectType{AttrTypes: map[string]attr.Type{
-					"allocation_pools": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
-						"end":   types.StringType,
-						"start": types.StringType,
-					}}},
-					"cidr":        types.StringType,
-					"description": types.StringType,
-					"enable_dhcp": types.BoolType,
-					"gateway_ip":  types.StringType,
-					"ip_version":  types.Int64Type,
-					"name":        types.StringType,
-				}})
-			}
-		}
-		if val, ok := sourceMap["tenant_name"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.TenantName = types.StringValue(str)
-			}
-		} else {
-			if data.TenantName.IsUnknown() {
-				data.TenantName = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["url"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Url = types.StringValue(str)
-			}
-		} else {
-			if data.Url.IsUnknown() {
-				data.Url = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["backend_id"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.BackendId = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["can_manage"]; ok && val != nil {
-			if b, ok := val.(bool); ok {
-				data.CanManage = types.BoolValue(b)
-			}
-		}
-		if val, ok := sourceMap["customer"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Customer = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["customer_abbreviation"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.CustomerAbbreviation = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["customer_name"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.CustomerName = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["customer_native_name"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.CustomerNativeName = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["customer_uuid"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.CustomerUuid = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["description"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Description = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["direct_only"]; ok && val != nil {
-			if b, ok := val.(bool); ok {
-				data.DirectOnly = types.BoolValue(b)
-			}
-		}
-		if val, ok := sourceMap["external_ip"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.ExternalIp = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["is_external"]; ok && val != nil {
-			if b, ok := val.(bool); ok {
-				data.IsExternal = types.BoolValue(b)
-			}
-		}
-		if val, ok := sourceMap["name"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Name = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["name_exact"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.NameExact = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["project"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Project = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["project_name"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.ProjectName = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["project_uuid"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.ProjectUuid = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["rbac_only"]; ok && val != nil {
-			if b, ok := val.(bool); ok {
-				data.RbacOnly = types.BoolValue(b)
-			}
-		}
-		if val, ok := sourceMap["service_settings_name"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.ServiceSettingsName = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["service_settings_uuid"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.ServiceSettingsUuid = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["state"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.State = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["tenant"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Tenant = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["tenant_uuid"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.TenantUuid = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["type"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Type = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["uuid"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Uuid = types.StringValue(str)
-			}
-		}
+		resp.Diagnostics.Append(d.mapResponseToModel(ctx, results[0], &data)...)
 	}
 
 	// Save data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
+}
+
+func (d *OpenstackNetworkDataSource) mapResponseToModel(ctx context.Context, apiResp OpenstackNetworkApiResponse, model *OpenstackNetworkDataSourceModel) diag.Diagnostics {
+	var diags diag.Diagnostics
+
+	model.UUID = types.StringPointerValue(apiResp.UUID)
+	model.AccessUrl = types.StringPointerValue(apiResp.AccessUrl)
+	model.Created = types.StringPointerValue(apiResp.Created)
+	model.ErrorMessage = types.StringPointerValue(apiResp.ErrorMessage)
+	model.ErrorTraceback = types.StringPointerValue(apiResp.ErrorTraceback)
+	model.Modified = types.StringPointerValue(apiResp.Modified)
+	model.Mtu = types.Int64PointerValue(apiResp.Mtu)
+	listValRbacPolicies, listDiagsRbacPolicies := types.ListValueFrom(ctx, openstacknetwork_rbac_policiesObjectType, apiResp.RbacPolicies)
+	diags.Append(listDiagsRbacPolicies...)
+	model.RbacPolicies = listValRbacPolicies
+	model.ResourceType = types.StringPointerValue(apiResp.ResourceType)
+	model.SegmentationId = types.Int64PointerValue(apiResp.SegmentationId)
+	listValSubnets, listDiagsSubnets := types.ListValueFrom(ctx, openstacknetwork_subnetsObjectType, apiResp.Subnets)
+	diags.Append(listDiagsSubnets...)
+	model.Subnets = listValSubnets
+	model.TenantName = types.StringPointerValue(apiResp.TenantName)
+	model.Url = types.StringPointerValue(apiResp.Url)
+
+	return diags
 }

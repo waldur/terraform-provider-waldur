@@ -6,6 +6,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/waldur/terraform-provider-waldur/internal/client"
@@ -21,6 +22,16 @@ func NewOpenstackImageDataSource() datasource.DataSource {
 // OpenstackImageDataSource defines the data source implementation.
 type OpenstackImageDataSource struct {
 	client *client.Client
+}
+
+// OpenstackImageApiResponse is the API response model.
+type OpenstackImageApiResponse struct {
+	UUID *string `json:"uuid"`
+
+	BackendId *string `json:"backend_id" tfsdk:"backend_id"`
+	MinDisk   *int64  `json:"min_disk" tfsdk:"min_disk"`
+	MinRam    *int64  `json:"min_ram" tfsdk:"min_ram"`
+	Url       *string `json:"url" tfsdk:"url"`
 }
 
 // OpenstackImageDataSourceModel describes the data source data model.
@@ -131,9 +142,9 @@ func (d *OpenstackImageDataSource) Read(ctx context.Context, req datasource.Read
 
 	// Check if UUID is provided for direct lookup
 	if !data.UUID.IsNull() && data.UUID.ValueString() != "" {
-		var item map[string]interface{}
+		var apiResp OpenstackImageApiResponse
 
-		err := d.client.GetByUUID(ctx, "/api/openstack-images/{uuid}/", data.UUID.ValueString(), &item)
+		err := d.client.GetByUUID(ctx, "/api/openstack-images/{uuid}/", data.UUID.ValueString(), &apiResp)
 		if err != nil {
 			resp.Diagnostics.AddError(
 				"Unable to Read Openstack Image",
@@ -142,89 +153,11 @@ func (d *OpenstackImageDataSource) Read(ctx context.Context, req datasource.Read
 			return
 		}
 
-		// Extract data from single result
-		if uuid, ok := item["uuid"].(string); ok {
-			data.UUID = types.StringValue(uuid)
-		}
-
-		sourceMap := item
-		// Map response fields to data model
-		_ = sourceMap
-		if val, ok := sourceMap["backend_id"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.BackendId = types.StringValue(str)
-			}
-		} else {
-			if data.BackendId.IsUnknown() {
-				data.BackendId = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["min_disk"]; ok && val != nil {
-			if num, ok := val.(float64); ok {
-				data.MinDisk = types.Int64Value(int64(num))
-			}
-		} else {
-			if data.MinDisk.IsUnknown() {
-				data.MinDisk = types.Int64Null()
-			}
-		}
-		if val, ok := sourceMap["min_ram"]; ok && val != nil {
-			if num, ok := val.(float64); ok {
-				data.MinRam = types.Int64Value(int64(num))
-			}
-		} else {
-			if data.MinRam.IsUnknown() {
-				data.MinRam = types.Int64Null()
-			}
-		}
-		if val, ok := sourceMap["url"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Url = types.StringValue(str)
-			}
-		} else {
-			if data.Url.IsUnknown() {
-				data.Url = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["name"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Name = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["name_exact"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.NameExact = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["offering_uuid"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.OfferingUuid = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["settings"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Settings = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["settings_uuid"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.SettingsUuid = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["tenant"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Tenant = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["tenant_uuid"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.TenantUuid = types.StringValue(str)
-			}
-		}
+		resp.Diagnostics.Append(d.mapResponseToModel(ctx, apiResp, &data)...)
 
 	} else {
 		// Filter by provided parameters
-		var results []map[string]interface{}
+		var results []OpenstackImageApiResponse
 
 		filters := map[string]string{}
 		if !data.Name.IsNull() {
@@ -283,86 +216,21 @@ func (d *OpenstackImageDataSource) Read(ctx context.Context, req datasource.Read
 			return
 		}
 
-		// Extract data from the single result
-		if uuid, ok := results[0]["uuid"].(string); ok {
-			data.UUID = types.StringValue(uuid)
-		}
-		sourceMap := results[0]
-		// Map response fields to data model
-		_ = sourceMap
-		if val, ok := sourceMap["backend_id"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.BackendId = types.StringValue(str)
-			}
-		} else {
-			if data.BackendId.IsUnknown() {
-				data.BackendId = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["min_disk"]; ok && val != nil {
-			if num, ok := val.(float64); ok {
-				data.MinDisk = types.Int64Value(int64(num))
-			}
-		} else {
-			if data.MinDisk.IsUnknown() {
-				data.MinDisk = types.Int64Null()
-			}
-		}
-		if val, ok := sourceMap["min_ram"]; ok && val != nil {
-			if num, ok := val.(float64); ok {
-				data.MinRam = types.Int64Value(int64(num))
-			}
-		} else {
-			if data.MinRam.IsUnknown() {
-				data.MinRam = types.Int64Null()
-			}
-		}
-		if val, ok := sourceMap["url"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Url = types.StringValue(str)
-			}
-		} else {
-			if data.Url.IsUnknown() {
-				data.Url = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["name"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Name = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["name_exact"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.NameExact = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["offering_uuid"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.OfferingUuid = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["settings"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Settings = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["settings_uuid"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.SettingsUuid = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["tenant"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Tenant = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["tenant_uuid"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.TenantUuid = types.StringValue(str)
-			}
-		}
+		resp.Diagnostics.Append(d.mapResponseToModel(ctx, results[0], &data)...)
 	}
 
 	// Save data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
+}
+
+func (d *OpenstackImageDataSource) mapResponseToModel(ctx context.Context, apiResp OpenstackImageApiResponse, model *OpenstackImageDataSourceModel) diag.Diagnostics {
+	var diags diag.Diagnostics
+
+	model.UUID = types.StringPointerValue(apiResp.UUID)
+	model.BackendId = types.StringPointerValue(apiResp.BackendId)
+	model.MinDisk = types.Int64PointerValue(apiResp.MinDisk)
+	model.MinRam = types.Int64PointerValue(apiResp.MinRam)
+	model.Url = types.StringPointerValue(apiResp.Url)
+
+	return diags
 }

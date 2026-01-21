@@ -6,6 +6,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/waldur/terraform-provider-waldur/internal/client"
@@ -21,6 +22,15 @@ func NewOpenstackFlavorDataSource() datasource.DataSource {
 // OpenstackFlavorDataSource defines the data source implementation.
 type OpenstackFlavorDataSource struct {
 	client *client.Client
+}
+
+// OpenstackFlavorApiResponse is the API response model.
+type OpenstackFlavorApiResponse struct {
+	UUID *string `json:"uuid"`
+
+	BackendId   *string `json:"backend_id" tfsdk:"backend_id"`
+	DisplayName *string `json:"display_name" tfsdk:"display_name"`
+	Url         *string `json:"url" tfsdk:"url"`
 }
 
 // OpenstackFlavorDataSourceModel describes the data source data model.
@@ -176,9 +186,9 @@ func (d *OpenstackFlavorDataSource) Read(ctx context.Context, req datasource.Rea
 
 	// Check if UUID is provided for direct lookup
 	if !data.UUID.IsNull() && data.UUID.ValueString() != "" {
-		var item map[string]interface{}
+		var apiResp OpenstackFlavorApiResponse
 
-		err := d.client.GetByUUID(ctx, "/api/openstack-flavors/{uuid}/", data.UUID.ValueString(), &item)
+		err := d.client.GetByUUID(ctx, "/api/openstack-flavors/{uuid}/", data.UUID.ValueString(), &apiResp)
 		if err != nil {
 			resp.Diagnostics.AddError(
 				"Unable to Read Openstack Flavor",
@@ -187,130 +197,11 @@ func (d *OpenstackFlavorDataSource) Read(ctx context.Context, req datasource.Rea
 			return
 		}
 
-		// Extract data from single result
-		if uuid, ok := item["uuid"].(string); ok {
-			data.UUID = types.StringValue(uuid)
-		}
-
-		sourceMap := item
-		// Map response fields to data model
-		_ = sourceMap
-		if val, ok := sourceMap["backend_id"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.BackendId = types.StringValue(str)
-			}
-		} else {
-			if data.BackendId.IsUnknown() {
-				data.BackendId = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["display_name"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.DisplayName = types.StringValue(str)
-			}
-		} else {
-			if data.DisplayName.IsUnknown() {
-				data.DisplayName = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["url"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Url = types.StringValue(str)
-			}
-		} else {
-			if data.Url.IsUnknown() {
-				data.Url = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["cores"]; ok && val != nil {
-			if num, ok := val.(float64); ok {
-				data.Cores = types.Int64Value(int64(num))
-			}
-		}
-		if val, ok := sourceMap["cores__gte"]; ok && val != nil {
-			if num, ok := val.(float64); ok {
-				data.CoresGte = types.Int64Value(int64(num))
-			}
-		}
-		if val, ok := sourceMap["cores__lte"]; ok && val != nil {
-			if num, ok := val.(float64); ok {
-				data.CoresLte = types.Int64Value(int64(num))
-			}
-		}
-		if val, ok := sourceMap["disk"]; ok && val != nil {
-			if num, ok := val.(float64); ok {
-				data.Disk = types.Int64Value(int64(num))
-			}
-		}
-		if val, ok := sourceMap["disk__gte"]; ok && val != nil {
-			if num, ok := val.(float64); ok {
-				data.DiskGte = types.Int64Value(int64(num))
-			}
-		}
-		if val, ok := sourceMap["disk__lte"]; ok && val != nil {
-			if num, ok := val.(float64); ok {
-				data.DiskLte = types.Int64Value(int64(num))
-			}
-		}
-		if val, ok := sourceMap["name"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Name = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["name_exact"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.NameExact = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["name_iregex"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.NameIregex = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["offering_uuid"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.OfferingUuid = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["ram"]; ok && val != nil {
-			if num, ok := val.(float64); ok {
-				data.Ram = types.Int64Value(int64(num))
-			}
-		}
-		if val, ok := sourceMap["ram__gte"]; ok && val != nil {
-			if num, ok := val.(float64); ok {
-				data.RamGte = types.Int64Value(int64(num))
-			}
-		}
-		if val, ok := sourceMap["ram__lte"]; ok && val != nil {
-			if num, ok := val.(float64); ok {
-				data.RamLte = types.Int64Value(int64(num))
-			}
-		}
-		if val, ok := sourceMap["settings"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Settings = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["settings_uuid"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.SettingsUuid = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["tenant"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Tenant = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["tenant_uuid"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.TenantUuid = types.StringValue(str)
-			}
-		}
+		resp.Diagnostics.Append(d.mapResponseToModel(ctx, apiResp, &data)...)
 
 	} else {
 		// Filter by provided parameters
-		var results []map[string]interface{}
+		var results []OpenstackFlavorApiResponse
 
 		filters := map[string]string{}
 		if !data.Cores.IsNull() {
@@ -399,127 +290,20 @@ func (d *OpenstackFlavorDataSource) Read(ctx context.Context, req datasource.Rea
 			return
 		}
 
-		// Extract data from the single result
-		if uuid, ok := results[0]["uuid"].(string); ok {
-			data.UUID = types.StringValue(uuid)
-		}
-		sourceMap := results[0]
-		// Map response fields to data model
-		_ = sourceMap
-		if val, ok := sourceMap["backend_id"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.BackendId = types.StringValue(str)
-			}
-		} else {
-			if data.BackendId.IsUnknown() {
-				data.BackendId = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["display_name"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.DisplayName = types.StringValue(str)
-			}
-		} else {
-			if data.DisplayName.IsUnknown() {
-				data.DisplayName = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["url"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Url = types.StringValue(str)
-			}
-		} else {
-			if data.Url.IsUnknown() {
-				data.Url = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["cores"]; ok && val != nil {
-			if num, ok := val.(float64); ok {
-				data.Cores = types.Int64Value(int64(num))
-			}
-		}
-		if val, ok := sourceMap["cores__gte"]; ok && val != nil {
-			if num, ok := val.(float64); ok {
-				data.CoresGte = types.Int64Value(int64(num))
-			}
-		}
-		if val, ok := sourceMap["cores__lte"]; ok && val != nil {
-			if num, ok := val.(float64); ok {
-				data.CoresLte = types.Int64Value(int64(num))
-			}
-		}
-		if val, ok := sourceMap["disk"]; ok && val != nil {
-			if num, ok := val.(float64); ok {
-				data.Disk = types.Int64Value(int64(num))
-			}
-		}
-		if val, ok := sourceMap["disk__gte"]; ok && val != nil {
-			if num, ok := val.(float64); ok {
-				data.DiskGte = types.Int64Value(int64(num))
-			}
-		}
-		if val, ok := sourceMap["disk__lte"]; ok && val != nil {
-			if num, ok := val.(float64); ok {
-				data.DiskLte = types.Int64Value(int64(num))
-			}
-		}
-		if val, ok := sourceMap["name"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Name = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["name_exact"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.NameExact = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["name_iregex"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.NameIregex = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["offering_uuid"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.OfferingUuid = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["ram"]; ok && val != nil {
-			if num, ok := val.(float64); ok {
-				data.Ram = types.Int64Value(int64(num))
-			}
-		}
-		if val, ok := sourceMap["ram__gte"]; ok && val != nil {
-			if num, ok := val.(float64); ok {
-				data.RamGte = types.Int64Value(int64(num))
-			}
-		}
-		if val, ok := sourceMap["ram__lte"]; ok && val != nil {
-			if num, ok := val.(float64); ok {
-				data.RamLte = types.Int64Value(int64(num))
-			}
-		}
-		if val, ok := sourceMap["settings"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Settings = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["settings_uuid"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.SettingsUuid = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["tenant"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Tenant = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["tenant_uuid"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.TenantUuid = types.StringValue(str)
-			}
-		}
+		resp.Diagnostics.Append(d.mapResponseToModel(ctx, results[0], &data)...)
 	}
 
 	// Save data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
+}
+
+func (d *OpenstackFlavorDataSource) mapResponseToModel(ctx context.Context, apiResp OpenstackFlavorApiResponse, model *OpenstackFlavorDataSourceModel) diag.Diagnostics {
+	var diags diag.Diagnostics
+
+	model.UUID = types.StringPointerValue(apiResp.UUID)
+	model.BackendId = types.StringPointerValue(apiResp.BackendId)
+	model.DisplayName = types.StringPointerValue(apiResp.DisplayName)
+	model.Url = types.StringPointerValue(apiResp.Url)
+
+	return diags
 }

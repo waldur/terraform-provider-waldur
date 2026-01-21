@@ -9,6 +9,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
+	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -32,6 +33,486 @@ func NewOpenstackInstanceResource() resource.Resource {
 // OpenstackInstanceResource defines the resource implementation.
 type OpenstackInstanceResource struct {
 	client *client.Client
+}
+
+// OpenstackInstanceApiResponse is the API response model.
+type OpenstackInstanceApiResponse struct {
+	UUID *string `json:"uuid"`
+
+	AccessUrl                        *string                                   `json:"access_url" tfsdk:"access_url"`
+	Action                           *string                                   `json:"action" tfsdk:"action"`
+	AvailabilityZone                 *string                                   `json:"availability_zone" tfsdk:"availability_zone"`
+	AvailabilityZoneName             *string                                   `json:"availability_zone_name" tfsdk:"availability_zone_name"`
+	BackendId                        *string                                   `json:"backend_id" tfsdk:"backend_id"`
+	ConnectDirectlyToExternalNetwork *bool                                     `json:"connect_directly_to_external_network" tfsdk:"connect_directly_to_external_network"`
+	Cores                            *int64                                    `json:"cores" tfsdk:"cores"`
+	Created                          *string                                   `json:"created" tfsdk:"created"`
+	Customer                         *string                                   `json:"customer" tfsdk:"customer"`
+	CustomerAbbreviation             *string                                   `json:"customer_abbreviation" tfsdk:"customer_abbreviation"`
+	CustomerName                     *string                                   `json:"customer_name" tfsdk:"customer_name"`
+	CustomerNativeName               *string                                   `json:"customer_native_name" tfsdk:"customer_native_name"`
+	CustomerUuid                     *string                                   `json:"customer_uuid" tfsdk:"customer_uuid"`
+	DataVolumeSize                   *int64                                    `json:"data_volume_size" tfsdk:"data_volume_size"`
+	DataVolumeType                   *string                                   `json:"data_volume_type" tfsdk:"data_volume_type"`
+	DataVolumes                      []OpenstackInstanceDataVolumesResponse    `json:"data_volumes" tfsdk:"data_volumes"`
+	DeleteVolumes                    *bool                                     `json:"delete_volumes" tfsdk:"delete_volumes"`
+	Description                      *string                                   `json:"description" tfsdk:"description"`
+	Disk                             *int64                                    `json:"disk" tfsdk:"disk"`
+	ErrorMessage                     *string                                   `json:"error_message" tfsdk:"error_message"`
+	ErrorTraceback                   *string                                   `json:"error_traceback" tfsdk:"error_traceback"`
+	ExternalAddress                  []string                                  `json:"external_address" tfsdk:"external_address"`
+	ExternalIps                      []string                                  `json:"external_ips" tfsdk:"external_ips"`
+	Flavor                           *string                                   `json:"flavor" tfsdk:"flavor"`
+	FlavorDisk                       *int64                                    `json:"flavor_disk" tfsdk:"flavor_disk"`
+	FlavorName                       *string                                   `json:"flavor_name" tfsdk:"flavor_name"`
+	FloatingIps                      []OpenstackInstanceFloatingIpsResponse    `json:"floating_ips" tfsdk:"floating_ips"`
+	HypervisorHostname               *string                                   `json:"hypervisor_hostname" tfsdk:"hypervisor_hostname"`
+	Image                            *string                                   `json:"image" tfsdk:"image"`
+	ImageName                        *string                                   `json:"image_name" tfsdk:"image_name"`
+	InternalIps                      []string                                  `json:"internal_ips" tfsdk:"internal_ips"`
+	IsLimitBased                     *bool                                     `json:"is_limit_based" tfsdk:"is_limit_based"`
+	IsUsageBased                     *bool                                     `json:"is_usage_based" tfsdk:"is_usage_based"`
+	KeyFingerprint                   *string                                   `json:"key_fingerprint" tfsdk:"key_fingerprint"`
+	KeyName                          *string                                   `json:"key_name" tfsdk:"key_name"`
+	Latitude                         *float64                                  `json:"latitude" tfsdk:"latitude"`
+	Longitude                        *float64                                  `json:"longitude" tfsdk:"longitude"`
+	MarketplaceCategoryName          *string                                   `json:"marketplace_category_name" tfsdk:"marketplace_category_name"`
+	MarketplaceCategoryUuid          *string                                   `json:"marketplace_category_uuid" tfsdk:"marketplace_category_uuid"`
+	MarketplaceOfferingName          *string                                   `json:"marketplace_offering_name" tfsdk:"marketplace_offering_name"`
+	MarketplaceOfferingUuid          *string                                   `json:"marketplace_offering_uuid" tfsdk:"marketplace_offering_uuid"`
+	MarketplacePlanUuid              *string                                   `json:"marketplace_plan_uuid" tfsdk:"marketplace_plan_uuid"`
+	MarketplaceResourceState         *string                                   `json:"marketplace_resource_state" tfsdk:"marketplace_resource_state"`
+	MarketplaceResourceUuid          *string                                   `json:"marketplace_resource_uuid" tfsdk:"marketplace_resource_uuid"`
+	MinDisk                          *int64                                    `json:"min_disk" tfsdk:"min_disk"`
+	MinRam                           *int64                                    `json:"min_ram" tfsdk:"min_ram"`
+	Modified                         *string                                   `json:"modified" tfsdk:"modified"`
+	Offering                         *string                                   `json:"offering" tfsdk:"offering"`
+	Ports                            []OpenstackInstancePortsResponse          `json:"ports" tfsdk:"ports"`
+	Project                          *string                                   `json:"project" tfsdk:"project"`
+	ProjectName                      *string                                   `json:"project_name" tfsdk:"project_name"`
+	ProjectUuid                      *string                                   `json:"project_uuid" tfsdk:"project_uuid"`
+	Ram                              *int64                                    `json:"ram" tfsdk:"ram"`
+	ReleaseFloatingIps               *bool                                     `json:"release_floating_ips" tfsdk:"release_floating_ips"`
+	ResourceType                     *string                                   `json:"resource_type" tfsdk:"resource_type"`
+	RuntimeState                     *string                                   `json:"runtime_state" tfsdk:"runtime_state"`
+	SecurityGroups                   []OpenstackInstanceSecurityGroupsResponse `json:"security_groups" tfsdk:"security_groups"`
+	ServerGroup                      *OpenstackInstanceServerGroupResponse     `json:"server_group" tfsdk:"server_group"`
+	ServiceName                      *string                                   `json:"service_name" tfsdk:"service_name"`
+	ServiceSettings                  *string                                   `json:"service_settings" tfsdk:"service_settings"`
+	ServiceSettingsErrorMessage      *string                                   `json:"service_settings_error_message" tfsdk:"service_settings_error_message"`
+	ServiceSettingsState             *string                                   `json:"service_settings_state" tfsdk:"service_settings_state"`
+	ServiceSettingsUuid              *string                                   `json:"service_settings_uuid" tfsdk:"service_settings_uuid"`
+	SshPublicKey                     *string                                   `json:"ssh_public_key" tfsdk:"ssh_public_key"`
+	StartTime                        *string                                   `json:"start_time" tfsdk:"start_time"`
+	State                            *string                                   `json:"state" tfsdk:"state"`
+	SystemVolumeSize                 *int64                                    `json:"system_volume_size" tfsdk:"system_volume_size"`
+	SystemVolumeType                 *string                                   `json:"system_volume_type" tfsdk:"system_volume_type"`
+	Tenant                           *string                                   `json:"tenant" tfsdk:"tenant"`
+	TenantUuid                       *string                                   `json:"tenant_uuid" tfsdk:"tenant_uuid"`
+	Url                              *string                                   `json:"url" tfsdk:"url"`
+	UserData                         *string                                   `json:"user_data" tfsdk:"user_data"`
+	Volumes                          []OpenstackInstanceVolumesResponse        `json:"volumes" tfsdk:"volumes"`
+}
+
+type OpenstackInstanceDataVolumesResponse struct {
+	Size       *int64  `json:"size" tfsdk:"size"`
+	VolumeType *string `json:"volume_type" tfsdk:"volume_type"`
+}
+
+type OpenstackInstanceFloatingIpsResponse struct {
+	IpAddress         *string                                            `json:"ip_address" tfsdk:"ip_address"`
+	Subnet            *string                                            `json:"subnet" tfsdk:"subnet"`
+	Url               *string                                            `json:"url" tfsdk:"url"`
+	Address           *string                                            `json:"address" tfsdk:"address"`
+	PortFixedIps      []OpenstackInstanceFloatingIpsPortFixedIpsResponse `json:"port_fixed_ips" tfsdk:"port_fixed_ips"`
+	PortMacAddress    *string                                            `json:"port_mac_address" tfsdk:"port_mac_address"`
+	SubnetCidr        *string                                            `json:"subnet_cidr" tfsdk:"subnet_cidr"`
+	SubnetDescription *string                                            `json:"subnet_description" tfsdk:"subnet_description"`
+	SubnetName        *string                                            `json:"subnet_name" tfsdk:"subnet_name"`
+	SubnetUuid        *string                                            `json:"subnet_uuid" tfsdk:"subnet_uuid"`
+}
+
+type OpenstackInstanceFloatingIpsPortFixedIpsResponse struct {
+	IpAddress *string `json:"ip_address" tfsdk:"ip_address"`
+	SubnetId  *string `json:"subnet_id" tfsdk:"subnet_id"`
+}
+
+type OpenstackInstancePortsResponse struct {
+	FixedIps            []OpenstackInstancePortsFixedIpsResponse            `json:"fixed_ips" tfsdk:"fixed_ips"`
+	Port                *string                                             `json:"port" tfsdk:"port"`
+	Subnet              *string                                             `json:"subnet" tfsdk:"subnet"`
+	AllowedAddressPairs []OpenstackInstancePortsAllowedAddressPairsResponse `json:"allowed_address_pairs" tfsdk:"allowed_address_pairs"`
+	DeviceId            *string                                             `json:"device_id" tfsdk:"device_id"`
+	DeviceOwner         *string                                             `json:"device_owner" tfsdk:"device_owner"`
+	MacAddress          *string                                             `json:"mac_address" tfsdk:"mac_address"`
+	SecurityGroups      []OpenstackInstancePortsSecurityGroupsResponse      `json:"security_groups" tfsdk:"security_groups"`
+	SubnetCidr          *string                                             `json:"subnet_cidr" tfsdk:"subnet_cidr"`
+	SubnetDescription   *string                                             `json:"subnet_description" tfsdk:"subnet_description"`
+	SubnetName          *string                                             `json:"subnet_name" tfsdk:"subnet_name"`
+	SubnetUuid          *string                                             `json:"subnet_uuid" tfsdk:"subnet_uuid"`
+	Url                 *string                                             `json:"url" tfsdk:"url"`
+}
+
+type OpenstackInstancePortsFixedIpsResponse struct {
+	IpAddress *string `json:"ip_address" tfsdk:"ip_address"`
+	SubnetId  *string `json:"subnet_id" tfsdk:"subnet_id"`
+}
+
+type OpenstackInstancePortsAllowedAddressPairsResponse struct {
+	MacAddress *string `json:"mac_address" tfsdk:"mac_address"`
+}
+
+type OpenstackInstancePortsSecurityGroupsResponse struct {
+	AccessUrl                   *string                                             `json:"access_url" tfsdk:"access_url"`
+	BackendId                   *string                                             `json:"backend_id" tfsdk:"backend_id"`
+	Created                     *string                                             `json:"created" tfsdk:"created"`
+	Customer                    *string                                             `json:"customer" tfsdk:"customer"`
+	CustomerAbbreviation        *string                                             `json:"customer_abbreviation" tfsdk:"customer_abbreviation"`
+	CustomerName                *string                                             `json:"customer_name" tfsdk:"customer_name"`
+	CustomerNativeName          *string                                             `json:"customer_native_name" tfsdk:"customer_native_name"`
+	CustomerUuid                *string                                             `json:"customer_uuid" tfsdk:"customer_uuid"`
+	Description                 *string                                             `json:"description" tfsdk:"description"`
+	ErrorMessage                *string                                             `json:"error_message" tfsdk:"error_message"`
+	ErrorTraceback              *string                                             `json:"error_traceback" tfsdk:"error_traceback"`
+	IsLimitBased                *bool                                               `json:"is_limit_based" tfsdk:"is_limit_based"`
+	IsUsageBased                *bool                                               `json:"is_usage_based" tfsdk:"is_usage_based"`
+	MarketplaceCategoryName     *string                                             `json:"marketplace_category_name" tfsdk:"marketplace_category_name"`
+	MarketplaceCategoryUuid     *string                                             `json:"marketplace_category_uuid" tfsdk:"marketplace_category_uuid"`
+	MarketplaceOfferingName     *string                                             `json:"marketplace_offering_name" tfsdk:"marketplace_offering_name"`
+	MarketplaceOfferingUuid     *string                                             `json:"marketplace_offering_uuid" tfsdk:"marketplace_offering_uuid"`
+	MarketplacePlanUuid         *string                                             `json:"marketplace_plan_uuid" tfsdk:"marketplace_plan_uuid"`
+	MarketplaceResourceState    *string                                             `json:"marketplace_resource_state" tfsdk:"marketplace_resource_state"`
+	MarketplaceResourceUuid     *string                                             `json:"marketplace_resource_uuid" tfsdk:"marketplace_resource_uuid"`
+	Modified                    *string                                             `json:"modified" tfsdk:"modified"`
+	Project                     *string                                             `json:"project" tfsdk:"project"`
+	ProjectName                 *string                                             `json:"project_name" tfsdk:"project_name"`
+	ProjectUuid                 *string                                             `json:"project_uuid" tfsdk:"project_uuid"`
+	ResourceType                *string                                             `json:"resource_type" tfsdk:"resource_type"`
+	Rules                       []OpenstackInstancePortsSecurityGroupsRulesResponse `json:"rules" tfsdk:"rules"`
+	ServiceName                 *string                                             `json:"service_name" tfsdk:"service_name"`
+	ServiceSettings             *string                                             `json:"service_settings" tfsdk:"service_settings"`
+	ServiceSettingsErrorMessage *string                                             `json:"service_settings_error_message" tfsdk:"service_settings_error_message"`
+	ServiceSettingsState        *string                                             `json:"service_settings_state" tfsdk:"service_settings_state"`
+	ServiceSettingsUuid         *string                                             `json:"service_settings_uuid" tfsdk:"service_settings_uuid"`
+	State                       *string                                             `json:"state" tfsdk:"state"`
+	Tenant                      *string                                             `json:"tenant" tfsdk:"tenant"`
+	TenantName                  *string                                             `json:"tenant_name" tfsdk:"tenant_name"`
+	TenantUuid                  *string                                             `json:"tenant_uuid" tfsdk:"tenant_uuid"`
+	Url                         *string                                             `json:"url" tfsdk:"url"`
+}
+
+type OpenstackInstancePortsSecurityGroupsRulesResponse struct {
+	Cidr            *string `json:"cidr" tfsdk:"cidr"`
+	Description     *string `json:"description" tfsdk:"description"`
+	Direction       *string `json:"direction" tfsdk:"direction"`
+	Ethertype       *string `json:"ethertype" tfsdk:"ethertype"`
+	FromPort        *int64  `json:"from_port" tfsdk:"from_port"`
+	Id              *int64  `json:"id" tfsdk:"id"`
+	Protocol        *string `json:"protocol" tfsdk:"protocol"`
+	RemoteGroup     *string `json:"remote_group" tfsdk:"remote_group"`
+	RemoteGroupName *string `json:"remote_group_name" tfsdk:"remote_group_name"`
+	RemoteGroupUuid *string `json:"remote_group_uuid" tfsdk:"remote_group_uuid"`
+	ToPort          *int64  `json:"to_port" tfsdk:"to_port"`
+}
+
+type OpenstackInstanceSecurityGroupsResponse struct {
+	Url         *string                                        `json:"url" tfsdk:"url"`
+	Description *string                                        `json:"description" tfsdk:"description"`
+	Rules       []OpenstackInstanceSecurityGroupsRulesResponse `json:"rules" tfsdk:"rules"`
+	State       *string                                        `json:"state" tfsdk:"state"`
+}
+
+type OpenstackInstanceSecurityGroupsRulesResponse struct {
+	Cidr            *string `json:"cidr" tfsdk:"cidr"`
+	Description     *string `json:"description" tfsdk:"description"`
+	Direction       *string `json:"direction" tfsdk:"direction"`
+	Ethertype       *string `json:"ethertype" tfsdk:"ethertype"`
+	FromPort        *int64  `json:"from_port" tfsdk:"from_port"`
+	Id              *int64  `json:"id" tfsdk:"id"`
+	Protocol        *string `json:"protocol" tfsdk:"protocol"`
+	RemoteGroupName *string `json:"remote_group_name" tfsdk:"remote_group_name"`
+	RemoteGroupUuid *string `json:"remote_group_uuid" tfsdk:"remote_group_uuid"`
+	ToPort          *int64  `json:"to_port" tfsdk:"to_port"`
+}
+
+type OpenstackInstanceServerGroupResponse struct {
+	Policy *string `json:"policy" tfsdk:"policy"`
+	State  *string `json:"state" tfsdk:"state"`
+	Url    *string `json:"url" tfsdk:"url"`
+}
+
+type OpenstackInstanceVolumesResponse struct {
+	Bootable                *bool   `json:"bootable" tfsdk:"bootable"`
+	Device                  *string `json:"device" tfsdk:"device"`
+	ImageName               *string `json:"image_name" tfsdk:"image_name"`
+	MarketplaceResourceUuid *string `json:"marketplace_resource_uuid" tfsdk:"marketplace_resource_uuid"`
+	ResourceType            *string `json:"resource_type" tfsdk:"resource_type"`
+	Size                    *int64  `json:"size" tfsdk:"size"`
+	State                   *string `json:"state" tfsdk:"state"`
+	Type                    *string `json:"type" tfsdk:"type"`
+	TypeName                *string `json:"type_name" tfsdk:"type_name"`
+	Url                     *string `json:"url" tfsdk:"url"`
+}
+
+var openstackinstance_data_volumesAttrTypes = map[string]attr.Type{
+	"size":        types.Int64Type,
+	"volume_type": types.StringType,
+}
+var openstackinstance_data_volumesObjectType = types.ObjectType{
+	AttrTypes: openstackinstance_data_volumesAttrTypes,
+}
+
+var openstackinstance_floating_ipsAttrTypes = map[string]attr.Type{
+	"ip_address": types.StringType,
+	"subnet":     types.StringType,
+	"url":        types.StringType,
+	"address":    types.StringType,
+	"port_fixed_ips": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+		"ip_address": types.StringType,
+		"subnet_id":  types.StringType,
+	}}},
+	"port_mac_address":   types.StringType,
+	"subnet_cidr":        types.StringType,
+	"subnet_description": types.StringType,
+	"subnet_name":        types.StringType,
+	"subnet_uuid":        types.StringType,
+}
+var openstackinstance_floating_ipsObjectType = types.ObjectType{
+	AttrTypes: openstackinstance_floating_ipsAttrTypes,
+}
+
+var openstackinstancefloatingips_port_fixed_ipsAttrTypes = map[string]attr.Type{
+	"ip_address": types.StringType,
+	"subnet_id":  types.StringType,
+}
+var openstackinstancefloatingips_port_fixed_ipsObjectType = types.ObjectType{
+	AttrTypes: openstackinstancefloatingips_port_fixed_ipsAttrTypes,
+}
+
+var openstackinstance_portsAttrTypes = map[string]attr.Type{
+	"fixed_ips": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+		"ip_address": types.StringType,
+		"subnet_id":  types.StringType,
+	}}},
+	"port":   types.StringType,
+	"subnet": types.StringType,
+	"allowed_address_pairs": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+		"mac_address": types.StringType,
+	}}},
+	"device_id":    types.StringType,
+	"device_owner": types.StringType,
+	"mac_address":  types.StringType,
+	"security_groups": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+		"access_url":                 types.StringType,
+		"backend_id":                 types.StringType,
+		"created":                    types.StringType,
+		"customer":                   types.StringType,
+		"customer_abbreviation":      types.StringType,
+		"customer_name":              types.StringType,
+		"customer_native_name":       types.StringType,
+		"customer_uuid":              types.StringType,
+		"description":                types.StringType,
+		"error_message":              types.StringType,
+		"error_traceback":            types.StringType,
+		"is_limit_based":             types.BoolType,
+		"is_usage_based":             types.BoolType,
+		"marketplace_category_name":  types.StringType,
+		"marketplace_category_uuid":  types.StringType,
+		"marketplace_offering_name":  types.StringType,
+		"marketplace_offering_uuid":  types.StringType,
+		"marketplace_plan_uuid":      types.StringType,
+		"marketplace_resource_state": types.StringType,
+		"marketplace_resource_uuid":  types.StringType,
+		"modified":                   types.StringType,
+		"name":                       types.StringType,
+		"project":                    types.StringType,
+		"project_name":               types.StringType,
+		"project_uuid":               types.StringType,
+		"resource_type":              types.StringType,
+		"rules": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+			"cidr":              types.StringType,
+			"description":       types.StringType,
+			"direction":         types.StringType,
+			"ethertype":         types.StringType,
+			"from_port":         types.Int64Type,
+			"id":                types.Int64Type,
+			"protocol":          types.StringType,
+			"remote_group":      types.StringType,
+			"remote_group_name": types.StringType,
+			"remote_group_uuid": types.StringType,
+			"to_port":           types.Int64Type,
+		}}},
+		"service_name":                   types.StringType,
+		"service_settings":               types.StringType,
+		"service_settings_error_message": types.StringType,
+		"service_settings_state":         types.StringType,
+		"service_settings_uuid":          types.StringType,
+		"state":                          types.StringType,
+		"tenant":                         types.StringType,
+		"tenant_name":                    types.StringType,
+		"tenant_uuid":                    types.StringType,
+		"url":                            types.StringType,
+	}}},
+	"subnet_cidr":        types.StringType,
+	"subnet_description": types.StringType,
+	"subnet_name":        types.StringType,
+	"subnet_uuid":        types.StringType,
+	"url":                types.StringType,
+}
+var openstackinstance_portsObjectType = types.ObjectType{
+	AttrTypes: openstackinstance_portsAttrTypes,
+}
+
+var openstackinstanceports_fixed_ipsAttrTypes = map[string]attr.Type{
+	"ip_address": types.StringType,
+	"subnet_id":  types.StringType,
+}
+var openstackinstanceports_fixed_ipsObjectType = types.ObjectType{
+	AttrTypes: openstackinstanceports_fixed_ipsAttrTypes,
+}
+
+var openstackinstanceports_allowed_address_pairsAttrTypes = map[string]attr.Type{
+	"mac_address": types.StringType,
+}
+var openstackinstanceports_allowed_address_pairsObjectType = types.ObjectType{
+	AttrTypes: openstackinstanceports_allowed_address_pairsAttrTypes,
+}
+
+var openstackinstanceports_security_groupsAttrTypes = map[string]attr.Type{
+	"access_url":                 types.StringType,
+	"backend_id":                 types.StringType,
+	"created":                    types.StringType,
+	"customer":                   types.StringType,
+	"customer_abbreviation":      types.StringType,
+	"customer_name":              types.StringType,
+	"customer_native_name":       types.StringType,
+	"customer_uuid":              types.StringType,
+	"description":                types.StringType,
+	"error_message":              types.StringType,
+	"error_traceback":            types.StringType,
+	"is_limit_based":             types.BoolType,
+	"is_usage_based":             types.BoolType,
+	"marketplace_category_name":  types.StringType,
+	"marketplace_category_uuid":  types.StringType,
+	"marketplace_offering_name":  types.StringType,
+	"marketplace_offering_uuid":  types.StringType,
+	"marketplace_plan_uuid":      types.StringType,
+	"marketplace_resource_state": types.StringType,
+	"marketplace_resource_uuid":  types.StringType,
+	"modified":                   types.StringType,
+	"name":                       types.StringType,
+	"project":                    types.StringType,
+	"project_name":               types.StringType,
+	"project_uuid":               types.StringType,
+	"resource_type":              types.StringType,
+	"rules": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+		"cidr":              types.StringType,
+		"description":       types.StringType,
+		"direction":         types.StringType,
+		"ethertype":         types.StringType,
+		"from_port":         types.Int64Type,
+		"id":                types.Int64Type,
+		"protocol":          types.StringType,
+		"remote_group":      types.StringType,
+		"remote_group_name": types.StringType,
+		"remote_group_uuid": types.StringType,
+		"to_port":           types.Int64Type,
+	}}},
+	"service_name":                   types.StringType,
+	"service_settings":               types.StringType,
+	"service_settings_error_message": types.StringType,
+	"service_settings_state":         types.StringType,
+	"service_settings_uuid":          types.StringType,
+	"state":                          types.StringType,
+	"tenant":                         types.StringType,
+	"tenant_name":                    types.StringType,
+	"tenant_uuid":                    types.StringType,
+	"url":                            types.StringType,
+}
+var openstackinstanceports_security_groupsObjectType = types.ObjectType{
+	AttrTypes: openstackinstanceports_security_groupsAttrTypes,
+}
+
+var openstackinstanceportssecuritygroups_rulesAttrTypes = map[string]attr.Type{
+	"cidr":              types.StringType,
+	"description":       types.StringType,
+	"direction":         types.StringType,
+	"ethertype":         types.StringType,
+	"from_port":         types.Int64Type,
+	"id":                types.Int64Type,
+	"protocol":          types.StringType,
+	"remote_group":      types.StringType,
+	"remote_group_name": types.StringType,
+	"remote_group_uuid": types.StringType,
+	"to_port":           types.Int64Type,
+}
+var openstackinstanceportssecuritygroups_rulesObjectType = types.ObjectType{
+	AttrTypes: openstackinstanceportssecuritygroups_rulesAttrTypes,
+}
+
+var openstackinstance_security_groupsAttrTypes = map[string]attr.Type{
+	"url":         types.StringType,
+	"description": types.StringType,
+	"name":        types.StringType,
+	"rules": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+		"cidr":              types.StringType,
+		"description":       types.StringType,
+		"direction":         types.StringType,
+		"ethertype":         types.StringType,
+		"from_port":         types.Int64Type,
+		"id":                types.Int64Type,
+		"protocol":          types.StringType,
+		"remote_group_name": types.StringType,
+		"remote_group_uuid": types.StringType,
+		"to_port":           types.Int64Type,
+	}}},
+	"state": types.StringType,
+}
+var openstackinstance_security_groupsObjectType = types.ObjectType{
+	AttrTypes: openstackinstance_security_groupsAttrTypes,
+}
+
+var openstackinstancesecuritygroups_rulesAttrTypes = map[string]attr.Type{
+	"cidr":              types.StringType,
+	"description":       types.StringType,
+	"direction":         types.StringType,
+	"ethertype":         types.StringType,
+	"from_port":         types.Int64Type,
+	"id":                types.Int64Type,
+	"protocol":          types.StringType,
+	"remote_group_name": types.StringType,
+	"remote_group_uuid": types.StringType,
+	"to_port":           types.Int64Type,
+}
+var openstackinstancesecuritygroups_rulesObjectType = types.ObjectType{
+	AttrTypes: openstackinstancesecuritygroups_rulesAttrTypes,
+}
+
+var openstackinstance_server_groupAttrTypes = map[string]attr.Type{
+	"name":   types.StringType,
+	"policy": types.StringType,
+	"state":  types.StringType,
+	"url":    types.StringType,
+}
+var openstackinstance_server_groupObjectType = types.ObjectType{
+	AttrTypes: openstackinstance_server_groupAttrTypes,
+}
+
+var openstackinstance_volumesAttrTypes = map[string]attr.Type{
+	"bootable":                  types.BoolType,
+	"device":                    types.StringType,
+	"image_name":                types.StringType,
+	"marketplace_resource_uuid": types.StringType,
+	"name":                      types.StringType,
+	"resource_type":             types.StringType,
+	"size":                      types.Int64Type,
+	"state":                     types.StringType,
+	"type":                      types.StringType,
+	"type_name":                 types.StringType,
+	"url":                       types.StringType,
+}
+var openstackinstance_volumesObjectType = types.ObjectType{
+	AttrTypes: openstackinstance_volumesAttrTypes,
 }
 
 // OpenstackInstanceResourceModel describes the resource data model.
@@ -1125,13 +1606,13 @@ func (r *OpenstackInstanceResource) Create(ctx context.Context, req resource.Cre
 						data.UUID = types.StringValue(pluginUUID)
 
 						// Fetch Plugin Resource
-						var pluginRes map[string]interface{}
+						var apiResp OpenstackInstanceApiResponse
 						retrievePath := strings.Replace("/api/openstack-instances/{uuid}/", "{uuid}", pluginUUID, 1)
 						tflog.Warn(ctx, "Attempting to fetch plugin resource at: "+retrievePath)
-						err = r.client.GetByUUID(ctx, retrievePath, pluginUUID, &pluginRes)
+						err = r.client.GetByUUID(ctx, retrievePath, pluginUUID, &apiResp)
 						if err == nil {
 							tflog.Warn(ctx, "Successfully fetched plugin resource")
-							r.updateFromValue(ctx, &data, pluginRes)
+							resp.Diagnostics.Append(r.mapResponseToModel(ctx, apiResp, &data)...)
 						} else {
 							tflog.Warn(ctx, "Failed to fetch plugin resource: "+err.Error())
 						}
@@ -1194,13 +1675,13 @@ func (r *OpenstackInstanceResource) Create(ctx context.Context, req resource.Cre
 	}
 
 	// Fetch final resource state
-	var finalState map[string]interface{}
-	err = r.client.GetByUUID(ctx, "/api/openstack-instances/{uuid}/", data.UUID.ValueString(), &finalState)
+	var apiResp OpenstackInstanceApiResponse
+	err = r.client.GetByUUID(ctx, "/api/openstack-instances/{uuid}/", data.UUID.ValueString(), &apiResp)
 	if err != nil {
 		resp.Diagnostics.AddError("Failed to Read Resource", err.Error())
 		return
 	}
-	r.updateFromValue(ctx, &data, finalState)
+	resp.Diagnostics.Append(r.mapResponseToModel(ctx, apiResp, &data)...)
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
@@ -1216,11 +1697,11 @@ func (r *OpenstackInstanceResource) Read(ctx context.Context, req resource.ReadR
 	}
 
 	// Call Waldur API to read resource
-	var result map[string]interface{}
 
 	retrievePath := strings.Replace("/api/openstack-instances/{uuid}/", "{uuid}", data.UUID.ValueString(), 1)
 
-	err := r.client.GetByUUID(ctx, retrievePath, data.UUID.ValueString(), &result)
+	var apiResp OpenstackInstanceApiResponse
+	err := r.client.GetByUUID(ctx, retrievePath, data.UUID.ValueString(), &apiResp)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Unable to Read Openstack Instance",
@@ -1229,7 +1710,7 @@ func (r *OpenstackInstanceResource) Read(ctx context.Context, req resource.ReadR
 		return
 	}
 
-	r.updateFromValue(ctx, &data, result)
+	resp.Diagnostics.Append(r.mapResponseToModel(ctx, apiResp, &data)...)
 
 	// Save updated data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
@@ -1243,8 +1724,6 @@ func (r *OpenstackInstanceResource) Update(ctx context.Context, req resource.Upd
 	if resp.Diagnostics.HasError() {
 		return
 	}
-
-	data.UUID = state.UUID
 
 	// Phase 1: Standard PATCH (Simple fields)
 	patchPayload := map[string]interface{}{}
@@ -1262,6 +1741,7 @@ func (r *OpenstackInstanceResource) Update(ctx context.Context, req resource.Upd
 			resp.Diagnostics.AddError("Update Failed", err.Error())
 			return
 		}
+		_ = result
 	}
 
 	// Phase 2: RPC Actions
@@ -1372,16 +1852,16 @@ func (r *OpenstackInstanceResource) Update(ctx context.Context, req resource.Upd
 
 	// Fetch updated state
 	// Call Waldur API to read resource
-	var result map[string]interface{}
+	var apiResp OpenstackInstanceApiResponse
 
 	retrievePath := strings.Replace("/api/openstack-instances/{uuid}/", "{uuid}", data.UUID.ValueString(), 1)
 
-	err := r.client.GetByUUID(ctx, retrievePath, data.UUID.ValueString(), &result)
+	err := r.client.GetByUUID(ctx, retrievePath, data.UUID.ValueString(), &apiResp)
 	if err != nil {
 		resp.Diagnostics.AddError("Failed to Read Resource After Update", err.Error())
 		return
 	}
-	r.updateFromValue(ctx, &data, result)
+	resp.Diagnostics.Append(r.mapResponseToModel(ctx, apiResp, &data)...)
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
@@ -1448,1466 +1928,109 @@ func (r *OpenstackInstanceResource) ImportState(ctx context.Context, req resourc
 	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }
 
-func (r *OpenstackInstanceResource) updateFromValue(ctx context.Context, data *OpenstackInstanceResourceModel, sourceMap map[string]interface{}) {
-	// Map response fields to data model
-	_ = sourceMap
-	if val, ok := sourceMap["access_url"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.AccessUrl = types.StringValue(str)
-		}
-	} else {
-		if data.AccessUrl.IsUnknown() {
-			data.AccessUrl = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["action"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Action = types.StringValue(str)
-		}
-	} else {
-		if data.Action.IsUnknown() {
-			data.Action = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["availability_zone"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.AvailabilityZone = types.StringValue(str)
-		}
-	} else {
-		if data.AvailabilityZone.IsUnknown() {
-			data.AvailabilityZone = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["availability_zone_name"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.AvailabilityZoneName = types.StringValue(str)
-		}
-	} else {
-		if data.AvailabilityZoneName.IsUnknown() {
-			data.AvailabilityZoneName = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["backend_id"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.BackendId = types.StringValue(str)
-		}
-	} else {
-		if data.BackendId.IsUnknown() {
-			data.BackendId = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["connect_directly_to_external_network"]; ok && val != nil {
-		if b, ok := val.(bool); ok {
-			data.ConnectDirectlyToExternalNetwork = types.BoolValue(b)
-		}
-	} else {
-		if data.ConnectDirectlyToExternalNetwork.IsUnknown() {
-			data.ConnectDirectlyToExternalNetwork = types.BoolNull()
-		}
-	}
-	if val, ok := sourceMap["cores"]; ok && val != nil {
-		if num, ok := val.(float64); ok {
-			data.Cores = types.Int64Value(int64(num))
-		}
-	} else {
-		if data.Cores.IsUnknown() {
-			data.Cores = types.Int64Null()
-		}
-	}
-	if val, ok := sourceMap["created"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Created = types.StringValue(str)
-		}
-	} else {
-		if data.Created.IsUnknown() {
-			data.Created = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["customer"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Customer = types.StringValue(str)
-		}
-	} else {
-		if data.Customer.IsUnknown() {
-			data.Customer = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["customer_abbreviation"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.CustomerAbbreviation = types.StringValue(str)
-		}
-	} else {
-		if data.CustomerAbbreviation.IsUnknown() {
-			data.CustomerAbbreviation = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["customer_name"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.CustomerName = types.StringValue(str)
-		}
-	} else {
-		if data.CustomerName.IsUnknown() {
-			data.CustomerName = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["customer_native_name"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.CustomerNativeName = types.StringValue(str)
-		}
-	} else {
-		if data.CustomerNativeName.IsUnknown() {
-			data.CustomerNativeName = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["customer_uuid"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.CustomerUuid = types.StringValue(str)
-		}
-	} else {
-		if data.CustomerUuid.IsUnknown() {
-			data.CustomerUuid = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["data_volume_size"]; ok && val != nil {
-		if num, ok := val.(float64); ok {
-			data.DataVolumeSize = types.Int64Value(int64(num))
-		}
-	} else {
-		if data.DataVolumeSize.IsUnknown() {
-			data.DataVolumeSize = types.Int64Null()
-		}
-	}
-	if val, ok := sourceMap["data_volume_type"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.DataVolumeType = types.StringValue(str)
-		}
-	} else {
-		if data.DataVolumeType.IsUnknown() {
-			data.DataVolumeType = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["data_volumes"]; ok && val != nil {
-		// List of objects
-		if arr, ok := val.([]interface{}); ok {
-			items := make([]attr.Value, 0, len(arr))
-			for _, item := range arr {
-				if objMap, ok := item.(map[string]interface{}); ok {
-					attrTypes := map[string]attr.Type{
-						"size":        types.Int64Type,
-						"volume_type": types.StringType,
-					}
-					attrValues := map[string]attr.Value{
-						"size": func() attr.Value {
-							if v, ok := objMap["size"].(float64); ok {
-								return types.Int64Value(int64(v))
-							}
-							return types.Int64Null()
-						}(),
-						"volume_type": func() attr.Value {
-							if v, ok := objMap["volume_type"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-					}
-					objVal, _ := types.ObjectValue(attrTypes, attrValues)
-					items = append(items, objVal)
-				}
-			}
-			listVal, _ := types.ListValue(types.ObjectType{AttrTypes: map[string]attr.Type{
-				"size":        types.Int64Type,
-				"volume_type": types.StringType,
-			}}, items)
-			data.DataVolumes = listVal
-		}
-	} else {
-		if data.DataVolumes.IsUnknown() {
-			data.DataVolumes = types.ListNull(types.ObjectType{AttrTypes: map[string]attr.Type{
-				"size":        types.Int64Type,
-				"volume_type": types.StringType,
-			}})
-		}
-	}
-	if val, ok := sourceMap["delete_volumes"]; ok && val != nil {
-		if b, ok := val.(bool); ok {
-			data.DeleteVolumes = types.BoolValue(b)
-		}
-	} else {
-		if data.DeleteVolumes.IsUnknown() {
-			data.DeleteVolumes = types.BoolNull()
-		}
-	}
-	if val, ok := sourceMap["description"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Description = types.StringValue(str)
-		}
-	} else {
-		if data.Description.IsUnknown() {
-			data.Description = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["disk"]; ok && val != nil {
-		if num, ok := val.(float64); ok {
-			data.Disk = types.Int64Value(int64(num))
-		}
-	} else {
-		if data.Disk.IsUnknown() {
-			data.Disk = types.Int64Null()
-		}
-	}
-	if val, ok := sourceMap["error_message"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.ErrorMessage = types.StringValue(str)
-		}
-	} else {
-		if data.ErrorMessage.IsUnknown() {
-			data.ErrorMessage = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["error_traceback"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.ErrorTraceback = types.StringValue(str)
-		}
-	} else {
-		if data.ErrorTraceback.IsUnknown() {
-			data.ErrorTraceback = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["external_address"]; ok && val != nil {
-		// List of strings (or flattened objects)
-		if arr, ok := val.([]interface{}); ok {
-			items := make([]attr.Value, 0, len(arr))
-			for _, item := range arr {
-				if str, ok := item.(string); ok {
-					items = append(items, types.StringValue(str))
-				} else if obj, ok := item.(map[string]interface{}); ok {
-					// Flattening logic: extract URL or UUID
-					if url, ok := obj["url"].(string); ok {
-						parts := strings.Split(strings.TrimRight(url, "/"), "/")
-						uuid := parts[len(parts)-1]
-						items = append(items, types.StringValue(uuid))
-					} else if uuid, ok := obj["uuid"].(string); ok {
-						items = append(items, types.StringValue(uuid))
-					} else if name, ok := obj["name"].(string); ok {
-						items = append(items, types.StringValue(name))
-					}
-				}
-			}
-			listVal, _ := types.ListValue(types.StringType, items)
-			data.ExternalAddress = listVal
-		}
-	} else {
-		if data.ExternalAddress.IsUnknown() {
-			data.ExternalAddress = types.ListNull(types.StringType)
-		}
-	}
-	if val, ok := sourceMap["external_ips"]; ok && val != nil {
-		// List of strings (or flattened objects)
-		if arr, ok := val.([]interface{}); ok {
-			items := make([]attr.Value, 0, len(arr))
-			for _, item := range arr {
-				if str, ok := item.(string); ok {
-					items = append(items, types.StringValue(str))
-				} else if obj, ok := item.(map[string]interface{}); ok {
-					// Flattening logic: extract URL or UUID
-					if url, ok := obj["url"].(string); ok {
-						parts := strings.Split(strings.TrimRight(url, "/"), "/")
-						uuid := parts[len(parts)-1]
-						items = append(items, types.StringValue(uuid))
-					} else if uuid, ok := obj["uuid"].(string); ok {
-						items = append(items, types.StringValue(uuid))
-					} else if name, ok := obj["name"].(string); ok {
-						items = append(items, types.StringValue(name))
-					}
-				}
-			}
-			listVal, _ := types.ListValue(types.StringType, items)
-			data.ExternalIps = listVal
-		}
-	} else {
-		if data.ExternalIps.IsUnknown() {
-			data.ExternalIps = types.ListNull(types.StringType)
-		}
-	}
-	if val, ok := sourceMap["flavor"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Flavor = types.StringValue(str)
-		}
-	} else {
-		if data.Flavor.IsUnknown() {
-			data.Flavor = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["flavor_disk"]; ok && val != nil {
-		if num, ok := val.(float64); ok {
-			data.FlavorDisk = types.Int64Value(int64(num))
-		}
-	} else {
-		if data.FlavorDisk.IsUnknown() {
-			data.FlavorDisk = types.Int64Null()
-		}
-	}
-	if val, ok := sourceMap["flavor_name"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.FlavorName = types.StringValue(str)
-		}
-	} else {
-		if data.FlavorName.IsUnknown() {
-			data.FlavorName = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["floating_ips"]; ok && val != nil {
-		// List of objects
-		if arr, ok := val.([]interface{}); ok {
-			items := make([]attr.Value, 0, len(arr))
-			for _, item := range arr {
-				if objMap, ok := item.(map[string]interface{}); ok {
-					attrTypes := map[string]attr.Type{
-						"ip_address": types.StringType,
-						"subnet":     types.StringType,
-						"url":        types.StringType,
-						"address":    types.StringType,
-						"port_fixed_ips": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
-							"ip_address": types.StringType,
-							"subnet_id":  types.StringType,
-						}}},
-						"port_mac_address":   types.StringType,
-						"subnet_cidr":        types.StringType,
-						"subnet_description": types.StringType,
-						"subnet_name":        types.StringType,
-						"subnet_uuid":        types.StringType,
-					}
-					attrValues := map[string]attr.Value{
-						"ip_address": func() attr.Value {
-							if v, ok := objMap["ip_address"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"subnet": func() attr.Value {
-							if v, ok := objMap["subnet"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"url": func() attr.Value {
-							if v, ok := objMap["url"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"address": func() attr.Value {
-							if v, ok := objMap["address"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"port_fixed_ips": types.ListNull(types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
-							"ip_address": types.StringType,
-							"subnet_id":  types.StringType,
-						}}}.ElemType),
-						"port_mac_address": func() attr.Value {
-							if v, ok := objMap["port_mac_address"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"subnet_cidr": func() attr.Value {
-							if v, ok := objMap["subnet_cidr"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"subnet_description": func() attr.Value {
-							if v, ok := objMap["subnet_description"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"subnet_name": func() attr.Value {
-							if v, ok := objMap["subnet_name"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"subnet_uuid": func() attr.Value {
-							if v, ok := objMap["subnet_uuid"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-					}
-					objVal, _ := types.ObjectValue(attrTypes, attrValues)
-					items = append(items, objVal)
-				}
-			}
-			listVal, _ := types.ListValue(types.ObjectType{AttrTypes: map[string]attr.Type{
-				"ip_address": types.StringType,
-				"subnet":     types.StringType,
-				"url":        types.StringType,
-				"address":    types.StringType,
-				"port_fixed_ips": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
-					"ip_address": types.StringType,
-					"subnet_id":  types.StringType,
-				}}},
-				"port_mac_address":   types.StringType,
-				"subnet_cidr":        types.StringType,
-				"subnet_description": types.StringType,
-				"subnet_name":        types.StringType,
-				"subnet_uuid":        types.StringType,
-			}}, items)
-			data.FloatingIps = listVal
-		}
-	} else {
-		if data.FloatingIps.IsUnknown() {
-			data.FloatingIps = types.ListNull(types.ObjectType{AttrTypes: map[string]attr.Type{
-				"ip_address": types.StringType,
-				"subnet":     types.StringType,
-				"url":        types.StringType,
-				"address":    types.StringType,
-				"port_fixed_ips": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
-					"ip_address": types.StringType,
-					"subnet_id":  types.StringType,
-				}}},
-				"port_mac_address":   types.StringType,
-				"subnet_cidr":        types.StringType,
-				"subnet_description": types.StringType,
-				"subnet_name":        types.StringType,
-				"subnet_uuid":        types.StringType,
-			}})
-		}
-	}
-	if val, ok := sourceMap["hypervisor_hostname"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.HypervisorHostname = types.StringValue(str)
-		}
-	} else {
-		if data.HypervisorHostname.IsUnknown() {
-			data.HypervisorHostname = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["image"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Image = types.StringValue(str)
-		}
-	} else {
-		if data.Image.IsUnknown() {
-			data.Image = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["image_name"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.ImageName = types.StringValue(str)
-		}
-	} else {
-		if data.ImageName.IsUnknown() {
-			data.ImageName = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["internal_ips"]; ok && val != nil {
-		// List of strings (or flattened objects)
-		if arr, ok := val.([]interface{}); ok {
-			items := make([]attr.Value, 0, len(arr))
-			for _, item := range arr {
-				if str, ok := item.(string); ok {
-					items = append(items, types.StringValue(str))
-				} else if obj, ok := item.(map[string]interface{}); ok {
-					// Flattening logic: extract URL or UUID
-					if url, ok := obj["url"].(string); ok {
-						parts := strings.Split(strings.TrimRight(url, "/"), "/")
-						uuid := parts[len(parts)-1]
-						items = append(items, types.StringValue(uuid))
-					} else if uuid, ok := obj["uuid"].(string); ok {
-						items = append(items, types.StringValue(uuid))
-					} else if name, ok := obj["name"].(string); ok {
-						items = append(items, types.StringValue(name))
-					}
-				}
-			}
-			listVal, _ := types.ListValue(types.StringType, items)
-			data.InternalIps = listVal
-		}
-	} else {
-		if data.InternalIps.IsUnknown() {
-			data.InternalIps = types.ListNull(types.StringType)
-		}
-	}
-	if val, ok := sourceMap["is_limit_based"]; ok && val != nil {
-		if b, ok := val.(bool); ok {
-			data.IsLimitBased = types.BoolValue(b)
-		}
-	} else {
-		if data.IsLimitBased.IsUnknown() {
-			data.IsLimitBased = types.BoolNull()
-		}
-	}
-	if val, ok := sourceMap["is_usage_based"]; ok && val != nil {
-		if b, ok := val.(bool); ok {
-			data.IsUsageBased = types.BoolValue(b)
-		}
-	} else {
-		if data.IsUsageBased.IsUnknown() {
-			data.IsUsageBased = types.BoolNull()
-		}
-	}
-	if val, ok := sourceMap["key_fingerprint"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.KeyFingerprint = types.StringValue(str)
-		}
-	} else {
-		if data.KeyFingerprint.IsUnknown() {
-			data.KeyFingerprint = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["key_name"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.KeyName = types.StringValue(str)
-		}
-	} else {
-		if data.KeyName.IsUnknown() {
-			data.KeyName = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["latitude"]; ok && val != nil {
-		if num, ok := val.(float64); ok {
-			data.Latitude = types.Float64Value(num)
-		}
-	} else {
-		if data.Latitude.IsUnknown() {
-			data.Latitude = types.Float64Null()
-		}
-	}
-	if val, ok := sourceMap["longitude"]; ok && val != nil {
-		if num, ok := val.(float64); ok {
-			data.Longitude = types.Float64Value(num)
-		}
-	} else {
-		if data.Longitude.IsUnknown() {
-			data.Longitude = types.Float64Null()
-		}
-	}
-	if val, ok := sourceMap["marketplace_category_name"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.MarketplaceCategoryName = types.StringValue(str)
-		}
-	} else {
-		if data.MarketplaceCategoryName.IsUnknown() {
-			data.MarketplaceCategoryName = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["marketplace_category_uuid"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.MarketplaceCategoryUuid = types.StringValue(str)
-		}
-	} else {
-		if data.MarketplaceCategoryUuid.IsUnknown() {
-			data.MarketplaceCategoryUuid = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["marketplace_offering_name"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.MarketplaceOfferingName = types.StringValue(str)
-		}
-	} else {
-		if data.MarketplaceOfferingName.IsUnknown() {
-			data.MarketplaceOfferingName = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["marketplace_offering_uuid"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.MarketplaceOfferingUuid = types.StringValue(str)
-		}
-	} else {
-		if data.MarketplaceOfferingUuid.IsUnknown() {
-			data.MarketplaceOfferingUuid = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["marketplace_plan_uuid"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.MarketplacePlanUuid = types.StringValue(str)
-		}
-	} else {
-		if data.MarketplacePlanUuid.IsUnknown() {
-			data.MarketplacePlanUuid = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["marketplace_resource_state"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.MarketplaceResourceState = types.StringValue(str)
-		}
-	} else {
-		if data.MarketplaceResourceState.IsUnknown() {
-			data.MarketplaceResourceState = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["marketplace_resource_uuid"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.MarketplaceResourceUuid = types.StringValue(str)
-		}
-	} else {
-		if data.MarketplaceResourceUuid.IsUnknown() {
-			data.MarketplaceResourceUuid = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["min_disk"]; ok && val != nil {
-		if num, ok := val.(float64); ok {
-			data.MinDisk = types.Int64Value(int64(num))
-		}
-	} else {
-		if data.MinDisk.IsUnknown() {
-			data.MinDisk = types.Int64Null()
-		}
-	}
-	if val, ok := sourceMap["min_ram"]; ok && val != nil {
-		if num, ok := val.(float64); ok {
-			data.MinRam = types.Int64Value(int64(num))
-		}
-	} else {
-		if data.MinRam.IsUnknown() {
-			data.MinRam = types.Int64Null()
-		}
-	}
-	if val, ok := sourceMap["modified"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Modified = types.StringValue(str)
-		}
-	} else {
-		if data.Modified.IsUnknown() {
-			data.Modified = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["offering"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			// Normalize URL to UUID
-			parts := strings.Split(strings.TrimRight(str, "/"), "/")
-			uuid := parts[len(parts)-1]
-			data.Offering = types.StringValue(uuid)
-		} else {
-			data.Offering = types.StringNull()
-		}
-	} else {
-		if data.Offering.IsUnknown() {
-			data.Offering = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["ports"]; ok && val != nil {
-		// List of objects
-		if arr, ok := val.([]interface{}); ok {
-			items := make([]attr.Value, 0, len(arr))
-			for _, item := range arr {
-				if objMap, ok := item.(map[string]interface{}); ok {
-					attrTypes := map[string]attr.Type{
-						"fixed_ips": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
-							"ip_address": types.StringType,
-							"subnet_id":  types.StringType,
-						}}},
-						"port":   types.StringType,
-						"subnet": types.StringType,
-						"allowed_address_pairs": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
-							"mac_address": types.StringType,
-						}}},
-						"device_id":    types.StringType,
-						"device_owner": types.StringType,
-						"mac_address":  types.StringType,
-						"security_groups": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
-							"access_url":                 types.StringType,
-							"backend_id":                 types.StringType,
-							"created":                    types.StringType,
-							"customer":                   types.StringType,
-							"customer_abbreviation":      types.StringType,
-							"customer_name":              types.StringType,
-							"customer_native_name":       types.StringType,
-							"customer_uuid":              types.StringType,
-							"description":                types.StringType,
-							"error_message":              types.StringType,
-							"error_traceback":            types.StringType,
-							"is_limit_based":             types.BoolType,
-							"is_usage_based":             types.BoolType,
-							"marketplace_category_name":  types.StringType,
-							"marketplace_category_uuid":  types.StringType,
-							"marketplace_offering_name":  types.StringType,
-							"marketplace_offering_uuid":  types.StringType,
-							"marketplace_plan_uuid":      types.StringType,
-							"marketplace_resource_state": types.StringType,
-							"marketplace_resource_uuid":  types.StringType,
-							"modified":                   types.StringType,
-							"name":                       types.StringType,
-							"project":                    types.StringType,
-							"project_name":               types.StringType,
-							"project_uuid":               types.StringType,
-							"resource_type":              types.StringType,
-							"rules": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
-								"cidr":              types.StringType,
-								"description":       types.StringType,
-								"direction":         types.StringType,
-								"ethertype":         types.StringType,
-								"from_port":         types.Int64Type,
-								"id":                types.Int64Type,
-								"protocol":          types.StringType,
-								"remote_group":      types.StringType,
-								"remote_group_name": types.StringType,
-								"remote_group_uuid": types.StringType,
-								"to_port":           types.Int64Type,
-							}}},
-							"service_name":                   types.StringType,
-							"service_settings":               types.StringType,
-							"service_settings_error_message": types.StringType,
-							"service_settings_state":         types.StringType,
-							"service_settings_uuid":          types.StringType,
-							"state":                          types.StringType,
-							"tenant":                         types.StringType,
-							"tenant_name":                    types.StringType,
-							"tenant_uuid":                    types.StringType,
-							"url":                            types.StringType,
-						}}},
-						"subnet_cidr":        types.StringType,
-						"subnet_description": types.StringType,
-						"subnet_name":        types.StringType,
-						"subnet_uuid":        types.StringType,
-						"url":                types.StringType,
-					}
-					attrValues := map[string]attr.Value{
-						"fixed_ips": types.ListNull(types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
-							"ip_address": types.StringType,
-							"subnet_id":  types.StringType,
-						}}}.ElemType),
-						"port": func() attr.Value {
-							if v, ok := objMap["port"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"subnet": func() attr.Value {
-							if v, ok := objMap["subnet"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"allowed_address_pairs": types.ListNull(types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
-							"mac_address": types.StringType,
-						}}}.ElemType),
-						"device_id": func() attr.Value {
-							if v, ok := objMap["device_id"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"device_owner": func() attr.Value {
-							if v, ok := objMap["device_owner"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"mac_address": func() attr.Value {
-							if v, ok := objMap["mac_address"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"security_groups": types.ListNull(types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
-							"access_url":                 types.StringType,
-							"backend_id":                 types.StringType,
-							"created":                    types.StringType,
-							"customer":                   types.StringType,
-							"customer_abbreviation":      types.StringType,
-							"customer_name":              types.StringType,
-							"customer_native_name":       types.StringType,
-							"customer_uuid":              types.StringType,
-							"description":                types.StringType,
-							"error_message":              types.StringType,
-							"error_traceback":            types.StringType,
-							"is_limit_based":             types.BoolType,
-							"is_usage_based":             types.BoolType,
-							"marketplace_category_name":  types.StringType,
-							"marketplace_category_uuid":  types.StringType,
-							"marketplace_offering_name":  types.StringType,
-							"marketplace_offering_uuid":  types.StringType,
-							"marketplace_plan_uuid":      types.StringType,
-							"marketplace_resource_state": types.StringType,
-							"marketplace_resource_uuid":  types.StringType,
-							"modified":                   types.StringType,
-							"name":                       types.StringType,
-							"project":                    types.StringType,
-							"project_name":               types.StringType,
-							"project_uuid":               types.StringType,
-							"resource_type":              types.StringType,
-							"rules": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
-								"cidr":              types.StringType,
-								"description":       types.StringType,
-								"direction":         types.StringType,
-								"ethertype":         types.StringType,
-								"from_port":         types.Int64Type,
-								"id":                types.Int64Type,
-								"protocol":          types.StringType,
-								"remote_group":      types.StringType,
-								"remote_group_name": types.StringType,
-								"remote_group_uuid": types.StringType,
-								"to_port":           types.Int64Type,
-							}}},
-							"service_name":                   types.StringType,
-							"service_settings":               types.StringType,
-							"service_settings_error_message": types.StringType,
-							"service_settings_state":         types.StringType,
-							"service_settings_uuid":          types.StringType,
-							"state":                          types.StringType,
-							"tenant":                         types.StringType,
-							"tenant_name":                    types.StringType,
-							"tenant_uuid":                    types.StringType,
-							"url":                            types.StringType,
-						}}}.ElemType),
-						"subnet_cidr": func() attr.Value {
-							if v, ok := objMap["subnet_cidr"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"subnet_description": func() attr.Value {
-							if v, ok := objMap["subnet_description"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"subnet_name": func() attr.Value {
-							if v, ok := objMap["subnet_name"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"subnet_uuid": func() attr.Value {
-							if v, ok := objMap["subnet_uuid"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"url": func() attr.Value {
-							if v, ok := objMap["url"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-					}
-					objVal, _ := types.ObjectValue(attrTypes, attrValues)
-					items = append(items, objVal)
-				}
-			}
-			listVal, _ := types.ListValue(types.ObjectType{AttrTypes: map[string]attr.Type{
-				"fixed_ips": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
-					"ip_address": types.StringType,
-					"subnet_id":  types.StringType,
-				}}},
-				"port":   types.StringType,
-				"subnet": types.StringType,
-				"allowed_address_pairs": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
-					"mac_address": types.StringType,
-				}}},
-				"device_id":    types.StringType,
-				"device_owner": types.StringType,
-				"mac_address":  types.StringType,
-				"security_groups": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
-					"access_url":                 types.StringType,
-					"backend_id":                 types.StringType,
-					"created":                    types.StringType,
-					"customer":                   types.StringType,
-					"customer_abbreviation":      types.StringType,
-					"customer_name":              types.StringType,
-					"customer_native_name":       types.StringType,
-					"customer_uuid":              types.StringType,
-					"description":                types.StringType,
-					"error_message":              types.StringType,
-					"error_traceback":            types.StringType,
-					"is_limit_based":             types.BoolType,
-					"is_usage_based":             types.BoolType,
-					"marketplace_category_name":  types.StringType,
-					"marketplace_category_uuid":  types.StringType,
-					"marketplace_offering_name":  types.StringType,
-					"marketplace_offering_uuid":  types.StringType,
-					"marketplace_plan_uuid":      types.StringType,
-					"marketplace_resource_state": types.StringType,
-					"marketplace_resource_uuid":  types.StringType,
-					"modified":                   types.StringType,
-					"name":                       types.StringType,
-					"project":                    types.StringType,
-					"project_name":               types.StringType,
-					"project_uuid":               types.StringType,
-					"resource_type":              types.StringType,
-					"rules": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
-						"cidr":              types.StringType,
-						"description":       types.StringType,
-						"direction":         types.StringType,
-						"ethertype":         types.StringType,
-						"from_port":         types.Int64Type,
-						"id":                types.Int64Type,
-						"protocol":          types.StringType,
-						"remote_group":      types.StringType,
-						"remote_group_name": types.StringType,
-						"remote_group_uuid": types.StringType,
-						"to_port":           types.Int64Type,
-					}}},
-					"service_name":                   types.StringType,
-					"service_settings":               types.StringType,
-					"service_settings_error_message": types.StringType,
-					"service_settings_state":         types.StringType,
-					"service_settings_uuid":          types.StringType,
-					"state":                          types.StringType,
-					"tenant":                         types.StringType,
-					"tenant_name":                    types.StringType,
-					"tenant_uuid":                    types.StringType,
-					"url":                            types.StringType,
-				}}},
-				"subnet_cidr":        types.StringType,
-				"subnet_description": types.StringType,
-				"subnet_name":        types.StringType,
-				"subnet_uuid":        types.StringType,
-				"url":                types.StringType,
-			}}, items)
-			data.Ports = listVal
-		}
-	} else {
-		if data.Ports.IsUnknown() {
-			data.Ports = types.ListNull(types.ObjectType{AttrTypes: map[string]attr.Type{
-				"fixed_ips": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
-					"ip_address": types.StringType,
-					"subnet_id":  types.StringType,
-				}}},
-				"port":   types.StringType,
-				"subnet": types.StringType,
-				"allowed_address_pairs": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
-					"mac_address": types.StringType,
-				}}},
-				"device_id":    types.StringType,
-				"device_owner": types.StringType,
-				"mac_address":  types.StringType,
-				"security_groups": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
-					"access_url":                 types.StringType,
-					"backend_id":                 types.StringType,
-					"created":                    types.StringType,
-					"customer":                   types.StringType,
-					"customer_abbreviation":      types.StringType,
-					"customer_name":              types.StringType,
-					"customer_native_name":       types.StringType,
-					"customer_uuid":              types.StringType,
-					"description":                types.StringType,
-					"error_message":              types.StringType,
-					"error_traceback":            types.StringType,
-					"is_limit_based":             types.BoolType,
-					"is_usage_based":             types.BoolType,
-					"marketplace_category_name":  types.StringType,
-					"marketplace_category_uuid":  types.StringType,
-					"marketplace_offering_name":  types.StringType,
-					"marketplace_offering_uuid":  types.StringType,
-					"marketplace_plan_uuid":      types.StringType,
-					"marketplace_resource_state": types.StringType,
-					"marketplace_resource_uuid":  types.StringType,
-					"modified":                   types.StringType,
-					"name":                       types.StringType,
-					"project":                    types.StringType,
-					"project_name":               types.StringType,
-					"project_uuid":               types.StringType,
-					"resource_type":              types.StringType,
-					"rules": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
-						"cidr":              types.StringType,
-						"description":       types.StringType,
-						"direction":         types.StringType,
-						"ethertype":         types.StringType,
-						"from_port":         types.Int64Type,
-						"id":                types.Int64Type,
-						"protocol":          types.StringType,
-						"remote_group":      types.StringType,
-						"remote_group_name": types.StringType,
-						"remote_group_uuid": types.StringType,
-						"to_port":           types.Int64Type,
-					}}},
-					"service_name":                   types.StringType,
-					"service_settings":               types.StringType,
-					"service_settings_error_message": types.StringType,
-					"service_settings_state":         types.StringType,
-					"service_settings_uuid":          types.StringType,
-					"state":                          types.StringType,
-					"tenant":                         types.StringType,
-					"tenant_name":                    types.StringType,
-					"tenant_uuid":                    types.StringType,
-					"url":                            types.StringType,
-				}}},
-				"subnet_cidr":        types.StringType,
-				"subnet_description": types.StringType,
-				"subnet_name":        types.StringType,
-				"subnet_uuid":        types.StringType,
-				"url":                types.StringType,
-			}})
-		}
-	}
-	if val, ok := sourceMap["project"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			// Normalize URL to UUID
-			parts := strings.Split(strings.TrimRight(str, "/"), "/")
-			uuid := parts[len(parts)-1]
-			data.Project = types.StringValue(uuid)
-		} else {
-			data.Project = types.StringNull()
-		}
-	} else {
-		if data.Project.IsUnknown() {
-			data.Project = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["project_name"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.ProjectName = types.StringValue(str)
-		}
-	} else {
-		if data.ProjectName.IsUnknown() {
-			data.ProjectName = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["project_uuid"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.ProjectUuid = types.StringValue(str)
-		}
-	} else {
-		if data.ProjectUuid.IsUnknown() {
-			data.ProjectUuid = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["ram"]; ok && val != nil {
-		if num, ok := val.(float64); ok {
-			data.Ram = types.Int64Value(int64(num))
-		}
-	} else {
-		if data.Ram.IsUnknown() {
-			data.Ram = types.Int64Null()
-		}
-	}
-	if val, ok := sourceMap["release_floating_ips"]; ok && val != nil {
-		if b, ok := val.(bool); ok {
-			data.ReleaseFloatingIps = types.BoolValue(b)
-		}
-	} else {
-		if data.ReleaseFloatingIps.IsUnknown() {
-			data.ReleaseFloatingIps = types.BoolNull()
-		}
-	}
-	if val, ok := sourceMap["resource_type"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.ResourceType = types.StringValue(str)
-		}
-	} else {
-		if data.ResourceType.IsUnknown() {
-			data.ResourceType = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["runtime_state"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.RuntimeState = types.StringValue(str)
-		}
-	} else {
-		if data.RuntimeState.IsUnknown() {
-			data.RuntimeState = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["security_groups"]; ok && val != nil {
-		// List of objects
-		if arr, ok := val.([]interface{}); ok {
-			items := make([]attr.Value, 0, len(arr))
-			for _, item := range arr {
-				if objMap, ok := item.(map[string]interface{}); ok {
-					attrTypes := map[string]attr.Type{
-						"url":         types.StringType,
-						"description": types.StringType,
-						"name":        types.StringType,
-						"rules": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
-							"cidr":              types.StringType,
-							"description":       types.StringType,
-							"direction":         types.StringType,
-							"ethertype":         types.StringType,
-							"from_port":         types.Int64Type,
-							"id":                types.Int64Type,
-							"protocol":          types.StringType,
-							"remote_group_name": types.StringType,
-							"remote_group_uuid": types.StringType,
-							"to_port":           types.Int64Type,
-						}}},
-						"state": types.StringType,
-					}
-					attrValues := map[string]attr.Value{
-						"url": func() attr.Value {
-							if v, ok := objMap["url"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"description": func() attr.Value {
-							if v, ok := objMap["description"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"name": func() attr.Value {
-							if v, ok := objMap["name"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"rules": types.ListNull(types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
-							"cidr":              types.StringType,
-							"description":       types.StringType,
-							"direction":         types.StringType,
-							"ethertype":         types.StringType,
-							"from_port":         types.Int64Type,
-							"id":                types.Int64Type,
-							"protocol":          types.StringType,
-							"remote_group_name": types.StringType,
-							"remote_group_uuid": types.StringType,
-							"to_port":           types.Int64Type,
-						}}}.ElemType),
-						"state": func() attr.Value {
-							if v, ok := objMap["state"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-					}
-					objVal, _ := types.ObjectValue(attrTypes, attrValues)
-					items = append(items, objVal)
-				}
-			}
-			listVal, _ := types.ListValue(types.ObjectType{AttrTypes: map[string]attr.Type{
-				"url":         types.StringType,
-				"description": types.StringType,
-				"name":        types.StringType,
-				"rules": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
-					"cidr":              types.StringType,
-					"description":       types.StringType,
-					"direction":         types.StringType,
-					"ethertype":         types.StringType,
-					"from_port":         types.Int64Type,
-					"id":                types.Int64Type,
-					"protocol":          types.StringType,
-					"remote_group_name": types.StringType,
-					"remote_group_uuid": types.StringType,
-					"to_port":           types.Int64Type,
-				}}},
-				"state": types.StringType,
-			}}, items)
-			data.SecurityGroups = listVal
-		}
-	} else {
-		if data.SecurityGroups.IsUnknown() {
-			data.SecurityGroups = types.ListNull(types.ObjectType{AttrTypes: map[string]attr.Type{
-				"url":         types.StringType,
-				"description": types.StringType,
-				"name":        types.StringType,
-				"rules": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
-					"cidr":              types.StringType,
-					"description":       types.StringType,
-					"direction":         types.StringType,
-					"ethertype":         types.StringType,
-					"from_port":         types.Int64Type,
-					"id":                types.Int64Type,
-					"protocol":          types.StringType,
-					"remote_group_name": types.StringType,
-					"remote_group_uuid": types.StringType,
-					"to_port":           types.Int64Type,
-				}}},
-				"state": types.StringType,
-			}})
-		}
-	}
-	if val, ok := sourceMap["server_group"]; ok && val != nil {
-		// Nested object
-		if objMap, ok := val.(map[string]interface{}); ok {
-			_ = objMap // Avoid unused variable if properties are empty
-			attrTypes := map[string]attr.Type{
-				"name":   types.StringType,
-				"policy": types.StringType,
-				"state":  types.StringType,
-				"url":    types.StringType,
-			}
-			attrValues := map[string]attr.Value{
-				"name": func() attr.Value {
-					if v, ok := objMap["name"].(string); ok {
-						return types.StringValue(v)
-					}
-					return types.StringNull()
-				}(),
-				"policy": func() attr.Value {
-					if v, ok := objMap["policy"].(string); ok {
-						return types.StringValue(v)
-					}
-					return types.StringNull()
-				}(),
-				"state": func() attr.Value {
-					if v, ok := objMap["state"].(string); ok {
-						return types.StringValue(v)
-					}
-					return types.StringNull()
-				}(),
-				"url": func() attr.Value {
-					if v, ok := objMap["url"].(string); ok {
-						return types.StringValue(v)
-					}
-					return types.StringNull()
-				}(),
-			}
-			objVal, _ := types.ObjectValue(attrTypes, attrValues)
-			data.ServerGroup = objVal
-		}
-	} else {
-		if data.ServerGroup.IsUnknown() {
-			data.ServerGroup = types.ObjectNull(map[string]attr.Type{
-				"name":   types.StringType,
-				"policy": types.StringType,
-				"state":  types.StringType,
-				"url":    types.StringType,
-			})
-		}
-	}
-	if val, ok := sourceMap["service_name"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.ServiceName = types.StringValue(str)
-		}
-	} else {
-		if data.ServiceName.IsUnknown() {
-			data.ServiceName = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["service_settings"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.ServiceSettings = types.StringValue(str)
-		}
-	} else {
-		if data.ServiceSettings.IsUnknown() {
-			data.ServiceSettings = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["service_settings_error_message"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.ServiceSettingsErrorMessage = types.StringValue(str)
-		}
-	} else {
-		if data.ServiceSettingsErrorMessage.IsUnknown() {
-			data.ServiceSettingsErrorMessage = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["service_settings_state"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.ServiceSettingsState = types.StringValue(str)
-		}
-	} else {
-		if data.ServiceSettingsState.IsUnknown() {
-			data.ServiceSettingsState = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["service_settings_uuid"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.ServiceSettingsUuid = types.StringValue(str)
-		}
-	} else {
-		if data.ServiceSettingsUuid.IsUnknown() {
-			data.ServiceSettingsUuid = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["ssh_public_key"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.SshPublicKey = types.StringValue(str)
-		}
-	} else {
-		if data.SshPublicKey.IsUnknown() {
-			data.SshPublicKey = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["start_time"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.StartTime = types.StringValue(str)
-		}
-	} else {
-		if data.StartTime.IsUnknown() {
-			data.StartTime = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["state"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.State = types.StringValue(str)
-		}
-	} else {
-		if data.State.IsUnknown() {
-			data.State = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["system_volume_size"]; ok && val != nil {
-		if num, ok := val.(float64); ok {
-			data.SystemVolumeSize = types.Int64Value(int64(num))
-		}
-	} else {
-		if data.SystemVolumeSize.IsUnknown() {
-			data.SystemVolumeSize = types.Int64Null()
-		}
-	}
-	if val, ok := sourceMap["system_volume_type"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.SystemVolumeType = types.StringValue(str)
-		}
-	} else {
-		if data.SystemVolumeType.IsUnknown() {
-			data.SystemVolumeType = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["tenant"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Tenant = types.StringValue(str)
-		}
-	} else {
-		if data.Tenant.IsUnknown() {
-			data.Tenant = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["tenant_uuid"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.TenantUuid = types.StringValue(str)
-		}
-	} else {
-		if data.TenantUuid.IsUnknown() {
-			data.TenantUuid = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["url"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Url = types.StringValue(str)
-		}
-	} else {
-		if data.Url.IsUnknown() {
-			data.Url = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["user_data"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.UserData = types.StringValue(str)
-		}
-	} else {
-		if data.UserData.IsUnknown() {
-			data.UserData = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["volumes"]; ok && val != nil {
-		// List of objects
-		if arr, ok := val.([]interface{}); ok {
-			items := make([]attr.Value, 0, len(arr))
-			for _, item := range arr {
-				if objMap, ok := item.(map[string]interface{}); ok {
-					attrTypes := map[string]attr.Type{
-						"bootable":                  types.BoolType,
-						"device":                    types.StringType,
-						"image_name":                types.StringType,
-						"marketplace_resource_uuid": types.StringType,
-						"name":                      types.StringType,
-						"resource_type":             types.StringType,
-						"size":                      types.Int64Type,
-						"state":                     types.StringType,
-						"type":                      types.StringType,
-						"type_name":                 types.StringType,
-						"url":                       types.StringType,
-					}
-					attrValues := map[string]attr.Value{
-						"bootable": func() attr.Value {
-							if v, ok := objMap["bootable"].(bool); ok {
-								return types.BoolValue(v)
-							}
-							return types.BoolNull()
-						}(),
-						"device": func() attr.Value {
-							if v, ok := objMap["device"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"image_name": func() attr.Value {
-							if v, ok := objMap["image_name"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"marketplace_resource_uuid": func() attr.Value {
-							if v, ok := objMap["marketplace_resource_uuid"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"name": func() attr.Value {
-							if v, ok := objMap["name"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"resource_type": func() attr.Value {
-							if v, ok := objMap["resource_type"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"size": func() attr.Value {
-							if v, ok := objMap["size"].(float64); ok {
-								return types.Int64Value(int64(v))
-							}
-							return types.Int64Null()
-						}(),
-						"state": func() attr.Value {
-							if v, ok := objMap["state"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"type": func() attr.Value {
-							if v, ok := objMap["type"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"type_name": func() attr.Value {
-							if v, ok := objMap["type_name"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"url": func() attr.Value {
-							if v, ok := objMap["url"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-					}
-					objVal, _ := types.ObjectValue(attrTypes, attrValues)
-					items = append(items, objVal)
-				}
-			}
-			listVal, _ := types.ListValue(types.ObjectType{AttrTypes: map[string]attr.Type{
-				"bootable":                  types.BoolType,
-				"device":                    types.StringType,
-				"image_name":                types.StringType,
-				"marketplace_resource_uuid": types.StringType,
-				"name":                      types.StringType,
-				"resource_type":             types.StringType,
-				"size":                      types.Int64Type,
-				"state":                     types.StringType,
-				"type":                      types.StringType,
-				"type_name":                 types.StringType,
-				"url":                       types.StringType,
-			}}, items)
-			data.Volumes = listVal
-		}
-	} else {
-		if data.Volumes.IsUnknown() {
-			data.Volumes = types.ListNull(types.ObjectType{AttrTypes: map[string]attr.Type{
-				"bootable":                  types.BoolType,
-				"device":                    types.StringType,
-				"image_name":                types.StringType,
-				"marketplace_resource_uuid": types.StringType,
-				"name":                      types.StringType,
-				"resource_type":             types.StringType,
-				"size":                      types.Int64Type,
-				"state":                     types.StringType,
-				"type":                      types.StringType,
-				"type_name":                 types.StringType,
-				"url":                       types.StringType,
-			}})
-		}
-	}
+func (r *OpenstackInstanceResource) mapResponseToModel(ctx context.Context, apiResp OpenstackInstanceApiResponse, model *OpenstackInstanceResourceModel) diag.Diagnostics {
+	var diags diag.Diagnostics
+
+	model.UUID = types.StringPointerValue(apiResp.UUID)
+	model.AccessUrl = types.StringPointerValue(apiResp.AccessUrl)
+	model.Action = types.StringPointerValue(apiResp.Action)
+	model.AvailabilityZone = types.StringPointerValue(apiResp.AvailabilityZone)
+	model.AvailabilityZoneName = types.StringPointerValue(apiResp.AvailabilityZoneName)
+	model.BackendId = types.StringPointerValue(apiResp.BackendId)
+	model.ConnectDirectlyToExternalNetwork = types.BoolPointerValue(apiResp.ConnectDirectlyToExternalNetwork)
+	model.Cores = types.Int64PointerValue(apiResp.Cores)
+	model.Created = types.StringPointerValue(apiResp.Created)
+	model.Customer = types.StringPointerValue(apiResp.Customer)
+	model.CustomerAbbreviation = types.StringPointerValue(apiResp.CustomerAbbreviation)
+	model.CustomerName = types.StringPointerValue(apiResp.CustomerName)
+	model.CustomerNativeName = types.StringPointerValue(apiResp.CustomerNativeName)
+	model.CustomerUuid = types.StringPointerValue(apiResp.CustomerUuid)
+	model.DataVolumeSize = types.Int64PointerValue(apiResp.DataVolumeSize)
+	model.DataVolumeType = types.StringPointerValue(apiResp.DataVolumeType)
+	listValDataVolumes, listDiagsDataVolumes := types.ListValueFrom(ctx, openstackinstance_data_volumesObjectType, apiResp.DataVolumes)
+	diags.Append(listDiagsDataVolumes...)
+	model.DataVolumes = listValDataVolumes
+	model.DeleteVolumes = types.BoolPointerValue(apiResp.DeleteVolumes)
+	model.Description = types.StringPointerValue(apiResp.Description)
+	model.Disk = types.Int64PointerValue(apiResp.Disk)
+	model.ErrorMessage = types.StringPointerValue(apiResp.ErrorMessage)
+	model.ErrorTraceback = types.StringPointerValue(apiResp.ErrorTraceback)
+	model.ExternalAddress, _ = types.ListValueFrom(ctx, types.StringType, apiResp.ExternalAddress)
+	model.ExternalIps, _ = types.ListValueFrom(ctx, types.StringType, apiResp.ExternalIps)
+	model.Flavor = types.StringPointerValue(apiResp.Flavor)
+	model.FlavorDisk = types.Int64PointerValue(apiResp.FlavorDisk)
+	model.FlavorName = types.StringPointerValue(apiResp.FlavorName)
+	listValFloatingIps, listDiagsFloatingIps := types.ListValueFrom(ctx, openstackinstance_floating_ipsObjectType, apiResp.FloatingIps)
+	diags.Append(listDiagsFloatingIps...)
+	model.FloatingIps = listValFloatingIps
+	model.HypervisorHostname = types.StringPointerValue(apiResp.HypervisorHostname)
+	model.Image = types.StringPointerValue(apiResp.Image)
+	model.ImageName = types.StringPointerValue(apiResp.ImageName)
+	model.InternalIps, _ = types.ListValueFrom(ctx, types.StringType, apiResp.InternalIps)
+	model.IsLimitBased = types.BoolPointerValue(apiResp.IsLimitBased)
+	model.IsUsageBased = types.BoolPointerValue(apiResp.IsUsageBased)
+	model.KeyFingerprint = types.StringPointerValue(apiResp.KeyFingerprint)
+	model.KeyName = types.StringPointerValue(apiResp.KeyName)
+	model.Latitude = types.Float64PointerValue(apiResp.Latitude)
+	model.Longitude = types.Float64PointerValue(apiResp.Longitude)
+	model.MarketplaceCategoryName = types.StringPointerValue(apiResp.MarketplaceCategoryName)
+	model.MarketplaceCategoryUuid = types.StringPointerValue(apiResp.MarketplaceCategoryUuid)
+	model.MarketplaceOfferingName = types.StringPointerValue(apiResp.MarketplaceOfferingName)
+	model.MarketplaceOfferingUuid = types.StringPointerValue(apiResp.MarketplaceOfferingUuid)
+	model.MarketplacePlanUuid = types.StringPointerValue(apiResp.MarketplacePlanUuid)
+	model.MarketplaceResourceState = types.StringPointerValue(apiResp.MarketplaceResourceState)
+	model.MarketplaceResourceUuid = types.StringPointerValue(apiResp.MarketplaceResourceUuid)
+	model.MinDisk = types.Int64PointerValue(apiResp.MinDisk)
+	model.MinRam = types.Int64PointerValue(apiResp.MinRam)
+	model.Modified = types.StringPointerValue(apiResp.Modified)
+	if apiResp.Offering != nil {
+		parts := strings.Split(strings.TrimRight(*apiResp.Offering, "/"), "/")
+		model.Offering = types.StringValue(parts[len(parts)-1])
+	} else {
+		model.Offering = types.StringNull()
+	}
+	listValPorts, listDiagsPorts := types.ListValueFrom(ctx, openstackinstance_portsObjectType, apiResp.Ports)
+	diags.Append(listDiagsPorts...)
+	model.Ports = listValPorts
+	if apiResp.Project != nil {
+		parts := strings.Split(strings.TrimRight(*apiResp.Project, "/"), "/")
+		model.Project = types.StringValue(parts[len(parts)-1])
+	} else {
+		model.Project = types.StringNull()
+	}
+	model.ProjectName = types.StringPointerValue(apiResp.ProjectName)
+	model.ProjectUuid = types.StringPointerValue(apiResp.ProjectUuid)
+	model.Ram = types.Int64PointerValue(apiResp.Ram)
+	model.ReleaseFloatingIps = types.BoolPointerValue(apiResp.ReleaseFloatingIps)
+	model.ResourceType = types.StringPointerValue(apiResp.ResourceType)
+	model.RuntimeState = types.StringPointerValue(apiResp.RuntimeState)
+	listValSecurityGroups, listDiagsSecurityGroups := types.ListValueFrom(ctx, openstackinstance_security_groupsObjectType, apiResp.SecurityGroups)
+	diags.Append(listDiagsSecurityGroups...)
+	model.SecurityGroups = listValSecurityGroups
+	if apiResp.ServerGroup != nil {
+		objValServerGroup, objDiagsServerGroup := types.ObjectValueFrom(ctx, openstackinstance_server_groupAttrTypes, *apiResp.ServerGroup)
+		diags.Append(objDiagsServerGroup...)
+		model.ServerGroup = objValServerGroup
+	} else {
+		model.ServerGroup = types.ObjectNull(openstackinstance_server_groupAttrTypes)
+	}
+	model.ServiceName = types.StringPointerValue(apiResp.ServiceName)
+	model.ServiceSettings = types.StringPointerValue(apiResp.ServiceSettings)
+	model.ServiceSettingsErrorMessage = types.StringPointerValue(apiResp.ServiceSettingsErrorMessage)
+	model.ServiceSettingsState = types.StringPointerValue(apiResp.ServiceSettingsState)
+	model.ServiceSettingsUuid = types.StringPointerValue(apiResp.ServiceSettingsUuid)
+	model.SshPublicKey = types.StringPointerValue(apiResp.SshPublicKey)
+	model.StartTime = types.StringPointerValue(apiResp.StartTime)
+	model.State = types.StringPointerValue(apiResp.State)
+	model.SystemVolumeSize = types.Int64PointerValue(apiResp.SystemVolumeSize)
+	model.SystemVolumeType = types.StringPointerValue(apiResp.SystemVolumeType)
+	model.Tenant = types.StringPointerValue(apiResp.Tenant)
+	model.TenantUuid = types.StringPointerValue(apiResp.TenantUuid)
+	model.Url = types.StringPointerValue(apiResp.Url)
+	model.UserData = types.StringPointerValue(apiResp.UserData)
+	listValVolumes, listDiagsVolumes := types.ListValueFrom(ctx, openstackinstance_volumesObjectType, apiResp.Volumes)
+	diags.Append(listDiagsVolumes...)
+	model.Volumes = listValVolumes
+
+	return diags
 }

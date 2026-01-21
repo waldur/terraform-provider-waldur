@@ -9,6 +9,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
+	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -32,6 +33,119 @@ func NewOpenstackTenantResource() resource.Resource {
 // OpenstackTenantResource defines the resource implementation.
 type OpenstackTenantResource struct {
 	client *client.Client
+}
+
+// OpenstackTenantApiResponse is the API response model.
+type OpenstackTenantApiResponse struct {
+	UUID *string `json:"uuid"`
+
+	AccessUrl                   *string                                 `json:"access_url" tfsdk:"access_url"`
+	AvailabilityZone            *string                                 `json:"availability_zone" tfsdk:"availability_zone"`
+	BackendId                   *string                                 `json:"backend_id" tfsdk:"backend_id"`
+	Created                     *string                                 `json:"created" tfsdk:"created"`
+	Customer                    *string                                 `json:"customer" tfsdk:"customer"`
+	CustomerAbbreviation        *string                                 `json:"customer_abbreviation" tfsdk:"customer_abbreviation"`
+	CustomerName                *string                                 `json:"customer_name" tfsdk:"customer_name"`
+	CustomerNativeName          *string                                 `json:"customer_native_name" tfsdk:"customer_native_name"`
+	CustomerUuid                *string                                 `json:"customer_uuid" tfsdk:"customer_uuid"`
+	DefaultVolumeTypeName       *string                                 `json:"default_volume_type_name" tfsdk:"default_volume_type_name"`
+	Description                 *string                                 `json:"description" tfsdk:"description"`
+	ErrorMessage                *string                                 `json:"error_message" tfsdk:"error_message"`
+	ErrorTraceback              *string                                 `json:"error_traceback" tfsdk:"error_traceback"`
+	ExternalNetworkId           *string                                 `json:"external_network_id" tfsdk:"external_network_id"`
+	InternalNetworkId           *string                                 `json:"internal_network_id" tfsdk:"internal_network_id"`
+	IsLimitBased                *bool                                   `json:"is_limit_based" tfsdk:"is_limit_based"`
+	IsUsageBased                *bool                                   `json:"is_usage_based" tfsdk:"is_usage_based"`
+	MarketplaceCategoryName     *string                                 `json:"marketplace_category_name" tfsdk:"marketplace_category_name"`
+	MarketplaceCategoryUuid     *string                                 `json:"marketplace_category_uuid" tfsdk:"marketplace_category_uuid"`
+	MarketplaceOfferingName     *string                                 `json:"marketplace_offering_name" tfsdk:"marketplace_offering_name"`
+	MarketplaceOfferingUuid     *string                                 `json:"marketplace_offering_uuid" tfsdk:"marketplace_offering_uuid"`
+	MarketplacePlanUuid         *string                                 `json:"marketplace_plan_uuid" tfsdk:"marketplace_plan_uuid"`
+	MarketplaceResourceState    *string                                 `json:"marketplace_resource_state" tfsdk:"marketplace_resource_state"`
+	MarketplaceResourceUuid     *string                                 `json:"marketplace_resource_uuid" tfsdk:"marketplace_resource_uuid"`
+	Modified                    *string                                 `json:"modified" tfsdk:"modified"`
+	Offering                    *string                                 `json:"offering" tfsdk:"offering"`
+	Project                     *string                                 `json:"project" tfsdk:"project"`
+	ProjectName                 *string                                 `json:"project_name" tfsdk:"project_name"`
+	ProjectUuid                 *string                                 `json:"project_uuid" tfsdk:"project_uuid"`
+	Quotas                      []OpenstackTenantQuotasResponse         `json:"quotas" tfsdk:"quotas"`
+	ResourceType                *string                                 `json:"resource_type" tfsdk:"resource_type"`
+	SecurityGroups              []OpenstackTenantSecurityGroupsResponse `json:"security_groups" tfsdk:"security_groups"`
+	ServiceName                 *string                                 `json:"service_name" tfsdk:"service_name"`
+	ServiceSettings             *string                                 `json:"service_settings" tfsdk:"service_settings"`
+	ServiceSettingsErrorMessage *string                                 `json:"service_settings_error_message" tfsdk:"service_settings_error_message"`
+	ServiceSettingsState        *string                                 `json:"service_settings_state" tfsdk:"service_settings_state"`
+	ServiceSettingsUuid         *string                                 `json:"service_settings_uuid" tfsdk:"service_settings_uuid"`
+	SkipConnectionExtnet        *bool                                   `json:"skip_connection_extnet" tfsdk:"skip_connection_extnet"`
+	SkipCreationOfDefaultRouter *bool                                   `json:"skip_creation_of_default_router" tfsdk:"skip_creation_of_default_router"`
+	SkipCreationOfDefaultSubnet *bool                                   `json:"skip_creation_of_default_subnet" tfsdk:"skip_creation_of_default_subnet"`
+	State                       *string                                 `json:"state" tfsdk:"state"`
+	SubnetCidr                  *string                                 `json:"subnet_cidr" tfsdk:"subnet_cidr"`
+	Url                         *string                                 `json:"url" tfsdk:"url"`
+	UserPassword                *string                                 `json:"user_password" tfsdk:"user_password"`
+	UserUsername                *string                                 `json:"user_username" tfsdk:"user_username"`
+}
+
+type OpenstackTenantQuotasResponse struct {
+	Limit *int64 `json:"limit" tfsdk:"limit"`
+	Usage *int64 `json:"usage" tfsdk:"usage"`
+}
+
+type OpenstackTenantSecurityGroupsResponse struct {
+	Description *string                                      `json:"description" tfsdk:"description"`
+	Rules       []OpenstackTenantSecurityGroupsRulesResponse `json:"rules" tfsdk:"rules"`
+}
+
+type OpenstackTenantSecurityGroupsRulesResponse struct {
+	Cidr        *string `json:"cidr" tfsdk:"cidr"`
+	Description *string `json:"description" tfsdk:"description"`
+	Direction   *string `json:"direction" tfsdk:"direction"`
+	Ethertype   *string `json:"ethertype" tfsdk:"ethertype"`
+	FromPort    *int64  `json:"from_port" tfsdk:"from_port"`
+	Protocol    *string `json:"protocol" tfsdk:"protocol"`
+	RemoteGroup *string `json:"remote_group" tfsdk:"remote_group"`
+	ToPort      *int64  `json:"to_port" tfsdk:"to_port"`
+}
+
+var openstacktenant_quotasAttrTypes = map[string]attr.Type{
+	"limit": types.Int64Type,
+	"name":  types.StringType,
+	"usage": types.Int64Type,
+}
+var openstacktenant_quotasObjectType = types.ObjectType{
+	AttrTypes: openstacktenant_quotasAttrTypes,
+}
+
+var openstacktenant_security_groupsAttrTypes = map[string]attr.Type{
+	"description": types.StringType,
+	"name":        types.StringType,
+	"rules": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+		"cidr":         types.StringType,
+		"description":  types.StringType,
+		"direction":    types.StringType,
+		"ethertype":    types.StringType,
+		"from_port":    types.Int64Type,
+		"protocol":     types.StringType,
+		"remote_group": types.StringType,
+		"to_port":      types.Int64Type,
+	}}},
+}
+var openstacktenant_security_groupsObjectType = types.ObjectType{
+	AttrTypes: openstacktenant_security_groupsAttrTypes,
+}
+
+var openstacktenantsecuritygroups_rulesAttrTypes = map[string]attr.Type{
+	"cidr":         types.StringType,
+	"description":  types.StringType,
+	"direction":    types.StringType,
+	"ethertype":    types.StringType,
+	"from_port":    types.Int64Type,
+	"protocol":     types.StringType,
+	"remote_group": types.StringType,
+	"to_port":      types.Int64Type,
+}
+var openstacktenantsecuritygroups_rulesObjectType = types.ObjectType{
+	AttrTypes: openstacktenantsecuritygroups_rulesAttrTypes,
 }
 
 // OpenstackTenantResourceModel describes the resource data model.
@@ -504,13 +618,13 @@ func (r *OpenstackTenantResource) Create(ctx context.Context, req resource.Creat
 						data.UUID = types.StringValue(pluginUUID)
 
 						// Fetch Plugin Resource
-						var pluginRes map[string]interface{}
+						var apiResp OpenstackTenantApiResponse
 						retrievePath := strings.Replace("/api/openstack-tenants/{uuid}/", "{uuid}", pluginUUID, 1)
 						tflog.Warn(ctx, "Attempting to fetch plugin resource at: "+retrievePath)
-						err = r.client.GetByUUID(ctx, retrievePath, pluginUUID, &pluginRes)
+						err = r.client.GetByUUID(ctx, retrievePath, pluginUUID, &apiResp)
 						if err == nil {
 							tflog.Warn(ctx, "Successfully fetched plugin resource")
-							r.updateFromValue(ctx, &data, pluginRes)
+							resp.Diagnostics.Append(r.mapResponseToModel(ctx, apiResp, &data)...)
 						} else {
 							tflog.Warn(ctx, "Failed to fetch plugin resource: "+err.Error())
 						}
@@ -573,13 +687,13 @@ func (r *OpenstackTenantResource) Create(ctx context.Context, req resource.Creat
 	}
 
 	// Fetch final resource state
-	var finalState map[string]interface{}
-	err = r.client.GetByUUID(ctx, "/api/openstack-tenants/{uuid}/", data.UUID.ValueString(), &finalState)
+	var apiResp OpenstackTenantApiResponse
+	err = r.client.GetByUUID(ctx, "/api/openstack-tenants/{uuid}/", data.UUID.ValueString(), &apiResp)
 	if err != nil {
 		resp.Diagnostics.AddError("Failed to Read Resource", err.Error())
 		return
 	}
-	r.updateFromValue(ctx, &data, finalState)
+	resp.Diagnostics.Append(r.mapResponseToModel(ctx, apiResp, &data)...)
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
@@ -595,11 +709,11 @@ func (r *OpenstackTenantResource) Read(ctx context.Context, req resource.ReadReq
 	}
 
 	// Call Waldur API to read resource
-	var result map[string]interface{}
 
 	retrievePath := strings.Replace("/api/openstack-tenants/{uuid}/", "{uuid}", data.UUID.ValueString(), 1)
 
-	err := r.client.GetByUUID(ctx, retrievePath, data.UUID.ValueString(), &result)
+	var apiResp OpenstackTenantApiResponse
+	err := r.client.GetByUUID(ctx, retrievePath, data.UUID.ValueString(), &apiResp)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Unable to Read Openstack Tenant",
@@ -608,7 +722,7 @@ func (r *OpenstackTenantResource) Read(ctx context.Context, req resource.ReadReq
 		return
 	}
 
-	r.updateFromValue(ctx, &data, result)
+	resp.Diagnostics.Append(r.mapResponseToModel(ctx, apiResp, &data)...)
 
 	// Save updated data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
@@ -622,8 +736,6 @@ func (r *OpenstackTenantResource) Update(ctx context.Context, req resource.Updat
 	if resp.Diagnostics.HasError() {
 		return
 	}
-
-	data.UUID = state.UUID
 
 	// Phase 1: Standard PATCH (Simple fields)
 	patchPayload := map[string]interface{}{}
@@ -653,6 +765,7 @@ func (r *OpenstackTenantResource) Update(ctx context.Context, req resource.Updat
 			resp.Diagnostics.AddError("Update Failed", err.Error())
 			return
 		}
+		_ = result
 	}
 
 	// Phase 2: RPC Actions
@@ -697,16 +810,16 @@ func (r *OpenstackTenantResource) Update(ctx context.Context, req resource.Updat
 
 	// Fetch updated state
 	// Call Waldur API to read resource
-	var result map[string]interface{}
+	var apiResp OpenstackTenantApiResponse
 
 	retrievePath := strings.Replace("/api/openstack-tenants/{uuid}/", "{uuid}", data.UUID.ValueString(), 1)
 
-	err := r.client.GetByUUID(ctx, retrievePath, data.UUID.ValueString(), &result)
+	err := r.client.GetByUUID(ctx, retrievePath, data.UUID.ValueString(), &apiResp)
 	if err != nil {
 		resp.Diagnostics.AddError("Failed to Read Resource After Update", err.Error())
 		return
 	}
-	r.updateFromValue(ctx, &data, result)
+	resp.Diagnostics.Append(r.mapResponseToModel(ctx, apiResp, &data)...)
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
@@ -767,537 +880,69 @@ func (r *OpenstackTenantResource) ImportState(ctx context.Context, req resource.
 	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }
 
-func (r *OpenstackTenantResource) updateFromValue(ctx context.Context, data *OpenstackTenantResourceModel, sourceMap map[string]interface{}) {
-	// Map response fields to data model
-	_ = sourceMap
-	if val, ok := sourceMap["access_url"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.AccessUrl = types.StringValue(str)
-		}
+func (r *OpenstackTenantResource) mapResponseToModel(ctx context.Context, apiResp OpenstackTenantApiResponse, model *OpenstackTenantResourceModel) diag.Diagnostics {
+	var diags diag.Diagnostics
+
+	model.UUID = types.StringPointerValue(apiResp.UUID)
+	model.AccessUrl = types.StringPointerValue(apiResp.AccessUrl)
+	model.AvailabilityZone = types.StringPointerValue(apiResp.AvailabilityZone)
+	model.BackendId = types.StringPointerValue(apiResp.BackendId)
+	model.Created = types.StringPointerValue(apiResp.Created)
+	model.Customer = types.StringPointerValue(apiResp.Customer)
+	model.CustomerAbbreviation = types.StringPointerValue(apiResp.CustomerAbbreviation)
+	model.CustomerName = types.StringPointerValue(apiResp.CustomerName)
+	model.CustomerNativeName = types.StringPointerValue(apiResp.CustomerNativeName)
+	model.CustomerUuid = types.StringPointerValue(apiResp.CustomerUuid)
+	model.DefaultVolumeTypeName = types.StringPointerValue(apiResp.DefaultVolumeTypeName)
+	model.Description = types.StringPointerValue(apiResp.Description)
+	model.ErrorMessage = types.StringPointerValue(apiResp.ErrorMessage)
+	model.ErrorTraceback = types.StringPointerValue(apiResp.ErrorTraceback)
+	model.ExternalNetworkId = types.StringPointerValue(apiResp.ExternalNetworkId)
+	model.InternalNetworkId = types.StringPointerValue(apiResp.InternalNetworkId)
+	model.IsLimitBased = types.BoolPointerValue(apiResp.IsLimitBased)
+	model.IsUsageBased = types.BoolPointerValue(apiResp.IsUsageBased)
+	model.MarketplaceCategoryName = types.StringPointerValue(apiResp.MarketplaceCategoryName)
+	model.MarketplaceCategoryUuid = types.StringPointerValue(apiResp.MarketplaceCategoryUuid)
+	model.MarketplaceOfferingName = types.StringPointerValue(apiResp.MarketplaceOfferingName)
+	model.MarketplaceOfferingUuid = types.StringPointerValue(apiResp.MarketplaceOfferingUuid)
+	model.MarketplacePlanUuid = types.StringPointerValue(apiResp.MarketplacePlanUuid)
+	model.MarketplaceResourceState = types.StringPointerValue(apiResp.MarketplaceResourceState)
+	model.MarketplaceResourceUuid = types.StringPointerValue(apiResp.MarketplaceResourceUuid)
+	model.Modified = types.StringPointerValue(apiResp.Modified)
+	if apiResp.Offering != nil {
+		parts := strings.Split(strings.TrimRight(*apiResp.Offering, "/"), "/")
+		model.Offering = types.StringValue(parts[len(parts)-1])
 	} else {
-		if data.AccessUrl.IsUnknown() {
-			data.AccessUrl = types.StringNull()
-		}
+		model.Offering = types.StringNull()
 	}
-	if val, ok := sourceMap["availability_zone"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.AvailabilityZone = types.StringValue(str)
-		}
+	if apiResp.Project != nil {
+		parts := strings.Split(strings.TrimRight(*apiResp.Project, "/"), "/")
+		model.Project = types.StringValue(parts[len(parts)-1])
 	} else {
-		if data.AvailabilityZone.IsUnknown() {
-			data.AvailabilityZone = types.StringNull()
-		}
+		model.Project = types.StringNull()
 	}
-	if val, ok := sourceMap["backend_id"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.BackendId = types.StringValue(str)
-		}
-	} else {
-		if data.BackendId.IsUnknown() {
-			data.BackendId = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["created"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Created = types.StringValue(str)
-		}
-	} else {
-		if data.Created.IsUnknown() {
-			data.Created = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["customer"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Customer = types.StringValue(str)
-		}
-	} else {
-		if data.Customer.IsUnknown() {
-			data.Customer = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["customer_abbreviation"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.CustomerAbbreviation = types.StringValue(str)
-		}
-	} else {
-		if data.CustomerAbbreviation.IsUnknown() {
-			data.CustomerAbbreviation = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["customer_name"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.CustomerName = types.StringValue(str)
-		}
-	} else {
-		if data.CustomerName.IsUnknown() {
-			data.CustomerName = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["customer_native_name"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.CustomerNativeName = types.StringValue(str)
-		}
-	} else {
-		if data.CustomerNativeName.IsUnknown() {
-			data.CustomerNativeName = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["customer_uuid"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.CustomerUuid = types.StringValue(str)
-		}
-	} else {
-		if data.CustomerUuid.IsUnknown() {
-			data.CustomerUuid = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["default_volume_type_name"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.DefaultVolumeTypeName = types.StringValue(str)
-		}
-	} else {
-		if data.DefaultVolumeTypeName.IsUnknown() {
-			data.DefaultVolumeTypeName = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["description"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Description = types.StringValue(str)
-		}
-	} else {
-		if data.Description.IsUnknown() {
-			data.Description = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["error_message"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.ErrorMessage = types.StringValue(str)
-		}
-	} else {
-		if data.ErrorMessage.IsUnknown() {
-			data.ErrorMessage = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["error_traceback"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.ErrorTraceback = types.StringValue(str)
-		}
-	} else {
-		if data.ErrorTraceback.IsUnknown() {
-			data.ErrorTraceback = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["external_network_id"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.ExternalNetworkId = types.StringValue(str)
-		}
-	} else {
-		if data.ExternalNetworkId.IsUnknown() {
-			data.ExternalNetworkId = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["internal_network_id"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.InternalNetworkId = types.StringValue(str)
-		}
-	} else {
-		if data.InternalNetworkId.IsUnknown() {
-			data.InternalNetworkId = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["is_limit_based"]; ok && val != nil {
-		if b, ok := val.(bool); ok {
-			data.IsLimitBased = types.BoolValue(b)
-		}
-	} else {
-		if data.IsLimitBased.IsUnknown() {
-			data.IsLimitBased = types.BoolNull()
-		}
-	}
-	if val, ok := sourceMap["is_usage_based"]; ok && val != nil {
-		if b, ok := val.(bool); ok {
-			data.IsUsageBased = types.BoolValue(b)
-		}
-	} else {
-		if data.IsUsageBased.IsUnknown() {
-			data.IsUsageBased = types.BoolNull()
-		}
-	}
-	if val, ok := sourceMap["marketplace_category_name"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.MarketplaceCategoryName = types.StringValue(str)
-		}
-	} else {
-		if data.MarketplaceCategoryName.IsUnknown() {
-			data.MarketplaceCategoryName = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["marketplace_category_uuid"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.MarketplaceCategoryUuid = types.StringValue(str)
-		}
-	} else {
-		if data.MarketplaceCategoryUuid.IsUnknown() {
-			data.MarketplaceCategoryUuid = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["marketplace_offering_name"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.MarketplaceOfferingName = types.StringValue(str)
-		}
-	} else {
-		if data.MarketplaceOfferingName.IsUnknown() {
-			data.MarketplaceOfferingName = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["marketplace_offering_uuid"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.MarketplaceOfferingUuid = types.StringValue(str)
-		}
-	} else {
-		if data.MarketplaceOfferingUuid.IsUnknown() {
-			data.MarketplaceOfferingUuid = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["marketplace_plan_uuid"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.MarketplacePlanUuid = types.StringValue(str)
-		}
-	} else {
-		if data.MarketplacePlanUuid.IsUnknown() {
-			data.MarketplacePlanUuid = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["marketplace_resource_state"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.MarketplaceResourceState = types.StringValue(str)
-		}
-	} else {
-		if data.MarketplaceResourceState.IsUnknown() {
-			data.MarketplaceResourceState = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["marketplace_resource_uuid"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.MarketplaceResourceUuid = types.StringValue(str)
-		}
-	} else {
-		if data.MarketplaceResourceUuid.IsUnknown() {
-			data.MarketplaceResourceUuid = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["modified"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Modified = types.StringValue(str)
-		}
-	} else {
-		if data.Modified.IsUnknown() {
-			data.Modified = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["offering"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			// Normalize URL to UUID
-			parts := strings.Split(strings.TrimRight(str, "/"), "/")
-			uuid := parts[len(parts)-1]
-			data.Offering = types.StringValue(uuid)
-		} else {
-			data.Offering = types.StringNull()
-		}
-	} else {
-		if data.Offering.IsUnknown() {
-			data.Offering = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["project"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			// Normalize URL to UUID
-			parts := strings.Split(strings.TrimRight(str, "/"), "/")
-			uuid := parts[len(parts)-1]
-			data.Project = types.StringValue(uuid)
-		} else {
-			data.Project = types.StringNull()
-		}
-	} else {
-		if data.Project.IsUnknown() {
-			data.Project = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["project_name"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.ProjectName = types.StringValue(str)
-		}
-	} else {
-		if data.ProjectName.IsUnknown() {
-			data.ProjectName = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["project_uuid"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.ProjectUuid = types.StringValue(str)
-		}
-	} else {
-		if data.ProjectUuid.IsUnknown() {
-			data.ProjectUuid = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["quotas"]; ok && val != nil {
-		// List of objects
-		if arr, ok := val.([]interface{}); ok {
-			items := make([]attr.Value, 0, len(arr))
-			for _, item := range arr {
-				if objMap, ok := item.(map[string]interface{}); ok {
-					attrTypes := map[string]attr.Type{
-						"limit": types.Int64Type,
-						"name":  types.StringType,
-						"usage": types.Int64Type,
-					}
-					attrValues := map[string]attr.Value{
-						"limit": func() attr.Value {
-							if v, ok := objMap["limit"].(float64); ok {
-								return types.Int64Value(int64(v))
-							}
-							return types.Int64Null()
-						}(),
-						"name": func() attr.Value {
-							if v, ok := objMap["name"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"usage": func() attr.Value {
-							if v, ok := objMap["usage"].(float64); ok {
-								return types.Int64Value(int64(v))
-							}
-							return types.Int64Null()
-						}(),
-					}
-					objVal, _ := types.ObjectValue(attrTypes, attrValues)
-					items = append(items, objVal)
-				}
-			}
-			listVal, _ := types.ListValue(types.ObjectType{AttrTypes: map[string]attr.Type{
-				"limit": types.Int64Type,
-				"name":  types.StringType,
-				"usage": types.Int64Type,
-			}}, items)
-			data.Quotas = listVal
-		}
-	} else {
-		if data.Quotas.IsUnknown() {
-			data.Quotas = types.ListNull(types.ObjectType{AttrTypes: map[string]attr.Type{
-				"limit": types.Int64Type,
-				"name":  types.StringType,
-				"usage": types.Int64Type,
-			}})
-		}
-	}
-	if val, ok := sourceMap["resource_type"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.ResourceType = types.StringValue(str)
-		}
-	} else {
-		if data.ResourceType.IsUnknown() {
-			data.ResourceType = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["security_groups"]; ok && val != nil {
-		// List of objects
-		if arr, ok := val.([]interface{}); ok {
-			items := make([]attr.Value, 0, len(arr))
-			for _, item := range arr {
-				if objMap, ok := item.(map[string]interface{}); ok {
-					attrTypes := map[string]attr.Type{
-						"description": types.StringType,
-						"name":        types.StringType,
-						"rules": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
-							"cidr":         types.StringType,
-							"description":  types.StringType,
-							"direction":    types.StringType,
-							"ethertype":    types.StringType,
-							"from_port":    types.Int64Type,
-							"protocol":     types.StringType,
-							"remote_group": types.StringType,
-							"to_port":      types.Int64Type,
-						}}},
-					}
-					attrValues := map[string]attr.Value{
-						"description": func() attr.Value {
-							if v, ok := objMap["description"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"name": func() attr.Value {
-							if v, ok := objMap["name"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"rules": types.ListNull(types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
-							"cidr":         types.StringType,
-							"description":  types.StringType,
-							"direction":    types.StringType,
-							"ethertype":    types.StringType,
-							"from_port":    types.Int64Type,
-							"protocol":     types.StringType,
-							"remote_group": types.StringType,
-							"to_port":      types.Int64Type,
-						}}}.ElemType),
-					}
-					objVal, _ := types.ObjectValue(attrTypes, attrValues)
-					items = append(items, objVal)
-				}
-			}
-			listVal, _ := types.ListValue(types.ObjectType{AttrTypes: map[string]attr.Type{
-				"description": types.StringType,
-				"name":        types.StringType,
-				"rules": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
-					"cidr":         types.StringType,
-					"description":  types.StringType,
-					"direction":    types.StringType,
-					"ethertype":    types.StringType,
-					"from_port":    types.Int64Type,
-					"protocol":     types.StringType,
-					"remote_group": types.StringType,
-					"to_port":      types.Int64Type,
-				}}},
-			}}, items)
-			data.SecurityGroups = listVal
-		}
-	} else {
-		if data.SecurityGroups.IsUnknown() {
-			data.SecurityGroups = types.ListNull(types.ObjectType{AttrTypes: map[string]attr.Type{
-				"description": types.StringType,
-				"name":        types.StringType,
-				"rules": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
-					"cidr":         types.StringType,
-					"description":  types.StringType,
-					"direction":    types.StringType,
-					"ethertype":    types.StringType,
-					"from_port":    types.Int64Type,
-					"protocol":     types.StringType,
-					"remote_group": types.StringType,
-					"to_port":      types.Int64Type,
-				}}},
-			}})
-		}
-	}
-	if val, ok := sourceMap["service_name"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.ServiceName = types.StringValue(str)
-		}
-	} else {
-		if data.ServiceName.IsUnknown() {
-			data.ServiceName = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["service_settings"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.ServiceSettings = types.StringValue(str)
-		}
-	} else {
-		if data.ServiceSettings.IsUnknown() {
-			data.ServiceSettings = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["service_settings_error_message"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.ServiceSettingsErrorMessage = types.StringValue(str)
-		}
-	} else {
-		if data.ServiceSettingsErrorMessage.IsUnknown() {
-			data.ServiceSettingsErrorMessage = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["service_settings_state"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.ServiceSettingsState = types.StringValue(str)
-		}
-	} else {
-		if data.ServiceSettingsState.IsUnknown() {
-			data.ServiceSettingsState = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["service_settings_uuid"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.ServiceSettingsUuid = types.StringValue(str)
-		}
-	} else {
-		if data.ServiceSettingsUuid.IsUnknown() {
-			data.ServiceSettingsUuid = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["skip_connection_extnet"]; ok && val != nil {
-		if b, ok := val.(bool); ok {
-			data.SkipConnectionExtnet = types.BoolValue(b)
-		}
-	} else {
-		if data.SkipConnectionExtnet.IsUnknown() {
-			data.SkipConnectionExtnet = types.BoolNull()
-		}
-	}
-	if val, ok := sourceMap["skip_creation_of_default_router"]; ok && val != nil {
-		if b, ok := val.(bool); ok {
-			data.SkipCreationOfDefaultRouter = types.BoolValue(b)
-		}
-	} else {
-		if data.SkipCreationOfDefaultRouter.IsUnknown() {
-			data.SkipCreationOfDefaultRouter = types.BoolNull()
-		}
-	}
-	if val, ok := sourceMap["skip_creation_of_default_subnet"]; ok && val != nil {
-		if b, ok := val.(bool); ok {
-			data.SkipCreationOfDefaultSubnet = types.BoolValue(b)
-		}
-	} else {
-		if data.SkipCreationOfDefaultSubnet.IsUnknown() {
-			data.SkipCreationOfDefaultSubnet = types.BoolNull()
-		}
-	}
-	if val, ok := sourceMap["state"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.State = types.StringValue(str)
-		}
-	} else {
-		if data.State.IsUnknown() {
-			data.State = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["subnet_cidr"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.SubnetCidr = types.StringValue(str)
-		}
-	} else {
-		if data.SubnetCidr.IsUnknown() {
-			data.SubnetCidr = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["url"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Url = types.StringValue(str)
-		}
-	} else {
-		if data.Url.IsUnknown() {
-			data.Url = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["user_password"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.UserPassword = types.StringValue(str)
-		}
-	} else {
-		if data.UserPassword.IsUnknown() {
-			data.UserPassword = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["user_username"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.UserUsername = types.StringValue(str)
-		}
-	} else {
-		if data.UserUsername.IsUnknown() {
-			data.UserUsername = types.StringNull()
-		}
-	}
+	model.ProjectName = types.StringPointerValue(apiResp.ProjectName)
+	model.ProjectUuid = types.StringPointerValue(apiResp.ProjectUuid)
+	listValQuotas, listDiagsQuotas := types.ListValueFrom(ctx, openstacktenant_quotasObjectType, apiResp.Quotas)
+	diags.Append(listDiagsQuotas...)
+	model.Quotas = listValQuotas
+	model.ResourceType = types.StringPointerValue(apiResp.ResourceType)
+	listValSecurityGroups, listDiagsSecurityGroups := types.ListValueFrom(ctx, openstacktenant_security_groupsObjectType, apiResp.SecurityGroups)
+	diags.Append(listDiagsSecurityGroups...)
+	model.SecurityGroups = listValSecurityGroups
+	model.ServiceName = types.StringPointerValue(apiResp.ServiceName)
+	model.ServiceSettings = types.StringPointerValue(apiResp.ServiceSettings)
+	model.ServiceSettingsErrorMessage = types.StringPointerValue(apiResp.ServiceSettingsErrorMessage)
+	model.ServiceSettingsState = types.StringPointerValue(apiResp.ServiceSettingsState)
+	model.ServiceSettingsUuid = types.StringPointerValue(apiResp.ServiceSettingsUuid)
+	model.SkipConnectionExtnet = types.BoolPointerValue(apiResp.SkipConnectionExtnet)
+	model.SkipCreationOfDefaultRouter = types.BoolPointerValue(apiResp.SkipCreationOfDefaultRouter)
+	model.SkipCreationOfDefaultSubnet = types.BoolPointerValue(apiResp.SkipCreationOfDefaultSubnet)
+	model.State = types.StringPointerValue(apiResp.State)
+	model.SubnetCidr = types.StringPointerValue(apiResp.SubnetCidr)
+	model.Url = types.StringPointerValue(apiResp.Url)
+	model.UserPassword = types.StringPointerValue(apiResp.UserPassword)
+	model.UserUsername = types.StringPointerValue(apiResp.UserUsername)
+
+	return diags
 }

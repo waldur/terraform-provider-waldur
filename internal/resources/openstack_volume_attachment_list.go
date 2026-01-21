@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/list"
 	"github.com/hashicorp/terraform-plugin-framework/list/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
@@ -290,7 +291,7 @@ func (l *OpenstackVolumeAttachmentList) List(ctx context.Context, req list.ListR
 	}
 
 	// Call API
-	var listResult []map[string]interface{}
+	var listResult []OpenstackVolumeAttachmentApiResponse
 	err := l.client.ListWithFilter(ctx, "/api/openstack-volumes/", filters, &listResult)
 	if err != nil {
 		// Return error diagnostics
@@ -301,300 +302,57 @@ func (l *OpenstackVolumeAttachmentList) List(ctx context.Context, req list.ListR
 
 	// Stream results
 	stream.Results = func(push func(list.ListResult) bool) {
-		for _, item := range listResult {
+		for _, apiResp := range listResult {
 			result := req.NewListResult(ctx)
 
 			// Map item to model
 			var data OpenstackVolumeAttachmentResourceModel
+			model := &data
 
-			// Initialize lists and objects to empty/null if needed (or rely on map logic)
+			var diags diag.Diagnostics
 
-			sourceMap := item
-
-			// Reuse the mapResponseFields logic (embedded here or via shared template)
-			// Map response fields to data model
-			_ = sourceMap
-			if val, ok := sourceMap["access_url"]; ok && val != nil {
-				if str, ok := val.(string); ok {
-					data.AccessUrl = types.StringValue(str)
-				}
-			} else {
-				if data.AccessUrl.IsUnknown() {
-					data.AccessUrl = types.StringNull()
-				}
-			}
-			if val, ok := sourceMap["action"]; ok && val != nil {
-				if str, ok := val.(string); ok {
-					data.Action = types.StringValue(str)
-				}
-			} else {
-				if data.Action.IsUnknown() {
-					data.Action = types.StringNull()
-				}
-			}
-			if val, ok := sourceMap["availability_zone"]; ok && val != nil {
-				if str, ok := val.(string); ok {
-					data.AvailabilityZone = types.StringValue(str)
-				}
-			} else {
-				if data.AvailabilityZone.IsUnknown() {
-					data.AvailabilityZone = types.StringNull()
-				}
-			}
-			if val, ok := sourceMap["availability_zone_name"]; ok && val != nil {
-				if str, ok := val.(string); ok {
-					data.AvailabilityZoneName = types.StringValue(str)
-				}
-			} else {
-				if data.AvailabilityZoneName.IsUnknown() {
-					data.AvailabilityZoneName = types.StringNull()
-				}
-			}
-			if val, ok := sourceMap["backend_id"]; ok && val != nil {
-				if str, ok := val.(string); ok {
-					data.BackendId = types.StringValue(str)
-				}
-			} else {
-				if data.BackendId.IsUnknown() {
-					data.BackendId = types.StringNull()
-				}
-			}
-			if val, ok := sourceMap["bootable"]; ok && val != nil {
-				if b, ok := val.(bool); ok {
-					data.Bootable = types.BoolValue(b)
-				}
-			} else {
-				if data.Bootable.IsUnknown() {
-					data.Bootable = types.BoolNull()
-				}
-			}
-			if val, ok := sourceMap["created"]; ok && val != nil {
-				if str, ok := val.(string); ok {
-					data.Created = types.StringValue(str)
-				}
-			} else {
-				if data.Created.IsUnknown() {
-					data.Created = types.StringNull()
-				}
-			}
-			if val, ok := sourceMap["description"]; ok && val != nil {
-				if str, ok := val.(string); ok {
-					data.Description = types.StringValue(str)
-				}
-			} else {
-				if data.Description.IsUnknown() {
-					data.Description = types.StringNull()
-				}
-			}
-			if val, ok := sourceMap["device"]; ok && val != nil {
-				if str, ok := val.(string); ok {
-					data.Device = types.StringValue(str)
-				}
-			} else {
-				if data.Device.IsUnknown() {
-					data.Device = types.StringNull()
-				}
-			}
-			if val, ok := sourceMap["error_message"]; ok && val != nil {
-				if str, ok := val.(string); ok {
-					data.ErrorMessage = types.StringValue(str)
-				}
-			} else {
-				if data.ErrorMessage.IsUnknown() {
-					data.ErrorMessage = types.StringNull()
-				}
-			}
-			if val, ok := sourceMap["error_traceback"]; ok && val != nil {
-				if str, ok := val.(string); ok {
-					data.ErrorTraceback = types.StringValue(str)
-				}
-			} else {
-				if data.ErrorTraceback.IsUnknown() {
-					data.ErrorTraceback = types.StringNull()
-				}
-			}
-			if val, ok := sourceMap["extend_enabled"]; ok && val != nil {
-				if b, ok := val.(bool); ok {
-					data.ExtendEnabled = types.BoolValue(b)
-				}
-			} else {
-				if data.ExtendEnabled.IsUnknown() {
-					data.ExtendEnabled = types.BoolNull()
-				}
-			}
-			if val, ok := sourceMap["image"]; ok && val != nil {
-				if str, ok := val.(string); ok {
-					data.Image = types.StringValue(str)
-				}
-			} else {
-				if data.Image.IsUnknown() {
-					data.Image = types.StringNull()
-				}
-			}
-			if val, ok := sourceMap["image_metadata"]; ok && val != nil {
-				if str, ok := val.(string); ok {
-					data.ImageMetadata = types.StringValue(str)
-				}
-			} else {
-				if data.ImageMetadata.IsUnknown() {
-					data.ImageMetadata = types.StringNull()
-				}
-			}
-			if val, ok := sourceMap["image_name"]; ok && val != nil {
-				if str, ok := val.(string); ok {
-					data.ImageName = types.StringValue(str)
-				}
-			} else {
-				if data.ImageName.IsUnknown() {
-					data.ImageName = types.StringNull()
-				}
-			}
-			if val, ok := sourceMap["instance"]; ok && val != nil {
-				if str, ok := val.(string); ok {
-					data.Instance = types.StringValue(str)
-				}
-			} else {
-				if data.Instance.IsUnknown() {
-					data.Instance = types.StringNull()
-				}
-			}
-			if val, ok := sourceMap["instance_marketplace_uuid"]; ok && val != nil {
-				if str, ok := val.(string); ok {
-					data.InstanceMarketplaceUuid = types.StringValue(str)
-				}
-			} else {
-				if data.InstanceMarketplaceUuid.IsUnknown() {
-					data.InstanceMarketplaceUuid = types.StringNull()
-				}
-			}
-			if val, ok := sourceMap["instance_name"]; ok && val != nil {
-				if str, ok := val.(string); ok {
-					data.InstanceName = types.StringValue(str)
-				}
-			} else {
-				if data.InstanceName.IsUnknown() {
-					data.InstanceName = types.StringNull()
-				}
-			}
-			if val, ok := sourceMap["modified"]; ok && val != nil {
-				if str, ok := val.(string); ok {
-					data.Modified = types.StringValue(str)
-				}
-			} else {
-				if data.Modified.IsUnknown() {
-					data.Modified = types.StringNull()
-				}
-			}
-			if val, ok := sourceMap["resource_type"]; ok && val != nil {
-				if str, ok := val.(string); ok {
-					data.ResourceType = types.StringValue(str)
-				}
-			} else {
-				if data.ResourceType.IsUnknown() {
-					data.ResourceType = types.StringNull()
-				}
-			}
-			if val, ok := sourceMap["runtime_state"]; ok && val != nil {
-				if str, ok := val.(string); ok {
-					data.RuntimeState = types.StringValue(str)
-				}
-			} else {
-				if data.RuntimeState.IsUnknown() {
-					data.RuntimeState = types.StringNull()
-				}
-			}
-			if val, ok := sourceMap["size"]; ok && val != nil {
-				if num, ok := val.(float64); ok {
-					data.Size = types.Int64Value(int64(num))
-				}
-			} else {
-				if data.Size.IsUnknown() {
-					data.Size = types.Int64Null()
-				}
-			}
-			if val, ok := sourceMap["source_snapshot"]; ok && val != nil {
-				if str, ok := val.(string); ok {
-					data.SourceSnapshot = types.StringValue(str)
-				}
-			} else {
-				if data.SourceSnapshot.IsUnknown() {
-					data.SourceSnapshot = types.StringNull()
-				}
-			}
-			if val, ok := sourceMap["state"]; ok && val != nil {
-				if str, ok := val.(string); ok {
-					data.State = types.StringValue(str)
-				}
-			} else {
-				if data.State.IsUnknown() {
-					data.State = types.StringNull()
-				}
-			}
-			if val, ok := sourceMap["tenant"]; ok && val != nil {
-				if str, ok := val.(string); ok {
-					data.Tenant = types.StringValue(str)
-				}
-			} else {
-				if data.Tenant.IsUnknown() {
-					data.Tenant = types.StringNull()
-				}
-			}
-			if val, ok := sourceMap["tenant_uuid"]; ok && val != nil {
-				if str, ok := val.(string); ok {
-					data.TenantUuid = types.StringValue(str)
-				}
-			} else {
-				if data.TenantUuid.IsUnknown() {
-					data.TenantUuid = types.StringNull()
-				}
-			}
-			if val, ok := sourceMap["type"]; ok && val != nil {
-				if str, ok := val.(string); ok {
-					data.Type = types.StringValue(str)
-				}
-			} else {
-				if data.Type.IsUnknown() {
-					data.Type = types.StringNull()
-				}
-			}
-			if val, ok := sourceMap["type_name"]; ok && val != nil {
-				if str, ok := val.(string); ok {
-					data.TypeName = types.StringValue(str)
-				}
-			} else {
-				if data.TypeName.IsUnknown() {
-					data.TypeName = types.StringNull()
-				}
-			}
-			if val, ok := sourceMap["url"]; ok && val != nil {
-				if str, ok := val.(string); ok {
-					data.Url = types.StringValue(str)
-				}
-			} else {
-				if data.Url.IsUnknown() {
-					data.Url = types.StringNull()
-				}
-			}
+			model.UUID = types.StringPointerValue(apiResp.UUID)
+			model.AccessUrl = types.StringPointerValue(apiResp.AccessUrl)
+			model.Action = types.StringPointerValue(apiResp.Action)
+			model.AvailabilityZone = types.StringPointerValue(apiResp.AvailabilityZone)
+			model.AvailabilityZoneName = types.StringPointerValue(apiResp.AvailabilityZoneName)
+			model.BackendId = types.StringPointerValue(apiResp.BackendId)
+			model.Bootable = types.BoolPointerValue(apiResp.Bootable)
+			model.Created = types.StringPointerValue(apiResp.Created)
+			model.Description = types.StringPointerValue(apiResp.Description)
+			model.Device = types.StringPointerValue(apiResp.Device)
+			model.ErrorMessage = types.StringPointerValue(apiResp.ErrorMessage)
+			model.ErrorTraceback = types.StringPointerValue(apiResp.ErrorTraceback)
+			model.ExtendEnabled = types.BoolPointerValue(apiResp.ExtendEnabled)
+			model.Image = types.StringPointerValue(apiResp.Image)
+			model.ImageMetadata = types.StringPointerValue(apiResp.ImageMetadata)
+			model.ImageName = types.StringPointerValue(apiResp.ImageName)
+			model.Instance = types.StringPointerValue(apiResp.Instance)
+			model.InstanceMarketplaceUuid = types.StringPointerValue(apiResp.InstanceMarketplaceUuid)
+			model.InstanceName = types.StringPointerValue(apiResp.InstanceName)
+			model.Modified = types.StringPointerValue(apiResp.Modified)
+			model.ResourceType = types.StringPointerValue(apiResp.ResourceType)
+			model.RuntimeState = types.StringPointerValue(apiResp.RuntimeState)
+			model.Size = types.Int64PointerValue(apiResp.Size)
+			model.SourceSnapshot = types.StringPointerValue(apiResp.SourceSnapshot)
+			model.State = types.StringPointerValue(apiResp.State)
+			model.Tenant = types.StringPointerValue(apiResp.Tenant)
+			model.TenantUuid = types.StringPointerValue(apiResp.TenantUuid)
+			model.Type = types.StringPointerValue(apiResp.Type)
+			model.TypeName = types.StringPointerValue(apiResp.TypeName)
+			model.Url = types.StringPointerValue(apiResp.Url)
 
 			// Set the resource state
 			// For ListResource, we generally return the "Resource" state matching the main resource schema.
 			// This allows `terraform plan` to correlate if using `terraform query`.
 
-			diags := result.Resource.Set(ctx, &data)
+			setDiags := result.Resource.Set(ctx, &data)
+			diags.Append(setDiags...)
 			result.Diagnostics.Append(diags...)
 
 			// Set Identity if possible (usually UUID)
 			if !data.UUID.IsNull() && !data.UUID.IsUnknown() {
-				// Identity value must match what the resource uses for Import?
-				// Typically implicit. For now just setting Resource is key.
-				// result.Identity.Set(ctx, data.UUID.ValueString())
-				// The doc says: "An error is returned if a list result in the stream contains a null identity"
 				result.Diagnostics.Append(result.Identity.Set(ctx, data.UUID.ValueString())...)
-			} else {
-				// Try to fallback to "uuid" from map if model failed
-				if uuid, ok := item["uuid"].(string); ok {
-					result.Diagnostics.Append(result.Identity.Set(ctx, uuid)...)
-				}
 			}
 
 			if !push(result) {

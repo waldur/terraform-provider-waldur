@@ -6,6 +6,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
+	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -27,6 +28,40 @@ func NewOpenstackServerGroupResource() resource.Resource {
 // OpenstackServerGroupResource defines the resource implementation.
 type OpenstackServerGroupResource struct {
 	client *client.Client
+}
+
+// OpenstackServerGroupApiResponse is the API response model.
+type OpenstackServerGroupApiResponse struct {
+	UUID *string `json:"uuid"`
+
+	AccessUrl      *string                                 `json:"access_url" tfsdk:"access_url"`
+	BackendId      *string                                 `json:"backend_id" tfsdk:"backend_id"`
+	Created        *string                                 `json:"created" tfsdk:"created"`
+	Description    *string                                 `json:"description" tfsdk:"description"`
+	DisplayName    *string                                 `json:"display_name" tfsdk:"display_name"`
+	ErrorMessage   *string                                 `json:"error_message" tfsdk:"error_message"`
+	ErrorTraceback *string                                 `json:"error_traceback" tfsdk:"error_traceback"`
+	Instances      []OpenstackServerGroupInstancesResponse `json:"instances" tfsdk:"instances"`
+	Modified       *string                                 `json:"modified" tfsdk:"modified"`
+	Policy         *string                                 `json:"policy" tfsdk:"policy"`
+	ResourceType   *string                                 `json:"resource_type" tfsdk:"resource_type"`
+	State          *string                                 `json:"state" tfsdk:"state"`
+	Tenant         *string                                 `json:"tenant" tfsdk:"tenant"`
+	TenantName     *string                                 `json:"tenant_name" tfsdk:"tenant_name"`
+	TenantUuid     *string                                 `json:"tenant_uuid" tfsdk:"tenant_uuid"`
+	Url            *string                                 `json:"url" tfsdk:"url"`
+}
+
+type OpenstackServerGroupInstancesResponse struct {
+	BackendId *string `json:"backend_id" tfsdk:"backend_id"`
+}
+
+var openstackservergroup_instancesAttrTypes = map[string]attr.Type{
+	"backend_id": types.StringType,
+	"name":       types.StringType,
+}
+var openstackservergroup_instancesObjectType = types.ObjectType{
+	AttrTypes: openstackservergroup_instancesAttrTypes,
 }
 
 // OpenstackServerGroupResourceModel describes the resource data model.
@@ -189,7 +224,11 @@ func (r *OpenstackServerGroupResource) Create(ctx context.Context, req resource.
 		return
 	}
 
-	// Prepare request body
+	// Call Waldur API to create resource
+	var apiResp OpenstackServerGroupApiResponse
+	// Custom create operation via parent resource
+	createPath := "/api/openstack-tenants/{uuid}/create_server_group/"
+	createPath = strings.Replace(createPath, "{uuid}", data.Tenant.ValueString(), 1) // Prepare request body
 	requestBody := map[string]interface{}{}
 	if !data.Description.IsNull() && !data.Description.IsUnknown() {
 		if v := data.Description.ValueString(); v != "" {
@@ -202,13 +241,7 @@ func (r *OpenstackServerGroupResource) Create(ctx context.Context, req resource.
 			requestBody["policy"] = v
 		}
 	}
-
-	// Call Waldur API to create resource
-	var result map[string]interface{}
-	// Custom create operation via parent resource
-	createPath := "/api/openstack-tenants/{uuid}/create_server_group/"
-	createPath = strings.Replace(createPath, "{uuid}", data.Tenant.ValueString(), 1)
-	err := r.client.Post(ctx, createPath, requestBody, &result)
+	err := r.client.Post(ctx, createPath, requestBody, &apiResp)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Unable to Create Openstack Server Group",
@@ -217,11 +250,11 @@ func (r *OpenstackServerGroupResource) Create(ctx context.Context, req resource.
 		return
 	}
 	// Extract UUID from response
-	if uuid, ok := result["uuid"].(string); ok {
-		data.UUID = types.StringValue(uuid)
+	if apiResp.UUID != nil {
+		data.UUID = types.StringPointerValue(apiResp.UUID)
 	}
 
-	r.updateFromValue(ctx, &data, result)
+	resp.Diagnostics.Append(r.mapResponseToModel(ctx, apiResp, &data)...)
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
@@ -237,11 +270,11 @@ func (r *OpenstackServerGroupResource) Read(ctx context.Context, req resource.Re
 	}
 
 	// Call Waldur API to read resource
-	var result map[string]interface{}
 
 	retrievePath := strings.Replace("/api/openstack-server-groups/{uuid}/", "{uuid}", data.UUID.ValueString(), 1)
 
-	err := r.client.GetByUUID(ctx, retrievePath, data.UUID.ValueString(), &result)
+	var apiResp OpenstackServerGroupApiResponse
+	err := r.client.GetByUUID(ctx, retrievePath, data.UUID.ValueString(), &apiResp)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Unable to Read Openstack Server Group",
@@ -250,7 +283,7 @@ func (r *OpenstackServerGroupResource) Read(ctx context.Context, req resource.Re
 		return
 	}
 
-	r.updateFromValue(ctx, &data, result)
+	resp.Diagnostics.Append(r.mapResponseToModel(ctx, apiResp, &data)...)
 
 	// Save updated data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
@@ -264,8 +297,6 @@ func (r *OpenstackServerGroupResource) Update(ctx context.Context, req resource.
 	if resp.Diagnostics.HasError() {
 		return
 	}
-
-	data.UUID = state.UUID
 
 	// Prepare request body
 	requestBody := map[string]interface{}{}
@@ -286,9 +317,9 @@ func (r *OpenstackServerGroupResource) Update(ctx context.Context, req resource.
 	}
 
 	// Call Waldur API to update resource
-	var result map[string]interface{}
+	var apiResp OpenstackServerGroupApiResponse
 
-	err := r.client.Update(ctx, "/api/openstack-server-groups/{uuid}/", data.UUID.ValueString(), requestBody, &result)
+	err := r.client.Update(ctx, "/api/openstack-server-groups/{uuid}/", data.UUID.ValueString(), requestBody, &apiResp)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Unable to Update Openstack Server Group",
@@ -298,11 +329,11 @@ func (r *OpenstackServerGroupResource) Update(ctx context.Context, req resource.
 	}
 
 	// Update UUID from response
-	if uuid, ok := result["uuid"].(string); ok {
-		data.UUID = types.StringValue(uuid)
+	if apiResp.UUID != nil {
+		data.UUID = types.StringPointerValue(apiResp.UUID)
 	}
 
-	r.updateFromValue(ctx, &data, result)
+	resp.Diagnostics.Append(r.mapResponseToModel(ctx, apiResp, &data)...)
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
@@ -330,184 +361,28 @@ func (r *OpenstackServerGroupResource) ImportState(ctx context.Context, req reso
 	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }
 
-func (r *OpenstackServerGroupResource) updateFromValue(ctx context.Context, data *OpenstackServerGroupResourceModel, sourceMap map[string]interface{}) {
-	// Map response fields to data model
-	_ = sourceMap
-	if val, ok := sourceMap["access_url"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.AccessUrl = types.StringValue(str)
-		}
-	} else {
-		if data.AccessUrl.IsUnknown() {
-			data.AccessUrl = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["backend_id"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.BackendId = types.StringValue(str)
-		}
-	} else {
-		if data.BackendId.IsUnknown() {
-			data.BackendId = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["created"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Created = types.StringValue(str)
-		}
-	} else {
-		if data.Created.IsUnknown() {
-			data.Created = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["description"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Description = types.StringValue(str)
-		}
-	} else {
-		if data.Description.IsUnknown() {
-			data.Description = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["display_name"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.DisplayName = types.StringValue(str)
-		}
-	} else {
-		if data.DisplayName.IsUnknown() {
-			data.DisplayName = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["error_message"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.ErrorMessage = types.StringValue(str)
-		}
-	} else {
-		if data.ErrorMessage.IsUnknown() {
-			data.ErrorMessage = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["error_traceback"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.ErrorTraceback = types.StringValue(str)
-		}
-	} else {
-		if data.ErrorTraceback.IsUnknown() {
-			data.ErrorTraceback = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["instances"]; ok && val != nil {
-		// List of objects
-		if arr, ok := val.([]interface{}); ok {
-			items := make([]attr.Value, 0, len(arr))
-			for _, item := range arr {
-				if objMap, ok := item.(map[string]interface{}); ok {
-					attrTypes := map[string]attr.Type{
-						"backend_id": types.StringType,
-						"name":       types.StringType,
-					}
-					attrValues := map[string]attr.Value{
-						"backend_id": func() attr.Value {
-							if v, ok := objMap["backend_id"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"name": func() attr.Value {
-							if v, ok := objMap["name"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-					}
-					objVal, _ := types.ObjectValue(attrTypes, attrValues)
-					items = append(items, objVal)
-				}
-			}
-			listVal, _ := types.ListValue(types.ObjectType{AttrTypes: map[string]attr.Type{
-				"backend_id": types.StringType,
-				"name":       types.StringType,
-			}}, items)
-			data.Instances = listVal
-		}
-	} else {
-		if data.Instances.IsUnknown() {
-			data.Instances = types.ListNull(types.ObjectType{AttrTypes: map[string]attr.Type{
-				"backend_id": types.StringType,
-				"name":       types.StringType,
-			}})
-		}
-	}
-	if val, ok := sourceMap["modified"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Modified = types.StringValue(str)
-		}
-	} else {
-		if data.Modified.IsUnknown() {
-			data.Modified = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["policy"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Policy = types.StringValue(str)
-		}
-	} else {
-		if data.Policy.IsUnknown() {
-			data.Policy = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["resource_type"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.ResourceType = types.StringValue(str)
-		}
-	} else {
-		if data.ResourceType.IsUnknown() {
-			data.ResourceType = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["state"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.State = types.StringValue(str)
-		}
-	} else {
-		if data.State.IsUnknown() {
-			data.State = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["tenant"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Tenant = types.StringValue(str)
-		}
-	} else {
-		if data.Tenant.IsUnknown() {
-			data.Tenant = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["tenant_name"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.TenantName = types.StringValue(str)
-		}
-	} else {
-		if data.TenantName.IsUnknown() {
-			data.TenantName = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["tenant_uuid"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.TenantUuid = types.StringValue(str)
-		}
-	} else {
-		if data.TenantUuid.IsUnknown() {
-			data.TenantUuid = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["url"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Url = types.StringValue(str)
-		}
-	} else {
-		if data.Url.IsUnknown() {
-			data.Url = types.StringNull()
-		}
-	}
+func (r *OpenstackServerGroupResource) mapResponseToModel(ctx context.Context, apiResp OpenstackServerGroupApiResponse, model *OpenstackServerGroupResourceModel) diag.Diagnostics {
+	var diags diag.Diagnostics
+
+	model.UUID = types.StringPointerValue(apiResp.UUID)
+	model.AccessUrl = types.StringPointerValue(apiResp.AccessUrl)
+	model.BackendId = types.StringPointerValue(apiResp.BackendId)
+	model.Created = types.StringPointerValue(apiResp.Created)
+	model.Description = types.StringPointerValue(apiResp.Description)
+	model.DisplayName = types.StringPointerValue(apiResp.DisplayName)
+	model.ErrorMessage = types.StringPointerValue(apiResp.ErrorMessage)
+	model.ErrorTraceback = types.StringPointerValue(apiResp.ErrorTraceback)
+	listValInstances, listDiagsInstances := types.ListValueFrom(ctx, openstackservergroup_instancesObjectType, apiResp.Instances)
+	diags.Append(listDiagsInstances...)
+	model.Instances = listValInstances
+	model.Modified = types.StringPointerValue(apiResp.Modified)
+	model.Policy = types.StringPointerValue(apiResp.Policy)
+	model.ResourceType = types.StringPointerValue(apiResp.ResourceType)
+	model.State = types.StringPointerValue(apiResp.State)
+	model.Tenant = types.StringPointerValue(apiResp.Tenant)
+	model.TenantName = types.StringPointerValue(apiResp.TenantName)
+	model.TenantUuid = types.StringPointerValue(apiResp.TenantUuid)
+	model.Url = types.StringPointerValue(apiResp.Url)
+
+	return diags
 }

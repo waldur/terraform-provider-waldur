@@ -6,6 +6,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
+	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -27,6 +28,121 @@ func NewStructureCustomerResource() resource.Resource {
 // StructureCustomerResource defines the resource implementation.
 type StructureCustomerResource struct {
 	client *client.Client
+}
+
+// StructureCustomerApiResponse is the API response model.
+type StructureCustomerApiResponse struct {
+	UUID *string `json:"uuid"`
+
+	Abbreviation                 *string                                       `json:"abbreviation" tfsdk:"abbreviation"`
+	AccessSubnets                *string                                       `json:"access_subnets" tfsdk:"access_subnets"`
+	AccountingStartDate          *string                                       `json:"accounting_start_date" tfsdk:"accounting_start_date"`
+	Address                      *string                                       `json:"address" tfsdk:"address"`
+	AgreementNumber              *string                                       `json:"agreement_number" tfsdk:"agreement_number"`
+	Archived                     *bool                                         `json:"archived" tfsdk:"archived"`
+	BackendId                    *string                                       `json:"backend_id" tfsdk:"backend_id"`
+	BankAccount                  *string                                       `json:"bank_account" tfsdk:"bank_account"`
+	BankName                     *string                                       `json:"bank_name" tfsdk:"bank_name"`
+	Blocked                      *bool                                         `json:"blocked" tfsdk:"blocked"`
+	CallManagingOrganizationUuid *string                                       `json:"call_managing_organization_uuid" tfsdk:"call_managing_organization_uuid"`
+	ContactDetails               *string                                       `json:"contact_details" tfsdk:"contact_details"`
+	Country                      *string                                       `json:"country" tfsdk:"country"`
+	CountryName                  *string                                       `json:"country_name" tfsdk:"country_name"`
+	Created                      *string                                       `json:"created" tfsdk:"created"`
+	CustomerCredit               *float64                                      `json:"customer_credit" tfsdk:"customer_credit"`
+	CustomerUnallocatedCredit    *float64                                      `json:"customer_unallocated_credit" tfsdk:"customer_unallocated_credit"`
+	DefaultTaxPercent            *string                                       `json:"default_tax_percent" tfsdk:"default_tax_percent"`
+	Description                  *string                                       `json:"description" tfsdk:"description"`
+	DisplayBillingInfoInProjects *bool                                         `json:"display_billing_info_in_projects" tfsdk:"display_billing_info_in_projects"`
+	DisplayName                  *string                                       `json:"display_name" tfsdk:"display_name"`
+	Domain                       *string                                       `json:"domain" tfsdk:"domain"`
+	Email                        *string                                       `json:"email" tfsdk:"email"`
+	GracePeriodDays              *int64                                        `json:"grace_period_days" tfsdk:"grace_period_days"`
+	Homepage                     *string                                       `json:"homepage" tfsdk:"homepage"`
+	Image                        *string                                       `json:"image" tfsdk:"image"`
+	IsServiceProvider            *bool                                         `json:"is_service_provider" tfsdk:"is_service_provider"`
+	Latitude                     *float64                                      `json:"latitude" tfsdk:"latitude"`
+	Longitude                    *float64                                      `json:"longitude" tfsdk:"longitude"`
+	MaxServiceAccounts           *int64                                        `json:"max_service_accounts" tfsdk:"max_service_accounts"`
+	NativeName                   *string                                       `json:"native_name" tfsdk:"native_name"`
+	NotificationEmails           *string                                       `json:"notification_emails" tfsdk:"notification_emails"`
+	OrganizationGroups           []StructureCustomerOrganizationGroupsResponse `json:"organization_groups" tfsdk:"organization_groups"`
+	PaymentProfiles              []StructureCustomerPaymentProfilesResponse    `json:"payment_profiles" tfsdk:"payment_profiles"`
+	PhoneNumber                  *string                                       `json:"phone_number" tfsdk:"phone_number"`
+	Postal                       *string                                       `json:"postal" tfsdk:"postal"`
+	ProjectMetadataChecklist     *string                                       `json:"project_metadata_checklist" tfsdk:"project_metadata_checklist"`
+	ProjectsCount                *int64                                        `json:"projects_count" tfsdk:"projects_count"`
+	RegistrationCode             *string                                       `json:"registration_code" tfsdk:"registration_code"`
+	ServiceProvider              *string                                       `json:"service_provider" tfsdk:"service_provider"`
+	ServiceProviderUuid          *string                                       `json:"service_provider_uuid" tfsdk:"service_provider_uuid"`
+	Slug                         *string                                       `json:"slug" tfsdk:"slug"`
+	SponsorNumber                *int64                                        `json:"sponsor_number" tfsdk:"sponsor_number"`
+	Url                          *string                                       `json:"url" tfsdk:"url"`
+	UsersCount                   *int64                                        `json:"users_count" tfsdk:"users_count"`
+	VatCode                      *string                                       `json:"vat_code" tfsdk:"vat_code"`
+}
+
+type StructureCustomerOrganizationGroupsResponse struct {
+	CustomersCount *int64  `json:"customers_count" tfsdk:"customers_count"`
+	Parent         *string `json:"parent" tfsdk:"parent"`
+	ParentName     *string `json:"parent_name" tfsdk:"parent_name"`
+	ParentUuid     *string `json:"parent_uuid" tfsdk:"parent_uuid"`
+	Url            *string `json:"url" tfsdk:"url"`
+}
+
+type StructureCustomerPaymentProfilesResponse struct {
+	Attributes         *StructureCustomerPaymentProfilesAttributesResponse `json:"attributes" tfsdk:"attributes"`
+	IsActive           *bool                                               `json:"is_active" tfsdk:"is_active"`
+	Organization       *string                                             `json:"organization" tfsdk:"organization"`
+	OrganizationUuid   *string                                             `json:"organization_uuid" tfsdk:"organization_uuid"`
+	PaymentType        *string                                             `json:"payment_type" tfsdk:"payment_type"`
+	PaymentTypeDisplay *string                                             `json:"payment_type_display" tfsdk:"payment_type_display"`
+	Url                *string                                             `json:"url" tfsdk:"url"`
+}
+
+type StructureCustomerPaymentProfilesAttributesResponse struct {
+	AgreementNumber *string `json:"agreement_number" tfsdk:"agreement_number"`
+	ContractSum     *int64  `json:"contract_sum" tfsdk:"contract_sum"`
+	EndDate         *string `json:"end_date" tfsdk:"end_date"`
+}
+
+var structurecustomer_organization_groupsAttrTypes = map[string]attr.Type{
+	"customers_count": types.Int64Type,
+	"name":            types.StringType,
+	"parent":          types.StringType,
+	"parent_name":     types.StringType,
+	"parent_uuid":     types.StringType,
+	"url":             types.StringType,
+}
+var structurecustomer_organization_groupsObjectType = types.ObjectType{
+	AttrTypes: structurecustomer_organization_groupsAttrTypes,
+}
+
+var structurecustomer_payment_profilesAttrTypes = map[string]attr.Type{
+	"attributes": types.ObjectType{AttrTypes: map[string]attr.Type{
+		"agreement_number": types.StringType,
+		"contract_sum":     types.Int64Type,
+		"end_date":         types.StringType,
+	}},
+	"is_active":            types.BoolType,
+	"name":                 types.StringType,
+	"organization":         types.StringType,
+	"organization_uuid":    types.StringType,
+	"payment_type":         types.StringType,
+	"payment_type_display": types.StringType,
+	"url":                  types.StringType,
+}
+var structurecustomer_payment_profilesObjectType = types.ObjectType{
+	AttrTypes: structurecustomer_payment_profilesAttrTypes,
+}
+
+var structurecustomerpaymentprofiles_attributesAttrTypes = map[string]attr.Type{
+	"agreement_number": types.StringType,
+	"contract_sum":     types.Int64Type,
+	"end_date":         types.StringType,
+}
+var structurecustomerpaymentprofiles_attributesObjectType = types.ObjectType{
+	AttrTypes: structurecustomerpaymentprofiles_attributesAttrTypes,
 }
 
 // StructureCustomerResourceModel describes the resource data model.
@@ -443,7 +559,8 @@ func (r *StructureCustomerResource) Create(ctx context.Context, req resource.Cre
 		return
 	}
 
-	// Prepare request body
+	// Call Waldur API to create resource
+	var apiResp StructureCustomerApiResponse // Prepare request body
 	requestBody := map[string]interface{}{}
 	if !data.Abbreviation.IsNull() && !data.Abbreviation.IsUnknown() {
 		if v := data.Abbreviation.ValueString(); v != "" {
@@ -590,10 +707,7 @@ func (r *StructureCustomerResource) Create(ctx context.Context, req resource.Cre
 			requestBody["vat_code"] = v
 		}
 	}
-
-	// Call Waldur API to create resource
-	var result map[string]interface{}
-	err := r.client.Create(ctx, "/api/customers/", requestBody, &result)
+	err := r.client.Create(ctx, "/api/customers/", requestBody, &apiResp)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Unable to Create Structure Customer",
@@ -602,11 +716,11 @@ func (r *StructureCustomerResource) Create(ctx context.Context, req resource.Cre
 		return
 	}
 	// Extract UUID from response
-	if uuid, ok := result["uuid"].(string); ok {
-		data.UUID = types.StringValue(uuid)
+	if apiResp.UUID != nil {
+		data.UUID = types.StringPointerValue(apiResp.UUID)
 	}
 
-	r.updateFromValue(ctx, &data, result)
+	resp.Diagnostics.Append(r.mapResponseToModel(ctx, apiResp, &data)...)
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
@@ -622,11 +736,11 @@ func (r *StructureCustomerResource) Read(ctx context.Context, req resource.ReadR
 	}
 
 	// Call Waldur API to read resource
-	var result map[string]interface{}
 
 	retrievePath := strings.Replace("/api/customers/{uuid}/", "{uuid}", data.UUID.ValueString(), 1)
 
-	err := r.client.GetByUUID(ctx, retrievePath, data.UUID.ValueString(), &result)
+	var apiResp StructureCustomerApiResponse
+	err := r.client.GetByUUID(ctx, retrievePath, data.UUID.ValueString(), &apiResp)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Unable to Read Structure Customer",
@@ -635,7 +749,7 @@ func (r *StructureCustomerResource) Read(ctx context.Context, req resource.ReadR
 		return
 	}
 
-	r.updateFromValue(ctx, &data, result)
+	resp.Diagnostics.Append(r.mapResponseToModel(ctx, apiResp, &data)...)
 
 	// Save updated data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
@@ -649,8 +763,6 @@ func (r *StructureCustomerResource) Update(ctx context.Context, req resource.Upd
 	if resp.Diagnostics.HasError() {
 		return
 	}
-
-	data.UUID = state.UUID
 
 	// Prepare request body
 	requestBody := map[string]interface{}{}
@@ -805,9 +917,9 @@ func (r *StructureCustomerResource) Update(ctx context.Context, req resource.Upd
 	}
 
 	// Call Waldur API to update resource
-	var result map[string]interface{}
+	var apiResp StructureCustomerApiResponse
 
-	err := r.client.Update(ctx, "/api/customers/{uuid}/", data.UUID.ValueString(), requestBody, &result)
+	err := r.client.Update(ctx, "/api/customers/{uuid}/", data.UUID.ValueString(), requestBody, &apiResp)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Unable to Update Structure Customer",
@@ -817,11 +929,11 @@ func (r *StructureCustomerResource) Update(ctx context.Context, req resource.Upd
 	}
 
 	// Update UUID from response
-	if uuid, ok := result["uuid"].(string); ok {
-		data.UUID = types.StringValue(uuid)
+	if apiResp.UUID != nil {
+		data.UUID = types.StringPointerValue(apiResp.UUID)
 	}
 
-	r.updateFromValue(ctx, &data, result)
+	resp.Diagnostics.Append(r.mapResponseToModel(ctx, apiResp, &data)...)
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
@@ -849,588 +961,60 @@ func (r *StructureCustomerResource) ImportState(ctx context.Context, req resourc
 	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }
 
-func (r *StructureCustomerResource) updateFromValue(ctx context.Context, data *StructureCustomerResourceModel, sourceMap map[string]interface{}) {
-	// Map response fields to data model
-	_ = sourceMap
-	if val, ok := sourceMap["abbreviation"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Abbreviation = types.StringValue(str)
-		}
-	} else {
-		if data.Abbreviation.IsUnknown() {
-			data.Abbreviation = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["access_subnets"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.AccessSubnets = types.StringValue(str)
-		}
-	} else {
-		if data.AccessSubnets.IsUnknown() {
-			data.AccessSubnets = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["accounting_start_date"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.AccountingStartDate = types.StringValue(str)
-		}
-	} else {
-		if data.AccountingStartDate.IsUnknown() {
-			data.AccountingStartDate = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["address"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Address = types.StringValue(str)
-		}
-	} else {
-		if data.Address.IsUnknown() {
-			data.Address = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["agreement_number"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.AgreementNumber = types.StringValue(str)
-		}
-	} else {
-		if data.AgreementNumber.IsUnknown() {
-			data.AgreementNumber = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["archived"]; ok && val != nil {
-		if b, ok := val.(bool); ok {
-			data.Archived = types.BoolValue(b)
-		}
-	} else {
-		if data.Archived.IsUnknown() {
-			data.Archived = types.BoolNull()
-		}
-	}
-	if val, ok := sourceMap["backend_id"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.BackendId = types.StringValue(str)
-		}
-	} else {
-		if data.BackendId.IsUnknown() {
-			data.BackendId = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["bank_account"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.BankAccount = types.StringValue(str)
-		}
-	} else {
-		if data.BankAccount.IsUnknown() {
-			data.BankAccount = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["bank_name"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.BankName = types.StringValue(str)
-		}
-	} else {
-		if data.BankName.IsUnknown() {
-			data.BankName = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["blocked"]; ok && val != nil {
-		if b, ok := val.(bool); ok {
-			data.Blocked = types.BoolValue(b)
-		}
-	} else {
-		if data.Blocked.IsUnknown() {
-			data.Blocked = types.BoolNull()
-		}
-	}
-	if val, ok := sourceMap["call_managing_organization_uuid"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.CallManagingOrganizationUuid = types.StringValue(str)
-		}
-	} else {
-		if data.CallManagingOrganizationUuid.IsUnknown() {
-			data.CallManagingOrganizationUuid = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["contact_details"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.ContactDetails = types.StringValue(str)
-		}
-	} else {
-		if data.ContactDetails.IsUnknown() {
-			data.ContactDetails = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["country"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Country = types.StringValue(str)
-		}
-	} else {
-		if data.Country.IsUnknown() {
-			data.Country = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["country_name"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.CountryName = types.StringValue(str)
-		}
-	} else {
-		if data.CountryName.IsUnknown() {
-			data.CountryName = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["created"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Created = types.StringValue(str)
-		}
-	} else {
-		if data.Created.IsUnknown() {
-			data.Created = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["customer_credit"]; ok && val != nil {
-		if num, ok := val.(float64); ok {
-			data.CustomerCredit = types.Float64Value(num)
-		}
-	} else {
-		if data.CustomerCredit.IsUnknown() {
-			data.CustomerCredit = types.Float64Null()
-		}
-	}
-	if val, ok := sourceMap["customer_unallocated_credit"]; ok && val != nil {
-		if num, ok := val.(float64); ok {
-			data.CustomerUnallocatedCredit = types.Float64Value(num)
-		}
-	} else {
-		if data.CustomerUnallocatedCredit.IsUnknown() {
-			data.CustomerUnallocatedCredit = types.Float64Null()
-		}
-	}
-	if val, ok := sourceMap["default_tax_percent"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.DefaultTaxPercent = types.StringValue(str)
-		}
-	} else {
-		if data.DefaultTaxPercent.IsUnknown() {
-			data.DefaultTaxPercent = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["description"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Description = types.StringValue(str)
-		}
-	} else {
-		if data.Description.IsUnknown() {
-			data.Description = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["display_billing_info_in_projects"]; ok && val != nil {
-		if b, ok := val.(bool); ok {
-			data.DisplayBillingInfoInProjects = types.BoolValue(b)
-		}
-	} else {
-		if data.DisplayBillingInfoInProjects.IsUnknown() {
-			data.DisplayBillingInfoInProjects = types.BoolNull()
-		}
-	}
-	if val, ok := sourceMap["display_name"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.DisplayName = types.StringValue(str)
-		}
-	} else {
-		if data.DisplayName.IsUnknown() {
-			data.DisplayName = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["domain"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Domain = types.StringValue(str)
-		}
-	} else {
-		if data.Domain.IsUnknown() {
-			data.Domain = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["email"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Email = types.StringValue(str)
-		}
-	} else {
-		if data.Email.IsUnknown() {
-			data.Email = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["grace_period_days"]; ok && val != nil {
-		if num, ok := val.(float64); ok {
-			data.GracePeriodDays = types.Int64Value(int64(num))
-		}
-	} else {
-		if data.GracePeriodDays.IsUnknown() {
-			data.GracePeriodDays = types.Int64Null()
-		}
-	}
-	if val, ok := sourceMap["homepage"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Homepage = types.StringValue(str)
-		}
-	} else {
-		if data.Homepage.IsUnknown() {
-			data.Homepage = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["image"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Image = types.StringValue(str)
-		}
-	} else {
-		if data.Image.IsUnknown() {
-			data.Image = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["is_service_provider"]; ok && val != nil {
-		if b, ok := val.(bool); ok {
-			data.IsServiceProvider = types.BoolValue(b)
-		}
-	} else {
-		if data.IsServiceProvider.IsUnknown() {
-			data.IsServiceProvider = types.BoolNull()
-		}
-	}
-	if val, ok := sourceMap["latitude"]; ok && val != nil {
-		if num, ok := val.(float64); ok {
-			data.Latitude = types.Float64Value(num)
-		}
-	} else {
-		if data.Latitude.IsUnknown() {
-			data.Latitude = types.Float64Null()
-		}
-	}
-	if val, ok := sourceMap["longitude"]; ok && val != nil {
-		if num, ok := val.(float64); ok {
-			data.Longitude = types.Float64Value(num)
-		}
-	} else {
-		if data.Longitude.IsUnknown() {
-			data.Longitude = types.Float64Null()
-		}
-	}
-	if val, ok := sourceMap["max_service_accounts"]; ok && val != nil {
-		if num, ok := val.(float64); ok {
-			data.MaxServiceAccounts = types.Int64Value(int64(num))
-		}
-	} else {
-		if data.MaxServiceAccounts.IsUnknown() {
-			data.MaxServiceAccounts = types.Int64Null()
-		}
-	}
-	if val, ok := sourceMap["native_name"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.NativeName = types.StringValue(str)
-		}
-	} else {
-		if data.NativeName.IsUnknown() {
-			data.NativeName = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["notification_emails"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.NotificationEmails = types.StringValue(str)
-		}
-	} else {
-		if data.NotificationEmails.IsUnknown() {
-			data.NotificationEmails = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["organization_groups"]; ok && val != nil {
-		// List of objects
-		if arr, ok := val.([]interface{}); ok {
-			items := make([]attr.Value, 0, len(arr))
-			for _, item := range arr {
-				if objMap, ok := item.(map[string]interface{}); ok {
-					attrTypes := map[string]attr.Type{
-						"customers_count": types.Int64Type,
-						"name":            types.StringType,
-						"parent":          types.StringType,
-						"parent_name":     types.StringType,
-						"parent_uuid":     types.StringType,
-						"url":             types.StringType,
-					}
-					attrValues := map[string]attr.Value{
-						"customers_count": func() attr.Value {
-							if v, ok := objMap["customers_count"].(float64); ok {
-								return types.Int64Value(int64(v))
-							}
-							return types.Int64Null()
-						}(),
-						"name": func() attr.Value {
-							if v, ok := objMap["name"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"parent": func() attr.Value {
-							if v, ok := objMap["parent"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"parent_name": func() attr.Value {
-							if v, ok := objMap["parent_name"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"parent_uuid": func() attr.Value {
-							if v, ok := objMap["parent_uuid"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"url": func() attr.Value {
-							if v, ok := objMap["url"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-					}
-					objVal, _ := types.ObjectValue(attrTypes, attrValues)
-					items = append(items, objVal)
-				}
-			}
-			listVal, _ := types.ListValue(types.ObjectType{AttrTypes: map[string]attr.Type{
-				"customers_count": types.Int64Type,
-				"name":            types.StringType,
-				"parent":          types.StringType,
-				"parent_name":     types.StringType,
-				"parent_uuid":     types.StringType,
-				"url":             types.StringType,
-			}}, items)
-			data.OrganizationGroups = listVal
-		}
-	} else {
-		if data.OrganizationGroups.IsUnknown() {
-			data.OrganizationGroups = types.ListNull(types.ObjectType{AttrTypes: map[string]attr.Type{
-				"customers_count": types.Int64Type,
-				"name":            types.StringType,
-				"parent":          types.StringType,
-				"parent_name":     types.StringType,
-				"parent_uuid":     types.StringType,
-				"url":             types.StringType,
-			}})
-		}
-	}
-	if val, ok := sourceMap["payment_profiles"]; ok && val != nil {
-		// List of objects
-		if arr, ok := val.([]interface{}); ok {
-			items := make([]attr.Value, 0, len(arr))
-			for _, item := range arr {
-				if objMap, ok := item.(map[string]interface{}); ok {
-					attrTypes := map[string]attr.Type{
-						"attributes": types.ObjectType{AttrTypes: map[string]attr.Type{
-							"agreement_number": types.StringType,
-							"contract_sum":     types.Int64Type,
-							"end_date":         types.StringType,
-						}},
-						"is_active":            types.BoolType,
-						"name":                 types.StringType,
-						"organization":         types.StringType,
-						"organization_uuid":    types.StringType,
-						"payment_type":         types.StringType,
-						"payment_type_display": types.StringType,
-						"url":                  types.StringType,
-					}
-					attrValues := map[string]attr.Value{
-						"attributes": types.ObjectNull(types.ObjectType{AttrTypes: map[string]attr.Type{
-							"agreement_number": types.StringType,
-							"contract_sum":     types.Int64Type,
-							"end_date":         types.StringType,
-						}}.AttrTypes),
-						"is_active": func() attr.Value {
-							if v, ok := objMap["is_active"].(bool); ok {
-								return types.BoolValue(v)
-							}
-							return types.BoolNull()
-						}(),
-						"name": func() attr.Value {
-							if v, ok := objMap["name"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"organization": func() attr.Value {
-							if v, ok := objMap["organization"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"organization_uuid": func() attr.Value {
-							if v, ok := objMap["organization_uuid"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"payment_type": func() attr.Value {
-							if v, ok := objMap["payment_type"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"payment_type_display": func() attr.Value {
-							if v, ok := objMap["payment_type_display"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"url": func() attr.Value {
-							if v, ok := objMap["url"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-					}
-					objVal, _ := types.ObjectValue(attrTypes, attrValues)
-					items = append(items, objVal)
-				}
-			}
-			listVal, _ := types.ListValue(types.ObjectType{AttrTypes: map[string]attr.Type{
-				"attributes": types.ObjectType{AttrTypes: map[string]attr.Type{
-					"agreement_number": types.StringType,
-					"contract_sum":     types.Int64Type,
-					"end_date":         types.StringType,
-				}},
-				"is_active":            types.BoolType,
-				"name":                 types.StringType,
-				"organization":         types.StringType,
-				"organization_uuid":    types.StringType,
-				"payment_type":         types.StringType,
-				"payment_type_display": types.StringType,
-				"url":                  types.StringType,
-			}}, items)
-			data.PaymentProfiles = listVal
-		}
-	} else {
-		if data.PaymentProfiles.IsUnknown() {
-			data.PaymentProfiles = types.ListNull(types.ObjectType{AttrTypes: map[string]attr.Type{
-				"attributes": types.ObjectType{AttrTypes: map[string]attr.Type{
-					"agreement_number": types.StringType,
-					"contract_sum":     types.Int64Type,
-					"end_date":         types.StringType,
-				}},
-				"is_active":            types.BoolType,
-				"name":                 types.StringType,
-				"organization":         types.StringType,
-				"organization_uuid":    types.StringType,
-				"payment_type":         types.StringType,
-				"payment_type_display": types.StringType,
-				"url":                  types.StringType,
-			}})
-		}
-	}
-	if val, ok := sourceMap["phone_number"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.PhoneNumber = types.StringValue(str)
-		}
-	} else {
-		if data.PhoneNumber.IsUnknown() {
-			data.PhoneNumber = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["postal"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Postal = types.StringValue(str)
-		}
-	} else {
-		if data.Postal.IsUnknown() {
-			data.Postal = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["project_metadata_checklist"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.ProjectMetadataChecklist = types.StringValue(str)
-		}
-	} else {
-		if data.ProjectMetadataChecklist.IsUnknown() {
-			data.ProjectMetadataChecklist = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["projects_count"]; ok && val != nil {
-		if num, ok := val.(float64); ok {
-			data.ProjectsCount = types.Int64Value(int64(num))
-		}
-	} else {
-		if data.ProjectsCount.IsUnknown() {
-			data.ProjectsCount = types.Int64Null()
-		}
-	}
-	if val, ok := sourceMap["registration_code"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.RegistrationCode = types.StringValue(str)
-		}
-	} else {
-		if data.RegistrationCode.IsUnknown() {
-			data.RegistrationCode = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["service_provider"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.ServiceProvider = types.StringValue(str)
-		}
-	} else {
-		if data.ServiceProvider.IsUnknown() {
-			data.ServiceProvider = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["service_provider_uuid"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.ServiceProviderUuid = types.StringValue(str)
-		}
-	} else {
-		if data.ServiceProviderUuid.IsUnknown() {
-			data.ServiceProviderUuid = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["slug"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Slug = types.StringValue(str)
-		}
-	} else {
-		if data.Slug.IsUnknown() {
-			data.Slug = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["sponsor_number"]; ok && val != nil {
-		if num, ok := val.(float64); ok {
-			data.SponsorNumber = types.Int64Value(int64(num))
-		}
-	} else {
-		if data.SponsorNumber.IsUnknown() {
-			data.SponsorNumber = types.Int64Null()
-		}
-	}
-	if val, ok := sourceMap["url"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Url = types.StringValue(str)
-		}
-	} else {
-		if data.Url.IsUnknown() {
-			data.Url = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["users_count"]; ok && val != nil {
-		if num, ok := val.(float64); ok {
-			data.UsersCount = types.Int64Value(int64(num))
-		}
-	} else {
-		if data.UsersCount.IsUnknown() {
-			data.UsersCount = types.Int64Null()
-		}
-	}
-	if val, ok := sourceMap["vat_code"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.VatCode = types.StringValue(str)
-		}
-	} else {
-		if data.VatCode.IsUnknown() {
-			data.VatCode = types.StringNull()
-		}
-	}
+func (r *StructureCustomerResource) mapResponseToModel(ctx context.Context, apiResp StructureCustomerApiResponse, model *StructureCustomerResourceModel) diag.Diagnostics {
+	var diags diag.Diagnostics
+
+	model.UUID = types.StringPointerValue(apiResp.UUID)
+	model.Abbreviation = types.StringPointerValue(apiResp.Abbreviation)
+	model.AccessSubnets = types.StringPointerValue(apiResp.AccessSubnets)
+	model.AccountingStartDate = types.StringPointerValue(apiResp.AccountingStartDate)
+	model.Address = types.StringPointerValue(apiResp.Address)
+	model.AgreementNumber = types.StringPointerValue(apiResp.AgreementNumber)
+	model.Archived = types.BoolPointerValue(apiResp.Archived)
+	model.BackendId = types.StringPointerValue(apiResp.BackendId)
+	model.BankAccount = types.StringPointerValue(apiResp.BankAccount)
+	model.BankName = types.StringPointerValue(apiResp.BankName)
+	model.Blocked = types.BoolPointerValue(apiResp.Blocked)
+	model.CallManagingOrganizationUuid = types.StringPointerValue(apiResp.CallManagingOrganizationUuid)
+	model.ContactDetails = types.StringPointerValue(apiResp.ContactDetails)
+	model.Country = types.StringPointerValue(apiResp.Country)
+	model.CountryName = types.StringPointerValue(apiResp.CountryName)
+	model.Created = types.StringPointerValue(apiResp.Created)
+	model.CustomerCredit = types.Float64PointerValue(apiResp.CustomerCredit)
+	model.CustomerUnallocatedCredit = types.Float64PointerValue(apiResp.CustomerUnallocatedCredit)
+	model.DefaultTaxPercent = types.StringPointerValue(apiResp.DefaultTaxPercent)
+	model.Description = types.StringPointerValue(apiResp.Description)
+	model.DisplayBillingInfoInProjects = types.BoolPointerValue(apiResp.DisplayBillingInfoInProjects)
+	model.DisplayName = types.StringPointerValue(apiResp.DisplayName)
+	model.Domain = types.StringPointerValue(apiResp.Domain)
+	model.Email = types.StringPointerValue(apiResp.Email)
+	model.GracePeriodDays = types.Int64PointerValue(apiResp.GracePeriodDays)
+	model.Homepage = types.StringPointerValue(apiResp.Homepage)
+	model.Image = types.StringPointerValue(apiResp.Image)
+	model.IsServiceProvider = types.BoolPointerValue(apiResp.IsServiceProvider)
+	model.Latitude = types.Float64PointerValue(apiResp.Latitude)
+	model.Longitude = types.Float64PointerValue(apiResp.Longitude)
+	model.MaxServiceAccounts = types.Int64PointerValue(apiResp.MaxServiceAccounts)
+	model.NativeName = types.StringPointerValue(apiResp.NativeName)
+	model.NotificationEmails = types.StringPointerValue(apiResp.NotificationEmails)
+	listValOrganizationGroups, listDiagsOrganizationGroups := types.ListValueFrom(ctx, structurecustomer_organization_groupsObjectType, apiResp.OrganizationGroups)
+	diags.Append(listDiagsOrganizationGroups...)
+	model.OrganizationGroups = listValOrganizationGroups
+	listValPaymentProfiles, listDiagsPaymentProfiles := types.ListValueFrom(ctx, structurecustomer_payment_profilesObjectType, apiResp.PaymentProfiles)
+	diags.Append(listDiagsPaymentProfiles...)
+	model.PaymentProfiles = listValPaymentProfiles
+	model.PhoneNumber = types.StringPointerValue(apiResp.PhoneNumber)
+	model.Postal = types.StringPointerValue(apiResp.Postal)
+	model.ProjectMetadataChecklist = types.StringPointerValue(apiResp.ProjectMetadataChecklist)
+	model.ProjectsCount = types.Int64PointerValue(apiResp.ProjectsCount)
+	model.RegistrationCode = types.StringPointerValue(apiResp.RegistrationCode)
+	model.ServiceProvider = types.StringPointerValue(apiResp.ServiceProvider)
+	model.ServiceProviderUuid = types.StringPointerValue(apiResp.ServiceProviderUuid)
+	model.Slug = types.StringPointerValue(apiResp.Slug)
+	model.SponsorNumber = types.Int64PointerValue(apiResp.SponsorNumber)
+	model.Url = types.StringPointerValue(apiResp.Url)
+	model.UsersCount = types.Int64PointerValue(apiResp.UsersCount)
+	model.VatCode = types.StringPointerValue(apiResp.VatCode)
+
+	return diags
 }

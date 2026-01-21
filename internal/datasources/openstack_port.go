@@ -3,11 +3,11 @@ package datasources
 import (
 	"context"
 	"fmt"
-	"strings"
 
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/waldur/terraform-provider-waldur/internal/client"
@@ -23,6 +23,50 @@ func NewOpenstackPortDataSource() datasource.DataSource {
 // OpenstackPortDataSource defines the data source implementation.
 type OpenstackPortDataSource struct {
 	client *client.Client
+}
+
+// OpenstackPortApiResponse is the API response model.
+type OpenstackPortApiResponse struct {
+	UUID *string `json:"uuid"`
+
+	AccessUrl           *string                                    `json:"access_url" tfsdk:"access_url"`
+	AllowedAddressPairs []OpenstackPortAllowedAddressPairsResponse `json:"allowed_address_pairs" tfsdk:"allowed_address_pairs"`
+	Created             *string                                    `json:"created" tfsdk:"created"`
+	Description         *string                                    `json:"description" tfsdk:"description"`
+	ErrorMessage        *string                                    `json:"error_message" tfsdk:"error_message"`
+	ErrorTraceback      *string                                    `json:"error_traceback" tfsdk:"error_traceback"`
+	FloatingIps         []string                                   `json:"floating_ips" tfsdk:"floating_ips"`
+	Modified            *string                                    `json:"modified" tfsdk:"modified"`
+	Network             *string                                    `json:"network" tfsdk:"network"`
+	PortSecurityEnabled *bool                                      `json:"port_security_enabled" tfsdk:"port_security_enabled"`
+	ResourceType        *string                                    `json:"resource_type" tfsdk:"resource_type"`
+	SecurityGroups      []OpenstackPortSecurityGroupsResponse      `json:"security_groups" tfsdk:"security_groups"`
+	State               *string                                    `json:"state" tfsdk:"state"`
+	TenantName          *string                                    `json:"tenant_name" tfsdk:"tenant_name"`
+	Url                 *string                                    `json:"url" tfsdk:"url"`
+}
+
+type OpenstackPortAllowedAddressPairsResponse struct {
+	MacAddress *string `json:"mac_address" tfsdk:"mac_address"`
+}
+
+type OpenstackPortSecurityGroupsResponse struct {
+	Url *string `json:"url" tfsdk:"url"`
+}
+
+var openstackport_allowed_address_pairsAttrTypes = map[string]attr.Type{
+	"mac_address": types.StringType,
+}
+var openstackport_allowed_address_pairsObjectType = types.ObjectType{
+	AttrTypes: openstackport_allowed_address_pairsAttrTypes,
+}
+
+var openstackport_security_groupsAttrTypes = map[string]attr.Type{
+	"name": types.StringType,
+	"url":  types.StringType,
+}
+var openstackport_security_groupsObjectType = types.ObjectType{
+	AttrTypes: openstackport_security_groupsAttrTypes,
 }
 
 // OpenstackPortDataSourceModel describes the data source data model.
@@ -241,9 +285,9 @@ func (d *OpenstackPortDataSource) Read(ctx context.Context, req datasource.ReadR
 
 	// Check if UUID is provided for direct lookup
 	if !data.UUID.IsNull() && data.UUID.ValueString() != "" {
-		var item map[string]interface{}
+		var apiResp OpenstackPortApiResponse
 
-		err := d.client.GetByUUID(ctx, "/api/openstack-ports/{uuid}/", data.UUID.ValueString(), &item)
+		err := d.client.GetByUUID(ctx, "/api/openstack-ports/{uuid}/", data.UUID.ValueString(), &apiResp)
 		if err != nil {
 			resp.Diagnostics.AddError(
 				"Unable to Read Openstack Port",
@@ -252,309 +296,11 @@ func (d *OpenstackPortDataSource) Read(ctx context.Context, req datasource.ReadR
 			return
 		}
 
-		// Extract data from single result
-		if uuid, ok := item["uuid"].(string); ok {
-			data.UUID = types.StringValue(uuid)
-		}
-
-		sourceMap := item
-		// Map response fields to data model
-		_ = sourceMap
-		if val, ok := sourceMap["access_url"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.AccessUrl = types.StringValue(str)
-			}
-		} else {
-			if data.AccessUrl.IsUnknown() {
-				data.AccessUrl = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["allowed_address_pairs"]; ok && val != nil {
-			// List of objects
-			if arr, ok := val.([]interface{}); ok {
-				items := make([]attr.Value, 0, len(arr))
-				for _, item := range arr {
-					if objMap, ok := item.(map[string]interface{}); ok {
-						attrTypes := map[string]attr.Type{
-							"mac_address": types.StringType,
-						}
-						attrValues := map[string]attr.Value{
-							"mac_address": func() attr.Value {
-								if v, ok := objMap["mac_address"].(string); ok {
-									return types.StringValue(v)
-								}
-								return types.StringNull()
-							}(),
-						}
-						objVal, _ := types.ObjectValue(attrTypes, attrValues)
-						items = append(items, objVal)
-					}
-				}
-				listVal, _ := types.ListValue(types.ObjectType{AttrTypes: map[string]attr.Type{
-					"mac_address": types.StringType,
-				}}, items)
-				data.AllowedAddressPairs = listVal
-			}
-		} else {
-			if data.AllowedAddressPairs.IsUnknown() {
-				data.AllowedAddressPairs = types.ListNull(types.ObjectType{AttrTypes: map[string]attr.Type{
-					"mac_address": types.StringType,
-				}})
-			}
-		}
-		if val, ok := sourceMap["created"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Created = types.StringValue(str)
-			}
-		} else {
-			if data.Created.IsUnknown() {
-				data.Created = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["description"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Description = types.StringValue(str)
-			}
-		} else {
-			if data.Description.IsUnknown() {
-				data.Description = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["error_message"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.ErrorMessage = types.StringValue(str)
-			}
-		} else {
-			if data.ErrorMessage.IsUnknown() {
-				data.ErrorMessage = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["error_traceback"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.ErrorTraceback = types.StringValue(str)
-			}
-		} else {
-			if data.ErrorTraceback.IsUnknown() {
-				data.ErrorTraceback = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["floating_ips"]; ok && val != nil {
-			// List of strings (or flattened objects)
-			if arr, ok := val.([]interface{}); ok {
-				items := make([]attr.Value, 0, len(arr))
-				for _, item := range arr {
-					if str, ok := item.(string); ok {
-						items = append(items, types.StringValue(str))
-					} else if obj, ok := item.(map[string]interface{}); ok {
-						// Flattening logic: extract URL or UUID
-						if url, ok := obj["url"].(string); ok {
-							parts := strings.Split(strings.TrimRight(url, "/"), "/")
-							uuid := parts[len(parts)-1]
-							items = append(items, types.StringValue(uuid))
-						} else if uuid, ok := obj["uuid"].(string); ok {
-							items = append(items, types.StringValue(uuid))
-						} else if name, ok := obj["name"].(string); ok {
-							items = append(items, types.StringValue(name))
-						}
-					}
-				}
-				listVal, _ := types.ListValue(types.StringType, items)
-				data.FloatingIps = listVal
-			}
-		} else {
-			if data.FloatingIps.IsUnknown() {
-				data.FloatingIps = types.ListNull(types.StringType)
-			}
-		}
-		if val, ok := sourceMap["modified"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Modified = types.StringValue(str)
-			}
-		} else {
-			if data.Modified.IsUnknown() {
-				data.Modified = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["network"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Network = types.StringValue(str)
-			}
-		} else {
-			if data.Network.IsUnknown() {
-				data.Network = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["port_security_enabled"]; ok && val != nil {
-			if b, ok := val.(bool); ok {
-				data.PortSecurityEnabled = types.BoolValue(b)
-			}
-		} else {
-			if data.PortSecurityEnabled.IsUnknown() {
-				data.PortSecurityEnabled = types.BoolNull()
-			}
-		}
-		if val, ok := sourceMap["resource_type"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.ResourceType = types.StringValue(str)
-			}
-		} else {
-			if data.ResourceType.IsUnknown() {
-				data.ResourceType = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["security_groups"]; ok && val != nil {
-			// List of objects
-			if arr, ok := val.([]interface{}); ok {
-				items := make([]attr.Value, 0, len(arr))
-				for _, item := range arr {
-					if objMap, ok := item.(map[string]interface{}); ok {
-						attrTypes := map[string]attr.Type{
-							"name": types.StringType,
-							"url":  types.StringType,
-						}
-						attrValues := map[string]attr.Value{
-							"name": func() attr.Value {
-								if v, ok := objMap["name"].(string); ok {
-									return types.StringValue(v)
-								}
-								return types.StringNull()
-							}(),
-							"url": func() attr.Value {
-								if v, ok := objMap["url"].(string); ok {
-									return types.StringValue(v)
-								}
-								return types.StringNull()
-							}(),
-						}
-						objVal, _ := types.ObjectValue(attrTypes, attrValues)
-						items = append(items, objVal)
-					}
-				}
-				listVal, _ := types.ListValue(types.ObjectType{AttrTypes: map[string]attr.Type{
-					"name": types.StringType,
-					"url":  types.StringType,
-				}}, items)
-				data.SecurityGroups = listVal
-			}
-		} else {
-			if data.SecurityGroups.IsUnknown() {
-				data.SecurityGroups = types.ListNull(types.ObjectType{AttrTypes: map[string]attr.Type{
-					"name": types.StringType,
-					"url":  types.StringType,
-				}})
-			}
-		}
-		if val, ok := sourceMap["state"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.State = types.StringValue(str)
-			}
-		} else {
-			if data.State.IsUnknown() {
-				data.State = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["tenant_name"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.TenantName = types.StringValue(str)
-			}
-		} else {
-			if data.TenantName.IsUnknown() {
-				data.TenantName = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["url"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Url = types.StringValue(str)
-			}
-		} else {
-			if data.Url.IsUnknown() {
-				data.Url = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["admin_state_up"]; ok && val != nil {
-			if b, ok := val.(bool); ok {
-				data.AdminStateUp = types.BoolValue(b)
-			}
-		}
-		if val, ok := sourceMap["backend_id"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.BackendId = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["device_id"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.DeviceId = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["device_owner"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.DeviceOwner = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["exclude_subnet_uuids"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.ExcludeSubnetUuids = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["fixed_ips"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.FixedIps = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["has_device_owner"]; ok && val != nil {
-			if b, ok := val.(bool); ok {
-				data.HasDeviceOwner = types.BoolValue(b)
-			}
-		}
-		if val, ok := sourceMap["mac_address"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.MacAddress = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["name"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Name = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["name_exact"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.NameExact = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["network_name"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.NetworkName = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["network_uuid"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.NetworkUuid = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["query"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Query = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["status"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Status = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["tenant"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Tenant = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["tenant_uuid"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.TenantUuid = types.StringValue(str)
-			}
-		}
+		resp.Diagnostics.Append(d.mapResponseToModel(ctx, apiResp, &data)...)
 
 	} else {
 		// Filter by provided parameters
-		var results []map[string]interface{}
+		var results []OpenstackPortApiResponse
 
 		filters := map[string]string{}
 		if !data.AdminStateUp.IsNull() {
@@ -640,306 +386,36 @@ func (d *OpenstackPortDataSource) Read(ctx context.Context, req datasource.ReadR
 			return
 		}
 
-		// Extract data from the single result
-		if uuid, ok := results[0]["uuid"].(string); ok {
-			data.UUID = types.StringValue(uuid)
-		}
-		sourceMap := results[0]
-		// Map response fields to data model
-		_ = sourceMap
-		if val, ok := sourceMap["access_url"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.AccessUrl = types.StringValue(str)
-			}
-		} else {
-			if data.AccessUrl.IsUnknown() {
-				data.AccessUrl = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["allowed_address_pairs"]; ok && val != nil {
-			// List of objects
-			if arr, ok := val.([]interface{}); ok {
-				items := make([]attr.Value, 0, len(arr))
-				for _, item := range arr {
-					if objMap, ok := item.(map[string]interface{}); ok {
-						attrTypes := map[string]attr.Type{
-							"mac_address": types.StringType,
-						}
-						attrValues := map[string]attr.Value{
-							"mac_address": func() attr.Value {
-								if v, ok := objMap["mac_address"].(string); ok {
-									return types.StringValue(v)
-								}
-								return types.StringNull()
-							}(),
-						}
-						objVal, _ := types.ObjectValue(attrTypes, attrValues)
-						items = append(items, objVal)
-					}
-				}
-				listVal, _ := types.ListValue(types.ObjectType{AttrTypes: map[string]attr.Type{
-					"mac_address": types.StringType,
-				}}, items)
-				data.AllowedAddressPairs = listVal
-			}
-		} else {
-			if data.AllowedAddressPairs.IsUnknown() {
-				data.AllowedAddressPairs = types.ListNull(types.ObjectType{AttrTypes: map[string]attr.Type{
-					"mac_address": types.StringType,
-				}})
-			}
-		}
-		if val, ok := sourceMap["created"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Created = types.StringValue(str)
-			}
-		} else {
-			if data.Created.IsUnknown() {
-				data.Created = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["description"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Description = types.StringValue(str)
-			}
-		} else {
-			if data.Description.IsUnknown() {
-				data.Description = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["error_message"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.ErrorMessage = types.StringValue(str)
-			}
-		} else {
-			if data.ErrorMessage.IsUnknown() {
-				data.ErrorMessage = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["error_traceback"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.ErrorTraceback = types.StringValue(str)
-			}
-		} else {
-			if data.ErrorTraceback.IsUnknown() {
-				data.ErrorTraceback = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["floating_ips"]; ok && val != nil {
-			// List of strings (or flattened objects)
-			if arr, ok := val.([]interface{}); ok {
-				items := make([]attr.Value, 0, len(arr))
-				for _, item := range arr {
-					if str, ok := item.(string); ok {
-						items = append(items, types.StringValue(str))
-					} else if obj, ok := item.(map[string]interface{}); ok {
-						// Flattening logic: extract URL or UUID
-						if url, ok := obj["url"].(string); ok {
-							parts := strings.Split(strings.TrimRight(url, "/"), "/")
-							uuid := parts[len(parts)-1]
-							items = append(items, types.StringValue(uuid))
-						} else if uuid, ok := obj["uuid"].(string); ok {
-							items = append(items, types.StringValue(uuid))
-						} else if name, ok := obj["name"].(string); ok {
-							items = append(items, types.StringValue(name))
-						}
-					}
-				}
-				listVal, _ := types.ListValue(types.StringType, items)
-				data.FloatingIps = listVal
-			}
-		} else {
-			if data.FloatingIps.IsUnknown() {
-				data.FloatingIps = types.ListNull(types.StringType)
-			}
-		}
-		if val, ok := sourceMap["modified"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Modified = types.StringValue(str)
-			}
-		} else {
-			if data.Modified.IsUnknown() {
-				data.Modified = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["network"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Network = types.StringValue(str)
-			}
-		} else {
-			if data.Network.IsUnknown() {
-				data.Network = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["port_security_enabled"]; ok && val != nil {
-			if b, ok := val.(bool); ok {
-				data.PortSecurityEnabled = types.BoolValue(b)
-			}
-		} else {
-			if data.PortSecurityEnabled.IsUnknown() {
-				data.PortSecurityEnabled = types.BoolNull()
-			}
-		}
-		if val, ok := sourceMap["resource_type"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.ResourceType = types.StringValue(str)
-			}
-		} else {
-			if data.ResourceType.IsUnknown() {
-				data.ResourceType = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["security_groups"]; ok && val != nil {
-			// List of objects
-			if arr, ok := val.([]interface{}); ok {
-				items := make([]attr.Value, 0, len(arr))
-				for _, item := range arr {
-					if objMap, ok := item.(map[string]interface{}); ok {
-						attrTypes := map[string]attr.Type{
-							"name": types.StringType,
-							"url":  types.StringType,
-						}
-						attrValues := map[string]attr.Value{
-							"name": func() attr.Value {
-								if v, ok := objMap["name"].(string); ok {
-									return types.StringValue(v)
-								}
-								return types.StringNull()
-							}(),
-							"url": func() attr.Value {
-								if v, ok := objMap["url"].(string); ok {
-									return types.StringValue(v)
-								}
-								return types.StringNull()
-							}(),
-						}
-						objVal, _ := types.ObjectValue(attrTypes, attrValues)
-						items = append(items, objVal)
-					}
-				}
-				listVal, _ := types.ListValue(types.ObjectType{AttrTypes: map[string]attr.Type{
-					"name": types.StringType,
-					"url":  types.StringType,
-				}}, items)
-				data.SecurityGroups = listVal
-			}
-		} else {
-			if data.SecurityGroups.IsUnknown() {
-				data.SecurityGroups = types.ListNull(types.ObjectType{AttrTypes: map[string]attr.Type{
-					"name": types.StringType,
-					"url":  types.StringType,
-				}})
-			}
-		}
-		if val, ok := sourceMap["state"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.State = types.StringValue(str)
-			}
-		} else {
-			if data.State.IsUnknown() {
-				data.State = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["tenant_name"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.TenantName = types.StringValue(str)
-			}
-		} else {
-			if data.TenantName.IsUnknown() {
-				data.TenantName = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["url"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Url = types.StringValue(str)
-			}
-		} else {
-			if data.Url.IsUnknown() {
-				data.Url = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["admin_state_up"]; ok && val != nil {
-			if b, ok := val.(bool); ok {
-				data.AdminStateUp = types.BoolValue(b)
-			}
-		}
-		if val, ok := sourceMap["backend_id"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.BackendId = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["device_id"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.DeviceId = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["device_owner"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.DeviceOwner = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["exclude_subnet_uuids"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.ExcludeSubnetUuids = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["fixed_ips"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.FixedIps = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["has_device_owner"]; ok && val != nil {
-			if b, ok := val.(bool); ok {
-				data.HasDeviceOwner = types.BoolValue(b)
-			}
-		}
-		if val, ok := sourceMap["mac_address"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.MacAddress = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["name"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Name = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["name_exact"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.NameExact = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["network_name"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.NetworkName = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["network_uuid"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.NetworkUuid = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["query"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Query = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["status"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Status = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["tenant"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Tenant = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["tenant_uuid"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.TenantUuid = types.StringValue(str)
-			}
-		}
+		resp.Diagnostics.Append(d.mapResponseToModel(ctx, results[0], &data)...)
 	}
 
 	// Save data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
+}
+
+func (d *OpenstackPortDataSource) mapResponseToModel(ctx context.Context, apiResp OpenstackPortApiResponse, model *OpenstackPortDataSourceModel) diag.Diagnostics {
+	var diags diag.Diagnostics
+
+	model.UUID = types.StringPointerValue(apiResp.UUID)
+	model.AccessUrl = types.StringPointerValue(apiResp.AccessUrl)
+	listValAllowedAddressPairs, listDiagsAllowedAddressPairs := types.ListValueFrom(ctx, openstackport_allowed_address_pairsObjectType, apiResp.AllowedAddressPairs)
+	diags.Append(listDiagsAllowedAddressPairs...)
+	model.AllowedAddressPairs = listValAllowedAddressPairs
+	model.Created = types.StringPointerValue(apiResp.Created)
+	model.Description = types.StringPointerValue(apiResp.Description)
+	model.ErrorMessage = types.StringPointerValue(apiResp.ErrorMessage)
+	model.ErrorTraceback = types.StringPointerValue(apiResp.ErrorTraceback)
+	model.FloatingIps, _ = types.ListValueFrom(ctx, types.StringType, apiResp.FloatingIps)
+	model.Modified = types.StringPointerValue(apiResp.Modified)
+	model.Network = types.StringPointerValue(apiResp.Network)
+	model.PortSecurityEnabled = types.BoolPointerValue(apiResp.PortSecurityEnabled)
+	model.ResourceType = types.StringPointerValue(apiResp.ResourceType)
+	listValSecurityGroups, listDiagsSecurityGroups := types.ListValueFrom(ctx, openstackport_security_groupsObjectType, apiResp.SecurityGroups)
+	diags.Append(listDiagsSecurityGroups...)
+	model.SecurityGroups = listValSecurityGroups
+	model.State = types.StringPointerValue(apiResp.State)
+	model.TenantName = types.StringPointerValue(apiResp.TenantName)
+	model.Url = types.StringPointerValue(apiResp.Url)
+
+	return diags
 }

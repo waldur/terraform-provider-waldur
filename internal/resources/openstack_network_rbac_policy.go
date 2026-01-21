@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
+	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -27,6 +28,20 @@ func NewOpenstackNetworkRbacPolicyResource() resource.Resource {
 // OpenstackNetworkRbacPolicyResource defines the resource implementation.
 type OpenstackNetworkRbacPolicyResource struct {
 	client *client.Client
+}
+
+// OpenstackNetworkRbacPolicyApiResponse is the API response model.
+type OpenstackNetworkRbacPolicyApiResponse struct {
+	UUID *string `json:"uuid"`
+
+	BackendId        *string `json:"backend_id" tfsdk:"backend_id"`
+	Created          *string `json:"created" tfsdk:"created"`
+	Network          *string `json:"network" tfsdk:"network"`
+	NetworkName      *string `json:"network_name" tfsdk:"network_name"`
+	PolicyType       *string `json:"policy_type" tfsdk:"policy_type"`
+	TargetTenant     *string `json:"target_tenant" tfsdk:"target_tenant"`
+	TargetTenantName *string `json:"target_tenant_name" tfsdk:"target_tenant_name"`
+	Url              *string `json:"url" tfsdk:"url"`
 }
 
 // OpenstackNetworkRbacPolicyResourceModel describes the resource data model.
@@ -129,7 +144,8 @@ func (r *OpenstackNetworkRbacPolicyResource) Create(ctx context.Context, req res
 		return
 	}
 
-	// Prepare request body
+	// Call Waldur API to create resource
+	var apiResp OpenstackNetworkRbacPolicyApiResponse // Prepare request body
 	requestBody := map[string]interface{}{}
 	requestBody["network"] = data.Network.ValueString()
 	if !data.PolicyType.IsNull() && !data.PolicyType.IsUnknown() {
@@ -138,10 +154,7 @@ func (r *OpenstackNetworkRbacPolicyResource) Create(ctx context.Context, req res
 		}
 	}
 	requestBody["target_tenant"] = data.TargetTenant.ValueString()
-
-	// Call Waldur API to create resource
-	var result map[string]interface{}
-	err := r.client.Create(ctx, "/api/openstack-network-rbac-policies/", requestBody, &result)
+	err := r.client.Create(ctx, "/api/openstack-network-rbac-policies/", requestBody, &apiResp)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Unable to Create Openstack Network Rbac Policy",
@@ -151,20 +164,26 @@ func (r *OpenstackNetworkRbacPolicyResource) Create(ctx context.Context, req res
 	}
 	// Build composite ID from key fields
 	compositeID := ""
-	if v, ok := result["network"].(string); ok {
-		compositeID += v
-	} else if v, ok := result["network_uuid"].(string); ok {
-		compositeID += v
+	if apiResp.Network != nil {
+		val := *apiResp.Network
+		if strings.Contains(val, "/") {
+			parts := strings.Split(strings.TrimRight(val, "/"), "/")
+			val = parts[len(parts)-1]
+		}
+		compositeID += val
 	}
 	compositeID += "/"
-	if v, ok := result["target_tenant"].(string); ok {
-		compositeID += v
-	} else if v, ok := result["target_tenant_uuid"].(string); ok {
-		compositeID += v
+	if apiResp.TargetTenant != nil {
+		val := *apiResp.TargetTenant
+		if strings.Contains(val, "/") {
+			parts := strings.Split(strings.TrimRight(val, "/"), "/")
+			val = parts[len(parts)-1]
+		}
+		compositeID += val
 	}
 	data.UUID = types.StringValue(compositeID)
 
-	r.updateFromValue(ctx, &data, result)
+	resp.Diagnostics.Append(r.mapResponseToModel(ctx, apiResp, &data)...)
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
@@ -180,7 +199,6 @@ func (r *OpenstackNetworkRbacPolicyResource) Read(ctx context.Context, req resou
 	}
 
 	// Call Waldur API to read resource
-	var result map[string]interface{}
 
 	// If UUID is unknown or contains slashes (composite key), try to look it up using composite keys
 	if data.UUID.IsNull() || data.UUID.IsUnknown() || strings.Contains(data.UUID.ValueString(), "/") {
@@ -227,7 +245,8 @@ func (r *OpenstackNetworkRbacPolicyResource) Read(ctx context.Context, req resou
 
 	retrievePath := strings.Replace("/api/openstack-network-rbac-policies/{uuid}/", "{uuid}", data.UUID.ValueString(), 1)
 
-	err := r.client.GetByUUID(ctx, retrievePath, data.UUID.ValueString(), &result)
+	var apiResp OpenstackNetworkRbacPolicyApiResponse
+	err := r.client.GetByUUID(ctx, retrievePath, data.UUID.ValueString(), &apiResp)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Unable to Read Openstack Network Rbac Policy",
@@ -236,7 +255,7 @@ func (r *OpenstackNetworkRbacPolicyResource) Read(ctx context.Context, req resou
 		return
 	}
 
-	r.updateFromValue(ctx, &data, result)
+	resp.Diagnostics.Append(r.mapResponseToModel(ctx, apiResp, &data)...)
 
 	// Save updated data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
@@ -250,8 +269,6 @@ func (r *OpenstackNetworkRbacPolicyResource) Update(ctx context.Context, req res
 	if resp.Diagnostics.HasError() {
 		return
 	}
-
-	data.UUID = state.UUID
 
 	// Prepare request body
 	requestBody := map[string]interface{}{}
@@ -272,9 +289,9 @@ func (r *OpenstackNetworkRbacPolicyResource) Update(ctx context.Context, req res
 	}
 
 	// Call Waldur API to update resource
-	var result map[string]interface{}
+	var apiResp OpenstackNetworkRbacPolicyApiResponse
 
-	err := r.client.Update(ctx, "/api/openstack-network-rbac-policies/{uuid}/", data.UUID.ValueString(), requestBody, &result)
+	err := r.client.Update(ctx, "/api/openstack-network-rbac-policies/{uuid}/", data.UUID.ValueString(), requestBody, &apiResp)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Unable to Update Openstack Network Rbac Policy",
@@ -284,11 +301,11 @@ func (r *OpenstackNetworkRbacPolicyResource) Update(ctx context.Context, req res
 	}
 
 	// Update UUID from response
-	if uuid, ok := result["uuid"].(string); ok {
-		data.UUID = types.StringValue(uuid)
+	if apiResp.UUID != nil {
+		data.UUID = types.StringPointerValue(apiResp.UUID)
 	}
 
-	r.updateFromValue(ctx, &data, result)
+	resp.Diagnostics.Append(r.mapResponseToModel(ctx, apiResp, &data)...)
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
@@ -327,79 +344,18 @@ func (r *OpenstackNetworkRbacPolicyResource) ImportState(ctx context.Context, re
 	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("target_tenant"), parts[1])...)
 }
 
-func (r *OpenstackNetworkRbacPolicyResource) updateFromValue(ctx context.Context, data *OpenstackNetworkRbacPolicyResourceModel, sourceMap map[string]interface{}) {
-	// Map response fields to data model
-	_ = sourceMap
-	if val, ok := sourceMap["backend_id"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.BackendId = types.StringValue(str)
-		}
-	} else {
-		if data.BackendId.IsUnknown() {
-			data.BackendId = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["created"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Created = types.StringValue(str)
-		}
-	} else {
-		if data.Created.IsUnknown() {
-			data.Created = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["network"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Network = types.StringValue(str)
-		}
-	} else {
-		if data.Network.IsUnknown() {
-			data.Network = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["network_name"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.NetworkName = types.StringValue(str)
-		}
-	} else {
-		if data.NetworkName.IsUnknown() {
-			data.NetworkName = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["policy_type"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.PolicyType = types.StringValue(str)
-		}
-	} else {
-		if data.PolicyType.IsUnknown() {
-			data.PolicyType = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["target_tenant"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.TargetTenant = types.StringValue(str)
-		}
-	} else {
-		if data.TargetTenant.IsUnknown() {
-			data.TargetTenant = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["target_tenant_name"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.TargetTenantName = types.StringValue(str)
-		}
-	} else {
-		if data.TargetTenantName.IsUnknown() {
-			data.TargetTenantName = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["url"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Url = types.StringValue(str)
-		}
-	} else {
-		if data.Url.IsUnknown() {
-			data.Url = types.StringNull()
-		}
-	}
+func (r *OpenstackNetworkRbacPolicyResource) mapResponseToModel(ctx context.Context, apiResp OpenstackNetworkRbacPolicyApiResponse, model *OpenstackNetworkRbacPolicyResourceModel) diag.Diagnostics {
+	var diags diag.Diagnostics
+
+	model.UUID = types.StringPointerValue(apiResp.UUID)
+	model.BackendId = types.StringPointerValue(apiResp.BackendId)
+	model.Created = types.StringPointerValue(apiResp.Created)
+	model.Network = types.StringPointerValue(apiResp.Network)
+	model.NetworkName = types.StringPointerValue(apiResp.NetworkName)
+	model.PolicyType = types.StringPointerValue(apiResp.PolicyType)
+	model.TargetTenant = types.StringPointerValue(apiResp.TargetTenant)
+	model.TargetTenantName = types.StringPointerValue(apiResp.TargetTenantName)
+	model.Url = types.StringPointerValue(apiResp.Url)
+
+	return diags
 }

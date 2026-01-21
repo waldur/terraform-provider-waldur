@@ -6,6 +6,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
+	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -27,6 +28,367 @@ func NewMarketplaceOfferingResource() resource.Resource {
 // MarketplaceOfferingResource defines the resource implementation.
 type MarketplaceOfferingResource struct {
 	client *client.Client
+}
+
+// MarketplaceOfferingApiResponse is the API response model.
+type MarketplaceOfferingApiResponse struct {
+	UUID *string `json:"uuid"`
+
+	AccessUrl                 *string                                         `json:"access_url" tfsdk:"access_url"`
+	BackendId                 *string                                         `json:"backend_id" tfsdk:"backend_id"`
+	Billable                  *bool                                           `json:"billable" tfsdk:"billable"`
+	BillingTypeClassification *string                                         `json:"billing_type_classification" tfsdk:"billing_type_classification"`
+	Category                  *string                                         `json:"category" tfsdk:"category"`
+	CategoryTitle             *string                                         `json:"category_title" tfsdk:"category_title"`
+	CategoryUuid              *string                                         `json:"category_uuid" tfsdk:"category_uuid"`
+	CitationCount             *int64                                          `json:"citation_count" tfsdk:"citation_count"`
+	ComplianceChecklist       *string                                         `json:"compliance_checklist" tfsdk:"compliance_checklist"`
+	Components                []MarketplaceOfferingComponentsResponse         `json:"components" tfsdk:"components"`
+	Country                   *string                                         `json:"country" tfsdk:"country"`
+	Created                   *string                                         `json:"created" tfsdk:"created"`
+	Customer                  *string                                         `json:"customer" tfsdk:"customer"`
+	DataciteDoi               *string                                         `json:"datacite_doi" tfsdk:"datacite_doi"`
+	Description               *string                                         `json:"description" tfsdk:"description"`
+	Endpoints                 []MarketplaceOfferingEndpointsResponse          `json:"endpoints" tfsdk:"endpoints"`
+	Files                     []MarketplaceOfferingFilesResponse              `json:"files" tfsdk:"files"`
+	FullDescription           *string                                         `json:"full_description" tfsdk:"full_description"`
+	GettingStarted            *string                                         `json:"getting_started" tfsdk:"getting_started"`
+	GoogleCalendarIsPublic    *bool                                           `json:"google_calendar_is_public" tfsdk:"google_calendar_is_public"`
+	GoogleCalendarLink        *string                                         `json:"google_calendar_link" tfsdk:"google_calendar_link"`
+	HasComplianceRequirements *bool                                           `json:"has_compliance_requirements" tfsdk:"has_compliance_requirements"`
+	Image                     *string                                         `json:"image" tfsdk:"image"`
+	IntegrationGuide          *string                                         `json:"integration_guide" tfsdk:"integration_guide"`
+	IntegrationStatus         []MarketplaceOfferingIntegrationStatusResponse  `json:"integration_status" tfsdk:"integration_status"`
+	Latitude                  *float64                                        `json:"latitude" tfsdk:"latitude"`
+	Longitude                 *float64                                        `json:"longitude" tfsdk:"longitude"`
+	Options                   *MarketplaceOfferingOptionsResponse             `json:"options" tfsdk:"options"`
+	OrderCount                *int64                                          `json:"order_count" tfsdk:"order_count"`
+	OrganizationGroups        []MarketplaceOfferingOrganizationGroupsResponse `json:"organization_groups" tfsdk:"organization_groups"`
+	ParentDescription         *string                                         `json:"parent_description" tfsdk:"parent_description"`
+	ParentName                *string                                         `json:"parent_name" tfsdk:"parent_name"`
+	ParentUuid                *string                                         `json:"parent_uuid" tfsdk:"parent_uuid"`
+	Partitions                []MarketplaceOfferingPartitionsResponse         `json:"partitions" tfsdk:"partitions"`
+	PausedReason              *string                                         `json:"paused_reason" tfsdk:"paused_reason"`
+	Plans                     []MarketplaceOfferingPlansResponse              `json:"plans" tfsdk:"plans"`
+	PrivacyPolicyLink         *string                                         `json:"privacy_policy_link" tfsdk:"privacy_policy_link"`
+	Quotas                    []MarketplaceOfferingQuotasResponse             `json:"quotas" tfsdk:"quotas"`
+	ResourceOptions           *MarketplaceOfferingResourceOptionsResponse     `json:"resource_options" tfsdk:"resource_options"`
+	Roles                     []MarketplaceOfferingRolesResponse              `json:"roles" tfsdk:"roles"`
+	Scope                     *string                                         `json:"scope" tfsdk:"scope"`
+	ScopeErrorMessage         *string                                         `json:"scope_error_message" tfsdk:"scope_error_message"`
+	ScopeName                 *string                                         `json:"scope_name" tfsdk:"scope_name"`
+	ScopeState                *string                                         `json:"scope_state" tfsdk:"scope_state"`
+	ScopeUuid                 *string                                         `json:"scope_uuid" tfsdk:"scope_uuid"`
+	Screenshots               []MarketplaceOfferingScreenshotsResponse        `json:"screenshots" tfsdk:"screenshots"`
+	Shared                    *bool                                           `json:"shared" tfsdk:"shared"`
+	Slug                      *string                                         `json:"slug" tfsdk:"slug"`
+	SoftwareCatalogs          []MarketplaceOfferingSoftwareCatalogsResponse   `json:"software_catalogs" tfsdk:"software_catalogs"`
+	State                     *string                                         `json:"state" tfsdk:"state"`
+	Thumbnail                 *string                                         `json:"thumbnail" tfsdk:"thumbnail"`
+	TotalCost                 *int64                                          `json:"total_cost" tfsdk:"total_cost"`
+	TotalCostEstimated        *int64                                          `json:"total_cost_estimated" tfsdk:"total_cost_estimated"`
+	TotalCustomers            *int64                                          `json:"total_customers" tfsdk:"total_customers"`
+	Type                      *string                                         `json:"type" tfsdk:"type"`
+	Url                       *string                                         `json:"url" tfsdk:"url"`
+	VendorDetails             *string                                         `json:"vendor_details" tfsdk:"vendor_details"`
+}
+
+type MarketplaceOfferingComponentsResponse struct {
+	ArticleCode        *string `json:"article_code" tfsdk:"article_code"`
+	BillingType        *string `json:"billing_type" tfsdk:"billing_type"`
+	DefaultLimit       *int64  `json:"default_limit" tfsdk:"default_limit"`
+	Description        *string `json:"description" tfsdk:"description"`
+	IsBoolean          *bool   `json:"is_boolean" tfsdk:"is_boolean"`
+	IsPrepaid          *bool   `json:"is_prepaid" tfsdk:"is_prepaid"`
+	LimitAmount        *int64  `json:"limit_amount" tfsdk:"limit_amount"`
+	LimitPeriod        *string `json:"limit_period" tfsdk:"limit_period"`
+	MaxAvailableLimit  *int64  `json:"max_available_limit" tfsdk:"max_available_limit"`
+	MaxPrepaidDuration *int64  `json:"max_prepaid_duration" tfsdk:"max_prepaid_duration"`
+	MaxValue           *int64  `json:"max_value" tfsdk:"max_value"`
+	MeasuredUnit       *string `json:"measured_unit" tfsdk:"measured_unit"`
+	MinPrepaidDuration *int64  `json:"min_prepaid_duration" tfsdk:"min_prepaid_duration"`
+	MinValue           *int64  `json:"min_value" tfsdk:"min_value"`
+	OverageComponent   *string `json:"overage_component" tfsdk:"overage_component"`
+	Type               *string `json:"type" tfsdk:"type"`
+	UnitFactor         *int64  `json:"unit_factor" tfsdk:"unit_factor"`
+}
+
+type MarketplaceOfferingEndpointsResponse struct {
+	Url *string `json:"url" tfsdk:"url"`
+}
+
+type MarketplaceOfferingFilesResponse struct {
+	Created *string `json:"created" tfsdk:"created"`
+	File    *string `json:"file" tfsdk:"file"`
+}
+
+type MarketplaceOfferingIntegrationStatusResponse struct {
+	AgentType            *string `json:"agent_type" tfsdk:"agent_type"`
+	LastRequestTimestamp *string `json:"last_request_timestamp" tfsdk:"last_request_timestamp"`
+	ServiceName          *string `json:"service_name" tfsdk:"service_name"`
+	Status               *string `json:"status" tfsdk:"status"`
+}
+
+type MarketplaceOfferingOptionsResponse struct {
+	Order []string `json:"order" tfsdk:"order"`
+}
+
+type MarketplaceOfferingOrganizationGroupsResponse struct {
+	CustomersCount *int64  `json:"customers_count" tfsdk:"customers_count"`
+	Parent         *string `json:"parent" tfsdk:"parent"`
+	ParentName     *string `json:"parent_name" tfsdk:"parent_name"`
+	ParentUuid     *string `json:"parent_uuid" tfsdk:"parent_uuid"`
+	Url            *string `json:"url" tfsdk:"url"`
+}
+
+type MarketplaceOfferingPartitionsResponse struct {
+	CpuBind          *int64  `json:"cpu_bind" tfsdk:"cpu_bind"`
+	DefCpuPerGpu     *int64  `json:"def_cpu_per_gpu" tfsdk:"def_cpu_per_gpu"`
+	DefMemPerCpu     *int64  `json:"def_mem_per_cpu" tfsdk:"def_mem_per_cpu"`
+	DefMemPerGpu     *int64  `json:"def_mem_per_gpu" tfsdk:"def_mem_per_gpu"`
+	DefMemPerNode    *int64  `json:"def_mem_per_node" tfsdk:"def_mem_per_node"`
+	DefaultTime      *int64  `json:"default_time" tfsdk:"default_time"`
+	ExclusiveTopo    *bool   `json:"exclusive_topo" tfsdk:"exclusive_topo"`
+	ExclusiveUser    *bool   `json:"exclusive_user" tfsdk:"exclusive_user"`
+	GraceTime        *int64  `json:"grace_time" tfsdk:"grace_time"`
+	MaxCpusPerNode   *int64  `json:"max_cpus_per_node" tfsdk:"max_cpus_per_node"`
+	MaxCpusPerSocket *int64  `json:"max_cpus_per_socket" tfsdk:"max_cpus_per_socket"`
+	MaxMemPerCpu     *int64  `json:"max_mem_per_cpu" tfsdk:"max_mem_per_cpu"`
+	MaxMemPerNode    *int64  `json:"max_mem_per_node" tfsdk:"max_mem_per_node"`
+	MaxNodes         *int64  `json:"max_nodes" tfsdk:"max_nodes"`
+	MaxTime          *int64  `json:"max_time" tfsdk:"max_time"`
+	MinNodes         *int64  `json:"min_nodes" tfsdk:"min_nodes"`
+	PartitionName    *string `json:"partition_name" tfsdk:"partition_name"`
+	PriorityTier     *int64  `json:"priority_tier" tfsdk:"priority_tier"`
+	Qos              *string `json:"qos" tfsdk:"qos"`
+	ReqResv          *bool   `json:"req_resv" tfsdk:"req_resv"`
+}
+
+type MarketplaceOfferingPlansResponse struct {
+	Archived    *bool   `json:"archived" tfsdk:"archived"`
+	ArticleCode *string `json:"article_code" tfsdk:"article_code"`
+	BackendId   *string `json:"backend_id" tfsdk:"backend_id"`
+	Description *string `json:"description" tfsdk:"description"`
+	MaxAmount   *int64  `json:"max_amount" tfsdk:"max_amount"`
+	Unit        *string `json:"unit" tfsdk:"unit"`
+	UnitPrice   *string `json:"unit_price" tfsdk:"unit_price"`
+}
+
+type MarketplaceOfferingQuotasResponse struct {
+	Limit *int64 `json:"limit" tfsdk:"limit"`
+	Usage *int64 `json:"usage" tfsdk:"usage"`
+}
+
+type MarketplaceOfferingResourceOptionsResponse struct {
+	Order []string `json:"order" tfsdk:"order"`
+}
+
+type MarketplaceOfferingRolesResponse struct {
+	Url *string `json:"url" tfsdk:"url"`
+}
+
+type MarketplaceOfferingScreenshotsResponse struct {
+	Created     *string `json:"created" tfsdk:"created"`
+	Description *string `json:"description" tfsdk:"description"`
+	Image       *string `json:"image" tfsdk:"image"`
+	Thumbnail   *string `json:"thumbnail" tfsdk:"thumbnail"`
+}
+
+type MarketplaceOfferingSoftwareCatalogsResponse struct {
+	Catalog      *MarketplaceOfferingSoftwareCatalogsCatalogResponse   `json:"catalog" tfsdk:"catalog"`
+	PackageCount *int64                                                `json:"package_count" tfsdk:"package_count"`
+	Partition    *MarketplaceOfferingSoftwareCatalogsPartitionResponse `json:"partition" tfsdk:"partition"`
+}
+
+type MarketplaceOfferingSoftwareCatalogsCatalogResponse struct {
+	Description *string `json:"description" tfsdk:"description"`
+	Version     *string `json:"version" tfsdk:"version"`
+}
+
+type MarketplaceOfferingSoftwareCatalogsPartitionResponse struct {
+	PartitionName *string `json:"partition_name" tfsdk:"partition_name"`
+	PriorityTier  *int64  `json:"priority_tier" tfsdk:"priority_tier"`
+	Qos           *string `json:"qos" tfsdk:"qos"`
+}
+
+var marketplaceoffering_componentsAttrTypes = map[string]attr.Type{
+	"article_code":         types.StringType,
+	"billing_type":         types.StringType,
+	"default_limit":        types.Int64Type,
+	"description":          types.StringType,
+	"is_boolean":           types.BoolType,
+	"is_prepaid":           types.BoolType,
+	"limit_amount":         types.Int64Type,
+	"limit_period":         types.StringType,
+	"max_available_limit":  types.Int64Type,
+	"max_prepaid_duration": types.Int64Type,
+	"max_value":            types.Int64Type,
+	"measured_unit":        types.StringType,
+	"min_prepaid_duration": types.Int64Type,
+	"min_value":            types.Int64Type,
+	"name":                 types.StringType,
+	"overage_component":    types.StringType,
+	"type":                 types.StringType,
+	"unit_factor":          types.Int64Type,
+}
+var marketplaceoffering_componentsObjectType = types.ObjectType{
+	AttrTypes: marketplaceoffering_componentsAttrTypes,
+}
+
+var marketplaceoffering_endpointsAttrTypes = map[string]attr.Type{
+	"name": types.StringType,
+	"url":  types.StringType,
+}
+var marketplaceoffering_endpointsObjectType = types.ObjectType{
+	AttrTypes: marketplaceoffering_endpointsAttrTypes,
+}
+
+var marketplaceoffering_filesAttrTypes = map[string]attr.Type{
+	"created": types.StringType,
+	"file":    types.StringType,
+	"name":    types.StringType,
+}
+var marketplaceoffering_filesObjectType = types.ObjectType{
+	AttrTypes: marketplaceoffering_filesAttrTypes,
+}
+
+var marketplaceoffering_integration_statusAttrTypes = map[string]attr.Type{
+	"agent_type":             types.StringType,
+	"last_request_timestamp": types.StringType,
+	"service_name":           types.StringType,
+	"status":                 types.StringType,
+}
+var marketplaceoffering_integration_statusObjectType = types.ObjectType{
+	AttrTypes: marketplaceoffering_integration_statusAttrTypes,
+}
+
+var marketplaceoffering_optionsAttrTypes = map[string]attr.Type{
+	"order": types.ListType{ElemType: types.StringType},
+}
+var marketplaceoffering_optionsObjectType = types.ObjectType{
+	AttrTypes: marketplaceoffering_optionsAttrTypes,
+}
+
+var marketplaceoffering_organization_groupsAttrTypes = map[string]attr.Type{
+	"customers_count": types.Int64Type,
+	"name":            types.StringType,
+	"parent":          types.StringType,
+	"parent_name":     types.StringType,
+	"parent_uuid":     types.StringType,
+	"url":             types.StringType,
+}
+var marketplaceoffering_organization_groupsObjectType = types.ObjectType{
+	AttrTypes: marketplaceoffering_organization_groupsAttrTypes,
+}
+
+var marketplaceoffering_partitionsAttrTypes = map[string]attr.Type{
+	"cpu_bind":            types.Int64Type,
+	"def_cpu_per_gpu":     types.Int64Type,
+	"def_mem_per_cpu":     types.Int64Type,
+	"def_mem_per_gpu":     types.Int64Type,
+	"def_mem_per_node":    types.Int64Type,
+	"default_time":        types.Int64Type,
+	"exclusive_topo":      types.BoolType,
+	"exclusive_user":      types.BoolType,
+	"grace_time":          types.Int64Type,
+	"max_cpus_per_node":   types.Int64Type,
+	"max_cpus_per_socket": types.Int64Type,
+	"max_mem_per_cpu":     types.Int64Type,
+	"max_mem_per_node":    types.Int64Type,
+	"max_nodes":           types.Int64Type,
+	"max_time":            types.Int64Type,
+	"min_nodes":           types.Int64Type,
+	"partition_name":      types.StringType,
+	"priority_tier":       types.Int64Type,
+	"qos":                 types.StringType,
+	"req_resv":            types.BoolType,
+}
+var marketplaceoffering_partitionsObjectType = types.ObjectType{
+	AttrTypes: marketplaceoffering_partitionsAttrTypes,
+}
+
+var marketplaceoffering_plansAttrTypes = map[string]attr.Type{
+	"archived":     types.BoolType,
+	"article_code": types.StringType,
+	"backend_id":   types.StringType,
+	"description":  types.StringType,
+	"max_amount":   types.Int64Type,
+	"name":         types.StringType,
+	"unit":         types.StringType,
+	"unit_price":   types.StringType,
+}
+var marketplaceoffering_plansObjectType = types.ObjectType{
+	AttrTypes: marketplaceoffering_plansAttrTypes,
+}
+
+var marketplaceoffering_quotasAttrTypes = map[string]attr.Type{
+	"limit": types.Int64Type,
+	"name":  types.StringType,
+	"usage": types.Int64Type,
+}
+var marketplaceoffering_quotasObjectType = types.ObjectType{
+	AttrTypes: marketplaceoffering_quotasAttrTypes,
+}
+
+var marketplaceoffering_resource_optionsAttrTypes = map[string]attr.Type{
+	"order": types.ListType{ElemType: types.StringType},
+}
+var marketplaceoffering_resource_optionsObjectType = types.ObjectType{
+	AttrTypes: marketplaceoffering_resource_optionsAttrTypes,
+}
+
+var marketplaceoffering_rolesAttrTypes = map[string]attr.Type{
+	"name": types.StringType,
+	"url":  types.StringType,
+}
+var marketplaceoffering_rolesObjectType = types.ObjectType{
+	AttrTypes: marketplaceoffering_rolesAttrTypes,
+}
+
+var marketplaceoffering_screenshotsAttrTypes = map[string]attr.Type{
+	"created":     types.StringType,
+	"description": types.StringType,
+	"image":       types.StringType,
+	"name":        types.StringType,
+	"thumbnail":   types.StringType,
+}
+var marketplaceoffering_screenshotsObjectType = types.ObjectType{
+	AttrTypes: marketplaceoffering_screenshotsAttrTypes,
+}
+
+var marketplaceoffering_software_catalogsAttrTypes = map[string]attr.Type{
+	"catalog": types.ObjectType{AttrTypes: map[string]attr.Type{
+		"description": types.StringType,
+		"name":        types.StringType,
+		"version":     types.StringType,
+	}},
+	"package_count": types.Int64Type,
+	"partition": types.ObjectType{AttrTypes: map[string]attr.Type{
+		"partition_name": types.StringType,
+		"priority_tier":  types.Int64Type,
+		"qos":            types.StringType,
+	}},
+}
+var marketplaceoffering_software_catalogsObjectType = types.ObjectType{
+	AttrTypes: marketplaceoffering_software_catalogsAttrTypes,
+}
+
+var marketplaceofferingsoftwarecatalogs_catalogAttrTypes = map[string]attr.Type{
+	"description": types.StringType,
+	"name":        types.StringType,
+	"version":     types.StringType,
+}
+var marketplaceofferingsoftwarecatalogs_catalogObjectType = types.ObjectType{
+	AttrTypes: marketplaceofferingsoftwarecatalogs_catalogAttrTypes,
+}
+
+var marketplaceofferingsoftwarecatalogs_partitionAttrTypes = map[string]attr.Type{
+	"partition_name": types.StringType,
+	"priority_tier":  types.Int64Type,
+	"qos":            types.StringType,
+}
+var marketplaceofferingsoftwarecatalogs_partitionObjectType = types.ObjectType{
+	AttrTypes: marketplaceofferingsoftwarecatalogs_partitionAttrTypes,
 }
 
 // MarketplaceOfferingResourceModel describes the resource data model.
@@ -843,7 +1205,8 @@ func (r *MarketplaceOfferingResource) Create(ctx context.Context, req resource.C
 		return
 	}
 
-	// Prepare request body
+	// Call Waldur API to create resource
+	var apiResp MarketplaceOfferingApiResponse // Prepare request body
 	requestBody := map[string]interface{}{}
 	if !data.AccessUrl.IsNull() && !data.AccessUrl.IsUnknown() {
 		if v := data.AccessUrl.ValueString(); v != "" {
@@ -955,10 +1318,7 @@ func (r *MarketplaceOfferingResource) Create(ctx context.Context, req resource.C
 			requestBody["vendor_details"] = v
 		}
 	}
-
-	// Call Waldur API to create resource
-	var result map[string]interface{}
-	err := r.client.Create(ctx, "/api/marketplace-provider-offerings/", requestBody, &result)
+	err := r.client.Create(ctx, "/api/marketplace-provider-offerings/", requestBody, &apiResp)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Unable to Create Marketplace Offering",
@@ -967,11 +1327,11 @@ func (r *MarketplaceOfferingResource) Create(ctx context.Context, req resource.C
 		return
 	}
 	// Extract UUID from response
-	if uuid, ok := result["uuid"].(string); ok {
-		data.UUID = types.StringValue(uuid)
+	if apiResp.UUID != nil {
+		data.UUID = types.StringPointerValue(apiResp.UUID)
 	}
 
-	r.updateFromValue(ctx, &data, result)
+	resp.Diagnostics.Append(r.mapResponseToModel(ctx, apiResp, &data)...)
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
@@ -987,11 +1347,11 @@ func (r *MarketplaceOfferingResource) Read(ctx context.Context, req resource.Rea
 	}
 
 	// Call Waldur API to read resource
-	var result map[string]interface{}
 
 	retrievePath := strings.Replace("/api/marketplace-provider-offerings/{uuid}/", "{uuid}", data.UUID.ValueString(), 1)
 
-	err := r.client.GetByUUID(ctx, retrievePath, data.UUID.ValueString(), &result)
+	var apiResp MarketplaceOfferingApiResponse
+	err := r.client.GetByUUID(ctx, retrievePath, data.UUID.ValueString(), &apiResp)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Unable to Read Marketplace Offering",
@@ -1000,7 +1360,7 @@ func (r *MarketplaceOfferingResource) Read(ctx context.Context, req resource.Rea
 		return
 	}
 
-	r.updateFromValue(ctx, &data, result)
+	resp.Diagnostics.Append(r.mapResponseToModel(ctx, apiResp, &data)...)
 
 	// Save updated data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
@@ -1033,1395 +1393,101 @@ func (r *MarketplaceOfferingResource) ImportState(ctx context.Context, req resou
 	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }
 
-func (r *MarketplaceOfferingResource) updateFromValue(ctx context.Context, data *MarketplaceOfferingResourceModel, sourceMap map[string]interface{}) {
-	// Map response fields to data model
-	_ = sourceMap
-	if val, ok := sourceMap["access_url"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.AccessUrl = types.StringValue(str)
-		}
+func (r *MarketplaceOfferingResource) mapResponseToModel(ctx context.Context, apiResp MarketplaceOfferingApiResponse, model *MarketplaceOfferingResourceModel) diag.Diagnostics {
+	var diags diag.Diagnostics
+
+	model.UUID = types.StringPointerValue(apiResp.UUID)
+	model.AccessUrl = types.StringPointerValue(apiResp.AccessUrl)
+	model.BackendId = types.StringPointerValue(apiResp.BackendId)
+	model.Billable = types.BoolPointerValue(apiResp.Billable)
+	model.BillingTypeClassification = types.StringPointerValue(apiResp.BillingTypeClassification)
+	model.Category = types.StringPointerValue(apiResp.Category)
+	model.CategoryTitle = types.StringPointerValue(apiResp.CategoryTitle)
+	model.CategoryUuid = types.StringPointerValue(apiResp.CategoryUuid)
+	model.CitationCount = types.Int64PointerValue(apiResp.CitationCount)
+	model.ComplianceChecklist = types.StringPointerValue(apiResp.ComplianceChecklist)
+	listValComponents, listDiagsComponents := types.ListValueFrom(ctx, marketplaceoffering_componentsObjectType, apiResp.Components)
+	diags.Append(listDiagsComponents...)
+	model.Components = listValComponents
+	model.Country = types.StringPointerValue(apiResp.Country)
+	model.Created = types.StringPointerValue(apiResp.Created)
+	model.Customer = types.StringPointerValue(apiResp.Customer)
+	model.DataciteDoi = types.StringPointerValue(apiResp.DataciteDoi)
+	model.Description = types.StringPointerValue(apiResp.Description)
+	listValEndpoints, listDiagsEndpoints := types.ListValueFrom(ctx, marketplaceoffering_endpointsObjectType, apiResp.Endpoints)
+	diags.Append(listDiagsEndpoints...)
+	model.Endpoints = listValEndpoints
+	listValFiles, listDiagsFiles := types.ListValueFrom(ctx, marketplaceoffering_filesObjectType, apiResp.Files)
+	diags.Append(listDiagsFiles...)
+	model.Files = listValFiles
+	model.FullDescription = types.StringPointerValue(apiResp.FullDescription)
+	model.GettingStarted = types.StringPointerValue(apiResp.GettingStarted)
+	model.GoogleCalendarIsPublic = types.BoolPointerValue(apiResp.GoogleCalendarIsPublic)
+	model.GoogleCalendarLink = types.StringPointerValue(apiResp.GoogleCalendarLink)
+	model.HasComplianceRequirements = types.BoolPointerValue(apiResp.HasComplianceRequirements)
+	model.Image = types.StringPointerValue(apiResp.Image)
+	model.IntegrationGuide = types.StringPointerValue(apiResp.IntegrationGuide)
+	listValIntegrationStatus, listDiagsIntegrationStatus := types.ListValueFrom(ctx, marketplaceoffering_integration_statusObjectType, apiResp.IntegrationStatus)
+	diags.Append(listDiagsIntegrationStatus...)
+	model.IntegrationStatus = listValIntegrationStatus
+	model.Latitude = types.Float64PointerValue(apiResp.Latitude)
+	model.Longitude = types.Float64PointerValue(apiResp.Longitude)
+	if apiResp.Options != nil {
+		objValOptions, objDiagsOptions := types.ObjectValueFrom(ctx, marketplaceoffering_optionsAttrTypes, *apiResp.Options)
+		diags.Append(objDiagsOptions...)
+		model.Options = objValOptions
 	} else {
-		if data.AccessUrl.IsUnknown() {
-			data.AccessUrl = types.StringNull()
-		}
+		model.Options = types.ObjectNull(marketplaceoffering_optionsAttrTypes)
 	}
-	if val, ok := sourceMap["backend_id"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.BackendId = types.StringValue(str)
-		}
+	model.OrderCount = types.Int64PointerValue(apiResp.OrderCount)
+	listValOrganizationGroups, listDiagsOrganizationGroups := types.ListValueFrom(ctx, marketplaceoffering_organization_groupsObjectType, apiResp.OrganizationGroups)
+	diags.Append(listDiagsOrganizationGroups...)
+	model.OrganizationGroups = listValOrganizationGroups
+	model.ParentDescription = types.StringPointerValue(apiResp.ParentDescription)
+	model.ParentName = types.StringPointerValue(apiResp.ParentName)
+	model.ParentUuid = types.StringPointerValue(apiResp.ParentUuid)
+	listValPartitions, listDiagsPartitions := types.ListValueFrom(ctx, marketplaceoffering_partitionsObjectType, apiResp.Partitions)
+	diags.Append(listDiagsPartitions...)
+	model.Partitions = listValPartitions
+	model.PausedReason = types.StringPointerValue(apiResp.PausedReason)
+	listValPlans, listDiagsPlans := types.ListValueFrom(ctx, marketplaceoffering_plansObjectType, apiResp.Plans)
+	diags.Append(listDiagsPlans...)
+	model.Plans = listValPlans
+	model.PrivacyPolicyLink = types.StringPointerValue(apiResp.PrivacyPolicyLink)
+	listValQuotas, listDiagsQuotas := types.ListValueFrom(ctx, marketplaceoffering_quotasObjectType, apiResp.Quotas)
+	diags.Append(listDiagsQuotas...)
+	model.Quotas = listValQuotas
+	if apiResp.ResourceOptions != nil {
+		objValResourceOptions, objDiagsResourceOptions := types.ObjectValueFrom(ctx, marketplaceoffering_resource_optionsAttrTypes, *apiResp.ResourceOptions)
+		diags.Append(objDiagsResourceOptions...)
+		model.ResourceOptions = objValResourceOptions
 	} else {
-		if data.BackendId.IsUnknown() {
-			data.BackendId = types.StringNull()
-		}
+		model.ResourceOptions = types.ObjectNull(marketplaceoffering_resource_optionsAttrTypes)
 	}
-	if val, ok := sourceMap["billable"]; ok && val != nil {
-		if b, ok := val.(bool); ok {
-			data.Billable = types.BoolValue(b)
-		}
-	} else {
-		if data.Billable.IsUnknown() {
-			data.Billable = types.BoolNull()
-		}
-	}
-	if val, ok := sourceMap["billing_type_classification"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.BillingTypeClassification = types.StringValue(str)
-		}
-	} else {
-		if data.BillingTypeClassification.IsUnknown() {
-			data.BillingTypeClassification = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["category"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Category = types.StringValue(str)
-		}
-	} else {
-		if data.Category.IsUnknown() {
-			data.Category = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["category_title"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.CategoryTitle = types.StringValue(str)
-		}
-	} else {
-		if data.CategoryTitle.IsUnknown() {
-			data.CategoryTitle = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["category_uuid"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.CategoryUuid = types.StringValue(str)
-		}
-	} else {
-		if data.CategoryUuid.IsUnknown() {
-			data.CategoryUuid = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["citation_count"]; ok && val != nil {
-		if num, ok := val.(float64); ok {
-			data.CitationCount = types.Int64Value(int64(num))
-		}
-	} else {
-		if data.CitationCount.IsUnknown() {
-			data.CitationCount = types.Int64Null()
-		}
-	}
-	if val, ok := sourceMap["compliance_checklist"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.ComplianceChecklist = types.StringValue(str)
-		}
-	} else {
-		if data.ComplianceChecklist.IsUnknown() {
-			data.ComplianceChecklist = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["components"]; ok && val != nil {
-		// List of objects
-		if arr, ok := val.([]interface{}); ok {
-			items := make([]attr.Value, 0, len(arr))
-			for _, item := range arr {
-				if objMap, ok := item.(map[string]interface{}); ok {
-					attrTypes := map[string]attr.Type{
-						"article_code":         types.StringType,
-						"billing_type":         types.StringType,
-						"default_limit":        types.Int64Type,
-						"description":          types.StringType,
-						"is_boolean":           types.BoolType,
-						"is_prepaid":           types.BoolType,
-						"limit_amount":         types.Int64Type,
-						"limit_period":         types.StringType,
-						"max_available_limit":  types.Int64Type,
-						"max_prepaid_duration": types.Int64Type,
-						"max_value":            types.Int64Type,
-						"measured_unit":        types.StringType,
-						"min_prepaid_duration": types.Int64Type,
-						"min_value":            types.Int64Type,
-						"name":                 types.StringType,
-						"overage_component":    types.StringType,
-						"type":                 types.StringType,
-						"unit_factor":          types.Int64Type,
-					}
-					attrValues := map[string]attr.Value{
-						"article_code": func() attr.Value {
-							if v, ok := objMap["article_code"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"billing_type": func() attr.Value {
-							if v, ok := objMap["billing_type"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"default_limit": func() attr.Value {
-							if v, ok := objMap["default_limit"].(float64); ok {
-								return types.Int64Value(int64(v))
-							}
-							return types.Int64Null()
-						}(),
-						"description": func() attr.Value {
-							if v, ok := objMap["description"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"is_boolean": func() attr.Value {
-							if v, ok := objMap["is_boolean"].(bool); ok {
-								return types.BoolValue(v)
-							}
-							return types.BoolNull()
-						}(),
-						"is_prepaid": func() attr.Value {
-							if v, ok := objMap["is_prepaid"].(bool); ok {
-								return types.BoolValue(v)
-							}
-							return types.BoolNull()
-						}(),
-						"limit_amount": func() attr.Value {
-							if v, ok := objMap["limit_amount"].(float64); ok {
-								return types.Int64Value(int64(v))
-							}
-							return types.Int64Null()
-						}(),
-						"limit_period": func() attr.Value {
-							if v, ok := objMap["limit_period"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"max_available_limit": func() attr.Value {
-							if v, ok := objMap["max_available_limit"].(float64); ok {
-								return types.Int64Value(int64(v))
-							}
-							return types.Int64Null()
-						}(),
-						"max_prepaid_duration": func() attr.Value {
-							if v, ok := objMap["max_prepaid_duration"].(float64); ok {
-								return types.Int64Value(int64(v))
-							}
-							return types.Int64Null()
-						}(),
-						"max_value": func() attr.Value {
-							if v, ok := objMap["max_value"].(float64); ok {
-								return types.Int64Value(int64(v))
-							}
-							return types.Int64Null()
-						}(),
-						"measured_unit": func() attr.Value {
-							if v, ok := objMap["measured_unit"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"min_prepaid_duration": func() attr.Value {
-							if v, ok := objMap["min_prepaid_duration"].(float64); ok {
-								return types.Int64Value(int64(v))
-							}
-							return types.Int64Null()
-						}(),
-						"min_value": func() attr.Value {
-							if v, ok := objMap["min_value"].(float64); ok {
-								return types.Int64Value(int64(v))
-							}
-							return types.Int64Null()
-						}(),
-						"name": func() attr.Value {
-							if v, ok := objMap["name"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"overage_component": func() attr.Value {
-							if v, ok := objMap["overage_component"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"type": func() attr.Value {
-							if v, ok := objMap["type"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"unit_factor": func() attr.Value {
-							if v, ok := objMap["unit_factor"].(float64); ok {
-								return types.Int64Value(int64(v))
-							}
-							return types.Int64Null()
-						}(),
-					}
-					objVal, _ := types.ObjectValue(attrTypes, attrValues)
-					items = append(items, objVal)
-				}
-			}
-			listVal, _ := types.ListValue(types.ObjectType{AttrTypes: map[string]attr.Type{
-				"article_code":         types.StringType,
-				"billing_type":         types.StringType,
-				"default_limit":        types.Int64Type,
-				"description":          types.StringType,
-				"is_boolean":           types.BoolType,
-				"is_prepaid":           types.BoolType,
-				"limit_amount":         types.Int64Type,
-				"limit_period":         types.StringType,
-				"max_available_limit":  types.Int64Type,
-				"max_prepaid_duration": types.Int64Type,
-				"max_value":            types.Int64Type,
-				"measured_unit":        types.StringType,
-				"min_prepaid_duration": types.Int64Type,
-				"min_value":            types.Int64Type,
-				"name":                 types.StringType,
-				"overage_component":    types.StringType,
-				"type":                 types.StringType,
-				"unit_factor":          types.Int64Type,
-			}}, items)
-			data.Components = listVal
-		}
-	} else {
-		if data.Components.IsUnknown() {
-			data.Components = types.ListNull(types.ObjectType{AttrTypes: map[string]attr.Type{
-				"article_code":         types.StringType,
-				"billing_type":         types.StringType,
-				"default_limit":        types.Int64Type,
-				"description":          types.StringType,
-				"is_boolean":           types.BoolType,
-				"is_prepaid":           types.BoolType,
-				"limit_amount":         types.Int64Type,
-				"limit_period":         types.StringType,
-				"max_available_limit":  types.Int64Type,
-				"max_prepaid_duration": types.Int64Type,
-				"max_value":            types.Int64Type,
-				"measured_unit":        types.StringType,
-				"min_prepaid_duration": types.Int64Type,
-				"min_value":            types.Int64Type,
-				"name":                 types.StringType,
-				"overage_component":    types.StringType,
-				"type":                 types.StringType,
-				"unit_factor":          types.Int64Type,
-			}})
-		}
-	}
-	if val, ok := sourceMap["country"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Country = types.StringValue(str)
-		}
-	} else {
-		if data.Country.IsUnknown() {
-			data.Country = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["created"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Created = types.StringValue(str)
-		}
-	} else {
-		if data.Created.IsUnknown() {
-			data.Created = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["customer"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Customer = types.StringValue(str)
-		}
-	} else {
-		if data.Customer.IsUnknown() {
-			data.Customer = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["datacite_doi"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.DataciteDoi = types.StringValue(str)
-		}
-	} else {
-		if data.DataciteDoi.IsUnknown() {
-			data.DataciteDoi = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["description"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Description = types.StringValue(str)
-		}
-	} else {
-		if data.Description.IsUnknown() {
-			data.Description = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["endpoints"]; ok && val != nil {
-		// List of objects
-		if arr, ok := val.([]interface{}); ok {
-			items := make([]attr.Value, 0, len(arr))
-			for _, item := range arr {
-				if objMap, ok := item.(map[string]interface{}); ok {
-					attrTypes := map[string]attr.Type{
-						"name": types.StringType,
-						"url":  types.StringType,
-					}
-					attrValues := map[string]attr.Value{
-						"name": func() attr.Value {
-							if v, ok := objMap["name"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"url": func() attr.Value {
-							if v, ok := objMap["url"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-					}
-					objVal, _ := types.ObjectValue(attrTypes, attrValues)
-					items = append(items, objVal)
-				}
-			}
-			listVal, _ := types.ListValue(types.ObjectType{AttrTypes: map[string]attr.Type{
-				"name": types.StringType,
-				"url":  types.StringType,
-			}}, items)
-			data.Endpoints = listVal
-		}
-	} else {
-		if data.Endpoints.IsUnknown() {
-			data.Endpoints = types.ListNull(types.ObjectType{AttrTypes: map[string]attr.Type{
-				"name": types.StringType,
-				"url":  types.StringType,
-			}})
-		}
-	}
-	if val, ok := sourceMap["files"]; ok && val != nil {
-		// List of objects
-		if arr, ok := val.([]interface{}); ok {
-			items := make([]attr.Value, 0, len(arr))
-			for _, item := range arr {
-				if objMap, ok := item.(map[string]interface{}); ok {
-					attrTypes := map[string]attr.Type{
-						"created": types.StringType,
-						"file":    types.StringType,
-						"name":    types.StringType,
-					}
-					attrValues := map[string]attr.Value{
-						"created": func() attr.Value {
-							if v, ok := objMap["created"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"file": func() attr.Value {
-							if v, ok := objMap["file"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"name": func() attr.Value {
-							if v, ok := objMap["name"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-					}
-					objVal, _ := types.ObjectValue(attrTypes, attrValues)
-					items = append(items, objVal)
-				}
-			}
-			listVal, _ := types.ListValue(types.ObjectType{AttrTypes: map[string]attr.Type{
-				"created": types.StringType,
-				"file":    types.StringType,
-				"name":    types.StringType,
-			}}, items)
-			data.Files = listVal
-		}
-	} else {
-		if data.Files.IsUnknown() {
-			data.Files = types.ListNull(types.ObjectType{AttrTypes: map[string]attr.Type{
-				"created": types.StringType,
-				"file":    types.StringType,
-				"name":    types.StringType,
-			}})
-		}
-	}
-	if val, ok := sourceMap["full_description"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.FullDescription = types.StringValue(str)
-		}
-	} else {
-		if data.FullDescription.IsUnknown() {
-			data.FullDescription = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["getting_started"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.GettingStarted = types.StringValue(str)
-		}
-	} else {
-		if data.GettingStarted.IsUnknown() {
-			data.GettingStarted = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["google_calendar_is_public"]; ok && val != nil {
-		if b, ok := val.(bool); ok {
-			data.GoogleCalendarIsPublic = types.BoolValue(b)
-		}
-	} else {
-		if data.GoogleCalendarIsPublic.IsUnknown() {
-			data.GoogleCalendarIsPublic = types.BoolNull()
-		}
-	}
-	if val, ok := sourceMap["google_calendar_link"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.GoogleCalendarLink = types.StringValue(str)
-		}
-	} else {
-		if data.GoogleCalendarLink.IsUnknown() {
-			data.GoogleCalendarLink = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["has_compliance_requirements"]; ok && val != nil {
-		if b, ok := val.(bool); ok {
-			data.HasComplianceRequirements = types.BoolValue(b)
-		}
-	} else {
-		if data.HasComplianceRequirements.IsUnknown() {
-			data.HasComplianceRequirements = types.BoolNull()
-		}
-	}
-	if val, ok := sourceMap["image"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Image = types.StringValue(str)
-		}
-	} else {
-		if data.Image.IsUnknown() {
-			data.Image = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["integration_guide"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.IntegrationGuide = types.StringValue(str)
-		}
-	} else {
-		if data.IntegrationGuide.IsUnknown() {
-			data.IntegrationGuide = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["integration_status"]; ok && val != nil {
-		// List of objects
-		if arr, ok := val.([]interface{}); ok {
-			items := make([]attr.Value, 0, len(arr))
-			for _, item := range arr {
-				if objMap, ok := item.(map[string]interface{}); ok {
-					attrTypes := map[string]attr.Type{
-						"agent_type":             types.StringType,
-						"last_request_timestamp": types.StringType,
-						"service_name":           types.StringType,
-						"status":                 types.StringType,
-					}
-					attrValues := map[string]attr.Value{
-						"agent_type": func() attr.Value {
-							if v, ok := objMap["agent_type"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"last_request_timestamp": func() attr.Value {
-							if v, ok := objMap["last_request_timestamp"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"service_name": func() attr.Value {
-							if v, ok := objMap["service_name"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"status": func() attr.Value {
-							if v, ok := objMap["status"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-					}
-					objVal, _ := types.ObjectValue(attrTypes, attrValues)
-					items = append(items, objVal)
-				}
-			}
-			listVal, _ := types.ListValue(types.ObjectType{AttrTypes: map[string]attr.Type{
-				"agent_type":             types.StringType,
-				"last_request_timestamp": types.StringType,
-				"service_name":           types.StringType,
-				"status":                 types.StringType,
-			}}, items)
-			data.IntegrationStatus = listVal
-		}
-	} else {
-		if data.IntegrationStatus.IsUnknown() {
-			data.IntegrationStatus = types.ListNull(types.ObjectType{AttrTypes: map[string]attr.Type{
-				"agent_type":             types.StringType,
-				"last_request_timestamp": types.StringType,
-				"service_name":           types.StringType,
-				"status":                 types.StringType,
-			}})
-		}
-	}
-	if val, ok := sourceMap["latitude"]; ok && val != nil {
-		if num, ok := val.(float64); ok {
-			data.Latitude = types.Float64Value(num)
-		}
-	} else {
-		if data.Latitude.IsUnknown() {
-			data.Latitude = types.Float64Null()
-		}
-	}
-	if val, ok := sourceMap["longitude"]; ok && val != nil {
-		if num, ok := val.(float64); ok {
-			data.Longitude = types.Float64Value(num)
-		}
-	} else {
-		if data.Longitude.IsUnknown() {
-			data.Longitude = types.Float64Null()
-		}
-	}
-	if val, ok := sourceMap["options"]; ok && val != nil {
-		// Nested object
-		if objMap, ok := val.(map[string]interface{}); ok {
-			_ = objMap // Avoid unused variable if properties are empty
-			attrTypes := map[string]attr.Type{
-				"order": types.ListType{ElemType: types.StringType},
-			}
-			attrValues := map[string]attr.Value{
-				"order": types.ListNull(types.ListType{ElemType: types.StringType}.ElemType),
-			}
-			objVal, _ := types.ObjectValue(attrTypes, attrValues)
-			data.Options = objVal
-		}
-	} else {
-		if data.Options.IsUnknown() {
-			data.Options = types.ObjectNull(map[string]attr.Type{
-				"order": types.ListType{ElemType: types.StringType},
-			})
-		}
-	}
-	if val, ok := sourceMap["order_count"]; ok && val != nil {
-		if num, ok := val.(float64); ok {
-			data.OrderCount = types.Int64Value(int64(num))
-		}
-	} else {
-		if data.OrderCount.IsUnknown() {
-			data.OrderCount = types.Int64Null()
-		}
-	}
-	if val, ok := sourceMap["organization_groups"]; ok && val != nil {
-		// List of objects
-		if arr, ok := val.([]interface{}); ok {
-			items := make([]attr.Value, 0, len(arr))
-			for _, item := range arr {
-				if objMap, ok := item.(map[string]interface{}); ok {
-					attrTypes := map[string]attr.Type{
-						"customers_count": types.Int64Type,
-						"name":            types.StringType,
-						"parent":          types.StringType,
-						"parent_name":     types.StringType,
-						"parent_uuid":     types.StringType,
-						"url":             types.StringType,
-					}
-					attrValues := map[string]attr.Value{
-						"customers_count": func() attr.Value {
-							if v, ok := objMap["customers_count"].(float64); ok {
-								return types.Int64Value(int64(v))
-							}
-							return types.Int64Null()
-						}(),
-						"name": func() attr.Value {
-							if v, ok := objMap["name"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"parent": func() attr.Value {
-							if v, ok := objMap["parent"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"parent_name": func() attr.Value {
-							if v, ok := objMap["parent_name"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"parent_uuid": func() attr.Value {
-							if v, ok := objMap["parent_uuid"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"url": func() attr.Value {
-							if v, ok := objMap["url"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-					}
-					objVal, _ := types.ObjectValue(attrTypes, attrValues)
-					items = append(items, objVal)
-				}
-			}
-			listVal, _ := types.ListValue(types.ObjectType{AttrTypes: map[string]attr.Type{
-				"customers_count": types.Int64Type,
-				"name":            types.StringType,
-				"parent":          types.StringType,
-				"parent_name":     types.StringType,
-				"parent_uuid":     types.StringType,
-				"url":             types.StringType,
-			}}, items)
-			data.OrganizationGroups = listVal
-		}
-	} else {
-		if data.OrganizationGroups.IsUnknown() {
-			data.OrganizationGroups = types.ListNull(types.ObjectType{AttrTypes: map[string]attr.Type{
-				"customers_count": types.Int64Type,
-				"name":            types.StringType,
-				"parent":          types.StringType,
-				"parent_name":     types.StringType,
-				"parent_uuid":     types.StringType,
-				"url":             types.StringType,
-			}})
-		}
-	}
-	if val, ok := sourceMap["parent_description"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.ParentDescription = types.StringValue(str)
-		}
-	} else {
-		if data.ParentDescription.IsUnknown() {
-			data.ParentDescription = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["parent_name"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.ParentName = types.StringValue(str)
-		}
-	} else {
-		if data.ParentName.IsUnknown() {
-			data.ParentName = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["parent_uuid"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.ParentUuid = types.StringValue(str)
-		}
-	} else {
-		if data.ParentUuid.IsUnknown() {
-			data.ParentUuid = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["partitions"]; ok && val != nil {
-		// List of objects
-		if arr, ok := val.([]interface{}); ok {
-			items := make([]attr.Value, 0, len(arr))
-			for _, item := range arr {
-				if objMap, ok := item.(map[string]interface{}); ok {
-					attrTypes := map[string]attr.Type{
-						"cpu_bind":            types.Int64Type,
-						"def_cpu_per_gpu":     types.Int64Type,
-						"def_mem_per_cpu":     types.Int64Type,
-						"def_mem_per_gpu":     types.Int64Type,
-						"def_mem_per_node":    types.Int64Type,
-						"default_time":        types.Int64Type,
-						"exclusive_topo":      types.BoolType,
-						"exclusive_user":      types.BoolType,
-						"grace_time":          types.Int64Type,
-						"max_cpus_per_node":   types.Int64Type,
-						"max_cpus_per_socket": types.Int64Type,
-						"max_mem_per_cpu":     types.Int64Type,
-						"max_mem_per_node":    types.Int64Type,
-						"max_nodes":           types.Int64Type,
-						"max_time":            types.Int64Type,
-						"min_nodes":           types.Int64Type,
-						"partition_name":      types.StringType,
-						"priority_tier":       types.Int64Type,
-						"qos":                 types.StringType,
-						"req_resv":            types.BoolType,
-					}
-					attrValues := map[string]attr.Value{
-						"cpu_bind": func() attr.Value {
-							if v, ok := objMap["cpu_bind"].(float64); ok {
-								return types.Int64Value(int64(v))
-							}
-							return types.Int64Null()
-						}(),
-						"def_cpu_per_gpu": func() attr.Value {
-							if v, ok := objMap["def_cpu_per_gpu"].(float64); ok {
-								return types.Int64Value(int64(v))
-							}
-							return types.Int64Null()
-						}(),
-						"def_mem_per_cpu": func() attr.Value {
-							if v, ok := objMap["def_mem_per_cpu"].(float64); ok {
-								return types.Int64Value(int64(v))
-							}
-							return types.Int64Null()
-						}(),
-						"def_mem_per_gpu": func() attr.Value {
-							if v, ok := objMap["def_mem_per_gpu"].(float64); ok {
-								return types.Int64Value(int64(v))
-							}
-							return types.Int64Null()
-						}(),
-						"def_mem_per_node": func() attr.Value {
-							if v, ok := objMap["def_mem_per_node"].(float64); ok {
-								return types.Int64Value(int64(v))
-							}
-							return types.Int64Null()
-						}(),
-						"default_time": func() attr.Value {
-							if v, ok := objMap["default_time"].(float64); ok {
-								return types.Int64Value(int64(v))
-							}
-							return types.Int64Null()
-						}(),
-						"exclusive_topo": func() attr.Value {
-							if v, ok := objMap["exclusive_topo"].(bool); ok {
-								return types.BoolValue(v)
-							}
-							return types.BoolNull()
-						}(),
-						"exclusive_user": func() attr.Value {
-							if v, ok := objMap["exclusive_user"].(bool); ok {
-								return types.BoolValue(v)
-							}
-							return types.BoolNull()
-						}(),
-						"grace_time": func() attr.Value {
-							if v, ok := objMap["grace_time"].(float64); ok {
-								return types.Int64Value(int64(v))
-							}
-							return types.Int64Null()
-						}(),
-						"max_cpus_per_node": func() attr.Value {
-							if v, ok := objMap["max_cpus_per_node"].(float64); ok {
-								return types.Int64Value(int64(v))
-							}
-							return types.Int64Null()
-						}(),
-						"max_cpus_per_socket": func() attr.Value {
-							if v, ok := objMap["max_cpus_per_socket"].(float64); ok {
-								return types.Int64Value(int64(v))
-							}
-							return types.Int64Null()
-						}(),
-						"max_mem_per_cpu": func() attr.Value {
-							if v, ok := objMap["max_mem_per_cpu"].(float64); ok {
-								return types.Int64Value(int64(v))
-							}
-							return types.Int64Null()
-						}(),
-						"max_mem_per_node": func() attr.Value {
-							if v, ok := objMap["max_mem_per_node"].(float64); ok {
-								return types.Int64Value(int64(v))
-							}
-							return types.Int64Null()
-						}(),
-						"max_nodes": func() attr.Value {
-							if v, ok := objMap["max_nodes"].(float64); ok {
-								return types.Int64Value(int64(v))
-							}
-							return types.Int64Null()
-						}(),
-						"max_time": func() attr.Value {
-							if v, ok := objMap["max_time"].(float64); ok {
-								return types.Int64Value(int64(v))
-							}
-							return types.Int64Null()
-						}(),
-						"min_nodes": func() attr.Value {
-							if v, ok := objMap["min_nodes"].(float64); ok {
-								return types.Int64Value(int64(v))
-							}
-							return types.Int64Null()
-						}(),
-						"partition_name": func() attr.Value {
-							if v, ok := objMap["partition_name"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"priority_tier": func() attr.Value {
-							if v, ok := objMap["priority_tier"].(float64); ok {
-								return types.Int64Value(int64(v))
-							}
-							return types.Int64Null()
-						}(),
-						"qos": func() attr.Value {
-							if v, ok := objMap["qos"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"req_resv": func() attr.Value {
-							if v, ok := objMap["req_resv"].(bool); ok {
-								return types.BoolValue(v)
-							}
-							return types.BoolNull()
-						}(),
-					}
-					objVal, _ := types.ObjectValue(attrTypes, attrValues)
-					items = append(items, objVal)
-				}
-			}
-			listVal, _ := types.ListValue(types.ObjectType{AttrTypes: map[string]attr.Type{
-				"cpu_bind":            types.Int64Type,
-				"def_cpu_per_gpu":     types.Int64Type,
-				"def_mem_per_cpu":     types.Int64Type,
-				"def_mem_per_gpu":     types.Int64Type,
-				"def_mem_per_node":    types.Int64Type,
-				"default_time":        types.Int64Type,
-				"exclusive_topo":      types.BoolType,
-				"exclusive_user":      types.BoolType,
-				"grace_time":          types.Int64Type,
-				"max_cpus_per_node":   types.Int64Type,
-				"max_cpus_per_socket": types.Int64Type,
-				"max_mem_per_cpu":     types.Int64Type,
-				"max_mem_per_node":    types.Int64Type,
-				"max_nodes":           types.Int64Type,
-				"max_time":            types.Int64Type,
-				"min_nodes":           types.Int64Type,
-				"partition_name":      types.StringType,
-				"priority_tier":       types.Int64Type,
-				"qos":                 types.StringType,
-				"req_resv":            types.BoolType,
-			}}, items)
-			data.Partitions = listVal
-		}
-	} else {
-		if data.Partitions.IsUnknown() {
-			data.Partitions = types.ListNull(types.ObjectType{AttrTypes: map[string]attr.Type{
-				"cpu_bind":            types.Int64Type,
-				"def_cpu_per_gpu":     types.Int64Type,
-				"def_mem_per_cpu":     types.Int64Type,
-				"def_mem_per_gpu":     types.Int64Type,
-				"def_mem_per_node":    types.Int64Type,
-				"default_time":        types.Int64Type,
-				"exclusive_topo":      types.BoolType,
-				"exclusive_user":      types.BoolType,
-				"grace_time":          types.Int64Type,
-				"max_cpus_per_node":   types.Int64Type,
-				"max_cpus_per_socket": types.Int64Type,
-				"max_mem_per_cpu":     types.Int64Type,
-				"max_mem_per_node":    types.Int64Type,
-				"max_nodes":           types.Int64Type,
-				"max_time":            types.Int64Type,
-				"min_nodes":           types.Int64Type,
-				"partition_name":      types.StringType,
-				"priority_tier":       types.Int64Type,
-				"qos":                 types.StringType,
-				"req_resv":            types.BoolType,
-			}})
-		}
-	}
-	if val, ok := sourceMap["paused_reason"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.PausedReason = types.StringValue(str)
-		}
-	} else {
-		if data.PausedReason.IsUnknown() {
-			data.PausedReason = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["plans"]; ok && val != nil {
-		// List of objects
-		if arr, ok := val.([]interface{}); ok {
-			items := make([]attr.Value, 0, len(arr))
-			for _, item := range arr {
-				if objMap, ok := item.(map[string]interface{}); ok {
-					attrTypes := map[string]attr.Type{
-						"archived":     types.BoolType,
-						"article_code": types.StringType,
-						"backend_id":   types.StringType,
-						"description":  types.StringType,
-						"max_amount":   types.Int64Type,
-						"name":         types.StringType,
-						"unit":         types.StringType,
-						"unit_price":   types.StringType,
-					}
-					attrValues := map[string]attr.Value{
-						"archived": func() attr.Value {
-							if v, ok := objMap["archived"].(bool); ok {
-								return types.BoolValue(v)
-							}
-							return types.BoolNull()
-						}(),
-						"article_code": func() attr.Value {
-							if v, ok := objMap["article_code"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"backend_id": func() attr.Value {
-							if v, ok := objMap["backend_id"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"description": func() attr.Value {
-							if v, ok := objMap["description"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"max_amount": func() attr.Value {
-							if v, ok := objMap["max_amount"].(float64); ok {
-								return types.Int64Value(int64(v))
-							}
-							return types.Int64Null()
-						}(),
-						"name": func() attr.Value {
-							if v, ok := objMap["name"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"unit": func() attr.Value {
-							if v, ok := objMap["unit"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"unit_price": func() attr.Value {
-							if v, ok := objMap["unit_price"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-					}
-					objVal, _ := types.ObjectValue(attrTypes, attrValues)
-					items = append(items, objVal)
-				}
-			}
-			listVal, _ := types.ListValue(types.ObjectType{AttrTypes: map[string]attr.Type{
-				"archived":     types.BoolType,
-				"article_code": types.StringType,
-				"backend_id":   types.StringType,
-				"description":  types.StringType,
-				"max_amount":   types.Int64Type,
-				"name":         types.StringType,
-				"unit":         types.StringType,
-				"unit_price":   types.StringType,
-			}}, items)
-			data.Plans = listVal
-		}
-	} else {
-		if data.Plans.IsUnknown() {
-			data.Plans = types.ListNull(types.ObjectType{AttrTypes: map[string]attr.Type{
-				"archived":     types.BoolType,
-				"article_code": types.StringType,
-				"backend_id":   types.StringType,
-				"description":  types.StringType,
-				"max_amount":   types.Int64Type,
-				"name":         types.StringType,
-				"unit":         types.StringType,
-				"unit_price":   types.StringType,
-			}})
-		}
-	}
-	if val, ok := sourceMap["privacy_policy_link"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.PrivacyPolicyLink = types.StringValue(str)
-		}
-	} else {
-		if data.PrivacyPolicyLink.IsUnknown() {
-			data.PrivacyPolicyLink = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["quotas"]; ok && val != nil {
-		// List of objects
-		if arr, ok := val.([]interface{}); ok {
-			items := make([]attr.Value, 0, len(arr))
-			for _, item := range arr {
-				if objMap, ok := item.(map[string]interface{}); ok {
-					attrTypes := map[string]attr.Type{
-						"limit": types.Int64Type,
-						"name":  types.StringType,
-						"usage": types.Int64Type,
-					}
-					attrValues := map[string]attr.Value{
-						"limit": func() attr.Value {
-							if v, ok := objMap["limit"].(float64); ok {
-								return types.Int64Value(int64(v))
-							}
-							return types.Int64Null()
-						}(),
-						"name": func() attr.Value {
-							if v, ok := objMap["name"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"usage": func() attr.Value {
-							if v, ok := objMap["usage"].(float64); ok {
-								return types.Int64Value(int64(v))
-							}
-							return types.Int64Null()
-						}(),
-					}
-					objVal, _ := types.ObjectValue(attrTypes, attrValues)
-					items = append(items, objVal)
-				}
-			}
-			listVal, _ := types.ListValue(types.ObjectType{AttrTypes: map[string]attr.Type{
-				"limit": types.Int64Type,
-				"name":  types.StringType,
-				"usage": types.Int64Type,
-			}}, items)
-			data.Quotas = listVal
-		}
-	} else {
-		if data.Quotas.IsUnknown() {
-			data.Quotas = types.ListNull(types.ObjectType{AttrTypes: map[string]attr.Type{
-				"limit": types.Int64Type,
-				"name":  types.StringType,
-				"usage": types.Int64Type,
-			}})
-		}
-	}
-	if val, ok := sourceMap["resource_options"]; ok && val != nil {
-		// Nested object
-		if objMap, ok := val.(map[string]interface{}); ok {
-			_ = objMap // Avoid unused variable if properties are empty
-			attrTypes := map[string]attr.Type{
-				"order": types.ListType{ElemType: types.StringType},
-			}
-			attrValues := map[string]attr.Value{
-				"order": types.ListNull(types.ListType{ElemType: types.StringType}.ElemType),
-			}
-			objVal, _ := types.ObjectValue(attrTypes, attrValues)
-			data.ResourceOptions = objVal
-		}
-	} else {
-		if data.ResourceOptions.IsUnknown() {
-			data.ResourceOptions = types.ObjectNull(map[string]attr.Type{
-				"order": types.ListType{ElemType: types.StringType},
-			})
-		}
-	}
-	if val, ok := sourceMap["roles"]; ok && val != nil {
-		// List of objects
-		if arr, ok := val.([]interface{}); ok {
-			items := make([]attr.Value, 0, len(arr))
-			for _, item := range arr {
-				if objMap, ok := item.(map[string]interface{}); ok {
-					attrTypes := map[string]attr.Type{
-						"name": types.StringType,
-						"url":  types.StringType,
-					}
-					attrValues := map[string]attr.Value{
-						"name": func() attr.Value {
-							if v, ok := objMap["name"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"url": func() attr.Value {
-							if v, ok := objMap["url"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-					}
-					objVal, _ := types.ObjectValue(attrTypes, attrValues)
-					items = append(items, objVal)
-				}
-			}
-			listVal, _ := types.ListValue(types.ObjectType{AttrTypes: map[string]attr.Type{
-				"name": types.StringType,
-				"url":  types.StringType,
-			}}, items)
-			data.Roles = listVal
-		}
-	} else {
-		if data.Roles.IsUnknown() {
-			data.Roles = types.ListNull(types.ObjectType{AttrTypes: map[string]attr.Type{
-				"name": types.StringType,
-				"url":  types.StringType,
-			}})
-		}
-	}
-	if val, ok := sourceMap["scope"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Scope = types.StringValue(str)
-		}
-	} else {
-		if data.Scope.IsUnknown() {
-			data.Scope = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["scope_error_message"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.ScopeErrorMessage = types.StringValue(str)
-		}
-	} else {
-		if data.ScopeErrorMessage.IsUnknown() {
-			data.ScopeErrorMessage = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["scope_name"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.ScopeName = types.StringValue(str)
-		}
-	} else {
-		if data.ScopeName.IsUnknown() {
-			data.ScopeName = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["scope_state"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.ScopeState = types.StringValue(str)
-		}
-	} else {
-		if data.ScopeState.IsUnknown() {
-			data.ScopeState = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["scope_uuid"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.ScopeUuid = types.StringValue(str)
-		}
-	} else {
-		if data.ScopeUuid.IsUnknown() {
-			data.ScopeUuid = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["screenshots"]; ok && val != nil {
-		// List of objects
-		if arr, ok := val.([]interface{}); ok {
-			items := make([]attr.Value, 0, len(arr))
-			for _, item := range arr {
-				if objMap, ok := item.(map[string]interface{}); ok {
-					attrTypes := map[string]attr.Type{
-						"created":     types.StringType,
-						"description": types.StringType,
-						"image":       types.StringType,
-						"name":        types.StringType,
-						"thumbnail":   types.StringType,
-					}
-					attrValues := map[string]attr.Value{
-						"created": func() attr.Value {
-							if v, ok := objMap["created"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"description": func() attr.Value {
-							if v, ok := objMap["description"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"image": func() attr.Value {
-							if v, ok := objMap["image"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"name": func() attr.Value {
-							if v, ok := objMap["name"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"thumbnail": func() attr.Value {
-							if v, ok := objMap["thumbnail"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-					}
-					objVal, _ := types.ObjectValue(attrTypes, attrValues)
-					items = append(items, objVal)
-				}
-			}
-			listVal, _ := types.ListValue(types.ObjectType{AttrTypes: map[string]attr.Type{
-				"created":     types.StringType,
-				"description": types.StringType,
-				"image":       types.StringType,
-				"name":        types.StringType,
-				"thumbnail":   types.StringType,
-			}}, items)
-			data.Screenshots = listVal
-		}
-	} else {
-		if data.Screenshots.IsUnknown() {
-			data.Screenshots = types.ListNull(types.ObjectType{AttrTypes: map[string]attr.Type{
-				"created":     types.StringType,
-				"description": types.StringType,
-				"image":       types.StringType,
-				"name":        types.StringType,
-				"thumbnail":   types.StringType,
-			}})
-		}
-	}
-	if val, ok := sourceMap["shared"]; ok && val != nil {
-		if b, ok := val.(bool); ok {
-			data.Shared = types.BoolValue(b)
-		}
-	} else {
-		if data.Shared.IsUnknown() {
-			data.Shared = types.BoolNull()
-		}
-	}
-	if val, ok := sourceMap["slug"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Slug = types.StringValue(str)
-		}
-	} else {
-		if data.Slug.IsUnknown() {
-			data.Slug = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["software_catalogs"]; ok && val != nil {
-		// List of objects
-		if arr, ok := val.([]interface{}); ok {
-			items := make([]attr.Value, 0, len(arr))
-			for _, item := range arr {
-				if objMap, ok := item.(map[string]interface{}); ok {
-					attrTypes := map[string]attr.Type{
-						"catalog": types.ObjectType{AttrTypes: map[string]attr.Type{
-							"description": types.StringType,
-							"name":        types.StringType,
-							"version":     types.StringType,
-						}},
-						"package_count": types.Int64Type,
-						"partition": types.ObjectType{AttrTypes: map[string]attr.Type{
-							"partition_name": types.StringType,
-							"priority_tier":  types.Int64Type,
-							"qos":            types.StringType,
-						}},
-					}
-					attrValues := map[string]attr.Value{
-						"catalog": types.ObjectNull(types.ObjectType{AttrTypes: map[string]attr.Type{
-							"description": types.StringType,
-							"name":        types.StringType,
-							"version":     types.StringType,
-						}}.AttrTypes),
-						"package_count": func() attr.Value {
-							if v, ok := objMap["package_count"].(float64); ok {
-								return types.Int64Value(int64(v))
-							}
-							return types.Int64Null()
-						}(),
-						"partition": types.ObjectNull(types.ObjectType{AttrTypes: map[string]attr.Type{
-							"partition_name": types.StringType,
-							"priority_tier":  types.Int64Type,
-							"qos":            types.StringType,
-						}}.AttrTypes),
-					}
-					objVal, _ := types.ObjectValue(attrTypes, attrValues)
-					items = append(items, objVal)
-				}
-			}
-			listVal, _ := types.ListValue(types.ObjectType{AttrTypes: map[string]attr.Type{
-				"catalog": types.ObjectType{AttrTypes: map[string]attr.Type{
-					"description": types.StringType,
-					"name":        types.StringType,
-					"version":     types.StringType,
-				}},
-				"package_count": types.Int64Type,
-				"partition": types.ObjectType{AttrTypes: map[string]attr.Type{
-					"partition_name": types.StringType,
-					"priority_tier":  types.Int64Type,
-					"qos":            types.StringType,
-				}},
-			}}, items)
-			data.SoftwareCatalogs = listVal
-		}
-	} else {
-		if data.SoftwareCatalogs.IsUnknown() {
-			data.SoftwareCatalogs = types.ListNull(types.ObjectType{AttrTypes: map[string]attr.Type{
-				"catalog": types.ObjectType{AttrTypes: map[string]attr.Type{
-					"description": types.StringType,
-					"name":        types.StringType,
-					"version":     types.StringType,
-				}},
-				"package_count": types.Int64Type,
-				"partition": types.ObjectType{AttrTypes: map[string]attr.Type{
-					"partition_name": types.StringType,
-					"priority_tier":  types.Int64Type,
-					"qos":            types.StringType,
-				}},
-			}})
-		}
-	}
-	if val, ok := sourceMap["state"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.State = types.StringValue(str)
-		}
-	} else {
-		if data.State.IsUnknown() {
-			data.State = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["thumbnail"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Thumbnail = types.StringValue(str)
-		}
-	} else {
-		if data.Thumbnail.IsUnknown() {
-			data.Thumbnail = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["total_cost"]; ok && val != nil {
-		if num, ok := val.(float64); ok {
-			data.TotalCost = types.Int64Value(int64(num))
-		}
-	} else {
-		if data.TotalCost.IsUnknown() {
-			data.TotalCost = types.Int64Null()
-		}
-	}
-	if val, ok := sourceMap["total_cost_estimated"]; ok && val != nil {
-		if num, ok := val.(float64); ok {
-			data.TotalCostEstimated = types.Int64Value(int64(num))
-		}
-	} else {
-		if data.TotalCostEstimated.IsUnknown() {
-			data.TotalCostEstimated = types.Int64Null()
-		}
-	}
-	if val, ok := sourceMap["total_customers"]; ok && val != nil {
-		if num, ok := val.(float64); ok {
-			data.TotalCustomers = types.Int64Value(int64(num))
-		}
-	} else {
-		if data.TotalCustomers.IsUnknown() {
-			data.TotalCustomers = types.Int64Null()
-		}
-	}
-	if val, ok := sourceMap["type"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Type = types.StringValue(str)
-		}
-	} else {
-		if data.Type.IsUnknown() {
-			data.Type = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["url"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Url = types.StringValue(str)
-		}
-	} else {
-		if data.Url.IsUnknown() {
-			data.Url = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["vendor_details"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.VendorDetails = types.StringValue(str)
-		}
-	} else {
-		if data.VendorDetails.IsUnknown() {
-			data.VendorDetails = types.StringNull()
-		}
-	}
+	listValRoles, listDiagsRoles := types.ListValueFrom(ctx, marketplaceoffering_rolesObjectType, apiResp.Roles)
+	diags.Append(listDiagsRoles...)
+	model.Roles = listValRoles
+	model.Scope = types.StringPointerValue(apiResp.Scope)
+	model.ScopeErrorMessage = types.StringPointerValue(apiResp.ScopeErrorMessage)
+	model.ScopeName = types.StringPointerValue(apiResp.ScopeName)
+	model.ScopeState = types.StringPointerValue(apiResp.ScopeState)
+	model.ScopeUuid = types.StringPointerValue(apiResp.ScopeUuid)
+	listValScreenshots, listDiagsScreenshots := types.ListValueFrom(ctx, marketplaceoffering_screenshotsObjectType, apiResp.Screenshots)
+	diags.Append(listDiagsScreenshots...)
+	model.Screenshots = listValScreenshots
+	model.Shared = types.BoolPointerValue(apiResp.Shared)
+	model.Slug = types.StringPointerValue(apiResp.Slug)
+	listValSoftwareCatalogs, listDiagsSoftwareCatalogs := types.ListValueFrom(ctx, marketplaceoffering_software_catalogsObjectType, apiResp.SoftwareCatalogs)
+	diags.Append(listDiagsSoftwareCatalogs...)
+	model.SoftwareCatalogs = listValSoftwareCatalogs
+	model.State = types.StringPointerValue(apiResp.State)
+	model.Thumbnail = types.StringPointerValue(apiResp.Thumbnail)
+	model.TotalCost = types.Int64PointerValue(apiResp.TotalCost)
+	model.TotalCostEstimated = types.Int64PointerValue(apiResp.TotalCostEstimated)
+	model.TotalCustomers = types.Int64PointerValue(apiResp.TotalCustomers)
+	model.Type = types.StringPointerValue(apiResp.Type)
+	model.Url = types.StringPointerValue(apiResp.Url)
+	model.VendorDetails = types.StringPointerValue(apiResp.VendorDetails)
+
+	return diags
 }

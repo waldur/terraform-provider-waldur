@@ -6,6 +6,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
+	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -27,6 +28,75 @@ func NewOpenstackPortResource() resource.Resource {
 // OpenstackPortResource defines the resource implementation.
 type OpenstackPortResource struct {
 	client *client.Client
+}
+
+// OpenstackPortApiResponse is the API response model.
+type OpenstackPortApiResponse struct {
+	UUID *string `json:"uuid"`
+
+	AccessUrl           *string                                    `json:"access_url" tfsdk:"access_url"`
+	AdminStateUp        *bool                                      `json:"admin_state_up" tfsdk:"admin_state_up"`
+	AllowedAddressPairs []OpenstackPortAllowedAddressPairsResponse `json:"allowed_address_pairs" tfsdk:"allowed_address_pairs"`
+	BackendId           *string                                    `json:"backend_id" tfsdk:"backend_id"`
+	Created             *string                                    `json:"created" tfsdk:"created"`
+	Description         *string                                    `json:"description" tfsdk:"description"`
+	DeviceId            *string                                    `json:"device_id" tfsdk:"device_id"`
+	DeviceOwner         *string                                    `json:"device_owner" tfsdk:"device_owner"`
+	ErrorMessage        *string                                    `json:"error_message" tfsdk:"error_message"`
+	ErrorTraceback      *string                                    `json:"error_traceback" tfsdk:"error_traceback"`
+	FixedIps            []OpenstackPortFixedIpsResponse            `json:"fixed_ips" tfsdk:"fixed_ips"`
+	FloatingIps         []string                                   `json:"floating_ips" tfsdk:"floating_ips"`
+	MacAddress          *string                                    `json:"mac_address" tfsdk:"mac_address"`
+	Modified            *string                                    `json:"modified" tfsdk:"modified"`
+	Network             *string                                    `json:"network" tfsdk:"network"`
+	NetworkName         *string                                    `json:"network_name" tfsdk:"network_name"`
+	NetworkUuid         *string                                    `json:"network_uuid" tfsdk:"network_uuid"`
+	PortSecurityEnabled *bool                                      `json:"port_security_enabled" tfsdk:"port_security_enabled"`
+	ResourceType        *string                                    `json:"resource_type" tfsdk:"resource_type"`
+	SecurityGroups      []OpenstackPortSecurityGroupsResponse      `json:"security_groups" tfsdk:"security_groups"`
+	State               *string                                    `json:"state" tfsdk:"state"`
+	Status              *string                                    `json:"status" tfsdk:"status"`
+	TargetTenant        *string                                    `json:"target_tenant" tfsdk:"target_tenant"`
+	Tenant              *string                                    `json:"tenant" tfsdk:"tenant"`
+	TenantName          *string                                    `json:"tenant_name" tfsdk:"tenant_name"`
+	TenantUuid          *string                                    `json:"tenant_uuid" tfsdk:"tenant_uuid"`
+	Url                 *string                                    `json:"url" tfsdk:"url"`
+}
+
+type OpenstackPortAllowedAddressPairsResponse struct {
+	IpAddress  *string `json:"ip_address" tfsdk:"ip_address"`
+	MacAddress *string `json:"mac_address" tfsdk:"mac_address"`
+}
+
+type OpenstackPortFixedIpsResponse struct {
+	IpAddress *string `json:"ip_address" tfsdk:"ip_address"`
+	SubnetId  *string `json:"subnet_id" tfsdk:"subnet_id"`
+}
+
+type OpenstackPortSecurityGroupsResponse struct {
+}
+
+var openstackport_allowed_address_pairsAttrTypes = map[string]attr.Type{
+	"ip_address":  types.StringType,
+	"mac_address": types.StringType,
+}
+var openstackport_allowed_address_pairsObjectType = types.ObjectType{
+	AttrTypes: openstackport_allowed_address_pairsAttrTypes,
+}
+
+var openstackport_fixed_ipsAttrTypes = map[string]attr.Type{
+	"ip_address": types.StringType,
+	"subnet_id":  types.StringType,
+}
+var openstackport_fixed_ipsObjectType = types.ObjectType{
+	AttrTypes: openstackport_fixed_ipsAttrTypes,
+}
+
+var openstackport_security_groupsAttrTypes = map[string]attr.Type{
+	"name": types.StringType,
+}
+var openstackport_security_groupsObjectType = types.ObjectType{
+	AttrTypes: openstackport_security_groupsAttrTypes,
 }
 
 // OpenstackPortResourceModel describes the resource data model.
@@ -271,7 +341,8 @@ func (r *OpenstackPortResource) Create(ctx context.Context, req resource.CreateR
 		return
 	}
 
-	// Prepare request body
+	// Call Waldur API to create resource
+	var apiResp OpenstackPortApiResponse // Prepare request body
 	requestBody := map[string]interface{}{}
 	if !data.AllowedAddressPairs.IsNull() && !data.AllowedAddressPairs.IsUnknown() {
 		if v := ConvertTFValue(data.AllowedAddressPairs); v != nil {
@@ -312,10 +383,7 @@ func (r *OpenstackPortResource) Create(ctx context.Context, req resource.CreateR
 			requestBody["target_tenant"] = v
 		}
 	}
-
-	// Call Waldur API to create resource
-	var result map[string]interface{}
-	err := r.client.Create(ctx, "/api/openstack-ports/", requestBody, &result)
+	err := r.client.Create(ctx, "/api/openstack-ports/", requestBody, &apiResp)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Unable to Create Openstack Port",
@@ -324,11 +392,11 @@ func (r *OpenstackPortResource) Create(ctx context.Context, req resource.CreateR
 		return
 	}
 	// Extract UUID from response
-	if uuid, ok := result["uuid"].(string); ok {
-		data.UUID = types.StringValue(uuid)
+	if apiResp.UUID != nil {
+		data.UUID = types.StringPointerValue(apiResp.UUID)
 	}
 
-	r.updateFromValue(ctx, &data, result)
+	resp.Diagnostics.Append(r.mapResponseToModel(ctx, apiResp, &data)...)
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
@@ -344,11 +412,11 @@ func (r *OpenstackPortResource) Read(ctx context.Context, req resource.ReadReque
 	}
 
 	// Call Waldur API to read resource
-	var result map[string]interface{}
 
 	retrievePath := strings.Replace("/api/openstack-ports/{uuid}/", "{uuid}", data.UUID.ValueString(), 1)
 
-	err := r.client.GetByUUID(ctx, retrievePath, data.UUID.ValueString(), &result)
+	var apiResp OpenstackPortApiResponse
+	err := r.client.GetByUUID(ctx, retrievePath, data.UUID.ValueString(), &apiResp)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Unable to Read Openstack Port",
@@ -357,7 +425,7 @@ func (r *OpenstackPortResource) Read(ctx context.Context, req resource.ReadReque
 		return
 	}
 
-	r.updateFromValue(ctx, &data, result)
+	resp.Diagnostics.Append(r.mapResponseToModel(ctx, apiResp, &data)...)
 
 	// Save updated data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
@@ -371,8 +439,6 @@ func (r *OpenstackPortResource) Update(ctx context.Context, req resource.UpdateR
 	if resp.Diagnostics.HasError() {
 		return
 	}
-
-	data.UUID = state.UUID
 
 	// Prepare request body
 	requestBody := map[string]interface{}{}
@@ -398,9 +464,9 @@ func (r *OpenstackPortResource) Update(ctx context.Context, req resource.UpdateR
 	}
 
 	// Call Waldur API to update resource
-	var result map[string]interface{}
+	var apiResp OpenstackPortApiResponse
 
-	err := r.client.Update(ctx, "/api/openstack-ports/{uuid}/", data.UUID.ValueString(), requestBody, &result)
+	err := r.client.Update(ctx, "/api/openstack-ports/{uuid}/", data.UUID.ValueString(), requestBody, &apiResp)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Unable to Update Openstack Port",
@@ -410,11 +476,11 @@ func (r *OpenstackPortResource) Update(ctx context.Context, req resource.UpdateR
 	}
 
 	// Update UUID from response
-	if uuid, ok := result["uuid"].(string); ok {
-		data.UUID = types.StringValue(uuid)
+	if apiResp.UUID != nil {
+		data.UUID = types.StringPointerValue(apiResp.UUID)
 	}
 
-	r.updateFromValue(ctx, &data, result)
+	resp.Diagnostics.Append(r.mapResponseToModel(ctx, apiResp, &data)...)
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
@@ -442,359 +508,43 @@ func (r *OpenstackPortResource) ImportState(ctx context.Context, req resource.Im
 	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }
 
-func (r *OpenstackPortResource) updateFromValue(ctx context.Context, data *OpenstackPortResourceModel, sourceMap map[string]interface{}) {
-	// Map response fields to data model
-	_ = sourceMap
-	if val, ok := sourceMap["access_url"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.AccessUrl = types.StringValue(str)
-		}
-	} else {
-		if data.AccessUrl.IsUnknown() {
-			data.AccessUrl = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["admin_state_up"]; ok && val != nil {
-		if b, ok := val.(bool); ok {
-			data.AdminStateUp = types.BoolValue(b)
-		}
-	} else {
-		if data.AdminStateUp.IsUnknown() {
-			data.AdminStateUp = types.BoolNull()
-		}
-	}
-	if val, ok := sourceMap["allowed_address_pairs"]; ok && val != nil {
-		// List of objects
-		if arr, ok := val.([]interface{}); ok {
-			items := make([]attr.Value, 0, len(arr))
-			for _, item := range arr {
-				if objMap, ok := item.(map[string]interface{}); ok {
-					attrTypes := map[string]attr.Type{
-						"ip_address":  types.StringType,
-						"mac_address": types.StringType,
-					}
-					attrValues := map[string]attr.Value{
-						"ip_address": func() attr.Value {
-							if v, ok := objMap["ip_address"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"mac_address": func() attr.Value {
-							if v, ok := objMap["mac_address"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-					}
-					objVal, _ := types.ObjectValue(attrTypes, attrValues)
-					items = append(items, objVal)
-				}
-			}
-			listVal, _ := types.ListValue(types.ObjectType{AttrTypes: map[string]attr.Type{
-				"ip_address":  types.StringType,
-				"mac_address": types.StringType,
-			}}, items)
-			data.AllowedAddressPairs = listVal
-		}
-	} else {
-		if data.AllowedAddressPairs.IsUnknown() {
-			data.AllowedAddressPairs = types.ListNull(types.ObjectType{AttrTypes: map[string]attr.Type{
-				"ip_address":  types.StringType,
-				"mac_address": types.StringType,
-			}})
-		}
-	}
-	if val, ok := sourceMap["backend_id"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.BackendId = types.StringValue(str)
-		}
-	} else {
-		if data.BackendId.IsUnknown() {
-			data.BackendId = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["created"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Created = types.StringValue(str)
-		}
-	} else {
-		if data.Created.IsUnknown() {
-			data.Created = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["description"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Description = types.StringValue(str)
-		}
-	} else {
-		if data.Description.IsUnknown() {
-			data.Description = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["device_id"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.DeviceId = types.StringValue(str)
-		}
-	} else {
-		if data.DeviceId.IsUnknown() {
-			data.DeviceId = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["device_owner"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.DeviceOwner = types.StringValue(str)
-		}
-	} else {
-		if data.DeviceOwner.IsUnknown() {
-			data.DeviceOwner = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["error_message"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.ErrorMessage = types.StringValue(str)
-		}
-	} else {
-		if data.ErrorMessage.IsUnknown() {
-			data.ErrorMessage = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["error_traceback"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.ErrorTraceback = types.StringValue(str)
-		}
-	} else {
-		if data.ErrorTraceback.IsUnknown() {
-			data.ErrorTraceback = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["fixed_ips"]; ok && val != nil {
-		// List of objects
-		if arr, ok := val.([]interface{}); ok {
-			items := make([]attr.Value, 0, len(arr))
-			for _, item := range arr {
-				if objMap, ok := item.(map[string]interface{}); ok {
-					attrTypes := map[string]attr.Type{
-						"ip_address": types.StringType,
-						"subnet_id":  types.StringType,
-					}
-					attrValues := map[string]attr.Value{
-						"ip_address": func() attr.Value {
-							if v, ok := objMap["ip_address"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"subnet_id": func() attr.Value {
-							if v, ok := objMap["subnet_id"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-					}
-					objVal, _ := types.ObjectValue(attrTypes, attrValues)
-					items = append(items, objVal)
-				}
-			}
-			listVal, _ := types.ListValue(types.ObjectType{AttrTypes: map[string]attr.Type{
-				"ip_address": types.StringType,
-				"subnet_id":  types.StringType,
-			}}, items)
-			data.FixedIps = listVal
-		}
-	} else {
-		if data.FixedIps.IsUnknown() {
-			data.FixedIps = types.ListNull(types.ObjectType{AttrTypes: map[string]attr.Type{
-				"ip_address": types.StringType,
-				"subnet_id":  types.StringType,
-			}})
-		}
-	}
-	if val, ok := sourceMap["floating_ips"]; ok && val != nil {
-		// List of strings (or flattened objects)
-		if arr, ok := val.([]interface{}); ok {
-			items := make([]attr.Value, 0, len(arr))
-			for _, item := range arr {
-				if str, ok := item.(string); ok {
-					items = append(items, types.StringValue(str))
-				} else if obj, ok := item.(map[string]interface{}); ok {
-					// Flattening logic: extract URL or UUID
-					if url, ok := obj["url"].(string); ok {
-						parts := strings.Split(strings.TrimRight(url, "/"), "/")
-						uuid := parts[len(parts)-1]
-						items = append(items, types.StringValue(uuid))
-					} else if uuid, ok := obj["uuid"].(string); ok {
-						items = append(items, types.StringValue(uuid))
-					} else if name, ok := obj["name"].(string); ok {
-						items = append(items, types.StringValue(name))
-					}
-				}
-			}
-			listVal, _ := types.ListValue(types.StringType, items)
-			data.FloatingIps = listVal
-		}
-	} else {
-		if data.FloatingIps.IsUnknown() {
-			data.FloatingIps = types.ListNull(types.StringType)
-		}
-	}
-	if val, ok := sourceMap["mac_address"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.MacAddress = types.StringValue(str)
-		}
-	} else {
-		if data.MacAddress.IsUnknown() {
-			data.MacAddress = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["modified"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Modified = types.StringValue(str)
-		}
-	} else {
-		if data.Modified.IsUnknown() {
-			data.Modified = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["network"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Network = types.StringValue(str)
-		}
-	} else {
-		if data.Network.IsUnknown() {
-			data.Network = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["network_name"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.NetworkName = types.StringValue(str)
-		}
-	} else {
-		if data.NetworkName.IsUnknown() {
-			data.NetworkName = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["network_uuid"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.NetworkUuid = types.StringValue(str)
-		}
-	} else {
-		if data.NetworkUuid.IsUnknown() {
-			data.NetworkUuid = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["port_security_enabled"]; ok && val != nil {
-		if b, ok := val.(bool); ok {
-			data.PortSecurityEnabled = types.BoolValue(b)
-		}
-	} else {
-		if data.PortSecurityEnabled.IsUnknown() {
-			data.PortSecurityEnabled = types.BoolNull()
-		}
-	}
-	if val, ok := sourceMap["resource_type"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.ResourceType = types.StringValue(str)
-		}
-	} else {
-		if data.ResourceType.IsUnknown() {
-			data.ResourceType = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["security_groups"]; ok && val != nil {
-		// List of objects
-		if arr, ok := val.([]interface{}); ok {
-			items := make([]attr.Value, 0, len(arr))
-			for _, item := range arr {
-				if objMap, ok := item.(map[string]interface{}); ok {
-					attrTypes := map[string]attr.Type{
-						"name": types.StringType,
-					}
-					attrValues := map[string]attr.Value{
-						"name": func() attr.Value {
-							if v, ok := objMap["name"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-					}
-					objVal, _ := types.ObjectValue(attrTypes, attrValues)
-					items = append(items, objVal)
-				}
-			}
-			listVal, _ := types.ListValue(types.ObjectType{AttrTypes: map[string]attr.Type{
-				"name": types.StringType,
-			}}, items)
-			data.SecurityGroups = listVal
-		}
-	} else {
-		if data.SecurityGroups.IsUnknown() {
-			data.SecurityGroups = types.ListNull(types.ObjectType{AttrTypes: map[string]attr.Type{
-				"name": types.StringType,
-			}})
-		}
-	}
-	if val, ok := sourceMap["state"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.State = types.StringValue(str)
-		}
-	} else {
-		if data.State.IsUnknown() {
-			data.State = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["status"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Status = types.StringValue(str)
-		}
-	} else {
-		if data.Status.IsUnknown() {
-			data.Status = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["target_tenant"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.TargetTenant = types.StringValue(str)
-		}
-	} else {
-		if data.TargetTenant.IsUnknown() {
-			data.TargetTenant = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["tenant"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Tenant = types.StringValue(str)
-		}
-	} else {
-		if data.Tenant.IsUnknown() {
-			data.Tenant = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["tenant_name"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.TenantName = types.StringValue(str)
-		}
-	} else {
-		if data.TenantName.IsUnknown() {
-			data.TenantName = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["tenant_uuid"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.TenantUuid = types.StringValue(str)
-		}
-	} else {
-		if data.TenantUuid.IsUnknown() {
-			data.TenantUuid = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["url"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Url = types.StringValue(str)
-		}
-	} else {
-		if data.Url.IsUnknown() {
-			data.Url = types.StringNull()
-		}
-	}
+func (r *OpenstackPortResource) mapResponseToModel(ctx context.Context, apiResp OpenstackPortApiResponse, model *OpenstackPortResourceModel) diag.Diagnostics {
+	var diags diag.Diagnostics
+
+	model.UUID = types.StringPointerValue(apiResp.UUID)
+	model.AccessUrl = types.StringPointerValue(apiResp.AccessUrl)
+	model.AdminStateUp = types.BoolPointerValue(apiResp.AdminStateUp)
+	listValAllowedAddressPairs, listDiagsAllowedAddressPairs := types.ListValueFrom(ctx, openstackport_allowed_address_pairsObjectType, apiResp.AllowedAddressPairs)
+	diags.Append(listDiagsAllowedAddressPairs...)
+	model.AllowedAddressPairs = listValAllowedAddressPairs
+	model.BackendId = types.StringPointerValue(apiResp.BackendId)
+	model.Created = types.StringPointerValue(apiResp.Created)
+	model.Description = types.StringPointerValue(apiResp.Description)
+	model.DeviceId = types.StringPointerValue(apiResp.DeviceId)
+	model.DeviceOwner = types.StringPointerValue(apiResp.DeviceOwner)
+	model.ErrorMessage = types.StringPointerValue(apiResp.ErrorMessage)
+	model.ErrorTraceback = types.StringPointerValue(apiResp.ErrorTraceback)
+	listValFixedIps, listDiagsFixedIps := types.ListValueFrom(ctx, openstackport_fixed_ipsObjectType, apiResp.FixedIps)
+	diags.Append(listDiagsFixedIps...)
+	model.FixedIps = listValFixedIps
+	model.FloatingIps, _ = types.ListValueFrom(ctx, types.StringType, apiResp.FloatingIps)
+	model.MacAddress = types.StringPointerValue(apiResp.MacAddress)
+	model.Modified = types.StringPointerValue(apiResp.Modified)
+	model.Network = types.StringPointerValue(apiResp.Network)
+	model.NetworkName = types.StringPointerValue(apiResp.NetworkName)
+	model.NetworkUuid = types.StringPointerValue(apiResp.NetworkUuid)
+	model.PortSecurityEnabled = types.BoolPointerValue(apiResp.PortSecurityEnabled)
+	model.ResourceType = types.StringPointerValue(apiResp.ResourceType)
+	listValSecurityGroups, listDiagsSecurityGroups := types.ListValueFrom(ctx, openstackport_security_groupsObjectType, apiResp.SecurityGroups)
+	diags.Append(listDiagsSecurityGroups...)
+	model.SecurityGroups = listValSecurityGroups
+	model.State = types.StringPointerValue(apiResp.State)
+	model.Status = types.StringPointerValue(apiResp.Status)
+	model.TargetTenant = types.StringPointerValue(apiResp.TargetTenant)
+	model.Tenant = types.StringPointerValue(apiResp.Tenant)
+	model.TenantName = types.StringPointerValue(apiResp.TenantName)
+	model.TenantUuid = types.StringPointerValue(apiResp.TenantUuid)
+	model.Url = types.StringPointerValue(apiResp.Url)
+
+	return diags
 }

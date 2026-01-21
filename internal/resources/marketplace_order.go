@@ -2,11 +2,11 @@ package resources
 
 import (
 	"context"
-	"fmt"
 	"strings"
 
 	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
+	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -28,6 +28,87 @@ func NewMarketplaceOrderResource() resource.Resource {
 // MarketplaceOrderResource defines the resource implementation.
 type MarketplaceOrderResource struct {
 	client *client.Client
+}
+
+// MarketplaceOrderApiResponse is the API response model.
+type MarketplaceOrderApiResponse struct {
+	UUID *string `json:"uuid"`
+
+	AcceptingTermsOfService    *bool                  `json:"accepting_terms_of_service" tfsdk:"accepting_terms_of_service"`
+	ActivationPrice            *float64               `json:"activation_price" tfsdk:"activation_price"`
+	Attachment                 *string                `json:"attachment" tfsdk:"attachment"`
+	Attributes                 map[string]interface{} `json:"attributes" tfsdk:"attributes"`
+	BackendId                  *string                `json:"backend_id" tfsdk:"backend_id"`
+	CallbackUrl                *string                `json:"callback_url" tfsdk:"callback_url"`
+	CanTerminate               *bool                  `json:"can_terminate" tfsdk:"can_terminate"`
+	CategoryIcon               *string                `json:"category_icon" tfsdk:"category_icon"`
+	CategoryTitle              *string                `json:"category_title" tfsdk:"category_title"`
+	CategoryUuid               *string                `json:"category_uuid" tfsdk:"category_uuid"`
+	CompletedAt                *string                `json:"completed_at" tfsdk:"completed_at"`
+	ConsumerReviewedAt         *string                `json:"consumer_reviewed_at" tfsdk:"consumer_reviewed_at"`
+	ConsumerReviewedBy         *string                `json:"consumer_reviewed_by" tfsdk:"consumer_reviewed_by"`
+	ConsumerReviewedByFullName *string                `json:"consumer_reviewed_by_full_name" tfsdk:"consumer_reviewed_by_full_name"`
+	ConsumerReviewedByUsername *string                `json:"consumer_reviewed_by_username" tfsdk:"consumer_reviewed_by_username"`
+	Cost                       *string                `json:"cost" tfsdk:"cost"`
+	Created                    *string                `json:"created" tfsdk:"created"`
+	CreatedByCivilNumber       *string                `json:"created_by_civil_number" tfsdk:"created_by_civil_number"`
+	CreatedByFullName          *string                `json:"created_by_full_name" tfsdk:"created_by_full_name"`
+	CreatedByUsername          *string                `json:"created_by_username" tfsdk:"created_by_username"`
+	CustomerSlug               *string                `json:"customer_slug" tfsdk:"customer_slug"`
+	ErrorMessage               *string                `json:"error_message" tfsdk:"error_message"`
+	ErrorTraceback             *string                `json:"error_traceback" tfsdk:"error_traceback"`
+	FixedPrice                 *float64               `json:"fixed_price" tfsdk:"fixed_price"`
+	Modified                   *string                `json:"modified" tfsdk:"modified"`
+	NewCostEstimate            *string                `json:"new_cost_estimate" tfsdk:"new_cost_estimate"`
+	NewPlanName                *string                `json:"new_plan_name" tfsdk:"new_plan_name"`
+	NewPlanUuid                *string                `json:"new_plan_uuid" tfsdk:"new_plan_uuid"`
+	Offering                   *string                `json:"offering" tfsdk:"offering"`
+	OfferingBillable           *bool                  `json:"offering_billable" tfsdk:"offering_billable"`
+	OfferingDescription        *string                `json:"offering_description" tfsdk:"offering_description"`
+	OfferingImage              *string                `json:"offering_image" tfsdk:"offering_image"`
+	OfferingName               *string                `json:"offering_name" tfsdk:"offering_name"`
+	OfferingShared             *bool                  `json:"offering_shared" tfsdk:"offering_shared"`
+	OfferingThumbnail          *string                `json:"offering_thumbnail" tfsdk:"offering_thumbnail"`
+	OfferingType               *string                `json:"offering_type" tfsdk:"offering_type"`
+	OfferingUuid               *string                `json:"offering_uuid" tfsdk:"offering_uuid"`
+	OldCostEstimate            *float64               `json:"old_cost_estimate" tfsdk:"old_cost_estimate"`
+	OldPlanName                *string                `json:"old_plan_name" tfsdk:"old_plan_name"`
+	OldPlanUuid                *string                `json:"old_plan_uuid" tfsdk:"old_plan_uuid"`
+	OrderSubtype               *string                `json:"order_subtype" tfsdk:"order_subtype"`
+	Output                     *string                `json:"output" tfsdk:"output"`
+	Plan                       *string                `json:"plan" tfsdk:"plan"`
+	PlanDescription            *string                `json:"plan_description" tfsdk:"plan_description"`
+	PlanName                   *string                `json:"plan_name" tfsdk:"plan_name"`
+	PlanUnit                   *string                `json:"plan_unit" tfsdk:"plan_unit"`
+	PlanUuid                   *string                `json:"plan_uuid" tfsdk:"plan_uuid"`
+	Project                    *string                `json:"project" tfsdk:"project"`
+	ProjectDescription         *string                `json:"project_description" tfsdk:"project_description"`
+	ProjectSlug                *string                `json:"project_slug" tfsdk:"project_slug"`
+	ProviderName               *string                `json:"provider_name" tfsdk:"provider_name"`
+	ProviderReviewedAt         *string                `json:"provider_reviewed_at" tfsdk:"provider_reviewed_at"`
+	ProviderReviewedBy         *string                `json:"provider_reviewed_by" tfsdk:"provider_reviewed_by"`
+	ProviderReviewedByFullName *string                `json:"provider_reviewed_by_full_name" tfsdk:"provider_reviewed_by_full_name"`
+	ProviderReviewedByUsername *string                `json:"provider_reviewed_by_username" tfsdk:"provider_reviewed_by_username"`
+	ProviderSlug               *string                `json:"provider_slug" tfsdk:"provider_slug"`
+	ProviderUuid               *string                `json:"provider_uuid" tfsdk:"provider_uuid"`
+	RequestComment             *string                `json:"request_comment" tfsdk:"request_comment"`
+	ResourceName               *string                `json:"resource_name" tfsdk:"resource_name"`
+	ResourceType               *string                `json:"resource_type" tfsdk:"resource_type"`
+	ResourceUuid               *string                `json:"resource_uuid" tfsdk:"resource_uuid"`
+	Slug                       *string                `json:"slug" tfsdk:"slug"`
+	StartDate                  *string                `json:"start_date" tfsdk:"start_date"`
+	State                      *string                `json:"state" tfsdk:"state"`
+	TerminationComment         *string                `json:"termination_comment" tfsdk:"termination_comment"`
+	Type                       *string                `json:"type" tfsdk:"type"`
+	Url                        *string                `json:"url" tfsdk:"url"`
+}
+
+type MarketplaceOrderAttributesResponse struct {
+}
+
+var marketplaceorder_attributesAttrTypes = map[string]attr.Type{}
+var marketplaceorder_attributesObjectType = types.ObjectType{
+	AttrTypes: marketplaceorder_attributesAttrTypes,
 }
 
 // MarketplaceOrderResourceModel describes the resource data model.
@@ -439,7 +520,8 @@ func (r *MarketplaceOrderResource) Create(ctx context.Context, req resource.Crea
 		return
 	}
 
-	// Prepare request body
+	// Call Waldur API to create resource
+	var apiResp MarketplaceOrderApiResponse // Prepare request body
 	requestBody := map[string]interface{}{}
 	if !data.AcceptingTermsOfService.IsNull() && !data.AcceptingTermsOfService.IsUnknown() {
 		requestBody["accepting_terms_of_service"] = data.AcceptingTermsOfService.ValueBool()
@@ -479,10 +561,7 @@ func (r *MarketplaceOrderResource) Create(ctx context.Context, req resource.Crea
 			requestBody["type"] = v
 		}
 	}
-
-	// Call Waldur API to create resource
-	var result map[string]interface{}
-	err := r.client.Create(ctx, "/api/marketplace-orders/", requestBody, &result)
+	err := r.client.Create(ctx, "/api/marketplace-orders/", requestBody, &apiResp)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Unable to Create Marketplace Order",
@@ -491,11 +570,11 @@ func (r *MarketplaceOrderResource) Create(ctx context.Context, req resource.Crea
 		return
 	}
 	// Extract UUID from response
-	if uuid, ok := result["uuid"].(string); ok {
-		data.UUID = types.StringValue(uuid)
+	if apiResp.UUID != nil {
+		data.UUID = types.StringPointerValue(apiResp.UUID)
 	}
 
-	r.updateFromValue(ctx, &data, result)
+	resp.Diagnostics.Append(r.mapResponseToModel(ctx, apiResp, &data)...)
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
@@ -511,11 +590,11 @@ func (r *MarketplaceOrderResource) Read(ctx context.Context, req resource.ReadRe
 	}
 
 	// Call Waldur API to read resource
-	var result map[string]interface{}
 
 	retrievePath := strings.Replace("/api/marketplace-orders/{uuid}/", "{uuid}", data.UUID.ValueString(), 1)
 
-	err := r.client.GetByUUID(ctx, retrievePath, data.UUID.ValueString(), &result)
+	var apiResp MarketplaceOrderApiResponse
+	err := r.client.GetByUUID(ctx, retrievePath, data.UUID.ValueString(), &apiResp)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Unable to Read Marketplace Order",
@@ -524,7 +603,7 @@ func (r *MarketplaceOrderResource) Read(ctx context.Context, req resource.ReadRe
 		return
 	}
 
-	r.updateFromValue(ctx, &data, result)
+	resp.Diagnostics.Append(r.mapResponseToModel(ctx, apiResp, &data)...)
 
 	// Save updated data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
@@ -557,633 +636,93 @@ func (r *MarketplaceOrderResource) ImportState(ctx context.Context, req resource
 	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }
 
-func (r *MarketplaceOrderResource) updateFromValue(ctx context.Context, data *MarketplaceOrderResourceModel, sourceMap map[string]interface{}) {
-	// Map response fields to data model
-	_ = sourceMap
-	if val, ok := sourceMap["accepting_terms_of_service"]; ok && val != nil {
-		if b, ok := val.(bool); ok {
-			data.AcceptingTermsOfService = types.BoolValue(b)
-		}
-	} else {
-		if data.AcceptingTermsOfService.IsUnknown() {
-			data.AcceptingTermsOfService = types.BoolNull()
-		}
-	}
-	if val, ok := sourceMap["activation_price"]; ok && val != nil {
-		if num, ok := val.(float64); ok {
-			data.ActivationPrice = types.Float64Value(num)
-		}
-	} else {
-		if data.ActivationPrice.IsUnknown() {
-			data.ActivationPrice = types.Float64Null()
-		}
-	}
-	if val, ok := sourceMap["attachment"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Attachment = types.StringValue(str)
-		}
-	} else {
-		if data.Attachment.IsUnknown() {
-			data.Attachment = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["attributes"]; ok && val != nil {
-		// Map of strings
-		if val, ok := sourceMap["attributes"]; ok && val != nil {
-			if objMap, ok := val.(map[string]interface{}); ok {
-				items := make(map[string]attr.Value)
-				for k, v := range objMap {
-					if str, ok := v.(string); ok {
-						items[k] = types.StringValue(str)
-					} else if num, ok := v.(float64); ok {
-						items[k] = types.StringValue(fmt.Sprintf("%v", num))
-					} else if b, ok := v.(bool); ok {
-						items[k] = types.StringValue(fmt.Sprintf("%v", b))
-					}
-				}
-				data.Attributes, _ = types.MapValue(types.StringType, items)
-			}
-		}
-	} else {
-		if data.Attributes.IsUnknown() {
-			data.Attributes = types.MapNull(types.StringType)
-		}
-	}
-	if val, ok := sourceMap["backend_id"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.BackendId = types.StringValue(str)
-		}
-	} else {
-		if data.BackendId.IsUnknown() {
-			data.BackendId = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["callback_url"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.CallbackUrl = types.StringValue(str)
-		}
-	} else {
-		if data.CallbackUrl.IsUnknown() {
-			data.CallbackUrl = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["can_terminate"]; ok && val != nil {
-		if b, ok := val.(bool); ok {
-			data.CanTerminate = types.BoolValue(b)
-		}
-	} else {
-		if data.CanTerminate.IsUnknown() {
-			data.CanTerminate = types.BoolNull()
-		}
-	}
-	if val, ok := sourceMap["category_icon"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.CategoryIcon = types.StringValue(str)
-		}
-	} else {
-		if data.CategoryIcon.IsUnknown() {
-			data.CategoryIcon = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["category_title"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.CategoryTitle = types.StringValue(str)
-		}
-	} else {
-		if data.CategoryTitle.IsUnknown() {
-			data.CategoryTitle = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["category_uuid"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.CategoryUuid = types.StringValue(str)
-		}
-	} else {
-		if data.CategoryUuid.IsUnknown() {
-			data.CategoryUuid = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["completed_at"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.CompletedAt = types.StringValue(str)
-		}
-	} else {
-		if data.CompletedAt.IsUnknown() {
-			data.CompletedAt = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["consumer_reviewed_at"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.ConsumerReviewedAt = types.StringValue(str)
-		}
-	} else {
-		if data.ConsumerReviewedAt.IsUnknown() {
-			data.ConsumerReviewedAt = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["consumer_reviewed_by"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.ConsumerReviewedBy = types.StringValue(str)
-		}
-	} else {
-		if data.ConsumerReviewedBy.IsUnknown() {
-			data.ConsumerReviewedBy = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["consumer_reviewed_by_full_name"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.ConsumerReviewedByFullName = types.StringValue(str)
-		}
-	} else {
-		if data.ConsumerReviewedByFullName.IsUnknown() {
-			data.ConsumerReviewedByFullName = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["consumer_reviewed_by_username"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.ConsumerReviewedByUsername = types.StringValue(str)
-		}
-	} else {
-		if data.ConsumerReviewedByUsername.IsUnknown() {
-			data.ConsumerReviewedByUsername = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["cost"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Cost = types.StringValue(str)
-		}
-	} else {
-		if data.Cost.IsUnknown() {
-			data.Cost = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["created"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Created = types.StringValue(str)
-		}
-	} else {
-		if data.Created.IsUnknown() {
-			data.Created = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["created_by_civil_number"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.CreatedByCivilNumber = types.StringValue(str)
-		}
-	} else {
-		if data.CreatedByCivilNumber.IsUnknown() {
-			data.CreatedByCivilNumber = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["created_by_full_name"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.CreatedByFullName = types.StringValue(str)
-		}
-	} else {
-		if data.CreatedByFullName.IsUnknown() {
-			data.CreatedByFullName = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["created_by_username"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.CreatedByUsername = types.StringValue(str)
-		}
-	} else {
-		if data.CreatedByUsername.IsUnknown() {
-			data.CreatedByUsername = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["customer_slug"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.CustomerSlug = types.StringValue(str)
-		}
-	} else {
-		if data.CustomerSlug.IsUnknown() {
-			data.CustomerSlug = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["error_message"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.ErrorMessage = types.StringValue(str)
-		}
-	} else {
-		if data.ErrorMessage.IsUnknown() {
-			data.ErrorMessage = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["error_traceback"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.ErrorTraceback = types.StringValue(str)
-		}
-	} else {
-		if data.ErrorTraceback.IsUnknown() {
-			data.ErrorTraceback = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["fixed_price"]; ok && val != nil {
-		if num, ok := val.(float64); ok {
-			data.FixedPrice = types.Float64Value(num)
-		}
-	} else {
-		if data.FixedPrice.IsUnknown() {
-			data.FixedPrice = types.Float64Null()
-		}
-	}
-	if val, ok := sourceMap["modified"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Modified = types.StringValue(str)
-		}
-	} else {
-		if data.Modified.IsUnknown() {
-			data.Modified = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["new_cost_estimate"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.NewCostEstimate = types.StringValue(str)
-		}
-	} else {
-		if data.NewCostEstimate.IsUnknown() {
-			data.NewCostEstimate = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["new_plan_name"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.NewPlanName = types.StringValue(str)
-		}
-	} else {
-		if data.NewPlanName.IsUnknown() {
-			data.NewPlanName = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["new_plan_uuid"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.NewPlanUuid = types.StringValue(str)
-		}
-	} else {
-		if data.NewPlanUuid.IsUnknown() {
-			data.NewPlanUuid = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["offering"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			// Normalize URL to UUID
-			parts := strings.Split(strings.TrimRight(str, "/"), "/")
-			uuid := parts[len(parts)-1]
-			data.Offering = types.StringValue(uuid)
-		} else {
-			data.Offering = types.StringNull()
-		}
-	} else {
-		if data.Offering.IsUnknown() {
-			data.Offering = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["offering_billable"]; ok && val != nil {
-		if b, ok := val.(bool); ok {
-			data.OfferingBillable = types.BoolValue(b)
-		}
-	} else {
-		if data.OfferingBillable.IsUnknown() {
-			data.OfferingBillable = types.BoolNull()
-		}
-	}
-	if val, ok := sourceMap["offering_description"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.OfferingDescription = types.StringValue(str)
-		}
-	} else {
-		if data.OfferingDescription.IsUnknown() {
-			data.OfferingDescription = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["offering_image"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.OfferingImage = types.StringValue(str)
-		}
-	} else {
-		if data.OfferingImage.IsUnknown() {
-			data.OfferingImage = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["offering_name"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.OfferingName = types.StringValue(str)
-		}
-	} else {
-		if data.OfferingName.IsUnknown() {
-			data.OfferingName = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["offering_shared"]; ok && val != nil {
-		if b, ok := val.(bool); ok {
-			data.OfferingShared = types.BoolValue(b)
-		}
-	} else {
-		if data.OfferingShared.IsUnknown() {
-			data.OfferingShared = types.BoolNull()
-		}
-	}
-	if val, ok := sourceMap["offering_thumbnail"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.OfferingThumbnail = types.StringValue(str)
-		}
-	} else {
-		if data.OfferingThumbnail.IsUnknown() {
-			data.OfferingThumbnail = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["offering_type"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.OfferingType = types.StringValue(str)
-		}
-	} else {
-		if data.OfferingType.IsUnknown() {
-			data.OfferingType = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["offering_uuid"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.OfferingUuid = types.StringValue(str)
-		}
-	} else {
-		if data.OfferingUuid.IsUnknown() {
-			data.OfferingUuid = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["old_cost_estimate"]; ok && val != nil {
-		if num, ok := val.(float64); ok {
-			data.OldCostEstimate = types.Float64Value(num)
-		}
-	} else {
-		if data.OldCostEstimate.IsUnknown() {
-			data.OldCostEstimate = types.Float64Null()
-		}
-	}
-	if val, ok := sourceMap["old_plan_name"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.OldPlanName = types.StringValue(str)
-		}
-	} else {
-		if data.OldPlanName.IsUnknown() {
-			data.OldPlanName = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["old_plan_uuid"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.OldPlanUuid = types.StringValue(str)
-		}
-	} else {
-		if data.OldPlanUuid.IsUnknown() {
-			data.OldPlanUuid = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["order_subtype"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.OrderSubtype = types.StringValue(str)
-		}
-	} else {
-		if data.OrderSubtype.IsUnknown() {
-			data.OrderSubtype = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["output"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Output = types.StringValue(str)
-		}
-	} else {
-		if data.Output.IsUnknown() {
-			data.Output = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["plan"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Plan = types.StringValue(str)
-		}
-	} else {
-		if data.Plan.IsUnknown() {
-			data.Plan = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["plan_description"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.PlanDescription = types.StringValue(str)
-		}
-	} else {
-		if data.PlanDescription.IsUnknown() {
-			data.PlanDescription = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["plan_name"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.PlanName = types.StringValue(str)
-		}
-	} else {
-		if data.PlanName.IsUnknown() {
-			data.PlanName = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["plan_unit"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.PlanUnit = types.StringValue(str)
-		}
-	} else {
-		if data.PlanUnit.IsUnknown() {
-			data.PlanUnit = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["plan_uuid"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.PlanUuid = types.StringValue(str)
-		}
-	} else {
-		if data.PlanUuid.IsUnknown() {
-			data.PlanUuid = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["project"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			// Normalize URL to UUID
-			parts := strings.Split(strings.TrimRight(str, "/"), "/")
-			uuid := parts[len(parts)-1]
-			data.Project = types.StringValue(uuid)
-		} else {
-			data.Project = types.StringNull()
-		}
-	} else {
-		if data.Project.IsUnknown() {
-			data.Project = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["project_description"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.ProjectDescription = types.StringValue(str)
-		}
-	} else {
-		if data.ProjectDescription.IsUnknown() {
-			data.ProjectDescription = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["project_slug"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.ProjectSlug = types.StringValue(str)
-		}
-	} else {
-		if data.ProjectSlug.IsUnknown() {
-			data.ProjectSlug = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["provider_name"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.ProviderName = types.StringValue(str)
-		}
-	} else {
-		if data.ProviderName.IsUnknown() {
-			data.ProviderName = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["provider_reviewed_at"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.ProviderReviewedAt = types.StringValue(str)
-		}
-	} else {
-		if data.ProviderReviewedAt.IsUnknown() {
-			data.ProviderReviewedAt = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["provider_reviewed_by"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.ProviderReviewedBy = types.StringValue(str)
-		}
-	} else {
-		if data.ProviderReviewedBy.IsUnknown() {
-			data.ProviderReviewedBy = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["provider_reviewed_by_full_name"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.ProviderReviewedByFullName = types.StringValue(str)
-		}
-	} else {
-		if data.ProviderReviewedByFullName.IsUnknown() {
-			data.ProviderReviewedByFullName = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["provider_reviewed_by_username"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.ProviderReviewedByUsername = types.StringValue(str)
-		}
-	} else {
-		if data.ProviderReviewedByUsername.IsUnknown() {
-			data.ProviderReviewedByUsername = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["provider_slug"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.ProviderSlug = types.StringValue(str)
-		}
-	} else {
-		if data.ProviderSlug.IsUnknown() {
-			data.ProviderSlug = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["provider_uuid"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.ProviderUuid = types.StringValue(str)
-		}
-	} else {
-		if data.ProviderUuid.IsUnknown() {
-			data.ProviderUuid = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["request_comment"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.RequestComment = types.StringValue(str)
-		}
-	} else {
-		if data.RequestComment.IsUnknown() {
-			data.RequestComment = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["resource_name"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.ResourceName = types.StringValue(str)
-		}
-	} else {
-		if data.ResourceName.IsUnknown() {
-			data.ResourceName = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["resource_type"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.ResourceType = types.StringValue(str)
-		}
-	} else {
-		if data.ResourceType.IsUnknown() {
-			data.ResourceType = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["resource_uuid"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.ResourceUuid = types.StringValue(str)
-		}
-	} else {
-		if data.ResourceUuid.IsUnknown() {
-			data.ResourceUuid = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["slug"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Slug = types.StringValue(str)
-		}
-	} else {
-		if data.Slug.IsUnknown() {
-			data.Slug = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["start_date"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.StartDate = types.StringValue(str)
-		}
-	} else {
-		if data.StartDate.IsUnknown() {
-			data.StartDate = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["state"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.State = types.StringValue(str)
-		}
-	} else {
-		if data.State.IsUnknown() {
-			data.State = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["termination_comment"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.TerminationComment = types.StringValue(str)
-		}
-	} else {
-		if data.TerminationComment.IsUnknown() {
-			data.TerminationComment = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["type"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Type = types.StringValue(str)
-		}
-	} else {
-		if data.Type.IsUnknown() {
-			data.Type = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["url"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Url = types.StringValue(str)
-		}
-	} else {
-		if data.Url.IsUnknown() {
-			data.Url = types.StringNull()
-		}
-	}
+func (r *MarketplaceOrderResource) mapResponseToModel(ctx context.Context, apiResp MarketplaceOrderApiResponse, model *MarketplaceOrderResourceModel) diag.Diagnostics {
+	var diags diag.Diagnostics
+
+	model.UUID = types.StringPointerValue(apiResp.UUID)
+	model.AcceptingTermsOfService = types.BoolPointerValue(apiResp.AcceptingTermsOfService)
+	model.ActivationPrice = types.Float64PointerValue(apiResp.ActivationPrice)
+	model.Attachment = types.StringPointerValue(apiResp.Attachment)
+	if apiResp.Attributes != nil {
+		mapValAttributes, mapDiagsAttributes := types.MapValueFrom(ctx, types.StringType, apiResp.Attributes)
+		diags.Append(mapDiagsAttributes...)
+		model.Attributes = mapValAttributes
+	} else {
+		model.Attributes = types.MapNull(types.StringType)
+	}
+	model.BackendId = types.StringPointerValue(apiResp.BackendId)
+	model.CallbackUrl = types.StringPointerValue(apiResp.CallbackUrl)
+	model.CanTerminate = types.BoolPointerValue(apiResp.CanTerminate)
+	model.CategoryIcon = types.StringPointerValue(apiResp.CategoryIcon)
+	model.CategoryTitle = types.StringPointerValue(apiResp.CategoryTitle)
+	model.CategoryUuid = types.StringPointerValue(apiResp.CategoryUuid)
+	model.CompletedAt = types.StringPointerValue(apiResp.CompletedAt)
+	model.ConsumerReviewedAt = types.StringPointerValue(apiResp.ConsumerReviewedAt)
+	model.ConsumerReviewedBy = types.StringPointerValue(apiResp.ConsumerReviewedBy)
+	model.ConsumerReviewedByFullName = types.StringPointerValue(apiResp.ConsumerReviewedByFullName)
+	model.ConsumerReviewedByUsername = types.StringPointerValue(apiResp.ConsumerReviewedByUsername)
+	model.Cost = types.StringPointerValue(apiResp.Cost)
+	model.Created = types.StringPointerValue(apiResp.Created)
+	model.CreatedByCivilNumber = types.StringPointerValue(apiResp.CreatedByCivilNumber)
+	model.CreatedByFullName = types.StringPointerValue(apiResp.CreatedByFullName)
+	model.CreatedByUsername = types.StringPointerValue(apiResp.CreatedByUsername)
+	model.CustomerSlug = types.StringPointerValue(apiResp.CustomerSlug)
+	model.ErrorMessage = types.StringPointerValue(apiResp.ErrorMessage)
+	model.ErrorTraceback = types.StringPointerValue(apiResp.ErrorTraceback)
+	model.FixedPrice = types.Float64PointerValue(apiResp.FixedPrice)
+	model.Modified = types.StringPointerValue(apiResp.Modified)
+	model.NewCostEstimate = types.StringPointerValue(apiResp.NewCostEstimate)
+	model.NewPlanName = types.StringPointerValue(apiResp.NewPlanName)
+	model.NewPlanUuid = types.StringPointerValue(apiResp.NewPlanUuid)
+	if apiResp.Offering != nil {
+		parts := strings.Split(strings.TrimRight(*apiResp.Offering, "/"), "/")
+		model.Offering = types.StringValue(parts[len(parts)-1])
+	} else {
+		model.Offering = types.StringNull()
+	}
+	model.OfferingBillable = types.BoolPointerValue(apiResp.OfferingBillable)
+	model.OfferingDescription = types.StringPointerValue(apiResp.OfferingDescription)
+	model.OfferingImage = types.StringPointerValue(apiResp.OfferingImage)
+	model.OfferingName = types.StringPointerValue(apiResp.OfferingName)
+	model.OfferingShared = types.BoolPointerValue(apiResp.OfferingShared)
+	model.OfferingThumbnail = types.StringPointerValue(apiResp.OfferingThumbnail)
+	model.OfferingType = types.StringPointerValue(apiResp.OfferingType)
+	model.OfferingUuid = types.StringPointerValue(apiResp.OfferingUuid)
+	model.OldCostEstimate = types.Float64PointerValue(apiResp.OldCostEstimate)
+	model.OldPlanName = types.StringPointerValue(apiResp.OldPlanName)
+	model.OldPlanUuid = types.StringPointerValue(apiResp.OldPlanUuid)
+	model.OrderSubtype = types.StringPointerValue(apiResp.OrderSubtype)
+	model.Output = types.StringPointerValue(apiResp.Output)
+	model.Plan = types.StringPointerValue(apiResp.Plan)
+	model.PlanDescription = types.StringPointerValue(apiResp.PlanDescription)
+	model.PlanName = types.StringPointerValue(apiResp.PlanName)
+	model.PlanUnit = types.StringPointerValue(apiResp.PlanUnit)
+	model.PlanUuid = types.StringPointerValue(apiResp.PlanUuid)
+	if apiResp.Project != nil {
+		parts := strings.Split(strings.TrimRight(*apiResp.Project, "/"), "/")
+		model.Project = types.StringValue(parts[len(parts)-1])
+	} else {
+		model.Project = types.StringNull()
+	}
+	model.ProjectDescription = types.StringPointerValue(apiResp.ProjectDescription)
+	model.ProjectSlug = types.StringPointerValue(apiResp.ProjectSlug)
+	model.ProviderName = types.StringPointerValue(apiResp.ProviderName)
+	model.ProviderReviewedAt = types.StringPointerValue(apiResp.ProviderReviewedAt)
+	model.ProviderReviewedBy = types.StringPointerValue(apiResp.ProviderReviewedBy)
+	model.ProviderReviewedByFullName = types.StringPointerValue(apiResp.ProviderReviewedByFullName)
+	model.ProviderReviewedByUsername = types.StringPointerValue(apiResp.ProviderReviewedByUsername)
+	model.ProviderSlug = types.StringPointerValue(apiResp.ProviderSlug)
+	model.ProviderUuid = types.StringPointerValue(apiResp.ProviderUuid)
+	model.RequestComment = types.StringPointerValue(apiResp.RequestComment)
+	model.ResourceName = types.StringPointerValue(apiResp.ResourceName)
+	model.ResourceType = types.StringPointerValue(apiResp.ResourceType)
+	model.ResourceUuid = types.StringPointerValue(apiResp.ResourceUuid)
+	model.Slug = types.StringPointerValue(apiResp.Slug)
+	model.StartDate = types.StringPointerValue(apiResp.StartDate)
+	model.State = types.StringPointerValue(apiResp.State)
+	model.TerminationComment = types.StringPointerValue(apiResp.TerminationComment)
+	model.Type = types.StringPointerValue(apiResp.Type)
+	model.Url = types.StringPointerValue(apiResp.Url)
+
+	return diags
 }

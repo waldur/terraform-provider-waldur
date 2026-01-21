@@ -6,6 +6,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
+	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -27,6 +28,47 @@ func NewOpenstackFloatingIpResource() resource.Resource {
 // OpenstackFloatingIpResource defines the resource implementation.
 type OpenstackFloatingIpResource struct {
 	client *client.Client
+}
+
+// OpenstackFloatingIpApiResponse is the API response model.
+type OpenstackFloatingIpApiResponse struct {
+	UUID *string `json:"uuid"`
+
+	AccessUrl        *string                                   `json:"access_url" tfsdk:"access_url"`
+	Address          *string                                   `json:"address" tfsdk:"address"`
+	BackendId        *string                                   `json:"backend_id" tfsdk:"backend_id"`
+	BackendNetworkId *string                                   `json:"backend_network_id" tfsdk:"backend_network_id"`
+	Created          *string                                   `json:"created" tfsdk:"created"`
+	Description      *string                                   `json:"description" tfsdk:"description"`
+	ErrorMessage     *string                                   `json:"error_message" tfsdk:"error_message"`
+	ErrorTraceback   *string                                   `json:"error_traceback" tfsdk:"error_traceback"`
+	ExternalAddress  *string                                   `json:"external_address" tfsdk:"external_address"`
+	InstanceName     *string                                   `json:"instance_name" tfsdk:"instance_name"`
+	InstanceUrl      *string                                   `json:"instance_url" tfsdk:"instance_url"`
+	InstanceUuid     *string                                   `json:"instance_uuid" tfsdk:"instance_uuid"`
+	Modified         *string                                   `json:"modified" tfsdk:"modified"`
+	Port             *string                                   `json:"port" tfsdk:"port"`
+	PortFixedIps     []OpenstackFloatingIpPortFixedIpsResponse `json:"port_fixed_ips" tfsdk:"port_fixed_ips"`
+	ResourceType     *string                                   `json:"resource_type" tfsdk:"resource_type"`
+	RuntimeState     *string                                   `json:"runtime_state" tfsdk:"runtime_state"`
+	State            *string                                   `json:"state" tfsdk:"state"`
+	Tenant           *string                                   `json:"tenant" tfsdk:"tenant"`
+	TenantName       *string                                   `json:"tenant_name" tfsdk:"tenant_name"`
+	TenantUuid       *string                                   `json:"tenant_uuid" tfsdk:"tenant_uuid"`
+	Url              *string                                   `json:"url" tfsdk:"url"`
+}
+
+type OpenstackFloatingIpPortFixedIpsResponse struct {
+	IpAddress *string `json:"ip_address" tfsdk:"ip_address"`
+	SubnetId  *string `json:"subnet_id" tfsdk:"subnet_id"`
+}
+
+var openstackfloatingip_port_fixed_ipsAttrTypes = map[string]attr.Type{
+	"ip_address": types.StringType,
+	"subnet_id":  types.StringType,
+}
+var openstackfloatingip_port_fixed_ipsObjectType = types.ObjectType{
+	AttrTypes: openstackfloatingip_port_fixed_ipsAttrTypes,
 }
 
 // OpenstackFloatingIpResourceModel describes the resource data model.
@@ -217,15 +259,12 @@ func (r *OpenstackFloatingIpResource) Create(ctx context.Context, req resource.C
 		return
 	}
 
-	// Prepare request body
-	requestBody := map[string]interface{}{}
-
 	// Call Waldur API to create resource
-	var result map[string]interface{}
+	var apiResp OpenstackFloatingIpApiResponse
 	// Custom create operation via parent resource
 	createPath := "/api/openstack-tenants/{uuid}/create_floating_ip/"
 	createPath = strings.Replace(createPath, "{uuid}", data.Tenant.ValueString(), 1)
-	err := r.client.Post(ctx, createPath, requestBody, &result)
+	err := r.client.Post(ctx, createPath, nil, &apiResp)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Unable to Create Openstack Floating Ip",
@@ -234,11 +273,11 @@ func (r *OpenstackFloatingIpResource) Create(ctx context.Context, req resource.C
 		return
 	}
 	// Extract UUID from response
-	if uuid, ok := result["uuid"].(string); ok {
-		data.UUID = types.StringValue(uuid)
+	if apiResp.UUID != nil {
+		data.UUID = types.StringPointerValue(apiResp.UUID)
 	}
 
-	r.updateFromValue(ctx, &data, result)
+	resp.Diagnostics.Append(r.mapResponseToModel(ctx, apiResp, &data)...)
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
@@ -254,11 +293,11 @@ func (r *OpenstackFloatingIpResource) Read(ctx context.Context, req resource.Rea
 	}
 
 	// Call Waldur API to read resource
-	var result map[string]interface{}
 
 	retrievePath := strings.Replace("/api/openstack-floating-ips/{uuid}/", "{uuid}", data.UUID.ValueString(), 1)
 
-	err := r.client.GetByUUID(ctx, retrievePath, data.UUID.ValueString(), &result)
+	var apiResp OpenstackFloatingIpApiResponse
+	err := r.client.GetByUUID(ctx, retrievePath, data.UUID.ValueString(), &apiResp)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Unable to Read Openstack Floating Ip",
@@ -267,7 +306,7 @@ func (r *OpenstackFloatingIpResource) Read(ctx context.Context, req resource.Rea
 		return
 	}
 
-	r.updateFromValue(ctx, &data, result)
+	resp.Diagnostics.Append(r.mapResponseToModel(ctx, apiResp, &data)...)
 
 	// Save updated data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
@@ -300,238 +339,34 @@ func (r *OpenstackFloatingIpResource) ImportState(ctx context.Context, req resou
 	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }
 
-func (r *OpenstackFloatingIpResource) updateFromValue(ctx context.Context, data *OpenstackFloatingIpResourceModel, sourceMap map[string]interface{}) {
-	// Map response fields to data model
-	_ = sourceMap
-	if val, ok := sourceMap["access_url"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.AccessUrl = types.StringValue(str)
-		}
-	} else {
-		if data.AccessUrl.IsUnknown() {
-			data.AccessUrl = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["address"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Address = types.StringValue(str)
-		}
-	} else {
-		if data.Address.IsUnknown() {
-			data.Address = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["backend_id"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.BackendId = types.StringValue(str)
-		}
-	} else {
-		if data.BackendId.IsUnknown() {
-			data.BackendId = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["backend_network_id"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.BackendNetworkId = types.StringValue(str)
-		}
-	} else {
-		if data.BackendNetworkId.IsUnknown() {
-			data.BackendNetworkId = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["created"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Created = types.StringValue(str)
-		}
-	} else {
-		if data.Created.IsUnknown() {
-			data.Created = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["description"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Description = types.StringValue(str)
-		}
-	} else {
-		if data.Description.IsUnknown() {
-			data.Description = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["error_message"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.ErrorMessage = types.StringValue(str)
-		}
-	} else {
-		if data.ErrorMessage.IsUnknown() {
-			data.ErrorMessage = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["error_traceback"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.ErrorTraceback = types.StringValue(str)
-		}
-	} else {
-		if data.ErrorTraceback.IsUnknown() {
-			data.ErrorTraceback = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["external_address"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.ExternalAddress = types.StringValue(str)
-		}
-	} else {
-		if data.ExternalAddress.IsUnknown() {
-			data.ExternalAddress = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["instance_name"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.InstanceName = types.StringValue(str)
-		}
-	} else {
-		if data.InstanceName.IsUnknown() {
-			data.InstanceName = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["instance_url"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.InstanceUrl = types.StringValue(str)
-		}
-	} else {
-		if data.InstanceUrl.IsUnknown() {
-			data.InstanceUrl = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["instance_uuid"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.InstanceUuid = types.StringValue(str)
-		}
-	} else {
-		if data.InstanceUuid.IsUnknown() {
-			data.InstanceUuid = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["modified"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Modified = types.StringValue(str)
-		}
-	} else {
-		if data.Modified.IsUnknown() {
-			data.Modified = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["port"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Port = types.StringValue(str)
-		}
-	} else {
-		if data.Port.IsUnknown() {
-			data.Port = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["port_fixed_ips"]; ok && val != nil {
-		// List of objects
-		if arr, ok := val.([]interface{}); ok {
-			items := make([]attr.Value, 0, len(arr))
-			for _, item := range arr {
-				if objMap, ok := item.(map[string]interface{}); ok {
-					attrTypes := map[string]attr.Type{
-						"ip_address": types.StringType,
-						"subnet_id":  types.StringType,
-					}
-					attrValues := map[string]attr.Value{
-						"ip_address": func() attr.Value {
-							if v, ok := objMap["ip_address"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-						"subnet_id": func() attr.Value {
-							if v, ok := objMap["subnet_id"].(string); ok {
-								return types.StringValue(v)
-							}
-							return types.StringNull()
-						}(),
-					}
-					objVal, _ := types.ObjectValue(attrTypes, attrValues)
-					items = append(items, objVal)
-				}
-			}
-			listVal, _ := types.ListValue(types.ObjectType{AttrTypes: map[string]attr.Type{
-				"ip_address": types.StringType,
-				"subnet_id":  types.StringType,
-			}}, items)
-			data.PortFixedIps = listVal
-		}
-	} else {
-		if data.PortFixedIps.IsUnknown() {
-			data.PortFixedIps = types.ListNull(types.ObjectType{AttrTypes: map[string]attr.Type{
-				"ip_address": types.StringType,
-				"subnet_id":  types.StringType,
-			}})
-		}
-	}
-	if val, ok := sourceMap["resource_type"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.ResourceType = types.StringValue(str)
-		}
-	} else {
-		if data.ResourceType.IsUnknown() {
-			data.ResourceType = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["runtime_state"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.RuntimeState = types.StringValue(str)
-		}
-	} else {
-		if data.RuntimeState.IsUnknown() {
-			data.RuntimeState = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["state"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.State = types.StringValue(str)
-		}
-	} else {
-		if data.State.IsUnknown() {
-			data.State = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["tenant"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Tenant = types.StringValue(str)
-		}
-	} else {
-		if data.Tenant.IsUnknown() {
-			data.Tenant = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["tenant_name"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.TenantName = types.StringValue(str)
-		}
-	} else {
-		if data.TenantName.IsUnknown() {
-			data.TenantName = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["tenant_uuid"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.TenantUuid = types.StringValue(str)
-		}
-	} else {
-		if data.TenantUuid.IsUnknown() {
-			data.TenantUuid = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["url"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Url = types.StringValue(str)
-		}
-	} else {
-		if data.Url.IsUnknown() {
-			data.Url = types.StringNull()
-		}
-	}
+func (r *OpenstackFloatingIpResource) mapResponseToModel(ctx context.Context, apiResp OpenstackFloatingIpApiResponse, model *OpenstackFloatingIpResourceModel) diag.Diagnostics {
+	var diags diag.Diagnostics
+
+	model.UUID = types.StringPointerValue(apiResp.UUID)
+	model.AccessUrl = types.StringPointerValue(apiResp.AccessUrl)
+	model.Address = types.StringPointerValue(apiResp.Address)
+	model.BackendId = types.StringPointerValue(apiResp.BackendId)
+	model.BackendNetworkId = types.StringPointerValue(apiResp.BackendNetworkId)
+	model.Created = types.StringPointerValue(apiResp.Created)
+	model.Description = types.StringPointerValue(apiResp.Description)
+	model.ErrorMessage = types.StringPointerValue(apiResp.ErrorMessage)
+	model.ErrorTraceback = types.StringPointerValue(apiResp.ErrorTraceback)
+	model.ExternalAddress = types.StringPointerValue(apiResp.ExternalAddress)
+	model.InstanceName = types.StringPointerValue(apiResp.InstanceName)
+	model.InstanceUrl = types.StringPointerValue(apiResp.InstanceUrl)
+	model.InstanceUuid = types.StringPointerValue(apiResp.InstanceUuid)
+	model.Modified = types.StringPointerValue(apiResp.Modified)
+	model.Port = types.StringPointerValue(apiResp.Port)
+	listValPortFixedIps, listDiagsPortFixedIps := types.ListValueFrom(ctx, openstackfloatingip_port_fixed_ipsObjectType, apiResp.PortFixedIps)
+	diags.Append(listDiagsPortFixedIps...)
+	model.PortFixedIps = listValPortFixedIps
+	model.ResourceType = types.StringPointerValue(apiResp.ResourceType)
+	model.RuntimeState = types.StringPointerValue(apiResp.RuntimeState)
+	model.State = types.StringPointerValue(apiResp.State)
+	model.Tenant = types.StringPointerValue(apiResp.Tenant)
+	model.TenantName = types.StringPointerValue(apiResp.TenantName)
+	model.TenantUuid = types.StringPointerValue(apiResp.TenantUuid)
+	model.Url = types.StringPointerValue(apiResp.Url)
+
+	return diags
 }

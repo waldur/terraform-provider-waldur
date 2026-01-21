@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
+	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -26,6 +27,42 @@ func NewOpenstackVolumeAttachmentResource() resource.Resource {
 // OpenstackVolumeAttachmentResource defines the resource implementation.
 type OpenstackVolumeAttachmentResource struct {
 	client *client.Client
+}
+
+// OpenstackVolumeAttachmentApiResponse is the API response model.
+type OpenstackVolumeAttachmentApiResponse struct {
+	UUID *string `json:"uuid"`
+
+	AccessUrl               *string `json:"access_url" tfsdk:"access_url"`
+	Action                  *string `json:"action" tfsdk:"action"`
+	AvailabilityZone        *string `json:"availability_zone" tfsdk:"availability_zone"`
+	AvailabilityZoneName    *string `json:"availability_zone_name" tfsdk:"availability_zone_name"`
+	BackendId               *string `json:"backend_id" tfsdk:"backend_id"`
+	Bootable                *bool   `json:"bootable" tfsdk:"bootable"`
+	Created                 *string `json:"created" tfsdk:"created"`
+	Description             *string `json:"description" tfsdk:"description"`
+	Device                  *string `json:"device" tfsdk:"device"`
+	ErrorMessage            *string `json:"error_message" tfsdk:"error_message"`
+	ErrorTraceback          *string `json:"error_traceback" tfsdk:"error_traceback"`
+	ExtendEnabled           *bool   `json:"extend_enabled" tfsdk:"extend_enabled"`
+	Image                   *string `json:"image" tfsdk:"image"`
+	ImageMetadata           *string `json:"image_metadata" tfsdk:"image_metadata"`
+	ImageName               *string `json:"image_name" tfsdk:"image_name"`
+	Instance                *string `json:"instance" tfsdk:"instance"`
+	InstanceMarketplaceUuid *string `json:"instance_marketplace_uuid" tfsdk:"instance_marketplace_uuid"`
+	InstanceName            *string `json:"instance_name" tfsdk:"instance_name"`
+	Modified                *string `json:"modified" tfsdk:"modified"`
+	ResourceType            *string `json:"resource_type" tfsdk:"resource_type"`
+	RuntimeState            *string `json:"runtime_state" tfsdk:"runtime_state"`
+	Size                    *int64  `json:"size" tfsdk:"size"`
+	SourceSnapshot          *string `json:"source_snapshot" tfsdk:"source_snapshot"`
+	State                   *string `json:"state" tfsdk:"state"`
+	Tenant                  *string `json:"tenant" tfsdk:"tenant"`
+	TenantUuid              *string `json:"tenant_uuid" tfsdk:"tenant_uuid"`
+	Type                    *string `json:"type" tfsdk:"type"`
+	TypeName                *string `json:"type_name" tfsdk:"type_name"`
+	Url                     *string `json:"url" tfsdk:"url"`
+	Volume                  *string `json:"volume" tfsdk:"volume"`
 }
 
 // OpenstackVolumeAttachmentResourceModel describes the resource data model.
@@ -259,8 +296,8 @@ func (r *OpenstackVolumeAttachmentResource) Create(ctx context.Context, req reso
 		"device":   data.Device.ValueString(),
 	}
 
-	var result map[string]interface{}
-	err := r.client.Post(ctx, linkPath, requestBody, &result)
+	var apiResp OpenstackVolumeAttachmentApiResponse
+	err := r.client.Post(ctx, linkPath, requestBody, &apiResp)
 	if err != nil {
 		resp.Diagnostics.AddError("Link Operation Failed", err.Error())
 		return
@@ -269,283 +306,7 @@ func (r *OpenstackVolumeAttachmentResource) Create(ctx context.Context, req reso
 	// For Link resources, ID is composite of Source and Target UUIDs
 	data.UUID = types.StringValue(sourceUUID + "/" + data.Instance.ValueString())
 
-	// For Link resources, sourceMap is the Link result (often empty) or we might want to fetch Source?
-	// But usually Link op returns nothing or small info.
-	// MapResponseFields usually expects fields of the resource.
-	// We'll set sourceMap to result for now.
-	sourceMap := result
-	// Map response fields to data model
-	_ = sourceMap
-	if val, ok := sourceMap["access_url"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.AccessUrl = types.StringValue(str)
-		}
-	} else {
-		if data.AccessUrl.IsUnknown() {
-			data.AccessUrl = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["action"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Action = types.StringValue(str)
-		}
-	} else {
-		if data.Action.IsUnknown() {
-			data.Action = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["availability_zone"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.AvailabilityZone = types.StringValue(str)
-		}
-	} else {
-		if data.AvailabilityZone.IsUnknown() {
-			data.AvailabilityZone = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["availability_zone_name"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.AvailabilityZoneName = types.StringValue(str)
-		}
-	} else {
-		if data.AvailabilityZoneName.IsUnknown() {
-			data.AvailabilityZoneName = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["backend_id"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.BackendId = types.StringValue(str)
-		}
-	} else {
-		if data.BackendId.IsUnknown() {
-			data.BackendId = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["bootable"]; ok && val != nil {
-		if b, ok := val.(bool); ok {
-			data.Bootable = types.BoolValue(b)
-		}
-	} else {
-		if data.Bootable.IsUnknown() {
-			data.Bootable = types.BoolNull()
-		}
-	}
-	if val, ok := sourceMap["created"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Created = types.StringValue(str)
-		}
-	} else {
-		if data.Created.IsUnknown() {
-			data.Created = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["description"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Description = types.StringValue(str)
-		}
-	} else {
-		if data.Description.IsUnknown() {
-			data.Description = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["device"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Device = types.StringValue(str)
-		}
-	} else {
-		if data.Device.IsUnknown() {
-			data.Device = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["error_message"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.ErrorMessage = types.StringValue(str)
-		}
-	} else {
-		if data.ErrorMessage.IsUnknown() {
-			data.ErrorMessage = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["error_traceback"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.ErrorTraceback = types.StringValue(str)
-		}
-	} else {
-		if data.ErrorTraceback.IsUnknown() {
-			data.ErrorTraceback = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["extend_enabled"]; ok && val != nil {
-		if b, ok := val.(bool); ok {
-			data.ExtendEnabled = types.BoolValue(b)
-		}
-	} else {
-		if data.ExtendEnabled.IsUnknown() {
-			data.ExtendEnabled = types.BoolNull()
-		}
-	}
-	if val, ok := sourceMap["image"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Image = types.StringValue(str)
-		}
-	} else {
-		if data.Image.IsUnknown() {
-			data.Image = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["image_metadata"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.ImageMetadata = types.StringValue(str)
-		}
-	} else {
-		if data.ImageMetadata.IsUnknown() {
-			data.ImageMetadata = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["image_name"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.ImageName = types.StringValue(str)
-		}
-	} else {
-		if data.ImageName.IsUnknown() {
-			data.ImageName = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["instance"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Instance = types.StringValue(str)
-		}
-	} else {
-		if data.Instance.IsUnknown() {
-			data.Instance = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["instance_marketplace_uuid"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.InstanceMarketplaceUuid = types.StringValue(str)
-		}
-	} else {
-		if data.InstanceMarketplaceUuid.IsUnknown() {
-			data.InstanceMarketplaceUuid = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["instance_name"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.InstanceName = types.StringValue(str)
-		}
-	} else {
-		if data.InstanceName.IsUnknown() {
-			data.InstanceName = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["modified"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Modified = types.StringValue(str)
-		}
-	} else {
-		if data.Modified.IsUnknown() {
-			data.Modified = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["resource_type"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.ResourceType = types.StringValue(str)
-		}
-	} else {
-		if data.ResourceType.IsUnknown() {
-			data.ResourceType = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["runtime_state"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.RuntimeState = types.StringValue(str)
-		}
-	} else {
-		if data.RuntimeState.IsUnknown() {
-			data.RuntimeState = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["size"]; ok && val != nil {
-		if num, ok := val.(float64); ok {
-			data.Size = types.Int64Value(int64(num))
-		}
-	} else {
-		if data.Size.IsUnknown() {
-			data.Size = types.Int64Null()
-		}
-	}
-	if val, ok := sourceMap["source_snapshot"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.SourceSnapshot = types.StringValue(str)
-		}
-	} else {
-		if data.SourceSnapshot.IsUnknown() {
-			data.SourceSnapshot = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["state"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.State = types.StringValue(str)
-		}
-	} else {
-		if data.State.IsUnknown() {
-			data.State = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["tenant"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Tenant = types.StringValue(str)
-		}
-	} else {
-		if data.Tenant.IsUnknown() {
-			data.Tenant = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["tenant_uuid"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.TenantUuid = types.StringValue(str)
-		}
-	} else {
-		if data.TenantUuid.IsUnknown() {
-			data.TenantUuid = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["type"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Type = types.StringValue(str)
-		}
-	} else {
-		if data.Type.IsUnknown() {
-			data.Type = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["type_name"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.TypeName = types.StringValue(str)
-		}
-	} else {
-		if data.TypeName.IsUnknown() {
-			data.TypeName = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["url"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Url = types.StringValue(str)
-		}
-	} else {
-		if data.Url.IsUnknown() {
-			data.Url = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["volume"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Volume = types.StringValue(str)
-		}
-	} else {
-		if data.Volume.IsUnknown() {
-			data.Volume = types.StringNull()
-		}
-	}
+	resp.Diagnostics.Append(r.mapResponseToModel(ctx, apiResp, &data)...)
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
@@ -561,7 +322,6 @@ func (r *OpenstackVolumeAttachmentResource) Read(ctx context.Context, req resour
 	}
 
 	// Call Waldur API to read resource
-	var result map[string]interface{}
 
 	// For Link resources, we read the Source resource and check if Target is linked
 	parts := strings.Split(data.UUID.ValueString(), "/")
@@ -573,6 +333,7 @@ func (r *OpenstackVolumeAttachmentResource) Read(ctx context.Context, req resour
 	targetUUID := parts[1]
 
 	sourcePath := strings.Replace("/api/openstack-volumes/{uuid}/", "{uuid}", sourceUUID, 1)
+	var result map[string]interface{}
 	err := r.client.GetByUUID(ctx, sourcePath, sourceUUID, &result)
 	if err != nil {
 		resp.Diagnostics.AddError("Unable to Read Source Resource", err.Error())
@@ -622,8 +383,6 @@ func (r *OpenstackVolumeAttachmentResource) Read(ctx context.Context, req resour
 	// So we delete "uuid" from result before mapping
 	delete(result, "uuid")
 
-	r.updateFromValue(ctx, &data, result)
-
 	// Save updated data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
@@ -669,277 +428,40 @@ func (r *OpenstackVolumeAttachmentResource) ImportState(ctx context.Context, req
 	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("instance"), parts[1])...)
 }
 
-func (r *OpenstackVolumeAttachmentResource) updateFromValue(ctx context.Context, data *OpenstackVolumeAttachmentResourceModel, sourceMap map[string]interface{}) {
-	// Map response fields to data model
-	_ = sourceMap
-	if val, ok := sourceMap["access_url"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.AccessUrl = types.StringValue(str)
-		}
-	} else {
-		if data.AccessUrl.IsUnknown() {
-			data.AccessUrl = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["action"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Action = types.StringValue(str)
-		}
-	} else {
-		if data.Action.IsUnknown() {
-			data.Action = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["availability_zone"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.AvailabilityZone = types.StringValue(str)
-		}
-	} else {
-		if data.AvailabilityZone.IsUnknown() {
-			data.AvailabilityZone = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["availability_zone_name"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.AvailabilityZoneName = types.StringValue(str)
-		}
-	} else {
-		if data.AvailabilityZoneName.IsUnknown() {
-			data.AvailabilityZoneName = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["backend_id"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.BackendId = types.StringValue(str)
-		}
-	} else {
-		if data.BackendId.IsUnknown() {
-			data.BackendId = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["bootable"]; ok && val != nil {
-		if b, ok := val.(bool); ok {
-			data.Bootable = types.BoolValue(b)
-		}
-	} else {
-		if data.Bootable.IsUnknown() {
-			data.Bootable = types.BoolNull()
-		}
-	}
-	if val, ok := sourceMap["created"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Created = types.StringValue(str)
-		}
-	} else {
-		if data.Created.IsUnknown() {
-			data.Created = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["description"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Description = types.StringValue(str)
-		}
-	} else {
-		if data.Description.IsUnknown() {
-			data.Description = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["device"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Device = types.StringValue(str)
-		}
-	} else {
-		if data.Device.IsUnknown() {
-			data.Device = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["error_message"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.ErrorMessage = types.StringValue(str)
-		}
-	} else {
-		if data.ErrorMessage.IsUnknown() {
-			data.ErrorMessage = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["error_traceback"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.ErrorTraceback = types.StringValue(str)
-		}
-	} else {
-		if data.ErrorTraceback.IsUnknown() {
-			data.ErrorTraceback = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["extend_enabled"]; ok && val != nil {
-		if b, ok := val.(bool); ok {
-			data.ExtendEnabled = types.BoolValue(b)
-		}
-	} else {
-		if data.ExtendEnabled.IsUnknown() {
-			data.ExtendEnabled = types.BoolNull()
-		}
-	}
-	if val, ok := sourceMap["image"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Image = types.StringValue(str)
-		}
-	} else {
-		if data.Image.IsUnknown() {
-			data.Image = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["image_metadata"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.ImageMetadata = types.StringValue(str)
-		}
-	} else {
-		if data.ImageMetadata.IsUnknown() {
-			data.ImageMetadata = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["image_name"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.ImageName = types.StringValue(str)
-		}
-	} else {
-		if data.ImageName.IsUnknown() {
-			data.ImageName = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["instance"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Instance = types.StringValue(str)
-		}
-	} else {
-		if data.Instance.IsUnknown() {
-			data.Instance = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["instance_marketplace_uuid"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.InstanceMarketplaceUuid = types.StringValue(str)
-		}
-	} else {
-		if data.InstanceMarketplaceUuid.IsUnknown() {
-			data.InstanceMarketplaceUuid = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["instance_name"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.InstanceName = types.StringValue(str)
-		}
-	} else {
-		if data.InstanceName.IsUnknown() {
-			data.InstanceName = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["modified"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Modified = types.StringValue(str)
-		}
-	} else {
-		if data.Modified.IsUnknown() {
-			data.Modified = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["resource_type"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.ResourceType = types.StringValue(str)
-		}
-	} else {
-		if data.ResourceType.IsUnknown() {
-			data.ResourceType = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["runtime_state"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.RuntimeState = types.StringValue(str)
-		}
-	} else {
-		if data.RuntimeState.IsUnknown() {
-			data.RuntimeState = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["size"]; ok && val != nil {
-		if num, ok := val.(float64); ok {
-			data.Size = types.Int64Value(int64(num))
-		}
-	} else {
-		if data.Size.IsUnknown() {
-			data.Size = types.Int64Null()
-		}
-	}
-	if val, ok := sourceMap["source_snapshot"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.SourceSnapshot = types.StringValue(str)
-		}
-	} else {
-		if data.SourceSnapshot.IsUnknown() {
-			data.SourceSnapshot = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["state"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.State = types.StringValue(str)
-		}
-	} else {
-		if data.State.IsUnknown() {
-			data.State = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["tenant"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Tenant = types.StringValue(str)
-		}
-	} else {
-		if data.Tenant.IsUnknown() {
-			data.Tenant = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["tenant_uuid"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.TenantUuid = types.StringValue(str)
-		}
-	} else {
-		if data.TenantUuid.IsUnknown() {
-			data.TenantUuid = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["type"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Type = types.StringValue(str)
-		}
-	} else {
-		if data.Type.IsUnknown() {
-			data.Type = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["type_name"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.TypeName = types.StringValue(str)
-		}
-	} else {
-		if data.TypeName.IsUnknown() {
-			data.TypeName = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["url"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Url = types.StringValue(str)
-		}
-	} else {
-		if data.Url.IsUnknown() {
-			data.Url = types.StringNull()
-		}
-	}
-	if val, ok := sourceMap["volume"]; ok && val != nil {
-		if str, ok := val.(string); ok {
-			data.Volume = types.StringValue(str)
-		}
-	} else {
-		if data.Volume.IsUnknown() {
-			data.Volume = types.StringNull()
-		}
-	}
+func (r *OpenstackVolumeAttachmentResource) mapResponseToModel(ctx context.Context, apiResp OpenstackVolumeAttachmentApiResponse, model *OpenstackVolumeAttachmentResourceModel) diag.Diagnostics {
+	var diags diag.Diagnostics
+
+	model.UUID = types.StringPointerValue(apiResp.UUID)
+	model.AccessUrl = types.StringPointerValue(apiResp.AccessUrl)
+	model.Action = types.StringPointerValue(apiResp.Action)
+	model.AvailabilityZone = types.StringPointerValue(apiResp.AvailabilityZone)
+	model.AvailabilityZoneName = types.StringPointerValue(apiResp.AvailabilityZoneName)
+	model.BackendId = types.StringPointerValue(apiResp.BackendId)
+	model.Bootable = types.BoolPointerValue(apiResp.Bootable)
+	model.Created = types.StringPointerValue(apiResp.Created)
+	model.Description = types.StringPointerValue(apiResp.Description)
+	model.Device = types.StringPointerValue(apiResp.Device)
+	model.ErrorMessage = types.StringPointerValue(apiResp.ErrorMessage)
+	model.ErrorTraceback = types.StringPointerValue(apiResp.ErrorTraceback)
+	model.ExtendEnabled = types.BoolPointerValue(apiResp.ExtendEnabled)
+	model.Image = types.StringPointerValue(apiResp.Image)
+	model.ImageMetadata = types.StringPointerValue(apiResp.ImageMetadata)
+	model.ImageName = types.StringPointerValue(apiResp.ImageName)
+	model.Instance = types.StringPointerValue(apiResp.Instance)
+	model.InstanceMarketplaceUuid = types.StringPointerValue(apiResp.InstanceMarketplaceUuid)
+	model.InstanceName = types.StringPointerValue(apiResp.InstanceName)
+	model.Modified = types.StringPointerValue(apiResp.Modified)
+	model.ResourceType = types.StringPointerValue(apiResp.ResourceType)
+	model.RuntimeState = types.StringPointerValue(apiResp.RuntimeState)
+	model.Size = types.Int64PointerValue(apiResp.Size)
+	model.SourceSnapshot = types.StringPointerValue(apiResp.SourceSnapshot)
+	model.State = types.StringPointerValue(apiResp.State)
+	model.Tenant = types.StringPointerValue(apiResp.Tenant)
+	model.TenantUuid = types.StringPointerValue(apiResp.TenantUuid)
+	model.Type = types.StringPointerValue(apiResp.Type)
+	model.TypeName = types.StringPointerValue(apiResp.TypeName)
+	model.Url = types.StringPointerValue(apiResp.Url)
+	model.Volume = types.StringPointerValue(apiResp.Volume)
+
+	return diags
 }

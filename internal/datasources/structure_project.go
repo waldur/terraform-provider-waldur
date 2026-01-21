@@ -6,6 +6,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/waldur/terraform-provider-waldur/internal/client"
@@ -21,6 +22,31 @@ func NewStructureProjectDataSource() datasource.DataSource {
 // StructureProjectDataSource defines the data source implementation.
 type StructureProjectDataSource struct {
 	client *client.Client
+}
+
+// StructureProjectApiResponse is the API response model.
+type StructureProjectApiResponse struct {
+	UUID *string `json:"uuid"`
+
+	CustomerDisplayBillingInfoInProjects *bool    `json:"customer_display_billing_info_in_projects" tfsdk:"customer_display_billing_info_in_projects"`
+	CustomerSlug                         *string  `json:"customer_slug" tfsdk:"customer_slug"`
+	EndDate                              *string  `json:"end_date" tfsdk:"end_date"`
+	EndDateRequestedBy                   *string  `json:"end_date_requested_by" tfsdk:"end_date_requested_by"`
+	GracePeriodDays                      *int64   `json:"grace_period_days" tfsdk:"grace_period_days"`
+	Image                                *string  `json:"image" tfsdk:"image"`
+	IsIndustry                           *bool    `json:"is_industry" tfsdk:"is_industry"`
+	Kind                                 *string  `json:"kind" tfsdk:"kind"`
+	MaxServiceAccounts                   *int64   `json:"max_service_accounts" tfsdk:"max_service_accounts"`
+	OecdFos2007Code                      *string  `json:"oecd_fos_2007_code" tfsdk:"oecd_fos_2007_code"`
+	OecdFos2007Label                     *string  `json:"oecd_fos_2007_label" tfsdk:"oecd_fos_2007_label"`
+	ProjectCredit                        *float64 `json:"project_credit" tfsdk:"project_credit"`
+	ResourcesCount                       *int64   `json:"resources_count" tfsdk:"resources_count"`
+	StaffNotes                           *string  `json:"staff_notes" tfsdk:"staff_notes"`
+	StartDate                            *string  `json:"start_date" tfsdk:"start_date"`
+	Type                                 *string  `json:"type" tfsdk:"type"`
+	TypeName                             *string  `json:"type_name" tfsdk:"type_name"`
+	TypeUuid                             *string  `json:"type_uuid" tfsdk:"type_uuid"`
+	Url                                  *string  `json:"url" tfsdk:"url"`
 }
 
 // StructureProjectDataSourceModel describes the data source data model.
@@ -256,9 +282,9 @@ func (d *StructureProjectDataSource) Read(ctx context.Context, req datasource.Re
 
 	// Check if UUID is provided for direct lookup
 	if !data.UUID.IsNull() && data.UUID.ValueString() != "" {
-		var item map[string]interface{}
+		var apiResp StructureProjectApiResponse
 
-		err := d.client.GetByUUID(ctx, "/api/projects/{uuid}/", data.UUID.ValueString(), &item)
+		err := d.client.GetByUUID(ctx, "/api/projects/{uuid}/", data.UUID.ValueString(), &apiResp)
 		if err != nil {
 			resp.Diagnostics.AddError(
 				"Unable to Read Structure Project",
@@ -267,274 +293,11 @@ func (d *StructureProjectDataSource) Read(ctx context.Context, req datasource.Re
 			return
 		}
 
-		// Extract data from single result
-		if uuid, ok := item["uuid"].(string); ok {
-			data.UUID = types.StringValue(uuid)
-		}
-
-		sourceMap := item
-		// Map response fields to data model
-		_ = sourceMap
-		if val, ok := sourceMap["customer_display_billing_info_in_projects"]; ok && val != nil {
-			if b, ok := val.(bool); ok {
-				data.CustomerDisplayBillingInfoInProjects = types.BoolValue(b)
-			}
-		} else {
-			if data.CustomerDisplayBillingInfoInProjects.IsUnknown() {
-				data.CustomerDisplayBillingInfoInProjects = types.BoolNull()
-			}
-		}
-		if val, ok := sourceMap["customer_slug"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.CustomerSlug = types.StringValue(str)
-			}
-		} else {
-			if data.CustomerSlug.IsUnknown() {
-				data.CustomerSlug = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["end_date"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.EndDate = types.StringValue(str)
-			}
-		} else {
-			if data.EndDate.IsUnknown() {
-				data.EndDate = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["end_date_requested_by"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.EndDateRequestedBy = types.StringValue(str)
-			}
-		} else {
-			if data.EndDateRequestedBy.IsUnknown() {
-				data.EndDateRequestedBy = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["grace_period_days"]; ok && val != nil {
-			if num, ok := val.(float64); ok {
-				data.GracePeriodDays = types.Int64Value(int64(num))
-			}
-		} else {
-			if data.GracePeriodDays.IsUnknown() {
-				data.GracePeriodDays = types.Int64Null()
-			}
-		}
-		if val, ok := sourceMap["image"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Image = types.StringValue(str)
-			}
-		} else {
-			if data.Image.IsUnknown() {
-				data.Image = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["is_industry"]; ok && val != nil {
-			if b, ok := val.(bool); ok {
-				data.IsIndustry = types.BoolValue(b)
-			}
-		} else {
-			if data.IsIndustry.IsUnknown() {
-				data.IsIndustry = types.BoolNull()
-			}
-		}
-		if val, ok := sourceMap["kind"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Kind = types.StringValue(str)
-			}
-		} else {
-			if data.Kind.IsUnknown() {
-				data.Kind = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["max_service_accounts"]; ok && val != nil {
-			if num, ok := val.(float64); ok {
-				data.MaxServiceAccounts = types.Int64Value(int64(num))
-			}
-		} else {
-			if data.MaxServiceAccounts.IsUnknown() {
-				data.MaxServiceAccounts = types.Int64Null()
-			}
-		}
-		if val, ok := sourceMap["oecd_fos_2007_code"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.OecdFos2007Code = types.StringValue(str)
-			}
-		} else {
-			if data.OecdFos2007Code.IsUnknown() {
-				data.OecdFos2007Code = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["oecd_fos_2007_label"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.OecdFos2007Label = types.StringValue(str)
-			}
-		} else {
-			if data.OecdFos2007Label.IsUnknown() {
-				data.OecdFos2007Label = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["project_credit"]; ok && val != nil {
-			if num, ok := val.(float64); ok {
-				data.ProjectCredit = types.Float64Value(num)
-			}
-		} else {
-			if data.ProjectCredit.IsUnknown() {
-				data.ProjectCredit = types.Float64Null()
-			}
-		}
-		if val, ok := sourceMap["resources_count"]; ok && val != nil {
-			if num, ok := val.(float64); ok {
-				data.ResourcesCount = types.Int64Value(int64(num))
-			}
-		} else {
-			if data.ResourcesCount.IsUnknown() {
-				data.ResourcesCount = types.Int64Null()
-			}
-		}
-		if val, ok := sourceMap["staff_notes"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.StaffNotes = types.StringValue(str)
-			}
-		} else {
-			if data.StaffNotes.IsUnknown() {
-				data.StaffNotes = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["start_date"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.StartDate = types.StringValue(str)
-			}
-		} else {
-			if data.StartDate.IsUnknown() {
-				data.StartDate = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["type"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Type = types.StringValue(str)
-			}
-		} else {
-			if data.Type.IsUnknown() {
-				data.Type = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["type_name"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.TypeName = types.StringValue(str)
-			}
-		} else {
-			if data.TypeName.IsUnknown() {
-				data.TypeName = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["type_uuid"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.TypeUuid = types.StringValue(str)
-			}
-		} else {
-			if data.TypeUuid.IsUnknown() {
-				data.TypeUuid = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["url"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Url = types.StringValue(str)
-			}
-		} else {
-			if data.Url.IsUnknown() {
-				data.Url = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["backend_id"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.BackendId = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["can_admin"]; ok && val != nil {
-			if b, ok := val.(bool); ok {
-				data.CanAdmin = types.BoolValue(b)
-			}
-		}
-		if val, ok := sourceMap["can_manage"]; ok && val != nil {
-			if b, ok := val.(bool); ok {
-				data.CanManage = types.BoolValue(b)
-			}
-		}
-		if val, ok := sourceMap["conceal_finished_projects"]; ok && val != nil {
-			if b, ok := val.(bool); ok {
-				data.ConcealFinishedProjects = types.BoolValue(b)
-			}
-		}
-		if val, ok := sourceMap["created"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Created = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["customer"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Customer = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["customer_abbreviation"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.CustomerAbbreviation = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["customer_name"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.CustomerName = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["customer_native_name"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.CustomerNativeName = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["description"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Description = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["include_terminated"]; ok && val != nil {
-			if b, ok := val.(bool); ok {
-				data.IncludeTerminated = types.BoolValue(b)
-			}
-		}
-		if val, ok := sourceMap["is_removed"]; ok && val != nil {
-			if b, ok := val.(bool); ok {
-				data.IsRemoved = types.BoolValue(b)
-			}
-		}
-		if val, ok := sourceMap["modified"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Modified = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["name"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Name = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["name_exact"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.NameExact = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["query"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Query = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["slug"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Slug = types.StringValue(str)
-			}
-		}
+		resp.Diagnostics.Append(d.mapResponseToModel(ctx, apiResp, &data)...)
 
 	} else {
 		// Filter by provided parameters
-		var results []map[string]interface{}
+		var results []StructureProjectApiResponse
 
 		filters := map[string]string{}
 		if !data.BackendId.IsNull() {
@@ -623,271 +386,36 @@ func (d *StructureProjectDataSource) Read(ctx context.Context, req datasource.Re
 			return
 		}
 
-		// Extract data from the single result
-		if uuid, ok := results[0]["uuid"].(string); ok {
-			data.UUID = types.StringValue(uuid)
-		}
-		sourceMap := results[0]
-		// Map response fields to data model
-		_ = sourceMap
-		if val, ok := sourceMap["customer_display_billing_info_in_projects"]; ok && val != nil {
-			if b, ok := val.(bool); ok {
-				data.CustomerDisplayBillingInfoInProjects = types.BoolValue(b)
-			}
-		} else {
-			if data.CustomerDisplayBillingInfoInProjects.IsUnknown() {
-				data.CustomerDisplayBillingInfoInProjects = types.BoolNull()
-			}
-		}
-		if val, ok := sourceMap["customer_slug"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.CustomerSlug = types.StringValue(str)
-			}
-		} else {
-			if data.CustomerSlug.IsUnknown() {
-				data.CustomerSlug = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["end_date"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.EndDate = types.StringValue(str)
-			}
-		} else {
-			if data.EndDate.IsUnknown() {
-				data.EndDate = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["end_date_requested_by"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.EndDateRequestedBy = types.StringValue(str)
-			}
-		} else {
-			if data.EndDateRequestedBy.IsUnknown() {
-				data.EndDateRequestedBy = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["grace_period_days"]; ok && val != nil {
-			if num, ok := val.(float64); ok {
-				data.GracePeriodDays = types.Int64Value(int64(num))
-			}
-		} else {
-			if data.GracePeriodDays.IsUnknown() {
-				data.GracePeriodDays = types.Int64Null()
-			}
-		}
-		if val, ok := sourceMap["image"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Image = types.StringValue(str)
-			}
-		} else {
-			if data.Image.IsUnknown() {
-				data.Image = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["is_industry"]; ok && val != nil {
-			if b, ok := val.(bool); ok {
-				data.IsIndustry = types.BoolValue(b)
-			}
-		} else {
-			if data.IsIndustry.IsUnknown() {
-				data.IsIndustry = types.BoolNull()
-			}
-		}
-		if val, ok := sourceMap["kind"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Kind = types.StringValue(str)
-			}
-		} else {
-			if data.Kind.IsUnknown() {
-				data.Kind = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["max_service_accounts"]; ok && val != nil {
-			if num, ok := val.(float64); ok {
-				data.MaxServiceAccounts = types.Int64Value(int64(num))
-			}
-		} else {
-			if data.MaxServiceAccounts.IsUnknown() {
-				data.MaxServiceAccounts = types.Int64Null()
-			}
-		}
-		if val, ok := sourceMap["oecd_fos_2007_code"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.OecdFos2007Code = types.StringValue(str)
-			}
-		} else {
-			if data.OecdFos2007Code.IsUnknown() {
-				data.OecdFos2007Code = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["oecd_fos_2007_label"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.OecdFos2007Label = types.StringValue(str)
-			}
-		} else {
-			if data.OecdFos2007Label.IsUnknown() {
-				data.OecdFos2007Label = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["project_credit"]; ok && val != nil {
-			if num, ok := val.(float64); ok {
-				data.ProjectCredit = types.Float64Value(num)
-			}
-		} else {
-			if data.ProjectCredit.IsUnknown() {
-				data.ProjectCredit = types.Float64Null()
-			}
-		}
-		if val, ok := sourceMap["resources_count"]; ok && val != nil {
-			if num, ok := val.(float64); ok {
-				data.ResourcesCount = types.Int64Value(int64(num))
-			}
-		} else {
-			if data.ResourcesCount.IsUnknown() {
-				data.ResourcesCount = types.Int64Null()
-			}
-		}
-		if val, ok := sourceMap["staff_notes"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.StaffNotes = types.StringValue(str)
-			}
-		} else {
-			if data.StaffNotes.IsUnknown() {
-				data.StaffNotes = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["start_date"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.StartDate = types.StringValue(str)
-			}
-		} else {
-			if data.StartDate.IsUnknown() {
-				data.StartDate = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["type"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Type = types.StringValue(str)
-			}
-		} else {
-			if data.Type.IsUnknown() {
-				data.Type = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["type_name"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.TypeName = types.StringValue(str)
-			}
-		} else {
-			if data.TypeName.IsUnknown() {
-				data.TypeName = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["type_uuid"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.TypeUuid = types.StringValue(str)
-			}
-		} else {
-			if data.TypeUuid.IsUnknown() {
-				data.TypeUuid = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["url"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Url = types.StringValue(str)
-			}
-		} else {
-			if data.Url.IsUnknown() {
-				data.Url = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["backend_id"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.BackendId = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["can_admin"]; ok && val != nil {
-			if b, ok := val.(bool); ok {
-				data.CanAdmin = types.BoolValue(b)
-			}
-		}
-		if val, ok := sourceMap["can_manage"]; ok && val != nil {
-			if b, ok := val.(bool); ok {
-				data.CanManage = types.BoolValue(b)
-			}
-		}
-		if val, ok := sourceMap["conceal_finished_projects"]; ok && val != nil {
-			if b, ok := val.(bool); ok {
-				data.ConcealFinishedProjects = types.BoolValue(b)
-			}
-		}
-		if val, ok := sourceMap["created"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Created = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["customer"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Customer = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["customer_abbreviation"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.CustomerAbbreviation = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["customer_name"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.CustomerName = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["customer_native_name"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.CustomerNativeName = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["description"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Description = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["include_terminated"]; ok && val != nil {
-			if b, ok := val.(bool); ok {
-				data.IncludeTerminated = types.BoolValue(b)
-			}
-		}
-		if val, ok := sourceMap["is_removed"]; ok && val != nil {
-			if b, ok := val.(bool); ok {
-				data.IsRemoved = types.BoolValue(b)
-			}
-		}
-		if val, ok := sourceMap["modified"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Modified = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["name"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Name = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["name_exact"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.NameExact = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["query"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Query = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["slug"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Slug = types.StringValue(str)
-			}
-		}
+		resp.Diagnostics.Append(d.mapResponseToModel(ctx, results[0], &data)...)
 	}
 
 	// Save data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
+}
+
+func (d *StructureProjectDataSource) mapResponseToModel(ctx context.Context, apiResp StructureProjectApiResponse, model *StructureProjectDataSourceModel) diag.Diagnostics {
+	var diags diag.Diagnostics
+
+	model.UUID = types.StringPointerValue(apiResp.UUID)
+	model.CustomerDisplayBillingInfoInProjects = types.BoolPointerValue(apiResp.CustomerDisplayBillingInfoInProjects)
+	model.CustomerSlug = types.StringPointerValue(apiResp.CustomerSlug)
+	model.EndDate = types.StringPointerValue(apiResp.EndDate)
+	model.EndDateRequestedBy = types.StringPointerValue(apiResp.EndDateRequestedBy)
+	model.GracePeriodDays = types.Int64PointerValue(apiResp.GracePeriodDays)
+	model.Image = types.StringPointerValue(apiResp.Image)
+	model.IsIndustry = types.BoolPointerValue(apiResp.IsIndustry)
+	model.Kind = types.StringPointerValue(apiResp.Kind)
+	model.MaxServiceAccounts = types.Int64PointerValue(apiResp.MaxServiceAccounts)
+	model.OecdFos2007Code = types.StringPointerValue(apiResp.OecdFos2007Code)
+	model.OecdFos2007Label = types.StringPointerValue(apiResp.OecdFos2007Label)
+	model.ProjectCredit = types.Float64PointerValue(apiResp.ProjectCredit)
+	model.ResourcesCount = types.Int64PointerValue(apiResp.ResourcesCount)
+	model.StaffNotes = types.StringPointerValue(apiResp.StaffNotes)
+	model.StartDate = types.StringPointerValue(apiResp.StartDate)
+	model.Type = types.StringPointerValue(apiResp.Type)
+	model.TypeName = types.StringPointerValue(apiResp.TypeName)
+	model.TypeUuid = types.StringPointerValue(apiResp.TypeUuid)
+	model.Url = types.StringPointerValue(apiResp.Url)
+
+	return diags
 }

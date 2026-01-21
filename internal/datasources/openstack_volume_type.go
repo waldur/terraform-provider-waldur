@@ -6,6 +6,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/waldur/terraform-provider-waldur/internal/client"
@@ -21,6 +22,14 @@ func NewOpenstackVolumeTypeDataSource() datasource.DataSource {
 // OpenstackVolumeTypeDataSource defines the data source implementation.
 type OpenstackVolumeTypeDataSource struct {
 	client *client.Client
+}
+
+// OpenstackVolumeTypeApiResponse is the API response model.
+type OpenstackVolumeTypeApiResponse struct {
+	UUID *string `json:"uuid"`
+
+	Description *string `json:"description" tfsdk:"description"`
+	Url         *string `json:"url" tfsdk:"url"`
 }
 
 // OpenstackVolumeTypeDataSourceModel describes the data source data model.
@@ -121,9 +130,9 @@ func (d *OpenstackVolumeTypeDataSource) Read(ctx context.Context, req datasource
 
 	// Check if UUID is provided for direct lookup
 	if !data.UUID.IsNull() && data.UUID.ValueString() != "" {
-		var item map[string]interface{}
+		var apiResp OpenstackVolumeTypeApiResponse
 
-		err := d.client.GetByUUID(ctx, "/api/openstack-volume-types/{uuid}/", data.UUID.ValueString(), &item)
+		err := d.client.GetByUUID(ctx, "/api/openstack-volume-types/{uuid}/", data.UUID.ValueString(), &apiResp)
 		if err != nil {
 			resp.Diagnostics.AddError(
 				"Unable to Read Openstack Volume Type",
@@ -132,71 +141,11 @@ func (d *OpenstackVolumeTypeDataSource) Read(ctx context.Context, req datasource
 			return
 		}
 
-		// Extract data from single result
-		if uuid, ok := item["uuid"].(string); ok {
-			data.UUID = types.StringValue(uuid)
-		}
-
-		sourceMap := item
-		// Map response fields to data model
-		_ = sourceMap
-		if val, ok := sourceMap["description"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Description = types.StringValue(str)
-			}
-		} else {
-			if data.Description.IsUnknown() {
-				data.Description = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["url"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Url = types.StringValue(str)
-			}
-		} else {
-			if data.Url.IsUnknown() {
-				data.Url = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["name"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Name = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["name_exact"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.NameExact = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["offering_uuid"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.OfferingUuid = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["settings"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Settings = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["settings_uuid"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.SettingsUuid = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["tenant"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Tenant = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["tenant_uuid"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.TenantUuid = types.StringValue(str)
-			}
-		}
+		resp.Diagnostics.Append(d.mapResponseToModel(ctx, apiResp, &data)...)
 
 	} else {
 		// Filter by provided parameters
-		var results []map[string]interface{}
+		var results []OpenstackVolumeTypeApiResponse
 
 		filters := map[string]string{}
 		if !data.Name.IsNull() {
@@ -255,68 +204,19 @@ func (d *OpenstackVolumeTypeDataSource) Read(ctx context.Context, req datasource
 			return
 		}
 
-		// Extract data from the single result
-		if uuid, ok := results[0]["uuid"].(string); ok {
-			data.UUID = types.StringValue(uuid)
-		}
-		sourceMap := results[0]
-		// Map response fields to data model
-		_ = sourceMap
-		if val, ok := sourceMap["description"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Description = types.StringValue(str)
-			}
-		} else {
-			if data.Description.IsUnknown() {
-				data.Description = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["url"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Url = types.StringValue(str)
-			}
-		} else {
-			if data.Url.IsUnknown() {
-				data.Url = types.StringNull()
-			}
-		}
-		if val, ok := sourceMap["name"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Name = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["name_exact"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.NameExact = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["offering_uuid"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.OfferingUuid = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["settings"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Settings = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["settings_uuid"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.SettingsUuid = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["tenant"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.Tenant = types.StringValue(str)
-			}
-		}
-		if val, ok := sourceMap["tenant_uuid"]; ok && val != nil {
-			if str, ok := val.(string); ok {
-				data.TenantUuid = types.StringValue(str)
-			}
-		}
+		resp.Diagnostics.Append(d.mapResponseToModel(ctx, results[0], &data)...)
 	}
 
 	// Save data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
+}
+
+func (d *OpenstackVolumeTypeDataSource) mapResponseToModel(ctx context.Context, apiResp OpenstackVolumeTypeApiResponse, model *OpenstackVolumeTypeDataSourceModel) diag.Diagnostics {
+	var diags diag.Diagnostics
+
+	model.UUID = types.StringPointerValue(apiResp.UUID)
+	model.Description = types.StringPointerValue(apiResp.Description)
+	model.Url = types.StringPointerValue(apiResp.Url)
+
+	return diags
 }
