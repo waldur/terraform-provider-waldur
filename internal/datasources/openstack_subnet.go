@@ -256,11 +256,19 @@ func (d *OpenstackSubnetDataSource) Schema(ctx context.Context, req datasource.S
 				Computed:            true,
 				MarkdownDescription: "Access url",
 			},
-			"allocation_pools": schema.ListAttribute{
-				CustomType: types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
-					"end":   types.StringType,
-					"start": types.StringType,
-				}}},
+			"allocation_pools": schema.ListNestedAttribute{
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: map[string]schema.Attribute{
+						"end": schema.StringAttribute{
+							Optional:            true,
+							MarkdownDescription: "An IPv4 or IPv6 address.",
+						},
+						"start": schema.StringAttribute{
+							Optional:            true,
+							MarkdownDescription: "An IPv4 or IPv6 address.",
+						},
+					},
+				},
 				Computed:            true,
 				MarkdownDescription: "Allocation pools",
 			},
@@ -277,7 +285,7 @@ func (d *OpenstackSubnetDataSource) Schema(ctx context.Context, req datasource.S
 				MarkdownDescription: "If True, no gateway IP address will be allocated",
 			},
 			"dns_nameservers": schema.ListAttribute{
-				CustomType:          types.ListType{ElemType: types.StringType},
+				ElementType:         types.StringType,
 				Computed:            true,
 				MarkdownDescription: "Dns nameservers",
 			},
@@ -293,11 +301,19 @@ func (d *OpenstackSubnetDataSource) Schema(ctx context.Context, req datasource.S
 				Computed:            true,
 				MarkdownDescription: "IP address of the gateway for this subnet",
 			},
-			"host_routes": schema.ListAttribute{
-				CustomType: types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
-					"destination": types.StringType,
-					"nexthop":     types.StringType,
-				}}},
+			"host_routes": schema.ListNestedAttribute{
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: map[string]schema.Attribute{
+						"destination": schema.StringAttribute{
+							Optional:            true,
+							MarkdownDescription: "Destination",
+						},
+						"nexthop": schema.StringAttribute{
+							Optional:            true,
+							MarkdownDescription: "An IPv4 or IPv6 address.",
+						},
+					},
+				},
 				Computed:            true,
 				MarkdownDescription: "Host routes",
 			},

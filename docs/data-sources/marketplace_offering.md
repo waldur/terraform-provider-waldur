@@ -59,12 +59,12 @@ Marketplace Offering data source - lookup by name or UUID
 - `category_title` (String) Category title
 - `citation_count` (Number) Number of citations of a DOI
 - `compliance_checklist` (String) Compliance checklist
-- `components` (List of Object) Components (see [below for nested schema](#nestedatt--components))
+- `components` (Attributes List) Components (see [below for nested schema](#nestedatt--components))
 - `country` (String) Country code (ISO 3166-1 alpha-2)
 - `customer_name` (String) Name of the customer
 - `datacite_doi` (String) Datacite doi
-- `endpoints` (List of Object) Endpoints (see [below for nested schema](#nestedatt--endpoints))
-- `files` (List of Object) Files (see [below for nested schema](#nestedatt--files))
+- `endpoints` (Attributes List) Endpoints (see [below for nested schema](#nestedatt--endpoints))
+- `files` (Attributes List) Files (see [below for nested schema](#nestedatt--files))
 - `full_description` (String) Full description
 - `getting_started` (String) Getting started
 - `google_calendar_is_public` (Boolean) Google calendar is public
@@ -75,25 +75,25 @@ Marketplace Offering data source - lookup by name or UUID
 - `latitude` (Number) Latitude
 - `longitude` (Number) Longitude
 - `order_count` (Number) Order count
-- `organization_groups` (List of Object) Organization groups (see [below for nested schema](#nestedatt--organization_groups))
+- `organization_groups` (Attributes List) Organization groups (see [below for nested schema](#nestedatt--organization_groups))
 - `parent_description` (String) Parent description
 - `parent_name` (String) Name of the parent
-- `partitions` (List of Object) Partitions (see [below for nested schema](#nestedatt--partitions))
+- `partitions` (Attributes List) Partitions (see [below for nested schema](#nestedatt--partitions))
 - `paused_reason` (String) Paused reason
-- `plans` (List of Object) Plans (see [below for nested schema](#nestedatt--plans))
+- `plans` (Attributes List) Plans (see [below for nested schema](#nestedatt--plans))
 - `privacy_policy_link` (String) Privacy policy link
 - `project` (String) Project
 - `project_name` (String) Name of the project
-- `promotion_campaigns` (List of Object) Promotion campaigns (see [below for nested schema](#nestedatt--promotion_campaigns))
-- `quotas` (List of Object) Quotas (see [below for nested schema](#nestedatt--quotas))
-- `roles` (List of Object) Roles (see [below for nested schema](#nestedatt--roles))
+- `promotion_campaigns` (Attributes List) Promotion campaigns (see [below for nested schema](#nestedatt--promotion_campaigns))
+- `quotas` (Attributes List) Quotas (see [below for nested schema](#nestedatt--quotas))
+- `roles` (Attributes List) Roles (see [below for nested schema](#nestedatt--roles))
 - `scope` (String) Scope
 - `scope_error_message` (String) Scope error message
 - `scope_name` (String) Name of the scope
 - `scope_state` (String) Scope state
-- `screenshots` (List of Object) Screenshots (see [below for nested schema](#nestedatt--screenshots))
+- `screenshots` (Attributes List) Screenshots (see [below for nested schema](#nestedatt--screenshots))
 - `slug` (String) URL-friendly identifier. Only editable by staff users.
-- `software_catalogs` (List of Object) Software catalogs (see [below for nested schema](#nestedatt--software_catalogs))
+- `software_catalogs` (Attributes List) Software catalogs (see [below for nested schema](#nestedatt--software_catalogs))
 - `thumbnail` (String) Thumbnail
 - `total_cost` (Number) Total cost
 - `total_cost_estimated` (Number) Total cost estimated
@@ -104,186 +104,210 @@ Marketplace Offering data source - lookup by name or UUID
 <a id="nestedatt--components"></a>
 ### Nested Schema for `components`
 
+Optional:
+
+- `article_code` (String) Article code
+- `billing_type` (String) Billing type
+- `default_limit` (Number) Default limit
+- `description` (String) Description of the resource
+- `is_boolean` (Boolean) Is boolean
+- `is_prepaid` (Boolean) Is prepaid
+- `limit_amount` (Number) Limit amount
+- `limit_period` (String) Limit period
+- `max_available_limit` (Number) Max available limit
+- `max_prepaid_duration` (Number) Max prepaid duration
+- `max_value` (Number) Max value
+- `measured_unit` (String) Unit of measurement, for example, GB.
+- `min_prepaid_duration` (Number) Min prepaid duration
+- `min_value` (Number) Min value
+- `name` (String) Display name for the measured unit, for example, Floating IP.
+- `overage_component` (String) Overage component
+- `type` (String) Unique internal name of the measured unit, for example floating_ip.
+- `unit_factor` (Number) The conversion factor from backend units to measured_unit
+
 Read-Only:
 
-- `article_code` (String)
-- `billing_type` (String)
-- `default_limit` (Number)
-- `description` (String)
-- `factor` (Number)
-- `is_boolean` (Boolean)
-- `is_builtin` (Boolean)
-- `is_prepaid` (Boolean)
-- `limit_amount` (Number)
-- `limit_period` (String)
-- `max_available_limit` (Number)
-- `max_prepaid_duration` (Number)
-- `max_value` (Number)
-- `measured_unit` (String)
-- `min_prepaid_duration` (Number)
-- `min_value` (Number)
-- `name` (String)
-- `overage_component` (String)
-- `type` (String)
-- `unit_factor` (Number)
+- `factor` (Number) Factor
+- `is_builtin` (Boolean) Is builtin
 
 
 <a id="nestedatt--endpoints"></a>
 ### Nested Schema for `endpoints`
 
-Read-Only:
+Optional:
 
-- `name` (String)
-- `url` (String)
+- `name` (String) Name of the resource
+- `url` (String) URL of the access endpoint
 
 
 <a id="nestedatt--files"></a>
 ### Nested Schema for `files`
 
+Optional:
+
+- `file` (String) File
+- `name` (String) Name of the resource
+
 Read-Only:
 
-- `created` (String)
-- `file` (String)
-- `name` (String)
+- `created` (String) Created
 
 
 <a id="nestedatt--organization_groups"></a>
 ### Nested Schema for `organization_groups`
 
+Optional:
+
+- `name` (String) Name of the resource
+- `parent` (String) Parent
+
 Read-Only:
 
-- `customers_count` (Number)
-- `name` (String)
-- `parent` (String)
-- `parent_name` (String)
-- `parent_uuid` (String)
-- `url` (String)
+- `customers_count` (Number) Number of customers in this organization group
+- `parent_name` (String) Name of the parent organization group
+- `parent_uuid` (String) UUID of the parent organization group
+- `url` (String) Url
 
 
 <a id="nestedatt--partitions"></a>
 ### Nested Schema for `partitions`
 
-Read-Only:
+Optional:
 
-- `cpu_bind` (Number)
-- `def_cpu_per_gpu` (Number)
-- `def_mem_per_cpu` (Number)
-- `def_mem_per_gpu` (Number)
-- `def_mem_per_node` (Number)
-- `default_time` (Number)
-- `exclusive_topo` (Boolean)
-- `exclusive_user` (Boolean)
-- `grace_time` (Number)
-- `max_cpus_per_node` (Number)
-- `max_cpus_per_socket` (Number)
-- `max_mem_per_cpu` (Number)
-- `max_mem_per_node` (Number)
-- `max_nodes` (Number)
-- `max_time` (Number)
-- `min_nodes` (Number)
-- `partition_name` (String)
-- `priority_tier` (Number)
-- `qos` (String)
-- `req_resv` (Boolean)
+- `cpu_bind` (Number) Default task binding policy (SLURM cpu_bind)
+- `def_cpu_per_gpu` (Number) Default CPUs allocated per GPU
+- `def_mem_per_cpu` (Number) Default memory per CPU in MB
+- `def_mem_per_gpu` (Number) Default memory per GPU in MB
+- `def_mem_per_node` (Number) Default memory per node in MB
+- `default_time` (Number) Default time limit in minutes
+- `exclusive_topo` (Boolean) Exclusive topology access required
+- `exclusive_user` (Boolean) Exclusive user access required
+- `grace_time` (Number) Preemption grace time in seconds
+- `max_cpus_per_node` (Number) Maximum allocated CPUs per node
+- `max_cpus_per_socket` (Number) Maximum allocated CPUs per socket
+- `max_mem_per_cpu` (Number) Maximum memory per CPU in MB
+- `max_mem_per_node` (Number) Maximum memory per node in MB
+- `max_nodes` (Number) Maximum nodes per job
+- `max_time` (Number) Maximum time limit in minutes
+- `min_nodes` (Number) Minimum nodes per job
+- `partition_name` (String) Name of the SLURM partition
+- `priority_tier` (Number) Priority tier for scheduling and preemption
+- `qos` (String) Quality of Service (QOS) name
+- `req_resv` (Boolean) Require reservation for job allocation
 
 
 <a id="nestedatt--plans"></a>
 ### Nested Schema for `plans`
 
+Optional:
+
+- `archived` (Boolean) Forbids creation of new resources.
+- `article_code` (String) Article code
+- `backend_id` (String) ID of the backend
+- `description` (String) Description of the resource
+- `max_amount` (Number) Maximum number of plans that could be active. Plan is disabled when maximum amount is reached.
+- `name` (String) Name of the resource
+- `unit` (String) Unit
+- `unit_price` (String) Unit price
+- `url` (String) Url
+
 Read-Only:
 
-- `archived` (Boolean)
-- `article_code` (String)
-- `backend_id` (String)
-- `components` (List of Object) (see [below for nested schema](#nestedobjatt--plans--components))
-- `description` (String)
-- `init_price` (Number)
-- `is_active` (Boolean)
-- `max_amount` (Number)
-- `minimal_price` (Number)
-- `name` (String)
-- `organization_groups` (List of Object) (see [below for nested schema](#nestedobjatt--plans--organization_groups))
-- `plan_type` (String)
-- `resources_count` (Number)
-- `switch_price` (Number)
-- `unit` (String)
-- `unit_price` (String)
-- `url` (String)
+- `components` (Attributes List) Components (see [below for nested schema](#nestedatt--plans--components))
+- `init_price` (Number) Init price
+- `is_active` (Boolean) Is active
+- `minimal_price` (Number) Minimal price
+- `organization_groups` (Attributes List) Organization groups (see [below for nested schema](#nestedatt--plans--organization_groups))
+- `plan_type` (String) Plan type
+- `resources_count` (Number) Resources count
+- `switch_price` (Number) Switch price
 
-<a id="nestedobjatt--plans--components"></a>
+<a id="nestedatt--plans--components"></a>
 ### Nested Schema for `plans.components`
 
+Optional:
+
+- `amount` (Number) Amount
+- `discount_rate` (Number) Discount rate in percentage.
+- `discount_threshold` (Number) Minimum amount to be eligible for discount.
+- `future_price` (String) Future price
+- `price` (String) Price
+
 Read-Only:
 
-- `amount` (Number)
-- `discount_rate` (Number)
-- `discount_threshold` (Number)
-- `future_price` (String)
-- `measured_unit` (String)
-- `name` (String)
-- `price` (String)
-- `type` (String)
+- `measured_unit` (String) Unit of measurement, for example, GB.
+- `name` (String) Display name for the measured unit, for example, Floating IP.
+- `type` (String) Unique internal name of the measured unit, for example floating_ip.
 
 
-<a id="nestedobjatt--plans--organization_groups"></a>
+<a id="nestedatt--plans--organization_groups"></a>
 ### Nested Schema for `plans.organization_groups`
 
+Optional:
+
+- `name` (String) Name of the resource
+- `parent` (String) Parent
+
 Read-Only:
 
-- `customers_count` (Number)
-- `name` (String)
-- `parent` (String)
-- `parent_name` (String)
-- `parent_uuid` (String)
-- `url` (String)
+- `customers_count` (Number) Number of customers in this organization group
+- `parent_name` (String) Name of the parent organization group
+- `parent_uuid` (String) UUID of the parent organization group
+- `url` (String) Url
 
 
 
 <a id="nestedatt--promotion_campaigns"></a>
 ### Nested Schema for `promotion_campaigns`
 
-Read-Only:
+Optional:
 
-- `description` (String)
-- `discount` (Number)
-- `discount_type` (String)
-- `end_date` (String)
-- `months` (Number)
-- `name` (String)
-- `service_provider` (String)
-- `start_date` (String)
-- `stock` (Number)
+- `description` (String) Description of the resource
+- `discount` (Number) Discount
+- `discount_type` (String) Discount type
+- `end_date` (String) The last day the campaign is active.
+- `months` (Number) How many months in a row should the related service (when activated) get special deal (0 for indefinitely until active)
+- `name` (String) Name of the resource
+- `service_provider` (String) Service provider
+- `start_date` (String) Starting from this date, the campaign is active.
+- `stock` (Number) Stock
 
 
 <a id="nestedatt--quotas"></a>
 ### Nested Schema for `quotas`
 
-Read-Only:
+Optional:
 
-- `limit` (Number)
-- `name` (String)
-- `usage` (Number)
+- `limit` (Number) Limit
+- `name` (String) Name of the resource
+- `usage` (Number) Usage
 
 
 <a id="nestedatt--roles"></a>
 ### Nested Schema for `roles`
 
+Optional:
+
+- `name` (String) Name of the resource
+
 Read-Only:
 
-- `name` (String)
-- `url` (String)
+- `url` (String) Url
 
 
 <a id="nestedatt--screenshots"></a>
 ### Nested Schema for `screenshots`
 
+Optional:
+
+- `description` (String) Description of the resource
+- `image` (String) Image
+- `name` (String) Name of the resource
+
 Read-Only:
 
-- `created` (String)
-- `description` (String)
-- `image` (String)
-- `name` (String)
-- `thumbnail` (String)
+- `created` (String) Created
+- `thumbnail` (String) Thumbnail
 
 
 <a id="nestedatt--software_catalogs"></a>
@@ -291,25 +315,25 @@ Read-Only:
 
 Read-Only:
 
-- `catalog` (Object) (see [below for nested schema](#nestedobjatt--software_catalogs--catalog))
-- `package_count` (Number)
-- `partition` (Object) (see [below for nested schema](#nestedobjatt--software_catalogs--partition))
+- `catalog` (Attributes) Catalog (see [below for nested schema](#nestedatt--software_catalogs--catalog))
+- `package_count` (Number) Package count
+- `partition` (Attributes) Partition (see [below for nested schema](#nestedatt--software_catalogs--partition))
 
-<a id="nestedobjatt--software_catalogs--catalog"></a>
+<a id="nestedatt--software_catalogs--catalog"></a>
 ### Nested Schema for `software_catalogs.catalog`
 
-Read-Only:
+Optional:
 
-- `description` (String)
-- `name` (String)
-- `version` (String)
+- `description` (String) Description of the resource
+- `name` (String) Name of the resource
+- `version` (String) Version
 
 
-<a id="nestedobjatt--software_catalogs--partition"></a>
+<a id="nestedatt--software_catalogs--partition"></a>
 ### Nested Schema for `software_catalogs.partition`
 
-Read-Only:
+Optional:
 
-- `partition_name` (String)
-- `priority_tier` (Number)
-- `qos` (String)
+- `partition_name` (String) Name of the partition
+- `priority_tier` (Number) Priority tier
+- `qos` (String) Qos

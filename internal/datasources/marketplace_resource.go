@@ -384,7 +384,7 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 				MarkdownDescription: "Visible to username",
 			},
 			"available_actions": schema.ListAttribute{
-				CustomType:          types.ListType{ElemType: types.StringType},
+				ElementType:         types.StringType,
 				Computed:            true,
 				MarkdownDescription: "Available actions",
 			},
@@ -424,11 +424,19 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 				Computed:            true,
 				MarkdownDescription: "End date requested by",
 			},
-			"endpoints": schema.ListAttribute{
-				CustomType: types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
-					"name": types.StringType,
-					"url":  types.StringType,
-				}}},
+			"endpoints": schema.ListNestedAttribute{
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: map[string]schema.Attribute{
+						"name": schema.StringAttribute{
+							Optional:            true,
+							MarkdownDescription: "Name of the resource",
+						},
+						"url": schema.StringAttribute{
+							Optional:            true,
+							MarkdownDescription: "URL of the access endpoint",
+						},
+					},
+				},
 				Computed:            true,
 				MarkdownDescription: "Endpoints",
 			},
@@ -444,29 +452,91 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 				Computed:            true,
 				MarkdownDescription: "Last sync",
 			},
-			"offering_components": schema.ListAttribute{
-				CustomType: types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
-					"article_code":         types.StringType,
-					"billing_type":         types.StringType,
-					"default_limit":        types.Int64Type,
-					"description":          types.StringType,
-					"factor":               types.Int64Type,
-					"is_boolean":           types.BoolType,
-					"is_builtin":           types.BoolType,
-					"is_prepaid":           types.BoolType,
-					"limit_amount":         types.Int64Type,
-					"limit_period":         types.StringType,
-					"max_available_limit":  types.Int64Type,
-					"max_prepaid_duration": types.Int64Type,
-					"max_value":            types.Int64Type,
-					"measured_unit":        types.StringType,
-					"min_prepaid_duration": types.Int64Type,
-					"min_value":            types.Int64Type,
-					"name":                 types.StringType,
-					"overage_component":    types.StringType,
-					"type":                 types.StringType,
-					"unit_factor":          types.Int64Type,
-				}}},
+			"offering_components": schema.ListNestedAttribute{
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: map[string]schema.Attribute{
+						"article_code": schema.StringAttribute{
+							Optional:            true,
+							MarkdownDescription: "Article code",
+						},
+						"billing_type": schema.StringAttribute{
+							Optional:            true,
+							MarkdownDescription: "Billing type",
+						},
+						"default_limit": schema.Int64Attribute{
+							Optional:            true,
+							MarkdownDescription: "Default limit",
+						},
+						"description": schema.StringAttribute{
+							Optional:            true,
+							MarkdownDescription: "Description of the resource",
+						},
+						"factor": schema.Int64Attribute{
+							Computed:            true,
+							MarkdownDescription: "Factor",
+						},
+						"is_boolean": schema.BoolAttribute{
+							Optional:            true,
+							MarkdownDescription: "Is boolean",
+						},
+						"is_builtin": schema.BoolAttribute{
+							Computed:            true,
+							MarkdownDescription: "Is builtin",
+						},
+						"is_prepaid": schema.BoolAttribute{
+							Optional:            true,
+							MarkdownDescription: "Is prepaid",
+						},
+						"limit_amount": schema.Int64Attribute{
+							Optional:            true,
+							MarkdownDescription: "Limit amount",
+						},
+						"limit_period": schema.StringAttribute{
+							Optional:            true,
+							MarkdownDescription: "Limit period",
+						},
+						"max_available_limit": schema.Int64Attribute{
+							Optional:            true,
+							MarkdownDescription: "Max available limit",
+						},
+						"max_prepaid_duration": schema.Int64Attribute{
+							Optional:            true,
+							MarkdownDescription: "Max prepaid duration",
+						},
+						"max_value": schema.Int64Attribute{
+							Optional:            true,
+							MarkdownDescription: "Max value",
+						},
+						"measured_unit": schema.StringAttribute{
+							Optional:            true,
+							MarkdownDescription: "Unit of measurement, for example, GB.",
+						},
+						"min_prepaid_duration": schema.Int64Attribute{
+							Optional:            true,
+							MarkdownDescription: "Min prepaid duration",
+						},
+						"min_value": schema.Int64Attribute{
+							Optional:            true,
+							MarkdownDescription: "Min value",
+						},
+						"name": schema.StringAttribute{
+							Optional:            true,
+							MarkdownDescription: "Display name for the measured unit, for example, Floating IP.",
+						},
+						"overage_component": schema.StringAttribute{
+							Optional:            true,
+							MarkdownDescription: "Overage component",
+						},
+						"type": schema.StringAttribute{
+							Optional:            true,
+							MarkdownDescription: "Unique internal name of the measured unit, for example floating_ip.",
+						},
+						"unit_factor": schema.Int64Attribute{
+							Optional:            true,
+							MarkdownDescription: "The conversion factor from backend units to measured_unit",
+						},
+					},
+				},
 				Computed:            true,
 				MarkdownDescription: "Offering components",
 			},
@@ -550,11 +620,19 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 				Computed:            true,
 				MarkdownDescription: "Provider slug",
 			},
-			"report": schema.ListAttribute{
-				CustomType: types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
-					"body":   types.StringType,
-					"header": types.StringType,
-				}}},
+			"report": schema.ListNestedAttribute{
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: map[string]schema.Attribute{
+						"body": schema.StringAttribute{
+							Optional:            true,
+							MarkdownDescription: "Section body content",
+						},
+						"header": schema.StringAttribute{
+							Optional:            true,
+							MarkdownDescription: "Section header text",
+						},
+					},
+				},
 				Computed:            true,
 				MarkdownDescription: "Report",
 			},

@@ -69,11 +69,11 @@ Marketplace Resource data source - lookup by name or UUID
 - `effective_id` (String) ID of the effective
 - `end_date` (String) The date is inclusive. Once reached, a resource will be scheduled for termination.
 - `end_date_requested_by` (String) End date requested by
-- `endpoints` (List of Object) Endpoints (see [below for nested schema](#nestedatt--endpoints))
+- `endpoints` (Attributes List) Endpoints (see [below for nested schema](#nestedatt--endpoints))
 - `error_message` (String) Error message
 - `error_traceback` (String) Error traceback
 - `last_sync` (String) Last sync
-- `offering_components` (List of Object) Offering components (see [below for nested schema](#nestedatt--offering_components))
+- `offering_components` (Attributes List) Offering components (see [below for nested schema](#nestedatt--offering_components))
 - `offering_description` (String) Offering description
 - `offering_image` (String) Offering image
 - `offering_name` (String) Name of the offering
@@ -94,7 +94,7 @@ Marketplace Resource data source - lookup by name or UUID
 - `project_slug` (String) Project slug
 - `provider_name` (String) Name of the provider
 - `provider_slug` (String) Provider slug
-- `report` (List of Object) Report (see [below for nested schema](#nestedatt--report))
+- `report` (Attributes List) Report (see [below for nested schema](#nestedatt--report))
 - `resource_type` (String) Resource type
 - `resource_uuid` (String) UUID of the resource
 - `scope` (String) Scope
@@ -106,43 +106,46 @@ Marketplace Resource data source - lookup by name or UUID
 <a id="nestedatt--endpoints"></a>
 ### Nested Schema for `endpoints`
 
-Read-Only:
+Optional:
 
-- `name` (String)
-- `url` (String)
+- `name` (String) Name of the resource
+- `url` (String) URL of the access endpoint
 
 
 <a id="nestedatt--offering_components"></a>
 ### Nested Schema for `offering_components`
 
+Optional:
+
+- `article_code` (String) Article code
+- `billing_type` (String) Billing type
+- `default_limit` (Number) Default limit
+- `description` (String) Description of the resource
+- `is_boolean` (Boolean) Is boolean
+- `is_prepaid` (Boolean) Is prepaid
+- `limit_amount` (Number) Limit amount
+- `limit_period` (String) Limit period
+- `max_available_limit` (Number) Max available limit
+- `max_prepaid_duration` (Number) Max prepaid duration
+- `max_value` (Number) Max value
+- `measured_unit` (String) Unit of measurement, for example, GB.
+- `min_prepaid_duration` (Number) Min prepaid duration
+- `min_value` (Number) Min value
+- `name` (String) Display name for the measured unit, for example, Floating IP.
+- `overage_component` (String) Overage component
+- `type` (String) Unique internal name of the measured unit, for example floating_ip.
+- `unit_factor` (Number) The conversion factor from backend units to measured_unit
+
 Read-Only:
 
-- `article_code` (String)
-- `billing_type` (String)
-- `default_limit` (Number)
-- `description` (String)
-- `factor` (Number)
-- `is_boolean` (Boolean)
-- `is_builtin` (Boolean)
-- `is_prepaid` (Boolean)
-- `limit_amount` (Number)
-- `limit_period` (String)
-- `max_available_limit` (Number)
-- `max_prepaid_duration` (Number)
-- `max_value` (Number)
-- `measured_unit` (String)
-- `min_prepaid_duration` (Number)
-- `min_value` (Number)
-- `name` (String)
-- `overage_component` (String)
-- `type` (String)
-- `unit_factor` (Number)
+- `factor` (Number) Factor
+- `is_builtin` (Boolean) Is builtin
 
 
 <a id="nestedatt--report"></a>
 ### Nested Schema for `report`
 
-Read-Only:
+Optional:
 
-- `body` (String)
-- `header` (String)
+- `body` (String) Section body content
+- `header` (String) Section header text

@@ -48,23 +48,26 @@ Openstack Security Group data source - lookup by name or UUID
 - `error_traceback` (String) Error traceback
 - `modified` (String) Modified
 - `resource_type` (String) Resource type
-- `rules` (List of Object) Rules (see [below for nested schema](#nestedatt--rules))
+- `rules` (Attributes List) Rules (see [below for nested schema](#nestedatt--rules))
 - `tenant_name` (String) Name of the tenant
 - `url` (String) Url
 
 <a id="nestedatt--rules"></a>
 ### Nested Schema for `rules`
 
+Optional:
+
+- `cidr` (String) CIDR notation for the source/destination network address range
+- `description` (String) Description of the resource
+- `direction` (String) Traffic direction - either 'ingress' (incoming) or 'egress' (outgoing)
+- `ethertype` (String) IP protocol version - either 'IPv4' or 'IPv6'
+- `from_port` (Number) Starting port number in the range (1-65535)
+- `protocol` (String) The network protocol (TCP, UDP, ICMP, or empty for any protocol)
+- `remote_group` (String) Remote security group that this rule references, if any
+- `to_port` (Number) Ending port number in the range (1-65535)
+
 Read-Only:
 
-- `cidr` (String)
-- `description` (String)
-- `direction` (String)
-- `ethertype` (String)
-- `from_port` (Number)
-- `id` (Number)
-- `protocol` (String)
-- `remote_group` (String)
-- `remote_group_name` (String)
-- `remote_group_uuid` (String)
-- `to_port` (Number)
+- `id` (Number) Id
+- `remote_group_name` (String) Name of the remote group
+- `remote_group_uuid` (String) UUID of the remote group

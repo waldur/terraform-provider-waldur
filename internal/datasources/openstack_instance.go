@@ -453,12 +453,12 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 				MarkdownDescription: "Error traceback",
 			},
 			"external_address": schema.ListAttribute{
-				CustomType:          types.ListType{ElemType: types.StringType},
+				ElementType:         types.StringType,
 				Computed:            true,
 				MarkdownDescription: "External address",
 			},
 			"external_ips": schema.ListAttribute{
-				CustomType:          types.ListType{ElemType: types.StringType},
+				ElementType:         types.StringType,
 				Computed:            true,
 				MarkdownDescription: "External ips",
 			},
@@ -470,21 +470,59 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 				Computed:            true,
 				MarkdownDescription: "Name of the flavor used by this instance",
 			},
-			"floating_ips": schema.ListAttribute{
-				CustomType: types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
-					"address": types.StringType,
-					"port_fixed_ips": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
-						"ip_address": types.StringType,
-						"subnet_id":  types.StringType,
-					}}},
-					"port_mac_address":   types.StringType,
-					"subnet":             types.StringType,
-					"subnet_cidr":        types.StringType,
-					"subnet_description": types.StringType,
-					"subnet_name":        types.StringType,
-					"subnet_uuid":        types.StringType,
-					"url":                types.StringType,
-				}}},
+			"floating_ips": schema.ListNestedAttribute{
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: map[string]schema.Attribute{
+						"address": schema.StringAttribute{
+							Computed:            true,
+							MarkdownDescription: "The public IPv4 address of the floating IP",
+						},
+						"port_fixed_ips": schema.ListNestedAttribute{
+							NestedObject: schema.NestedAttributeObject{
+								Attributes: map[string]schema.Attribute{
+									"ip_address": schema.StringAttribute{
+										Optional:            true,
+										MarkdownDescription: "IP address to assign to the port",
+									},
+									"subnet_id": schema.StringAttribute{
+										Optional:            true,
+										MarkdownDescription: "ID of the subnet in which to assign the IP address",
+									},
+								},
+							},
+							Computed:            true,
+							MarkdownDescription: "Port fixed ips",
+						},
+						"port_mac_address": schema.StringAttribute{
+							Computed:            true,
+							MarkdownDescription: "MAC address of the port",
+						},
+						"subnet": schema.StringAttribute{
+							Optional:            true,
+							MarkdownDescription: "Subnet",
+						},
+						"subnet_cidr": schema.StringAttribute{
+							Computed:            true,
+							MarkdownDescription: "IPv4 network address in CIDR format (e.g. 192.168.0.0/24)",
+						},
+						"subnet_description": schema.StringAttribute{
+							Computed:            true,
+							MarkdownDescription: "Subnet description",
+						},
+						"subnet_name": schema.StringAttribute{
+							Computed:            true,
+							MarkdownDescription: "Name of the subnet",
+						},
+						"subnet_uuid": schema.StringAttribute{
+							Computed:            true,
+							MarkdownDescription: "UUID of the subnet",
+						},
+						"url": schema.StringAttribute{
+							Computed:            true,
+							MarkdownDescription: "Url",
+						},
+					},
+				},
 				Computed:            true,
 				MarkdownDescription: "Floating ips",
 			},
@@ -497,7 +535,7 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 				MarkdownDescription: "Name of the image",
 			},
 			"internal_ips": schema.ListAttribute{
-				CustomType:          types.ListType{ElemType: types.StringType},
+				ElementType:         types.StringType,
 				Computed:            true,
 				MarkdownDescription: "Internal ips",
 			},
@@ -565,76 +603,279 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 				Computed:            true,
 				MarkdownDescription: "Modified",
 			},
-			"ports": schema.ListAttribute{
-				CustomType: types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
-					"allowed_address_pairs": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
-						"mac_address": types.StringType,
-					}}},
-					"device_id":    types.StringType,
-					"device_owner": types.StringType,
-					"fixed_ips": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
-						"ip_address": types.StringType,
-						"subnet_id":  types.StringType,
-					}}},
-					"mac_address": types.StringType,
-					"security_groups": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
-						"access_url":                 types.StringType,
-						"backend_id":                 types.StringType,
-						"created":                    types.StringType,
-						"customer":                   types.StringType,
-						"customer_abbreviation":      types.StringType,
-						"customer_name":              types.StringType,
-						"customer_native_name":       types.StringType,
-						"customer_uuid":              types.StringType,
-						"description":                types.StringType,
-						"error_message":              types.StringType,
-						"error_traceback":            types.StringType,
-						"is_limit_based":             types.BoolType,
-						"is_usage_based":             types.BoolType,
-						"marketplace_category_name":  types.StringType,
-						"marketplace_category_uuid":  types.StringType,
-						"marketplace_offering_name":  types.StringType,
-						"marketplace_offering_uuid":  types.StringType,
-						"marketplace_plan_uuid":      types.StringType,
-						"marketplace_resource_state": types.StringType,
-						"marketplace_resource_uuid":  types.StringType,
-						"modified":                   types.StringType,
-						"name":                       types.StringType,
-						"project":                    types.StringType,
-						"project_name":               types.StringType,
-						"project_uuid":               types.StringType,
-						"resource_type":              types.StringType,
-						"rules": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
-							"cidr":              types.StringType,
-							"description":       types.StringType,
-							"direction":         types.StringType,
-							"ethertype":         types.StringType,
-							"from_port":         types.Int64Type,
-							"id":                types.Int64Type,
-							"protocol":          types.StringType,
-							"remote_group":      types.StringType,
-							"remote_group_name": types.StringType,
-							"remote_group_uuid": types.StringType,
-							"to_port":           types.Int64Type,
-						}}},
-						"service_name":                   types.StringType,
-						"service_settings":               types.StringType,
-						"service_settings_error_message": types.StringType,
-						"service_settings_state":         types.StringType,
-						"service_settings_uuid":          types.StringType,
-						"state":                          types.StringType,
-						"tenant":                         types.StringType,
-						"tenant_name":                    types.StringType,
-						"tenant_uuid":                    types.StringType,
-						"url":                            types.StringType,
-					}}},
-					"subnet":             types.StringType,
-					"subnet_cidr":        types.StringType,
-					"subnet_description": types.StringType,
-					"subnet_name":        types.StringType,
-					"subnet_uuid":        types.StringType,
-					"url":                types.StringType,
-				}}},
+			"ports": schema.ListNestedAttribute{
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: map[string]schema.Attribute{
+						"allowed_address_pairs": schema.ListNestedAttribute{
+							NestedObject: schema.NestedAttributeObject{
+								Attributes: map[string]schema.Attribute{
+									"mac_address": schema.StringAttribute{
+										Optional:            true,
+										MarkdownDescription: "Mac address",
+									},
+								},
+							},
+							Computed:            true,
+							MarkdownDescription: "Allowed address pairs",
+						},
+						"device_id": schema.StringAttribute{
+							Computed:            true,
+							MarkdownDescription: "ID of device (instance, router etc) to which this port is connected",
+						},
+						"device_owner": schema.StringAttribute{
+							Computed:            true,
+							MarkdownDescription: "Entity that uses this port (e.g. network:router_interface)",
+						},
+						"fixed_ips": schema.ListNestedAttribute{
+							NestedObject: schema.NestedAttributeObject{
+								Attributes: map[string]schema.Attribute{
+									"ip_address": schema.StringAttribute{
+										Optional:            true,
+										MarkdownDescription: "IP address to assign to the port",
+									},
+									"subnet_id": schema.StringAttribute{
+										Optional:            true,
+										MarkdownDescription: "ID of the subnet in which to assign the IP address",
+									},
+								},
+							},
+							Optional:            true,
+							MarkdownDescription: "Fixed ips",
+						},
+						"mac_address": schema.StringAttribute{
+							Computed:            true,
+							MarkdownDescription: "MAC address of the port",
+						},
+						"security_groups": schema.ListNestedAttribute{
+							NestedObject: schema.NestedAttributeObject{
+								Attributes: map[string]schema.Attribute{
+									"access_url": schema.StringAttribute{
+										Computed:            true,
+										MarkdownDescription: "Access url",
+									},
+									"backend_id": schema.StringAttribute{
+										Computed:            true,
+										MarkdownDescription: "ID of the backend",
+									},
+									"created": schema.StringAttribute{
+										Computed:            true,
+										MarkdownDescription: "Created",
+									},
+									"customer": schema.StringAttribute{
+										Computed:            true,
+										MarkdownDescription: "Customer",
+									},
+									"customer_abbreviation": schema.StringAttribute{
+										Computed:            true,
+										MarkdownDescription: "Customer abbreviation",
+									},
+									"customer_name": schema.StringAttribute{
+										Computed:            true,
+										MarkdownDescription: "Name of the customer",
+									},
+									"customer_native_name": schema.StringAttribute{
+										Computed:            true,
+										MarkdownDescription: "Name of the customer native",
+									},
+									"customer_uuid": schema.StringAttribute{
+										Computed:            true,
+										MarkdownDescription: "UUID of the customer",
+									},
+									"description": schema.StringAttribute{
+										Optional:            true,
+										MarkdownDescription: "Description of the resource",
+									},
+									"error_message": schema.StringAttribute{
+										Computed:            true,
+										MarkdownDescription: "Error message",
+									},
+									"error_traceback": schema.StringAttribute{
+										Computed:            true,
+										MarkdownDescription: "Error traceback",
+									},
+									"is_limit_based": schema.BoolAttribute{
+										Computed:            true,
+										MarkdownDescription: "Is limit based",
+									},
+									"is_usage_based": schema.BoolAttribute{
+										Computed:            true,
+										MarkdownDescription: "Is usage based",
+									},
+									"marketplace_category_name": schema.StringAttribute{
+										Computed:            true,
+										MarkdownDescription: "Name of the marketplace category",
+									},
+									"marketplace_category_uuid": schema.StringAttribute{
+										Computed:            true,
+										MarkdownDescription: "UUID of the marketplace category",
+									},
+									"marketplace_offering_name": schema.StringAttribute{
+										Computed:            true,
+										MarkdownDescription: "Name of the marketplace offering",
+									},
+									"marketplace_offering_uuid": schema.StringAttribute{
+										Computed:            true,
+										MarkdownDescription: "UUID of the marketplace offering",
+									},
+									"marketplace_plan_uuid": schema.StringAttribute{
+										Computed:            true,
+										MarkdownDescription: "UUID of the marketplace plan",
+									},
+									"marketplace_resource_state": schema.StringAttribute{
+										Computed:            true,
+										MarkdownDescription: "Marketplace resource state",
+									},
+									"marketplace_resource_uuid": schema.StringAttribute{
+										Computed:            true,
+										MarkdownDescription: "UUID of the marketplace resource",
+									},
+									"modified": schema.StringAttribute{
+										Computed:            true,
+										MarkdownDescription: "Modified",
+									},
+									"name": schema.StringAttribute{
+										Optional:            true,
+										MarkdownDescription: "Name of the resource",
+									},
+									"project": schema.StringAttribute{
+										Computed:            true,
+										MarkdownDescription: "Project",
+									},
+									"project_name": schema.StringAttribute{
+										Computed:            true,
+										MarkdownDescription: "Name of the project",
+									},
+									"project_uuid": schema.StringAttribute{
+										Computed:            true,
+										MarkdownDescription: "UUID of the project",
+									},
+									"resource_type": schema.StringAttribute{
+										Computed:            true,
+										MarkdownDescription: "Resource type",
+									},
+									"rules": schema.ListNestedAttribute{
+										NestedObject: schema.NestedAttributeObject{
+											Attributes: map[string]schema.Attribute{
+												"cidr": schema.StringAttribute{
+													Optional:            true,
+													MarkdownDescription: "CIDR notation for the source/destination network address range",
+												},
+												"description": schema.StringAttribute{
+													Optional:            true,
+													MarkdownDescription: "Description of the resource",
+												},
+												"direction": schema.StringAttribute{
+													Optional:            true,
+													MarkdownDescription: "Traffic direction - either 'ingress' (incoming) or 'egress' (outgoing)",
+												},
+												"ethertype": schema.StringAttribute{
+													Optional:            true,
+													MarkdownDescription: "IP protocol version - either 'IPv4' or 'IPv6'",
+												},
+												"from_port": schema.Int64Attribute{
+													Optional:            true,
+													MarkdownDescription: "Starting port number in the range (1-65535)",
+												},
+												"id": schema.Int64Attribute{
+													Computed:            true,
+													MarkdownDescription: "Id",
+												},
+												"protocol": schema.StringAttribute{
+													Optional:            true,
+													MarkdownDescription: "The network protocol (TCP, UDP, ICMP, or empty for any protocol)",
+												},
+												"remote_group": schema.StringAttribute{
+													Optional:            true,
+													MarkdownDescription: "Remote security group that this rule references, if any",
+												},
+												"remote_group_name": schema.StringAttribute{
+													Computed:            true,
+													MarkdownDescription: "Name of the remote group",
+												},
+												"remote_group_uuid": schema.StringAttribute{
+													Computed:            true,
+													MarkdownDescription: "UUID of the remote group",
+												},
+												"to_port": schema.Int64Attribute{
+													Optional:            true,
+													MarkdownDescription: "Ending port number in the range (1-65535)",
+												},
+											},
+										},
+										Optional:            true,
+										MarkdownDescription: "Rules",
+									},
+									"service_name": schema.StringAttribute{
+										Computed:            true,
+										MarkdownDescription: "Name of the service",
+									},
+									"service_settings": schema.StringAttribute{
+										Computed:            true,
+										MarkdownDescription: "Service settings",
+									},
+									"service_settings_error_message": schema.StringAttribute{
+										Computed:            true,
+										MarkdownDescription: "Service settings error message",
+									},
+									"service_settings_state": schema.StringAttribute{
+										Computed:            true,
+										MarkdownDescription: "Service settings state",
+									},
+									"service_settings_uuid": schema.StringAttribute{
+										Computed:            true,
+										MarkdownDescription: "UUID of the service settings",
+									},
+									"state": schema.StringAttribute{
+										Computed:            true,
+										MarkdownDescription: "State",
+									},
+									"tenant": schema.StringAttribute{
+										Computed:            true,
+										MarkdownDescription: "Tenant",
+									},
+									"tenant_name": schema.StringAttribute{
+										Computed:            true,
+										MarkdownDescription: "Name of the tenant",
+									},
+									"tenant_uuid": schema.StringAttribute{
+										Computed:            true,
+										MarkdownDescription: "UUID of the tenant",
+									},
+									"url": schema.StringAttribute{
+										Computed:            true,
+										MarkdownDescription: "Url",
+									},
+								},
+							},
+							Computed:            true,
+							MarkdownDescription: "Security groups",
+						},
+						"subnet": schema.StringAttribute{
+							Optional:            true,
+							MarkdownDescription: "Subnet to which this port belongs",
+						},
+						"subnet_cidr": schema.StringAttribute{
+							Computed:            true,
+							MarkdownDescription: "IPv4 network address in CIDR format (e.g. 192.168.0.0/24)",
+						},
+						"subnet_description": schema.StringAttribute{
+							Computed:            true,
+							MarkdownDescription: "Subnet description",
+						},
+						"subnet_name": schema.StringAttribute{
+							Computed:            true,
+							MarkdownDescription: "Name of the subnet",
+						},
+						"subnet_uuid": schema.StringAttribute{
+							Computed:            true,
+							MarkdownDescription: "UUID of the subnet",
+						},
+						"url": schema.StringAttribute{
+							Computed:            true,
+							MarkdownDescription: "Url",
+						},
+					},
+				},
 				Computed:            true,
 				MarkdownDescription: "Ports",
 			},
@@ -646,35 +887,97 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 				Computed:            true,
 				MarkdownDescription: "Resource type",
 			},
-			"security_groups": schema.ListAttribute{
-				CustomType: types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
-					"description": types.StringType,
-					"name":        types.StringType,
-					"rules": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
-						"cidr":              types.StringType,
-						"description":       types.StringType,
-						"direction":         types.StringType,
-						"ethertype":         types.StringType,
-						"from_port":         types.Int64Type,
-						"id":                types.Int64Type,
-						"protocol":          types.StringType,
-						"remote_group_name": types.StringType,
-						"remote_group_uuid": types.StringType,
-						"to_port":           types.Int64Type,
-					}}},
-					"state": types.StringType,
-					"url":   types.StringType,
-				}}},
+			"security_groups": schema.ListNestedAttribute{
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: map[string]schema.Attribute{
+						"description": schema.StringAttribute{
+							Computed:            true,
+							MarkdownDescription: "Description of the resource",
+						},
+						"name": schema.StringAttribute{
+							Computed:            true,
+							MarkdownDescription: "Name of the resource",
+						},
+						"rules": schema.ListNestedAttribute{
+							NestedObject: schema.NestedAttributeObject{
+								Attributes: map[string]schema.Attribute{
+									"cidr": schema.StringAttribute{
+										Optional:            true,
+										MarkdownDescription: "CIDR notation for the source/destination network address range",
+									},
+									"description": schema.StringAttribute{
+										Optional:            true,
+										MarkdownDescription: "Description of the resource",
+									},
+									"direction": schema.StringAttribute{
+										Optional:            true,
+										MarkdownDescription: "Traffic direction - either 'ingress' (incoming) or 'egress' (outgoing)",
+									},
+									"ethertype": schema.StringAttribute{
+										Optional:            true,
+										MarkdownDescription: "IP protocol version - either 'IPv4' or 'IPv6'",
+									},
+									"from_port": schema.Int64Attribute{
+										Optional:            true,
+										MarkdownDescription: "Starting port number in the range (1-65535)",
+									},
+									"id": schema.Int64Attribute{
+										Computed:            true,
+										MarkdownDescription: "Id",
+									},
+									"protocol": schema.StringAttribute{
+										Optional:            true,
+										MarkdownDescription: "The network protocol (TCP, UDP, ICMP, or empty for any protocol)",
+									},
+									"remote_group_name": schema.StringAttribute{
+										Computed:            true,
+										MarkdownDescription: "Name of the remote group",
+									},
+									"remote_group_uuid": schema.StringAttribute{
+										Computed:            true,
+										MarkdownDescription: "UUID of the remote group",
+									},
+									"to_port": schema.Int64Attribute{
+										Optional:            true,
+										MarkdownDescription: "Ending port number in the range (1-65535)",
+									},
+								},
+							},
+							Computed:            true,
+							MarkdownDescription: "Rules",
+						},
+						"state": schema.StringAttribute{
+							Computed:            true,
+							MarkdownDescription: "State",
+						},
+						"url": schema.StringAttribute{
+							Computed:            true,
+							MarkdownDescription: "Url",
+						},
+					},
+				},
 				Computed:            true,
 				MarkdownDescription: "Security groups",
 			},
-			"server_group": schema.ObjectAttribute{
-				CustomType: types.ObjectType{AttrTypes: map[string]attr.Type{
-					"name":   types.StringType,
-					"policy": types.StringType,
-					"state":  types.StringType,
-					"url":    types.StringType,
-				}},
+			"server_group": schema.SingleNestedAttribute{
+				Attributes: map[string]schema.Attribute{
+					"name": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Name of the resource",
+					},
+					"policy": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Server group policy determining the rules for scheduling servers in this group",
+					},
+					"state": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "State",
+					},
+					"url": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Url",
+					},
+				},
 				Computed:            true,
 				MarkdownDescription: "Server group",
 			},
@@ -706,20 +1009,55 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 				Computed:            true,
 				MarkdownDescription: "Additional data that will be added to instance on provisioning",
 			},
-			"volumes": schema.ListAttribute{
-				CustomType: types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
-					"bootable":                  types.BoolType,
-					"device":                    types.StringType,
-					"image_name":                types.StringType,
-					"marketplace_resource_uuid": types.StringType,
-					"name":                      types.StringType,
-					"resource_type":             types.StringType,
-					"size":                      types.Int64Type,
-					"state":                     types.StringType,
-					"type":                      types.StringType,
-					"type_name":                 types.StringType,
-					"url":                       types.StringType,
-				}}},
+			"volumes": schema.ListNestedAttribute{
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: map[string]schema.Attribute{
+						"bootable": schema.BoolAttribute{
+							Optional:            true,
+							MarkdownDescription: "Indicates if this volume can be used to boot an instance",
+						},
+						"device": schema.StringAttribute{
+							Optional:            true,
+							MarkdownDescription: "Name of volume as instance device e.g. /dev/vdb.",
+						},
+						"image_name": schema.StringAttribute{
+							Optional:            true,
+							MarkdownDescription: "Name of the image this volume was created from",
+						},
+						"marketplace_resource_uuid": schema.StringAttribute{
+							Computed:            true,
+							MarkdownDescription: "UUID of the marketplace resource",
+						},
+						"name": schema.StringAttribute{
+							Computed:            true,
+							MarkdownDescription: "Name of the resource",
+						},
+						"resource_type": schema.StringAttribute{
+							Computed:            true,
+							MarkdownDescription: "Resource type",
+						},
+						"size": schema.Int64Attribute{
+							Optional:            true,
+							MarkdownDescription: "Size in MiB",
+						},
+						"state": schema.StringAttribute{
+							Computed:            true,
+							MarkdownDescription: "State",
+						},
+						"type": schema.StringAttribute{
+							Optional:            true,
+							MarkdownDescription: "Type of the volume (e.g. SSD, HDD)",
+						},
+						"type_name": schema.StringAttribute{
+							Computed:            true,
+							MarkdownDescription: "Name of the type",
+						},
+						"url": schema.StringAttribute{
+							Computed:            true,
+							MarkdownDescription: "Url",
+						},
+					},
+				},
 				Computed:            true,
 				MarkdownDescription: "List of volumes attached to the instance",
 			},

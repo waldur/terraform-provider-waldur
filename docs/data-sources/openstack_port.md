@@ -38,7 +38,7 @@ Openstack Port data source - lookup by name or UUID
 ### Read-Only
 
 - `access_url` (String) Access url
-- `allowed_address_pairs` (List of Object) Allowed address pairs (see [below for nested schema](#nestedatt--allowed_address_pairs))
+- `allowed_address_pairs` (Attributes List) Allowed address pairs (see [below for nested schema](#nestedatt--allowed_address_pairs))
 - `created` (String) Created
 - `customer` (String) Customer
 - `customer_abbreviation` (String) Customer abbreviation
@@ -56,7 +56,7 @@ Openstack Port data source - lookup by name or UUID
 - `project_name` (String) Name of the project
 - `project_uuid` (String) UUID of the project
 - `resource_type` (String) Resource type
-- `security_groups` (List of Object) Security groups (see [below for nested schema](#nestedatt--security_groups))
+- `security_groups` (Attributes List) Security groups (see [below for nested schema](#nestedatt--security_groups))
 - `state` (String) State
 - `tenant_name` (String) Name of the tenant
 - `url` (String) Url
@@ -64,15 +64,18 @@ Openstack Port data source - lookup by name or UUID
 <a id="nestedatt--allowed_address_pairs"></a>
 ### Nested Schema for `allowed_address_pairs`
 
-Read-Only:
+Optional:
 
-- `mac_address` (String)
+- `mac_address` (String) Mac address
 
 
 <a id="nestedatt--security_groups"></a>
 ### Nested Schema for `security_groups`
 
+Optional:
+
+- `name` (String) Name of the resource
+
 Read-Only:
 
-- `name` (String)
-- `url` (String)
+- `url` (String) Url

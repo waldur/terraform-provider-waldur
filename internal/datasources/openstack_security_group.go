@@ -239,20 +239,55 @@ func (d *OpenstackSecurityGroupDataSource) Schema(ctx context.Context, req datas
 				Computed:            true,
 				MarkdownDescription: "Resource type",
 			},
-			"rules": schema.ListAttribute{
-				CustomType: types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
-					"cidr":              types.StringType,
-					"description":       types.StringType,
-					"direction":         types.StringType,
-					"ethertype":         types.StringType,
-					"from_port":         types.Int64Type,
-					"id":                types.Int64Type,
-					"protocol":          types.StringType,
-					"remote_group":      types.StringType,
-					"remote_group_name": types.StringType,
-					"remote_group_uuid": types.StringType,
-					"to_port":           types.Int64Type,
-				}}},
+			"rules": schema.ListNestedAttribute{
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: map[string]schema.Attribute{
+						"cidr": schema.StringAttribute{
+							Optional:            true,
+							MarkdownDescription: "CIDR notation for the source/destination network address range",
+						},
+						"description": schema.StringAttribute{
+							Optional:            true,
+							MarkdownDescription: "Description of the resource",
+						},
+						"direction": schema.StringAttribute{
+							Optional:            true,
+							MarkdownDescription: "Traffic direction - either 'ingress' (incoming) or 'egress' (outgoing)",
+						},
+						"ethertype": schema.StringAttribute{
+							Optional:            true,
+							MarkdownDescription: "IP protocol version - either 'IPv4' or 'IPv6'",
+						},
+						"from_port": schema.Int64Attribute{
+							Optional:            true,
+							MarkdownDescription: "Starting port number in the range (1-65535)",
+						},
+						"id": schema.Int64Attribute{
+							Computed:            true,
+							MarkdownDescription: "Id",
+						},
+						"protocol": schema.StringAttribute{
+							Optional:            true,
+							MarkdownDescription: "The network protocol (TCP, UDP, ICMP, or empty for any protocol)",
+						},
+						"remote_group": schema.StringAttribute{
+							Optional:            true,
+							MarkdownDescription: "Remote security group that this rule references, if any",
+						},
+						"remote_group_name": schema.StringAttribute{
+							Computed:            true,
+							MarkdownDescription: "Name of the remote group",
+						},
+						"remote_group_uuid": schema.StringAttribute{
+							Computed:            true,
+							MarkdownDescription: "UUID of the remote group",
+						},
+						"to_port": schema.Int64Attribute{
+							Optional:            true,
+							MarkdownDescription: "Ending port number in the range (1-65535)",
+						},
+					},
+				},
 				Computed:            true,
 				MarkdownDescription: "Rules",
 			},

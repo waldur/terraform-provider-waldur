@@ -58,7 +58,7 @@ Openstack Instance data source - lookup by name or UUID
 - `external_ips` (List of String) External ips
 - `flavor_disk` (Number) Flavor disk size in MiB
 - `flavor_name` (String) Name of the flavor used by this instance
-- `floating_ips` (List of Object) Floating ips (see [below for nested schema](#nestedatt--floating_ips))
+- `floating_ips` (Attributes List) Floating ips (see [below for nested schema](#nestedatt--floating_ips))
 - `hypervisor_hostname` (String) Name of the hypervisor hosting this instance
 - `image_name` (String) Name of the image
 - `internal_ips` (List of String) Internal ips
@@ -78,11 +78,11 @@ Openstack Instance data source - lookup by name or UUID
 - `min_disk` (Number) Minimum disk size in MiB
 - `min_ram` (Number) Minimum memory size in MiB
 - `modified` (String) Modified
-- `ports` (List of Object) Ports (see [below for nested schema](#nestedatt--ports))
+- `ports` (Attributes List) Ports (see [below for nested schema](#nestedatt--ports))
 - `ram` (Number) Memory size in MiB
 - `resource_type` (String) Resource type
-- `security_groups` (List of Object) Security groups (see [below for nested schema](#nestedatt--security_groups))
-- `server_group` (Object) Server group (see [below for nested schema](#nestedatt--server_group))
+- `security_groups` (Attributes List) Security groups (see [below for nested schema](#nestedatt--security_groups))
+- `server_group` (Attributes) Server group (see [below for nested schema](#nestedatt--server_group))
 - `service_name` (String) Name of the service
 - `service_settings` (String) OpenStack provider settings
 - `service_settings_error_message` (String) Service settings error message
@@ -90,127 +90,139 @@ Openstack Instance data source - lookup by name or UUID
 - `start_time` (String) Start time
 - `url` (String) Url
 - `user_data` (String) Additional data that will be added to instance on provisioning
-- `volumes` (List of Object) List of volumes attached to the instance (see [below for nested schema](#nestedatt--volumes))
+- `volumes` (Attributes List) List of volumes attached to the instance (see [below for nested schema](#nestedatt--volumes))
 
 <a id="nestedatt--floating_ips"></a>
 ### Nested Schema for `floating_ips`
 
+Optional:
+
+- `subnet` (String) Subnet
+
 Read-Only:
 
-- `address` (String)
-- `port_fixed_ips` (List of Object) (see [below for nested schema](#nestedobjatt--floating_ips--port_fixed_ips))
-- `port_mac_address` (String)
-- `subnet` (String)
-- `subnet_cidr` (String)
-- `subnet_description` (String)
-- `subnet_name` (String)
-- `subnet_uuid` (String)
-- `url` (String)
+- `address` (String) The public IPv4 address of the floating IP
+- `port_fixed_ips` (Attributes List) Port fixed ips (see [below for nested schema](#nestedatt--floating_ips--port_fixed_ips))
+- `port_mac_address` (String) MAC address of the port
+- `subnet_cidr` (String) IPv4 network address in CIDR format (e.g. 192.168.0.0/24)
+- `subnet_description` (String) Subnet description
+- `subnet_name` (String) Name of the subnet
+- `subnet_uuid` (String) UUID of the subnet
+- `url` (String) Url
 
-<a id="nestedobjatt--floating_ips--port_fixed_ips"></a>
+<a id="nestedatt--floating_ips--port_fixed_ips"></a>
 ### Nested Schema for `floating_ips.port_fixed_ips`
 
-Read-Only:
+Optional:
 
-- `ip_address` (String)
-- `subnet_id` (String)
+- `ip_address` (String) IP address to assign to the port
+- `subnet_id` (String) ID of the subnet in which to assign the IP address
 
 
 
 <a id="nestedatt--ports"></a>
 ### Nested Schema for `ports`
 
-Read-Only:
+Optional:
 
-- `allowed_address_pairs` (List of Object) (see [below for nested schema](#nestedobjatt--ports--allowed_address_pairs))
-- `device_id` (String)
-- `device_owner` (String)
-- `fixed_ips` (List of Object) (see [below for nested schema](#nestedobjatt--ports--fixed_ips))
-- `mac_address` (String)
-- `security_groups` (List of Object) (see [below for nested schema](#nestedobjatt--ports--security_groups))
-- `subnet` (String)
-- `subnet_cidr` (String)
-- `subnet_description` (String)
-- `subnet_name` (String)
-- `subnet_uuid` (String)
-- `url` (String)
-
-<a id="nestedobjatt--ports--allowed_address_pairs"></a>
-### Nested Schema for `ports.allowed_address_pairs`
+- `fixed_ips` (Attributes List) Fixed ips (see [below for nested schema](#nestedatt--ports--fixed_ips))
+- `subnet` (String) Subnet to which this port belongs
 
 Read-Only:
 
-- `mac_address` (String)
+- `allowed_address_pairs` (Attributes List) Allowed address pairs (see [below for nested schema](#nestedatt--ports--allowed_address_pairs))
+- `device_id` (String) ID of device (instance, router etc) to which this port is connected
+- `device_owner` (String) Entity that uses this port (e.g. network:router_interface)
+- `mac_address` (String) MAC address of the port
+- `security_groups` (Attributes List) Security groups (see [below for nested schema](#nestedatt--ports--security_groups))
+- `subnet_cidr` (String) IPv4 network address in CIDR format (e.g. 192.168.0.0/24)
+- `subnet_description` (String) Subnet description
+- `subnet_name` (String) Name of the subnet
+- `subnet_uuid` (String) UUID of the subnet
+- `url` (String) Url
 
-
-<a id="nestedobjatt--ports--fixed_ips"></a>
+<a id="nestedatt--ports--fixed_ips"></a>
 ### Nested Schema for `ports.fixed_ips`
 
-Read-Only:
+Optional:
 
-- `ip_address` (String)
-- `subnet_id` (String)
+- `ip_address` (String) IP address to assign to the port
+- `subnet_id` (String) ID of the subnet in which to assign the IP address
 
 
-<a id="nestedobjatt--ports--security_groups"></a>
+<a id="nestedatt--ports--allowed_address_pairs"></a>
+### Nested Schema for `ports.allowed_address_pairs`
+
+Optional:
+
+- `mac_address` (String) Mac address
+
+
+<a id="nestedatt--ports--security_groups"></a>
 ### Nested Schema for `ports.security_groups`
 
+Optional:
+
+- `description` (String) Description of the resource
+- `name` (String) Name of the resource
+- `rules` (Attributes List) Rules (see [below for nested schema](#nestedatt--ports--security_groups--rules))
+
 Read-Only:
 
-- `access_url` (String)
-- `backend_id` (String)
-- `created` (String)
-- `customer` (String)
-- `customer_abbreviation` (String)
-- `customer_name` (String)
-- `customer_native_name` (String)
-- `customer_uuid` (String)
-- `description` (String)
-- `error_message` (String)
-- `error_traceback` (String)
-- `is_limit_based` (Boolean)
-- `is_usage_based` (Boolean)
-- `marketplace_category_name` (String)
-- `marketplace_category_uuid` (String)
-- `marketplace_offering_name` (String)
-- `marketplace_offering_uuid` (String)
-- `marketplace_plan_uuid` (String)
-- `marketplace_resource_state` (String)
-- `marketplace_resource_uuid` (String)
-- `modified` (String)
-- `name` (String)
-- `project` (String)
-- `project_name` (String)
-- `project_uuid` (String)
-- `resource_type` (String)
-- `rules` (List of Object) (see [below for nested schema](#nestedobjatt--ports--security_groups--rules))
-- `service_name` (String)
-- `service_settings` (String)
-- `service_settings_error_message` (String)
-- `service_settings_state` (String)
-- `service_settings_uuid` (String)
-- `state` (String)
-- `tenant` (String)
-- `tenant_name` (String)
-- `tenant_uuid` (String)
-- `url` (String)
+- `access_url` (String) Access url
+- `backend_id` (String) ID of the backend
+- `created` (String) Created
+- `customer` (String) Customer
+- `customer_abbreviation` (String) Customer abbreviation
+- `customer_name` (String) Name of the customer
+- `customer_native_name` (String) Name of the customer native
+- `customer_uuid` (String) UUID of the customer
+- `error_message` (String) Error message
+- `error_traceback` (String) Error traceback
+- `is_limit_based` (Boolean) Is limit based
+- `is_usage_based` (Boolean) Is usage based
+- `marketplace_category_name` (String) Name of the marketplace category
+- `marketplace_category_uuid` (String) UUID of the marketplace category
+- `marketplace_offering_name` (String) Name of the marketplace offering
+- `marketplace_offering_uuid` (String) UUID of the marketplace offering
+- `marketplace_plan_uuid` (String) UUID of the marketplace plan
+- `marketplace_resource_state` (String) Marketplace resource state
+- `marketplace_resource_uuid` (String) UUID of the marketplace resource
+- `modified` (String) Modified
+- `project` (String) Project
+- `project_name` (String) Name of the project
+- `project_uuid` (String) UUID of the project
+- `resource_type` (String) Resource type
+- `service_name` (String) Name of the service
+- `service_settings` (String) Service settings
+- `service_settings_error_message` (String) Service settings error message
+- `service_settings_state` (String) Service settings state
+- `service_settings_uuid` (String) UUID of the service settings
+- `state` (String) State
+- `tenant` (String) Tenant
+- `tenant_name` (String) Name of the tenant
+- `tenant_uuid` (String) UUID of the tenant
+- `url` (String) Url
 
-<a id="nestedobjatt--ports--security_groups--rules"></a>
+<a id="nestedatt--ports--security_groups--rules"></a>
 ### Nested Schema for `ports.security_groups.rules`
 
+Optional:
+
+- `cidr` (String) CIDR notation for the source/destination network address range
+- `description` (String) Description of the resource
+- `direction` (String) Traffic direction - either 'ingress' (incoming) or 'egress' (outgoing)
+- `ethertype` (String) IP protocol version - either 'IPv4' or 'IPv6'
+- `from_port` (Number) Starting port number in the range (1-65535)
+- `protocol` (String) The network protocol (TCP, UDP, ICMP, or empty for any protocol)
+- `remote_group` (String) Remote security group that this rule references, if any
+- `to_port` (Number) Ending port number in the range (1-65535)
+
 Read-Only:
 
-- `cidr` (String)
-- `description` (String)
-- `direction` (String)
-- `ethertype` (String)
-- `from_port` (Number)
-- `id` (Number)
-- `protocol` (String)
-- `remote_group` (String)
-- `remote_group_name` (String)
-- `remote_group_uuid` (String)
-- `to_port` (Number)
+- `id` (Number) Id
+- `remote_group_name` (String) Name of the remote group
+- `remote_group_uuid` (String) UUID of the remote group
 
 
 
@@ -220,27 +232,30 @@ Read-Only:
 
 Read-Only:
 
-- `description` (String)
-- `name` (String)
-- `rules` (List of Object) (see [below for nested schema](#nestedobjatt--security_groups--rules))
-- `state` (String)
-- `url` (String)
+- `description` (String) Description of the resource
+- `name` (String) Name of the resource
+- `rules` (Attributes List) Rules (see [below for nested schema](#nestedatt--security_groups--rules))
+- `state` (String) State
+- `url` (String) Url
 
-<a id="nestedobjatt--security_groups--rules"></a>
+<a id="nestedatt--security_groups--rules"></a>
 ### Nested Schema for `security_groups.rules`
+
+Optional:
+
+- `cidr` (String) CIDR notation for the source/destination network address range
+- `description` (String) Description of the resource
+- `direction` (String) Traffic direction - either 'ingress' (incoming) or 'egress' (outgoing)
+- `ethertype` (String) IP protocol version - either 'IPv4' or 'IPv6'
+- `from_port` (Number) Starting port number in the range (1-65535)
+- `protocol` (String) The network protocol (TCP, UDP, ICMP, or empty for any protocol)
+- `to_port` (Number) Ending port number in the range (1-65535)
 
 Read-Only:
 
-- `cidr` (String)
-- `description` (String)
-- `direction` (String)
-- `ethertype` (String)
-- `from_port` (Number)
-- `id` (Number)
-- `protocol` (String)
-- `remote_group_name` (String)
-- `remote_group_uuid` (String)
-- `to_port` (Number)
+- `id` (Number) Id
+- `remote_group_name` (String) Name of the remote group
+- `remote_group_uuid` (String) UUID of the remote group
 
 
 
@@ -249,25 +264,28 @@ Read-Only:
 
 Read-Only:
 
-- `name` (String)
-- `policy` (String)
-- `state` (String)
-- `url` (String)
+- `name` (String) Name of the resource
+- `policy` (String) Server group policy determining the rules for scheduling servers in this group
+- `state` (String) State
+- `url` (String) Url
 
 
 <a id="nestedatt--volumes"></a>
 ### Nested Schema for `volumes`
 
+Optional:
+
+- `bootable` (Boolean) Indicates if this volume can be used to boot an instance
+- `device` (String) Name of volume as instance device e.g. /dev/vdb.
+- `image_name` (String) Name of the image this volume was created from
+- `size` (Number) Size in MiB
+- `type` (String) Type of the volume (e.g. SSD, HDD)
+
 Read-Only:
 
-- `bootable` (Boolean)
-- `device` (String)
-- `image_name` (String)
-- `marketplace_resource_uuid` (String)
-- `name` (String)
-- `resource_type` (String)
-- `size` (Number)
-- `state` (String)
-- `type` (String)
-- `type_name` (String)
-- `url` (String)
+- `marketplace_resource_uuid` (String) UUID of the marketplace resource
+- `name` (String) Name of the resource
+- `resource_type` (String) Resource type
+- `state` (String) State
+- `type_name` (String) Name of the type
+- `url` (String) Url

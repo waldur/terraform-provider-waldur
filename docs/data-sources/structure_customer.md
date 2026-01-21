@@ -60,8 +60,8 @@ Structure Customer data source - lookup by name or UUID
 - `longitude` (Number) Longitude
 - `max_service_accounts` (Number) Maximum number of service accounts allowed
 - `notification_emails` (String) Comma-separated list of notification email addresses
-- `organization_groups` (List of Object) Organization groups this customer belongs to (see [below for nested schema](#nestedatt--organization_groups))
-- `payment_profiles` (List of Object) Payment profiles (see [below for nested schema](#nestedatt--payment_profiles))
+- `organization_groups` (Attributes List) Organization groups this customer belongs to (see [below for nested schema](#nestedatt--organization_groups))
+- `payment_profiles` (Attributes List) Payment profiles (see [below for nested schema](#nestedatt--payment_profiles))
 - `phone_number` (String) Phone number
 - `postal` (String) Postal
 - `project_metadata_checklist` (String) Checklist to be used for project metadata validation in this organization
@@ -77,35 +77,41 @@ Structure Customer data source - lookup by name or UUID
 <a id="nestedatt--organization_groups"></a>
 ### Nested Schema for `organization_groups`
 
+Optional:
+
+- `name` (String) Name of the resource
+- `parent` (String) Parent
+
 Read-Only:
 
-- `customers_count` (Number)
-- `name` (String)
-- `parent` (String)
-- `parent_name` (String)
-- `parent_uuid` (String)
-- `url` (String)
+- `customers_count` (Number) Number of customers in this organization group
+- `parent_name` (String) Name of the parent organization group
+- `parent_uuid` (String) UUID of the parent organization group
+- `url` (String) Url
 
 
 <a id="nestedatt--payment_profiles"></a>
 ### Nested Schema for `payment_profiles`
 
+Optional:
+
+- `attributes` (Attributes) Attributes (see [below for nested schema](#nestedatt--payment_profiles--attributes))
+- `is_active` (Boolean) Is active
+- `name` (String) Name of the resource
+- `organization` (String) Organization
+- `payment_type` (String) Payment type
+
 Read-Only:
 
-- `attributes` (Object) (see [below for nested schema](#nestedobjatt--payment_profiles--attributes))
-- `is_active` (Boolean)
-- `name` (String)
-- `organization` (String)
-- `organization_uuid` (String)
-- `payment_type` (String)
-- `payment_type_display` (String)
-- `url` (String)
+- `organization_uuid` (String) UUID of the organization
+- `payment_type_display` (String) Payment type display
+- `url` (String) Url
 
-<a id="nestedobjatt--payment_profiles--attributes"></a>
+<a id="nestedatt--payment_profiles--attributes"></a>
 ### Nested Schema for `payment_profiles.attributes`
 
-Read-Only:
+Optional:
 
-- `agreement_number` (String)
-- `contract_sum` (Number)
-- `end_date` (String)
+- `agreement_number` (String) Agreement number
+- `contract_sum` (Number) Contract sum
+- `end_date` (String) End date

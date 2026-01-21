@@ -48,7 +48,7 @@ Openstack Subnet data source - lookup by name or UUID
 ### Read-Only
 
 - `access_url` (String) Access url
-- `allocation_pools` (List of Object) Allocation pools (see [below for nested schema](#nestedatt--allocation_pools))
+- `allocation_pools` (Attributes List) Allocation pools (see [below for nested schema](#nestedatt--allocation_pools))
 - `cidr` (String) Cidr
 - `created` (String) Created
 - `disable_gateway` (Boolean) If True, no gateway IP address will be allocated
@@ -56,7 +56,7 @@ Openstack Subnet data source - lookup by name or UUID
 - `error_message` (String) Error message
 - `error_traceback` (String) Error traceback
 - `gateway_ip` (String) IP address of the gateway for this subnet
-- `host_routes` (List of Object) Host routes (see [below for nested schema](#nestedatt--host_routes))
+- `host_routes` (Attributes List) Host routes (see [below for nested schema](#nestedatt--host_routes))
 - `is_connected` (Boolean) Is subnet connected to the default tenant router.
 - `modified` (String) Modified
 - `network_name` (String) Name of the network
@@ -67,16 +67,16 @@ Openstack Subnet data source - lookup by name or UUID
 <a id="nestedatt--allocation_pools"></a>
 ### Nested Schema for `allocation_pools`
 
-Read-Only:
+Optional:
 
-- `end` (String)
-- `start` (String)
+- `end` (String) An IPv4 or IPv6 address.
+- `start` (String) An IPv4 or IPv6 address.
 
 
 <a id="nestedatt--host_routes"></a>
 ### Nested Schema for `host_routes`
 
-Read-Only:
+Optional:
 
-- `destination` (String)
-- `nexthop` (String)
+- `destination` (String) Destination
+- `nexthop` (String) An IPv4 or IPv6 address.

@@ -220,10 +220,15 @@ func (d *OpenstackPortDataSource) Schema(ctx context.Context, req datasource.Sch
 				Computed:            true,
 				MarkdownDescription: "Access url",
 			},
-			"allowed_address_pairs": schema.ListAttribute{
-				CustomType: types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
-					"mac_address": types.StringType,
-				}}},
+			"allowed_address_pairs": schema.ListNestedAttribute{
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: map[string]schema.Attribute{
+						"mac_address": schema.StringAttribute{
+							Optional:            true,
+							MarkdownDescription: "Mac address",
+						},
+					},
+				},
 				Computed:            true,
 				MarkdownDescription: "Allowed address pairs",
 			},
@@ -264,7 +269,7 @@ func (d *OpenstackPortDataSource) Schema(ctx context.Context, req datasource.Sch
 				MarkdownDescription: "Error traceback",
 			},
 			"floating_ips": schema.ListAttribute{
-				CustomType:          types.ListType{ElemType: types.StringType},
+				ElementType:         types.StringType,
 				Computed:            true,
 				MarkdownDescription: "Floating ips",
 			},
@@ -296,11 +301,19 @@ func (d *OpenstackPortDataSource) Schema(ctx context.Context, req datasource.Sch
 				Computed:            true,
 				MarkdownDescription: "Resource type",
 			},
-			"security_groups": schema.ListAttribute{
-				CustomType: types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
-					"name": types.StringType,
-					"url":  types.StringType,
-				}}},
+			"security_groups": schema.ListNestedAttribute{
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: map[string]schema.Attribute{
+						"name": schema.StringAttribute{
+							Optional:            true,
+							MarkdownDescription: "Name of the resource",
+						},
+						"url": schema.StringAttribute{
+							Computed:            true,
+							MarkdownDescription: "Url",
+						},
+					},
+				},
 				Computed:            true,
 				MarkdownDescription: "Security groups",
 			},

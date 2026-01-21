@@ -51,45 +51,51 @@ Openstack Network data source - lookup by name or UUID
 - `error_traceback` (String) Error traceback
 - `modified` (String) Modified
 - `mtu` (Number) The maximum transmission unit (MTU) value to address fragmentation.
-- `rbac_policies` (List of Object) Rbac policies (see [below for nested schema](#nestedatt--rbac_policies))
+- `rbac_policies` (Attributes List) Rbac policies (see [below for nested schema](#nestedatt--rbac_policies))
 - `resource_type` (String) Resource type
 - `segmentation_id` (Number) VLAN ID for VLAN networks or tunnel ID for VXLAN/GRE networks
-- `subnets` (List of Object) Subnets (see [below for nested schema](#nestedatt--subnets))
+- `subnets` (Attributes List) Subnets (see [below for nested schema](#nestedatt--subnets))
 - `tenant_name` (String) Name of the tenant
 - `url` (String) Url
 
 <a id="nestedatt--rbac_policies"></a>
 ### Nested Schema for `rbac_policies`
 
+Optional:
+
+- `network` (String) Network
+- `policy_type` (String) Type of access granted - either shared access or external network access
+- `target_tenant` (String) Target tenant
+
 Read-Only:
 
-- `backend_id` (String)
-- `created` (String)
-- `network` (String)
-- `network_name` (String)
-- `policy_type` (String)
-- `target_tenant` (String)
-- `target_tenant_name` (String)
-- `url` (String)
+- `backend_id` (String) ID of the backend
+- `created` (String) Created
+- `network_name` (String) Name of the network
+- `target_tenant_name` (String) Name of the target tenant
+- `url` (String) Url
 
 
 <a id="nestedatt--subnets"></a>
 ### Nested Schema for `subnets`
 
+Optional:
+
+- `cidr` (String) IPv4 network address in CIDR format (e.g. 192.168.0.0/24)
+- `description` (String) Description of the resource
+- `enable_dhcp` (Boolean) If True, DHCP service will be enabled on this subnet
+- `gateway_ip` (String) IP address of the gateway for this subnet
+- `ip_version` (Number) IP protocol version (4 or 6)
+- `name` (String) Name of the resource
+
 Read-Only:
 
-- `allocation_pools` (List of Object) (see [below for nested schema](#nestedobjatt--subnets--allocation_pools))
-- `cidr` (String)
-- `description` (String)
-- `enable_dhcp` (Boolean)
-- `gateway_ip` (String)
-- `ip_version` (Number)
-- `name` (String)
+- `allocation_pools` (Attributes List) Allocation pools (see [below for nested schema](#nestedatt--subnets--allocation_pools))
 
-<a id="nestedobjatt--subnets--allocation_pools"></a>
+<a id="nestedatt--subnets--allocation_pools"></a>
 ### Nested Schema for `subnets.allocation_pools`
 
-Read-Only:
+Optional:
 
-- `end` (String)
-- `start` (String)
+- `end` (String) An IPv4 or IPv6 address.
+- `start` (String) An IPv4 or IPv6 address.

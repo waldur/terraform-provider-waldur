@@ -331,33 +331,89 @@ func (d *StructureCustomerDataSource) Schema(ctx context.Context, req datasource
 				Computed:            true,
 				MarkdownDescription: "Comma-separated list of notification email addresses",
 			},
-			"organization_groups": schema.ListAttribute{
-				CustomType: types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
-					"customers_count": types.Int64Type,
-					"name":            types.StringType,
-					"parent":          types.StringType,
-					"parent_name":     types.StringType,
-					"parent_uuid":     types.StringType,
-					"url":             types.StringType,
-				}}},
+			"organization_groups": schema.ListNestedAttribute{
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: map[string]schema.Attribute{
+						"customers_count": schema.Int64Attribute{
+							Computed:            true,
+							MarkdownDescription: "Number of customers in this organization group",
+						},
+						"name": schema.StringAttribute{
+							Optional:            true,
+							MarkdownDescription: "Name of the resource",
+						},
+						"parent": schema.StringAttribute{
+							Optional:            true,
+							MarkdownDescription: "Parent",
+						},
+						"parent_name": schema.StringAttribute{
+							Computed:            true,
+							MarkdownDescription: "Name of the parent organization group",
+						},
+						"parent_uuid": schema.StringAttribute{
+							Computed:            true,
+							MarkdownDescription: "UUID of the parent organization group",
+						},
+						"url": schema.StringAttribute{
+							Computed:            true,
+							MarkdownDescription: "Url",
+						},
+					},
+				},
 				Computed:            true,
 				MarkdownDescription: "Organization groups this customer belongs to",
 			},
-			"payment_profiles": schema.ListAttribute{
-				CustomType: types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
-					"attributes": types.ObjectType{AttrTypes: map[string]attr.Type{
-						"agreement_number": types.StringType,
-						"contract_sum":     types.Int64Type,
-						"end_date":         types.StringType,
-					}},
-					"is_active":            types.BoolType,
-					"name":                 types.StringType,
-					"organization":         types.StringType,
-					"organization_uuid":    types.StringType,
-					"payment_type":         types.StringType,
-					"payment_type_display": types.StringType,
-					"url":                  types.StringType,
-				}}},
+			"payment_profiles": schema.ListNestedAttribute{
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: map[string]schema.Attribute{
+						"attributes": schema.SingleNestedAttribute{
+							Attributes: map[string]schema.Attribute{
+								"agreement_number": schema.StringAttribute{
+									Optional:            true,
+									MarkdownDescription: "Agreement number",
+								},
+								"contract_sum": schema.Int64Attribute{
+									Optional:            true,
+									MarkdownDescription: "Contract sum",
+								},
+								"end_date": schema.StringAttribute{
+									Optional:            true,
+									MarkdownDescription: "End date",
+								},
+							},
+							Optional:            true,
+							MarkdownDescription: "Attributes",
+						},
+						"is_active": schema.BoolAttribute{
+							Optional:            true,
+							MarkdownDescription: "Is active",
+						},
+						"name": schema.StringAttribute{
+							Optional:            true,
+							MarkdownDescription: "Name of the resource",
+						},
+						"organization": schema.StringAttribute{
+							Optional:            true,
+							MarkdownDescription: "Organization",
+						},
+						"organization_uuid": schema.StringAttribute{
+							Computed:            true,
+							MarkdownDescription: "UUID of the organization",
+						},
+						"payment_type": schema.StringAttribute{
+							Optional:            true,
+							MarkdownDescription: "Payment type",
+						},
+						"payment_type_display": schema.StringAttribute{
+							Computed:            true,
+							MarkdownDescription: "Payment type display",
+						},
+						"url": schema.StringAttribute{
+							Computed:            true,
+							MarkdownDescription: "Url",
+						},
+					},
+				},
 				Computed:            true,
 				MarkdownDescription: "Payment profiles",
 			},

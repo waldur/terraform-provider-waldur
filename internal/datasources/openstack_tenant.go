@@ -287,12 +287,23 @@ func (d *OpenstackTenantDataSource) Schema(ctx context.Context, req datasource.S
 				Computed:            true,
 				MarkdownDescription: "Modified",
 			},
-			"quotas": schema.ListAttribute{
-				CustomType: types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
-					"limit": types.Int64Type,
-					"name":  types.StringType,
-					"usage": types.Int64Type,
-				}}},
+			"quotas": schema.ListNestedAttribute{
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: map[string]schema.Attribute{
+						"limit": schema.Int64Attribute{
+							Optional:            true,
+							MarkdownDescription: "Limit",
+						},
+						"name": schema.StringAttribute{
+							Optional:            true,
+							MarkdownDescription: "Name of the resource",
+						},
+						"usage": schema.Int64Attribute{
+							Optional:            true,
+							MarkdownDescription: "Usage",
+						},
+					},
+				},
 				Computed:            true,
 				MarkdownDescription: "Quotas",
 			},

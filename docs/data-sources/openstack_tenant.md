@@ -57,7 +57,7 @@ Openstack Tenant data source - lookup by name or UUID
 - `marketplace_resource_state` (String) Marketplace resource state
 - `marketplace_resource_uuid` (String) UUID of the marketplace resource
 - `modified` (String) Modified
-- `quotas` (List of Object) Quotas (see [below for nested schema](#nestedatt--quotas))
+- `quotas` (Attributes List) Quotas (see [below for nested schema](#nestedatt--quotas))
 - `resource_type` (String) Resource type
 - `service_name` (String) Name of the service
 - `service_settings` (String) Service settings
@@ -71,8 +71,8 @@ Openstack Tenant data source - lookup by name or UUID
 <a id="nestedatt--quotas"></a>
 ### Nested Schema for `quotas`
 
-Read-Only:
+Optional:
 
-- `limit` (Number)
-- `name` (String)
-- `usage` (Number)
+- `limit` (Number) Limit
+- `name` (String) Name of the resource
+- `usage` (Number) Usage

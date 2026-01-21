@@ -274,17 +274,43 @@ func (d *OpenstackNetworkDataSource) Schema(ctx context.Context, req datasource.
 				Computed:            true,
 				MarkdownDescription: "The maximum transmission unit (MTU) value to address fragmentation.",
 			},
-			"rbac_policies": schema.ListAttribute{
-				CustomType: types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
-					"backend_id":         types.StringType,
-					"created":            types.StringType,
-					"network":            types.StringType,
-					"network_name":       types.StringType,
-					"policy_type":        types.StringType,
-					"target_tenant":      types.StringType,
-					"target_tenant_name": types.StringType,
-					"url":                types.StringType,
-				}}},
+			"rbac_policies": schema.ListNestedAttribute{
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: map[string]schema.Attribute{
+						"backend_id": schema.StringAttribute{
+							Computed:            true,
+							MarkdownDescription: "ID of the backend",
+						},
+						"created": schema.StringAttribute{
+							Computed:            true,
+							MarkdownDescription: "Created",
+						},
+						"network": schema.StringAttribute{
+							Optional:            true,
+							MarkdownDescription: "Network",
+						},
+						"network_name": schema.StringAttribute{
+							Computed:            true,
+							MarkdownDescription: "Name of the network",
+						},
+						"policy_type": schema.StringAttribute{
+							Optional:            true,
+							MarkdownDescription: "Type of access granted - either shared access or external network access",
+						},
+						"target_tenant": schema.StringAttribute{
+							Optional:            true,
+							MarkdownDescription: "Target tenant",
+						},
+						"target_tenant_name": schema.StringAttribute{
+							Computed:            true,
+							MarkdownDescription: "Name of the target tenant",
+						},
+						"url": schema.StringAttribute{
+							Computed:            true,
+							MarkdownDescription: "Url",
+						},
+					},
+				},
 				Computed:            true,
 				MarkdownDescription: "Rbac policies",
 			},
@@ -296,19 +322,51 @@ func (d *OpenstackNetworkDataSource) Schema(ctx context.Context, req datasource.
 				Computed:            true,
 				MarkdownDescription: "VLAN ID for VLAN networks or tunnel ID for VXLAN/GRE networks",
 			},
-			"subnets": schema.ListAttribute{
-				CustomType: types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
-					"allocation_pools": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
-						"end":   types.StringType,
-						"start": types.StringType,
-					}}},
-					"cidr":        types.StringType,
-					"description": types.StringType,
-					"enable_dhcp": types.BoolType,
-					"gateway_ip":  types.StringType,
-					"ip_version":  types.Int64Type,
-					"name":        types.StringType,
-				}}},
+			"subnets": schema.ListNestedAttribute{
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: map[string]schema.Attribute{
+						"allocation_pools": schema.ListNestedAttribute{
+							NestedObject: schema.NestedAttributeObject{
+								Attributes: map[string]schema.Attribute{
+									"end": schema.StringAttribute{
+										Optional:            true,
+										MarkdownDescription: "An IPv4 or IPv6 address.",
+									},
+									"start": schema.StringAttribute{
+										Optional:            true,
+										MarkdownDescription: "An IPv4 or IPv6 address.",
+									},
+								},
+							},
+							Computed:            true,
+							MarkdownDescription: "Allocation pools",
+						},
+						"cidr": schema.StringAttribute{
+							Optional:            true,
+							MarkdownDescription: "IPv4 network address in CIDR format (e.g. 192.168.0.0/24)",
+						},
+						"description": schema.StringAttribute{
+							Optional:            true,
+							MarkdownDescription: "Description of the resource",
+						},
+						"enable_dhcp": schema.BoolAttribute{
+							Optional:            true,
+							MarkdownDescription: "If True, DHCP service will be enabled on this subnet",
+						},
+						"gateway_ip": schema.StringAttribute{
+							Optional:            true,
+							MarkdownDescription: "IP address of the gateway for this subnet",
+						},
+						"ip_version": schema.Int64Attribute{
+							Optional:            true,
+							MarkdownDescription: "IP protocol version (4 or 6)",
+						},
+						"name": schema.StringAttribute{
+							Optional:            true,
+							MarkdownDescription: "Name of the resource",
+						},
+					},
+				},
 				Computed:            true,
 				MarkdownDescription: "Subnets",
 			},
