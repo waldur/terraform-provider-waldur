@@ -40,6 +40,7 @@ Structure Project data source - lookup by name or UUID
 
 - `customer_display_billing_info_in_projects` (Boolean)
 - `customer_slug` (String)
+- `customer_uuid` (String)
 - `end_date` (String) Project end date. Setting this field requires DELETE_PROJECT permission.
 - `end_date_requested_by` (String)
 - `grace_period_days` (Number) Number of extra days after project end date before resources are terminated. Overrides customer-level setting.

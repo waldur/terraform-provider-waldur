@@ -86,6 +86,7 @@ type OpenstackInstanceApiResponse struct {
 	MinDisk                          *int64                                    `json:"min_disk" tfsdk:"min_disk"`
 	MinRam                           *int64                                    `json:"min_ram" tfsdk:"min_ram"`
 	Modified                         *string                                   `json:"modified" tfsdk:"modified"`
+	Name                             *string                                   `json:"name" tfsdk:"name"`
 	Offering                         *string                                   `json:"offering" tfsdk:"offering"`
 	Ports                            []OpenstackInstancePortsResponse          `json:"ports" tfsdk:"ports"`
 	Project                          *string                                   `json:"project" tfsdk:"project"`
@@ -184,6 +185,7 @@ type OpenstackInstancePortsSecurityGroupsResponse struct {
 	MarketplaceResourceState    *string                                             `json:"marketplace_resource_state" tfsdk:"marketplace_resource_state"`
 	MarketplaceResourceUuid     *string                                             `json:"marketplace_resource_uuid" tfsdk:"marketplace_resource_uuid"`
 	Modified                    *string                                             `json:"modified" tfsdk:"modified"`
+	Name                        *string                                             `json:"name" tfsdk:"name"`
 	Project                     *string                                             `json:"project" tfsdk:"project"`
 	ProjectName                 *string                                             `json:"project_name" tfsdk:"project_name"`
 	ProjectUuid                 *string                                             `json:"project_uuid" tfsdk:"project_uuid"`
@@ -218,6 +220,7 @@ type OpenstackInstancePortsSecurityGroupsRulesResponse struct {
 type OpenstackInstanceSecurityGroupsResponse struct {
 	Url         *string                                        `json:"url" tfsdk:"url"`
 	Description *string                                        `json:"description" tfsdk:"description"`
+	Name        *string                                        `json:"name" tfsdk:"name"`
 	Rules       []OpenstackInstanceSecurityGroupsRulesResponse `json:"rules" tfsdk:"rules"`
 	State       *string                                        `json:"state" tfsdk:"state"`
 }
@@ -236,6 +239,7 @@ type OpenstackInstanceSecurityGroupsRulesResponse struct {
 }
 
 type OpenstackInstanceServerGroupResponse struct {
+	Name   *string `json:"name" tfsdk:"name"`
 	Policy *string `json:"policy" tfsdk:"policy"`
 	State  *string `json:"state" tfsdk:"state"`
 	Url    *string `json:"url" tfsdk:"url"`
@@ -246,273 +250,13 @@ type OpenstackInstanceVolumesResponse struct {
 	Device                  *string `json:"device" tfsdk:"device"`
 	ImageName               *string `json:"image_name" tfsdk:"image_name"`
 	MarketplaceResourceUuid *string `json:"marketplace_resource_uuid" tfsdk:"marketplace_resource_uuid"`
+	Name                    *string `json:"name" tfsdk:"name"`
 	ResourceType            *string `json:"resource_type" tfsdk:"resource_type"`
 	Size                    *int64  `json:"size" tfsdk:"size"`
 	State                   *string `json:"state" tfsdk:"state"`
 	Type                    *string `json:"type" tfsdk:"type"`
 	TypeName                *string `json:"type_name" tfsdk:"type_name"`
 	Url                     *string `json:"url" tfsdk:"url"`
-}
-
-var openstackinstance_data_volumesAttrTypes = map[string]attr.Type{
-	"size":        types.Int64Type,
-	"volume_type": types.StringType,
-}
-var openstackinstance_data_volumesObjectType = types.ObjectType{
-	AttrTypes: openstackinstance_data_volumesAttrTypes,
-}
-
-var openstackinstance_floating_ipsAttrTypes = map[string]attr.Type{
-	"ip_address": types.StringType,
-	"subnet":     types.StringType,
-	"url":        types.StringType,
-	"address":    types.StringType,
-	"port_fixed_ips": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
-		"ip_address": types.StringType,
-		"subnet_id":  types.StringType,
-	}}},
-	"port_mac_address":   types.StringType,
-	"subnet_cidr":        types.StringType,
-	"subnet_description": types.StringType,
-	"subnet_name":        types.StringType,
-	"subnet_uuid":        types.StringType,
-}
-var openstackinstance_floating_ipsObjectType = types.ObjectType{
-	AttrTypes: openstackinstance_floating_ipsAttrTypes,
-}
-
-var openstackinstancefloatingips_port_fixed_ipsAttrTypes = map[string]attr.Type{
-	"ip_address": types.StringType,
-	"subnet_id":  types.StringType,
-}
-var openstackinstancefloatingips_port_fixed_ipsObjectType = types.ObjectType{
-	AttrTypes: openstackinstancefloatingips_port_fixed_ipsAttrTypes,
-}
-
-var openstackinstance_portsAttrTypes = map[string]attr.Type{
-	"fixed_ips": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
-		"ip_address": types.StringType,
-		"subnet_id":  types.StringType,
-	}}},
-	"port":   types.StringType,
-	"subnet": types.StringType,
-	"allowed_address_pairs": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
-		"mac_address": types.StringType,
-	}}},
-	"device_id":    types.StringType,
-	"device_owner": types.StringType,
-	"mac_address":  types.StringType,
-	"security_groups": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
-		"access_url":                 types.StringType,
-		"backend_id":                 types.StringType,
-		"created":                    types.StringType,
-		"customer":                   types.StringType,
-		"customer_abbreviation":      types.StringType,
-		"customer_name":              types.StringType,
-		"customer_native_name":       types.StringType,
-		"customer_uuid":              types.StringType,
-		"description":                types.StringType,
-		"error_message":              types.StringType,
-		"error_traceback":            types.StringType,
-		"is_limit_based":             types.BoolType,
-		"is_usage_based":             types.BoolType,
-		"marketplace_category_name":  types.StringType,
-		"marketplace_category_uuid":  types.StringType,
-		"marketplace_offering_name":  types.StringType,
-		"marketplace_offering_uuid":  types.StringType,
-		"marketplace_plan_uuid":      types.StringType,
-		"marketplace_resource_state": types.StringType,
-		"marketplace_resource_uuid":  types.StringType,
-		"modified":                   types.StringType,
-		"name":                       types.StringType,
-		"project":                    types.StringType,
-		"project_name":               types.StringType,
-		"project_uuid":               types.StringType,
-		"resource_type":              types.StringType,
-		"rules": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
-			"cidr":              types.StringType,
-			"description":       types.StringType,
-			"direction":         types.StringType,
-			"ethertype":         types.StringType,
-			"from_port":         types.Int64Type,
-			"id":                types.Int64Type,
-			"protocol":          types.StringType,
-			"remote_group":      types.StringType,
-			"remote_group_name": types.StringType,
-			"remote_group_uuid": types.StringType,
-			"to_port":           types.Int64Type,
-		}}},
-		"service_name":                   types.StringType,
-		"service_settings":               types.StringType,
-		"service_settings_error_message": types.StringType,
-		"service_settings_state":         types.StringType,
-		"service_settings_uuid":          types.StringType,
-		"state":                          types.StringType,
-		"tenant":                         types.StringType,
-		"tenant_name":                    types.StringType,
-		"tenant_uuid":                    types.StringType,
-		"url":                            types.StringType,
-	}}},
-	"subnet_cidr":        types.StringType,
-	"subnet_description": types.StringType,
-	"subnet_name":        types.StringType,
-	"subnet_uuid":        types.StringType,
-	"url":                types.StringType,
-}
-var openstackinstance_portsObjectType = types.ObjectType{
-	AttrTypes: openstackinstance_portsAttrTypes,
-}
-
-var openstackinstanceports_fixed_ipsAttrTypes = map[string]attr.Type{
-	"ip_address": types.StringType,
-	"subnet_id":  types.StringType,
-}
-var openstackinstanceports_fixed_ipsObjectType = types.ObjectType{
-	AttrTypes: openstackinstanceports_fixed_ipsAttrTypes,
-}
-
-var openstackinstanceports_allowed_address_pairsAttrTypes = map[string]attr.Type{
-	"mac_address": types.StringType,
-}
-var openstackinstanceports_allowed_address_pairsObjectType = types.ObjectType{
-	AttrTypes: openstackinstanceports_allowed_address_pairsAttrTypes,
-}
-
-var openstackinstanceports_security_groupsAttrTypes = map[string]attr.Type{
-	"access_url":                 types.StringType,
-	"backend_id":                 types.StringType,
-	"created":                    types.StringType,
-	"customer":                   types.StringType,
-	"customer_abbreviation":      types.StringType,
-	"customer_name":              types.StringType,
-	"customer_native_name":       types.StringType,
-	"customer_uuid":              types.StringType,
-	"description":                types.StringType,
-	"error_message":              types.StringType,
-	"error_traceback":            types.StringType,
-	"is_limit_based":             types.BoolType,
-	"is_usage_based":             types.BoolType,
-	"marketplace_category_name":  types.StringType,
-	"marketplace_category_uuid":  types.StringType,
-	"marketplace_offering_name":  types.StringType,
-	"marketplace_offering_uuid":  types.StringType,
-	"marketplace_plan_uuid":      types.StringType,
-	"marketplace_resource_state": types.StringType,
-	"marketplace_resource_uuid":  types.StringType,
-	"modified":                   types.StringType,
-	"name":                       types.StringType,
-	"project":                    types.StringType,
-	"project_name":               types.StringType,
-	"project_uuid":               types.StringType,
-	"resource_type":              types.StringType,
-	"rules": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
-		"cidr":              types.StringType,
-		"description":       types.StringType,
-		"direction":         types.StringType,
-		"ethertype":         types.StringType,
-		"from_port":         types.Int64Type,
-		"id":                types.Int64Type,
-		"protocol":          types.StringType,
-		"remote_group":      types.StringType,
-		"remote_group_name": types.StringType,
-		"remote_group_uuid": types.StringType,
-		"to_port":           types.Int64Type,
-	}}},
-	"service_name":                   types.StringType,
-	"service_settings":               types.StringType,
-	"service_settings_error_message": types.StringType,
-	"service_settings_state":         types.StringType,
-	"service_settings_uuid":          types.StringType,
-	"state":                          types.StringType,
-	"tenant":                         types.StringType,
-	"tenant_name":                    types.StringType,
-	"tenant_uuid":                    types.StringType,
-	"url":                            types.StringType,
-}
-var openstackinstanceports_security_groupsObjectType = types.ObjectType{
-	AttrTypes: openstackinstanceports_security_groupsAttrTypes,
-}
-
-var openstackinstanceportssecuritygroups_rulesAttrTypes = map[string]attr.Type{
-	"cidr":              types.StringType,
-	"description":       types.StringType,
-	"direction":         types.StringType,
-	"ethertype":         types.StringType,
-	"from_port":         types.Int64Type,
-	"id":                types.Int64Type,
-	"protocol":          types.StringType,
-	"remote_group":      types.StringType,
-	"remote_group_name": types.StringType,
-	"remote_group_uuid": types.StringType,
-	"to_port":           types.Int64Type,
-}
-var openstackinstanceportssecuritygroups_rulesObjectType = types.ObjectType{
-	AttrTypes: openstackinstanceportssecuritygroups_rulesAttrTypes,
-}
-
-var openstackinstance_security_groupsAttrTypes = map[string]attr.Type{
-	"url":         types.StringType,
-	"description": types.StringType,
-	"name":        types.StringType,
-	"rules": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
-		"cidr":              types.StringType,
-		"description":       types.StringType,
-		"direction":         types.StringType,
-		"ethertype":         types.StringType,
-		"from_port":         types.Int64Type,
-		"id":                types.Int64Type,
-		"protocol":          types.StringType,
-		"remote_group_name": types.StringType,
-		"remote_group_uuid": types.StringType,
-		"to_port":           types.Int64Type,
-	}}},
-	"state": types.StringType,
-}
-var openstackinstance_security_groupsObjectType = types.ObjectType{
-	AttrTypes: openstackinstance_security_groupsAttrTypes,
-}
-
-var openstackinstancesecuritygroups_rulesAttrTypes = map[string]attr.Type{
-	"cidr":              types.StringType,
-	"description":       types.StringType,
-	"direction":         types.StringType,
-	"ethertype":         types.StringType,
-	"from_port":         types.Int64Type,
-	"id":                types.Int64Type,
-	"protocol":          types.StringType,
-	"remote_group_name": types.StringType,
-	"remote_group_uuid": types.StringType,
-	"to_port":           types.Int64Type,
-}
-var openstackinstancesecuritygroups_rulesObjectType = types.ObjectType{
-	AttrTypes: openstackinstancesecuritygroups_rulesAttrTypes,
-}
-
-var openstackinstance_server_groupAttrTypes = map[string]attr.Type{
-	"name":   types.StringType,
-	"policy": types.StringType,
-	"state":  types.StringType,
-	"url":    types.StringType,
-}
-var openstackinstance_server_groupObjectType = types.ObjectType{
-	AttrTypes: openstackinstance_server_groupAttrTypes,
-}
-
-var openstackinstance_volumesAttrTypes = map[string]attr.Type{
-	"bootable":                  types.BoolType,
-	"device":                    types.StringType,
-	"image_name":                types.StringType,
-	"marketplace_resource_uuid": types.StringType,
-	"name":                      types.StringType,
-	"resource_type":             types.StringType,
-	"size":                      types.Int64Type,
-	"state":                     types.StringType,
-	"type":                      types.StringType,
-	"type_name":                 types.StringType,
-	"url":                       types.StringType,
-}
-var openstackinstance_volumesObjectType = types.ObjectType{
-	AttrTypes: openstackinstance_volumesAttrTypes,
 }
 
 // OpenstackInstanceResourceModel describes the resource data model.
@@ -1947,7 +1691,10 @@ func (r *OpenstackInstanceResource) mapResponseToModel(ctx context.Context, apiR
 	model.CustomerUuid = types.StringPointerValue(apiResp.CustomerUuid)
 	model.DataVolumeSize = types.Int64PointerValue(apiResp.DataVolumeSize)
 	model.DataVolumeType = types.StringPointerValue(apiResp.DataVolumeType)
-	listValDataVolumes, listDiagsDataVolumes := types.ListValueFrom(ctx, openstackinstance_data_volumesObjectType, apiResp.DataVolumes)
+	listValDataVolumes, listDiagsDataVolumes := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+		"size":        types.Int64Type,
+		"volume_type": types.StringType,
+	}}, apiResp.DataVolumes)
 	diags.Append(listDiagsDataVolumes...)
 	model.DataVolumes = listValDataVolumes
 	model.DeleteVolumes = types.BoolPointerValue(apiResp.DeleteVolumes)
@@ -1960,7 +1707,21 @@ func (r *OpenstackInstanceResource) mapResponseToModel(ctx context.Context, apiR
 	model.Flavor = types.StringPointerValue(apiResp.Flavor)
 	model.FlavorDisk = types.Int64PointerValue(apiResp.FlavorDisk)
 	model.FlavorName = types.StringPointerValue(apiResp.FlavorName)
-	listValFloatingIps, listDiagsFloatingIps := types.ListValueFrom(ctx, openstackinstance_floating_ipsObjectType, apiResp.FloatingIps)
+	listValFloatingIps, listDiagsFloatingIps := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+		"ip_address": types.StringType,
+		"subnet":     types.StringType,
+		"url":        types.StringType,
+		"address":    types.StringType,
+		"port_fixed_ips": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+			"ip_address": types.StringType,
+			"subnet_id":  types.StringType,
+		}}},
+		"port_mac_address":   types.StringType,
+		"subnet_cidr":        types.StringType,
+		"subnet_description": types.StringType,
+		"subnet_name":        types.StringType,
+		"subnet_uuid":        types.StringType,
+	}}, apiResp.FloatingIps)
 	diags.Append(listDiagsFloatingIps...)
 	model.FloatingIps = listValFloatingIps
 	model.HypervisorHostname = types.StringPointerValue(apiResp.HypervisorHostname)
@@ -1983,36 +1744,123 @@ func (r *OpenstackInstanceResource) mapResponseToModel(ctx context.Context, apiR
 	model.MinDisk = types.Int64PointerValue(apiResp.MinDisk)
 	model.MinRam = types.Int64PointerValue(apiResp.MinRam)
 	model.Modified = types.StringPointerValue(apiResp.Modified)
-	if apiResp.Offering != nil {
-		parts := strings.Split(strings.TrimRight(*apiResp.Offering, "/"), "/")
-		model.Offering = types.StringValue(parts[len(parts)-1])
-	} else {
-		model.Offering = types.StringNull()
-	}
-	listValPorts, listDiagsPorts := types.ListValueFrom(ctx, openstackinstance_portsObjectType, apiResp.Ports)
+	model.Name = types.StringPointerValue(apiResp.Name)
+	model.Offering = types.StringPointerValue(apiResp.Offering)
+	listValPorts, listDiagsPorts := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+		"fixed_ips": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+			"ip_address": types.StringType,
+			"subnet_id":  types.StringType,
+		}}},
+		"port":   types.StringType,
+		"subnet": types.StringType,
+		"allowed_address_pairs": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+			"mac_address": types.StringType,
+		}}},
+		"device_id":    types.StringType,
+		"device_owner": types.StringType,
+		"mac_address":  types.StringType,
+		"security_groups": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+			"access_url":                 types.StringType,
+			"backend_id":                 types.StringType,
+			"created":                    types.StringType,
+			"customer":                   types.StringType,
+			"customer_abbreviation":      types.StringType,
+			"customer_name":              types.StringType,
+			"customer_native_name":       types.StringType,
+			"customer_uuid":              types.StringType,
+			"description":                types.StringType,
+			"error_message":              types.StringType,
+			"error_traceback":            types.StringType,
+			"is_limit_based":             types.BoolType,
+			"is_usage_based":             types.BoolType,
+			"marketplace_category_name":  types.StringType,
+			"marketplace_category_uuid":  types.StringType,
+			"marketplace_offering_name":  types.StringType,
+			"marketplace_offering_uuid":  types.StringType,
+			"marketplace_plan_uuid":      types.StringType,
+			"marketplace_resource_state": types.StringType,
+			"marketplace_resource_uuid":  types.StringType,
+			"modified":                   types.StringType,
+			"name":                       types.StringType,
+			"project":                    types.StringType,
+			"project_name":               types.StringType,
+			"project_uuid":               types.StringType,
+			"resource_type":              types.StringType,
+			"rules": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+				"cidr":              types.StringType,
+				"description":       types.StringType,
+				"direction":         types.StringType,
+				"ethertype":         types.StringType,
+				"from_port":         types.Int64Type,
+				"id":                types.Int64Type,
+				"protocol":          types.StringType,
+				"remote_group":      types.StringType,
+				"remote_group_name": types.StringType,
+				"remote_group_uuid": types.StringType,
+				"to_port":           types.Int64Type,
+			}}},
+			"service_name":                   types.StringType,
+			"service_settings":               types.StringType,
+			"service_settings_error_message": types.StringType,
+			"service_settings_state":         types.StringType,
+			"service_settings_uuid":          types.StringType,
+			"state":                          types.StringType,
+			"tenant":                         types.StringType,
+			"tenant_name":                    types.StringType,
+			"tenant_uuid":                    types.StringType,
+			"url":                            types.StringType,
+		}}},
+		"subnet_cidr":        types.StringType,
+		"subnet_description": types.StringType,
+		"subnet_name":        types.StringType,
+		"subnet_uuid":        types.StringType,
+		"url":                types.StringType,
+	}}, apiResp.Ports)
 	diags.Append(listDiagsPorts...)
 	model.Ports = listValPorts
-	if apiResp.Project != nil {
-		parts := strings.Split(strings.TrimRight(*apiResp.Project, "/"), "/")
-		model.Project = types.StringValue(parts[len(parts)-1])
-	} else {
-		model.Project = types.StringNull()
-	}
+	model.Project = types.StringPointerValue(apiResp.Project)
 	model.ProjectName = types.StringPointerValue(apiResp.ProjectName)
 	model.ProjectUuid = types.StringPointerValue(apiResp.ProjectUuid)
 	model.Ram = types.Int64PointerValue(apiResp.Ram)
 	model.ReleaseFloatingIps = types.BoolPointerValue(apiResp.ReleaseFloatingIps)
 	model.ResourceType = types.StringPointerValue(apiResp.ResourceType)
 	model.RuntimeState = types.StringPointerValue(apiResp.RuntimeState)
-	listValSecurityGroups, listDiagsSecurityGroups := types.ListValueFrom(ctx, openstackinstance_security_groupsObjectType, apiResp.SecurityGroups)
+	listValSecurityGroups, listDiagsSecurityGroups := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+		"url":         types.StringType,
+		"description": types.StringType,
+		"name":        types.StringType,
+		"rules": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+			"cidr":              types.StringType,
+			"description":       types.StringType,
+			"direction":         types.StringType,
+			"ethertype":         types.StringType,
+			"from_port":         types.Int64Type,
+			"id":                types.Int64Type,
+			"protocol":          types.StringType,
+			"remote_group_name": types.StringType,
+			"remote_group_uuid": types.StringType,
+			"to_port":           types.Int64Type,
+		}}},
+		"state": types.StringType,
+	}}, apiResp.SecurityGroups)
 	diags.Append(listDiagsSecurityGroups...)
 	model.SecurityGroups = listValSecurityGroups
 	if apiResp.ServerGroup != nil {
-		objValServerGroup, objDiagsServerGroup := types.ObjectValueFrom(ctx, openstackinstance_server_groupAttrTypes, *apiResp.ServerGroup)
+		objValServerGroup, objDiagsServerGroup := types.ObjectValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+			"name":   types.StringType,
+			"policy": types.StringType,
+			"state":  types.StringType,
+			"url":    types.StringType,
+		}}.AttrTypes, *apiResp.ServerGroup)
 		diags.Append(objDiagsServerGroup...)
 		model.ServerGroup = objValServerGroup
 	} else {
-		model.ServerGroup = types.ObjectNull(openstackinstance_server_groupAttrTypes)
+		model.ServerGroup = types.ObjectNull(types.ObjectType{AttrTypes: map[string]attr.Type{
+			"name":   types.StringType,
+			"policy": types.StringType,
+			"state":  types.StringType,
+			"url":    types.StringType,
+		}}.AttrTypes)
 	}
 	model.ServiceName = types.StringPointerValue(apiResp.ServiceName)
 	model.ServiceSettings = types.StringPointerValue(apiResp.ServiceSettings)
@@ -2028,7 +1876,19 @@ func (r *OpenstackInstanceResource) mapResponseToModel(ctx context.Context, apiR
 	model.TenantUuid = types.StringPointerValue(apiResp.TenantUuid)
 	model.Url = types.StringPointerValue(apiResp.Url)
 	model.UserData = types.StringPointerValue(apiResp.UserData)
-	listValVolumes, listDiagsVolumes := types.ListValueFrom(ctx, openstackinstance_volumesObjectType, apiResp.Volumes)
+	listValVolumes, listDiagsVolumes := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+		"bootable":                  types.BoolType,
+		"device":                    types.StringType,
+		"image_name":                types.StringType,
+		"marketplace_resource_uuid": types.StringType,
+		"name":                      types.StringType,
+		"resource_type":             types.StringType,
+		"size":                      types.Int64Type,
+		"state":                     types.StringType,
+		"type":                      types.StringType,
+		"type_name":                 types.StringType,
+		"url":                       types.StringType,
+	}}, apiResp.Volumes)
 	diags.Append(listDiagsVolumes...)
 	model.Volumes = listValVolumes
 

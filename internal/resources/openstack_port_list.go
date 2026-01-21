@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/list"
 	"github.com/hashicorp/terraform-plugin-framework/list/schema"
@@ -234,7 +235,10 @@ func (l *OpenstackPortList) List(ctx context.Context, req list.ListRequest, stre
 			model.UUID = types.StringPointerValue(apiResp.UUID)
 			model.AccessUrl = types.StringPointerValue(apiResp.AccessUrl)
 			model.AdminStateUp = types.BoolPointerValue(apiResp.AdminStateUp)
-			listValAllowedAddressPairs, listDiagsAllowedAddressPairs := types.ListValueFrom(ctx, openstackport_allowed_address_pairsObjectType, apiResp.AllowedAddressPairs)
+			listValAllowedAddressPairs, listDiagsAllowedAddressPairs := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+				"ip_address":  types.StringType,
+				"mac_address": types.StringType,
+			}}, apiResp.AllowedAddressPairs)
 			diags.Append(listDiagsAllowedAddressPairs...)
 			model.AllowedAddressPairs = listValAllowedAddressPairs
 			model.BackendId = types.StringPointerValue(apiResp.BackendId)
@@ -244,18 +248,24 @@ func (l *OpenstackPortList) List(ctx context.Context, req list.ListRequest, stre
 			model.DeviceOwner = types.StringPointerValue(apiResp.DeviceOwner)
 			model.ErrorMessage = types.StringPointerValue(apiResp.ErrorMessage)
 			model.ErrorTraceback = types.StringPointerValue(apiResp.ErrorTraceback)
-			listValFixedIps, listDiagsFixedIps := types.ListValueFrom(ctx, openstackport_fixed_ipsObjectType, apiResp.FixedIps)
+			listValFixedIps, listDiagsFixedIps := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+				"ip_address": types.StringType,
+				"subnet_id":  types.StringType,
+			}}, apiResp.FixedIps)
 			diags.Append(listDiagsFixedIps...)
 			model.FixedIps = listValFixedIps
 			model.FloatingIps, _ = types.ListValueFrom(ctx, types.StringType, apiResp.FloatingIps)
 			model.MacAddress = types.StringPointerValue(apiResp.MacAddress)
 			model.Modified = types.StringPointerValue(apiResp.Modified)
+			model.Name = types.StringPointerValue(apiResp.Name)
 			model.Network = types.StringPointerValue(apiResp.Network)
 			model.NetworkName = types.StringPointerValue(apiResp.NetworkName)
 			model.NetworkUuid = types.StringPointerValue(apiResp.NetworkUuid)
 			model.PortSecurityEnabled = types.BoolPointerValue(apiResp.PortSecurityEnabled)
 			model.ResourceType = types.StringPointerValue(apiResp.ResourceType)
-			listValSecurityGroups, listDiagsSecurityGroups := types.ListValueFrom(ctx, openstackport_security_groupsObjectType, apiResp.SecurityGroups)
+			listValSecurityGroups, listDiagsSecurityGroups := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+				"name": types.StringType,
+			}}, apiResp.SecurityGroups)
 			diags.Append(listDiagsSecurityGroups...)
 			model.SecurityGroups = listValSecurityGroups
 			model.State = types.StringPointerValue(apiResp.State)

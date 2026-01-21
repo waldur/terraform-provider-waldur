@@ -29,15 +29,43 @@ type OpenstackSecurityGroupDataSource struct {
 type OpenstackSecurityGroupApiResponse struct {
 	UUID *string `json:"uuid"`
 
-	AccessUrl      *string                               `json:"access_url" tfsdk:"access_url"`
-	Created        *string                               `json:"created" tfsdk:"created"`
-	ErrorMessage   *string                               `json:"error_message" tfsdk:"error_message"`
-	ErrorTraceback *string                               `json:"error_traceback" tfsdk:"error_traceback"`
-	Modified       *string                               `json:"modified" tfsdk:"modified"`
-	ResourceType   *string                               `json:"resource_type" tfsdk:"resource_type"`
-	Rules          []OpenstackSecurityGroupRulesResponse `json:"rules" tfsdk:"rules"`
-	TenantName     *string                               `json:"tenant_name" tfsdk:"tenant_name"`
-	Url            *string                               `json:"url" tfsdk:"url"`
+	AccessUrl                   *string                               `json:"access_url" tfsdk:"access_url"`
+	BackendId                   *string                               `json:"backend_id" tfsdk:"backend_id"`
+	Created                     *string                               `json:"created" tfsdk:"created"`
+	Customer                    *string                               `json:"customer" tfsdk:"customer"`
+	CustomerAbbreviation        *string                               `json:"customer_abbreviation" tfsdk:"customer_abbreviation"`
+	CustomerName                *string                               `json:"customer_name" tfsdk:"customer_name"`
+	CustomerNativeName          *string                               `json:"customer_native_name" tfsdk:"customer_native_name"`
+	CustomerUuid                *string                               `json:"customer_uuid" tfsdk:"customer_uuid"`
+	Description                 *string                               `json:"description" tfsdk:"description"`
+	ErrorMessage                *string                               `json:"error_message" tfsdk:"error_message"`
+	ErrorTraceback              *string                               `json:"error_traceback" tfsdk:"error_traceback"`
+	IsLimitBased                *bool                                 `json:"is_limit_based" tfsdk:"is_limit_based"`
+	IsUsageBased                *bool                                 `json:"is_usage_based" tfsdk:"is_usage_based"`
+	MarketplaceCategoryName     *string                               `json:"marketplace_category_name" tfsdk:"marketplace_category_name"`
+	MarketplaceCategoryUuid     *string                               `json:"marketplace_category_uuid" tfsdk:"marketplace_category_uuid"`
+	MarketplaceOfferingName     *string                               `json:"marketplace_offering_name" tfsdk:"marketplace_offering_name"`
+	MarketplaceOfferingUuid     *string                               `json:"marketplace_offering_uuid" tfsdk:"marketplace_offering_uuid"`
+	MarketplacePlanUuid         *string                               `json:"marketplace_plan_uuid" tfsdk:"marketplace_plan_uuid"`
+	MarketplaceResourceState    *string                               `json:"marketplace_resource_state" tfsdk:"marketplace_resource_state"`
+	MarketplaceResourceUuid     *string                               `json:"marketplace_resource_uuid" tfsdk:"marketplace_resource_uuid"`
+	Modified                    *string                               `json:"modified" tfsdk:"modified"`
+	Name                        *string                               `json:"name" tfsdk:"name"`
+	Project                     *string                               `json:"project" tfsdk:"project"`
+	ProjectName                 *string                               `json:"project_name" tfsdk:"project_name"`
+	ProjectUuid                 *string                               `json:"project_uuid" tfsdk:"project_uuid"`
+	ResourceType                *string                               `json:"resource_type" tfsdk:"resource_type"`
+	Rules                       []OpenstackSecurityGroupRulesResponse `json:"rules" tfsdk:"rules"`
+	ServiceName                 *string                               `json:"service_name" tfsdk:"service_name"`
+	ServiceSettings             *string                               `json:"service_settings" tfsdk:"service_settings"`
+	ServiceSettingsErrorMessage *string                               `json:"service_settings_error_message" tfsdk:"service_settings_error_message"`
+	ServiceSettingsState        *string                               `json:"service_settings_state" tfsdk:"service_settings_state"`
+	ServiceSettingsUuid         *string                               `json:"service_settings_uuid" tfsdk:"service_settings_uuid"`
+	State                       *string                               `json:"state" tfsdk:"state"`
+	Tenant                      *string                               `json:"tenant" tfsdk:"tenant"`
+	TenantName                  *string                               `json:"tenant_name" tfsdk:"tenant_name"`
+	TenantUuid                  *string                               `json:"tenant_uuid" tfsdk:"tenant_uuid"`
+	Url                         *string                               `json:"url" tfsdk:"url"`
 }
 
 type OpenstackSecurityGroupRulesResponse struct {
@@ -52,23 +80,6 @@ type OpenstackSecurityGroupRulesResponse struct {
 	RemoteGroupName *string `json:"remote_group_name" tfsdk:"remote_group_name"`
 	RemoteGroupUuid *string `json:"remote_group_uuid" tfsdk:"remote_group_uuid"`
 	ToPort          *int64  `json:"to_port" tfsdk:"to_port"`
-}
-
-var openstacksecuritygroup_rulesAttrTypes = map[string]attr.Type{
-	"cidr":              types.StringType,
-	"description":       types.StringType,
-	"direction":         types.StringType,
-	"ethertype":         types.StringType,
-	"from_port":         types.Int64Type,
-	"id":                types.Int64Type,
-	"protocol":          types.StringType,
-	"remote_group":      types.StringType,
-	"remote_group_name": types.StringType,
-	"remote_group_uuid": types.StringType,
-	"to_port":           types.Int64Type,
-}
-var openstacksecuritygroup_rulesObjectType = types.ObjectType{
-	AttrTypes: openstacksecuritygroup_rulesAttrTypes,
 }
 
 // OpenstackSecurityGroupDataSourceModel describes the data source data model.
@@ -122,86 +133,107 @@ func (d *OpenstackSecurityGroupDataSource) Schema(ctx context.Context, req datas
 			},
 			"backend_id": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Backend ID",
 			},
 			"can_manage": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Can manage",
 			},
 			"customer": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Customer UUID",
 			},
 			"customer_abbreviation": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Customer abbreviation",
 			},
 			"customer_name": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Customer name",
 			},
 			"customer_native_name": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Customer native name",
 			},
 			"customer_uuid": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Customer UUID",
 			},
 			"description": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Description",
 			},
 			"external_ip": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "External IP",
 			},
 			"name": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Name",
 			},
 			"name_exact": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Name (exact)",
 			},
 			"project": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Project UUID",
 			},
 			"project_name": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Project name",
 			},
 			"project_uuid": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Project UUID",
 			},
 			"query": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Search by name or description",
 			},
 			"service_settings_name": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Service settings name",
 			},
 			"service_settings_uuid": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Service settings UUID",
 			},
 			"state": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "State",
 			},
 			"tenant": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Tenant URL",
 			},
 			"tenant_uuid": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Tenant UUID",
 			},
 			"uuid": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "UUID",
 			},
 			"access_url": schema.StringAttribute{
@@ -415,15 +447,41 @@ func (d *OpenstackSecurityGroupDataSource) mapResponseToModel(ctx context.Contex
 
 	model.UUID = types.StringPointerValue(apiResp.UUID)
 	model.AccessUrl = types.StringPointerValue(apiResp.AccessUrl)
+	model.BackendId = types.StringPointerValue(apiResp.BackendId)
 	model.Created = types.StringPointerValue(apiResp.Created)
+	model.Customer = types.StringPointerValue(apiResp.Customer)
+	model.CustomerAbbreviation = types.StringPointerValue(apiResp.CustomerAbbreviation)
+	model.CustomerName = types.StringPointerValue(apiResp.CustomerName)
+	model.CustomerNativeName = types.StringPointerValue(apiResp.CustomerNativeName)
+	model.CustomerUuid = types.StringPointerValue(apiResp.CustomerUuid)
+	model.Description = types.StringPointerValue(apiResp.Description)
 	model.ErrorMessage = types.StringPointerValue(apiResp.ErrorMessage)
 	model.ErrorTraceback = types.StringPointerValue(apiResp.ErrorTraceback)
 	model.Modified = types.StringPointerValue(apiResp.Modified)
+	model.Name = types.StringPointerValue(apiResp.Name)
+	model.Project = types.StringPointerValue(apiResp.Project)
+	model.ProjectName = types.StringPointerValue(apiResp.ProjectName)
+	model.ProjectUuid = types.StringPointerValue(apiResp.ProjectUuid)
 	model.ResourceType = types.StringPointerValue(apiResp.ResourceType)
-	listValRules, listDiagsRules := types.ListValueFrom(ctx, openstacksecuritygroup_rulesObjectType, apiResp.Rules)
+	listValRules, listDiagsRules := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+		"cidr":              types.StringType,
+		"description":       types.StringType,
+		"direction":         types.StringType,
+		"ethertype":         types.StringType,
+		"from_port":         types.Int64Type,
+		"id":                types.Int64Type,
+		"protocol":          types.StringType,
+		"remote_group":      types.StringType,
+		"remote_group_name": types.StringType,
+		"remote_group_uuid": types.StringType,
+		"to_port":           types.Int64Type,
+	}}, apiResp.Rules)
 	diags.Append(listDiagsRules...)
 	model.Rules = listValRules
+	model.State = types.StringPointerValue(apiResp.State)
+	model.Tenant = types.StringPointerValue(apiResp.Tenant)
 	model.TenantName = types.StringPointerValue(apiResp.TenantName)
+	model.TenantUuid = types.StringPointerValue(apiResp.TenantUuid)
 	model.Url = types.StringPointerValue(apiResp.Url)
 
 	return diags

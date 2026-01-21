@@ -3,8 +3,8 @@ package resources
 import (
 	"context"
 	"fmt"
-	"strings"
 
+	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/list"
 	"github.com/hashicorp/terraform-plugin-framework/list/schema"
@@ -266,25 +266,33 @@ func (l *OpenstackTenantList) List(ctx context.Context, req list.ListRequest, st
 			model.MarketplaceResourceState = types.StringPointerValue(apiResp.MarketplaceResourceState)
 			model.MarketplaceResourceUuid = types.StringPointerValue(apiResp.MarketplaceResourceUuid)
 			model.Modified = types.StringPointerValue(apiResp.Modified)
-			if apiResp.Offering != nil {
-				parts := strings.Split(strings.TrimRight(*apiResp.Offering, "/"), "/")
-				model.Offering = types.StringValue(parts[len(parts)-1])
-			} else {
-				model.Offering = types.StringNull()
-			}
-			if apiResp.Project != nil {
-				parts := strings.Split(strings.TrimRight(*apiResp.Project, "/"), "/")
-				model.Project = types.StringValue(parts[len(parts)-1])
-			} else {
-				model.Project = types.StringNull()
-			}
+			model.Name = types.StringPointerValue(apiResp.Name)
+			model.Offering = types.StringPointerValue(apiResp.Offering)
+			model.Project = types.StringPointerValue(apiResp.Project)
 			model.ProjectName = types.StringPointerValue(apiResp.ProjectName)
 			model.ProjectUuid = types.StringPointerValue(apiResp.ProjectUuid)
-			listValQuotas, listDiagsQuotas := types.ListValueFrom(ctx, openstacktenant_quotasObjectType, apiResp.Quotas)
+			listValQuotas, listDiagsQuotas := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+				"limit": types.Int64Type,
+				"name":  types.StringType,
+				"usage": types.Int64Type,
+			}}, apiResp.Quotas)
 			diags.Append(listDiagsQuotas...)
 			model.Quotas = listValQuotas
 			model.ResourceType = types.StringPointerValue(apiResp.ResourceType)
-			listValSecurityGroups, listDiagsSecurityGroups := types.ListValueFrom(ctx, openstacktenant_security_groupsObjectType, apiResp.SecurityGroups)
+			listValSecurityGroups, listDiagsSecurityGroups := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+				"description": types.StringType,
+				"name":        types.StringType,
+				"rules": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+					"cidr":         types.StringType,
+					"description":  types.StringType,
+					"direction":    types.StringType,
+					"ethertype":    types.StringType,
+					"from_port":    types.Int64Type,
+					"protocol":     types.StringType,
+					"remote_group": types.StringType,
+					"to_port":      types.Int64Type,
+				}}},
+			}}, apiResp.SecurityGroups)
 			diags.Append(listDiagsSecurityGroups...)
 			model.SecurityGroups = listValSecurityGroups
 			model.ServiceName = types.StringPointerValue(apiResp.ServiceName)

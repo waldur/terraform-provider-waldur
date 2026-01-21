@@ -63,6 +63,7 @@ Marketplace Resource data source - lookup by name or UUID
 - `can_terminate` (Boolean)
 - `category_icon` (String)
 - `category_title` (String)
+- `customer_name` (String)
 - `customer_slug` (String)
 - `description` (String)
 - `effective_id` (String)
@@ -86,6 +87,7 @@ Marketplace Resource data source - lookup by name or UUID
 - `plan_description` (String)
 - `plan_name` (String)
 - `plan_unit` (String)
+- `project` (String)
 - `project_description` (String)
 - `project_end_date` (String) The date is inclusive. Once reached, all project resource will be scheduled for termination.
 - `project_end_date_requested_by` (String)

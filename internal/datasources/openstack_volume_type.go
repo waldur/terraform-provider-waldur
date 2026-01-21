@@ -29,6 +29,8 @@ type OpenstackVolumeTypeApiResponse struct {
 	UUID *string `json:"uuid"`
 
 	Description *string `json:"description" tfsdk:"description"`
+	Name        *string `json:"name" tfsdk:"name"`
+	Settings    *string `json:"settings" tfsdk:"settings"`
 	Url         *string `json:"url" tfsdk:"url"`
 }
 
@@ -62,30 +64,37 @@ func (d *OpenstackVolumeTypeDataSource) Schema(ctx context.Context, req datasour
 			},
 			"name": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Name",
 			},
 			"name_exact": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Name (exact)",
 			},
 			"offering_uuid": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Offering UUID",
 			},
 			"settings": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Settings URL",
 			},
 			"settings_uuid": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Settings UUID",
 			},
 			"tenant": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Tenant URL",
 			},
 			"tenant_uuid": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Tenant UUID",
 			},
 			"description": schema.StringAttribute{
@@ -216,6 +225,8 @@ func (d *OpenstackVolumeTypeDataSource) mapResponseToModel(ctx context.Context, 
 
 	model.UUID = types.StringPointerValue(apiResp.UUID)
 	model.Description = types.StringPointerValue(apiResp.Description)
+	model.Name = types.StringPointerValue(apiResp.Name)
+	model.Settings = types.StringPointerValue(apiResp.Settings)
 	model.Url = types.StringPointerValue(apiResp.Url)
 
 	return diags

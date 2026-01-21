@@ -35,28 +35,37 @@ type MarketplaceOrderApiResponse struct {
 	CanTerminate               *bool    `json:"can_terminate" tfsdk:"can_terminate"`
 	CategoryIcon               *string  `json:"category_icon" tfsdk:"category_icon"`
 	CategoryTitle              *string  `json:"category_title" tfsdk:"category_title"`
+	CategoryUuid               *string  `json:"category_uuid" tfsdk:"category_uuid"`
 	CompletedAt                *string  `json:"completed_at" tfsdk:"completed_at"`
 	ConsumerReviewedAt         *string  `json:"consumer_reviewed_at" tfsdk:"consumer_reviewed_at"`
 	ConsumerReviewedBy         *string  `json:"consumer_reviewed_by" tfsdk:"consumer_reviewed_by"`
 	ConsumerReviewedByFullName *string  `json:"consumer_reviewed_by_full_name" tfsdk:"consumer_reviewed_by_full_name"`
 	ConsumerReviewedByUsername *string  `json:"consumer_reviewed_by_username" tfsdk:"consumer_reviewed_by_username"`
 	Cost                       *string  `json:"cost" tfsdk:"cost"`
+	Created                    *string  `json:"created" tfsdk:"created"`
 	CreatedByCivilNumber       *string  `json:"created_by_civil_number" tfsdk:"created_by_civil_number"`
 	CreatedByFullName          *string  `json:"created_by_full_name" tfsdk:"created_by_full_name"`
 	CreatedByUsername          *string  `json:"created_by_username" tfsdk:"created_by_username"`
+	CustomerName               *string  `json:"customer_name" tfsdk:"customer_name"`
 	CustomerSlug               *string  `json:"customer_slug" tfsdk:"customer_slug"`
+	CustomerUuid               *string  `json:"customer_uuid" tfsdk:"customer_uuid"`
 	ErrorMessage               *string  `json:"error_message" tfsdk:"error_message"`
 	ErrorTraceback             *string  `json:"error_traceback" tfsdk:"error_traceback"`
 	FixedPrice                 *float64 `json:"fixed_price" tfsdk:"fixed_price"`
+	MarketplaceResourceUuid    *string  `json:"marketplace_resource_uuid" tfsdk:"marketplace_resource_uuid"`
+	Modified                   *string  `json:"modified" tfsdk:"modified"`
 	NewCostEstimate            *string  `json:"new_cost_estimate" tfsdk:"new_cost_estimate"`
 	NewPlanName                *string  `json:"new_plan_name" tfsdk:"new_plan_name"`
 	NewPlanUuid                *string  `json:"new_plan_uuid" tfsdk:"new_plan_uuid"`
+	Offering                   *string  `json:"offering" tfsdk:"offering"`
 	OfferingBillable           *bool    `json:"offering_billable" tfsdk:"offering_billable"`
 	OfferingDescription        *string  `json:"offering_description" tfsdk:"offering_description"`
 	OfferingImage              *string  `json:"offering_image" tfsdk:"offering_image"`
 	OfferingName               *string  `json:"offering_name" tfsdk:"offering_name"`
 	OfferingShared             *bool    `json:"offering_shared" tfsdk:"offering_shared"`
 	OfferingThumbnail          *string  `json:"offering_thumbnail" tfsdk:"offering_thumbnail"`
+	OfferingType               *string  `json:"offering_type" tfsdk:"offering_type"`
+	OfferingUuid               *string  `json:"offering_uuid" tfsdk:"offering_uuid"`
 	OldCostEstimate            *float64 `json:"old_cost_estimate" tfsdk:"old_cost_estimate"`
 	OldPlanName                *string  `json:"old_plan_name" tfsdk:"old_plan_name"`
 	OldPlanUuid                *string  `json:"old_plan_uuid" tfsdk:"old_plan_uuid"`
@@ -68,18 +77,25 @@ type MarketplaceOrderApiResponse struct {
 	PlanUnit                   *string  `json:"plan_unit" tfsdk:"plan_unit"`
 	PlanUuid                   *string  `json:"plan_uuid" tfsdk:"plan_uuid"`
 	ProjectDescription         *string  `json:"project_description" tfsdk:"project_description"`
+	ProjectName                *string  `json:"project_name" tfsdk:"project_name"`
 	ProjectSlug                *string  `json:"project_slug" tfsdk:"project_slug"`
+	ProjectUuid                *string  `json:"project_uuid" tfsdk:"project_uuid"`
 	ProviderName               *string  `json:"provider_name" tfsdk:"provider_name"`
 	ProviderReviewedAt         *string  `json:"provider_reviewed_at" tfsdk:"provider_reviewed_at"`
 	ProviderReviewedBy         *string  `json:"provider_reviewed_by" tfsdk:"provider_reviewed_by"`
 	ProviderReviewedByFullName *string  `json:"provider_reviewed_by_full_name" tfsdk:"provider_reviewed_by_full_name"`
 	ProviderReviewedByUsername *string  `json:"provider_reviewed_by_username" tfsdk:"provider_reviewed_by_username"`
 	ProviderSlug               *string  `json:"provider_slug" tfsdk:"provider_slug"`
+	ProviderUuid               *string  `json:"provider_uuid" tfsdk:"provider_uuid"`
 	RequestComment             *string  `json:"request_comment" tfsdk:"request_comment"`
+	ResourceName               *string  `json:"resource_name" tfsdk:"resource_name"`
 	ResourceType               *string  `json:"resource_type" tfsdk:"resource_type"`
+	ResourceUuid               *string  `json:"resource_uuid" tfsdk:"resource_uuid"`
 	Slug                       *string  `json:"slug" tfsdk:"slug"`
 	StartDate                  *string  `json:"start_date" tfsdk:"start_date"`
+	State                      *string  `json:"state" tfsdk:"state"`
 	TerminationComment         *string  `json:"termination_comment" tfsdk:"termination_comment"`
+	Type                       *string  `json:"type" tfsdk:"type"`
 	Url                        *string  `json:"url" tfsdk:"url"`
 }
 
@@ -122,6 +138,7 @@ type MarketplaceOrderDataSourceModel struct {
 	CreatedByCivilNumber       types.String  `tfsdk:"created_by_civil_number"`
 	CreatedByFullName          types.String  `tfsdk:"created_by_full_name"`
 	CreatedByUsername          types.String  `tfsdk:"created_by_username"`
+	CustomerName               types.String  `tfsdk:"customer_name"`
 	CustomerSlug               types.String  `tfsdk:"customer_slug"`
 	ErrorMessage               types.String  `tfsdk:"error_message"`
 	ErrorTraceback             types.String  `tfsdk:"error_traceback"`
@@ -146,6 +163,7 @@ type MarketplaceOrderDataSourceModel struct {
 	PlanUnit                   types.String  `tfsdk:"plan_unit"`
 	PlanUuid                   types.String  `tfsdk:"plan_uuid"`
 	ProjectDescription         types.String  `tfsdk:"project_description"`
+	ProjectName                types.String  `tfsdk:"project_name"`
 	ProjectSlug                types.String  `tfsdk:"project_slug"`
 	ProviderName               types.String  `tfsdk:"provider_name"`
 	ProviderReviewedAt         types.String  `tfsdk:"provider_reviewed_at"`
@@ -177,82 +195,102 @@ func (d *MarketplaceOrderDataSource) Schema(ctx context.Context, req datasource.
 			},
 			"can_approve_as_consumer": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Can approve as consumer",
 			},
 			"can_approve_as_provider": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Can approve as provider",
 			},
 			"category_uuid": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Category UUID",
 			},
 			"created": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Created after",
 			},
 			"customer_uuid": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Customer UUID",
 			},
 			"modified": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Modified after",
 			},
 			"offering": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: " ",
 			},
 			"offering_slug": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Multiple values may be separated by commas.",
 			},
 			"offering_type": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Offering type",
 			},
 			"offering_uuid": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Offering UUID",
 			},
 			"parent_offering_uuid": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: " ",
 			},
 			"project_uuid": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Project UUID",
 			},
 			"provider_uuid": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Provider UUID",
 			},
 			"query": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Search by order UUID, slug, project name or resource name",
 			},
 			"resource": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Resource URL",
 			},
 			"resource_name": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Resource name",
 			},
 			"resource_uuid": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Resource UUID",
 			},
 			"service_manager_uuid": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Service manager UUID",
 			},
 			"state": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Order state",
 			},
 			"type": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Order type",
 			},
 			"activation_price": schema.Float64Attribute{
@@ -318,6 +356,10 @@ func (d *MarketplaceOrderDataSource) Schema(ctx context.Context, req datasource.
 			"created_by_username": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters",
+			},
+			"customer_name": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: " ",
 			},
 			"customer_slug": schema.StringAttribute{
 				Computed:            true,
@@ -412,6 +454,10 @@ func (d *MarketplaceOrderDataSource) Schema(ctx context.Context, req datasource.
 				MarkdownDescription: " ",
 			},
 			"project_description": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: " ",
+			},
+			"project_name": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: " ",
 			},
@@ -632,28 +678,36 @@ func (d *MarketplaceOrderDataSource) mapResponseToModel(ctx context.Context, api
 	model.CanTerminate = types.BoolPointerValue(apiResp.CanTerminate)
 	model.CategoryIcon = types.StringPointerValue(apiResp.CategoryIcon)
 	model.CategoryTitle = types.StringPointerValue(apiResp.CategoryTitle)
+	model.CategoryUuid = types.StringPointerValue(apiResp.CategoryUuid)
 	model.CompletedAt = types.StringPointerValue(apiResp.CompletedAt)
 	model.ConsumerReviewedAt = types.StringPointerValue(apiResp.ConsumerReviewedAt)
 	model.ConsumerReviewedBy = types.StringPointerValue(apiResp.ConsumerReviewedBy)
 	model.ConsumerReviewedByFullName = types.StringPointerValue(apiResp.ConsumerReviewedByFullName)
 	model.ConsumerReviewedByUsername = types.StringPointerValue(apiResp.ConsumerReviewedByUsername)
 	model.Cost = types.StringPointerValue(apiResp.Cost)
+	model.Created = types.StringPointerValue(apiResp.Created)
 	model.CreatedByCivilNumber = types.StringPointerValue(apiResp.CreatedByCivilNumber)
 	model.CreatedByFullName = types.StringPointerValue(apiResp.CreatedByFullName)
 	model.CreatedByUsername = types.StringPointerValue(apiResp.CreatedByUsername)
+	model.CustomerName = types.StringPointerValue(apiResp.CustomerName)
 	model.CustomerSlug = types.StringPointerValue(apiResp.CustomerSlug)
+	model.CustomerUuid = types.StringPointerValue(apiResp.CustomerUuid)
 	model.ErrorMessage = types.StringPointerValue(apiResp.ErrorMessage)
 	model.ErrorTraceback = types.StringPointerValue(apiResp.ErrorTraceback)
 	model.FixedPrice = types.Float64PointerValue(apiResp.FixedPrice)
+	model.Modified = types.StringPointerValue(apiResp.Modified)
 	model.NewCostEstimate = types.StringPointerValue(apiResp.NewCostEstimate)
 	model.NewPlanName = types.StringPointerValue(apiResp.NewPlanName)
 	model.NewPlanUuid = types.StringPointerValue(apiResp.NewPlanUuid)
+	model.Offering = types.StringPointerValue(apiResp.Offering)
 	model.OfferingBillable = types.BoolPointerValue(apiResp.OfferingBillable)
 	model.OfferingDescription = types.StringPointerValue(apiResp.OfferingDescription)
 	model.OfferingImage = types.StringPointerValue(apiResp.OfferingImage)
 	model.OfferingName = types.StringPointerValue(apiResp.OfferingName)
 	model.OfferingShared = types.BoolPointerValue(apiResp.OfferingShared)
 	model.OfferingThumbnail = types.StringPointerValue(apiResp.OfferingThumbnail)
+	model.OfferingType = types.StringPointerValue(apiResp.OfferingType)
+	model.OfferingUuid = types.StringPointerValue(apiResp.OfferingUuid)
 	model.OldCostEstimate = types.Float64PointerValue(apiResp.OldCostEstimate)
 	model.OldPlanName = types.StringPointerValue(apiResp.OldPlanName)
 	model.OldPlanUuid = types.StringPointerValue(apiResp.OldPlanUuid)
@@ -665,18 +719,25 @@ func (d *MarketplaceOrderDataSource) mapResponseToModel(ctx context.Context, api
 	model.PlanUnit = types.StringPointerValue(apiResp.PlanUnit)
 	model.PlanUuid = types.StringPointerValue(apiResp.PlanUuid)
 	model.ProjectDescription = types.StringPointerValue(apiResp.ProjectDescription)
+	model.ProjectName = types.StringPointerValue(apiResp.ProjectName)
 	model.ProjectSlug = types.StringPointerValue(apiResp.ProjectSlug)
+	model.ProjectUuid = types.StringPointerValue(apiResp.ProjectUuid)
 	model.ProviderName = types.StringPointerValue(apiResp.ProviderName)
 	model.ProviderReviewedAt = types.StringPointerValue(apiResp.ProviderReviewedAt)
 	model.ProviderReviewedBy = types.StringPointerValue(apiResp.ProviderReviewedBy)
 	model.ProviderReviewedByFullName = types.StringPointerValue(apiResp.ProviderReviewedByFullName)
 	model.ProviderReviewedByUsername = types.StringPointerValue(apiResp.ProviderReviewedByUsername)
 	model.ProviderSlug = types.StringPointerValue(apiResp.ProviderSlug)
+	model.ProviderUuid = types.StringPointerValue(apiResp.ProviderUuid)
 	model.RequestComment = types.StringPointerValue(apiResp.RequestComment)
+	model.ResourceName = types.StringPointerValue(apiResp.ResourceName)
 	model.ResourceType = types.StringPointerValue(apiResp.ResourceType)
+	model.ResourceUuid = types.StringPointerValue(apiResp.ResourceUuid)
 	model.Slug = types.StringPointerValue(apiResp.Slug)
 	model.StartDate = types.StringPointerValue(apiResp.StartDate)
+	model.State = types.StringPointerValue(apiResp.State)
 	model.TerminationComment = types.StringPointerValue(apiResp.TerminationComment)
+	model.Type = types.StringPointerValue(apiResp.Type)
 	model.Url = types.StringPointerValue(apiResp.Url)
 
 	return diags

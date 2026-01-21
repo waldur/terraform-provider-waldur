@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/list"
 	"github.com/hashicorp/terraform-plugin-framework/list/schema"
@@ -263,10 +264,14 @@ func (l *OpenstackServerGroupList) List(ctx context.Context, req list.ListReques
 			model.DisplayName = types.StringPointerValue(apiResp.DisplayName)
 			model.ErrorMessage = types.StringPointerValue(apiResp.ErrorMessage)
 			model.ErrorTraceback = types.StringPointerValue(apiResp.ErrorTraceback)
-			listValInstances, listDiagsInstances := types.ListValueFrom(ctx, openstackservergroup_instancesObjectType, apiResp.Instances)
+			listValInstances, listDiagsInstances := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+				"backend_id": types.StringType,
+				"name":       types.StringType,
+			}}, apiResp.Instances)
 			diags.Append(listDiagsInstances...)
 			model.Instances = listValInstances
 			model.Modified = types.StringPointerValue(apiResp.Modified)
+			model.Name = types.StringPointerValue(apiResp.Name)
 			model.Policy = types.StringPointerValue(apiResp.Policy)
 			model.ResourceType = types.StringPointerValue(apiResp.ResourceType)
 			model.State = types.StringPointerValue(apiResp.State)

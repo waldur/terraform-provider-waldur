@@ -29,18 +29,48 @@ type OpenstackNetworkDataSource struct {
 type OpenstackNetworkApiResponse struct {
 	UUID *string `json:"uuid"`
 
-	AccessUrl      *string                                `json:"access_url" tfsdk:"access_url"`
-	Created        *string                                `json:"created" tfsdk:"created"`
-	ErrorMessage   *string                                `json:"error_message" tfsdk:"error_message"`
-	ErrorTraceback *string                                `json:"error_traceback" tfsdk:"error_traceback"`
-	Modified       *string                                `json:"modified" tfsdk:"modified"`
-	Mtu            *int64                                 `json:"mtu" tfsdk:"mtu"`
-	RbacPolicies   []OpenstackNetworkRbacPoliciesResponse `json:"rbac_policies" tfsdk:"rbac_policies"`
-	ResourceType   *string                                `json:"resource_type" tfsdk:"resource_type"`
-	SegmentationId *int64                                 `json:"segmentation_id" tfsdk:"segmentation_id"`
-	Subnets        []OpenstackNetworkSubnetsResponse      `json:"subnets" tfsdk:"subnets"`
-	TenantName     *string                                `json:"tenant_name" tfsdk:"tenant_name"`
-	Url            *string                                `json:"url" tfsdk:"url"`
+	AccessUrl                   *string                                `json:"access_url" tfsdk:"access_url"`
+	BackendId                   *string                                `json:"backend_id" tfsdk:"backend_id"`
+	Created                     *string                                `json:"created" tfsdk:"created"`
+	Customer                    *string                                `json:"customer" tfsdk:"customer"`
+	CustomerAbbreviation        *string                                `json:"customer_abbreviation" tfsdk:"customer_abbreviation"`
+	CustomerName                *string                                `json:"customer_name" tfsdk:"customer_name"`
+	CustomerNativeName          *string                                `json:"customer_native_name" tfsdk:"customer_native_name"`
+	CustomerUuid                *string                                `json:"customer_uuid" tfsdk:"customer_uuid"`
+	Description                 *string                                `json:"description" tfsdk:"description"`
+	ErrorMessage                *string                                `json:"error_message" tfsdk:"error_message"`
+	ErrorTraceback              *string                                `json:"error_traceback" tfsdk:"error_traceback"`
+	IsExternal                  *bool                                  `json:"is_external" tfsdk:"is_external"`
+	IsLimitBased                *bool                                  `json:"is_limit_based" tfsdk:"is_limit_based"`
+	IsUsageBased                *bool                                  `json:"is_usage_based" tfsdk:"is_usage_based"`
+	MarketplaceCategoryName     *string                                `json:"marketplace_category_name" tfsdk:"marketplace_category_name"`
+	MarketplaceCategoryUuid     *string                                `json:"marketplace_category_uuid" tfsdk:"marketplace_category_uuid"`
+	MarketplaceOfferingName     *string                                `json:"marketplace_offering_name" tfsdk:"marketplace_offering_name"`
+	MarketplaceOfferingUuid     *string                                `json:"marketplace_offering_uuid" tfsdk:"marketplace_offering_uuid"`
+	MarketplacePlanUuid         *string                                `json:"marketplace_plan_uuid" tfsdk:"marketplace_plan_uuid"`
+	MarketplaceResourceState    *string                                `json:"marketplace_resource_state" tfsdk:"marketplace_resource_state"`
+	MarketplaceResourceUuid     *string                                `json:"marketplace_resource_uuid" tfsdk:"marketplace_resource_uuid"`
+	Modified                    *string                                `json:"modified" tfsdk:"modified"`
+	Mtu                         *int64                                 `json:"mtu" tfsdk:"mtu"`
+	Name                        *string                                `json:"name" tfsdk:"name"`
+	Project                     *string                                `json:"project" tfsdk:"project"`
+	ProjectName                 *string                                `json:"project_name" tfsdk:"project_name"`
+	ProjectUuid                 *string                                `json:"project_uuid" tfsdk:"project_uuid"`
+	RbacPolicies                []OpenstackNetworkRbacPoliciesResponse `json:"rbac_policies" tfsdk:"rbac_policies"`
+	ResourceType                *string                                `json:"resource_type" tfsdk:"resource_type"`
+	SegmentationId              *int64                                 `json:"segmentation_id" tfsdk:"segmentation_id"`
+	ServiceName                 *string                                `json:"service_name" tfsdk:"service_name"`
+	ServiceSettings             *string                                `json:"service_settings" tfsdk:"service_settings"`
+	ServiceSettingsErrorMessage *string                                `json:"service_settings_error_message" tfsdk:"service_settings_error_message"`
+	ServiceSettingsState        *string                                `json:"service_settings_state" tfsdk:"service_settings_state"`
+	ServiceSettingsUuid         *string                                `json:"service_settings_uuid" tfsdk:"service_settings_uuid"`
+	State                       *string                                `json:"state" tfsdk:"state"`
+	Subnets                     []OpenstackNetworkSubnetsResponse      `json:"subnets" tfsdk:"subnets"`
+	Tenant                      *string                                `json:"tenant" tfsdk:"tenant"`
+	TenantName                  *string                                `json:"tenant_name" tfsdk:"tenant_name"`
+	TenantUuid                  *string                                `json:"tenant_uuid" tfsdk:"tenant_uuid"`
+	Type                        *string                                `json:"type" tfsdk:"type"`
+	Url                         *string                                `json:"url" tfsdk:"url"`
 }
 
 type OpenstackNetworkRbacPoliciesResponse struct {
@@ -61,49 +91,12 @@ type OpenstackNetworkSubnetsResponse struct {
 	EnableDhcp      *bool                                            `json:"enable_dhcp" tfsdk:"enable_dhcp"`
 	GatewayIp       *string                                          `json:"gateway_ip" tfsdk:"gateway_ip"`
 	IpVersion       *int64                                           `json:"ip_version" tfsdk:"ip_version"`
+	Name            *string                                          `json:"name" tfsdk:"name"`
 }
 
 type OpenstackNetworkSubnetsAllocationPoolsResponse struct {
 	End   *string `json:"end" tfsdk:"end"`
 	Start *string `json:"start" tfsdk:"start"`
-}
-
-var openstacknetwork_rbac_policiesAttrTypes = map[string]attr.Type{
-	"backend_id":         types.StringType,
-	"created":            types.StringType,
-	"network":            types.StringType,
-	"network_name":       types.StringType,
-	"policy_type":        types.StringType,
-	"target_tenant":      types.StringType,
-	"target_tenant_name": types.StringType,
-	"url":                types.StringType,
-}
-var openstacknetwork_rbac_policiesObjectType = types.ObjectType{
-	AttrTypes: openstacknetwork_rbac_policiesAttrTypes,
-}
-
-var openstacknetwork_subnetsAttrTypes = map[string]attr.Type{
-	"allocation_pools": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
-		"end":   types.StringType,
-		"start": types.StringType,
-	}}},
-	"cidr":        types.StringType,
-	"description": types.StringType,
-	"enable_dhcp": types.BoolType,
-	"gateway_ip":  types.StringType,
-	"ip_version":  types.Int64Type,
-	"name":        types.StringType,
-}
-var openstacknetwork_subnetsObjectType = types.ObjectType{
-	AttrTypes: openstacknetwork_subnetsAttrTypes,
-}
-
-var openstacknetworksubnets_allocation_poolsAttrTypes = map[string]attr.Type{
-	"end":   types.StringType,
-	"start": types.StringType,
-}
-var openstacknetworksubnets_allocation_poolsObjectType = types.ObjectType{
-	AttrTypes: openstacknetworksubnets_allocation_poolsAttrTypes,
 }
 
 // OpenstackNetworkDataSourceModel describes the data source data model.
@@ -163,98 +156,122 @@ func (d *OpenstackNetworkDataSource) Schema(ctx context.Context, req datasource.
 			},
 			"backend_id": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Backend ID",
 			},
 			"can_manage": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Can manage",
 			},
 			"customer": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Customer UUID",
 			},
 			"customer_abbreviation": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Customer abbreviation",
 			},
 			"customer_name": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Customer name",
 			},
 			"customer_native_name": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Customer native name",
 			},
 			"customer_uuid": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Customer UUID",
 			},
 			"description": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Description",
 			},
 			"direct_only": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Direct only",
 			},
 			"external_ip": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "External IP",
 			},
 			"is_external": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: " ",
 			},
 			"name": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Name",
 			},
 			"name_exact": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Name (exact)",
 			},
 			"project": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Project UUID",
 			},
 			"project_name": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Project name",
 			},
 			"project_uuid": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Project UUID",
 			},
 			"rbac_only": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "RBAC only",
 			},
 			"service_settings_name": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Service settings name",
 			},
 			"service_settings_uuid": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Service settings UUID",
 			},
 			"state": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "State",
 			},
 			"tenant": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Tenant URL",
 			},
 			"tenant_uuid": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Tenant UUID",
 			},
 			"type": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: " ",
 			},
 			"uuid": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "UUID",
 			},
 			"access_url": schema.StringAttribute{
@@ -498,20 +515,56 @@ func (d *OpenstackNetworkDataSource) mapResponseToModel(ctx context.Context, api
 
 	model.UUID = types.StringPointerValue(apiResp.UUID)
 	model.AccessUrl = types.StringPointerValue(apiResp.AccessUrl)
+	model.BackendId = types.StringPointerValue(apiResp.BackendId)
 	model.Created = types.StringPointerValue(apiResp.Created)
+	model.Customer = types.StringPointerValue(apiResp.Customer)
+	model.CustomerAbbreviation = types.StringPointerValue(apiResp.CustomerAbbreviation)
+	model.CustomerName = types.StringPointerValue(apiResp.CustomerName)
+	model.CustomerNativeName = types.StringPointerValue(apiResp.CustomerNativeName)
+	model.CustomerUuid = types.StringPointerValue(apiResp.CustomerUuid)
+	model.Description = types.StringPointerValue(apiResp.Description)
 	model.ErrorMessage = types.StringPointerValue(apiResp.ErrorMessage)
 	model.ErrorTraceback = types.StringPointerValue(apiResp.ErrorTraceback)
+	model.IsExternal = types.BoolPointerValue(apiResp.IsExternal)
 	model.Modified = types.StringPointerValue(apiResp.Modified)
 	model.Mtu = types.Int64PointerValue(apiResp.Mtu)
-	listValRbacPolicies, listDiagsRbacPolicies := types.ListValueFrom(ctx, openstacknetwork_rbac_policiesObjectType, apiResp.RbacPolicies)
+	model.Name = types.StringPointerValue(apiResp.Name)
+	model.Project = types.StringPointerValue(apiResp.Project)
+	model.ProjectName = types.StringPointerValue(apiResp.ProjectName)
+	model.ProjectUuid = types.StringPointerValue(apiResp.ProjectUuid)
+	listValRbacPolicies, listDiagsRbacPolicies := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+		"backend_id":         types.StringType,
+		"created":            types.StringType,
+		"network":            types.StringType,
+		"network_name":       types.StringType,
+		"policy_type":        types.StringType,
+		"target_tenant":      types.StringType,
+		"target_tenant_name": types.StringType,
+		"url":                types.StringType,
+	}}, apiResp.RbacPolicies)
 	diags.Append(listDiagsRbacPolicies...)
 	model.RbacPolicies = listValRbacPolicies
 	model.ResourceType = types.StringPointerValue(apiResp.ResourceType)
 	model.SegmentationId = types.Int64PointerValue(apiResp.SegmentationId)
-	listValSubnets, listDiagsSubnets := types.ListValueFrom(ctx, openstacknetwork_subnetsObjectType, apiResp.Subnets)
+	model.State = types.StringPointerValue(apiResp.State)
+	listValSubnets, listDiagsSubnets := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+		"allocation_pools": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+			"end":   types.StringType,
+			"start": types.StringType,
+		}}},
+		"cidr":        types.StringType,
+		"description": types.StringType,
+		"enable_dhcp": types.BoolType,
+		"gateway_ip":  types.StringType,
+		"ip_version":  types.Int64Type,
+		"name":        types.StringType,
+	}}, apiResp.Subnets)
 	diags.Append(listDiagsSubnets...)
 	model.Subnets = listValSubnets
+	model.Tenant = types.StringPointerValue(apiResp.Tenant)
 	model.TenantName = types.StringPointerValue(apiResp.TenantName)
+	model.TenantUuid = types.StringPointerValue(apiResp.TenantUuid)
+	model.Type = types.StringPointerValue(apiResp.Type)
 	model.Url = types.StringPointerValue(apiResp.Url)
 
 	return diags

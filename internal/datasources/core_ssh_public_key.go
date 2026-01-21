@@ -28,9 +28,15 @@ type CoreSshPublicKeyDataSource struct {
 type CoreSshPublicKeyApiResponse struct {
 	UUID *string `json:"uuid"`
 
-	PublicKey *string `json:"public_key" tfsdk:"public_key"`
-	Type      *string `json:"type" tfsdk:"type"`
-	Url       *string `json:"url" tfsdk:"url"`
+	FingerprintMd5    *string `json:"fingerprint_md5" tfsdk:"fingerprint_md5"`
+	FingerprintSha256 *string `json:"fingerprint_sha256" tfsdk:"fingerprint_sha256"`
+	FingerprintSha512 *string `json:"fingerprint_sha512" tfsdk:"fingerprint_sha512"`
+	IsShared          *bool   `json:"is_shared" tfsdk:"is_shared"`
+	Name              *string `json:"name" tfsdk:"name"`
+	PublicKey         *string `json:"public_key" tfsdk:"public_key"`
+	Type              *string `json:"type" tfsdk:"type"`
+	Url               *string `json:"url" tfsdk:"url"`
+	UserUuid          *string `json:"user_uuid" tfsdk:"user_uuid"`
 }
 
 // CoreSshPublicKeyDataSourceModel describes the data source data model.
@@ -67,42 +73,52 @@ func (d *CoreSshPublicKeyDataSource) Schema(ctx context.Context, req datasource.
 			},
 			"created": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Created after",
 			},
 			"fingerprint_md5": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: " ",
 			},
 			"fingerprint_sha256": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: " ",
 			},
 			"fingerprint_sha512": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: " ",
 			},
 			"is_shared": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: " ",
 			},
 			"modified": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Modified after",
 			},
 			"name": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Name",
 			},
 			"name_exact": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Name (exact)",
 			},
 			"user_uuid": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "User UUID",
 			},
 			"uuid": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "UUID",
 			},
 			"public_key": schema.StringAttribute{
@@ -245,9 +261,15 @@ func (d *CoreSshPublicKeyDataSource) mapResponseToModel(ctx context.Context, api
 	var diags diag.Diagnostics
 
 	model.UUID = types.StringPointerValue(apiResp.UUID)
+	model.FingerprintMd5 = types.StringPointerValue(apiResp.FingerprintMd5)
+	model.FingerprintSha256 = types.StringPointerValue(apiResp.FingerprintSha256)
+	model.FingerprintSha512 = types.StringPointerValue(apiResp.FingerprintSha512)
+	model.IsShared = types.BoolPointerValue(apiResp.IsShared)
+	model.Name = types.StringPointerValue(apiResp.Name)
 	model.PublicKey = types.StringPointerValue(apiResp.PublicKey)
 	model.Type = types.StringPointerValue(apiResp.Type)
 	model.Url = types.StringPointerValue(apiResp.Url)
+	model.UserUuid = types.StringPointerValue(apiResp.UserUuid)
 
 	return diags
 }

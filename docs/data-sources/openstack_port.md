@@ -40,6 +40,11 @@ Openstack Port data source - lookup by name or UUID
 - `access_url` (String)
 - `allowed_address_pairs` (List of Object) (see [below for nested schema](#nestedatt--allowed_address_pairs))
 - `created` (String)
+- `customer` (String)
+- `customer_abbreviation` (String)
+- `customer_name` (String)
+- `customer_native_name` (String)
+- `customer_uuid` (String)
 - `description` (String)
 - `error_message` (String)
 - `error_traceback` (String)
@@ -47,6 +52,9 @@ Openstack Port data source - lookup by name or UUID
 - `modified` (String)
 - `network` (String) Network to which this port belongs
 - `port_security_enabled` (Boolean) If True, security groups and rules will be applied to this port
+- `project` (String)
+- `project_name` (String)
+- `project_uuid` (String)
 - `resource_type` (String)
 - `security_groups` (List of Object) (see [below for nested schema](#nestedatt--security_groups))
 - `state` (String)

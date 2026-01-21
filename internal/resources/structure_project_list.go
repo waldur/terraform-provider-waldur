@@ -246,6 +246,7 @@ func (l *StructureProjectList) List(ctx context.Context, req list.ListRequest, s
 			model.IsRemoved = types.BoolPointerValue(apiResp.IsRemoved)
 			model.Kind = types.StringPointerValue(apiResp.Kind)
 			model.MaxServiceAccounts = types.Int64PointerValue(apiResp.MaxServiceAccounts)
+			model.Name = types.StringPointerValue(apiResp.Name)
 			model.OecdFos2007Code = types.StringPointerValue(apiResp.OecdFos2007Code)
 			model.OecdFos2007Label = types.StringPointerValue(apiResp.OecdFos2007Label)
 			model.ProjectCredit = types.Float64PointerValue(apiResp.ProjectCredit)

@@ -29,13 +29,18 @@ type StructureCustomerDataSource struct {
 type StructureCustomerApiResponse struct {
 	UUID *string `json:"uuid"`
 
+	Abbreviation                 *string                                       `json:"abbreviation" tfsdk:"abbreviation"`
 	AccessSubnets                *string                                       `json:"access_subnets" tfsdk:"access_subnets"`
 	AccountingStartDate          *string                                       `json:"accounting_start_date" tfsdk:"accounting_start_date"`
 	Address                      *string                                       `json:"address" tfsdk:"address"`
+	AgreementNumber              *string                                       `json:"agreement_number" tfsdk:"agreement_number"`
+	Archived                     *bool                                         `json:"archived" tfsdk:"archived"`
+	BackendId                    *string                                       `json:"backend_id" tfsdk:"backend_id"`
 	BankAccount                  *string                                       `json:"bank_account" tfsdk:"bank_account"`
 	BankName                     *string                                       `json:"bank_name" tfsdk:"bank_name"`
 	Blocked                      *bool                                         `json:"blocked" tfsdk:"blocked"`
 	CallManagingOrganizationUuid *string                                       `json:"call_managing_organization_uuid" tfsdk:"call_managing_organization_uuid"`
+	ContactDetails               *string                                       `json:"contact_details" tfsdk:"contact_details"`
 	Country                      *string                                       `json:"country" tfsdk:"country"`
 	CountryName                  *string                                       `json:"country_name" tfsdk:"country_name"`
 	Created                      *string                                       `json:"created" tfsdk:"created"`
@@ -54,6 +59,8 @@ type StructureCustomerApiResponse struct {
 	Latitude                     *float64                                      `json:"latitude" tfsdk:"latitude"`
 	Longitude                    *float64                                      `json:"longitude" tfsdk:"longitude"`
 	MaxServiceAccounts           *int64                                        `json:"max_service_accounts" tfsdk:"max_service_accounts"`
+	Name                         *string                                       `json:"name" tfsdk:"name"`
+	NativeName                   *string                                       `json:"native_name" tfsdk:"native_name"`
 	NotificationEmails           *string                                       `json:"notification_emails" tfsdk:"notification_emails"`
 	OrganizationGroups           []StructureCustomerOrganizationGroupsResponse `json:"organization_groups" tfsdk:"organization_groups"`
 	PaymentProfiles              []StructureCustomerPaymentProfilesResponse    `json:"payment_profiles" tfsdk:"payment_profiles"`
@@ -61,6 +68,7 @@ type StructureCustomerApiResponse struct {
 	Postal                       *string                                       `json:"postal" tfsdk:"postal"`
 	ProjectMetadataChecklist     *string                                       `json:"project_metadata_checklist" tfsdk:"project_metadata_checklist"`
 	ProjectsCount                *int64                                        `json:"projects_count" tfsdk:"projects_count"`
+	RegistrationCode             *string                                       `json:"registration_code" tfsdk:"registration_code"`
 	ServiceProvider              *string                                       `json:"service_provider" tfsdk:"service_provider"`
 	ServiceProviderUuid          *string                                       `json:"service_provider_uuid" tfsdk:"service_provider_uuid"`
 	Slug                         *string                                       `json:"slug" tfsdk:"slug"`
@@ -72,6 +80,7 @@ type StructureCustomerApiResponse struct {
 
 type StructureCustomerOrganizationGroupsResponse struct {
 	CustomersCount *int64  `json:"customers_count" tfsdk:"customers_count"`
+	Name           *string `json:"name" tfsdk:"name"`
 	Parent         *string `json:"parent" tfsdk:"parent"`
 	ParentName     *string `json:"parent_name" tfsdk:"parent_name"`
 	ParentUuid     *string `json:"parent_uuid" tfsdk:"parent_uuid"`
@@ -81,6 +90,7 @@ type StructureCustomerOrganizationGroupsResponse struct {
 type StructureCustomerPaymentProfilesResponse struct {
 	Attributes         *StructureCustomerPaymentProfilesAttributesResponse `json:"attributes" tfsdk:"attributes"`
 	IsActive           *bool                                               `json:"is_active" tfsdk:"is_active"`
+	Name               *string                                             `json:"name" tfsdk:"name"`
 	Organization       *string                                             `json:"organization" tfsdk:"organization"`
 	OrganizationUuid   *string                                             `json:"organization_uuid" tfsdk:"organization_uuid"`
 	PaymentType        *string                                             `json:"payment_type" tfsdk:"payment_type"`
@@ -92,45 +102,6 @@ type StructureCustomerPaymentProfilesAttributesResponse struct {
 	AgreementNumber *string `json:"agreement_number" tfsdk:"agreement_number"`
 	ContractSum     *int64  `json:"contract_sum" tfsdk:"contract_sum"`
 	EndDate         *string `json:"end_date" tfsdk:"end_date"`
-}
-
-var structurecustomer_organization_groupsAttrTypes = map[string]attr.Type{
-	"customers_count": types.Int64Type,
-	"name":            types.StringType,
-	"parent":          types.StringType,
-	"parent_name":     types.StringType,
-	"parent_uuid":     types.StringType,
-	"url":             types.StringType,
-}
-var structurecustomer_organization_groupsObjectType = types.ObjectType{
-	AttrTypes: structurecustomer_organization_groupsAttrTypes,
-}
-
-var structurecustomer_payment_profilesAttrTypes = map[string]attr.Type{
-	"attributes": types.ObjectType{AttrTypes: map[string]attr.Type{
-		"agreement_number": types.StringType,
-		"contract_sum":     types.Int64Type,
-		"end_date":         types.StringType,
-	}},
-	"is_active":            types.BoolType,
-	"name":                 types.StringType,
-	"organization":         types.StringType,
-	"organization_uuid":    types.StringType,
-	"payment_type":         types.StringType,
-	"payment_type_display": types.StringType,
-	"url":                  types.StringType,
-}
-var structurecustomer_payment_profilesObjectType = types.ObjectType{
-	AttrTypes: structurecustomer_payment_profilesAttrTypes,
-}
-
-var structurecustomerpaymentprofiles_attributesAttrTypes = map[string]attr.Type{
-	"agreement_number": types.StringType,
-	"contract_sum":     types.Int64Type,
-	"end_date":         types.StringType,
-}
-var structurecustomerpaymentprofiles_attributesObjectType = types.ObjectType{
-	AttrTypes: structurecustomerpaymentprofiles_attributesAttrTypes,
 }
 
 // StructureCustomerDataSourceModel describes the data source data model.
@@ -206,54 +177,67 @@ func (d *StructureCustomerDataSource) Schema(ctx context.Context, req datasource
 			},
 			"abbreviation": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Abbreviation",
 			},
 			"agreement_number": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: " ",
 			},
 			"archived": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: " ",
 			},
 			"backend_id": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: " ",
 			},
 			"contact_details": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Contact details",
 			},
 			"name": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Name",
 			},
 			"name_exact": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Name (exact)",
 			},
 			"native_name": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Native name",
 			},
 			"organization_group_name": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Organization group name",
 			},
 			"organization_group_uuid": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Organization group UUID",
 			},
 			"owned_by_current_user": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Return a list of customers where current user is owner.",
 			},
 			"query": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Filter by name, native name, abbreviation, domain, UUID, registration code or agreement number",
 			},
 			"registration_code": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: " ",
 			},
 			"access_subnets": schema.StringAttribute{
@@ -571,13 +555,18 @@ func (d *StructureCustomerDataSource) mapResponseToModel(ctx context.Context, ap
 	var diags diag.Diagnostics
 
 	model.UUID = types.StringPointerValue(apiResp.UUID)
+	model.Abbreviation = types.StringPointerValue(apiResp.Abbreviation)
 	model.AccessSubnets = types.StringPointerValue(apiResp.AccessSubnets)
 	model.AccountingStartDate = types.StringPointerValue(apiResp.AccountingStartDate)
 	model.Address = types.StringPointerValue(apiResp.Address)
+	model.AgreementNumber = types.StringPointerValue(apiResp.AgreementNumber)
+	model.Archived = types.BoolPointerValue(apiResp.Archived)
+	model.BackendId = types.StringPointerValue(apiResp.BackendId)
 	model.BankAccount = types.StringPointerValue(apiResp.BankAccount)
 	model.BankName = types.StringPointerValue(apiResp.BankName)
 	model.Blocked = types.BoolPointerValue(apiResp.Blocked)
 	model.CallManagingOrganizationUuid = types.StringPointerValue(apiResp.CallManagingOrganizationUuid)
+	model.ContactDetails = types.StringPointerValue(apiResp.ContactDetails)
 	model.Country = types.StringPointerValue(apiResp.Country)
 	model.CountryName = types.StringPointerValue(apiResp.CountryName)
 	model.Created = types.StringPointerValue(apiResp.Created)
@@ -596,17 +585,40 @@ func (d *StructureCustomerDataSource) mapResponseToModel(ctx context.Context, ap
 	model.Latitude = types.Float64PointerValue(apiResp.Latitude)
 	model.Longitude = types.Float64PointerValue(apiResp.Longitude)
 	model.MaxServiceAccounts = types.Int64PointerValue(apiResp.MaxServiceAccounts)
+	model.Name = types.StringPointerValue(apiResp.Name)
+	model.NativeName = types.StringPointerValue(apiResp.NativeName)
 	model.NotificationEmails = types.StringPointerValue(apiResp.NotificationEmails)
-	listValOrganizationGroups, listDiagsOrganizationGroups := types.ListValueFrom(ctx, structurecustomer_organization_groupsObjectType, apiResp.OrganizationGroups)
+	listValOrganizationGroups, listDiagsOrganizationGroups := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+		"customers_count": types.Int64Type,
+		"name":            types.StringType,
+		"parent":          types.StringType,
+		"parent_name":     types.StringType,
+		"parent_uuid":     types.StringType,
+		"url":             types.StringType,
+	}}, apiResp.OrganizationGroups)
 	diags.Append(listDiagsOrganizationGroups...)
 	model.OrganizationGroups = listValOrganizationGroups
-	listValPaymentProfiles, listDiagsPaymentProfiles := types.ListValueFrom(ctx, structurecustomer_payment_profilesObjectType, apiResp.PaymentProfiles)
+	listValPaymentProfiles, listDiagsPaymentProfiles := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+		"attributes": types.ObjectType{AttrTypes: map[string]attr.Type{
+			"agreement_number": types.StringType,
+			"contract_sum":     types.Int64Type,
+			"end_date":         types.StringType,
+		}},
+		"is_active":            types.BoolType,
+		"name":                 types.StringType,
+		"organization":         types.StringType,
+		"organization_uuid":    types.StringType,
+		"payment_type":         types.StringType,
+		"payment_type_display": types.StringType,
+		"url":                  types.StringType,
+	}}, apiResp.PaymentProfiles)
 	diags.Append(listDiagsPaymentProfiles...)
 	model.PaymentProfiles = listValPaymentProfiles
 	model.PhoneNumber = types.StringPointerValue(apiResp.PhoneNumber)
 	model.Postal = types.StringPointerValue(apiResp.Postal)
 	model.ProjectMetadataChecklist = types.StringPointerValue(apiResp.ProjectMetadataChecklist)
 	model.ProjectsCount = types.Int64PointerValue(apiResp.ProjectsCount)
+	model.RegistrationCode = types.StringPointerValue(apiResp.RegistrationCode)
 	model.ServiceProvider = types.StringPointerValue(apiResp.ServiceProvider)
 	model.ServiceProviderUuid = types.StringPointerValue(apiResp.ServiceProviderUuid)
 	model.Slug = types.StringPointerValue(apiResp.Slug)

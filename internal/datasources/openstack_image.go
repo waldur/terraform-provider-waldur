@@ -31,6 +31,8 @@ type OpenstackImageApiResponse struct {
 	BackendId *string `json:"backend_id" tfsdk:"backend_id"`
 	MinDisk   *int64  `json:"min_disk" tfsdk:"min_disk"`
 	MinRam    *int64  `json:"min_ram" tfsdk:"min_ram"`
+	Name      *string `json:"name" tfsdk:"name"`
+	Settings  *string `json:"settings" tfsdk:"settings"`
 	Url       *string `json:"url" tfsdk:"url"`
 }
 
@@ -66,30 +68,37 @@ func (d *OpenstackImageDataSource) Schema(ctx context.Context, req datasource.Sc
 			},
 			"name": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Name",
 			},
 			"name_exact": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Name (exact)",
 			},
 			"offering_uuid": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Offering UUID",
 			},
 			"settings": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Settings URL",
 			},
 			"settings_uuid": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Settings UUID",
 			},
 			"tenant": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Tenant URL",
 			},
 			"tenant_uuid": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Tenant UUID",
 			},
 			"backend_id": schema.StringAttribute{
@@ -230,6 +239,8 @@ func (d *OpenstackImageDataSource) mapResponseToModel(ctx context.Context, apiRe
 	model.BackendId = types.StringPointerValue(apiResp.BackendId)
 	model.MinDisk = types.Int64PointerValue(apiResp.MinDisk)
 	model.MinRam = types.Int64PointerValue(apiResp.MinRam)
+	model.Name = types.StringPointerValue(apiResp.Name)
+	model.Settings = types.StringPointerValue(apiResp.Settings)
 	model.Url = types.StringPointerValue(apiResp.Url)
 
 	return diags

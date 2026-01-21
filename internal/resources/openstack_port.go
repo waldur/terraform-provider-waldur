@@ -48,6 +48,7 @@ type OpenstackPortApiResponse struct {
 	FloatingIps         []string                                   `json:"floating_ips" tfsdk:"floating_ips"`
 	MacAddress          *string                                    `json:"mac_address" tfsdk:"mac_address"`
 	Modified            *string                                    `json:"modified" tfsdk:"modified"`
+	Name                *string                                    `json:"name" tfsdk:"name"`
 	Network             *string                                    `json:"network" tfsdk:"network"`
 	NetworkName         *string                                    `json:"network_name" tfsdk:"network_name"`
 	NetworkUuid         *string                                    `json:"network_uuid" tfsdk:"network_uuid"`
@@ -74,29 +75,7 @@ type OpenstackPortFixedIpsResponse struct {
 }
 
 type OpenstackPortSecurityGroupsResponse struct {
-}
-
-var openstackport_allowed_address_pairsAttrTypes = map[string]attr.Type{
-	"ip_address":  types.StringType,
-	"mac_address": types.StringType,
-}
-var openstackport_allowed_address_pairsObjectType = types.ObjectType{
-	AttrTypes: openstackport_allowed_address_pairsAttrTypes,
-}
-
-var openstackport_fixed_ipsAttrTypes = map[string]attr.Type{
-	"ip_address": types.StringType,
-	"subnet_id":  types.StringType,
-}
-var openstackport_fixed_ipsObjectType = types.ObjectType{
-	AttrTypes: openstackport_fixed_ipsAttrTypes,
-}
-
-var openstackport_security_groupsAttrTypes = map[string]attr.Type{
-	"name": types.StringType,
-}
-var openstackport_security_groupsObjectType = types.ObjectType{
-	AttrTypes: openstackport_security_groupsAttrTypes,
+	Name *string `json:"name" tfsdk:"name"`
 }
 
 // OpenstackPortResourceModel describes the resource data model.
@@ -514,7 +493,10 @@ func (r *OpenstackPortResource) mapResponseToModel(ctx context.Context, apiResp 
 	model.UUID = types.StringPointerValue(apiResp.UUID)
 	model.AccessUrl = types.StringPointerValue(apiResp.AccessUrl)
 	model.AdminStateUp = types.BoolPointerValue(apiResp.AdminStateUp)
-	listValAllowedAddressPairs, listDiagsAllowedAddressPairs := types.ListValueFrom(ctx, openstackport_allowed_address_pairsObjectType, apiResp.AllowedAddressPairs)
+	listValAllowedAddressPairs, listDiagsAllowedAddressPairs := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+		"ip_address":  types.StringType,
+		"mac_address": types.StringType,
+	}}, apiResp.AllowedAddressPairs)
 	diags.Append(listDiagsAllowedAddressPairs...)
 	model.AllowedAddressPairs = listValAllowedAddressPairs
 	model.BackendId = types.StringPointerValue(apiResp.BackendId)
@@ -524,18 +506,24 @@ func (r *OpenstackPortResource) mapResponseToModel(ctx context.Context, apiResp 
 	model.DeviceOwner = types.StringPointerValue(apiResp.DeviceOwner)
 	model.ErrorMessage = types.StringPointerValue(apiResp.ErrorMessage)
 	model.ErrorTraceback = types.StringPointerValue(apiResp.ErrorTraceback)
-	listValFixedIps, listDiagsFixedIps := types.ListValueFrom(ctx, openstackport_fixed_ipsObjectType, apiResp.FixedIps)
+	listValFixedIps, listDiagsFixedIps := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+		"ip_address": types.StringType,
+		"subnet_id":  types.StringType,
+	}}, apiResp.FixedIps)
 	diags.Append(listDiagsFixedIps...)
 	model.FixedIps = listValFixedIps
 	model.FloatingIps, _ = types.ListValueFrom(ctx, types.StringType, apiResp.FloatingIps)
 	model.MacAddress = types.StringPointerValue(apiResp.MacAddress)
 	model.Modified = types.StringPointerValue(apiResp.Modified)
+	model.Name = types.StringPointerValue(apiResp.Name)
 	model.Network = types.StringPointerValue(apiResp.Network)
 	model.NetworkName = types.StringPointerValue(apiResp.NetworkName)
 	model.NetworkUuid = types.StringPointerValue(apiResp.NetworkUuid)
 	model.PortSecurityEnabled = types.BoolPointerValue(apiResp.PortSecurityEnabled)
 	model.ResourceType = types.StringPointerValue(apiResp.ResourceType)
-	listValSecurityGroups, listDiagsSecurityGroups := types.ListValueFrom(ctx, openstackport_security_groupsObjectType, apiResp.SecurityGroups)
+	listValSecurityGroups, listDiagsSecurityGroups := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+		"name": types.StringType,
+	}}, apiResp.SecurityGroups)
 	diags.Append(listDiagsSecurityGroups...)
 	model.SecurityGroups = listValSecurityGroups
 	model.State = types.StringPointerValue(apiResp.State)

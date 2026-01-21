@@ -29,22 +29,52 @@ type OpenstackSubnetDataSource struct {
 type OpenstackSubnetApiResponse struct {
 	UUID *string `json:"uuid"`
 
-	AccessUrl       *string                                  `json:"access_url" tfsdk:"access_url"`
-	AllocationPools []OpenstackSubnetAllocationPoolsResponse `json:"allocation_pools" tfsdk:"allocation_pools"`
-	Cidr            *string                                  `json:"cidr" tfsdk:"cidr"`
-	Created         *string                                  `json:"created" tfsdk:"created"`
-	DisableGateway  *bool                                    `json:"disable_gateway" tfsdk:"disable_gateway"`
-	DnsNameservers  []string                                 `json:"dns_nameservers" tfsdk:"dns_nameservers"`
-	ErrorMessage    *string                                  `json:"error_message" tfsdk:"error_message"`
-	ErrorTraceback  *string                                  `json:"error_traceback" tfsdk:"error_traceback"`
-	GatewayIp       *string                                  `json:"gateway_ip" tfsdk:"gateway_ip"`
-	HostRoutes      []OpenstackSubnetHostRoutesResponse      `json:"host_routes" tfsdk:"host_routes"`
-	IsConnected     *bool                                    `json:"is_connected" tfsdk:"is_connected"`
-	Modified        *string                                  `json:"modified" tfsdk:"modified"`
-	NetworkName     *string                                  `json:"network_name" tfsdk:"network_name"`
-	ResourceType    *string                                  `json:"resource_type" tfsdk:"resource_type"`
-	TenantName      *string                                  `json:"tenant_name" tfsdk:"tenant_name"`
-	Url             *string                                  `json:"url" tfsdk:"url"`
+	AccessUrl                   *string                                  `json:"access_url" tfsdk:"access_url"`
+	AllocationPools             []OpenstackSubnetAllocationPoolsResponse `json:"allocation_pools" tfsdk:"allocation_pools"`
+	BackendId                   *string                                  `json:"backend_id" tfsdk:"backend_id"`
+	Cidr                        *string                                  `json:"cidr" tfsdk:"cidr"`
+	Created                     *string                                  `json:"created" tfsdk:"created"`
+	Customer                    *string                                  `json:"customer" tfsdk:"customer"`
+	CustomerAbbreviation        *string                                  `json:"customer_abbreviation" tfsdk:"customer_abbreviation"`
+	CustomerName                *string                                  `json:"customer_name" tfsdk:"customer_name"`
+	CustomerNativeName          *string                                  `json:"customer_native_name" tfsdk:"customer_native_name"`
+	CustomerUuid                *string                                  `json:"customer_uuid" tfsdk:"customer_uuid"`
+	Description                 *string                                  `json:"description" tfsdk:"description"`
+	DisableGateway              *bool                                    `json:"disable_gateway" tfsdk:"disable_gateway"`
+	DnsNameservers              []string                                 `json:"dns_nameservers" tfsdk:"dns_nameservers"`
+	EnableDhcp                  *bool                                    `json:"enable_dhcp" tfsdk:"enable_dhcp"`
+	ErrorMessage                *string                                  `json:"error_message" tfsdk:"error_message"`
+	ErrorTraceback              *string                                  `json:"error_traceback" tfsdk:"error_traceback"`
+	GatewayIp                   *string                                  `json:"gateway_ip" tfsdk:"gateway_ip"`
+	HostRoutes                  []OpenstackSubnetHostRoutesResponse      `json:"host_routes" tfsdk:"host_routes"`
+	IpVersion                   *int64                                   `json:"ip_version" tfsdk:"ip_version"`
+	IsConnected                 *bool                                    `json:"is_connected" tfsdk:"is_connected"`
+	IsLimitBased                *bool                                    `json:"is_limit_based" tfsdk:"is_limit_based"`
+	IsUsageBased                *bool                                    `json:"is_usage_based" tfsdk:"is_usage_based"`
+	MarketplaceCategoryName     *string                                  `json:"marketplace_category_name" tfsdk:"marketplace_category_name"`
+	MarketplaceCategoryUuid     *string                                  `json:"marketplace_category_uuid" tfsdk:"marketplace_category_uuid"`
+	MarketplaceOfferingName     *string                                  `json:"marketplace_offering_name" tfsdk:"marketplace_offering_name"`
+	MarketplaceOfferingUuid     *string                                  `json:"marketplace_offering_uuid" tfsdk:"marketplace_offering_uuid"`
+	MarketplacePlanUuid         *string                                  `json:"marketplace_plan_uuid" tfsdk:"marketplace_plan_uuid"`
+	MarketplaceResourceState    *string                                  `json:"marketplace_resource_state" tfsdk:"marketplace_resource_state"`
+	MarketplaceResourceUuid     *string                                  `json:"marketplace_resource_uuid" tfsdk:"marketplace_resource_uuid"`
+	Modified                    *string                                  `json:"modified" tfsdk:"modified"`
+	Name                        *string                                  `json:"name" tfsdk:"name"`
+	Network                     *string                                  `json:"network" tfsdk:"network"`
+	NetworkName                 *string                                  `json:"network_name" tfsdk:"network_name"`
+	Project                     *string                                  `json:"project" tfsdk:"project"`
+	ProjectName                 *string                                  `json:"project_name" tfsdk:"project_name"`
+	ProjectUuid                 *string                                  `json:"project_uuid" tfsdk:"project_uuid"`
+	ResourceType                *string                                  `json:"resource_type" tfsdk:"resource_type"`
+	ServiceName                 *string                                  `json:"service_name" tfsdk:"service_name"`
+	ServiceSettings             *string                                  `json:"service_settings" tfsdk:"service_settings"`
+	ServiceSettingsErrorMessage *string                                  `json:"service_settings_error_message" tfsdk:"service_settings_error_message"`
+	ServiceSettingsState        *string                                  `json:"service_settings_state" tfsdk:"service_settings_state"`
+	ServiceSettingsUuid         *string                                  `json:"service_settings_uuid" tfsdk:"service_settings_uuid"`
+	State                       *string                                  `json:"state" tfsdk:"state"`
+	Tenant                      *string                                  `json:"tenant" tfsdk:"tenant"`
+	TenantName                  *string                                  `json:"tenant_name" tfsdk:"tenant_name"`
+	Url                         *string                                  `json:"url" tfsdk:"url"`
 }
 
 type OpenstackSubnetAllocationPoolsResponse struct {
@@ -55,22 +85,6 @@ type OpenstackSubnetAllocationPoolsResponse struct {
 type OpenstackSubnetHostRoutesResponse struct {
 	Destination *string `json:"destination" tfsdk:"destination"`
 	Nexthop     *string `json:"nexthop" tfsdk:"nexthop"`
-}
-
-var openstacksubnet_allocation_poolsAttrTypes = map[string]attr.Type{
-	"end":   types.StringType,
-	"start": types.StringType,
-}
-var openstacksubnet_allocation_poolsObjectType = types.ObjectType{
-	AttrTypes: openstacksubnet_allocation_poolsAttrTypes,
-}
-
-var openstacksubnet_host_routesAttrTypes = map[string]attr.Type{
-	"destination": types.StringType,
-	"nexthop":     types.StringType,
-}
-var openstacksubnet_host_routesObjectType = types.ObjectType{
-	AttrTypes: openstacksubnet_host_routesAttrTypes,
 }
 
 // OpenstackSubnetDataSourceModel describes the data source data model.
@@ -136,106 +150,132 @@ func (d *OpenstackSubnetDataSource) Schema(ctx context.Context, req datasource.S
 			},
 			"backend_id": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Backend ID",
 			},
 			"can_manage": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Can manage",
 			},
 			"customer": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Customer UUID",
 			},
 			"customer_abbreviation": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Customer abbreviation",
 			},
 			"customer_name": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Customer name",
 			},
 			"customer_native_name": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Customer native name",
 			},
 			"customer_uuid": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Customer UUID",
 			},
 			"description": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Description",
 			},
 			"direct_only": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Direct only",
 			},
 			"enable_dhcp": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: " ",
 			},
 			"external_ip": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "External IP",
 			},
 			"ip_version": schema.Int64Attribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: " ",
 			},
 			"name": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Name",
 			},
 			"name_exact": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Name (exact)",
 			},
 			"network": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Network URL",
 			},
 			"network_uuid": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Network UUID",
 			},
 			"project": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Project UUID",
 			},
 			"project_name": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Project name",
 			},
 			"project_uuid": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Project UUID",
 			},
 			"rbac_only": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "RBAC only",
 			},
 			"service_settings_name": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Service settings name",
 			},
 			"service_settings_uuid": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Service settings UUID",
 			},
 			"state": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "State",
 			},
 			"tenant": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Tenant URL",
 			},
 			"tenant_uuid": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Tenant UUID",
 			},
 			"uuid": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "UUID",
 			},
 			"access_url": schema.StringAttribute{
@@ -488,23 +528,45 @@ func (d *OpenstackSubnetDataSource) mapResponseToModel(ctx context.Context, apiR
 
 	model.UUID = types.StringPointerValue(apiResp.UUID)
 	model.AccessUrl = types.StringPointerValue(apiResp.AccessUrl)
-	listValAllocationPools, listDiagsAllocationPools := types.ListValueFrom(ctx, openstacksubnet_allocation_poolsObjectType, apiResp.AllocationPools)
+	listValAllocationPools, listDiagsAllocationPools := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+		"end":   types.StringType,
+		"start": types.StringType,
+	}}, apiResp.AllocationPools)
 	diags.Append(listDiagsAllocationPools...)
 	model.AllocationPools = listValAllocationPools
+	model.BackendId = types.StringPointerValue(apiResp.BackendId)
 	model.Cidr = types.StringPointerValue(apiResp.Cidr)
 	model.Created = types.StringPointerValue(apiResp.Created)
+	model.Customer = types.StringPointerValue(apiResp.Customer)
+	model.CustomerAbbreviation = types.StringPointerValue(apiResp.CustomerAbbreviation)
+	model.CustomerName = types.StringPointerValue(apiResp.CustomerName)
+	model.CustomerNativeName = types.StringPointerValue(apiResp.CustomerNativeName)
+	model.CustomerUuid = types.StringPointerValue(apiResp.CustomerUuid)
+	model.Description = types.StringPointerValue(apiResp.Description)
 	model.DisableGateway = types.BoolPointerValue(apiResp.DisableGateway)
 	model.DnsNameservers, _ = types.ListValueFrom(ctx, types.StringType, apiResp.DnsNameservers)
+	model.EnableDhcp = types.BoolPointerValue(apiResp.EnableDhcp)
 	model.ErrorMessage = types.StringPointerValue(apiResp.ErrorMessage)
 	model.ErrorTraceback = types.StringPointerValue(apiResp.ErrorTraceback)
 	model.GatewayIp = types.StringPointerValue(apiResp.GatewayIp)
-	listValHostRoutes, listDiagsHostRoutes := types.ListValueFrom(ctx, openstacksubnet_host_routesObjectType, apiResp.HostRoutes)
+	listValHostRoutes, listDiagsHostRoutes := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+		"destination": types.StringType,
+		"nexthop":     types.StringType,
+	}}, apiResp.HostRoutes)
 	diags.Append(listDiagsHostRoutes...)
 	model.HostRoutes = listValHostRoutes
+	model.IpVersion = types.Int64PointerValue(apiResp.IpVersion)
 	model.IsConnected = types.BoolPointerValue(apiResp.IsConnected)
 	model.Modified = types.StringPointerValue(apiResp.Modified)
+	model.Name = types.StringPointerValue(apiResp.Name)
+	model.Network = types.StringPointerValue(apiResp.Network)
 	model.NetworkName = types.StringPointerValue(apiResp.NetworkName)
+	model.Project = types.StringPointerValue(apiResp.Project)
+	model.ProjectName = types.StringPointerValue(apiResp.ProjectName)
+	model.ProjectUuid = types.StringPointerValue(apiResp.ProjectUuid)
 	model.ResourceType = types.StringPointerValue(apiResp.ResourceType)
+	model.State = types.StringPointerValue(apiResp.State)
+	model.Tenant = types.StringPointerValue(apiResp.Tenant)
 	model.TenantName = types.StringPointerValue(apiResp.TenantName)
 	model.Url = types.StringPointerValue(apiResp.Url)
 

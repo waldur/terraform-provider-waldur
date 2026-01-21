@@ -43,6 +43,7 @@ type OpenstackNetworkApiResponse struct {
 	IsExternal     *bool                                  `json:"is_external" tfsdk:"is_external"`
 	Modified       *string                                `json:"modified" tfsdk:"modified"`
 	Mtu            *int64                                 `json:"mtu" tfsdk:"mtu"`
+	Name           *string                                `json:"name" tfsdk:"name"`
 	RbacPolicies   []OpenstackNetworkRbacPoliciesResponse `json:"rbac_policies" tfsdk:"rbac_policies"`
 	ResourceType   *string                                `json:"resource_type" tfsdk:"resource_type"`
 	SegmentationId *int64                                 `json:"segmentation_id" tfsdk:"segmentation_id"`
@@ -73,49 +74,12 @@ type OpenstackNetworkSubnetsResponse struct {
 	EnableDhcp      *bool                                            `json:"enable_dhcp" tfsdk:"enable_dhcp"`
 	GatewayIp       *string                                          `json:"gateway_ip" tfsdk:"gateway_ip"`
 	IpVersion       *int64                                           `json:"ip_version" tfsdk:"ip_version"`
+	Name            *string                                          `json:"name" tfsdk:"name"`
 }
 
 type OpenstackNetworkSubnetsAllocationPoolsResponse struct {
 	End   *string `json:"end" tfsdk:"end"`
 	Start *string `json:"start" tfsdk:"start"`
-}
-
-var openstacknetwork_rbac_policiesAttrTypes = map[string]attr.Type{
-	"backend_id":         types.StringType,
-	"created":            types.StringType,
-	"network":            types.StringType,
-	"network_name":       types.StringType,
-	"policy_type":        types.StringType,
-	"target_tenant":      types.StringType,
-	"target_tenant_name": types.StringType,
-	"url":                types.StringType,
-}
-var openstacknetwork_rbac_policiesObjectType = types.ObjectType{
-	AttrTypes: openstacknetwork_rbac_policiesAttrTypes,
-}
-
-var openstacknetwork_subnetsAttrTypes = map[string]attr.Type{
-	"allocation_pools": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
-		"end":   types.StringType,
-		"start": types.StringType,
-	}}},
-	"cidr":        types.StringType,
-	"description": types.StringType,
-	"enable_dhcp": types.BoolType,
-	"gateway_ip":  types.StringType,
-	"ip_version":  types.Int64Type,
-	"name":        types.StringType,
-}
-var openstacknetwork_subnetsObjectType = types.ObjectType{
-	AttrTypes: openstacknetwork_subnetsAttrTypes,
-}
-
-var openstacknetworksubnets_allocation_poolsAttrTypes = map[string]attr.Type{
-	"end":   types.StringType,
-	"start": types.StringType,
-}
-var openstacknetworksubnets_allocation_poolsObjectType = types.ObjectType{
-	AttrTypes: openstacknetworksubnets_allocation_poolsAttrTypes,
 }
 
 // OpenstackNetworkResourceModel describes the resource data model.
@@ -509,13 +473,34 @@ func (r *OpenstackNetworkResource) mapResponseToModel(ctx context.Context, apiRe
 	model.IsExternal = types.BoolPointerValue(apiResp.IsExternal)
 	model.Modified = types.StringPointerValue(apiResp.Modified)
 	model.Mtu = types.Int64PointerValue(apiResp.Mtu)
-	listValRbacPolicies, listDiagsRbacPolicies := types.ListValueFrom(ctx, openstacknetwork_rbac_policiesObjectType, apiResp.RbacPolicies)
+	model.Name = types.StringPointerValue(apiResp.Name)
+	listValRbacPolicies, listDiagsRbacPolicies := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+		"backend_id":         types.StringType,
+		"created":            types.StringType,
+		"network":            types.StringType,
+		"network_name":       types.StringType,
+		"policy_type":        types.StringType,
+		"target_tenant":      types.StringType,
+		"target_tenant_name": types.StringType,
+		"url":                types.StringType,
+	}}, apiResp.RbacPolicies)
 	diags.Append(listDiagsRbacPolicies...)
 	model.RbacPolicies = listValRbacPolicies
 	model.ResourceType = types.StringPointerValue(apiResp.ResourceType)
 	model.SegmentationId = types.Int64PointerValue(apiResp.SegmentationId)
 	model.State = types.StringPointerValue(apiResp.State)
-	listValSubnets, listDiagsSubnets := types.ListValueFrom(ctx, openstacknetwork_subnetsObjectType, apiResp.Subnets)
+	listValSubnets, listDiagsSubnets := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+		"allocation_pools": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+			"end":   types.StringType,
+			"start": types.StringType,
+		}}},
+		"cidr":        types.StringType,
+		"description": types.StringType,
+		"enable_dhcp": types.BoolType,
+		"gateway_ip":  types.StringType,
+		"ip_version":  types.Int64Type,
+		"name":        types.StringType,
+	}}, apiResp.Subnets)
 	diags.Append(listDiagsSubnets...)
 	model.Subnets = listValSubnets
 	model.Tenant = types.StringPointerValue(apiResp.Tenant)

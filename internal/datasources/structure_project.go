@@ -28,19 +28,30 @@ type StructureProjectDataSource struct {
 type StructureProjectApiResponse struct {
 	UUID *string `json:"uuid"`
 
+	BackendId                            *string  `json:"backend_id" tfsdk:"backend_id"`
+	Created                              *string  `json:"created" tfsdk:"created"`
+	Customer                             *string  `json:"customer" tfsdk:"customer"`
+	CustomerAbbreviation                 *string  `json:"customer_abbreviation" tfsdk:"customer_abbreviation"`
 	CustomerDisplayBillingInfoInProjects *bool    `json:"customer_display_billing_info_in_projects" tfsdk:"customer_display_billing_info_in_projects"`
+	CustomerName                         *string  `json:"customer_name" tfsdk:"customer_name"`
+	CustomerNativeName                   *string  `json:"customer_native_name" tfsdk:"customer_native_name"`
 	CustomerSlug                         *string  `json:"customer_slug" tfsdk:"customer_slug"`
+	CustomerUuid                         *string  `json:"customer_uuid" tfsdk:"customer_uuid"`
+	Description                          *string  `json:"description" tfsdk:"description"`
 	EndDate                              *string  `json:"end_date" tfsdk:"end_date"`
 	EndDateRequestedBy                   *string  `json:"end_date_requested_by" tfsdk:"end_date_requested_by"`
 	GracePeriodDays                      *int64   `json:"grace_period_days" tfsdk:"grace_period_days"`
 	Image                                *string  `json:"image" tfsdk:"image"`
 	IsIndustry                           *bool    `json:"is_industry" tfsdk:"is_industry"`
+	IsRemoved                            *bool    `json:"is_removed" tfsdk:"is_removed"`
 	Kind                                 *string  `json:"kind" tfsdk:"kind"`
 	MaxServiceAccounts                   *int64   `json:"max_service_accounts" tfsdk:"max_service_accounts"`
+	Name                                 *string  `json:"name" tfsdk:"name"`
 	OecdFos2007Code                      *string  `json:"oecd_fos_2007_code" tfsdk:"oecd_fos_2007_code"`
 	OecdFos2007Label                     *string  `json:"oecd_fos_2007_label" tfsdk:"oecd_fos_2007_label"`
 	ProjectCredit                        *float64 `json:"project_credit" tfsdk:"project_credit"`
 	ResourcesCount                       *int64   `json:"resources_count" tfsdk:"resources_count"`
+	Slug                                 *string  `json:"slug" tfsdk:"slug"`
 	StaffNotes                           *string  `json:"staff_notes" tfsdk:"staff_notes"`
 	StartDate                            *string  `json:"start_date" tfsdk:"start_date"`
 	Type                                 *string  `json:"type" tfsdk:"type"`
@@ -71,6 +82,7 @@ type StructureProjectDataSourceModel struct {
 	Slug                                 types.String  `tfsdk:"slug"`
 	CustomerDisplayBillingInfoInProjects types.Bool    `tfsdk:"customer_display_billing_info_in_projects"`
 	CustomerSlug                         types.String  `tfsdk:"customer_slug"`
+	CustomerUuid                         types.String  `tfsdk:"customer_uuid"`
 	EndDate                              types.String  `tfsdk:"end_date"`
 	EndDateRequestedBy                   types.String  `tfsdk:"end_date_requested_by"`
 	GracePeriodDays                      types.Int64   `tfsdk:"grace_period_days"`
@@ -106,70 +118,87 @@ func (d *StructureProjectDataSource) Schema(ctx context.Context, req datasource.
 			},
 			"backend_id": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: " ",
 			},
 			"can_admin": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Return a list of projects where current user is admin.",
 			},
 			"can_manage": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Return a list of projects where current user is manager or a customer owner.",
 			},
 			"conceal_finished_projects": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Conceal finished projects",
 			},
 			"created": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Created after",
 			},
 			"customer": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Multiple values may be separated by commas.",
 			},
 			"customer_abbreviation": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Customer abbreviation",
 			},
 			"customer_name": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Customer name",
 			},
 			"customer_native_name": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Customer native name",
 			},
 			"description": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Description",
 			},
 			"include_terminated": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Include soft-deleted (terminated) projects. Only available to staff and support users, or users with organizational roles who can see their terminated projects.",
 			},
 			"is_removed": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Is removed",
 			},
 			"modified": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Modified after",
 			},
 			"name": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Name",
 			},
 			"name_exact": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Name (exact)",
 			},
 			"query": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Filter by name, slug, UUID, backend ID or resource effective ID",
 			},
 			"slug": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Slug",
 			},
 			"customer_display_billing_info_in_projects": schema.BoolAttribute{
@@ -177,6 +206,10 @@ func (d *StructureProjectDataSource) Schema(ctx context.Context, req datasource.
 				MarkdownDescription: " ",
 			},
 			"customer_slug": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: " ",
+			},
+			"customer_uuid": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: " ",
 			},
@@ -397,19 +430,30 @@ func (d *StructureProjectDataSource) mapResponseToModel(ctx context.Context, api
 	var diags diag.Diagnostics
 
 	model.UUID = types.StringPointerValue(apiResp.UUID)
+	model.BackendId = types.StringPointerValue(apiResp.BackendId)
+	model.Created = types.StringPointerValue(apiResp.Created)
+	model.Customer = types.StringPointerValue(apiResp.Customer)
+	model.CustomerAbbreviation = types.StringPointerValue(apiResp.CustomerAbbreviation)
 	model.CustomerDisplayBillingInfoInProjects = types.BoolPointerValue(apiResp.CustomerDisplayBillingInfoInProjects)
+	model.CustomerName = types.StringPointerValue(apiResp.CustomerName)
+	model.CustomerNativeName = types.StringPointerValue(apiResp.CustomerNativeName)
 	model.CustomerSlug = types.StringPointerValue(apiResp.CustomerSlug)
+	model.CustomerUuid = types.StringPointerValue(apiResp.CustomerUuid)
+	model.Description = types.StringPointerValue(apiResp.Description)
 	model.EndDate = types.StringPointerValue(apiResp.EndDate)
 	model.EndDateRequestedBy = types.StringPointerValue(apiResp.EndDateRequestedBy)
 	model.GracePeriodDays = types.Int64PointerValue(apiResp.GracePeriodDays)
 	model.Image = types.StringPointerValue(apiResp.Image)
 	model.IsIndustry = types.BoolPointerValue(apiResp.IsIndustry)
+	model.IsRemoved = types.BoolPointerValue(apiResp.IsRemoved)
 	model.Kind = types.StringPointerValue(apiResp.Kind)
 	model.MaxServiceAccounts = types.Int64PointerValue(apiResp.MaxServiceAccounts)
+	model.Name = types.StringPointerValue(apiResp.Name)
 	model.OecdFos2007Code = types.StringPointerValue(apiResp.OecdFos2007Code)
 	model.OecdFos2007Label = types.StringPointerValue(apiResp.OecdFos2007Label)
 	model.ProjectCredit = types.Float64PointerValue(apiResp.ProjectCredit)
 	model.ResourcesCount = types.Int64PointerValue(apiResp.ResourcesCount)
+	model.Slug = types.StringPointerValue(apiResp.Slug)
 	model.StaffNotes = types.StringPointerValue(apiResp.StaffNotes)
 	model.StartDate = types.StringPointerValue(apiResp.StartDate)
 	model.Type = types.StringPointerValue(apiResp.Type)

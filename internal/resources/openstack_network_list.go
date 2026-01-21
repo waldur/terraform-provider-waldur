@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/list"
 	"github.com/hashicorp/terraform-plugin-framework/list/schema"
@@ -297,13 +298,34 @@ func (l *OpenstackNetworkList) List(ctx context.Context, req list.ListRequest, s
 			model.IsExternal = types.BoolPointerValue(apiResp.IsExternal)
 			model.Modified = types.StringPointerValue(apiResp.Modified)
 			model.Mtu = types.Int64PointerValue(apiResp.Mtu)
-			listValRbacPolicies, listDiagsRbacPolicies := types.ListValueFrom(ctx, openstacknetwork_rbac_policiesObjectType, apiResp.RbacPolicies)
+			model.Name = types.StringPointerValue(apiResp.Name)
+			listValRbacPolicies, listDiagsRbacPolicies := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+				"backend_id":         types.StringType,
+				"created":            types.StringType,
+				"network":            types.StringType,
+				"network_name":       types.StringType,
+				"policy_type":        types.StringType,
+				"target_tenant":      types.StringType,
+				"target_tenant_name": types.StringType,
+				"url":                types.StringType,
+			}}, apiResp.RbacPolicies)
 			diags.Append(listDiagsRbacPolicies...)
 			model.RbacPolicies = listValRbacPolicies
 			model.ResourceType = types.StringPointerValue(apiResp.ResourceType)
 			model.SegmentationId = types.Int64PointerValue(apiResp.SegmentationId)
 			model.State = types.StringPointerValue(apiResp.State)
-			listValSubnets, listDiagsSubnets := types.ListValueFrom(ctx, openstacknetwork_subnetsObjectType, apiResp.Subnets)
+			listValSubnets, listDiagsSubnets := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+				"allocation_pools": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+					"end":   types.StringType,
+					"start": types.StringType,
+				}}},
+				"cidr":        types.StringType,
+				"description": types.StringType,
+				"enable_dhcp": types.BoolType,
+				"gateway_ip":  types.StringType,
+				"ip_version":  types.Int64Type,
+				"name":        types.StringType,
+			}}, apiResp.Subnets)
 			diags.Append(listDiagsSubnets...)
 			model.Subnets = listValSubnets
 			model.Tenant = types.StringPointerValue(apiResp.Tenant)

@@ -50,6 +50,7 @@ type OpenstackSubnetApiResponse struct {
 	IpVersion       *int64                                   `json:"ip_version" tfsdk:"ip_version"`
 	IsConnected     *bool                                    `json:"is_connected" tfsdk:"is_connected"`
 	Modified        *string                                  `json:"modified" tfsdk:"modified"`
+	Name            *string                                  `json:"name" tfsdk:"name"`
 	Network         *string                                  `json:"network" tfsdk:"network"`
 	NetworkName     *string                                  `json:"network_name" tfsdk:"network_name"`
 	ResourceType    *string                                  `json:"resource_type" tfsdk:"resource_type"`
@@ -67,22 +68,6 @@ type OpenstackSubnetAllocationPoolsResponse struct {
 type OpenstackSubnetHostRoutesResponse struct {
 	Destination *string `json:"destination" tfsdk:"destination"`
 	Nexthop     *string `json:"nexthop" tfsdk:"nexthop"`
-}
-
-var openstacksubnet_allocation_poolsAttrTypes = map[string]attr.Type{
-	"end":   types.StringType,
-	"start": types.StringType,
-}
-var openstacksubnet_allocation_poolsObjectType = types.ObjectType{
-	AttrTypes: openstacksubnet_allocation_poolsAttrTypes,
-}
-
-var openstacksubnet_host_routesAttrTypes = map[string]attr.Type{
-	"destination": types.StringType,
-	"nexthop":     types.StringType,
-}
-var openstacksubnet_host_routesObjectType = types.ObjectType{
-	AttrTypes: openstacksubnet_host_routesAttrTypes,
 }
 
 // OpenstackSubnetResourceModel describes the resource data model.
@@ -484,7 +469,10 @@ func (r *OpenstackSubnetResource) mapResponseToModel(ctx context.Context, apiRes
 
 	model.UUID = types.StringPointerValue(apiResp.UUID)
 	model.AccessUrl = types.StringPointerValue(apiResp.AccessUrl)
-	listValAllocationPools, listDiagsAllocationPools := types.ListValueFrom(ctx, openstacksubnet_allocation_poolsObjectType, apiResp.AllocationPools)
+	listValAllocationPools, listDiagsAllocationPools := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+		"end":   types.StringType,
+		"start": types.StringType,
+	}}, apiResp.AllocationPools)
 	diags.Append(listDiagsAllocationPools...)
 	model.AllocationPools = listValAllocationPools
 	model.BackendId = types.StringPointerValue(apiResp.BackendId)
@@ -497,12 +485,16 @@ func (r *OpenstackSubnetResource) mapResponseToModel(ctx context.Context, apiRes
 	model.ErrorMessage = types.StringPointerValue(apiResp.ErrorMessage)
 	model.ErrorTraceback = types.StringPointerValue(apiResp.ErrorTraceback)
 	model.GatewayIp = types.StringPointerValue(apiResp.GatewayIp)
-	listValHostRoutes, listDiagsHostRoutes := types.ListValueFrom(ctx, openstacksubnet_host_routesObjectType, apiResp.HostRoutes)
+	listValHostRoutes, listDiagsHostRoutes := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+		"destination": types.StringType,
+		"nexthop":     types.StringType,
+	}}, apiResp.HostRoutes)
 	diags.Append(listDiagsHostRoutes...)
 	model.HostRoutes = listValHostRoutes
 	model.IpVersion = types.Int64PointerValue(apiResp.IpVersion)
 	model.IsConnected = types.BoolPointerValue(apiResp.IsConnected)
 	model.Modified = types.StringPointerValue(apiResp.Modified)
+	model.Name = types.StringPointerValue(apiResp.Name)
 	model.Network = types.StringPointerValue(apiResp.Network)
 	model.NetworkName = types.StringPointerValue(apiResp.NetworkName)
 	model.ResourceType = types.StringPointerValue(apiResp.ResourceType)

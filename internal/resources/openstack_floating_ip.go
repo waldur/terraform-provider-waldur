@@ -47,6 +47,7 @@ type OpenstackFloatingIpApiResponse struct {
 	InstanceUrl      *string                                   `json:"instance_url" tfsdk:"instance_url"`
 	InstanceUuid     *string                                   `json:"instance_uuid" tfsdk:"instance_uuid"`
 	Modified         *string                                   `json:"modified" tfsdk:"modified"`
+	Name             *string                                   `json:"name" tfsdk:"name"`
 	Port             *string                                   `json:"port" tfsdk:"port"`
 	PortFixedIps     []OpenstackFloatingIpPortFixedIpsResponse `json:"port_fixed_ips" tfsdk:"port_fixed_ips"`
 	ResourceType     *string                                   `json:"resource_type" tfsdk:"resource_type"`
@@ -61,14 +62,6 @@ type OpenstackFloatingIpApiResponse struct {
 type OpenstackFloatingIpPortFixedIpsResponse struct {
 	IpAddress *string `json:"ip_address" tfsdk:"ip_address"`
 	SubnetId  *string `json:"subnet_id" tfsdk:"subnet_id"`
-}
-
-var openstackfloatingip_port_fixed_ipsAttrTypes = map[string]attr.Type{
-	"ip_address": types.StringType,
-	"subnet_id":  types.StringType,
-}
-var openstackfloatingip_port_fixed_ipsObjectType = types.ObjectType{
-	AttrTypes: openstackfloatingip_port_fixed_ipsAttrTypes,
 }
 
 // OpenstackFloatingIpResourceModel describes the resource data model.
@@ -356,8 +349,12 @@ func (r *OpenstackFloatingIpResource) mapResponseToModel(ctx context.Context, ap
 	model.InstanceUrl = types.StringPointerValue(apiResp.InstanceUrl)
 	model.InstanceUuid = types.StringPointerValue(apiResp.InstanceUuid)
 	model.Modified = types.StringPointerValue(apiResp.Modified)
+	model.Name = types.StringPointerValue(apiResp.Name)
 	model.Port = types.StringPointerValue(apiResp.Port)
-	listValPortFixedIps, listDiagsPortFixedIps := types.ListValueFrom(ctx, openstackfloatingip_port_fixed_ipsObjectType, apiResp.PortFixedIps)
+	listValPortFixedIps, listDiagsPortFixedIps := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+		"ip_address": types.StringType,
+		"subnet_id":  types.StringType,
+	}}, apiResp.PortFixedIps)
 	diags.Append(listDiagsPortFixedIps...)
 	model.PortFixedIps = listValPortFixedIps
 	model.ResourceType = types.StringPointerValue(apiResp.ResourceType)

@@ -47,6 +47,7 @@ type StructureProjectApiResponse struct {
 	IsRemoved                            *bool    `json:"is_removed" tfsdk:"is_removed"`
 	Kind                                 *string  `json:"kind" tfsdk:"kind"`
 	MaxServiceAccounts                   *int64   `json:"max_service_accounts" tfsdk:"max_service_accounts"`
+	Name                                 *string  `json:"name" tfsdk:"name"`
 	OecdFos2007Code                      *string  `json:"oecd_fos_2007_code" tfsdk:"oecd_fos_2007_code"`
 	OecdFos2007Label                     *string  `json:"oecd_fos_2007_label" tfsdk:"oecd_fos_2007_label"`
 	ProjectCredit                        *float64 `json:"project_credit" tfsdk:"project_credit"`
@@ -511,6 +512,7 @@ func (r *StructureProjectResource) mapResponseToModel(ctx context.Context, apiRe
 	model.IsRemoved = types.BoolPointerValue(apiResp.IsRemoved)
 	model.Kind = types.StringPointerValue(apiResp.Kind)
 	model.MaxServiceAccounts = types.Int64PointerValue(apiResp.MaxServiceAccounts)
+	model.Name = types.StringPointerValue(apiResp.Name)
 	model.OecdFos2007Code = types.StringPointerValue(apiResp.OecdFos2007Code)
 	model.OecdFos2007Label = types.StringPointerValue(apiResp.OecdFos2007Label)
 	model.ProjectCredit = types.Float64PointerValue(apiResp.ProjectCredit)

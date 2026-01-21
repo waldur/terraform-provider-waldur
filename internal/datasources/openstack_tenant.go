@@ -31,8 +31,15 @@ type OpenstackTenantApiResponse struct {
 
 	AccessUrl                   *string                         `json:"access_url" tfsdk:"access_url"`
 	AvailabilityZone            *string                         `json:"availability_zone" tfsdk:"availability_zone"`
+	BackendId                   *string                         `json:"backend_id" tfsdk:"backend_id"`
 	Created                     *string                         `json:"created" tfsdk:"created"`
+	Customer                    *string                         `json:"customer" tfsdk:"customer"`
+	CustomerAbbreviation        *string                         `json:"customer_abbreviation" tfsdk:"customer_abbreviation"`
+	CustomerName                *string                         `json:"customer_name" tfsdk:"customer_name"`
+	CustomerNativeName          *string                         `json:"customer_native_name" tfsdk:"customer_native_name"`
+	CustomerUuid                *string                         `json:"customer_uuid" tfsdk:"customer_uuid"`
 	DefaultVolumeTypeName       *string                         `json:"default_volume_type_name" tfsdk:"default_volume_type_name"`
+	Description                 *string                         `json:"description" tfsdk:"description"`
 	ErrorMessage                *string                         `json:"error_message" tfsdk:"error_message"`
 	ErrorTraceback              *string                         `json:"error_traceback" tfsdk:"error_traceback"`
 	ExternalNetworkId           *string                         `json:"external_network_id" tfsdk:"external_network_id"`
@@ -47,30 +54,28 @@ type OpenstackTenantApiResponse struct {
 	MarketplaceResourceState    *string                         `json:"marketplace_resource_state" tfsdk:"marketplace_resource_state"`
 	MarketplaceResourceUuid     *string                         `json:"marketplace_resource_uuid" tfsdk:"marketplace_resource_uuid"`
 	Modified                    *string                         `json:"modified" tfsdk:"modified"`
+	Name                        *string                         `json:"name" tfsdk:"name"`
+	Project                     *string                         `json:"project" tfsdk:"project"`
+	ProjectName                 *string                         `json:"project_name" tfsdk:"project_name"`
+	ProjectUuid                 *string                         `json:"project_uuid" tfsdk:"project_uuid"`
 	Quotas                      []OpenstackTenantQuotasResponse `json:"quotas" tfsdk:"quotas"`
 	ResourceType                *string                         `json:"resource_type" tfsdk:"resource_type"`
 	ServiceName                 *string                         `json:"service_name" tfsdk:"service_name"`
 	ServiceSettings             *string                         `json:"service_settings" tfsdk:"service_settings"`
 	ServiceSettingsErrorMessage *string                         `json:"service_settings_error_message" tfsdk:"service_settings_error_message"`
 	ServiceSettingsState        *string                         `json:"service_settings_state" tfsdk:"service_settings_state"`
+	ServiceSettingsUuid         *string                         `json:"service_settings_uuid" tfsdk:"service_settings_uuid"`
 	SkipCreationOfDefaultRouter *bool                           `json:"skip_creation_of_default_router" tfsdk:"skip_creation_of_default_router"`
+	State                       *string                         `json:"state" tfsdk:"state"`
 	Url                         *string                         `json:"url" tfsdk:"url"`
 	UserPassword                *string                         `json:"user_password" tfsdk:"user_password"`
 	UserUsername                *string                         `json:"user_username" tfsdk:"user_username"`
 }
 
 type OpenstackTenantQuotasResponse struct {
-	Limit *int64 `json:"limit" tfsdk:"limit"`
-	Usage *int64 `json:"usage" tfsdk:"usage"`
-}
-
-var openstacktenant_quotasAttrTypes = map[string]attr.Type{
-	"limit": types.Int64Type,
-	"name":  types.StringType,
-	"usage": types.Int64Type,
-}
-var openstacktenant_quotasObjectType = types.ObjectType{
-	AttrTypes: openstacktenant_quotasAttrTypes,
+	Limit *int64  `json:"limit" tfsdk:"limit"`
+	Name  *string `json:"name" tfsdk:"name"`
+	Usage *int64  `json:"usage" tfsdk:"usage"`
 }
 
 // OpenstackTenantDataSourceModel describes the data source data model.
@@ -140,74 +145,92 @@ func (d *OpenstackTenantDataSource) Schema(ctx context.Context, req datasource.S
 			},
 			"backend_id": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Backend ID",
 			},
 			"can_manage": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Can manage",
 			},
 			"customer": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Customer UUID",
 			},
 			"customer_abbreviation": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Customer abbreviation",
 			},
 			"customer_name": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Customer name",
 			},
 			"customer_native_name": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Customer native name",
 			},
 			"customer_uuid": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Customer UUID",
 			},
 			"description": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Description",
 			},
 			"external_ip": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "External IP",
 			},
 			"name": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Name",
 			},
 			"name_exact": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Name (exact)",
 			},
 			"project": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Project UUID",
 			},
 			"project_name": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Project name",
 			},
 			"project_uuid": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Project UUID",
 			},
 			"service_settings_name": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Service settings name",
 			},
 			"service_settings_uuid": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Service settings UUID",
 			},
 			"state": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "State",
 			},
 			"uuid": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "UUID",
 			},
 			"access_url": schema.StringAttribute{
@@ -481,8 +504,15 @@ func (d *OpenstackTenantDataSource) mapResponseToModel(ctx context.Context, apiR
 	model.UUID = types.StringPointerValue(apiResp.UUID)
 	model.AccessUrl = types.StringPointerValue(apiResp.AccessUrl)
 	model.AvailabilityZone = types.StringPointerValue(apiResp.AvailabilityZone)
+	model.BackendId = types.StringPointerValue(apiResp.BackendId)
 	model.Created = types.StringPointerValue(apiResp.Created)
+	model.Customer = types.StringPointerValue(apiResp.Customer)
+	model.CustomerAbbreviation = types.StringPointerValue(apiResp.CustomerAbbreviation)
+	model.CustomerName = types.StringPointerValue(apiResp.CustomerName)
+	model.CustomerNativeName = types.StringPointerValue(apiResp.CustomerNativeName)
+	model.CustomerUuid = types.StringPointerValue(apiResp.CustomerUuid)
 	model.DefaultVolumeTypeName = types.StringPointerValue(apiResp.DefaultVolumeTypeName)
+	model.Description = types.StringPointerValue(apiResp.Description)
 	model.ErrorMessage = types.StringPointerValue(apiResp.ErrorMessage)
 	model.ErrorTraceback = types.StringPointerValue(apiResp.ErrorTraceback)
 	model.ExternalNetworkId = types.StringPointerValue(apiResp.ExternalNetworkId)
@@ -497,7 +527,15 @@ func (d *OpenstackTenantDataSource) mapResponseToModel(ctx context.Context, apiR
 	model.MarketplaceResourceState = types.StringPointerValue(apiResp.MarketplaceResourceState)
 	model.MarketplaceResourceUuid = types.StringPointerValue(apiResp.MarketplaceResourceUuid)
 	model.Modified = types.StringPointerValue(apiResp.Modified)
-	listValQuotas, listDiagsQuotas := types.ListValueFrom(ctx, openstacktenant_quotasObjectType, apiResp.Quotas)
+	model.Name = types.StringPointerValue(apiResp.Name)
+	model.Project = types.StringPointerValue(apiResp.Project)
+	model.ProjectName = types.StringPointerValue(apiResp.ProjectName)
+	model.ProjectUuid = types.StringPointerValue(apiResp.ProjectUuid)
+	listValQuotas, listDiagsQuotas := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+		"limit": types.Int64Type,
+		"name":  types.StringType,
+		"usage": types.Int64Type,
+	}}, apiResp.Quotas)
 	diags.Append(listDiagsQuotas...)
 	model.Quotas = listValQuotas
 	model.ResourceType = types.StringPointerValue(apiResp.ResourceType)
@@ -505,7 +543,9 @@ func (d *OpenstackTenantDataSource) mapResponseToModel(ctx context.Context, apiR
 	model.ServiceSettings = types.StringPointerValue(apiResp.ServiceSettings)
 	model.ServiceSettingsErrorMessage = types.StringPointerValue(apiResp.ServiceSettingsErrorMessage)
 	model.ServiceSettingsState = types.StringPointerValue(apiResp.ServiceSettingsState)
+	model.ServiceSettingsUuid = types.StringPointerValue(apiResp.ServiceSettingsUuid)
 	model.SkipCreationOfDefaultRouter = types.BoolPointerValue(apiResp.SkipCreationOfDefaultRouter)
+	model.State = types.StringPointerValue(apiResp.State)
 	model.Url = types.StringPointerValue(apiResp.Url)
 	model.UserPassword = types.StringPointerValue(apiResp.UserPassword)
 	model.UserUsername = types.StringPointerValue(apiResp.UserUsername)

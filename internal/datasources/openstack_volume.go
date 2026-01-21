@@ -31,8 +31,16 @@ type OpenstackVolumeApiResponse struct {
 	AccessUrl                   *string `json:"access_url" tfsdk:"access_url"`
 	Action                      *string `json:"action" tfsdk:"action"`
 	AvailabilityZone            *string `json:"availability_zone" tfsdk:"availability_zone"`
+	AvailabilityZoneName        *string `json:"availability_zone_name" tfsdk:"availability_zone_name"`
+	BackendId                   *string `json:"backend_id" tfsdk:"backend_id"`
 	Bootable                    *bool   `json:"bootable" tfsdk:"bootable"`
 	Created                     *string `json:"created" tfsdk:"created"`
+	Customer                    *string `json:"customer" tfsdk:"customer"`
+	CustomerAbbreviation        *string `json:"customer_abbreviation" tfsdk:"customer_abbreviation"`
+	CustomerName                *string `json:"customer_name" tfsdk:"customer_name"`
+	CustomerNativeName          *string `json:"customer_native_name" tfsdk:"customer_native_name"`
+	CustomerUuid                *string `json:"customer_uuid" tfsdk:"customer_uuid"`
+	Description                 *string `json:"description" tfsdk:"description"`
 	Device                      *string `json:"device" tfsdk:"device"`
 	ErrorMessage                *string `json:"error_message" tfsdk:"error_message"`
 	ErrorTraceback              *string `json:"error_traceback" tfsdk:"error_traceback"`
@@ -40,6 +48,7 @@ type OpenstackVolumeApiResponse struct {
 	Image                       *string `json:"image" tfsdk:"image"`
 	ImageMetadata               *string `json:"image_metadata" tfsdk:"image_metadata"`
 	ImageName                   *string `json:"image_name" tfsdk:"image_name"`
+	Instance                    *string `json:"instance" tfsdk:"instance"`
 	InstanceMarketplaceUuid     *string `json:"instance_marketplace_uuid" tfsdk:"instance_marketplace_uuid"`
 	InstanceName                *string `json:"instance_name" tfsdk:"instance_name"`
 	IsLimitBased                *bool   `json:"is_limit_based" tfsdk:"is_limit_based"`
@@ -52,13 +61,22 @@ type OpenstackVolumeApiResponse struct {
 	MarketplaceResourceState    *string `json:"marketplace_resource_state" tfsdk:"marketplace_resource_state"`
 	MarketplaceResourceUuid     *string `json:"marketplace_resource_uuid" tfsdk:"marketplace_resource_uuid"`
 	Modified                    *string `json:"modified" tfsdk:"modified"`
+	Name                        *string `json:"name" tfsdk:"name"`
+	Project                     *string `json:"project" tfsdk:"project"`
+	ProjectName                 *string `json:"project_name" tfsdk:"project_name"`
+	ProjectUuid                 *string `json:"project_uuid" tfsdk:"project_uuid"`
 	ResourceType                *string `json:"resource_type" tfsdk:"resource_type"`
+	RuntimeState                *string `json:"runtime_state" tfsdk:"runtime_state"`
 	ServiceName                 *string `json:"service_name" tfsdk:"service_name"`
 	ServiceSettings             *string `json:"service_settings" tfsdk:"service_settings"`
 	ServiceSettingsErrorMessage *string `json:"service_settings_error_message" tfsdk:"service_settings_error_message"`
 	ServiceSettingsState        *string `json:"service_settings_state" tfsdk:"service_settings_state"`
+	ServiceSettingsUuid         *string `json:"service_settings_uuid" tfsdk:"service_settings_uuid"`
 	Size                        *int64  `json:"size" tfsdk:"size"`
 	SourceSnapshot              *string `json:"source_snapshot" tfsdk:"source_snapshot"`
+	State                       *string `json:"state" tfsdk:"state"`
+	Tenant                      *string `json:"tenant" tfsdk:"tenant"`
+	TenantUuid                  *string `json:"tenant_uuid" tfsdk:"tenant_uuid"`
 	Type                        *string `json:"type" tfsdk:"type"`
 	TypeName                    *string `json:"type_name" tfsdk:"type_name"`
 	Url                         *string `json:"url" tfsdk:"url"`
@@ -146,110 +164,137 @@ func (d *OpenstackVolumeDataSource) Schema(ctx context.Context, req datasource.S
 			},
 			"attach_instance_uuid": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Filter for attachment to instance UUID",
 			},
 			"availability_zone_name": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Availability zone name",
 			},
 			"backend_id": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Backend ID",
 			},
 			"can_manage": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Can manage",
 			},
 			"customer": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Customer UUID",
 			},
 			"customer_abbreviation": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Customer abbreviation",
 			},
 			"customer_name": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Customer name",
 			},
 			"customer_native_name": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Customer native name",
 			},
 			"customer_uuid": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Customer UUID",
 			},
 			"description": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Description",
 			},
 			"external_ip": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "External IP",
 			},
 			"instance": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Instance URL",
 			},
 			"instance_uuid": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Instance UUID",
 			},
 			"name": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Name",
 			},
 			"name_exact": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Name (exact)",
 			},
 			"project": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Project UUID",
 			},
 			"project_name": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Project name",
 			},
 			"project_uuid": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Project UUID",
 			},
 			"runtime_state": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: " ",
 			},
 			"service_settings_name": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Service settings name",
 			},
 			"service_settings_uuid": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Service settings UUID",
 			},
 			"snapshot": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Snapshot URL",
 			},
 			"snapshot_uuid": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Snapshot UUID",
 			},
 			"state": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "State",
 			},
 			"tenant": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Tenant URL",
 			},
 			"tenant_uuid": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Tenant UUID",
 			},
 			"uuid": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "UUID",
 			},
 			"access_url": schema.StringAttribute{
@@ -570,8 +615,16 @@ func (d *OpenstackVolumeDataSource) mapResponseToModel(ctx context.Context, apiR
 	model.AccessUrl = types.StringPointerValue(apiResp.AccessUrl)
 	model.Action = types.StringPointerValue(apiResp.Action)
 	model.AvailabilityZone = types.StringPointerValue(apiResp.AvailabilityZone)
+	model.AvailabilityZoneName = types.StringPointerValue(apiResp.AvailabilityZoneName)
+	model.BackendId = types.StringPointerValue(apiResp.BackendId)
 	model.Bootable = types.BoolPointerValue(apiResp.Bootable)
 	model.Created = types.StringPointerValue(apiResp.Created)
+	model.Customer = types.StringPointerValue(apiResp.Customer)
+	model.CustomerAbbreviation = types.StringPointerValue(apiResp.CustomerAbbreviation)
+	model.CustomerName = types.StringPointerValue(apiResp.CustomerName)
+	model.CustomerNativeName = types.StringPointerValue(apiResp.CustomerNativeName)
+	model.CustomerUuid = types.StringPointerValue(apiResp.CustomerUuid)
+	model.Description = types.StringPointerValue(apiResp.Description)
 	model.Device = types.StringPointerValue(apiResp.Device)
 	model.ErrorMessage = types.StringPointerValue(apiResp.ErrorMessage)
 	model.ErrorTraceback = types.StringPointerValue(apiResp.ErrorTraceback)
@@ -579,6 +632,7 @@ func (d *OpenstackVolumeDataSource) mapResponseToModel(ctx context.Context, apiR
 	model.Image = types.StringPointerValue(apiResp.Image)
 	model.ImageMetadata = types.StringPointerValue(apiResp.ImageMetadata)
 	model.ImageName = types.StringPointerValue(apiResp.ImageName)
+	model.Instance = types.StringPointerValue(apiResp.Instance)
 	model.InstanceMarketplaceUuid = types.StringPointerValue(apiResp.InstanceMarketplaceUuid)
 	model.InstanceName = types.StringPointerValue(apiResp.InstanceName)
 	model.IsLimitBased = types.BoolPointerValue(apiResp.IsLimitBased)
@@ -591,13 +645,22 @@ func (d *OpenstackVolumeDataSource) mapResponseToModel(ctx context.Context, apiR
 	model.MarketplaceResourceState = types.StringPointerValue(apiResp.MarketplaceResourceState)
 	model.MarketplaceResourceUuid = types.StringPointerValue(apiResp.MarketplaceResourceUuid)
 	model.Modified = types.StringPointerValue(apiResp.Modified)
+	model.Name = types.StringPointerValue(apiResp.Name)
+	model.Project = types.StringPointerValue(apiResp.Project)
+	model.ProjectName = types.StringPointerValue(apiResp.ProjectName)
+	model.ProjectUuid = types.StringPointerValue(apiResp.ProjectUuid)
 	model.ResourceType = types.StringPointerValue(apiResp.ResourceType)
+	model.RuntimeState = types.StringPointerValue(apiResp.RuntimeState)
 	model.ServiceName = types.StringPointerValue(apiResp.ServiceName)
 	model.ServiceSettings = types.StringPointerValue(apiResp.ServiceSettings)
 	model.ServiceSettingsErrorMessage = types.StringPointerValue(apiResp.ServiceSettingsErrorMessage)
 	model.ServiceSettingsState = types.StringPointerValue(apiResp.ServiceSettingsState)
+	model.ServiceSettingsUuid = types.StringPointerValue(apiResp.ServiceSettingsUuid)
 	model.Size = types.Int64PointerValue(apiResp.Size)
 	model.SourceSnapshot = types.StringPointerValue(apiResp.SourceSnapshot)
+	model.State = types.StringPointerValue(apiResp.State)
+	model.Tenant = types.StringPointerValue(apiResp.Tenant)
+	model.TenantUuid = types.StringPointerValue(apiResp.TenantUuid)
 	model.Type = types.StringPointerValue(apiResp.Type)
 	model.TypeName = types.StringPointerValue(apiResp.TypeName)
 	model.Url = types.StringPointerValue(apiResp.Url)

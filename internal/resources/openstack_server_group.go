@@ -43,6 +43,7 @@ type OpenstackServerGroupApiResponse struct {
 	ErrorTraceback *string                                 `json:"error_traceback" tfsdk:"error_traceback"`
 	Instances      []OpenstackServerGroupInstancesResponse `json:"instances" tfsdk:"instances"`
 	Modified       *string                                 `json:"modified" tfsdk:"modified"`
+	Name           *string                                 `json:"name" tfsdk:"name"`
 	Policy         *string                                 `json:"policy" tfsdk:"policy"`
 	ResourceType   *string                                 `json:"resource_type" tfsdk:"resource_type"`
 	State          *string                                 `json:"state" tfsdk:"state"`
@@ -54,14 +55,7 @@ type OpenstackServerGroupApiResponse struct {
 
 type OpenstackServerGroupInstancesResponse struct {
 	BackendId *string `json:"backend_id" tfsdk:"backend_id"`
-}
-
-var openstackservergroup_instancesAttrTypes = map[string]attr.Type{
-	"backend_id": types.StringType,
-	"name":       types.StringType,
-}
-var openstackservergroup_instancesObjectType = types.ObjectType{
-	AttrTypes: openstackservergroup_instancesAttrTypes,
+	Name      *string `json:"name" tfsdk:"name"`
 }
 
 // OpenstackServerGroupResourceModel describes the resource data model.
@@ -372,10 +366,14 @@ func (r *OpenstackServerGroupResource) mapResponseToModel(ctx context.Context, a
 	model.DisplayName = types.StringPointerValue(apiResp.DisplayName)
 	model.ErrorMessage = types.StringPointerValue(apiResp.ErrorMessage)
 	model.ErrorTraceback = types.StringPointerValue(apiResp.ErrorTraceback)
-	listValInstances, listDiagsInstances := types.ListValueFrom(ctx, openstackservergroup_instancesObjectType, apiResp.Instances)
+	listValInstances, listDiagsInstances := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+		"backend_id": types.StringType,
+		"name":       types.StringType,
+	}}, apiResp.Instances)
 	diags.Append(listDiagsInstances...)
 	model.Instances = listValInstances
 	model.Modified = types.StringPointerValue(apiResp.Modified)
+	model.Name = types.StringPointerValue(apiResp.Name)
 	model.Policy = types.StringPointerValue(apiResp.Policy)
 	model.ResourceType = types.StringPointerValue(apiResp.ResourceType)
 	model.State = types.StringPointerValue(apiResp.State)

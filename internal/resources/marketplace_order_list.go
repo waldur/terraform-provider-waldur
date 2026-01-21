@@ -3,7 +3,6 @@ package resources
 import (
 	"context"
 	"fmt"
-	"strings"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/list"
@@ -260,12 +259,7 @@ func (l *MarketplaceOrderList) List(ctx context.Context, req list.ListRequest, s
 			model.NewCostEstimate = types.StringPointerValue(apiResp.NewCostEstimate)
 			model.NewPlanName = types.StringPointerValue(apiResp.NewPlanName)
 			model.NewPlanUuid = types.StringPointerValue(apiResp.NewPlanUuid)
-			if apiResp.Offering != nil {
-				parts := strings.Split(strings.TrimRight(*apiResp.Offering, "/"), "/")
-				model.Offering = types.StringValue(parts[len(parts)-1])
-			} else {
-				model.Offering = types.StringNull()
-			}
+			model.Offering = types.StringPointerValue(apiResp.Offering)
 			model.OfferingBillable = types.BoolPointerValue(apiResp.OfferingBillable)
 			model.OfferingDescription = types.StringPointerValue(apiResp.OfferingDescription)
 			model.OfferingImage = types.StringPointerValue(apiResp.OfferingImage)
@@ -284,12 +278,7 @@ func (l *MarketplaceOrderList) List(ctx context.Context, req list.ListRequest, s
 			model.PlanName = types.StringPointerValue(apiResp.PlanName)
 			model.PlanUnit = types.StringPointerValue(apiResp.PlanUnit)
 			model.PlanUuid = types.StringPointerValue(apiResp.PlanUuid)
-			if apiResp.Project != nil {
-				parts := strings.Split(strings.TrimRight(*apiResp.Project, "/"), "/")
-				model.Project = types.StringValue(parts[len(parts)-1])
-			} else {
-				model.Project = types.StringNull()
-			}
+			model.Project = types.StringPointerValue(apiResp.Project)
 			model.ProjectDescription = types.StringPointerValue(apiResp.ProjectDescription)
 			model.ProjectSlug = types.StringPointerValue(apiResp.ProjectSlug)
 			model.ProviderName = types.StringPointerValue(apiResp.ProviderName)

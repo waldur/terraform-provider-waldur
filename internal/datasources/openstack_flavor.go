@@ -29,7 +29,12 @@ type OpenstackFlavorApiResponse struct {
 	UUID *string `json:"uuid"`
 
 	BackendId   *string `json:"backend_id" tfsdk:"backend_id"`
+	Cores       *int64  `json:"cores" tfsdk:"cores"`
+	Disk        *int64  `json:"disk" tfsdk:"disk"`
 	DisplayName *string `json:"display_name" tfsdk:"display_name"`
+	Name        *string `json:"name" tfsdk:"name"`
+	Ram         *int64  `json:"ram" tfsdk:"ram"`
+	Settings    *string `json:"settings" tfsdk:"settings"`
 	Url         *string `json:"url" tfsdk:"url"`
 }
 
@@ -74,70 +79,87 @@ func (d *OpenstackFlavorDataSource) Schema(ctx context.Context, req datasource.S
 			},
 			"cores": schema.Int64Attribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: " ",
 			},
 			"cores__gte": schema.Int64Attribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: " ",
 			},
 			"cores__lte": schema.Int64Attribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: " ",
 			},
 			"disk": schema.Int64Attribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: " ",
 			},
 			"disk__gte": schema.Int64Attribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: " ",
 			},
 			"disk__lte": schema.Int64Attribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: " ",
 			},
 			"name": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Name",
 			},
 			"name_exact": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Name (exact)",
 			},
 			"name_iregex": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Name (regex)",
 			},
 			"offering_uuid": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Offering UUID",
 			},
 			"ram": schema.Int64Attribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: " ",
 			},
 			"ram__gte": schema.Int64Attribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: " ",
 			},
 			"ram__lte": schema.Int64Attribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: " ",
 			},
 			"settings": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Settings URL",
 			},
 			"settings_uuid": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Settings UUID",
 			},
 			"tenant": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Tenant URL",
 			},
 			"tenant_uuid": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Tenant UUID",
 			},
 			"backend_id": schema.StringAttribute{
@@ -302,7 +324,12 @@ func (d *OpenstackFlavorDataSource) mapResponseToModel(ctx context.Context, apiR
 
 	model.UUID = types.StringPointerValue(apiResp.UUID)
 	model.BackendId = types.StringPointerValue(apiResp.BackendId)
+	model.Cores = types.Int64PointerValue(apiResp.Cores)
+	model.Disk = types.Int64PointerValue(apiResp.Disk)
 	model.DisplayName = types.StringPointerValue(apiResp.DisplayName)
+	model.Name = types.StringPointerValue(apiResp.Name)
+	model.Ram = types.Int64PointerValue(apiResp.Ram)
+	model.Settings = types.StringPointerValue(apiResp.Settings)
 	model.Url = types.StringPointerValue(apiResp.Url)
 
 	return diags

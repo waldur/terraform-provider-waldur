@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/list"
 	"github.com/hashicorp/terraform-plugin-framework/list/schema"
@@ -293,8 +294,12 @@ func (l *OpenstackFloatingIpList) List(ctx context.Context, req list.ListRequest
 			model.InstanceUrl = types.StringPointerValue(apiResp.InstanceUrl)
 			model.InstanceUuid = types.StringPointerValue(apiResp.InstanceUuid)
 			model.Modified = types.StringPointerValue(apiResp.Modified)
+			model.Name = types.StringPointerValue(apiResp.Name)
 			model.Port = types.StringPointerValue(apiResp.Port)
-			listValPortFixedIps, listDiagsPortFixedIps := types.ListValueFrom(ctx, openstackfloatingip_port_fixed_ipsObjectType, apiResp.PortFixedIps)
+			listValPortFixedIps, listDiagsPortFixedIps := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+				"ip_address": types.StringType,
+				"subnet_id":  types.StringType,
+			}}, apiResp.PortFixedIps)
 			diags.Append(listDiagsPortFixedIps...)
 			model.PortFixedIps = listValPortFixedIps
 			model.ResourceType = types.StringPointerValue(apiResp.ResourceType)

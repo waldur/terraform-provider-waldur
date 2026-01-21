@@ -331,6 +331,7 @@ func (l *OpenstackVolumeAttachmentList) List(ctx context.Context, req list.ListR
 			model.InstanceMarketplaceUuid = types.StringPointerValue(apiResp.InstanceMarketplaceUuid)
 			model.InstanceName = types.StringPointerValue(apiResp.InstanceName)
 			model.Modified = types.StringPointerValue(apiResp.Modified)
+			model.Name = types.StringPointerValue(apiResp.Name)
 			model.ResourceType = types.StringPointerValue(apiResp.ResourceType)
 			model.RuntimeState = types.StringPointerValue(apiResp.RuntimeState)
 			model.Size = types.Int64PointerValue(apiResp.Size)

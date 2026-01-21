@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/list"
 	"github.com/hashicorp/terraform-plugin-framework/list/schema"
@@ -337,7 +338,26 @@ func (l *MarketplaceOfferingList) List(ctx context.Context, req list.ListRequest
 			model.CategoryUuid = types.StringPointerValue(apiResp.CategoryUuid)
 			model.CitationCount = types.Int64PointerValue(apiResp.CitationCount)
 			model.ComplianceChecklist = types.StringPointerValue(apiResp.ComplianceChecklist)
-			listValComponents, listDiagsComponents := types.ListValueFrom(ctx, marketplaceoffering_componentsObjectType, apiResp.Components)
+			listValComponents, listDiagsComponents := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+				"article_code":         types.StringType,
+				"billing_type":         types.StringType,
+				"default_limit":        types.Int64Type,
+				"description":          types.StringType,
+				"is_boolean":           types.BoolType,
+				"is_prepaid":           types.BoolType,
+				"limit_amount":         types.Int64Type,
+				"limit_period":         types.StringType,
+				"max_available_limit":  types.Int64Type,
+				"max_prepaid_duration": types.Int64Type,
+				"max_value":            types.Int64Type,
+				"measured_unit":        types.StringType,
+				"min_prepaid_duration": types.Int64Type,
+				"min_value":            types.Int64Type,
+				"name":                 types.StringType,
+				"overage_component":    types.StringType,
+				"type":                 types.StringType,
+				"unit_factor":          types.Int64Type,
+			}}, apiResp.Components)
 			diags.Append(listDiagsComponents...)
 			model.Components = listValComponents
 			model.Country = types.StringPointerValue(apiResp.Country)
@@ -345,10 +365,17 @@ func (l *MarketplaceOfferingList) List(ctx context.Context, req list.ListRequest
 			model.Customer = types.StringPointerValue(apiResp.Customer)
 			model.DataciteDoi = types.StringPointerValue(apiResp.DataciteDoi)
 			model.Description = types.StringPointerValue(apiResp.Description)
-			listValEndpoints, listDiagsEndpoints := types.ListValueFrom(ctx, marketplaceoffering_endpointsObjectType, apiResp.Endpoints)
+			listValEndpoints, listDiagsEndpoints := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+				"name": types.StringType,
+				"url":  types.StringType,
+			}}, apiResp.Endpoints)
 			diags.Append(listDiagsEndpoints...)
 			model.Endpoints = listValEndpoints
-			listValFiles, listDiagsFiles := types.ListValueFrom(ctx, marketplaceoffering_filesObjectType, apiResp.Files)
+			listValFiles, listDiagsFiles := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+				"created": types.StringType,
+				"file":    types.StringType,
+				"name":    types.StringType,
+			}}, apiResp.Files)
 			diags.Append(listDiagsFiles...)
 			model.Files = listValFiles
 			model.FullDescription = types.StringPointerValue(apiResp.FullDescription)
@@ -358,44 +385,102 @@ func (l *MarketplaceOfferingList) List(ctx context.Context, req list.ListRequest
 			model.HasComplianceRequirements = types.BoolPointerValue(apiResp.HasComplianceRequirements)
 			model.Image = types.StringPointerValue(apiResp.Image)
 			model.IntegrationGuide = types.StringPointerValue(apiResp.IntegrationGuide)
-			listValIntegrationStatus, listDiagsIntegrationStatus := types.ListValueFrom(ctx, marketplaceoffering_integration_statusObjectType, apiResp.IntegrationStatus)
+			listValIntegrationStatus, listDiagsIntegrationStatus := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+				"agent_type":             types.StringType,
+				"last_request_timestamp": types.StringType,
+				"service_name":           types.StringType,
+				"status":                 types.StringType,
+			}}, apiResp.IntegrationStatus)
 			diags.Append(listDiagsIntegrationStatus...)
 			model.IntegrationStatus = listValIntegrationStatus
 			model.Latitude = types.Float64PointerValue(apiResp.Latitude)
 			model.Longitude = types.Float64PointerValue(apiResp.Longitude)
+			model.Name = types.StringPointerValue(apiResp.Name)
 			if apiResp.Options != nil {
-				objValOptions, objDiagsOptions := types.ObjectValueFrom(ctx, marketplaceoffering_optionsAttrTypes, *apiResp.Options)
+				objValOptions, objDiagsOptions := types.ObjectValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+					"order": types.ListType{ElemType: types.StringType},
+				}}.AttrTypes, *apiResp.Options)
 				diags.Append(objDiagsOptions...)
 				model.Options = objValOptions
 			} else {
-				model.Options = types.ObjectNull(marketplaceoffering_optionsAttrTypes)
+				model.Options = types.ObjectNull(types.ObjectType{AttrTypes: map[string]attr.Type{
+					"order": types.ListType{ElemType: types.StringType},
+				}}.AttrTypes)
 			}
 			model.OrderCount = types.Int64PointerValue(apiResp.OrderCount)
-			listValOrganizationGroups, listDiagsOrganizationGroups := types.ListValueFrom(ctx, marketplaceoffering_organization_groupsObjectType, apiResp.OrganizationGroups)
+			listValOrganizationGroups, listDiagsOrganizationGroups := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+				"customers_count": types.Int64Type,
+				"name":            types.StringType,
+				"parent":          types.StringType,
+				"parent_name":     types.StringType,
+				"parent_uuid":     types.StringType,
+				"url":             types.StringType,
+			}}, apiResp.OrganizationGroups)
 			diags.Append(listDiagsOrganizationGroups...)
 			model.OrganizationGroups = listValOrganizationGroups
 			model.ParentDescription = types.StringPointerValue(apiResp.ParentDescription)
 			model.ParentName = types.StringPointerValue(apiResp.ParentName)
 			model.ParentUuid = types.StringPointerValue(apiResp.ParentUuid)
-			listValPartitions, listDiagsPartitions := types.ListValueFrom(ctx, marketplaceoffering_partitionsObjectType, apiResp.Partitions)
+			listValPartitions, listDiagsPartitions := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+				"cpu_bind":            types.Int64Type,
+				"def_cpu_per_gpu":     types.Int64Type,
+				"def_mem_per_cpu":     types.Int64Type,
+				"def_mem_per_gpu":     types.Int64Type,
+				"def_mem_per_node":    types.Int64Type,
+				"default_time":        types.Int64Type,
+				"exclusive_topo":      types.BoolType,
+				"exclusive_user":      types.BoolType,
+				"grace_time":          types.Int64Type,
+				"max_cpus_per_node":   types.Int64Type,
+				"max_cpus_per_socket": types.Int64Type,
+				"max_mem_per_cpu":     types.Int64Type,
+				"max_mem_per_node":    types.Int64Type,
+				"max_nodes":           types.Int64Type,
+				"max_time":            types.Int64Type,
+				"min_nodes":           types.Int64Type,
+				"partition_name":      types.StringType,
+				"priority_tier":       types.Int64Type,
+				"qos":                 types.StringType,
+				"req_resv":            types.BoolType,
+			}}, apiResp.Partitions)
 			diags.Append(listDiagsPartitions...)
 			model.Partitions = listValPartitions
 			model.PausedReason = types.StringPointerValue(apiResp.PausedReason)
-			listValPlans, listDiagsPlans := types.ListValueFrom(ctx, marketplaceoffering_plansObjectType, apiResp.Plans)
+			listValPlans, listDiagsPlans := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+				"archived":     types.BoolType,
+				"article_code": types.StringType,
+				"backend_id":   types.StringType,
+				"description":  types.StringType,
+				"max_amount":   types.Int64Type,
+				"name":         types.StringType,
+				"unit":         types.StringType,
+				"unit_price":   types.StringType,
+			}}, apiResp.Plans)
 			diags.Append(listDiagsPlans...)
 			model.Plans = listValPlans
 			model.PrivacyPolicyLink = types.StringPointerValue(apiResp.PrivacyPolicyLink)
-			listValQuotas, listDiagsQuotas := types.ListValueFrom(ctx, marketplaceoffering_quotasObjectType, apiResp.Quotas)
+			listValQuotas, listDiagsQuotas := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+				"limit": types.Int64Type,
+				"name":  types.StringType,
+				"usage": types.Int64Type,
+			}}, apiResp.Quotas)
 			diags.Append(listDiagsQuotas...)
 			model.Quotas = listValQuotas
 			if apiResp.ResourceOptions != nil {
-				objValResourceOptions, objDiagsResourceOptions := types.ObjectValueFrom(ctx, marketplaceoffering_resource_optionsAttrTypes, *apiResp.ResourceOptions)
+				objValResourceOptions, objDiagsResourceOptions := types.ObjectValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+					"order": types.ListType{ElemType: types.StringType},
+				}}.AttrTypes, *apiResp.ResourceOptions)
 				diags.Append(objDiagsResourceOptions...)
 				model.ResourceOptions = objValResourceOptions
 			} else {
-				model.ResourceOptions = types.ObjectNull(marketplaceoffering_resource_optionsAttrTypes)
+				model.ResourceOptions = types.ObjectNull(types.ObjectType{AttrTypes: map[string]attr.Type{
+					"order": types.ListType{ElemType: types.StringType},
+				}}.AttrTypes)
 			}
-			listValRoles, listDiagsRoles := types.ListValueFrom(ctx, marketplaceoffering_rolesObjectType, apiResp.Roles)
+			listValRoles, listDiagsRoles := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+				"name": types.StringType,
+				"url":  types.StringType,
+			}}, apiResp.Roles)
 			diags.Append(listDiagsRoles...)
 			model.Roles = listValRoles
 			model.Scope = types.StringPointerValue(apiResp.Scope)
@@ -403,12 +488,30 @@ func (l *MarketplaceOfferingList) List(ctx context.Context, req list.ListRequest
 			model.ScopeName = types.StringPointerValue(apiResp.ScopeName)
 			model.ScopeState = types.StringPointerValue(apiResp.ScopeState)
 			model.ScopeUuid = types.StringPointerValue(apiResp.ScopeUuid)
-			listValScreenshots, listDiagsScreenshots := types.ListValueFrom(ctx, marketplaceoffering_screenshotsObjectType, apiResp.Screenshots)
+			listValScreenshots, listDiagsScreenshots := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+				"created":     types.StringType,
+				"description": types.StringType,
+				"image":       types.StringType,
+				"name":        types.StringType,
+				"thumbnail":   types.StringType,
+			}}, apiResp.Screenshots)
 			diags.Append(listDiagsScreenshots...)
 			model.Screenshots = listValScreenshots
 			model.Shared = types.BoolPointerValue(apiResp.Shared)
 			model.Slug = types.StringPointerValue(apiResp.Slug)
-			listValSoftwareCatalogs, listDiagsSoftwareCatalogs := types.ListValueFrom(ctx, marketplaceoffering_software_catalogsObjectType, apiResp.SoftwareCatalogs)
+			listValSoftwareCatalogs, listDiagsSoftwareCatalogs := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+				"catalog": types.ObjectType{AttrTypes: map[string]attr.Type{
+					"description": types.StringType,
+					"name":        types.StringType,
+					"version":     types.StringType,
+				}},
+				"package_count": types.Int64Type,
+				"partition": types.ObjectType{AttrTypes: map[string]attr.Type{
+					"partition_name": types.StringType,
+					"priority_tier":  types.Int64Type,
+					"qos":            types.StringType,
+				}},
+			}}, apiResp.SoftwareCatalogs)
 			diags.Append(listDiagsSoftwareCatalogs...)
 			model.SoftwareCatalogs = listValSoftwareCatalogs
 			model.State = types.StringPointerValue(apiResp.State)

@@ -52,6 +52,7 @@ type OpenstackVolumeAttachmentApiResponse struct {
 	InstanceMarketplaceUuid *string `json:"instance_marketplace_uuid" tfsdk:"instance_marketplace_uuid"`
 	InstanceName            *string `json:"instance_name" tfsdk:"instance_name"`
 	Modified                *string `json:"modified" tfsdk:"modified"`
+	Name                    *string `json:"name" tfsdk:"name"`
 	ResourceType            *string `json:"resource_type" tfsdk:"resource_type"`
 	RuntimeState            *string `json:"runtime_state" tfsdk:"runtime_state"`
 	Size                    *int64  `json:"size" tfsdk:"size"`
@@ -451,6 +452,7 @@ func (r *OpenstackVolumeAttachmentResource) mapResponseToModel(ctx context.Conte
 	model.InstanceMarketplaceUuid = types.StringPointerValue(apiResp.InstanceMarketplaceUuid)
 	model.InstanceName = types.StringPointerValue(apiResp.InstanceName)
 	model.Modified = types.StringPointerValue(apiResp.Modified)
+	model.Name = types.StringPointerValue(apiResp.Name)
 	model.ResourceType = types.StringPointerValue(apiResp.ResourceType)
 	model.RuntimeState = types.StringPointerValue(apiResp.RuntimeState)
 	model.Size = types.Int64PointerValue(apiResp.Size)

@@ -71,6 +71,7 @@ type OpenstackVolumeApiResponse struct {
 	MarketplaceResourceState    *string `json:"marketplace_resource_state" tfsdk:"marketplace_resource_state"`
 	MarketplaceResourceUuid     *string `json:"marketplace_resource_uuid" tfsdk:"marketplace_resource_uuid"`
 	Modified                    *string `json:"modified" tfsdk:"modified"`
+	Name                        *string `json:"name" tfsdk:"name"`
 	Offering                    *string `json:"offering" tfsdk:"offering"`
 	Project                     *string `json:"project" tfsdk:"project"`
 	ProjectName                 *string `json:"project_name" tfsdk:"project_name"`
@@ -787,18 +788,9 @@ func (r *OpenstackVolumeResource) mapResponseToModel(ctx context.Context, apiRes
 	model.MarketplaceResourceState = types.StringPointerValue(apiResp.MarketplaceResourceState)
 	model.MarketplaceResourceUuid = types.StringPointerValue(apiResp.MarketplaceResourceUuid)
 	model.Modified = types.StringPointerValue(apiResp.Modified)
-	if apiResp.Offering != nil {
-		parts := strings.Split(strings.TrimRight(*apiResp.Offering, "/"), "/")
-		model.Offering = types.StringValue(parts[len(parts)-1])
-	} else {
-		model.Offering = types.StringNull()
-	}
-	if apiResp.Project != nil {
-		parts := strings.Split(strings.TrimRight(*apiResp.Project, "/"), "/")
-		model.Project = types.StringValue(parts[len(parts)-1])
-	} else {
-		model.Project = types.StringNull()
-	}
+	model.Name = types.StringPointerValue(apiResp.Name)
+	model.Offering = types.StringPointerValue(apiResp.Offering)
+	model.Project = types.StringPointerValue(apiResp.Project)
 	model.ProjectName = types.StringPointerValue(apiResp.ProjectName)
 	model.ProjectUuid = types.StringPointerValue(apiResp.ProjectUuid)
 	model.ResourceType = types.StringPointerValue(apiResp.ResourceType)

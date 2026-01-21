@@ -52,6 +52,7 @@ type MarketplaceResourceApiResponse struct {
 	ErrorTraceback            *string                                         `json:"error_traceback" tfsdk:"error_traceback"`
 	LastSync                  *string                                         `json:"last_sync" tfsdk:"last_sync"`
 	Modified                  *string                                         `json:"modified" tfsdk:"modified"`
+	Name                      *string                                         `json:"name" tfsdk:"name"`
 	Offering                  *string                                         `json:"offering" tfsdk:"offering"`
 	OfferingBillable          *bool                                           `json:"offering_billable" tfsdk:"offering_billable"`
 	OfferingComponents        []MarketplaceResourceOfferingComponentsResponse `json:"offering_components" tfsdk:"offering_components"`
@@ -95,7 +96,8 @@ type MarketplaceResourceApiResponse struct {
 }
 
 type MarketplaceResourceEndpointsResponse struct {
-	Url *string `json:"url" tfsdk:"url"`
+	Name *string `json:"name" tfsdk:"name"`
+	Url  *string `json:"url" tfsdk:"url"`
 }
 
 type MarketplaceResourceOfferingComponentsResponse struct {
@@ -115,6 +117,7 @@ type MarketplaceResourceOfferingComponentsResponse struct {
 	MeasuredUnit       *string `json:"measured_unit" tfsdk:"measured_unit"`
 	MinPrepaidDuration *int64  `json:"min_prepaid_duration" tfsdk:"min_prepaid_duration"`
 	MinValue           *int64  `json:"min_value" tfsdk:"min_value"`
+	Name               *string `json:"name" tfsdk:"name"`
 	OverageComponent   *string `json:"overage_component" tfsdk:"overage_component"`
 	Type               *string `json:"type" tfsdk:"type"`
 	UnitFactor         *int64  `json:"unit_factor" tfsdk:"unit_factor"`
@@ -123,48 +126,6 @@ type MarketplaceResourceOfferingComponentsResponse struct {
 type MarketplaceResourceReportResponse struct {
 	Body   *string `json:"body" tfsdk:"body"`
 	Header *string `json:"header" tfsdk:"header"`
-}
-
-var marketplaceresource_endpointsAttrTypes = map[string]attr.Type{
-	"name": types.StringType,
-	"url":  types.StringType,
-}
-var marketplaceresource_endpointsObjectType = types.ObjectType{
-	AttrTypes: marketplaceresource_endpointsAttrTypes,
-}
-
-var marketplaceresource_offering_componentsAttrTypes = map[string]attr.Type{
-	"article_code":         types.StringType,
-	"billing_type":         types.StringType,
-	"default_limit":        types.Int64Type,
-	"description":          types.StringType,
-	"factor":               types.Int64Type,
-	"is_boolean":           types.BoolType,
-	"is_builtin":           types.BoolType,
-	"is_prepaid":           types.BoolType,
-	"limit_amount":         types.Int64Type,
-	"limit_period":         types.StringType,
-	"max_available_limit":  types.Int64Type,
-	"max_prepaid_duration": types.Int64Type,
-	"max_value":            types.Int64Type,
-	"measured_unit":        types.StringType,
-	"min_prepaid_duration": types.Int64Type,
-	"min_value":            types.Int64Type,
-	"name":                 types.StringType,
-	"overage_component":    types.StringType,
-	"type":                 types.StringType,
-	"unit_factor":          types.Int64Type,
-}
-var marketplaceresource_offering_componentsObjectType = types.ObjectType{
-	AttrTypes: marketplaceresource_offering_componentsAttrTypes,
-}
-
-var marketplaceresource_reportAttrTypes = map[string]attr.Type{
-	"body":   types.StringType,
-	"header": types.StringType,
-}
-var marketplaceresource_reportObjectType = types.ObjectType{
-	AttrTypes: marketplaceresource_reportAttrTypes,
 }
 
 // MarketplaceResourceResourceModel describes the resource data model.
@@ -764,21 +725,41 @@ func (r *MarketplaceResourceResource) mapResponseToModel(ctx context.Context, ap
 	model.EffectiveId = types.StringPointerValue(apiResp.EffectiveId)
 	model.EndDate = types.StringPointerValue(apiResp.EndDate)
 	model.EndDateRequestedBy = types.StringPointerValue(apiResp.EndDateRequestedBy)
-	listValEndpoints, listDiagsEndpoints := types.ListValueFrom(ctx, marketplaceresource_endpointsObjectType, apiResp.Endpoints)
+	listValEndpoints, listDiagsEndpoints := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+		"name": types.StringType,
+		"url":  types.StringType,
+	}}, apiResp.Endpoints)
 	diags.Append(listDiagsEndpoints...)
 	model.Endpoints = listValEndpoints
 	model.ErrorMessage = types.StringPointerValue(apiResp.ErrorMessage)
 	model.ErrorTraceback = types.StringPointerValue(apiResp.ErrorTraceback)
 	model.LastSync = types.StringPointerValue(apiResp.LastSync)
 	model.Modified = types.StringPointerValue(apiResp.Modified)
-	if apiResp.Offering != nil {
-		parts := strings.Split(strings.TrimRight(*apiResp.Offering, "/"), "/")
-		model.Offering = types.StringValue(parts[len(parts)-1])
-	} else {
-		model.Offering = types.StringNull()
-	}
+	model.Name = types.StringPointerValue(apiResp.Name)
+	model.Offering = types.StringPointerValue(apiResp.Offering)
 	model.OfferingBillable = types.BoolPointerValue(apiResp.OfferingBillable)
-	listValOfferingComponents, listDiagsOfferingComponents := types.ListValueFrom(ctx, marketplaceresource_offering_componentsObjectType, apiResp.OfferingComponents)
+	listValOfferingComponents, listDiagsOfferingComponents := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+		"article_code":         types.StringType,
+		"billing_type":         types.StringType,
+		"default_limit":        types.Int64Type,
+		"description":          types.StringType,
+		"factor":               types.Int64Type,
+		"is_boolean":           types.BoolType,
+		"is_builtin":           types.BoolType,
+		"is_prepaid":           types.BoolType,
+		"limit_amount":         types.Int64Type,
+		"limit_period":         types.StringType,
+		"max_available_limit":  types.Int64Type,
+		"max_prepaid_duration": types.Int64Type,
+		"max_value":            types.Int64Type,
+		"measured_unit":        types.StringType,
+		"min_prepaid_duration": types.Int64Type,
+		"min_value":            types.Int64Type,
+		"name":                 types.StringType,
+		"overage_component":    types.StringType,
+		"type":                 types.StringType,
+		"unit_factor":          types.Int64Type,
+	}}, apiResp.OfferingComponents)
 	diags.Append(listDiagsOfferingComponents...)
 	model.OfferingComponents = listValOfferingComponents
 	model.OfferingDescription = types.StringPointerValue(apiResp.OfferingDescription)
@@ -808,7 +789,10 @@ func (r *MarketplaceResourceResource) mapResponseToModel(ctx context.Context, ap
 	model.ProviderName = types.StringPointerValue(apiResp.ProviderName)
 	model.ProviderSlug = types.StringPointerValue(apiResp.ProviderSlug)
 	model.ProviderUuid = types.StringPointerValue(apiResp.ProviderUuid)
-	listValReport, listDiagsReport := types.ListValueFrom(ctx, marketplaceresource_reportObjectType, apiResp.Report)
+	listValReport, listDiagsReport := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+		"body":   types.StringType,
+		"header": types.StringType,
+	}}, apiResp.Report)
 	diags.Append(listDiagsReport...)
 	model.Report = listValReport
 	model.ResourceType = types.StringPointerValue(apiResp.ResourceType)

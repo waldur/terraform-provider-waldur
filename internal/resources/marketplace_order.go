@@ -5,7 +5,6 @@ import (
 	"strings"
 
 	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
-	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
@@ -104,11 +103,6 @@ type MarketplaceOrderApiResponse struct {
 }
 
 type MarketplaceOrderAttributesResponse struct {
-}
-
-var marketplaceorder_attributesAttrTypes = map[string]attr.Type{}
-var marketplaceorder_attributesObjectType = types.ObjectType{
-	AttrTypes: marketplaceorder_attributesAttrTypes,
 }
 
 // MarketplaceOrderResourceModel describes the resource data model.
@@ -674,12 +668,7 @@ func (r *MarketplaceOrderResource) mapResponseToModel(ctx context.Context, apiRe
 	model.NewCostEstimate = types.StringPointerValue(apiResp.NewCostEstimate)
 	model.NewPlanName = types.StringPointerValue(apiResp.NewPlanName)
 	model.NewPlanUuid = types.StringPointerValue(apiResp.NewPlanUuid)
-	if apiResp.Offering != nil {
-		parts := strings.Split(strings.TrimRight(*apiResp.Offering, "/"), "/")
-		model.Offering = types.StringValue(parts[len(parts)-1])
-	} else {
-		model.Offering = types.StringNull()
-	}
+	model.Offering = types.StringPointerValue(apiResp.Offering)
 	model.OfferingBillable = types.BoolPointerValue(apiResp.OfferingBillable)
 	model.OfferingDescription = types.StringPointerValue(apiResp.OfferingDescription)
 	model.OfferingImage = types.StringPointerValue(apiResp.OfferingImage)
@@ -698,12 +687,7 @@ func (r *MarketplaceOrderResource) mapResponseToModel(ctx context.Context, apiRe
 	model.PlanName = types.StringPointerValue(apiResp.PlanName)
 	model.PlanUnit = types.StringPointerValue(apiResp.PlanUnit)
 	model.PlanUuid = types.StringPointerValue(apiResp.PlanUuid)
-	if apiResp.Project != nil {
-		parts := strings.Split(strings.TrimRight(*apiResp.Project, "/"), "/")
-		model.Project = types.StringValue(parts[len(parts)-1])
-	} else {
-		model.Project = types.StringNull()
-	}
+	model.Project = types.StringPointerValue(apiResp.Project)
 	model.ProjectDescription = types.StringPointerValue(apiResp.ProjectDescription)
 	model.ProjectSlug = types.StringPointerValue(apiResp.ProjectSlug)
 	model.ProviderName = types.StringPointerValue(apiResp.ProviderName)

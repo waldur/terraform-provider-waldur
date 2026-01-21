@@ -29,80 +29,113 @@ type OpenstackPortDataSource struct {
 type OpenstackPortApiResponse struct {
 	UUID *string `json:"uuid"`
 
-	AccessUrl           *string                                    `json:"access_url" tfsdk:"access_url"`
-	AllowedAddressPairs []OpenstackPortAllowedAddressPairsResponse `json:"allowed_address_pairs" tfsdk:"allowed_address_pairs"`
-	Created             *string                                    `json:"created" tfsdk:"created"`
-	Description         *string                                    `json:"description" tfsdk:"description"`
-	ErrorMessage        *string                                    `json:"error_message" tfsdk:"error_message"`
-	ErrorTraceback      *string                                    `json:"error_traceback" tfsdk:"error_traceback"`
-	FloatingIps         []string                                   `json:"floating_ips" tfsdk:"floating_ips"`
-	Modified            *string                                    `json:"modified" tfsdk:"modified"`
-	Network             *string                                    `json:"network" tfsdk:"network"`
-	PortSecurityEnabled *bool                                      `json:"port_security_enabled" tfsdk:"port_security_enabled"`
-	ResourceType        *string                                    `json:"resource_type" tfsdk:"resource_type"`
-	SecurityGroups      []OpenstackPortSecurityGroupsResponse      `json:"security_groups" tfsdk:"security_groups"`
-	State               *string                                    `json:"state" tfsdk:"state"`
-	TenantName          *string                                    `json:"tenant_name" tfsdk:"tenant_name"`
-	Url                 *string                                    `json:"url" tfsdk:"url"`
+	AccessUrl                   *string                                    `json:"access_url" tfsdk:"access_url"`
+	AdminStateUp                *bool                                      `json:"admin_state_up" tfsdk:"admin_state_up"`
+	AllowedAddressPairs         []OpenstackPortAllowedAddressPairsResponse `json:"allowed_address_pairs" tfsdk:"allowed_address_pairs"`
+	BackendId                   *string                                    `json:"backend_id" tfsdk:"backend_id"`
+	Created                     *string                                    `json:"created" tfsdk:"created"`
+	Customer                    *string                                    `json:"customer" tfsdk:"customer"`
+	CustomerAbbreviation        *string                                    `json:"customer_abbreviation" tfsdk:"customer_abbreviation"`
+	CustomerName                *string                                    `json:"customer_name" tfsdk:"customer_name"`
+	CustomerNativeName          *string                                    `json:"customer_native_name" tfsdk:"customer_native_name"`
+	CustomerUuid                *string                                    `json:"customer_uuid" tfsdk:"customer_uuid"`
+	Description                 *string                                    `json:"description" tfsdk:"description"`
+	DeviceId                    *string                                    `json:"device_id" tfsdk:"device_id"`
+	DeviceOwner                 *string                                    `json:"device_owner" tfsdk:"device_owner"`
+	ErrorMessage                *string                                    `json:"error_message" tfsdk:"error_message"`
+	ErrorTraceback              *string                                    `json:"error_traceback" tfsdk:"error_traceback"`
+	FixedIps                    []OpenstackPortFixedIpsResponse            `json:"fixed_ips" tfsdk:"fixed_ips"`
+	FloatingIps                 []string                                   `json:"floating_ips" tfsdk:"floating_ips"`
+	IsLimitBased                *bool                                      `json:"is_limit_based" tfsdk:"is_limit_based"`
+	IsUsageBased                *bool                                      `json:"is_usage_based" tfsdk:"is_usage_based"`
+	MacAddress                  *string                                    `json:"mac_address" tfsdk:"mac_address"`
+	MarketplaceCategoryName     *string                                    `json:"marketplace_category_name" tfsdk:"marketplace_category_name"`
+	MarketplaceCategoryUuid     *string                                    `json:"marketplace_category_uuid" tfsdk:"marketplace_category_uuid"`
+	MarketplaceOfferingName     *string                                    `json:"marketplace_offering_name" tfsdk:"marketplace_offering_name"`
+	MarketplaceOfferingUuid     *string                                    `json:"marketplace_offering_uuid" tfsdk:"marketplace_offering_uuid"`
+	MarketplacePlanUuid         *string                                    `json:"marketplace_plan_uuid" tfsdk:"marketplace_plan_uuid"`
+	MarketplaceResourceState    *string                                    `json:"marketplace_resource_state" tfsdk:"marketplace_resource_state"`
+	MarketplaceResourceUuid     *string                                    `json:"marketplace_resource_uuid" tfsdk:"marketplace_resource_uuid"`
+	Modified                    *string                                    `json:"modified" tfsdk:"modified"`
+	Name                        *string                                    `json:"name" tfsdk:"name"`
+	Network                     *string                                    `json:"network" tfsdk:"network"`
+	NetworkName                 *string                                    `json:"network_name" tfsdk:"network_name"`
+	NetworkUuid                 *string                                    `json:"network_uuid" tfsdk:"network_uuid"`
+	PortSecurityEnabled         *bool                                      `json:"port_security_enabled" tfsdk:"port_security_enabled"`
+	Project                     *string                                    `json:"project" tfsdk:"project"`
+	ProjectName                 *string                                    `json:"project_name" tfsdk:"project_name"`
+	ProjectUuid                 *string                                    `json:"project_uuid" tfsdk:"project_uuid"`
+	ResourceType                *string                                    `json:"resource_type" tfsdk:"resource_type"`
+	SecurityGroups              []OpenstackPortSecurityGroupsResponse      `json:"security_groups" tfsdk:"security_groups"`
+	ServiceName                 *string                                    `json:"service_name" tfsdk:"service_name"`
+	ServiceSettings             *string                                    `json:"service_settings" tfsdk:"service_settings"`
+	ServiceSettingsErrorMessage *string                                    `json:"service_settings_error_message" tfsdk:"service_settings_error_message"`
+	ServiceSettingsState        *string                                    `json:"service_settings_state" tfsdk:"service_settings_state"`
+	ServiceSettingsUuid         *string                                    `json:"service_settings_uuid" tfsdk:"service_settings_uuid"`
+	State                       *string                                    `json:"state" tfsdk:"state"`
+	Status                      *string                                    `json:"status" tfsdk:"status"`
+	Tenant                      *string                                    `json:"tenant" tfsdk:"tenant"`
+	TenantName                  *string                                    `json:"tenant_name" tfsdk:"tenant_name"`
+	TenantUuid                  *string                                    `json:"tenant_uuid" tfsdk:"tenant_uuid"`
+	Url                         *string                                    `json:"url" tfsdk:"url"`
 }
 
 type OpenstackPortAllowedAddressPairsResponse struct {
 	MacAddress *string `json:"mac_address" tfsdk:"mac_address"`
 }
 
+type OpenstackPortFixedIpsResponse struct {
+	IpAddress *string `json:"ip_address" tfsdk:"ip_address"`
+	SubnetId  *string `json:"subnet_id" tfsdk:"subnet_id"`
+}
+
 type OpenstackPortSecurityGroupsResponse struct {
-	Url *string `json:"url" tfsdk:"url"`
-}
-
-var openstackport_allowed_address_pairsAttrTypes = map[string]attr.Type{
-	"mac_address": types.StringType,
-}
-var openstackport_allowed_address_pairsObjectType = types.ObjectType{
-	AttrTypes: openstackport_allowed_address_pairsAttrTypes,
-}
-
-var openstackport_security_groupsAttrTypes = map[string]attr.Type{
-	"name": types.StringType,
-	"url":  types.StringType,
-}
-var openstackport_security_groupsObjectType = types.ObjectType{
-	AttrTypes: openstackport_security_groupsAttrTypes,
+	Name *string `json:"name" tfsdk:"name"`
+	Url  *string `json:"url" tfsdk:"url"`
 }
 
 // OpenstackPortDataSourceModel describes the data source data model.
 type OpenstackPortDataSourceModel struct {
-	UUID                types.String `tfsdk:"id"`
-	AdminStateUp        types.Bool   `tfsdk:"admin_state_up"`
-	BackendId           types.String `tfsdk:"backend_id"`
-	DeviceId            types.String `tfsdk:"device_id"`
-	DeviceOwner         types.String `tfsdk:"device_owner"`
-	ExcludeSubnetUuids  types.String `tfsdk:"exclude_subnet_uuids"`
-	FixedIps            types.String `tfsdk:"fixed_ips"`
-	HasDeviceOwner      types.Bool   `tfsdk:"has_device_owner"`
-	MacAddress          types.String `tfsdk:"mac_address"`
-	Name                types.String `tfsdk:"name"`
-	NameExact           types.String `tfsdk:"name_exact"`
-	NetworkName         types.String `tfsdk:"network_name"`
-	NetworkUuid         types.String `tfsdk:"network_uuid"`
-	Query               types.String `tfsdk:"query"`
-	Status              types.String `tfsdk:"status"`
-	Tenant              types.String `tfsdk:"tenant"`
-	TenantUuid          types.String `tfsdk:"tenant_uuid"`
-	AccessUrl           types.String `tfsdk:"access_url"`
-	AllowedAddressPairs types.List   `tfsdk:"allowed_address_pairs"`
-	Created             types.String `tfsdk:"created"`
-	Description         types.String `tfsdk:"description"`
-	ErrorMessage        types.String `tfsdk:"error_message"`
-	ErrorTraceback      types.String `tfsdk:"error_traceback"`
-	FloatingIps         types.List   `tfsdk:"floating_ips"`
-	Modified            types.String `tfsdk:"modified"`
-	Network             types.String `tfsdk:"network"`
-	PortSecurityEnabled types.Bool   `tfsdk:"port_security_enabled"`
-	ResourceType        types.String `tfsdk:"resource_type"`
-	SecurityGroups      types.List   `tfsdk:"security_groups"`
-	State               types.String `tfsdk:"state"`
-	TenantName          types.String `tfsdk:"tenant_name"`
-	Url                 types.String `tfsdk:"url"`
+	UUID                 types.String `tfsdk:"id"`
+	AdminStateUp         types.Bool   `tfsdk:"admin_state_up"`
+	BackendId            types.String `tfsdk:"backend_id"`
+	DeviceId             types.String `tfsdk:"device_id"`
+	DeviceOwner          types.String `tfsdk:"device_owner"`
+	ExcludeSubnetUuids   types.String `tfsdk:"exclude_subnet_uuids"`
+	FixedIps             types.String `tfsdk:"fixed_ips"`
+	HasDeviceOwner       types.Bool   `tfsdk:"has_device_owner"`
+	MacAddress           types.String `tfsdk:"mac_address"`
+	Name                 types.String `tfsdk:"name"`
+	NameExact            types.String `tfsdk:"name_exact"`
+	NetworkName          types.String `tfsdk:"network_name"`
+	NetworkUuid          types.String `tfsdk:"network_uuid"`
+	Query                types.String `tfsdk:"query"`
+	Status               types.String `tfsdk:"status"`
+	Tenant               types.String `tfsdk:"tenant"`
+	TenantUuid           types.String `tfsdk:"tenant_uuid"`
+	AccessUrl            types.String `tfsdk:"access_url"`
+	AllowedAddressPairs  types.List   `tfsdk:"allowed_address_pairs"`
+	Created              types.String `tfsdk:"created"`
+	Customer             types.String `tfsdk:"customer"`
+	CustomerAbbreviation types.String `tfsdk:"customer_abbreviation"`
+	CustomerName         types.String `tfsdk:"customer_name"`
+	CustomerNativeName   types.String `tfsdk:"customer_native_name"`
+	CustomerUuid         types.String `tfsdk:"customer_uuid"`
+	Description          types.String `tfsdk:"description"`
+	ErrorMessage         types.String `tfsdk:"error_message"`
+	ErrorTraceback       types.String `tfsdk:"error_traceback"`
+	FloatingIps          types.List   `tfsdk:"floating_ips"`
+	Modified             types.String `tfsdk:"modified"`
+	Network              types.String `tfsdk:"network"`
+	PortSecurityEnabled  types.Bool   `tfsdk:"port_security_enabled"`
+	Project              types.String `tfsdk:"project"`
+	ProjectName          types.String `tfsdk:"project_name"`
+	ProjectUuid          types.String `tfsdk:"project_uuid"`
+	ResourceType         types.String `tfsdk:"resource_type"`
+	SecurityGroups       types.List   `tfsdk:"security_groups"`
+	State                types.String `tfsdk:"state"`
+	TenantName           types.String `tfsdk:"tenant_name"`
+	Url                  types.String `tfsdk:"url"`
 }
 
 func (d *OpenstackPortDataSource) Metadata(ctx context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
@@ -121,66 +154,82 @@ func (d *OpenstackPortDataSource) Schema(ctx context.Context, req datasource.Sch
 			},
 			"admin_state_up": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: " ",
 			},
 			"backend_id": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: " ",
 			},
 			"device_id": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: " ",
 			},
 			"device_owner": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: " ",
 			},
 			"exclude_subnet_uuids": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Exclude Subnet UUIDs (comma-separated)",
 			},
 			"fixed_ips": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Search by fixed IP",
 			},
 			"has_device_owner": schema.BoolAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Has device owner",
 			},
 			"mac_address": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: " ",
 			},
 			"name": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Name",
 			},
 			"name_exact": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Name (exact)",
 			},
 			"network_name": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Search by network name",
 			},
 			"network_uuid": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Search by network UUID",
 			},
 			"query": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Search by name, MAC address or backend ID",
 			},
 			"status": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: " ",
 			},
 			"tenant": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Tenant URL",
 			},
 			"tenant_uuid": schema.StringAttribute{
 				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Tenant UUID",
 			},
 			"access_url": schema.StringAttribute{
@@ -195,6 +244,26 @@ func (d *OpenstackPortDataSource) Schema(ctx context.Context, req datasource.Sch
 				MarkdownDescription: " ",
 			},
 			"created": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: " ",
+			},
+			"customer": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: " ",
+			},
+			"customer_abbreviation": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: " ",
+			},
+			"customer_name": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: " ",
+			},
+			"customer_native_name": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: " ",
+			},
+			"customer_uuid": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: " ",
 			},
@@ -226,6 +295,18 @@ func (d *OpenstackPortDataSource) Schema(ctx context.Context, req datasource.Sch
 			"port_security_enabled": schema.BoolAttribute{
 				Computed:            true,
 				MarkdownDescription: "If True, security groups and rules will be applied to this port",
+			},
+			"project": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: " ",
+			},
+			"project_name": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: " ",
+			},
+			"project_uuid": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: " ",
 			},
 			"resource_type": schema.StringAttribute{
 				Computed:            true,
@@ -398,23 +479,47 @@ func (d *OpenstackPortDataSource) mapResponseToModel(ctx context.Context, apiRes
 
 	model.UUID = types.StringPointerValue(apiResp.UUID)
 	model.AccessUrl = types.StringPointerValue(apiResp.AccessUrl)
-	listValAllowedAddressPairs, listDiagsAllowedAddressPairs := types.ListValueFrom(ctx, openstackport_allowed_address_pairsObjectType, apiResp.AllowedAddressPairs)
+	model.AdminStateUp = types.BoolPointerValue(apiResp.AdminStateUp)
+	listValAllowedAddressPairs, listDiagsAllowedAddressPairs := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+		"mac_address": types.StringType,
+	}}, apiResp.AllowedAddressPairs)
 	diags.Append(listDiagsAllowedAddressPairs...)
 	model.AllowedAddressPairs = listValAllowedAddressPairs
+	model.BackendId = types.StringPointerValue(apiResp.BackendId)
 	model.Created = types.StringPointerValue(apiResp.Created)
+	model.Customer = types.StringPointerValue(apiResp.Customer)
+	model.CustomerAbbreviation = types.StringPointerValue(apiResp.CustomerAbbreviation)
+	model.CustomerName = types.StringPointerValue(apiResp.CustomerName)
+	model.CustomerNativeName = types.StringPointerValue(apiResp.CustomerNativeName)
+	model.CustomerUuid = types.StringPointerValue(apiResp.CustomerUuid)
 	model.Description = types.StringPointerValue(apiResp.Description)
+	model.DeviceId = types.StringPointerValue(apiResp.DeviceId)
+	model.DeviceOwner = types.StringPointerValue(apiResp.DeviceOwner)
 	model.ErrorMessage = types.StringPointerValue(apiResp.ErrorMessage)
 	model.ErrorTraceback = types.StringPointerValue(apiResp.ErrorTraceback)
 	model.FloatingIps, _ = types.ListValueFrom(ctx, types.StringType, apiResp.FloatingIps)
+	model.MacAddress = types.StringPointerValue(apiResp.MacAddress)
 	model.Modified = types.StringPointerValue(apiResp.Modified)
+	model.Name = types.StringPointerValue(apiResp.Name)
 	model.Network = types.StringPointerValue(apiResp.Network)
+	model.NetworkName = types.StringPointerValue(apiResp.NetworkName)
+	model.NetworkUuid = types.StringPointerValue(apiResp.NetworkUuid)
 	model.PortSecurityEnabled = types.BoolPointerValue(apiResp.PortSecurityEnabled)
+	model.Project = types.StringPointerValue(apiResp.Project)
+	model.ProjectName = types.StringPointerValue(apiResp.ProjectName)
+	model.ProjectUuid = types.StringPointerValue(apiResp.ProjectUuid)
 	model.ResourceType = types.StringPointerValue(apiResp.ResourceType)
-	listValSecurityGroups, listDiagsSecurityGroups := types.ListValueFrom(ctx, openstackport_security_groupsObjectType, apiResp.SecurityGroups)
+	listValSecurityGroups, listDiagsSecurityGroups := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+		"name": types.StringType,
+		"url":  types.StringType,
+	}}, apiResp.SecurityGroups)
 	diags.Append(listDiagsSecurityGroups...)
 	model.SecurityGroups = listValSecurityGroups
 	model.State = types.StringPointerValue(apiResp.State)
+	model.Status = types.StringPointerValue(apiResp.Status)
+	model.Tenant = types.StringPointerValue(apiResp.Tenant)
 	model.TenantName = types.StringPointerValue(apiResp.TenantName)
+	model.TenantUuid = types.StringPointerValue(apiResp.TenantUuid)
 	model.Url = types.StringPointerValue(apiResp.Url)
 
 	return diags

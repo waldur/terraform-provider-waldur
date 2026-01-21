@@ -41,6 +41,7 @@ type OpenstackSecurityGroupApiResponse struct {
 	ErrorMessage   *string                               `json:"error_message" tfsdk:"error_message"`
 	ErrorTraceback *string                               `json:"error_traceback" tfsdk:"error_traceback"`
 	Modified       *string                               `json:"modified" tfsdk:"modified"`
+	Name           *string                               `json:"name" tfsdk:"name"`
 	ResourceType   *string                               `json:"resource_type" tfsdk:"resource_type"`
 	Rules          []OpenstackSecurityGroupRulesResponse `json:"rules" tfsdk:"rules"`
 	State          *string                               `json:"state" tfsdk:"state"`
@@ -59,20 +60,6 @@ type OpenstackSecurityGroupRulesResponse struct {
 	Protocol    *string `json:"protocol" tfsdk:"protocol"`
 	RemoteGroup *string `json:"remote_group" tfsdk:"remote_group"`
 	ToPort      *int64  `json:"to_port" tfsdk:"to_port"`
-}
-
-var openstacksecuritygroup_rulesAttrTypes = map[string]attr.Type{
-	"cidr":         types.StringType,
-	"description":  types.StringType,
-	"direction":    types.StringType,
-	"ethertype":    types.StringType,
-	"from_port":    types.Int64Type,
-	"protocol":     types.StringType,
-	"remote_group": types.StringType,
-	"to_port":      types.Int64Type,
-}
-var openstacksecuritygroup_rulesObjectType = types.ObjectType{
-	AttrTypes: openstacksecuritygroup_rulesAttrTypes,
 }
 
 // OpenstackSecurityGroupResourceModel describes the resource data model.
@@ -395,8 +382,18 @@ func (r *OpenstackSecurityGroupResource) mapResponseToModel(ctx context.Context,
 	model.ErrorMessage = types.StringPointerValue(apiResp.ErrorMessage)
 	model.ErrorTraceback = types.StringPointerValue(apiResp.ErrorTraceback)
 	model.Modified = types.StringPointerValue(apiResp.Modified)
+	model.Name = types.StringPointerValue(apiResp.Name)
 	model.ResourceType = types.StringPointerValue(apiResp.ResourceType)
-	listValRules, listDiagsRules := types.ListValueFrom(ctx, openstacksecuritygroup_rulesObjectType, apiResp.Rules)
+	listValRules, listDiagsRules := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+		"cidr":         types.StringType,
+		"description":  types.StringType,
+		"direction":    types.StringType,
+		"ethertype":    types.StringType,
+		"from_port":    types.Int64Type,
+		"protocol":     types.StringType,
+		"remote_group": types.StringType,
+		"to_port":      types.Int64Type,
+	}}, apiResp.Rules)
 	diags.Append(listDiagsRules...)
 	model.Rules = listValRules
 	model.State = types.StringPointerValue(apiResp.State)
