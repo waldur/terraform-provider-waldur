@@ -235,7 +235,7 @@ func (d *OpenstackTenantDataSource) Schema(ctx context.Context, req datasource.S
 			},
 			"access_url": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Access url",
 			},
 			"availability_zone": schema.StringAttribute{
 				Computed:            true,
@@ -243,7 +243,7 @@ func (d *OpenstackTenantDataSource) Schema(ctx context.Context, req datasource.S
 			},
 			"created": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Created",
 			},
 			"default_volume_type_name": schema.StringAttribute{
 				Computed:            true,
@@ -251,11 +251,11 @@ func (d *OpenstackTenantDataSource) Schema(ctx context.Context, req datasource.S
 			},
 			"error_message": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Error message",
 			},
 			"error_traceback": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Error traceback",
 			},
 			"external_network_id": schema.StringAttribute{
 				Computed:            true,
@@ -267,43 +267,43 @@ func (d *OpenstackTenantDataSource) Schema(ctx context.Context, req datasource.S
 			},
 			"is_limit_based": schema.BoolAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Is limit based",
 			},
 			"is_usage_based": schema.BoolAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Is usage based",
 			},
 			"marketplace_category_name": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Name of the marketplace category",
 			},
 			"marketplace_category_uuid": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "UUID of the marketplace category",
 			},
 			"marketplace_offering_name": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Name of the marketplace offering",
 			},
 			"marketplace_offering_uuid": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "UUID of the marketplace offering",
 			},
 			"marketplace_plan_uuid": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "UUID of the marketplace plan",
 			},
 			"marketplace_resource_state": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Marketplace resource state",
 			},
 			"marketplace_resource_uuid": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "UUID of the marketplace resource",
 			},
 			"modified": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Modified",
 			},
 			"quotas": schema.ListAttribute{
 				CustomType: types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
@@ -312,35 +312,35 @@ func (d *OpenstackTenantDataSource) Schema(ctx context.Context, req datasource.S
 					"usage": types.Int64Type,
 				}}},
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Quotas",
 			},
 			"resource_type": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Resource type",
 			},
 			"service_name": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Name of the service",
 			},
 			"service_settings": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Service settings",
 			},
 			"service_settings_error_message": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Service settings error message",
 			},
 			"service_settings_state": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Service settings state",
 			},
 			"skip_creation_of_default_router": schema.BoolAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Skip creation of default router",
 			},
 			"url": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Url",
 			},
 			"user_password": schema.StringAttribute{
 				Computed:            true,

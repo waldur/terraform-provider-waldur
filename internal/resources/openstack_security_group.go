@@ -10,6 +10,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -100,93 +101,144 @@ func (r *OpenstackSecurityGroupResource) Schema(ctx context.Context, req resourc
 				},
 			},
 			"access_url": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: " ",
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+				MarkdownDescription: "Access url",
 			},
 			"backend_id": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: " ",
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+				MarkdownDescription: "ID of the backend",
 			},
 			"created": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: " ",
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+				MarkdownDescription: "Created",
 			},
 			"description": schema.StringAttribute{
-				Optional:            true,
-				Computed:            true,
-				MarkdownDescription: " ",
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+				MarkdownDescription: "Description of the resource",
 			},
 			"error_message": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: " ",
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+				MarkdownDescription: "Error message",
 			},
 			"error_traceback": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: " ",
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+				MarkdownDescription: "Error traceback",
 			},
 			"modified": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: " ",
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+				MarkdownDescription: "Modified",
 			},
 			"name": schema.StringAttribute{
 				Required:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Name of the resource",
 			},
 			"resource_type": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: " ",
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+				MarkdownDescription: "Resource type",
 			},
 			"rules": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"cidr": schema.StringAttribute{
-							Optional:            true,
-							Computed:            true,
+							Optional: true,
+							Computed: true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
 							MarkdownDescription: "CIDR notation for the source/destination network address range",
 						},
 						"description": schema.StringAttribute{
-							Optional:            true,
-							Computed:            true,
-							MarkdownDescription: " ",
+							Optional: true,
+							Computed: true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
+							MarkdownDescription: "Description of the resource",
 						},
 						"direction": schema.StringAttribute{
-							Optional:            true,
-							Computed:            true,
+							Optional: true,
+							Computed: true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
 							MarkdownDescription: "Traffic direction - either 'ingress' (incoming) or 'egress' (outgoing)",
 						},
 						"ethertype": schema.StringAttribute{
-							Optional:            true,
-							Computed:            true,
+							Optional: true,
+							Computed: true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
 							MarkdownDescription: "IP protocol version - either 'IPv4' or 'IPv6'",
 						},
 						"from_port": schema.Int64Attribute{
-							Optional:            true,
-							Computed:            true,
+							Optional: true,
+							Computed: true,
+							PlanModifiers: []planmodifier.Int64{
+								int64planmodifier.UseStateForUnknown(),
+							},
 							MarkdownDescription: "Starting port number in the range (1-65535)",
 						},
 						"protocol": schema.StringAttribute{
-							Optional:            true,
-							Computed:            true,
+							Optional: true,
+							Computed: true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
 							MarkdownDescription: "The network protocol (TCP, UDP, ICMP, or empty for any protocol)",
 						},
 						"remote_group": schema.StringAttribute{
-							Optional:            true,
-							Computed:            true,
+							Optional: true,
+							Computed: true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
 							MarkdownDescription: "Remote security group that this rule references, if any",
 						},
 						"to_port": schema.Int64Attribute{
-							Optional:            true,
-							Computed:            true,
+							Optional: true,
+							Computed: true,
+							PlanModifiers: []planmodifier.Int64{
+								int64planmodifier.UseStateForUnknown(),
+							},
 							MarkdownDescription: "Ending port number in the range (1-65535)",
 						},
 					},
 				},
 				Required:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Rules",
 			},
 			"state": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: " ",
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+				MarkdownDescription: "State",
 			},
 			"tenant": schema.StringAttribute{
 				Required: true,
@@ -196,16 +248,25 @@ func (r *OpenstackSecurityGroupResource) Schema(ctx context.Context, req resourc
 				MarkdownDescription: "Required path parameter for resource creation",
 			},
 			"tenant_name": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: " ",
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+				MarkdownDescription: "Name of the tenant",
 			},
 			"tenant_uuid": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: " ",
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+				MarkdownDescription: "UUID of the tenant",
 			},
 			"url": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: " ",
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+				MarkdownDescription: "Url",
 			},
 		},
 

@@ -207,7 +207,7 @@ func (d *OpenstackNetworkDataSource) Schema(ctx context.Context, req datasource.
 			"is_external": schema.BoolAttribute{
 				Optional:            true,
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Is external",
 			},
 			"name": schema.StringAttribute{
 				Optional:            true,
@@ -267,7 +267,7 @@ func (d *OpenstackNetworkDataSource) Schema(ctx context.Context, req datasource.
 			"type": schema.StringAttribute{
 				Optional:            true,
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Type",
 			},
 			"uuid": schema.StringAttribute{
 				Optional:            true,
@@ -276,23 +276,23 @@ func (d *OpenstackNetworkDataSource) Schema(ctx context.Context, req datasource.
 			},
 			"access_url": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Access url",
 			},
 			"created": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Created",
 			},
 			"error_message": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Error message",
 			},
 			"error_traceback": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Error traceback",
 			},
 			"modified": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Modified",
 			},
 			"mtu": schema.Int64Attribute{
 				Computed:            true,
@@ -310,11 +310,11 @@ func (d *OpenstackNetworkDataSource) Schema(ctx context.Context, req datasource.
 					"url":                types.StringType,
 				}}},
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Rbac policies",
 			},
 			"resource_type": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Resource type",
 			},
 			"segmentation_id": schema.Int64Attribute{
 				Computed:            true,
@@ -334,15 +334,15 @@ func (d *OpenstackNetworkDataSource) Schema(ctx context.Context, req datasource.
 					"name":        types.StringType,
 				}}},
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Subnets",
 			},
 			"tenant_name": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Name of the tenant",
 			},
 			"url": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Url",
 			},
 		},
 	}

@@ -42,15 +42,15 @@ Openstack Security Group data source - lookup by name or UUID
 
 ### Read-Only
 
-- `access_url` (String)
-- `created` (String)
-- `error_message` (String)
-- `error_traceback` (String)
-- `modified` (String)
-- `resource_type` (String)
-- `rules` (List of Object) (see [below for nested schema](#nestedatt--rules))
-- `tenant_name` (String)
-- `url` (String)
+- `access_url` (String) Access url
+- `created` (String) Created
+- `error_message` (String) Error message
+- `error_traceback` (String) Error traceback
+- `modified` (String) Modified
+- `resource_type` (String) Resource type
+- `rules` (List of Object) Rules (see [below for nested schema](#nestedatt--rules))
+- `tenant_name` (String) Name of the tenant
+- `url` (String) Url
 
 <a id="nestedatt--rules"></a>
 ### Nested Schema for `rules`

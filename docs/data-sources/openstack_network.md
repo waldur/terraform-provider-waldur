@@ -28,7 +28,7 @@ Openstack Network data source - lookup by name or UUID
 - `direct_only` (Boolean) Direct only
 - `external_ip` (String) External IP
 - `id` (String) Resource UUID
-- `is_external` (Boolean)
+- `is_external` (Boolean) Is external
 - `name` (String) Name
 - `name_exact` (String) Name (exact)
 - `project` (String) Project UUID
@@ -40,23 +40,23 @@ Openstack Network data source - lookup by name or UUID
 - `state` (String) State
 - `tenant` (String) Tenant URL
 - `tenant_uuid` (String) Tenant UUID
-- `type` (String)
+- `type` (String) Type
 - `uuid` (String) UUID
 
 ### Read-Only
 
-- `access_url` (String)
-- `created` (String)
-- `error_message` (String)
-- `error_traceback` (String)
-- `modified` (String)
+- `access_url` (String) Access url
+- `created` (String) Created
+- `error_message` (String) Error message
+- `error_traceback` (String) Error traceback
+- `modified` (String) Modified
 - `mtu` (Number) The maximum transmission unit (MTU) value to address fragmentation.
-- `rbac_policies` (List of Object) (see [below for nested schema](#nestedatt--rbac_policies))
-- `resource_type` (String)
+- `rbac_policies` (List of Object) Rbac policies (see [below for nested schema](#nestedatt--rbac_policies))
+- `resource_type` (String) Resource type
 - `segmentation_id` (Number) VLAN ID for VLAN networks or tunnel ID for VXLAN/GRE networks
-- `subnets` (List of Object) (see [below for nested schema](#nestedatt--subnets))
-- `tenant_name` (String)
-- `url` (String)
+- `subnets` (List of Object) Subnets (see [below for nested schema](#nestedatt--subnets))
+- `tenant_name` (String) Name of the tenant
+- `url` (String) Url
 
 <a id="nestedatt--rbac_policies"></a>
 ### Nested Schema for `rbac_policies`

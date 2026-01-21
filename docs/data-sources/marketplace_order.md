@@ -24,11 +24,11 @@ Marketplace Order data source - lookup by name or UUID
 - `customer_uuid` (String) Customer UUID
 - `id` (String) Resource UUID
 - `modified` (String) Modified after
-- `offering` (String)
+- `offering` (String) Offering
 - `offering_slug` (String) Multiple values may be separated by commas.
 - `offering_type` (String) Offering type
 - `offering_uuid` (String) Offering UUID
-- `parent_offering_uuid` (String)
+- `parent_offering_uuid` (String) UUID of the parent offering
 - `project_uuid` (String) Project UUID
 - `provider_uuid` (String) Provider UUID
 - `query` (String) Search by order UUID, slug, project name or resource name
@@ -41,58 +41,58 @@ Marketplace Order data source - lookup by name or UUID
 
 ### Read-Only
 
-- `activation_price` (Number)
-- `attachment` (String)
-- `backend_id` (String)
-- `callback_url` (String)
-- `can_terminate` (Boolean)
-- `category_icon` (String)
-- `category_title` (String)
-- `completed_at` (String)
-- `consumer_reviewed_at` (String)
+- `activation_price` (Number) Activation price
+- `attachment` (String) Attachment
+- `backend_id` (String) ID of the backend
+- `callback_url` (String) Callback url
+- `can_terminate` (Boolean) Can terminate
+- `category_icon` (String) Category icon
+- `category_title` (String) Category title
+- `completed_at` (String) Completed at
+- `consumer_reviewed_at` (String) Consumer reviewed at
 - `consumer_reviewed_by` (String) Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters
-- `consumer_reviewed_by_full_name` (String)
+- `consumer_reviewed_by_full_name` (String) Name of the consumer reviewed by full
 - `consumer_reviewed_by_username` (String) Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters
-- `cost` (String)
-- `created_by_civil_number` (String)
-- `created_by_full_name` (String)
+- `cost` (String) Cost
+- `created_by_civil_number` (String) Created by civil number
+- `created_by_full_name` (String) Name of the created by full
 - `created_by_username` (String) Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters
-- `customer_name` (String)
-- `customer_slug` (String)
-- `error_message` (String)
-- `error_traceback` (String)
-- `fixed_price` (Number)
-- `new_cost_estimate` (String)
-- `new_plan_name` (String)
-- `new_plan_uuid` (String)
+- `customer_name` (String) Name of the customer
+- `customer_slug` (String) Customer slug
+- `error_message` (String) Error message
+- `error_traceback` (String) Error traceback
+- `fixed_price` (Number) Fixed price
+- `new_cost_estimate` (String) New cost estimate
+- `new_plan_name` (String) Name of the new plan
+- `new_plan_uuid` (String) UUID of the new plan
 - `offering_billable` (Boolean) Purchase and usage is invoiced.
-- `offering_description` (String)
-- `offering_image` (String)
-- `offering_name` (String)
+- `offering_description` (String) Offering description
+- `offering_image` (String) Offering image
+- `offering_name` (String) Name of the offering
 - `offering_shared` (Boolean) Accessible to all customers.
-- `offering_thumbnail` (String)
-- `old_cost_estimate` (Number)
-- `old_plan_name` (String)
-- `old_plan_uuid` (String)
-- `order_subtype` (String)
-- `output` (String)
-- `plan` (String)
-- `plan_description` (String)
-- `plan_name` (String)
-- `plan_unit` (String)
-- `plan_uuid` (String)
-- `project_description` (String)
-- `project_name` (String)
-- `project_slug` (String)
-- `provider_name` (String)
-- `provider_reviewed_at` (String)
+- `offering_thumbnail` (String) Offering thumbnail
+- `old_cost_estimate` (Number) Old cost estimate
+- `old_plan_name` (String) Name of the old plan
+- `old_plan_uuid` (String) UUID of the old plan
+- `order_subtype` (String) Order subtype
+- `output` (String) Output
+- `plan` (String) Plan
+- `plan_description` (String) Plan description
+- `plan_name` (String) Name of the plan
+- `plan_unit` (String) Plan unit
+- `plan_uuid` (String) UUID of the plan
+- `project_description` (String) Project description
+- `project_name` (String) Name of the project
+- `project_slug` (String) Project slug
+- `provider_name` (String) Name of the provider
+- `provider_reviewed_at` (String) Provider reviewed at
 - `provider_reviewed_by` (String) Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters
-- `provider_reviewed_by_full_name` (String)
+- `provider_reviewed_by_full_name` (String) Name of the provider reviewed by full
 - `provider_reviewed_by_username` (String) Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters
-- `provider_slug` (String)
-- `request_comment` (String)
-- `resource_type` (String)
-- `slug` (String)
+- `provider_slug` (String) Provider slug
+- `request_comment` (String) Request comment
+- `resource_type` (String) Resource type
+- `slug` (String) Slug
 - `start_date` (String) Enables delayed processing of resource provisioning order.
-- `termination_comment` (String)
-- `url` (String)
+- `termination_comment` (String) Termination comment
+- `url` (String) Url

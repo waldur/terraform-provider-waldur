@@ -119,7 +119,7 @@ func (d *StructureProjectDataSource) Schema(ctx context.Context, req datasource.
 			"backend_id": schema.StringAttribute{
 				Optional:            true,
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "ID of the backend",
 			},
 			"can_admin": schema.BoolAttribute{
 				Optional:            true,
@@ -203,15 +203,15 @@ func (d *StructureProjectDataSource) Schema(ctx context.Context, req datasource.
 			},
 			"customer_display_billing_info_in_projects": schema.BoolAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Customer display billing info in projects",
 			},
 			"customer_slug": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Customer slug",
 			},
 			"customer_uuid": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "UUID of the customer",
 			},
 			"end_date": schema.StringAttribute{
 				Computed:            true,
@@ -219,7 +219,7 @@ func (d *StructureProjectDataSource) Schema(ctx context.Context, req datasource.
 			},
 			"end_date_requested_by": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "End date requested by",
 			},
 			"grace_period_days": schema.Int64Attribute{
 				Computed:            true,
@@ -227,15 +227,15 @@ func (d *StructureProjectDataSource) Schema(ctx context.Context, req datasource.
 			},
 			"image": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Image",
 			},
 			"is_industry": schema.BoolAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Is industry",
 			},
 			"kind": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Kind",
 			},
 			"max_service_accounts": schema.Int64Attribute{
 				Computed:            true,
@@ -243,7 +243,7 @@ func (d *StructureProjectDataSource) Schema(ctx context.Context, req datasource.
 			},
 			"oecd_fos_2007_code": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Oecd fos 2007 code",
 			},
 			"oecd_fos_2007_label": schema.StringAttribute{
 				Computed:            true,
@@ -251,7 +251,7 @@ func (d *StructureProjectDataSource) Schema(ctx context.Context, req datasource.
 			},
 			"project_credit": schema.Float64Attribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Project credit",
 			},
 			"resources_count": schema.Int64Attribute{
 				Computed:            true,
@@ -267,19 +267,19 @@ func (d *StructureProjectDataSource) Schema(ctx context.Context, req datasource.
 			},
 			"type": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Type",
 			},
 			"type_name": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Name of the type",
 			},
 			"type_uuid": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "UUID of the type",
 			},
 			"url": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Url",
 			},
 		},
 	}

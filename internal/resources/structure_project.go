@@ -9,6 +9,9 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/float64planmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -110,120 +113,192 @@ func (r *StructureProjectResource) Schema(ctx context.Context, req resource.Sche
 				},
 			},
 			"backend_id": schema.StringAttribute{
-				Optional:            true,
-				Computed:            true,
-				MarkdownDescription: " ",
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+				MarkdownDescription: "ID of the backend",
 			},
 			"created": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: " ",
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+				MarkdownDescription: "Created",
 			},
 			"customer": schema.StringAttribute{
 				Required:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Customer",
 			},
 			"customer_display_billing_info_in_projects": schema.BoolAttribute{
-				Computed:            true,
-				MarkdownDescription: " ",
+				Computed: true,
+				PlanModifiers: []planmodifier.Bool{
+					boolplanmodifier.UseStateForUnknown(),
+				},
+				MarkdownDescription: "Customer display billing info in projects",
 			},
 			"customer_slug": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: " ",
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+				MarkdownDescription: "Customer slug",
 			},
 			"description": schema.StringAttribute{
-				Optional:            true,
-				Computed:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 				MarkdownDescription: "Project description (HTML content will be sanitized)",
 			},
 			"end_date": schema.StringAttribute{
-				Optional:            true,
-				Computed:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 				MarkdownDescription: "Project end date. Setting this field requires DELETE_PROJECT permission.",
 			},
 			"end_date_requested_by": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: " ",
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+				MarkdownDescription: "End date requested by",
 			},
 			"grace_period_days": schema.Int64Attribute{
-				Optional:            true,
-				Computed:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.Int64{
+					int64planmodifier.UseStateForUnknown(),
+				},
 				MarkdownDescription: "Number of extra days after project end date before resources are terminated. Overrides customer-level setting.",
 			},
 			"image": schema.StringAttribute{
-				Optional:            true,
-				Computed:            true,
-				MarkdownDescription: " ",
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+				MarkdownDescription: "Image",
 			},
 			"is_industry": schema.BoolAttribute{
-				Optional:            true,
-				Computed:            true,
-				MarkdownDescription: " ",
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.Bool{
+					boolplanmodifier.UseStateForUnknown(),
+				},
+				MarkdownDescription: "Is industry",
 			},
 			"is_removed": schema.BoolAttribute{
-				Computed:            true,
-				MarkdownDescription: " ",
+				Computed: true,
+				PlanModifiers: []planmodifier.Bool{
+					boolplanmodifier.UseStateForUnknown(),
+				},
+				MarkdownDescription: "Is removed",
 			},
 			"kind": schema.StringAttribute{
-				Optional:            true,
-				Computed:            true,
-				MarkdownDescription: " ",
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+				MarkdownDescription: "Kind",
 			},
 			"max_service_accounts": schema.Int64Attribute{
-				Computed:            true,
+				Computed: true,
+				PlanModifiers: []planmodifier.Int64{
+					int64planmodifier.UseStateForUnknown(),
+				},
 				MarkdownDescription: "Maximum number of service accounts allowed",
 			},
 			"name": schema.StringAttribute{
 				Required:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Name of the resource",
 			},
 			"oecd_fos_2007_code": schema.StringAttribute{
-				Optional:            true,
-				Computed:            true,
-				MarkdownDescription: " ",
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+				MarkdownDescription: "Oecd fos 2007 code",
 			},
 			"oecd_fos_2007_label": schema.StringAttribute{
-				Computed:            true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 				MarkdownDescription: "Human-readable label for the OECD FOS 2007 classification code",
 			},
 			"project_credit": schema.Float64Attribute{
-				Computed:            true,
-				MarkdownDescription: " ",
+				Computed: true,
+				PlanModifiers: []planmodifier.Float64{
+					float64planmodifier.UseStateForUnknown(),
+				},
+				MarkdownDescription: "Project credit",
 			},
 			"resources_count": schema.Int64Attribute{
-				Computed:            true,
+				Computed: true,
+				PlanModifiers: []planmodifier.Int64{
+					int64planmodifier.UseStateForUnknown(),
+				},
 				MarkdownDescription: "Number of active resources in this project",
 			},
 			"slug": schema.StringAttribute{
-				Optional:            true,
-				Computed:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 				MarkdownDescription: "URL-friendly identifier. Only editable by staff users.",
 			},
 			"staff_notes": schema.StringAttribute{
-				Optional:            true,
-				Computed:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 				MarkdownDescription: "Internal notes visible only to staff and support users (HTML content will be sanitized)",
 			},
 			"start_date": schema.StringAttribute{
-				Optional:            true,
-				Computed:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 				MarkdownDescription: "Project start date. Cannot be edited after the start date has arrived.",
 			},
 			"type": schema.StringAttribute{
-				Optional:            true,
-				Computed:            true,
-				MarkdownDescription: " ",
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+				MarkdownDescription: "Type",
 			},
 			"type_name": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: " ",
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+				MarkdownDescription: "Name of the type",
 			},
 			"type_uuid": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: " ",
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+				MarkdownDescription: "UUID of the type",
 			},
 			"url": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: " ",
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+				MarkdownDescription: "Url",
 			},
 		},
 

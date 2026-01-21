@@ -75,37 +75,55 @@ func (r *OpenstackNetworkRbacPolicyResource) Schema(ctx context.Context, req res
 				},
 			},
 			"backend_id": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: " ",
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+				MarkdownDescription: "ID of the backend",
 			},
 			"created": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: " ",
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+				MarkdownDescription: "Created",
 			},
 			"network": schema.StringAttribute{
 				Required:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Network",
 			},
 			"network_name": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: " ",
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+				MarkdownDescription: "Name of the network",
 			},
 			"policy_type": schema.StringAttribute{
-				Optional:            true,
-				Computed:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 				MarkdownDescription: "Type of access granted - either shared access or external network access",
 			},
 			"target_tenant": schema.StringAttribute{
 				Required:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Target tenant",
 			},
 			"target_tenant_name": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: " ",
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+				MarkdownDescription: "Name of the target tenant",
 			},
 			"url": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: " ",
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+				MarkdownDescription: "Url",
 			},
 		},
 

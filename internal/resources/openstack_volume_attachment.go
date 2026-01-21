@@ -9,6 +9,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
@@ -121,12 +122,18 @@ func (r *OpenstackVolumeAttachmentResource) Schema(ctx context.Context, req reso
 				},
 			},
 			"access_url": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: " ",
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+				MarkdownDescription: "Access url",
 			},
 			"action": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: " ",
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+				MarkdownDescription: "Action",
 			},
 			"availability_zone": schema.StringAttribute{
 				Optional: true,
@@ -137,42 +144,69 @@ func (r *OpenstackVolumeAttachmentResource) Schema(ctx context.Context, req reso
 				MarkdownDescription: "Availability zone where this volume is located",
 			},
 			"availability_zone_name": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: " ",
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+				MarkdownDescription: "Name of the availability zone",
 			},
 			"backend_id": schema.StringAttribute{
-				Computed:            true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 				MarkdownDescription: "Volume ID in the OpenStack backend",
 			},
 			"bootable": schema.BoolAttribute{
-				Optional:            true,
-				Computed:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.Bool{
+					boolplanmodifier.UseStateForUnknown(),
+				},
 				MarkdownDescription: "Indicates if this volume can be used to boot an instance",
 			},
 			"created": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: " ",
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+				MarkdownDescription: "Created",
 			},
 			"description": schema.StringAttribute{
-				Optional:            true,
-				Computed:            true,
-				MarkdownDescription: " ",
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+				MarkdownDescription: "Description of the resource",
 			},
 			"device": schema.StringAttribute{
-				Computed:            true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 				MarkdownDescription: "Link parameter",
 			},
 			"error_message": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: " ",
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+				MarkdownDescription: "Error message",
 			},
 			"error_traceback": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: " ",
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+				MarkdownDescription: "Error traceback",
 			},
 			"extend_enabled": schema.BoolAttribute{
-				Computed:            true,
-				MarkdownDescription: " ",
+				Computed: true,
+				PlanModifiers: []planmodifier.Bool{
+					boolplanmodifier.UseStateForUnknown(),
+				},
+				MarkdownDescription: "Extend enabled",
 			},
 			"image": schema.StringAttribute{
 				Optional: true,
@@ -183,11 +217,17 @@ func (r *OpenstackVolumeAttachmentResource) Schema(ctx context.Context, req reso
 				MarkdownDescription: "Image that this volume was created from, if any",
 			},
 			"image_metadata": schema.StringAttribute{
-				Computed:            true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 				MarkdownDescription: "Metadata of the image this volume was created from",
 			},
 			"image_name": schema.StringAttribute{
-				Computed:            true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 				MarkdownDescription: "Name of the image this volume was created from",
 			},
 			"instance": schema.StringAttribute{
@@ -195,29 +235,47 @@ func (r *OpenstackVolumeAttachmentResource) Schema(ctx context.Context, req reso
 				MarkdownDescription: "Instance that this volume is attached to, if any",
 			},
 			"instance_marketplace_uuid": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: " ",
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+				MarkdownDescription: "UUID of the instance marketplace",
 			},
 			"instance_name": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: " ",
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+				MarkdownDescription: "Name of the instance",
 			},
 			"modified": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: " ",
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+				MarkdownDescription: "Modified",
 			},
 			"name": schema.StringAttribute{
-				Optional:            true,
-				Computed:            true,
-				MarkdownDescription: " ",
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+				MarkdownDescription: "Name of the resource",
 			},
 			"resource_type": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: " ",
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+				MarkdownDescription: "Resource type",
 			},
 			"runtime_state": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: " ",
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+				MarkdownDescription: "Runtime state",
 			},
 			"size": schema.Int64Attribute{
 				Optional: true,
@@ -228,12 +286,18 @@ func (r *OpenstackVolumeAttachmentResource) Schema(ctx context.Context, req reso
 				MarkdownDescription: "Size in MiB",
 			},
 			"source_snapshot": schema.StringAttribute{
-				Computed:            true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 				MarkdownDescription: "Snapshot that this volume was created from, if any",
 			},
 			"state": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: " ",
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+				MarkdownDescription: "State",
 			},
 			"tenant": schema.StringAttribute{
 				Optional: true,
@@ -241,11 +305,14 @@ func (r *OpenstackVolumeAttachmentResource) Schema(ctx context.Context, req reso
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
 				},
-				MarkdownDescription: " ",
+				MarkdownDescription: "Tenant",
 			},
 			"tenant_uuid": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: " ",
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+				MarkdownDescription: "UUID of the tenant",
 			},
 			"type": schema.StringAttribute{
 				Optional: true,
@@ -256,12 +323,18 @@ func (r *OpenstackVolumeAttachmentResource) Schema(ctx context.Context, req reso
 				MarkdownDescription: "Type of the volume (e.g. SSD, HDD)",
 			},
 			"type_name": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: " ",
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+				MarkdownDescription: "Name of the type",
 			},
 			"url": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: " ",
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+				MarkdownDescription: "Url",
 			},
 			"volume": schema.StringAttribute{
 				Required: true,

@@ -18,57 +18,57 @@ Openstack Tenant resource
 ### Required
 
 - `offering` (String) Offering URL
-- `project` (String)
+- `project` (String) Project
 
 ### Optional
 
 - `availability_zone` (String) Optional availability group. Will be used for all instances provisioned in this tenant
-- `description` (String)
-- `name` (String)
-- `security_groups` (Attributes List) (see [below for nested schema](#nestedatt--security_groups))
-- `skip_connection_extnet` (Boolean)
-- `skip_creation_of_default_router` (Boolean)
-- `skip_creation_of_default_subnet` (Boolean)
-- `subnet_cidr` (String)
+- `description` (String) Description of the resource
+- `name` (String) Name of the resource
+- `security_groups` (Attributes List) Security groups (see [below for nested schema](#nestedatt--security_groups))
+- `skip_connection_extnet` (Boolean) Skip connection extnet
+- `skip_creation_of_default_router` (Boolean) Skip creation of default router
+- `skip_creation_of_default_subnet` (Boolean) Skip creation of default subnet
+- `subnet_cidr` (String) Subnet cidr
 - `timeouts` (Block, Optional) (see [below for nested schema](#nestedblock--timeouts))
 
 ### Read-Only
 
-- `access_url` (String)
+- `access_url` (String) Access url
 - `backend_id` (String) ID of tenant in the OpenStack backend
-- `created` (String)
-- `customer` (String)
-- `customer_abbreviation` (String)
-- `customer_name` (String)
-- `customer_native_name` (String)
-- `customer_uuid` (String)
+- `created` (String) Created
+- `customer` (String) Customer
+- `customer_abbreviation` (String) Customer abbreviation
+- `customer_name` (String) Name of the customer
+- `customer_native_name` (String) Name of the customer native
+- `customer_uuid` (String) UUID of the customer
 - `default_volume_type_name` (String) Volume type name to use when creating volumes.
-- `error_message` (String)
-- `error_traceback` (String)
+- `error_message` (String) Error message
+- `error_traceback` (String) Error traceback
 - `external_network_id` (String) ID of external network connected to OpenStack tenant
 - `id` (String) Resource UUID (used as Terraform ID)
 - `internal_network_id` (String) ID of internal network in OpenStack tenant
-- `is_limit_based` (Boolean)
-- `is_usage_based` (Boolean)
-- `marketplace_category_name` (String)
-- `marketplace_category_uuid` (String)
-- `marketplace_offering_name` (String)
-- `marketplace_offering_uuid` (String)
-- `marketplace_plan_uuid` (String)
-- `marketplace_resource_state` (String)
-- `marketplace_resource_uuid` (String)
-- `modified` (String)
-- `project_name` (String)
-- `project_uuid` (String)
-- `quotas` (Attributes List) (see [below for nested schema](#nestedatt--quotas))
-- `resource_type` (String)
-- `service_name` (String)
-- `service_settings` (String)
-- `service_settings_error_message` (String)
-- `service_settings_state` (String)
-- `service_settings_uuid` (String)
-- `state` (String)
-- `url` (String)
+- `is_limit_based` (Boolean) Is limit based
+- `is_usage_based` (Boolean) Is usage based
+- `marketplace_category_name` (String) Name of the marketplace category
+- `marketplace_category_uuid` (String) UUID of the marketplace category
+- `marketplace_offering_name` (String) Name of the marketplace offering
+- `marketplace_offering_uuid` (String) UUID of the marketplace offering
+- `marketplace_plan_uuid` (String) UUID of the marketplace plan
+- `marketplace_resource_state` (String) Marketplace resource state
+- `marketplace_resource_uuid` (String) UUID of the marketplace resource
+- `modified` (String) Modified
+- `project_name` (String) Name of the project
+- `project_uuid` (String) UUID of the project
+- `quotas` (Attributes List) Quotas (see [below for nested schema](#nestedatt--quotas))
+- `resource_type` (String) Resource type
+- `service_name` (String) Name of the service
+- `service_settings` (String) Service settings
+- `service_settings_error_message` (String) Service settings error message
+- `service_settings_state` (String) Service settings state
+- `service_settings_uuid` (String) UUID of the service settings
+- `state` (String) State
+- `url` (String) Url
 - `user_password` (String) Password of the tenant user
 - `user_username` (String) Username of the tenant user
 
@@ -77,12 +77,12 @@ Openstack Tenant resource
 
 Required:
 
-- `name` (String)
+- `name` (String) Name of the resource
 
 Optional:
 
-- `description` (String)
-- `rules` (Attributes List) (see [below for nested schema](#nestedatt--security_groups--rules))
+- `description` (String) Description of the resource
+- `rules` (Attributes List) Rules (see [below for nested schema](#nestedatt--security_groups--rules))
 
 <a id="nestedatt--security_groups--rules"></a>
 ### Nested Schema for `security_groups.rules`
@@ -90,7 +90,7 @@ Optional:
 Optional:
 
 - `cidr` (String) CIDR notation for the source/destination network address range
-- `description` (String)
+- `description` (String) Description of the resource
 - `direction` (String) Traffic direction - either 'ingress' (incoming) or 'egress' (outgoing)
 - `ethertype` (String) IP protocol version - either 'IPv4' or 'IPv6'
 - `from_port` (Number) Starting port number in the range (1-65535)
@@ -115,6 +115,6 @@ Optional:
 
 Optional:
 
-- `limit` (Number)
-- `name` (String)
-- `usage` (Number)
+- `limit` (Number) Limit
+- `name` (String) Name of the resource
+- `usage` (Number) Usage

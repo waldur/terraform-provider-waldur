@@ -17,38 +17,38 @@ Openstack Subnet resource
 
 ### Required
 
-- `name` (String)
+- `name` (String) Name of the resource
 - `network` (String) Required path parameter for resource creation
 
 ### Optional
 
-- `allocation_pools` (Attributes List) (see [below for nested schema](#nestedatt--allocation_pools))
-- `cidr` (String)
-- `description` (String)
+- `allocation_pools` (Attributes List) Allocation pools (see [below for nested schema](#nestedatt--allocation_pools))
+- `cidr` (String) Cidr
+- `description` (String) Description of the resource
 - `disable_gateway` (Boolean) If True, no gateway IP address will be allocated
-- `dns_nameservers` (List of String)
+- `dns_nameservers` (List of String) Dns nameservers
 - `gateway_ip` (String) IP address of the gateway for this subnet
-- `host_routes` (Attributes List) (see [below for nested schema](#nestedatt--host_routes))
+- `host_routes` (Attributes List) Host routes (see [below for nested schema](#nestedatt--host_routes))
 - `timeouts` (Block, Optional) (see [below for nested schema](#nestedblock--timeouts))
 
 ### Read-Only
 
-- `access_url` (String)
-- `backend_id` (String)
-- `created` (String)
+- `access_url` (String) Access url
+- `backend_id` (String) ID of the backend
+- `created` (String) Created
 - `enable_dhcp` (Boolean) If True, DHCP service will be enabled on this subnet
-- `error_message` (String)
-- `error_traceback` (String)
+- `error_message` (String) Error message
+- `error_traceback` (String) Error traceback
 - `id` (String) Resource UUID (used as Terraform ID)
 - `ip_version` (Number) IP protocol version (4 or 6)
 - `is_connected` (Boolean) Is subnet connected to the default tenant router.
-- `modified` (String)
-- `network_name` (String)
-- `resource_type` (String)
-- `state` (String)
-- `tenant` (String)
-- `tenant_name` (String)
-- `url` (String)
+- `modified` (String) Modified
+- `network_name` (String) Name of the network
+- `resource_type` (String) Resource type
+- `state` (String) State
+- `tenant` (String) Tenant
+- `tenant_name` (String) Name of the tenant
+- `url` (String) Url
 
 <a id="nestedatt--allocation_pools"></a>
 ### Nested Schema for `allocation_pools`
@@ -64,7 +64,7 @@ Required:
 
 Required:
 
-- `destination` (String)
+- `destination` (String) Destination
 - `nexthop` (String) An IPv4 or IPv6 address.
 
 

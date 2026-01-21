@@ -17,70 +17,70 @@ Marketplace Resource resource
 
 ### Optional
 
-- `downscaled` (Boolean)
+- `downscaled` (Boolean) Downscaled
 - `end_date` (String) The date is inclusive. Once reached, a resource will be scheduled for termination.
-- `name` (String)
-- `offering` (String)
-- `paused` (Boolean)
-- `plan` (String)
+- `name` (String) Name of the resource
+- `offering` (String) Offering
+- `paused` (Boolean) Paused
+- `plan` (String) Plan
 - `slug` (String) URL-friendly identifier. Only editable by staff users.
 - `timeouts` (Block, Optional) (see [below for nested schema](#nestedblock--timeouts))
 
 ### Read-Only
 
-- `available_actions` (List of String)
-- `backend_id` (String)
-- `can_terminate` (Boolean)
-- `category_icon` (String)
-- `category_title` (String)
-- `category_uuid` (String)
-- `created` (String)
-- `customer_slug` (String)
-- `description` (String)
-- `effective_id` (String)
-- `end_date_requested_by` (String)
-- `endpoints` (Attributes List) (see [below for nested schema](#nestedatt--endpoints))
-- `error_message` (String)
-- `error_traceback` (String)
+- `available_actions` (List of String) Available actions
+- `backend_id` (String) ID of the backend
+- `can_terminate` (Boolean) Can terminate
+- `category_icon` (String) Category icon
+- `category_title` (String) Category title
+- `category_uuid` (String) UUID of the category
+- `created` (String) Created
+- `customer_slug` (String) Customer slug
+- `description` (String) Description of the resource
+- `effective_id` (String) ID of the effective
+- `end_date_requested_by` (String) End date requested by
+- `endpoints` (Attributes List) Endpoints (see [below for nested schema](#nestedatt--endpoints))
+- `error_message` (String) Error message
+- `error_traceback` (String) Error traceback
 - `id` (String) Resource UUID (used as Terraform ID)
-- `last_sync` (String)
-- `modified` (String)
+- `last_sync` (String) Last sync
+- `modified` (String) Modified
 - `offering_billable` (Boolean) Purchase and usage is invoiced.
-- `offering_components` (Attributes List) (see [below for nested schema](#nestedatt--offering_components))
-- `offering_description` (String)
-- `offering_image` (String)
-- `offering_name` (String)
+- `offering_components` (Attributes List) Offering components (see [below for nested schema](#nestedatt--offering_components))
+- `offering_description` (String) Offering description
+- `offering_image` (String) Offering image
+- `offering_name` (String) Name of the offering
 - `offering_shared` (Boolean) Accessible to all customers.
-- `offering_slug` (String)
-- `offering_state` (String)
-- `offering_thumbnail` (String)
-- `offering_type` (String)
-- `offering_uuid` (String)
-- `parent_name` (String)
-- `parent_offering_name` (String)
-- `parent_offering_slug` (String)
-- `parent_offering_uuid` (String)
-- `parent_uuid` (String)
-- `plan_description` (String)
-- `plan_name` (String)
-- `plan_unit` (String)
-- `plan_uuid` (String)
-- `project_description` (String)
+- `offering_slug` (String) Offering slug
+- `offering_state` (String) Offering state
+- `offering_thumbnail` (String) Offering thumbnail
+- `offering_type` (String) Offering type
+- `offering_uuid` (String) UUID of the offering
+- `parent_name` (String) Name of the parent
+- `parent_offering_name` (String) Name of the parent offering
+- `parent_offering_slug` (String) Parent offering slug
+- `parent_offering_uuid` (String) UUID of the parent offering
+- `parent_uuid` (String) UUID of the parent
+- `plan_description` (String) Plan description
+- `plan_name` (String) Name of the plan
+- `plan_unit` (String) Plan unit
+- `plan_uuid` (String) UUID of the plan
+- `project_description` (String) Project description
 - `project_end_date` (String) The date is inclusive. Once reached, all project resource will be scheduled for termination.
-- `project_end_date_requested_by` (String)
-- `project_slug` (String)
-- `provider_name` (String)
-- `provider_slug` (String)
-- `provider_uuid` (String)
-- `report` (Attributes List) (see [below for nested schema](#nestedatt--report))
-- `resource_type` (String)
-- `resource_uuid` (String)
-- `restrict_member_access` (Boolean)
-- `scope` (String)
-- `state` (String)
-- `url` (String)
+- `project_end_date_requested_by` (String) Project end date requested by
+- `project_slug` (String) Project slug
+- `provider_name` (String) Name of the provider
+- `provider_slug` (String) Provider slug
+- `provider_uuid` (String) UUID of the provider
+- `report` (Attributes List) Report (see [below for nested schema](#nestedatt--report))
+- `resource_type` (String) Resource type
+- `resource_uuid` (String) UUID of the resource
+- `restrict_member_access` (Boolean) Restrict member access
+- `scope` (String) Scope
+- `state` (String) State
+- `url` (String) Url
 - `user_requires_reconsent` (Boolean) Check if the current user needs to re-consent for this resource's offering.
-- `username` (String)
+- `username` (String) Username
 
 <a id="nestedblock--timeouts"></a>
 ### Nested Schema for `timeouts`
@@ -97,7 +97,7 @@ Optional:
 
 Optional:
 
-- `name` (String)
+- `name` (String) Name of the resource
 - `url` (String) URL of the access endpoint
 
 
@@ -106,29 +106,29 @@ Optional:
 
 Optional:
 
-- `article_code` (String)
-- `billing_type` (String)
-- `default_limit` (Number)
-- `description` (String)
-- `is_boolean` (Boolean)
-- `is_prepaid` (Boolean)
-- `limit_amount` (Number)
-- `limit_period` (String)
-- `max_available_limit` (Number)
-- `max_prepaid_duration` (Number)
-- `max_value` (Number)
+- `article_code` (String) Article code
+- `billing_type` (String) Billing type
+- `default_limit` (Number) Default limit
+- `description` (String) Description of the resource
+- `is_boolean` (Boolean) Is boolean
+- `is_prepaid` (Boolean) Is prepaid
+- `limit_amount` (Number) Limit amount
+- `limit_period` (String) Limit period
+- `max_available_limit` (Number) Max available limit
+- `max_prepaid_duration` (Number) Max prepaid duration
+- `max_value` (Number) Max value
 - `measured_unit` (String) Unit of measurement, for example, GB.
-- `min_prepaid_duration` (Number)
-- `min_value` (Number)
+- `min_prepaid_duration` (Number) Min prepaid duration
+- `min_value` (Number) Min value
 - `name` (String) Display name for the measured unit, for example, Floating IP.
-- `overage_component` (String)
+- `overage_component` (String) Overage component
 - `type` (String) Unique internal name of the measured unit, for example floating_ip.
 - `unit_factor` (Number) The conversion factor from backend units to measured_unit
 
 Read-Only:
 
-- `factor` (Number)
-- `is_builtin` (Boolean)
+- `factor` (Number) Factor
+- `is_builtin` (Boolean) Is builtin
 
 
 <a id="nestedatt--report"></a>

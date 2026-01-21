@@ -80,32 +80,32 @@ func (d *OpenstackFlavorDataSource) Schema(ctx context.Context, req datasource.S
 			"cores": schema.Int64Attribute{
 				Optional:            true,
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Cores",
 			},
 			"cores__gte": schema.Int64Attribute{
 				Optional:            true,
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Cores gte",
 			},
 			"cores__lte": schema.Int64Attribute{
 				Optional:            true,
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Cores lte",
 			},
 			"disk": schema.Int64Attribute{
 				Optional:            true,
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Disk",
 			},
 			"disk__gte": schema.Int64Attribute{
 				Optional:            true,
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Disk gte",
 			},
 			"disk__lte": schema.Int64Attribute{
 				Optional:            true,
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Disk lte",
 			},
 			"name": schema.StringAttribute{
 				Optional:            true,
@@ -130,17 +130,17 @@ func (d *OpenstackFlavorDataSource) Schema(ctx context.Context, req datasource.S
 			"ram": schema.Int64Attribute{
 				Optional:            true,
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Ram",
 			},
 			"ram__gte": schema.Int64Attribute{
 				Optional:            true,
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Ram gte",
 			},
 			"ram__lte": schema.Int64Attribute{
 				Optional:            true,
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Ram lte",
 			},
 			"settings": schema.StringAttribute{
 				Optional:            true,
@@ -164,15 +164,15 @@ func (d *OpenstackFlavorDataSource) Schema(ctx context.Context, req datasource.S
 			},
 			"backend_id": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "ID of the backend",
 			},
 			"display_name": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Name of the display",
 			},
 			"url": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Url",
 			},
 		},
 	}

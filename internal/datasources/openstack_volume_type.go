@@ -99,11 +99,11 @@ func (d *OpenstackVolumeTypeDataSource) Schema(ctx context.Context, req datasour
 			},
 			"description": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Description of the resource",
 			},
 			"url": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Url",
 			},
 		},
 	}

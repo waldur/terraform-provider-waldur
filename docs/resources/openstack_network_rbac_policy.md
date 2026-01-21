@@ -17,8 +17,8 @@ Openstack Network Rbac Policy resource
 
 ### Required
 
-- `network` (String)
-- `target_tenant` (String)
+- `network` (String) Network
+- `target_tenant` (String) Target tenant
 
 ### Optional
 
@@ -27,12 +27,12 @@ Openstack Network Rbac Policy resource
 
 ### Read-Only
 
-- `backend_id` (String)
-- `created` (String)
+- `backend_id` (String) ID of the backend
+- `created` (String) Created
 - `id` (String) Resource UUID (used as Terraform ID)
-- `network_name` (String)
-- `target_tenant_name` (String)
-- `url` (String)
+- `network_name` (String) Name of the network
+- `target_tenant_name` (String) Name of the target tenant
+- `url` (String) Url
 
 <a id="nestedblock--timeouts"></a>
 ### Nested Schema for `timeouts`

@@ -18,11 +18,11 @@ Core Ssh Public Key data source - lookup by name or UUID
 ### Optional
 
 - `created` (String) Created after
-- `fingerprint_md5` (String)
-- `fingerprint_sha256` (String)
-- `fingerprint_sha512` (String)
+- `fingerprint_md5` (String) Fingerprint md5
+- `fingerprint_sha256` (String) Fingerprint sha256
+- `fingerprint_sha512` (String) Fingerprint sha512
 - `id` (String) Resource UUID
-- `is_shared` (Boolean)
+- `is_shared` (Boolean) Is shared
 - `modified` (String) Modified after
 - `name` (String) Name
 - `name_exact` (String) Name (exact)
@@ -31,6 +31,6 @@ Core Ssh Public Key data source - lookup by name or UUID
 
 ### Read-Only
 
-- `public_key` (String)
-- `type` (String)
-- `url` (String)
+- `public_key` (String) Public key
+- `type` (String) Type
+- `url` (String) Url

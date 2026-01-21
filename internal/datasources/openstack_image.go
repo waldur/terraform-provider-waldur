@@ -103,7 +103,7 @@ func (d *OpenstackImageDataSource) Schema(ctx context.Context, req datasource.Sc
 			},
 			"backend_id": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "ID of the backend",
 			},
 			"min_disk": schema.Int64Attribute{
 				Computed:            true,
@@ -115,7 +115,7 @@ func (d *OpenstackImageDataSource) Schema(ctx context.Context, req datasource.Sc
 			},
 			"url": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Url",
 			},
 		},
 	}

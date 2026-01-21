@@ -238,27 +238,27 @@ func (d *OpenstackSecurityGroupDataSource) Schema(ctx context.Context, req datas
 			},
 			"access_url": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Access url",
 			},
 			"created": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Created",
 			},
 			"error_message": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Error message",
 			},
 			"error_traceback": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Error traceback",
 			},
 			"modified": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Modified",
 			},
 			"resource_type": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Resource type",
 			},
 			"rules": schema.ListAttribute{
 				CustomType: types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
@@ -275,15 +275,15 @@ func (d *OpenstackSecurityGroupDataSource) Schema(ctx context.Context, req datas
 					"to_port":           types.Int64Type,
 				}}},
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Rules",
 			},
 			"tenant_name": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Name of the tenant",
 			},
 			"url": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Url",
 			},
 		},
 	}

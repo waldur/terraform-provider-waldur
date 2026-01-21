@@ -17,49 +17,49 @@ Openstack Port data source - lookup by name or UUID
 
 ### Optional
 
-- `admin_state_up` (Boolean)
-- `backend_id` (String)
-- `device_id` (String)
-- `device_owner` (String)
+- `admin_state_up` (Boolean) Admin state up
+- `backend_id` (String) ID of the backend
+- `device_id` (String) ID of the device
+- `device_owner` (String) Device owner
 - `exclude_subnet_uuids` (String) Exclude Subnet UUIDs (comma-separated)
 - `fixed_ips` (String) Search by fixed IP
 - `has_device_owner` (Boolean) Has device owner
 - `id` (String) Resource UUID
-- `mac_address` (String)
+- `mac_address` (String) Mac address
 - `name` (String) Name
 - `name_exact` (String) Name (exact)
 - `network_name` (String) Search by network name
 - `network_uuid` (String) Search by network UUID
 - `query` (String) Search by name, MAC address or backend ID
-- `status` (String)
+- `status` (String) Status
 - `tenant` (String) Tenant URL
 - `tenant_uuid` (String) Tenant UUID
 
 ### Read-Only
 
-- `access_url` (String)
-- `allowed_address_pairs` (List of Object) (see [below for nested schema](#nestedatt--allowed_address_pairs))
-- `created` (String)
-- `customer` (String)
-- `customer_abbreviation` (String)
-- `customer_name` (String)
-- `customer_native_name` (String)
-- `customer_uuid` (String)
-- `description` (String)
-- `error_message` (String)
-- `error_traceback` (String)
-- `floating_ips` (List of String)
-- `modified` (String)
+- `access_url` (String) Access url
+- `allowed_address_pairs` (List of Object) Allowed address pairs (see [below for nested schema](#nestedatt--allowed_address_pairs))
+- `created` (String) Created
+- `customer` (String) Customer
+- `customer_abbreviation` (String) Customer abbreviation
+- `customer_name` (String) Name of the customer
+- `customer_native_name` (String) Name of the customer native
+- `customer_uuid` (String) UUID of the customer
+- `description` (String) Description of the resource
+- `error_message` (String) Error message
+- `error_traceback` (String) Error traceback
+- `floating_ips` (List of String) Floating ips
+- `modified` (String) Modified
 - `network` (String) Network to which this port belongs
 - `port_security_enabled` (Boolean) If True, security groups and rules will be applied to this port
-- `project` (String)
-- `project_name` (String)
-- `project_uuid` (String)
-- `resource_type` (String)
-- `security_groups` (List of Object) (see [below for nested schema](#nestedatt--security_groups))
-- `state` (String)
-- `tenant_name` (String)
-- `url` (String)
+- `project` (String) Project
+- `project_name` (String) Name of the project
+- `project_uuid` (String) UUID of the project
+- `resource_type` (String) Resource type
+- `security_groups` (List of Object) Security groups (see [below for nested schema](#nestedatt--security_groups))
+- `state` (String) State
+- `tenant_name` (String) Name of the tenant
+- `url` (String) Url
 
 <a id="nestedatt--allowed_address_pairs"></a>
 ### Nested Schema for `allowed_address_pairs`

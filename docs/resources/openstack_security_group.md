@@ -17,29 +17,29 @@ Openstack Security Group resource
 
 ### Required
 
-- `name` (String)
-- `rules` (Attributes List) (see [below for nested schema](#nestedatt--rules))
+- `name` (String) Name of the resource
+- `rules` (Attributes List) Rules (see [below for nested schema](#nestedatt--rules))
 - `tenant` (String) Required path parameter for resource creation
 
 ### Optional
 
-- `description` (String)
+- `description` (String) Description of the resource
 - `timeouts` (Block, Optional) (see [below for nested schema](#nestedblock--timeouts))
 
 ### Read-Only
 
-- `access_url` (String)
-- `backend_id` (String)
-- `created` (String)
-- `error_message` (String)
-- `error_traceback` (String)
+- `access_url` (String) Access url
+- `backend_id` (String) ID of the backend
+- `created` (String) Created
+- `error_message` (String) Error message
+- `error_traceback` (String) Error traceback
 - `id` (String) Resource UUID (used as Terraform ID)
-- `modified` (String)
-- `resource_type` (String)
-- `state` (String)
-- `tenant_name` (String)
-- `tenant_uuid` (String)
-- `url` (String)
+- `modified` (String) Modified
+- `resource_type` (String) Resource type
+- `state` (String) State
+- `tenant_name` (String) Name of the tenant
+- `tenant_uuid` (String) UUID of the tenant
+- `url` (String) Url
 
 <a id="nestedatt--rules"></a>
 ### Nested Schema for `rules`
@@ -47,7 +47,7 @@ Openstack Security Group resource
 Optional:
 
 - `cidr` (String) CIDR notation for the source/destination network address range
-- `description` (String)
+- `description` (String) Description of the resource
 - `direction` (String) Traffic direction - either 'ingress' (incoming) or 'egress' (outgoing)
 - `ethertype` (String) IP protocol version - either 'IPv4' or 'IPv6'
 - `from_port` (Number) Starting port number in the range (1-65535)

@@ -17,31 +17,31 @@ Openstack Server Group resource
 
 ### Required
 
-- `name` (String)
+- `name` (String) Name of the resource
 - `tenant` (String) Required path parameter for resource creation
 
 ### Optional
 
-- `description` (String)
+- `description` (String) Description of the resource
 - `policy` (String) Server group policy determining the rules for scheduling servers in this group
 - `timeouts` (Block, Optional) (see [below for nested schema](#nestedblock--timeouts))
 
 ### Read-Only
 
-- `access_url` (String)
-- `backend_id` (String)
-- `created` (String)
-- `display_name` (String)
-- `error_message` (String)
-- `error_traceback` (String)
+- `access_url` (String) Access url
+- `backend_id` (String) ID of the backend
+- `created` (String) Created
+- `display_name` (String) Name of the display
+- `error_message` (String) Error message
+- `error_traceback` (String) Error traceback
 - `id` (String) Resource UUID (used as Terraform ID)
-- `instances` (Attributes List) (see [below for nested schema](#nestedatt--instances))
-- `modified` (String)
-- `resource_type` (String)
-- `state` (String)
-- `tenant_name` (String)
-- `tenant_uuid` (String)
-- `url` (String)
+- `instances` (Attributes List) Instances (see [below for nested schema](#nestedatt--instances))
+- `modified` (String) Modified
+- `resource_type` (String) Resource type
+- `state` (String) State
+- `tenant_name` (String) Name of the tenant
+- `tenant_uuid` (String) UUID of the tenant
+- `url` (String) Url
 
 <a id="nestedblock--timeouts"></a>
 ### Nested Schema for `timeouts`
@@ -59,4 +59,4 @@ Optional:
 Optional:
 
 - `backend_id` (String) Instance ID in the OpenStack backend
-- `name` (String)
+- `name` (String) Name of the resource

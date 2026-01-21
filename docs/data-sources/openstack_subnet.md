@@ -26,10 +26,10 @@ Openstack Subnet data source - lookup by name or UUID
 - `customer_uuid` (String) Customer UUID
 - `description` (String) Description
 - `direct_only` (Boolean) Direct only
-- `enable_dhcp` (Boolean)
+- `enable_dhcp` (Boolean) Enable dhcp
 - `external_ip` (String) External IP
 - `id` (String) Resource UUID
-- `ip_version` (Number)
+- `ip_version` (Number) Ip version
 - `name` (String) Name
 - `name_exact` (String) Name (exact)
 - `network` (String) Network URL
@@ -47,22 +47,22 @@ Openstack Subnet data source - lookup by name or UUID
 
 ### Read-Only
 
-- `access_url` (String)
-- `allocation_pools` (List of Object) (see [below for nested schema](#nestedatt--allocation_pools))
-- `cidr` (String)
-- `created` (String)
+- `access_url` (String) Access url
+- `allocation_pools` (List of Object) Allocation pools (see [below for nested schema](#nestedatt--allocation_pools))
+- `cidr` (String) Cidr
+- `created` (String) Created
 - `disable_gateway` (Boolean) If True, no gateway IP address will be allocated
-- `dns_nameservers` (List of String)
-- `error_message` (String)
-- `error_traceback` (String)
+- `dns_nameservers` (List of String) Dns nameservers
+- `error_message` (String) Error message
+- `error_traceback` (String) Error traceback
 - `gateway_ip` (String) IP address of the gateway for this subnet
-- `host_routes` (List of Object) (see [below for nested schema](#nestedatt--host_routes))
+- `host_routes` (List of Object) Host routes (see [below for nested schema](#nestedatt--host_routes))
 - `is_connected` (Boolean) Is subnet connected to the default tenant router.
-- `modified` (String)
-- `network_name` (String)
-- `resource_type` (String)
-- `tenant_name` (String)
-- `url` (String)
+- `modified` (String) Modified
+- `network_name` (String) Name of the network
+- `resource_type` (String) Resource type
+- `tenant_name` (String) Name of the tenant
+- `url` (String) Url
 
 <a id="nestedatt--allocation_pools"></a>
 ### Nested Schema for `allocation_pools`

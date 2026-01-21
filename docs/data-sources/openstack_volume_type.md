@@ -28,5 +28,5 @@ Openstack Volume Type data source - lookup by name or UUID
 
 ### Read-Only
 
-- `description` (String)
-- `url` (String)
+- `description` (String) Description of the resource
+- `url` (String) Url

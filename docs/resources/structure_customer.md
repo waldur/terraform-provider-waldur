@@ -17,39 +17,39 @@ Structure Customer resource
 
 ### Required
 
-- `name` (String)
+- `name` (String) Name of the resource
 
 ### Optional
 
-- `abbreviation` (String)
+- `abbreviation` (String) Abbreviation
 - `access_subnets` (String) Enter a comma separated list of IPv4 or IPv6 CIDR addresses from where connection to self-service is allowed.
-- `accounting_start_date` (String)
-- `address` (String)
-- `agreement_number` (String)
-- `archived` (Boolean)
+- `accounting_start_date` (String) Accounting start date
+- `address` (String) Address
+- `agreement_number` (String) Agreement number
+- `archived` (Boolean) Archived
 - `backend_id` (String) Organization identifier in another application.
-- `bank_account` (String)
-- `bank_name` (String)
-- `blocked` (Boolean)
-- `contact_details` (String)
+- `bank_account` (String) Bank account
+- `bank_name` (String) Name of the bank
+- `blocked` (Boolean) Blocked
+- `contact_details` (String) Contact details
 - `country` (String) Country code (ISO 3166-1 alpha-2)
-- `default_tax_percent` (String)
-- `description` (String)
-- `display_billing_info_in_projects` (Boolean)
-- `domain` (String)
-- `email` (String)
+- `default_tax_percent` (String) Default tax percent
+- `description` (String) Description of the resource
+- `display_billing_info_in_projects` (Boolean) Display billing info in projects
+- `domain` (String) Domain
+- `email` (String) Email
 - `grace_period_days` (Number) Number of extra days after project end date before resources are terminated
-- `homepage` (String)
-- `image` (String)
-- `latitude` (Number)
-- `longitude` (Number)
+- `homepage` (String) Homepage
+- `image` (String) Image
+- `latitude` (Number) Latitude
+- `longitude` (Number) Longitude
 - `max_service_accounts` (Number) Maximum number of service accounts allowed
-- `native_name` (String)
+- `native_name` (String) Name of the native
 - `notification_emails` (String) Comma-separated list of notification email addresses
-- `phone_number` (String)
-- `postal` (String)
+- `phone_number` (String) Phone number
+- `postal` (String) Postal
 - `project_metadata_checklist` (String) Checklist to be used for project metadata validation in this organization
-- `registration_code` (String)
+- `registration_code` (String) Registration code
 - `slug` (String) URL-friendly identifier. Only editable by staff users.
 - `sponsor_number` (Number) External ID of the sponsor covering the costs
 - `timeouts` (Block, Optional) (see [below for nested schema](#nestedblock--timeouts))
@@ -57,20 +57,20 @@ Structure Customer resource
 
 ### Read-Only
 
-- `call_managing_organization_uuid` (String)
+- `call_managing_organization_uuid` (String) UUID of the call managing organization
 - `country_name` (String) Human-readable country name
-- `created` (String)
-- `customer_credit` (Number)
-- `customer_unallocated_credit` (Number)
+- `created` (String) Created
+- `customer_credit` (Number) Customer credit
+- `customer_unallocated_credit` (Number) Customer unallocated credit
 - `display_name` (String) Display name of the organization (includes native name if available)
 - `id` (String) Resource UUID (used as Terraform ID)
-- `is_service_provider` (Boolean)
+- `is_service_provider` (Boolean) Is service provider
 - `organization_groups` (Attributes List) Organization groups this customer belongs to (see [below for nested schema](#nestedatt--organization_groups))
-- `payment_profiles` (Attributes List) (see [below for nested schema](#nestedatt--payment_profiles))
+- `payment_profiles` (Attributes List) Payment profiles (see [below for nested schema](#nestedatt--payment_profiles))
 - `projects_count` (Number) Number of projects in this organization
-- `service_provider` (String)
-- `service_provider_uuid` (String)
-- `url` (String)
+- `service_provider` (String) Service provider
+- `service_provider_uuid` (String) UUID of the service provider
+- `url` (String) Url
 - `users_count` (Number) Number of users with access to this organization
 
 <a id="nestedblock--timeouts"></a>
@@ -88,15 +88,15 @@ Optional:
 
 Optional:
 
-- `name` (String)
-- `parent` (String)
+- `name` (String) Name of the resource
+- `parent` (String) Parent
 
 Read-Only:
 
 - `customers_count` (Number) Number of customers in this organization group
 - `parent_name` (String) Name of the parent organization group
 - `parent_uuid` (String) UUID of the parent organization group
-- `url` (String)
+- `url` (String) Url
 
 
 <a id="nestedatt--payment_profiles"></a>
@@ -104,23 +104,23 @@ Read-Only:
 
 Optional:
 
-- `attributes` (Attributes) (see [below for nested schema](#nestedatt--payment_profiles--attributes))
-- `is_active` (Boolean)
-- `name` (String)
-- `organization` (String)
-- `payment_type` (String)
+- `attributes` (Attributes) Attributes (see [below for nested schema](#nestedatt--payment_profiles--attributes))
+- `is_active` (Boolean) Is active
+- `name` (String) Name of the resource
+- `organization` (String) Organization
+- `payment_type` (String) Payment type
 
 Read-Only:
 
-- `organization_uuid` (String)
-- `payment_type_display` (String)
-- `url` (String)
+- `organization_uuid` (String) UUID of the organization
+- `payment_type_display` (String) Payment type display
+- `url` (String) Url
 
 <a id="nestedatt--payment_profiles--attributes"></a>
 ### Nested Schema for `payment_profiles.attributes`
 
 Optional:
 
-- `agreement_number` (String)
-- `contract_sum` (Number)
-- `end_date` (String)
+- `agreement_number` (String) Agreement number
+- `contract_sum` (Number) Contract sum
+- `end_date` (String) End date

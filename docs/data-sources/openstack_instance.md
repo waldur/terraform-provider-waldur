@@ -35,7 +35,7 @@ Openstack Instance data source - lookup by name or UUID
 - `project_name` (String) Project name
 - `project_uuid` (String) Project UUID
 - `query` (String) Search by name, internal IP, or external IP
-- `runtime_state` (String)
+- `runtime_state` (String) Runtime state
 - `service_settings_name` (String) Service settings name
 - `service_settings_uuid` (String) Service settings UUID
 - `state` (String) State
@@ -45,50 +45,50 @@ Openstack Instance data source - lookup by name or UUID
 
 ### Read-Only
 
-- `access_url` (String)
-- `action` (String)
+- `access_url` (String) Access url
+- `action` (String) Action
 - `availability_zone` (String) Availability zone where this instance is located
 - `connect_directly_to_external_network` (Boolean) If True, instance will be connected directly to external network
 - `cores` (Number) Number of cores in a VM
-- `created` (String)
+- `created` (String) Created
 - `disk` (Number) Disk size in MiB
-- `error_message` (String)
-- `error_traceback` (String)
-- `external_address` (List of String)
-- `external_ips` (List of String)
+- `error_message` (String) Error message
+- `error_traceback` (String) Error traceback
+- `external_address` (List of String) External address
+- `external_ips` (List of String) External ips
 - `flavor_disk` (Number) Flavor disk size in MiB
 - `flavor_name` (String) Name of the flavor used by this instance
-- `floating_ips` (List of Object) (see [below for nested schema](#nestedatt--floating_ips))
+- `floating_ips` (List of Object) Floating ips (see [below for nested schema](#nestedatt--floating_ips))
 - `hypervisor_hostname` (String) Name of the hypervisor hosting this instance
-- `image_name` (String)
-- `internal_ips` (List of String)
-- `is_limit_based` (Boolean)
-- `is_usage_based` (Boolean)
-- `key_fingerprint` (String)
-- `key_name` (String)
-- `latitude` (Number)
-- `longitude` (Number)
-- `marketplace_category_name` (String)
-- `marketplace_category_uuid` (String)
-- `marketplace_offering_name` (String)
-- `marketplace_offering_uuid` (String)
-- `marketplace_plan_uuid` (String)
-- `marketplace_resource_state` (String)
-- `marketplace_resource_uuid` (String)
+- `image_name` (String) Name of the image
+- `internal_ips` (List of String) Internal ips
+- `is_limit_based` (Boolean) Is limit based
+- `is_usage_based` (Boolean) Is usage based
+- `key_fingerprint` (String) Key fingerprint
+- `key_name` (String) Name of the key
+- `latitude` (Number) Latitude
+- `longitude` (Number) Longitude
+- `marketplace_category_name` (String) Name of the marketplace category
+- `marketplace_category_uuid` (String) UUID of the marketplace category
+- `marketplace_offering_name` (String) Name of the marketplace offering
+- `marketplace_offering_uuid` (String) UUID of the marketplace offering
+- `marketplace_plan_uuid` (String) UUID of the marketplace plan
+- `marketplace_resource_state` (String) Marketplace resource state
+- `marketplace_resource_uuid` (String) UUID of the marketplace resource
 - `min_disk` (Number) Minimum disk size in MiB
 - `min_ram` (Number) Minimum memory size in MiB
-- `modified` (String)
-- `ports` (List of Object) (see [below for nested schema](#nestedatt--ports))
+- `modified` (String) Modified
+- `ports` (List of Object) Ports (see [below for nested schema](#nestedatt--ports))
 - `ram` (Number) Memory size in MiB
-- `resource_type` (String)
-- `security_groups` (List of Object) (see [below for nested schema](#nestedatt--security_groups))
-- `server_group` (Object) (see [below for nested schema](#nestedatt--server_group))
-- `service_name` (String)
+- `resource_type` (String) Resource type
+- `security_groups` (List of Object) Security groups (see [below for nested schema](#nestedatt--security_groups))
+- `server_group` (Object) Server group (see [below for nested schema](#nestedatt--server_group))
+- `service_name` (String) Name of the service
 - `service_settings` (String) OpenStack provider settings
-- `service_settings_error_message` (String)
-- `service_settings_state` (String)
-- `start_time` (String)
-- `url` (String)
+- `service_settings_error_message` (String) Service settings error message
+- `service_settings_state` (String) Service settings state
+- `start_time` (String) Start time
+- `url` (String) Url
 - `user_data` (String) Additional data that will be added to instance on provisioning
 - `volumes` (List of Object) List of volumes attached to the instance (see [below for nested schema](#nestedatt--volumes))
 

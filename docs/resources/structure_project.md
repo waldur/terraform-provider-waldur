@@ -17,40 +17,40 @@ Structure Project resource
 
 ### Required
 
-- `customer` (String)
-- `name` (String)
+- `customer` (String) Customer
+- `name` (String) Name of the resource
 
 ### Optional
 
-- `backend_id` (String)
+- `backend_id` (String) ID of the backend
 - `description` (String) Project description (HTML content will be sanitized)
 - `end_date` (String) Project end date. Setting this field requires DELETE_PROJECT permission.
 - `grace_period_days` (Number) Number of extra days after project end date before resources are terminated. Overrides customer-level setting.
-- `image` (String)
-- `is_industry` (Boolean)
-- `kind` (String)
-- `oecd_fos_2007_code` (String)
+- `image` (String) Image
+- `is_industry` (Boolean) Is industry
+- `kind` (String) Kind
+- `oecd_fos_2007_code` (String) Oecd fos 2007 code
 - `slug` (String) URL-friendly identifier. Only editable by staff users.
 - `staff_notes` (String) Internal notes visible only to staff and support users (HTML content will be sanitized)
 - `start_date` (String) Project start date. Cannot be edited after the start date has arrived.
 - `timeouts` (Block, Optional) (see [below for nested schema](#nestedblock--timeouts))
-- `type` (String)
+- `type` (String) Type
 
 ### Read-Only
 
-- `created` (String)
-- `customer_display_billing_info_in_projects` (Boolean)
-- `customer_slug` (String)
-- `end_date_requested_by` (String)
+- `created` (String) Created
+- `customer_display_billing_info_in_projects` (Boolean) Customer display billing info in projects
+- `customer_slug` (String) Customer slug
+- `end_date_requested_by` (String) End date requested by
 - `id` (String) Resource UUID (used as Terraform ID)
-- `is_removed` (Boolean)
+- `is_removed` (Boolean) Is removed
 - `max_service_accounts` (Number) Maximum number of service accounts allowed
 - `oecd_fos_2007_label` (String) Human-readable label for the OECD FOS 2007 classification code
-- `project_credit` (Number)
+- `project_credit` (Number) Project credit
 - `resources_count` (Number) Number of active resources in this project
-- `type_name` (String)
-- `type_uuid` (String)
-- `url` (String)
+- `type_name` (String) Name of the type
+- `type_uuid` (String) UUID of the type
+- `url` (String) Url
 
 <a id="nestedblock--timeouts"></a>
 ### Nested Schema for `timeouts`

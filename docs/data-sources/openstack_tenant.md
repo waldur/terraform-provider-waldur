@@ -39,32 +39,32 @@ Openstack Tenant data source - lookup by name or UUID
 
 ### Read-Only
 
-- `access_url` (String)
+- `access_url` (String) Access url
 - `availability_zone` (String) Optional availability group. Will be used for all instances provisioned in this tenant
-- `created` (String)
+- `created` (String) Created
 - `default_volume_type_name` (String) Volume type name to use when creating volumes.
-- `error_message` (String)
-- `error_traceback` (String)
+- `error_message` (String) Error message
+- `error_traceback` (String) Error traceback
 - `external_network_id` (String) ID of external network connected to OpenStack tenant
 - `internal_network_id` (String) ID of internal network in OpenStack tenant
-- `is_limit_based` (Boolean)
-- `is_usage_based` (Boolean)
-- `marketplace_category_name` (String)
-- `marketplace_category_uuid` (String)
-- `marketplace_offering_name` (String)
-- `marketplace_offering_uuid` (String)
-- `marketplace_plan_uuid` (String)
-- `marketplace_resource_state` (String)
-- `marketplace_resource_uuid` (String)
-- `modified` (String)
-- `quotas` (List of Object) (see [below for nested schema](#nestedatt--quotas))
-- `resource_type` (String)
-- `service_name` (String)
-- `service_settings` (String)
-- `service_settings_error_message` (String)
-- `service_settings_state` (String)
-- `skip_creation_of_default_router` (Boolean)
-- `url` (String)
+- `is_limit_based` (Boolean) Is limit based
+- `is_usage_based` (Boolean) Is usage based
+- `marketplace_category_name` (String) Name of the marketplace category
+- `marketplace_category_uuid` (String) UUID of the marketplace category
+- `marketplace_offering_name` (String) Name of the marketplace offering
+- `marketplace_offering_uuid` (String) UUID of the marketplace offering
+- `marketplace_plan_uuid` (String) UUID of the marketplace plan
+- `marketplace_resource_state` (String) Marketplace resource state
+- `marketplace_resource_uuid` (String) UUID of the marketplace resource
+- `modified` (String) Modified
+- `quotas` (List of Object) Quotas (see [below for nested schema](#nestedatt--quotas))
+- `resource_type` (String) Resource type
+- `service_name` (String) Name of the service
+- `service_settings` (String) Service settings
+- `service_settings_error_message` (String) Service settings error message
+- `service_settings_state` (String) Service settings state
+- `skip_creation_of_default_router` (Boolean) Skip creation of default router
+- `url` (String) Url
 - `user_password` (String) Password of the tenant user
 - `user_username` (String) Username of the tenant user
 

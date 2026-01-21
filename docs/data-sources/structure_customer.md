@@ -18,9 +18,9 @@ Structure Customer data source - lookup by name or UUID
 ### Optional
 
 - `abbreviation` (String) Abbreviation
-- `agreement_number` (String)
-- `archived` (Boolean)
-- `backend_id` (String)
+- `agreement_number` (String) Agreement number
+- `archived` (Boolean) Archived
+- `backend_id` (String) ID of the backend
 - `contact_details` (String) Contact details
 - `id` (String) Resource UUID
 - `name` (String) Name
@@ -30,47 +30,47 @@ Structure Customer data source - lookup by name or UUID
 - `organization_group_uuid` (String) Organization group UUID
 - `owned_by_current_user` (Boolean) Return a list of customers where current user is owner.
 - `query` (String) Filter by name, native name, abbreviation, domain, UUID, registration code or agreement number
-- `registration_code` (String)
+- `registration_code` (String) Registration code
 
 ### Read-Only
 
 - `access_subnets` (String) Enter a comma separated list of IPv4 or IPv6 CIDR addresses from where connection to self-service is allowed.
-- `accounting_start_date` (String)
-- `address` (String)
-- `bank_account` (String)
-- `bank_name` (String)
-- `blocked` (Boolean)
-- `call_managing_organization_uuid` (String)
+- `accounting_start_date` (String) Accounting start date
+- `address` (String) Address
+- `bank_account` (String) Bank account
+- `bank_name` (String) Name of the bank
+- `blocked` (Boolean) Blocked
+- `call_managing_organization_uuid` (String) UUID of the call managing organization
 - `country` (String) Country code (ISO 3166-1 alpha-2)
 - `country_name` (String) Human-readable country name
-- `created` (String)
-- `customer_credit` (Number)
-- `customer_unallocated_credit` (Number)
-- `default_tax_percent` (String)
-- `description` (String)
-- `display_billing_info_in_projects` (Boolean)
+- `created` (String) Created
+- `customer_credit` (Number) Customer credit
+- `customer_unallocated_credit` (Number) Customer unallocated credit
+- `default_tax_percent` (String) Default tax percent
+- `description` (String) Description of the resource
+- `display_billing_info_in_projects` (Boolean) Display billing info in projects
 - `display_name` (String) Display name of the organization (includes native name if available)
-- `domain` (String)
-- `email` (String)
+- `domain` (String) Domain
+- `email` (String) Email
 - `grace_period_days` (Number) Number of extra days after project end date before resources are terminated
-- `homepage` (String)
-- `image` (String)
-- `is_service_provider` (Boolean)
-- `latitude` (Number)
-- `longitude` (Number)
+- `homepage` (String) Homepage
+- `image` (String) Image
+- `is_service_provider` (Boolean) Is service provider
+- `latitude` (Number) Latitude
+- `longitude` (Number) Longitude
 - `max_service_accounts` (Number) Maximum number of service accounts allowed
 - `notification_emails` (String) Comma-separated list of notification email addresses
 - `organization_groups` (List of Object) Organization groups this customer belongs to (see [below for nested schema](#nestedatt--organization_groups))
-- `payment_profiles` (List of Object) (see [below for nested schema](#nestedatt--payment_profiles))
-- `phone_number` (String)
-- `postal` (String)
+- `payment_profiles` (List of Object) Payment profiles (see [below for nested schema](#nestedatt--payment_profiles))
+- `phone_number` (String) Phone number
+- `postal` (String) Postal
 - `project_metadata_checklist` (String) Checklist to be used for project metadata validation in this organization
 - `projects_count` (Number) Number of projects in this organization
-- `service_provider` (String)
-- `service_provider_uuid` (String)
+- `service_provider` (String) Service provider
+- `service_provider_uuid` (String) UUID of the service provider
 - `slug` (String) URL-friendly identifier. Only editable by staff users.
 - `sponsor_number` (Number) External ID of the sponsor covering the costs
-- `url` (String)
+- `url` (String) Url
 - `users_count` (Number) Number of users with access to this organization
 - `vat_code` (String) VAT number
 

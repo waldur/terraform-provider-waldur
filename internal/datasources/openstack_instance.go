@@ -408,7 +408,7 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 			"runtime_state": schema.StringAttribute{
 				Optional:            true,
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Runtime state",
 			},
 			"service_settings_name": schema.StringAttribute{
 				Optional:            true,
@@ -442,11 +442,11 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 			},
 			"access_url": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Access url",
 			},
 			"action": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Action",
 			},
 			"availability_zone": schema.StringAttribute{
 				Computed:            true,
@@ -462,7 +462,7 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 			},
 			"created": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Created",
 			},
 			"disk": schema.Int64Attribute{
 				Computed:            true,
@@ -470,21 +470,21 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 			},
 			"error_message": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Error message",
 			},
 			"error_traceback": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Error traceback",
 			},
 			"external_address": schema.ListAttribute{
 				CustomType:          types.ListType{ElemType: types.StringType},
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "External address",
 			},
 			"external_ips": schema.ListAttribute{
 				CustomType:          types.ListType{ElemType: types.StringType},
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "External ips",
 			},
 			"flavor_disk": schema.Int64Attribute{
 				Computed:            true,
@@ -510,7 +510,7 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 					"url":                types.StringType,
 				}}},
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Floating ips",
 			},
 			"hypervisor_hostname": schema.StringAttribute{
 				Computed:            true,
@@ -518,64 +518,64 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 			},
 			"image_name": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Name of the image",
 			},
 			"internal_ips": schema.ListAttribute{
 				CustomType:          types.ListType{ElemType: types.StringType},
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Internal ips",
 			},
 			"is_limit_based": schema.BoolAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Is limit based",
 			},
 			"is_usage_based": schema.BoolAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Is usage based",
 			},
 			"key_fingerprint": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Key fingerprint",
 			},
 			"key_name": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Name of the key",
 			},
 			"latitude": schema.Float64Attribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Latitude",
 			},
 			"longitude": schema.Float64Attribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Longitude",
 			},
 			"marketplace_category_name": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Name of the marketplace category",
 			},
 			"marketplace_category_uuid": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "UUID of the marketplace category",
 			},
 			"marketplace_offering_name": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Name of the marketplace offering",
 			},
 			"marketplace_offering_uuid": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "UUID of the marketplace offering",
 			},
 			"marketplace_plan_uuid": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "UUID of the marketplace plan",
 			},
 			"marketplace_resource_state": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Marketplace resource state",
 			},
 			"marketplace_resource_uuid": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "UUID of the marketplace resource",
 			},
 			"min_disk": schema.Int64Attribute{
 				Computed:            true,
@@ -587,7 +587,7 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 			},
 			"modified": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Modified",
 			},
 			"ports": schema.ListAttribute{
 				CustomType: types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
@@ -660,7 +660,7 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 					"url":                types.StringType,
 				}}},
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Ports",
 			},
 			"ram": schema.Int64Attribute{
 				Computed:            true,
@@ -668,7 +668,7 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 			},
 			"resource_type": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Resource type",
 			},
 			"security_groups": schema.ListAttribute{
 				CustomType: types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
@@ -690,7 +690,7 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 					"url":   types.StringType,
 				}}},
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Security groups",
 			},
 			"server_group": schema.ObjectAttribute{
 				CustomType: types.ObjectType{AttrTypes: map[string]attr.Type{
@@ -700,11 +700,11 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 					"url":    types.StringType,
 				}},
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Server group",
 			},
 			"service_name": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Name of the service",
 			},
 			"service_settings": schema.StringAttribute{
 				Computed:            true,
@@ -712,19 +712,19 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 			},
 			"service_settings_error_message": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Service settings error message",
 			},
 			"service_settings_state": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Service settings state",
 			},
 			"start_time": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Start time",
 			},
 			"url": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Url",
 			},
 			"user_data": schema.StringAttribute{
 				Computed:            true,

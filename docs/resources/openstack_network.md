@@ -17,34 +17,34 @@ Openstack Network resource
 
 ### Required
 
-- `name` (String)
+- `name` (String) Name of the resource
 - `tenant` (String) Required path parameter for resource creation
 
 ### Optional
 
-- `description` (String)
+- `description` (String) Description of the resource
 - `timeouts` (Block, Optional) (see [below for nested schema](#nestedblock--timeouts))
 
 ### Read-Only
 
-- `access_url` (String)
-- `backend_id` (String)
-- `created` (String)
-- `error_message` (String)
-- `error_traceback` (String)
+- `access_url` (String) Access url
+- `backend_id` (String) ID of the backend
+- `created` (String) Created
+- `error_message` (String) Error message
+- `error_traceback` (String) Error traceback
 - `id` (String) Resource UUID (used as Terraform ID)
 - `is_external` (Boolean) Defines whether this network is external (public) or internal (private)
-- `modified` (String)
+- `modified` (String) Modified
 - `mtu` (Number) The maximum transmission unit (MTU) value to address fragmentation.
-- `rbac_policies` (Attributes List) (see [below for nested schema](#nestedatt--rbac_policies))
-- `resource_type` (String)
+- `rbac_policies` (Attributes List) Rbac policies (see [below for nested schema](#nestedatt--rbac_policies))
+- `resource_type` (String) Resource type
 - `segmentation_id` (Number) VLAN ID for VLAN networks or tunnel ID for VXLAN/GRE networks
-- `state` (String)
-- `subnets` (Attributes List) (see [below for nested schema](#nestedatt--subnets))
-- `tenant_name` (String)
-- `tenant_uuid` (String)
+- `state` (String) State
+- `subnets` (Attributes List) Subnets (see [below for nested schema](#nestedatt--subnets))
+- `tenant_name` (String) Name of the tenant
+- `tenant_uuid` (String) UUID of the tenant
 - `type` (String) Network type, such as local, flat, vlan, vxlan, or gre
-- `url` (String)
+- `url` (String) Url
 
 <a id="nestedblock--timeouts"></a>
 ### Nested Schema for `timeouts`
@@ -61,17 +61,17 @@ Optional:
 
 Optional:
 
-- `network` (String)
+- `network` (String) Network
 - `policy_type` (String) Type of access granted - either shared access or external network access
-- `target_tenant` (String)
+- `target_tenant` (String) Target tenant
 
 Read-Only:
 
-- `backend_id` (String)
-- `created` (String)
-- `network_name` (String)
-- `target_tenant_name` (String)
-- `url` (String)
+- `backend_id` (String) ID of the backend
+- `created` (String) Created
+- `network_name` (String) Name of the network
+- `target_tenant_name` (String) Name of the target tenant
+- `url` (String) Url
 
 
 <a id="nestedatt--subnets"></a>
@@ -80,15 +80,15 @@ Read-Only:
 Optional:
 
 - `cidr` (String) IPv4 network address in CIDR format (e.g. 192.168.0.0/24)
-- `description` (String)
+- `description` (String) Description of the resource
 - `enable_dhcp` (Boolean) If True, DHCP service will be enabled on this subnet
 - `gateway_ip` (String) IP address of the gateway for this subnet
 - `ip_version` (Number) IP protocol version (4 or 6)
-- `name` (String)
+- `name` (String) Name of the resource
 
 Read-Only:
 
-- `allocation_pools` (Attributes List) (see [below for nested schema](#nestedatt--subnets--allocation_pools))
+- `allocation_pools` (Attributes List) Allocation pools (see [below for nested schema](#nestedatt--subnets--allocation_pools))
 
 <a id="nestedatt--subnets--allocation_pools"></a>
 ### Nested Schema for `subnets.allocation_pools`

@@ -18,66 +18,66 @@ Openstack Volume resource
 ### Required
 
 - `offering` (String) Offering URL
-- `project` (String)
+- `project` (String) Project
 
 ### Optional
 
 - `availability_zone` (String) Availability zone where this volume is located
-- `description` (String)
+- `description` (String) Description of the resource
 - `image` (String) Image that this volume was created from, if any
-- `name` (String)
+- `name` (String) Name of the resource
 - `size` (Number) Size in MiB
 - `timeouts` (Block, Optional) (see [below for nested schema](#nestedblock--timeouts))
 - `type` (String) Type of the volume (e.g. SSD, HDD)
 
 ### Read-Only
 
-- `access_url` (String)
-- `action` (String)
-- `availability_zone_name` (String)
+- `access_url` (String) Access url
+- `action` (String) Action
+- `availability_zone_name` (String) Name of the availability zone
 - `backend_id` (String) Volume ID in the OpenStack backend
 - `bootable` (Boolean) Indicates if this volume can be used to boot an instance
-- `created` (String)
-- `customer` (String)
-- `customer_abbreviation` (String)
-- `customer_name` (String)
-- `customer_native_name` (String)
-- `customer_uuid` (String)
+- `created` (String) Created
+- `customer` (String) Customer
+- `customer_abbreviation` (String) Customer abbreviation
+- `customer_name` (String) Name of the customer
+- `customer_native_name` (String) Name of the customer native
+- `customer_uuid` (String) UUID of the customer
 - `device` (String) Name of volume as instance device e.g. /dev/vdb.
-- `error_message` (String)
-- `error_traceback` (String)
-- `extend_enabled` (Boolean)
+- `error_message` (String) Error message
+- `error_traceback` (String) Error traceback
+- `extend_enabled` (Boolean) Extend enabled
 - `id` (String) Resource UUID (used as Terraform ID)
 - `image_metadata` (String) Metadata of the image this volume was created from
 - `image_name` (String) Name of the image this volume was created from
 - `instance` (String) Instance that this volume is attached to, if any
-- `instance_marketplace_uuid` (String)
-- `instance_name` (String)
-- `is_limit_based` (Boolean)
-- `is_usage_based` (Boolean)
-- `marketplace_category_name` (String)
-- `marketplace_category_uuid` (String)
-- `marketplace_offering_name` (String)
-- `marketplace_offering_uuid` (String)
-- `marketplace_plan_uuid` (String)
-- `marketplace_resource_state` (String)
-- `marketplace_resource_uuid` (String)
-- `modified` (String)
-- `project_name` (String)
-- `project_uuid` (String)
-- `resource_type` (String)
-- `runtime_state` (String)
-- `service_name` (String)
-- `service_settings` (String)
-- `service_settings_error_message` (String)
-- `service_settings_state` (String)
-- `service_settings_uuid` (String)
+- `instance_marketplace_uuid` (String) UUID of the instance marketplace
+- `instance_name` (String) Name of the instance
+- `is_limit_based` (Boolean) Is limit based
+- `is_usage_based` (Boolean) Is usage based
+- `marketplace_category_name` (String) Name of the marketplace category
+- `marketplace_category_uuid` (String) UUID of the marketplace category
+- `marketplace_offering_name` (String) Name of the marketplace offering
+- `marketplace_offering_uuid` (String) UUID of the marketplace offering
+- `marketplace_plan_uuid` (String) UUID of the marketplace plan
+- `marketplace_resource_state` (String) Marketplace resource state
+- `marketplace_resource_uuid` (String) UUID of the marketplace resource
+- `modified` (String) Modified
+- `project_name` (String) Name of the project
+- `project_uuid` (String) UUID of the project
+- `resource_type` (String) Resource type
+- `runtime_state` (String) Runtime state
+- `service_name` (String) Name of the service
+- `service_settings` (String) Service settings
+- `service_settings_error_message` (String) Service settings error message
+- `service_settings_state` (String) Service settings state
+- `service_settings_uuid` (String) UUID of the service settings
 - `source_snapshot` (String) Snapshot that this volume was created from, if any
-- `state` (String)
-- `tenant` (String)
-- `tenant_uuid` (String)
-- `type_name` (String)
-- `url` (String)
+- `state` (String) State
+- `tenant` (String) Tenant
+- `tenant_uuid` (String) UUID of the tenant
+- `type_name` (String) Name of the type
+- `url` (String) Url
 
 <a id="nestedblock--timeouts"></a>
 ### Nested Schema for `timeouts`

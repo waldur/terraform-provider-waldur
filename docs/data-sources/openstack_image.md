@@ -28,7 +28,7 @@ Openstack Image data source - lookup by name or UUID
 
 ### Read-Only
 
-- `backend_id` (String)
+- `backend_id` (String) ID of the backend
 - `min_disk` (Number) Minimum disk size in MiB
 - `min_ram` (Number) Minimum memory size in MiB
-- `url` (String)
+- `url` (String) Url

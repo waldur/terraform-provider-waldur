@@ -17,20 +17,20 @@ Openstack Flavor data source - lookup by name or UUID
 
 ### Optional
 
-- `cores` (Number)
-- `cores__gte` (Number)
-- `cores__lte` (Number)
-- `disk` (Number)
-- `disk__gte` (Number)
-- `disk__lte` (Number)
+- `cores` (Number) Cores
+- `cores__gte` (Number) Cores gte
+- `cores__lte` (Number) Cores lte
+- `disk` (Number) Disk
+- `disk__gte` (Number) Disk gte
+- `disk__lte` (Number) Disk lte
 - `id` (String) Resource UUID
 - `name` (String) Name
 - `name_exact` (String) Name (exact)
 - `name_iregex` (String) Name (regex)
 - `offering_uuid` (String) Offering UUID
-- `ram` (Number)
-- `ram__gte` (Number)
-- `ram__lte` (Number)
+- `ram` (Number) Ram
+- `ram__gte` (Number) Ram gte
+- `ram__lte` (Number) Ram lte
 - `settings` (String) Settings URL
 - `settings_uuid` (String) Settings UUID
 - `tenant` (String) Tenant URL
@@ -38,6 +38,6 @@ Openstack Flavor data source - lookup by name or UUID
 
 ### Read-Only
 
-- `backend_id` (String)
-- `display_name` (String)
-- `url` (String)
+- `backend_id` (String) ID of the backend
+- `display_name` (String) Name of the display
+- `url` (String) Url

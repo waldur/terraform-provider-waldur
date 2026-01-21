@@ -36,7 +36,7 @@ Openstack Volume data source - lookup by name or UUID
 - `project` (String) Project UUID
 - `project_name` (String) Project name
 - `project_uuid` (String) Project UUID
-- `runtime_state` (String)
+- `runtime_state` (String) Runtime state
 - `service_settings_name` (String) Service settings name
 - `service_settings_uuid` (String) Service settings UUID
 - `snapshot` (String) Snapshot URL
@@ -48,37 +48,37 @@ Openstack Volume data source - lookup by name or UUID
 
 ### Read-Only
 
-- `access_url` (String)
-- `action` (String)
+- `access_url` (String) Access url
+- `action` (String) Action
 - `availability_zone` (String) Availability zone where this volume is located
 - `bootable` (Boolean) Indicates if this volume can be used to boot an instance
-- `created` (String)
+- `created` (String) Created
 - `device` (String) Name of volume as instance device e.g. /dev/vdb.
-- `error_message` (String)
-- `error_traceback` (String)
-- `extend_enabled` (Boolean)
+- `error_message` (String) Error message
+- `error_traceback` (String) Error traceback
+- `extend_enabled` (Boolean) Extend enabled
 - `image` (String) Image that this volume was created from, if any
 - `image_metadata` (String) Metadata of the image this volume was created from
 - `image_name` (String) Name of the image this volume was created from
-- `instance_marketplace_uuid` (String)
-- `instance_name` (String)
-- `is_limit_based` (Boolean)
-- `is_usage_based` (Boolean)
-- `marketplace_category_name` (String)
-- `marketplace_category_uuid` (String)
-- `marketplace_offering_name` (String)
-- `marketplace_offering_uuid` (String)
-- `marketplace_plan_uuid` (String)
-- `marketplace_resource_state` (String)
-- `marketplace_resource_uuid` (String)
-- `modified` (String)
-- `resource_type` (String)
-- `service_name` (String)
-- `service_settings` (String)
-- `service_settings_error_message` (String)
-- `service_settings_state` (String)
+- `instance_marketplace_uuid` (String) UUID of the instance marketplace
+- `instance_name` (String) Name of the instance
+- `is_limit_based` (Boolean) Is limit based
+- `is_usage_based` (Boolean) Is usage based
+- `marketplace_category_name` (String) Name of the marketplace category
+- `marketplace_category_uuid` (String) UUID of the marketplace category
+- `marketplace_offering_name` (String) Name of the marketplace offering
+- `marketplace_offering_uuid` (String) UUID of the marketplace offering
+- `marketplace_plan_uuid` (String) UUID of the marketplace plan
+- `marketplace_resource_state` (String) Marketplace resource state
+- `marketplace_resource_uuid` (String) UUID of the marketplace resource
+- `modified` (String) Modified
+- `resource_type` (String) Resource type
+- `service_name` (String) Name of the service
+- `service_settings` (String) Service settings
+- `service_settings_error_message` (String) Service settings error message
+- `service_settings_state` (String) Service settings state
 - `size` (Number) Size in MiB
 - `source_snapshot` (String) Snapshot that this volume was created from, if any
 - `type` (String) Type of the volume (e.g. SSD, HDD)
-- `type_name` (String)
-- `url` (String)
+- `type_name` (String) Name of the type
+- `url` (String) Url

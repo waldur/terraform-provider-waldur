@@ -17,50 +17,50 @@ Openstack Port resource
 
 ### Required
 
-- `name` (String)
+- `name` (String) Name of the resource
 
 ### Optional
 
-- `allowed_address_pairs` (Attributes List) (see [below for nested schema](#nestedatt--allowed_address_pairs))
-- `description` (String)
-- `fixed_ips` (Attributes List) (see [below for nested schema](#nestedatt--fixed_ips))
+- `allowed_address_pairs` (Attributes List) Allowed address pairs (see [below for nested schema](#nestedatt--allowed_address_pairs))
+- `description` (String) Description of the resource
+- `fixed_ips` (Attributes List) Fixed ips (see [below for nested schema](#nestedatt--fixed_ips))
 - `mac_address` (String) MAC address of the port
 - `network` (String) Network to which this port belongs
 - `port_security_enabled` (Boolean) If True, security groups and rules will be applied to this port
-- `security_groups` (Attributes List) (see [below for nested schema](#nestedatt--security_groups))
+- `security_groups` (Attributes List) Security groups (see [below for nested schema](#nestedatt--security_groups))
 - `target_tenant` (String) Target tenant for shared network port creation. If not specified, defaults to network's tenant.
 - `timeouts` (Block, Optional) (see [below for nested schema](#nestedblock--timeouts))
 
 ### Read-Only
 
-- `access_url` (String)
+- `access_url` (String) Access url
 - `admin_state_up` (Boolean) Administrative state of the port. If down, port does not forward packets
 - `backend_id` (String) Port ID in OpenStack
-- `created` (String)
+- `created` (String) Created
 - `device_id` (String) ID of device (instance, router etc) to which this port is connected
 - `device_owner` (String) Entity that uses this port (e.g. network:router_interface)
-- `error_message` (String)
-- `error_traceback` (String)
-- `floating_ips` (List of String)
+- `error_message` (String) Error message
+- `error_traceback` (String) Error traceback
+- `floating_ips` (List of String) Floating ips
 - `id` (String) Resource UUID (used as Terraform ID)
-- `modified` (String)
-- `network_name` (String)
-- `network_uuid` (String)
-- `resource_type` (String)
-- `state` (String)
+- `modified` (String) Modified
+- `network_name` (String) Name of the network
+- `network_uuid` (String) UUID of the network
+- `resource_type` (String) Resource type
+- `state` (String) State
 - `status` (String) Port status in OpenStack (e.g. ACTIVE, DOWN)
 - `tenant` (String) OpenStack tenant this port belongs to
-- `tenant_name` (String)
-- `tenant_uuid` (String)
-- `url` (String)
+- `tenant_name` (String) Name of the tenant
+- `tenant_uuid` (String) UUID of the tenant
+- `url` (String) Url
 
 <a id="nestedatt--allowed_address_pairs"></a>
 ### Nested Schema for `allowed_address_pairs`
 
 Optional:
 
-- `ip_address` (String)
-- `mac_address` (String)
+- `ip_address` (String) Ip address
+- `mac_address` (String) Mac address
 
 
 <a id="nestedatt--fixed_ips"></a>
@@ -77,7 +77,7 @@ Required:
 
 Required:
 
-- `name` (String)
+- `name` (String) Name of the resource
 
 
 <a id="nestedblock--timeouts"></a>

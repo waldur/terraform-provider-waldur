@@ -17,7 +17,7 @@ Structure Project data source - lookup by name or UUID
 
 ### Optional
 
-- `backend_id` (String)
+- `backend_id` (String) ID of the backend
 - `can_admin` (Boolean) Return a list of projects where current user is admin.
 - `can_manage` (Boolean) Return a list of projects where current user is manager or a customer owner.
 - `conceal_finished_projects` (Boolean) Conceal finished projects
@@ -38,23 +38,23 @@ Structure Project data source - lookup by name or UUID
 
 ### Read-Only
 
-- `customer_display_billing_info_in_projects` (Boolean)
-- `customer_slug` (String)
-- `customer_uuid` (String)
+- `customer_display_billing_info_in_projects` (Boolean) Customer display billing info in projects
+- `customer_slug` (String) Customer slug
+- `customer_uuid` (String) UUID of the customer
 - `end_date` (String) Project end date. Setting this field requires DELETE_PROJECT permission.
-- `end_date_requested_by` (String)
+- `end_date_requested_by` (String) End date requested by
 - `grace_period_days` (Number) Number of extra days after project end date before resources are terminated. Overrides customer-level setting.
-- `image` (String)
-- `is_industry` (Boolean)
-- `kind` (String)
+- `image` (String) Image
+- `is_industry` (Boolean) Is industry
+- `kind` (String) Kind
 - `max_service_accounts` (Number) Maximum number of service accounts allowed
-- `oecd_fos_2007_code` (String)
+- `oecd_fos_2007_code` (String) Oecd fos 2007 code
 - `oecd_fos_2007_label` (String) Human-readable label for the OECD FOS 2007 classification code
-- `project_credit` (Number)
+- `project_credit` (Number) Project credit
 - `resources_count` (Number) Number of active resources in this project
 - `staff_notes` (String) Internal notes visible only to staff and support users (HTML content will be sanitized)
 - `start_date` (String) Project start date. Cannot be edited after the start date has arrived.
-- `type` (String)
-- `type_name` (String)
-- `type_uuid` (String)
-- `url` (String)
+- `type` (String) Type
+- `type_name` (String) Name of the type
+- `type_uuid` (String) UUID of the type
+- `url` (String) Url

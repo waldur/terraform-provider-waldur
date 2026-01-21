@@ -369,7 +369,7 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 			"can_create_offering_user": schema.BoolAttribute{
 				Optional:            true,
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Can create offering user",
 			},
 			"category_group_uuid": schema.StringAttribute{
 				Optional:            true,
@@ -507,7 +507,7 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 			},
 			"backend_id": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "ID of the backend",
 			},
 			"billing_type_classification": schema.StringAttribute{
 				Computed:            true,
@@ -515,11 +515,11 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 			},
 			"category": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Category",
 			},
 			"category_title": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Category title",
 			},
 			"citation_count": schema.Int64Attribute{
 				Computed:            true,
@@ -527,7 +527,7 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 			},
 			"compliance_checklist": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Compliance checklist",
 			},
 			"components": schema.ListAttribute{
 				CustomType: types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
@@ -553,7 +553,7 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 					"unit_factor":          types.Int64Type,
 				}}},
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Components",
 			},
 			"country": schema.StringAttribute{
 				Computed:            true,
@@ -561,11 +561,11 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 			},
 			"customer_name": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Name of the customer",
 			},
 			"datacite_doi": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Datacite doi",
 			},
 			"endpoints": schema.ListAttribute{
 				CustomType: types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
@@ -573,7 +573,7 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 					"url":  types.StringType,
 				}}},
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Endpoints",
 			},
 			"files": schema.ListAttribute{
 				CustomType: types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
@@ -582,19 +582,19 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 					"name":    types.StringType,
 				}}},
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Files",
 			},
 			"full_description": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Full description",
 			},
 			"getting_started": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Getting started",
 			},
 			"google_calendar_is_public": schema.BoolAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Google calendar is public",
 			},
 			"google_calendar_link": schema.StringAttribute{
 				Computed:            true,
@@ -602,27 +602,27 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 			},
 			"has_compliance_requirements": schema.BoolAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Has compliance requirements",
 			},
 			"image": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Image",
 			},
 			"integration_guide": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Integration guide",
 			},
 			"latitude": schema.Float64Attribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Latitude",
 			},
 			"longitude": schema.Float64Attribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Longitude",
 			},
 			"order_count": schema.Int64Attribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Order count",
 			},
 			"organization_groups": schema.ListAttribute{
 				CustomType: types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
@@ -634,15 +634,15 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 					"url":             types.StringType,
 				}}},
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Organization groups",
 			},
 			"parent_description": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Parent description",
 			},
 			"parent_name": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Name of the parent",
 			},
 			"partitions": schema.ListAttribute{
 				CustomType: types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
@@ -668,11 +668,11 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 					"req_resv":            types.BoolType,
 				}}},
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Partitions",
 			},
 			"paused_reason": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Paused reason",
 			},
 			"plans": schema.ListAttribute{
 				CustomType: types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
@@ -711,19 +711,19 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 					"url":             types.StringType,
 				}}},
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Plans",
 			},
 			"privacy_policy_link": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Privacy policy link",
 			},
 			"project": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Project",
 			},
 			"project_name": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Name of the project",
 			},
 			"promotion_campaigns": schema.ListAttribute{
 				CustomType: types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
@@ -738,7 +738,7 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 					"stock":            types.Int64Type,
 				}}},
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Promotion campaigns",
 			},
 			"quotas": schema.ListAttribute{
 				CustomType: types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
@@ -747,7 +747,7 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 					"usage": types.Int64Type,
 				}}},
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Quotas",
 			},
 			"roles": schema.ListAttribute{
 				CustomType: types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
@@ -755,23 +755,23 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 					"url":  types.StringType,
 				}}},
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Roles",
 			},
 			"scope": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Scope",
 			},
 			"scope_error_message": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Scope error message",
 			},
 			"scope_name": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Name of the scope",
 			},
 			"scope_state": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Scope state",
 			},
 			"screenshots": schema.ListAttribute{
 				CustomType: types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
@@ -782,7 +782,7 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 					"thumbnail":   types.StringType,
 				}}},
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Screenshots",
 			},
 			"slug": schema.StringAttribute{
 				Computed:            true,
@@ -803,31 +803,31 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 					}},
 				}}},
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Software catalogs",
 			},
 			"thumbnail": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Thumbnail",
 			},
 			"total_cost": schema.Int64Attribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Total cost",
 			},
 			"total_cost_estimated": schema.Int64Attribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Total cost estimated",
 			},
 			"total_customers": schema.Int64Attribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Total customers",
 			},
 			"url": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Url",
 			},
 			"vendor_details": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Vendor details",
 			},
 		},
 	}
