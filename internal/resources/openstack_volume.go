@@ -13,7 +13,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -186,7 +185,6 @@ func (r *OpenstackVolumeResource) Schema(ctx context.Context, req resource.Schem
 			},
 			"availability_zone": schema.StringAttribute{
 				Optional: true,
-				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
 				},
@@ -256,11 +254,7 @@ func (r *OpenstackVolumeResource) Schema(ctx context.Context, req resource.Schem
 				MarkdownDescription: "UUID of the customer",
 			},
 			"description": schema.StringAttribute{
-				Optional: true,
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
+				Optional:            true,
 				MarkdownDescription: "Description of the resource",
 			},
 			"device": schema.StringAttribute{
@@ -293,7 +287,6 @@ func (r *OpenstackVolumeResource) Schema(ctx context.Context, req resource.Schem
 			},
 			"image": schema.StringAttribute{
 				Optional: true,
-				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
 				},
@@ -405,11 +398,7 @@ func (r *OpenstackVolumeResource) Schema(ctx context.Context, req resource.Schem
 				MarkdownDescription: "Modified",
 			},
 			"name": schema.StringAttribute{
-				Optional: true,
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
+				Optional:            true,
 				MarkdownDescription: "Name of the resource",
 			},
 			"offering": schema.StringAttribute{
@@ -490,11 +479,7 @@ func (r *OpenstackVolumeResource) Schema(ctx context.Context, req resource.Schem
 				MarkdownDescription: "UUID of the service settings",
 			},
 			"size": schema.Int64Attribute{
-				Optional: true,
-				Computed: true,
-				PlanModifiers: []planmodifier.Int64{
-					int64planmodifier.UseStateForUnknown(),
-				},
+				Optional:            true,
 				MarkdownDescription: "Size in MiB",
 			},
 			"source_snapshot": schema.StringAttribute{
@@ -526,11 +511,7 @@ func (r *OpenstackVolumeResource) Schema(ctx context.Context, req resource.Schem
 				MarkdownDescription: "UUID of the tenant",
 			},
 			"type": schema.StringAttribute{
-				Optional: true,
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
+				Optional:            true,
 				MarkdownDescription: "Type of the volume (e.g. SSD, HDD)",
 			},
 			"type_name": schema.StringAttribute{

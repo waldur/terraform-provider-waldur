@@ -14,7 +14,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
@@ -189,11 +188,7 @@ func (r *OpenstackTenantResource) Schema(ctx context.Context, req resource.Schem
 				MarkdownDescription: "Access url",
 			},
 			"availability_zone": schema.StringAttribute{
-				Optional: true,
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
+				Optional:            true,
 				MarkdownDescription: "Optional availability group. Will be used for all instances provisioned in this tenant",
 			},
 			"backend_id": schema.StringAttribute{
@@ -253,11 +248,7 @@ func (r *OpenstackTenantResource) Schema(ctx context.Context, req resource.Schem
 				MarkdownDescription: "Volume type name to use when creating volumes.",
 			},
 			"description": schema.StringAttribute{
-				Optional: true,
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
+				Optional:            true,
 				MarkdownDescription: "Description of the resource",
 			},
 			"error_message": schema.StringAttribute{
@@ -359,11 +350,7 @@ func (r *OpenstackTenantResource) Schema(ctx context.Context, req resource.Schem
 				MarkdownDescription: "Modified",
 			},
 			"name": schema.StringAttribute{
-				Optional: true,
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
+				Optional:            true,
 				MarkdownDescription: "Name of the resource",
 			},
 			"offering": schema.StringAttribute{
@@ -398,27 +385,15 @@ func (r *OpenstackTenantResource) Schema(ctx context.Context, req resource.Schem
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"limit": schema.Int64Attribute{
-							Optional: true,
-							Computed: true,
-							PlanModifiers: []planmodifier.Int64{
-								int64planmodifier.UseStateForUnknown(),
-							},
+							Optional:            true,
 							MarkdownDescription: "Limit",
 						},
 						"name": schema.StringAttribute{
-							Optional: true,
-							Computed: true,
-							PlanModifiers: []planmodifier.String{
-								stringplanmodifier.UseStateForUnknown(),
-							},
+							Optional:            true,
 							MarkdownDescription: "Name of the resource",
 						},
 						"usage": schema.Int64Attribute{
-							Optional: true,
-							Computed: true,
-							PlanModifiers: []planmodifier.Int64{
-								int64planmodifier.UseStateForUnknown(),
-							},
+							Optional:            true,
 							MarkdownDescription: "Usage",
 						},
 					},
@@ -440,11 +415,7 @@ func (r *OpenstackTenantResource) Schema(ctx context.Context, req resource.Schem
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"description": schema.StringAttribute{
-							Optional: true,
-							Computed: true,
-							PlanModifiers: []planmodifier.String{
-								stringplanmodifier.UseStateForUnknown(),
-							},
+							Optional:            true,
 							MarkdownDescription: "Description of the resource",
 						},
 						"name": schema.StringAttribute{
@@ -455,85 +426,45 @@ func (r *OpenstackTenantResource) Schema(ctx context.Context, req resource.Schem
 							NestedObject: schema.NestedAttributeObject{
 								Attributes: map[string]schema.Attribute{
 									"cidr": schema.StringAttribute{
-										Optional: true,
-										Computed: true,
-										PlanModifiers: []planmodifier.String{
-											stringplanmodifier.UseStateForUnknown(),
-										},
+										Optional:            true,
 										MarkdownDescription: "CIDR notation for the source/destination network address range",
 									},
 									"description": schema.StringAttribute{
-										Optional: true,
-										Computed: true,
-										PlanModifiers: []planmodifier.String{
-											stringplanmodifier.UseStateForUnknown(),
-										},
+										Optional:            true,
 										MarkdownDescription: "Description of the resource",
 									},
 									"direction": schema.StringAttribute{
-										Optional: true,
-										Computed: true,
-										PlanModifiers: []planmodifier.String{
-											stringplanmodifier.UseStateForUnknown(),
-										},
+										Optional:            true,
 										MarkdownDescription: "Traffic direction - either 'ingress' (incoming) or 'egress' (outgoing)",
 									},
 									"ethertype": schema.StringAttribute{
-										Optional: true,
-										Computed: true,
-										PlanModifiers: []planmodifier.String{
-											stringplanmodifier.UseStateForUnknown(),
-										},
+										Optional:            true,
 										MarkdownDescription: "IP protocol version - either 'IPv4' or 'IPv6'",
 									},
 									"from_port": schema.Int64Attribute{
-										Optional: true,
-										Computed: true,
-										PlanModifiers: []planmodifier.Int64{
-											int64planmodifier.UseStateForUnknown(),
-										},
+										Optional:            true,
 										MarkdownDescription: "Starting port number in the range (1-65535)",
 									},
 									"protocol": schema.StringAttribute{
-										Optional: true,
-										Computed: true,
-										PlanModifiers: []planmodifier.String{
-											stringplanmodifier.UseStateForUnknown(),
-										},
+										Optional:            true,
 										MarkdownDescription: "The network protocol (TCP, UDP, ICMP, or empty for any protocol)",
 									},
 									"remote_group": schema.StringAttribute{
-										Optional: true,
-										Computed: true,
-										PlanModifiers: []planmodifier.String{
-											stringplanmodifier.UseStateForUnknown(),
-										},
+										Optional:            true,
 										MarkdownDescription: "Remote security group that this rule references, if any",
 									},
 									"to_port": schema.Int64Attribute{
-										Optional: true,
-										Computed: true,
-										PlanModifiers: []planmodifier.Int64{
-											int64planmodifier.UseStateForUnknown(),
-										},
+										Optional:            true,
 										MarkdownDescription: "Ending port number in the range (1-65535)",
 									},
 								},
 							},
-							Optional: true,
-							Computed: true,
-							PlanModifiers: []planmodifier.List{
-								listplanmodifier.UseStateForUnknown(),
-							},
+							Optional:            true,
 							MarkdownDescription: "Rules",
 						},
 					},
 				},
-				Optional: true,
-				Computed: true,
-				PlanModifiers: []planmodifier.List{
-					listplanmodifier.UseStateForUnknown(),
-				},
+				Optional:            true,
 				MarkdownDescription: "Security groups",
 			},
 			"service_name": schema.StringAttribute{
@@ -573,26 +504,17 @@ func (r *OpenstackTenantResource) Schema(ctx context.Context, req resource.Schem
 			},
 			"skip_connection_extnet": schema.BoolAttribute{
 				Optional: true,
-				Computed: true,
 				PlanModifiers: []planmodifier.Bool{
 					boolplanmodifier.RequiresReplace(),
 				},
 				MarkdownDescription: "Skip connection extnet",
 			},
 			"skip_creation_of_default_router": schema.BoolAttribute{
-				Optional: true,
-				Computed: true,
-				PlanModifiers: []planmodifier.Bool{
-					boolplanmodifier.UseStateForUnknown(),
-				},
+				Optional:            true,
 				MarkdownDescription: "Skip creation of default router",
 			},
 			"skip_creation_of_default_subnet": schema.BoolAttribute{
-				Optional: true,
-				Computed: true,
-				PlanModifiers: []planmodifier.Bool{
-					boolplanmodifier.UseStateForUnknown(),
-				},
+				Optional:            true,
 				MarkdownDescription: "Skip creation of default subnet",
 			},
 			"state": schema.StringAttribute{
@@ -604,7 +526,6 @@ func (r *OpenstackTenantResource) Schema(ctx context.Context, req resource.Schem
 			},
 			"subnet_cidr": schema.StringAttribute{
 				Optional: true,
-				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
 				},

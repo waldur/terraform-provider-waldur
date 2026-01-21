@@ -177,67 +177,54 @@ func (d *StructureCustomerDataSource) Schema(ctx context.Context, req datasource
 			},
 			"abbreviation": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Abbreviation",
 			},
 			"agreement_number": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Agreement number",
 			},
 			"archived": schema.BoolAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Archived",
 			},
 			"backend_id": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "ID of the backend",
 			},
 			"contact_details": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Contact details",
 			},
 			"name": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Name",
 			},
 			"name_exact": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Name (exact)",
 			},
 			"native_name": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Native name",
 			},
 			"organization_group_name": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Organization group name",
 			},
 			"organization_group_uuid": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Organization group UUID",
 			},
 			"owned_by_current_user": schema.BoolAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Return a list of customers where current user is owner.",
 			},
 			"query": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Filter by name, native name, abbreviation, domain, UUID, registration code or agreement number",
 			},
 			"registration_code": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Registration code",
 			},
 			"access_subnets": schema.StringAttribute{
@@ -469,45 +456,41 @@ func (d *StructureCustomerDataSource) Read(ctx context.Context, req datasource.R
 		// Filter by provided parameters
 		var results []StructureCustomerApiResponse
 
-		filters := map[string]string{}
-		if !data.Abbreviation.IsNull() {
-			filters["abbreviation"] = data.Abbreviation.ValueString()
+		type filterDef struct {
+			name string
+			val  attr.Value
 		}
-		if !data.AgreementNumber.IsNull() {
-			filters["agreement_number"] = data.AgreementNumber.ValueString()
+		filterDefs := []filterDef{
+			{"abbreviation", data.Abbreviation},
+			{"agreement_number", data.AgreementNumber},
+			{"archived", data.Archived},
+			{"backend_id", data.BackendId},
+			{"contact_details", data.ContactDetails},
+			{"name", data.Name},
+			{"name_exact", data.NameExact},
+			{"native_name", data.NativeName},
+			{"organization_group_name", data.OrganizationGroupName},
+			{"organization_group_uuid", data.OrganizationGroupUuid},
+			{"owned_by_current_user", data.OwnedByCurrentUser},
+			{"query", data.Query},
+			{"registration_code", data.RegistrationCode},
 		}
-		if !data.Archived.IsNull() {
-			filters["archived"] = fmt.Sprintf("%t", data.Archived.ValueBool())
-		}
-		if !data.BackendId.IsNull() {
-			filters["backend_id"] = data.BackendId.ValueString()
-		}
-		if !data.ContactDetails.IsNull() {
-			filters["contact_details"] = data.ContactDetails.ValueString()
-		}
-		if !data.Name.IsNull() {
-			filters["name"] = data.Name.ValueString()
-		}
-		if !data.NameExact.IsNull() {
-			filters["name_exact"] = data.NameExact.ValueString()
-		}
-		if !data.NativeName.IsNull() {
-			filters["native_name"] = data.NativeName.ValueString()
-		}
-		if !data.OrganizationGroupName.IsNull() {
-			filters["organization_group_name"] = data.OrganizationGroupName.ValueString()
-		}
-		if !data.OrganizationGroupUuid.IsNull() {
-			filters["organization_group_uuid"] = data.OrganizationGroupUuid.ValueString()
-		}
-		if !data.OwnedByCurrentUser.IsNull() {
-			filters["owned_by_current_user"] = fmt.Sprintf("%t", data.OwnedByCurrentUser.ValueBool())
-		}
-		if !data.Query.IsNull() {
-			filters["query"] = data.Query.ValueString()
-		}
-		if !data.RegistrationCode.IsNull() {
-			filters["registration_code"] = data.RegistrationCode.ValueString()
+
+		filters := make(map[string]string)
+		for _, fd := range filterDefs {
+			if fd.val.IsNull() || fd.val.IsUnknown() {
+				continue
+			}
+			switch v := fd.val.(type) {
+			case types.String:
+				filters[fd.name] = v.ValueString()
+			case types.Int64:
+				filters[fd.name] = fmt.Sprintf("%d", v.ValueInt64())
+			case types.Bool:
+				filters[fd.name] = fmt.Sprintf("%t", v.ValueBool())
+			case types.Float64:
+				filters[fd.name] = fmt.Sprintf("%f", v.ValueFloat64())
+			}
 		}
 
 		if len(filters) == 0 {

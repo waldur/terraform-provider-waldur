@@ -199,7 +199,6 @@ func (r *MarketplaceOrderResource) Schema(ctx context.Context, req resource.Sche
 			},
 			"accepting_terms_of_service": schema.BoolAttribute{
 				Optional: true,
-				Computed: true,
 				PlanModifiers: []planmodifier.Bool{
 					boolplanmodifier.RequiresReplace(),
 				},
@@ -238,7 +237,6 @@ func (r *MarketplaceOrderResource) Schema(ctx context.Context, req resource.Sche
 			},
 			"callback_url": schema.StringAttribute{
 				Optional: true,
-				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
 				},
@@ -498,7 +496,6 @@ func (r *MarketplaceOrderResource) Schema(ctx context.Context, req resource.Sche
 			},
 			"plan": schema.StringAttribute{
 				Optional: true,
-				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
 				},
@@ -604,7 +601,6 @@ func (r *MarketplaceOrderResource) Schema(ctx context.Context, req resource.Sche
 			},
 			"request_comment": schema.StringAttribute{
 				Optional: true,
-				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
 				},
@@ -640,7 +636,6 @@ func (r *MarketplaceOrderResource) Schema(ctx context.Context, req resource.Sche
 			},
 			"start_date": schema.StringAttribute{
 				Optional: true,
-				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
 				},
@@ -662,7 +657,6 @@ func (r *MarketplaceOrderResource) Schema(ctx context.Context, req resource.Sche
 			},
 			"type": schema.StringAttribute{
 				Optional: true,
-				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
 				},

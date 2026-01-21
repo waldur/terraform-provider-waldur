@@ -12,7 +12,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64planmodifier"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -139,11 +138,7 @@ func (r *OpenstackSubnetResource) Schema(ctx context.Context, req resource.Schem
 						},
 					},
 				},
-				Optional: true,
-				Computed: true,
-				PlanModifiers: []planmodifier.List{
-					listplanmodifier.UseStateForUnknown(),
-				},
+				Optional:            true,
 				MarkdownDescription: "Allocation pools",
 			},
 			"backend_id": schema.StringAttribute{
@@ -154,11 +149,7 @@ func (r *OpenstackSubnetResource) Schema(ctx context.Context, req resource.Schem
 				MarkdownDescription: "ID of the backend",
 			},
 			"cidr": schema.StringAttribute{
-				Optional: true,
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
+				Optional:            true,
 				MarkdownDescription: "Cidr",
 			},
 			"created": schema.StringAttribute{
@@ -169,28 +160,16 @@ func (r *OpenstackSubnetResource) Schema(ctx context.Context, req resource.Schem
 				MarkdownDescription: "Created",
 			},
 			"description": schema.StringAttribute{
-				Optional: true,
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
+				Optional:            true,
 				MarkdownDescription: "Description of the resource",
 			},
 			"disable_gateway": schema.BoolAttribute{
-				Optional: true,
-				Computed: true,
-				PlanModifiers: []planmodifier.Bool{
-					boolplanmodifier.UseStateForUnknown(),
-				},
+				Optional:            true,
 				MarkdownDescription: "If True, no gateway IP address will be allocated",
 			},
 			"dns_nameservers": schema.ListAttribute{
-				CustomType: types.ListType{ElemType: types.StringType},
-				Optional:   true,
-				Computed:   true,
-				PlanModifiers: []planmodifier.List{
-					listplanmodifier.UseStateForUnknown(),
-				},
+				CustomType:          types.ListType{ElemType: types.StringType},
+				Optional:            true,
 				MarkdownDescription: "Dns nameservers",
 			},
 			"enable_dhcp": schema.BoolAttribute{
@@ -215,11 +194,7 @@ func (r *OpenstackSubnetResource) Schema(ctx context.Context, req resource.Schem
 				MarkdownDescription: "Error traceback",
 			},
 			"gateway_ip": schema.StringAttribute{
-				Optional: true,
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
+				Optional:            true,
 				MarkdownDescription: "IP address of the gateway for this subnet",
 			},
 			"host_routes": schema.ListNestedAttribute{
@@ -235,11 +210,7 @@ func (r *OpenstackSubnetResource) Schema(ctx context.Context, req resource.Schem
 						},
 					},
 				},
-				Optional: true,
-				Computed: true,
-				PlanModifiers: []planmodifier.List{
-					listplanmodifier.UseStateForUnknown(),
-				},
+				Optional:            true,
 				MarkdownDescription: "Host routes",
 			},
 			"ip_version": schema.Int64Attribute{

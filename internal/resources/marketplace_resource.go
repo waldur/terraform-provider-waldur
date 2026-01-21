@@ -11,7 +11,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
@@ -310,19 +309,11 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"name": schema.StringAttribute{
-							Optional: true,
-							Computed: true,
-							PlanModifiers: []planmodifier.String{
-								stringplanmodifier.UseStateForUnknown(),
-							},
+							Optional:            true,
 							MarkdownDescription: "Name of the resource",
 						},
 						"url": schema.StringAttribute{
-							Optional: true,
-							Computed: true,
-							PlanModifiers: []planmodifier.String{
-								stringplanmodifier.UseStateForUnknown(),
-							},
+							Optional:            true,
 							MarkdownDescription: "URL of the access endpoint",
 						},
 					},
@@ -388,161 +379,83 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"article_code": schema.StringAttribute{
-							Optional: true,
-							Computed: true,
-							PlanModifiers: []planmodifier.String{
-								stringplanmodifier.UseStateForUnknown(),
-							},
+							Optional:            true,
 							MarkdownDescription: "Article code",
 						},
 						"billing_type": schema.StringAttribute{
-							Optional: true,
-							Computed: true,
-							PlanModifiers: []planmodifier.String{
-								stringplanmodifier.UseStateForUnknown(),
-							},
+							Optional:            true,
 							MarkdownDescription: "Billing type",
 						},
 						"default_limit": schema.Int64Attribute{
-							Optional: true,
-							Computed: true,
-							PlanModifiers: []planmodifier.Int64{
-								int64planmodifier.UseStateForUnknown(),
-							},
+							Optional:            true,
 							MarkdownDescription: "Default limit",
 						},
 						"description": schema.StringAttribute{
-							Optional: true,
-							Computed: true,
-							PlanModifiers: []planmodifier.String{
-								stringplanmodifier.UseStateForUnknown(),
-							},
+							Optional:            true,
 							MarkdownDescription: "Description of the resource",
 						},
 						"factor": schema.Int64Attribute{
-							Computed: true,
-							PlanModifiers: []planmodifier.Int64{
-								int64planmodifier.UseStateForUnknown(),
-							},
+							Computed:            true,
 							MarkdownDescription: "Factor",
 						},
 						"is_boolean": schema.BoolAttribute{
-							Optional: true,
-							Computed: true,
-							PlanModifiers: []planmodifier.Bool{
-								boolplanmodifier.UseStateForUnknown(),
-							},
+							Optional:            true,
 							MarkdownDescription: "Is boolean",
 						},
 						"is_builtin": schema.BoolAttribute{
-							Computed: true,
-							PlanModifiers: []planmodifier.Bool{
-								boolplanmodifier.UseStateForUnknown(),
-							},
+							Computed:            true,
 							MarkdownDescription: "Is builtin",
 						},
 						"is_prepaid": schema.BoolAttribute{
-							Optional: true,
-							Computed: true,
-							PlanModifiers: []planmodifier.Bool{
-								boolplanmodifier.UseStateForUnknown(),
-							},
+							Optional:            true,
 							MarkdownDescription: "Is prepaid",
 						},
 						"limit_amount": schema.Int64Attribute{
-							Optional: true,
-							Computed: true,
-							PlanModifiers: []planmodifier.Int64{
-								int64planmodifier.UseStateForUnknown(),
-							},
+							Optional:            true,
 							MarkdownDescription: "Limit amount",
 						},
 						"limit_period": schema.StringAttribute{
-							Optional: true,
-							Computed: true,
-							PlanModifiers: []planmodifier.String{
-								stringplanmodifier.UseStateForUnknown(),
-							},
+							Optional:            true,
 							MarkdownDescription: "Limit period",
 						},
 						"max_available_limit": schema.Int64Attribute{
-							Optional: true,
-							Computed: true,
-							PlanModifiers: []planmodifier.Int64{
-								int64planmodifier.UseStateForUnknown(),
-							},
+							Optional:            true,
 							MarkdownDescription: "Max available limit",
 						},
 						"max_prepaid_duration": schema.Int64Attribute{
-							Optional: true,
-							Computed: true,
-							PlanModifiers: []planmodifier.Int64{
-								int64planmodifier.UseStateForUnknown(),
-							},
+							Optional:            true,
 							MarkdownDescription: "Max prepaid duration",
 						},
 						"max_value": schema.Int64Attribute{
-							Optional: true,
-							Computed: true,
-							PlanModifiers: []planmodifier.Int64{
-								int64planmodifier.UseStateForUnknown(),
-							},
+							Optional:            true,
 							MarkdownDescription: "Max value",
 						},
 						"measured_unit": schema.StringAttribute{
-							Optional: true,
-							Computed: true,
-							PlanModifiers: []planmodifier.String{
-								stringplanmodifier.UseStateForUnknown(),
-							},
+							Optional:            true,
 							MarkdownDescription: "Unit of measurement, for example, GB.",
 						},
 						"min_prepaid_duration": schema.Int64Attribute{
-							Optional: true,
-							Computed: true,
-							PlanModifiers: []planmodifier.Int64{
-								int64planmodifier.UseStateForUnknown(),
-							},
+							Optional:            true,
 							MarkdownDescription: "Min prepaid duration",
 						},
 						"min_value": schema.Int64Attribute{
-							Optional: true,
-							Computed: true,
-							PlanModifiers: []planmodifier.Int64{
-								int64planmodifier.UseStateForUnknown(),
-							},
+							Optional:            true,
 							MarkdownDescription: "Min value",
 						},
 						"name": schema.StringAttribute{
-							Optional: true,
-							Computed: true,
-							PlanModifiers: []planmodifier.String{
-								stringplanmodifier.UseStateForUnknown(),
-							},
+							Optional:            true,
 							MarkdownDescription: "Display name for the measured unit, for example, Floating IP.",
 						},
 						"overage_component": schema.StringAttribute{
-							Optional: true,
-							Computed: true,
-							PlanModifiers: []planmodifier.String{
-								stringplanmodifier.UseStateForUnknown(),
-							},
+							Optional:            true,
 							MarkdownDescription: "Overage component",
 						},
 						"type": schema.StringAttribute{
-							Optional: true,
-							Computed: true,
-							PlanModifiers: []planmodifier.String{
-								stringplanmodifier.UseStateForUnknown(),
-							},
+							Optional:            true,
 							MarkdownDescription: "Unique internal name of the measured unit, for example floating_ip.",
 						},
 						"unit_factor": schema.Int64Attribute{
-							Optional: true,
-							Computed: true,
-							PlanModifiers: []planmodifier.Int64{
-								int64planmodifier.UseStateForUnknown(),
-							},
+							Optional:            true,
 							MarkdownDescription: "The conversion factor from backend units to measured_unit",
 						},
 					},
@@ -748,19 +661,11 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"body": schema.StringAttribute{
-							Optional: true,
-							Computed: true,
-							PlanModifiers: []planmodifier.String{
-								stringplanmodifier.UseStateForUnknown(),
-							},
+							Optional:            true,
 							MarkdownDescription: "Section body content",
 						},
 						"header": schema.StringAttribute{
-							Optional: true,
-							Computed: true,
-							PlanModifiers: []planmodifier.String{
-								stringplanmodifier.UseStateForUnknown(),
-							},
+							Optional:            true,
 							MarkdownDescription: "Section header text",
 						},
 					},

@@ -348,157 +348,126 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 			},
 			"accessible_via_calls": schema.BoolAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Accessible via calls",
 			},
 			"allowed_customer_uuid": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Allowed customer UUID",
 			},
 			"attributes": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Offering attributes (JSON)",
 			},
 			"billable": schema.BoolAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Billable",
 			},
 			"can_create_offering_user": schema.BoolAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Can create offering user",
 			},
 			"category_group_uuid": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Category group UUID",
 			},
 			"category_uuid": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Category UUID",
 			},
 			"created": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Created after",
 			},
 			"customer": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Customer URL",
 			},
 			"customer_uuid": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Customer UUID",
 			},
 			"description": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Description contains",
 			},
 			"has_active_terms_of_service": schema.BoolAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Has Active Terms of Service",
 			},
 			"has_terms_of_service": schema.BoolAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Has Terms of Service",
 			},
 			"keyword": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Keyword",
 			},
 			"modified": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Modified after",
 			},
 			"name": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Name",
 			},
 			"name_exact": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Name (exact)",
 			},
 			"organization_group_uuid": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Organization group UUID",
 			},
 			"parent_uuid": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Parent offering UUID",
 			},
 			"project_uuid": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Project UUID",
 			},
 			"query": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Search by offering name, slug or description",
 			},
 			"resource_customer_uuid": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Resource customer UUID",
 			},
 			"resource_project_uuid": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Resource project UUID",
 			},
 			"scope_uuid": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Scope UUID",
 			},
 			"service_manager_uuid": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Service manager UUID",
 			},
 			"shared": schema.BoolAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Shared",
 			},
 			"state": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Offering state",
 			},
 			"type": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Offering type",
 			},
 			"user_has_consent": schema.BoolAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "User Has Consent",
 			},
 			"user_has_offering_user": schema.BoolAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "User Has Offering User",
 			},
 			"uuid_list": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Comma-separated offering UUIDs",
 			},
 			"access_url": schema.StringAttribute{
@@ -880,99 +849,59 @@ func (d *MarketplaceOfferingDataSource) Read(ctx context.Context, req datasource
 		// Filter by provided parameters
 		var results []MarketplaceOfferingApiResponse
 
-		filters := map[string]string{}
-		if !data.AccessibleViaCalls.IsNull() {
-			filters["accessible_via_calls"] = fmt.Sprintf("%t", data.AccessibleViaCalls.ValueBool())
+		type filterDef struct {
+			name string
+			val  attr.Value
 		}
-		if !data.AllowedCustomerUuid.IsNull() {
-			filters["allowed_customer_uuid"] = data.AllowedCustomerUuid.ValueString()
+		filterDefs := []filterDef{
+			{"accessible_via_calls", data.AccessibleViaCalls},
+			{"allowed_customer_uuid", data.AllowedCustomerUuid},
+			{"attributes", data.Attributes},
+			{"billable", data.Billable},
+			{"can_create_offering_user", data.CanCreateOfferingUser},
+			{"category_group_uuid", data.CategoryGroupUuid},
+			{"category_uuid", data.CategoryUuid},
+			{"created", data.Created},
+			{"customer", data.Customer},
+			{"customer_uuid", data.CustomerUuid},
+			{"description", data.Description},
+			{"has_active_terms_of_service", data.HasActiveTermsOfService},
+			{"has_terms_of_service", data.HasTermsOfService},
+			{"keyword", data.Keyword},
+			{"modified", data.Modified},
+			{"name", data.Name},
+			{"name_exact", data.NameExact},
+			{"organization_group_uuid", data.OrganizationGroupUuid},
+			{"parent_uuid", data.ParentUuid},
+			{"project_uuid", data.ProjectUuid},
+			{"query", data.Query},
+			{"resource_customer_uuid", data.ResourceCustomerUuid},
+			{"resource_project_uuid", data.ResourceProjectUuid},
+			{"scope_uuid", data.ScopeUuid},
+			{"service_manager_uuid", data.ServiceManagerUuid},
+			{"shared", data.Shared},
+			{"state", data.State},
+			{"type", data.Type},
+			{"user_has_consent", data.UserHasConsent},
+			{"user_has_offering_user", data.UserHasOfferingUser},
+			{"uuid_list", data.UuidList},
 		}
-		if !data.Attributes.IsNull() {
-			filters["attributes"] = data.Attributes.ValueString()
-		}
-		if !data.Billable.IsNull() {
-			filters["billable"] = fmt.Sprintf("%t", data.Billable.ValueBool())
-		}
-		if !data.CanCreateOfferingUser.IsNull() {
-			filters["can_create_offering_user"] = fmt.Sprintf("%t", data.CanCreateOfferingUser.ValueBool())
-		}
-		if !data.CategoryGroupUuid.IsNull() {
-			filters["category_group_uuid"] = data.CategoryGroupUuid.ValueString()
-		}
-		if !data.CategoryUuid.IsNull() {
-			filters["category_uuid"] = data.CategoryUuid.ValueString()
-		}
-		if !data.Created.IsNull() {
-			filters["created"] = data.Created.ValueString()
-		}
-		if !data.Customer.IsNull() {
-			filters["customer"] = data.Customer.ValueString()
-		}
-		if !data.CustomerUuid.IsNull() {
-			filters["customer_uuid"] = data.CustomerUuid.ValueString()
-		}
-		if !data.Description.IsNull() {
-			filters["description"] = data.Description.ValueString()
-		}
-		if !data.HasActiveTermsOfService.IsNull() {
-			filters["has_active_terms_of_service"] = fmt.Sprintf("%t", data.HasActiveTermsOfService.ValueBool())
-		}
-		if !data.HasTermsOfService.IsNull() {
-			filters["has_terms_of_service"] = fmt.Sprintf("%t", data.HasTermsOfService.ValueBool())
-		}
-		if !data.Keyword.IsNull() {
-			filters["keyword"] = data.Keyword.ValueString()
-		}
-		if !data.Modified.IsNull() {
-			filters["modified"] = data.Modified.ValueString()
-		}
-		if !data.Name.IsNull() {
-			filters["name"] = data.Name.ValueString()
-		}
-		if !data.NameExact.IsNull() {
-			filters["name_exact"] = data.NameExact.ValueString()
-		}
-		if !data.OrganizationGroupUuid.IsNull() {
-			filters["organization_group_uuid"] = data.OrganizationGroupUuid.ValueString()
-		}
-		if !data.ParentUuid.IsNull() {
-			filters["parent_uuid"] = data.ParentUuid.ValueString()
-		}
-		if !data.ProjectUuid.IsNull() {
-			filters["project_uuid"] = data.ProjectUuid.ValueString()
-		}
-		if !data.Query.IsNull() {
-			filters["query"] = data.Query.ValueString()
-		}
-		if !data.ResourceCustomerUuid.IsNull() {
-			filters["resource_customer_uuid"] = data.ResourceCustomerUuid.ValueString()
-		}
-		if !data.ResourceProjectUuid.IsNull() {
-			filters["resource_project_uuid"] = data.ResourceProjectUuid.ValueString()
-		}
-		if !data.ScopeUuid.IsNull() {
-			filters["scope_uuid"] = data.ScopeUuid.ValueString()
-		}
-		if !data.ServiceManagerUuid.IsNull() {
-			filters["service_manager_uuid"] = data.ServiceManagerUuid.ValueString()
-		}
-		if !data.Shared.IsNull() {
-			filters["shared"] = fmt.Sprintf("%t", data.Shared.ValueBool())
-		}
-		if !data.State.IsNull() {
-			filters["state"] = data.State.ValueString()
-		}
-		if !data.Type.IsNull() {
-			filters["type"] = data.Type.ValueString()
-		}
-		if !data.UserHasConsent.IsNull() {
-			filters["user_has_consent"] = fmt.Sprintf("%t", data.UserHasConsent.ValueBool())
-		}
-		if !data.UserHasOfferingUser.IsNull() {
-			filters["user_has_offering_user"] = fmt.Sprintf("%t", data.UserHasOfferingUser.ValueBool())
-		}
-		if !data.UuidList.IsNull() {
-			filters["uuid_list"] = data.UuidList.ValueString()
+
+		filters := make(map[string]string)
+		for _, fd := range filterDefs {
+			if fd.val.IsNull() || fd.val.IsUnknown() {
+				continue
+			}
+			switch v := fd.val.(type) {
+			case types.String:
+				filters[fd.name] = v.ValueString()
+			case types.Int64:
+				filters[fd.name] = fmt.Sprintf("%d", v.ValueInt64())
+			case types.Bool:
+				filters[fd.name] = fmt.Sprintf("%t", v.ValueBool())
+			case types.Float64:
+				filters[fd.name] = fmt.Sprintf("%f", v.ValueFloat64())
+			}
 		}
 
 		if len(filters) == 0 {

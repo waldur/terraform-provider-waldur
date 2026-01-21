@@ -113,11 +113,7 @@ func (r *StructureProjectResource) Schema(ctx context.Context, req resource.Sche
 				},
 			},
 			"backend_id": schema.StringAttribute{
-				Optional: true,
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
+				Optional:            true,
 				MarkdownDescription: "ID of the backend",
 			},
 			"created": schema.StringAttribute{
@@ -146,19 +142,11 @@ func (r *StructureProjectResource) Schema(ctx context.Context, req resource.Sche
 				MarkdownDescription: "Customer slug",
 			},
 			"description": schema.StringAttribute{
-				Optional: true,
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
+				Optional:            true,
 				MarkdownDescription: "Project description (HTML content will be sanitized)",
 			},
 			"end_date": schema.StringAttribute{
-				Optional: true,
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
+				Optional:            true,
 				MarkdownDescription: "Project end date. Setting this field requires DELETE_PROJECT permission.",
 			},
 			"end_date_requested_by": schema.StringAttribute{
@@ -169,27 +157,15 @@ func (r *StructureProjectResource) Schema(ctx context.Context, req resource.Sche
 				MarkdownDescription: "End date requested by",
 			},
 			"grace_period_days": schema.Int64Attribute{
-				Optional: true,
-				Computed: true,
-				PlanModifiers: []planmodifier.Int64{
-					int64planmodifier.UseStateForUnknown(),
-				},
+				Optional:            true,
 				MarkdownDescription: "Number of extra days after project end date before resources are terminated. Overrides customer-level setting.",
 			},
 			"image": schema.StringAttribute{
-				Optional: true,
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
+				Optional:            true,
 				MarkdownDescription: "Image",
 			},
 			"is_industry": schema.BoolAttribute{
-				Optional: true,
-				Computed: true,
-				PlanModifiers: []planmodifier.Bool{
-					boolplanmodifier.UseStateForUnknown(),
-				},
+				Optional:            true,
 				MarkdownDescription: "Is industry",
 			},
 			"is_removed": schema.BoolAttribute{
@@ -200,11 +176,7 @@ func (r *StructureProjectResource) Schema(ctx context.Context, req resource.Sche
 				MarkdownDescription: "Is removed",
 			},
 			"kind": schema.StringAttribute{
-				Optional: true,
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
+				Optional:            true,
 				MarkdownDescription: "Kind",
 			},
 			"max_service_accounts": schema.Int64Attribute{
@@ -219,11 +191,7 @@ func (r *StructureProjectResource) Schema(ctx context.Context, req resource.Sche
 				MarkdownDescription: "Name of the resource",
 			},
 			"oecd_fos_2007_code": schema.StringAttribute{
-				Optional: true,
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
+				Optional:            true,
 				MarkdownDescription: "Oecd fos 2007 code",
 			},
 			"oecd_fos_2007_label": schema.StringAttribute{
@@ -248,35 +216,19 @@ func (r *StructureProjectResource) Schema(ctx context.Context, req resource.Sche
 				MarkdownDescription: "Number of active resources in this project",
 			},
 			"slug": schema.StringAttribute{
-				Optional: true,
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
+				Optional:            true,
 				MarkdownDescription: "URL-friendly identifier. Only editable by staff users.",
 			},
 			"staff_notes": schema.StringAttribute{
-				Optional: true,
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
+				Optional:            true,
 				MarkdownDescription: "Internal notes visible only to staff and support users (HTML content will be sanitized)",
 			},
 			"start_date": schema.StringAttribute{
-				Optional: true,
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
+				Optional:            true,
 				MarkdownDescription: "Project start date. Cannot be edited after the start date has arrived.",
 			},
 			"type": schema.StringAttribute{
-				Optional: true,
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
+				Optional:            true,
 				MarkdownDescription: "Type",
 			},
 			"type_name": schema.StringAttribute{

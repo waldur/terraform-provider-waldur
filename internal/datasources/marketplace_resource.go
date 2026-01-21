@@ -233,192 +233,154 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 			},
 			"backend_id": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Backend ID",
 			},
 			"category_uuid": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Category UUID",
 			},
 			"component_count": schema.Float64Attribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Filter by exact number of components",
 			},
 			"created": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Created after",
 			},
 			"customer": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Customer URL",
 			},
 			"customer_uuid": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Customer UUID",
 			},
 			"downscaled": schema.BoolAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Downscaled",
 			},
 			"has_terminate_date": schema.BoolAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Has termination date",
 			},
 			"is_attached": schema.BoolAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Filter by attached state",
 			},
 			"lexis_links_supported": schema.BoolAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "LEXIS links supported",
 			},
 			"limit_based": schema.BoolAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Filter by limit-based offerings",
 			},
 			"limit_component_count": schema.Float64Attribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Filter by exact number of limit-based components",
 			},
 			"modified": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Modified after",
 			},
 			"name": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Name",
 			},
 			"name_exact": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Name (exact)",
 			},
 			"offering": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Offering",
 			},
 			"offering_billable": schema.BoolAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Offering billable",
 			},
 			"offering_shared": schema.BoolAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Offering shared",
 			},
 			"offering_slug": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Multiple values may be separated by commas.",
 			},
 			"offering_type": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Offering type",
 			},
 			"offering_uuid": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Multiple values may be separated by commas.",
 			},
 			"only_limit_based": schema.BoolAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Filter resources with only limit-based components",
 			},
 			"only_usage_based": schema.BoolAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Filter resources with only usage-based components",
 			},
 			"order_state": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Order state",
 			},
 			"parent_offering_uuid": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "UUID of the parent offering",
 			},
 			"paused": schema.BoolAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Paused",
 			},
 			"plan_uuid": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Plan UUID",
 			},
 			"project_name": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Project name",
 			},
 			"project_uuid": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Project UUID",
 			},
 			"provider_uuid": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Provider UUID",
 			},
 			"query": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Search by resource UUID, name, slug, backend ID, effective ID, IPs or hypervisor",
 			},
 			"restrict_member_access": schema.BoolAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Restrict member access",
 			},
 			"runtime_state": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Runtime state",
 			},
 			"service_manager_uuid": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Service manager UUID",
 			},
 			"state": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Resource state",
 			},
 			"usage_based": schema.BoolAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Filter by usage-based offerings",
 			},
 			"visible_to_providers": schema.BoolAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Include only resources visible to service providers",
 			},
 			"visible_to_username": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Visible to username",
 			},
 			"available_actions": schema.ListAttribute{
@@ -675,120 +637,66 @@ func (d *MarketplaceResourceDataSource) Read(ctx context.Context, req datasource
 		// Filter by provided parameters
 		var results []MarketplaceResourceApiResponse
 
-		filters := map[string]string{}
-		if !data.BackendId.IsNull() {
-			filters["backend_id"] = data.BackendId.ValueString()
+		type filterDef struct {
+			name string
+			val  attr.Value
 		}
-		if !data.CategoryUuid.IsNull() {
-			filters["category_uuid"] = data.CategoryUuid.ValueString()
+		filterDefs := []filterDef{
+			{"backend_id", data.BackendId},
+			{"category_uuid", data.CategoryUuid},
+			{"component_count", data.ComponentCount},
+			{"created", data.Created},
+			{"customer", data.Customer},
+			{"customer_uuid", data.CustomerUuid},
+			{"downscaled", data.Downscaled},
+			{"has_terminate_date", data.HasTerminateDate},
+			{"is_attached", data.IsAttached},
+			{"lexis_links_supported", data.LexisLinksSupported},
+			{"limit_based", data.LimitBased},
+			{"limit_component_count", data.LimitComponentCount},
+			{"modified", data.Modified},
+			{"name", data.Name},
+			{"name_exact", data.NameExact},
+			{"offering", data.Offering},
+			{"offering_billable", data.OfferingBillable},
+			{"offering_shared", data.OfferingShared},
+			{"offering_slug", data.OfferingSlug},
+			{"offering_type", data.OfferingType},
+			{"offering_uuid", data.OfferingUuid},
+			{"only_limit_based", data.OnlyLimitBased},
+			{"only_usage_based", data.OnlyUsageBased},
+			{"order_state", data.OrderState},
+			{"parent_offering_uuid", data.ParentOfferingUuid},
+			{"paused", data.Paused},
+			{"plan_uuid", data.PlanUuid},
+			{"project_name", data.ProjectName},
+			{"project_uuid", data.ProjectUuid},
+			{"provider_uuid", data.ProviderUuid},
+			{"query", data.Query},
+			{"restrict_member_access", data.RestrictMemberAccess},
+			{"runtime_state", data.RuntimeState},
+			{"service_manager_uuid", data.ServiceManagerUuid},
+			{"state", data.State},
+			{"usage_based", data.UsageBased},
+			{"visible_to_providers", data.VisibleToProviders},
+			{"visible_to_username", data.VisibleToUsername},
 		}
-		if !data.ComponentCount.IsNull() {
-			filters["component_count"] = fmt.Sprintf("%f", data.ComponentCount.ValueFloat64())
-		}
-		if !data.Created.IsNull() {
-			filters["created"] = data.Created.ValueString()
-		}
-		if !data.Customer.IsNull() {
-			filters["customer"] = data.Customer.ValueString()
-		}
-		if !data.CustomerUuid.IsNull() {
-			filters["customer_uuid"] = data.CustomerUuid.ValueString()
-		}
-		if !data.Downscaled.IsNull() {
-			filters["downscaled"] = fmt.Sprintf("%t", data.Downscaled.ValueBool())
-		}
-		if !data.HasTerminateDate.IsNull() {
-			filters["has_terminate_date"] = fmt.Sprintf("%t", data.HasTerminateDate.ValueBool())
-		}
-		if !data.IsAttached.IsNull() {
-			filters["is_attached"] = fmt.Sprintf("%t", data.IsAttached.ValueBool())
-		}
-		if !data.LexisLinksSupported.IsNull() {
-			filters["lexis_links_supported"] = fmt.Sprintf("%t", data.LexisLinksSupported.ValueBool())
-		}
-		if !data.LimitBased.IsNull() {
-			filters["limit_based"] = fmt.Sprintf("%t", data.LimitBased.ValueBool())
-		}
-		if !data.LimitComponentCount.IsNull() {
-			filters["limit_component_count"] = fmt.Sprintf("%f", data.LimitComponentCount.ValueFloat64())
-		}
-		if !data.Modified.IsNull() {
-			filters["modified"] = data.Modified.ValueString()
-		}
-		if !data.Name.IsNull() {
-			filters["name"] = data.Name.ValueString()
-		}
-		if !data.NameExact.IsNull() {
-			filters["name_exact"] = data.NameExact.ValueString()
-		}
-		if !data.Offering.IsNull() {
-			filters["offering"] = data.Offering.ValueString()
-		}
-		if !data.OfferingBillable.IsNull() {
-			filters["offering_billable"] = fmt.Sprintf("%t", data.OfferingBillable.ValueBool())
-		}
-		if !data.OfferingShared.IsNull() {
-			filters["offering_shared"] = fmt.Sprintf("%t", data.OfferingShared.ValueBool())
-		}
-		if !data.OfferingSlug.IsNull() {
-			filters["offering_slug"] = data.OfferingSlug.ValueString()
-		}
-		if !data.OfferingType.IsNull() {
-			filters["offering_type"] = data.OfferingType.ValueString()
-		}
-		if !data.OfferingUuid.IsNull() {
-			filters["offering_uuid"] = data.OfferingUuid.ValueString()
-		}
-		if !data.OnlyLimitBased.IsNull() {
-			filters["only_limit_based"] = fmt.Sprintf("%t", data.OnlyLimitBased.ValueBool())
-		}
-		if !data.OnlyUsageBased.IsNull() {
-			filters["only_usage_based"] = fmt.Sprintf("%t", data.OnlyUsageBased.ValueBool())
-		}
-		if !data.OrderState.IsNull() {
-			filters["order_state"] = data.OrderState.ValueString()
-		}
-		if !data.ParentOfferingUuid.IsNull() {
-			filters["parent_offering_uuid"] = data.ParentOfferingUuid.ValueString()
-		}
-		if !data.Paused.IsNull() {
-			filters["paused"] = fmt.Sprintf("%t", data.Paused.ValueBool())
-		}
-		if !data.PlanUuid.IsNull() {
-			filters["plan_uuid"] = data.PlanUuid.ValueString()
-		}
-		if !data.ProjectName.IsNull() {
-			filters["project_name"] = data.ProjectName.ValueString()
-		}
-		if !data.ProjectUuid.IsNull() {
-			filters["project_uuid"] = data.ProjectUuid.ValueString()
-		}
-		if !data.ProviderUuid.IsNull() {
-			filters["provider_uuid"] = data.ProviderUuid.ValueString()
-		}
-		if !data.Query.IsNull() {
-			filters["query"] = data.Query.ValueString()
-		}
-		if !data.RestrictMemberAccess.IsNull() {
-			filters["restrict_member_access"] = fmt.Sprintf("%t", data.RestrictMemberAccess.ValueBool())
-		}
-		if !data.RuntimeState.IsNull() {
-			filters["runtime_state"] = data.RuntimeState.ValueString()
-		}
-		if !data.ServiceManagerUuid.IsNull() {
-			filters["service_manager_uuid"] = data.ServiceManagerUuid.ValueString()
-		}
-		if !data.State.IsNull() {
-			filters["state"] = data.State.ValueString()
-		}
-		if !data.UsageBased.IsNull() {
-			filters["usage_based"] = fmt.Sprintf("%t", data.UsageBased.ValueBool())
-		}
-		if !data.VisibleToProviders.IsNull() {
-			filters["visible_to_providers"] = fmt.Sprintf("%t", data.VisibleToProviders.ValueBool())
-		}
-		if !data.VisibleToUsername.IsNull() {
-			filters["visible_to_username"] = data.VisibleToUsername.ValueString()
+
+		filters := make(map[string]string)
+		for _, fd := range filterDefs {
+			if fd.val.IsNull() || fd.val.IsUnknown() {
+				continue
+			}
+			switch v := fd.val.(type) {
+			case types.String:
+				filters[fd.name] = v.ValueString()
+			case types.Int64:
+				filters[fd.name] = fmt.Sprintf("%d", v.ValueInt64())
+			case types.Bool:
+				filters[fd.name] = fmt.Sprintf("%t", v.ValueBool())
+			case types.Float64:
+				filters[fd.name] = fmt.Sprintf("%f", v.ValueFloat64())
+			}
 		}
 
 		if len(filters) == 0 {

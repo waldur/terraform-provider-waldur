@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
@@ -73,52 +74,42 @@ func (d *CoreSshPublicKeyDataSource) Schema(ctx context.Context, req datasource.
 			},
 			"created": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Created after",
 			},
 			"fingerprint_md5": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Fingerprint md5",
 			},
 			"fingerprint_sha256": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Fingerprint sha256",
 			},
 			"fingerprint_sha512": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Fingerprint sha512",
 			},
 			"is_shared": schema.BoolAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Is shared",
 			},
 			"modified": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Modified after",
 			},
 			"name": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Name",
 			},
 			"name_exact": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Name (exact)",
 			},
 			"user_uuid": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "User UUID",
 			},
 			"uuid": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "UUID",
 			},
 			"public_key": schema.StringAttribute{
@@ -184,36 +175,38 @@ func (d *CoreSshPublicKeyDataSource) Read(ctx context.Context, req datasource.Re
 		// Filter by provided parameters
 		var results []CoreSshPublicKeyApiResponse
 
-		filters := map[string]string{}
-		if !data.Created.IsNull() {
-			filters["created"] = data.Created.ValueString()
+		type filterDef struct {
+			name string
+			val  attr.Value
 		}
-		if !data.FingerprintMd5.IsNull() {
-			filters["fingerprint_md5"] = data.FingerprintMd5.ValueString()
+		filterDefs := []filterDef{
+			{"created", data.Created},
+			{"fingerprint_md5", data.FingerprintMd5},
+			{"fingerprint_sha256", data.FingerprintSha256},
+			{"fingerprint_sha512", data.FingerprintSha512},
+			{"is_shared", data.IsShared},
+			{"modified", data.Modified},
+			{"name", data.Name},
+			{"name_exact", data.NameExact},
+			{"user_uuid", data.UserUuid},
+			{"uuid", data.Uuid},
 		}
-		if !data.FingerprintSha256.IsNull() {
-			filters["fingerprint_sha256"] = data.FingerprintSha256.ValueString()
-		}
-		if !data.FingerprintSha512.IsNull() {
-			filters["fingerprint_sha512"] = data.FingerprintSha512.ValueString()
-		}
-		if !data.IsShared.IsNull() {
-			filters["is_shared"] = fmt.Sprintf("%t", data.IsShared.ValueBool())
-		}
-		if !data.Modified.IsNull() {
-			filters["modified"] = data.Modified.ValueString()
-		}
-		if !data.Name.IsNull() {
-			filters["name"] = data.Name.ValueString()
-		}
-		if !data.NameExact.IsNull() {
-			filters["name_exact"] = data.NameExact.ValueString()
-		}
-		if !data.UserUuid.IsNull() {
-			filters["user_uuid"] = data.UserUuid.ValueString()
-		}
-		if !data.Uuid.IsNull() {
-			filters["uuid"] = data.Uuid.ValueString()
+
+		filters := make(map[string]string)
+		for _, fd := range filterDefs {
+			if fd.val.IsNull() || fd.val.IsUnknown() {
+				continue
+			}
+			switch v := fd.val.(type) {
+			case types.String:
+				filters[fd.name] = v.ValueString()
+			case types.Int64:
+				filters[fd.name] = fmt.Sprintf("%d", v.ValueInt64())
+			case types.Bool:
+				filters[fd.name] = fmt.Sprintf("%t", v.ValueBool())
+			case types.Float64:
+				filters[fd.name] = fmt.Sprintf("%f", v.ValueFloat64())
+			}
 		}
 
 		if len(filters) == 0 {

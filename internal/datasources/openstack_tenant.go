@@ -145,92 +145,74 @@ func (d *OpenstackTenantDataSource) Schema(ctx context.Context, req datasource.S
 			},
 			"backend_id": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Backend ID",
 			},
 			"can_manage": schema.BoolAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Can manage",
 			},
 			"customer": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Customer UUID",
 			},
 			"customer_abbreviation": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Customer abbreviation",
 			},
 			"customer_name": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Customer name",
 			},
 			"customer_native_name": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Customer native name",
 			},
 			"customer_uuid": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Customer UUID",
 			},
 			"description": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Description",
 			},
 			"external_ip": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "External IP",
 			},
 			"name": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Name",
 			},
 			"name_exact": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Name (exact)",
 			},
 			"project": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Project UUID",
 			},
 			"project_name": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Project name",
 			},
 			"project_uuid": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Project UUID",
 			},
 			"service_settings_name": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Service settings name",
 			},
 			"service_settings_uuid": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Service settings UUID",
 			},
 			"state": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "State",
 			},
 			"uuid": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "UUID",
 			},
 			"access_url": schema.StringAttribute{
@@ -401,60 +383,46 @@ func (d *OpenstackTenantDataSource) Read(ctx context.Context, req datasource.Rea
 		// Filter by provided parameters
 		var results []OpenstackTenantApiResponse
 
-		filters := map[string]string{}
-		if !data.BackendId.IsNull() {
-			filters["backend_id"] = data.BackendId.ValueString()
+		type filterDef struct {
+			name string
+			val  attr.Value
 		}
-		if !data.CanManage.IsNull() {
-			filters["can_manage"] = fmt.Sprintf("%t", data.CanManage.ValueBool())
+		filterDefs := []filterDef{
+			{"backend_id", data.BackendId},
+			{"can_manage", data.CanManage},
+			{"customer", data.Customer},
+			{"customer_abbreviation", data.CustomerAbbreviation},
+			{"customer_name", data.CustomerName},
+			{"customer_native_name", data.CustomerNativeName},
+			{"customer_uuid", data.CustomerUuid},
+			{"description", data.Description},
+			{"external_ip", data.ExternalIp},
+			{"name", data.Name},
+			{"name_exact", data.NameExact},
+			{"project", data.Project},
+			{"project_name", data.ProjectName},
+			{"project_uuid", data.ProjectUuid},
+			{"service_settings_name", data.ServiceSettingsName},
+			{"service_settings_uuid", data.ServiceSettingsUuid},
+			{"state", data.State},
+			{"uuid", data.Uuid},
 		}
-		if !data.Customer.IsNull() {
-			filters["customer"] = data.Customer.ValueString()
-		}
-		if !data.CustomerAbbreviation.IsNull() {
-			filters["customer_abbreviation"] = data.CustomerAbbreviation.ValueString()
-		}
-		if !data.CustomerName.IsNull() {
-			filters["customer_name"] = data.CustomerName.ValueString()
-		}
-		if !data.CustomerNativeName.IsNull() {
-			filters["customer_native_name"] = data.CustomerNativeName.ValueString()
-		}
-		if !data.CustomerUuid.IsNull() {
-			filters["customer_uuid"] = data.CustomerUuid.ValueString()
-		}
-		if !data.Description.IsNull() {
-			filters["description"] = data.Description.ValueString()
-		}
-		if !data.ExternalIp.IsNull() {
-			filters["external_ip"] = data.ExternalIp.ValueString()
-		}
-		if !data.Name.IsNull() {
-			filters["name"] = data.Name.ValueString()
-		}
-		if !data.NameExact.IsNull() {
-			filters["name_exact"] = data.NameExact.ValueString()
-		}
-		if !data.Project.IsNull() {
-			filters["project"] = data.Project.ValueString()
-		}
-		if !data.ProjectName.IsNull() {
-			filters["project_name"] = data.ProjectName.ValueString()
-		}
-		if !data.ProjectUuid.IsNull() {
-			filters["project_uuid"] = data.ProjectUuid.ValueString()
-		}
-		if !data.ServiceSettingsName.IsNull() {
-			filters["service_settings_name"] = data.ServiceSettingsName.ValueString()
-		}
-		if !data.ServiceSettingsUuid.IsNull() {
-			filters["service_settings_uuid"] = data.ServiceSettingsUuid.ValueString()
-		}
-		if !data.State.IsNull() {
-			filters["state"] = data.State.ValueString()
-		}
-		if !data.Uuid.IsNull() {
-			filters["uuid"] = data.Uuid.ValueString()
+
+		filters := make(map[string]string)
+		for _, fd := range filterDefs {
+			if fd.val.IsNull() || fd.val.IsUnknown() {
+				continue
+			}
+			switch v := fd.val.(type) {
+			case types.String:
+				filters[fd.name] = v.ValueString()
+			case types.Int64:
+				filters[fd.name] = fmt.Sprintf("%d", v.ValueInt64())
+			case types.Bool:
+				filters[fd.name] = fmt.Sprintf("%t", v.ValueBool())
+			case types.Float64:
+				filters[fd.name] = fmt.Sprintf("%f", v.ValueFloat64())
+			}
 		}
 
 		if len(filters) == 0 {

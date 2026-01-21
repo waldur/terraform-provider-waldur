@@ -231,7 +231,10 @@ func (r *OpenstackVolumeAttachmentResource) Schema(ctx context.Context, req reso
 				MarkdownDescription: "Name of the image this volume was created from",
 			},
 			"instance": schema.StringAttribute{
-				Computed:            true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 				MarkdownDescription: "Instance that this volume is attached to, if any",
 			},
 			"instance_marketplace_uuid": schema.StringAttribute{

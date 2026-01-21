@@ -100,11 +100,7 @@ func (r *OpenstackNetworkRbacPolicyResource) Schema(ctx context.Context, req res
 				MarkdownDescription: "Name of the network",
 			},
 			"policy_type": schema.StringAttribute{
-				Optional: true,
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
+				Optional:            true,
 				MarkdownDescription: "Type of access granted - either shared access or external network access",
 			},
 			"target_tenant": schema.StringAttribute{

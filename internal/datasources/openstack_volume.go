@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
@@ -164,137 +165,110 @@ func (d *OpenstackVolumeDataSource) Schema(ctx context.Context, req datasource.S
 			},
 			"attach_instance_uuid": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Filter for attachment to instance UUID",
 			},
 			"availability_zone_name": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Availability zone name",
 			},
 			"backend_id": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Backend ID",
 			},
 			"can_manage": schema.BoolAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Can manage",
 			},
 			"customer": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Customer UUID",
 			},
 			"customer_abbreviation": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Customer abbreviation",
 			},
 			"customer_name": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Customer name",
 			},
 			"customer_native_name": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Customer native name",
 			},
 			"customer_uuid": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Customer UUID",
 			},
 			"description": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Description",
 			},
 			"external_ip": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "External IP",
 			},
 			"instance": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Instance URL",
 			},
 			"instance_uuid": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Instance UUID",
 			},
 			"name": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Name",
 			},
 			"name_exact": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Name (exact)",
 			},
 			"project": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Project UUID",
 			},
 			"project_name": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Project name",
 			},
 			"project_uuid": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Project UUID",
 			},
 			"runtime_state": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Runtime state",
 			},
 			"service_settings_name": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Service settings name",
 			},
 			"service_settings_uuid": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Service settings UUID",
 			},
 			"snapshot": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Snapshot URL",
 			},
 			"snapshot_uuid": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Snapshot UUID",
 			},
 			"state": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "State",
 			},
 			"tenant": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Tenant URL",
 			},
 			"tenant_uuid": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Tenant UUID",
 			},
 			"uuid": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "UUID",
 			},
 			"access_url": schema.StringAttribute{
@@ -484,87 +458,55 @@ func (d *OpenstackVolumeDataSource) Read(ctx context.Context, req datasource.Rea
 		// Filter by provided parameters
 		var results []OpenstackVolumeApiResponse
 
-		filters := map[string]string{}
-		if !data.AttachInstanceUuid.IsNull() {
-			filters["attach_instance_uuid"] = data.AttachInstanceUuid.ValueString()
+		type filterDef struct {
+			name string
+			val  attr.Value
 		}
-		if !data.AvailabilityZoneName.IsNull() {
-			filters["availability_zone_name"] = data.AvailabilityZoneName.ValueString()
+		filterDefs := []filterDef{
+			{"attach_instance_uuid", data.AttachInstanceUuid},
+			{"availability_zone_name", data.AvailabilityZoneName},
+			{"backend_id", data.BackendId},
+			{"can_manage", data.CanManage},
+			{"customer", data.Customer},
+			{"customer_abbreviation", data.CustomerAbbreviation},
+			{"customer_name", data.CustomerName},
+			{"customer_native_name", data.CustomerNativeName},
+			{"customer_uuid", data.CustomerUuid},
+			{"description", data.Description},
+			{"external_ip", data.ExternalIp},
+			{"instance", data.Instance},
+			{"instance_uuid", data.InstanceUuid},
+			{"name", data.Name},
+			{"name_exact", data.NameExact},
+			{"project", data.Project},
+			{"project_name", data.ProjectName},
+			{"project_uuid", data.ProjectUuid},
+			{"runtime_state", data.RuntimeState},
+			{"service_settings_name", data.ServiceSettingsName},
+			{"service_settings_uuid", data.ServiceSettingsUuid},
+			{"snapshot", data.Snapshot},
+			{"snapshot_uuid", data.SnapshotUuid},
+			{"state", data.State},
+			{"tenant", data.Tenant},
+			{"tenant_uuid", data.TenantUuid},
+			{"uuid", data.Uuid},
 		}
-		if !data.BackendId.IsNull() {
-			filters["backend_id"] = data.BackendId.ValueString()
-		}
-		if !data.CanManage.IsNull() {
-			filters["can_manage"] = fmt.Sprintf("%t", data.CanManage.ValueBool())
-		}
-		if !data.Customer.IsNull() {
-			filters["customer"] = data.Customer.ValueString()
-		}
-		if !data.CustomerAbbreviation.IsNull() {
-			filters["customer_abbreviation"] = data.CustomerAbbreviation.ValueString()
-		}
-		if !data.CustomerName.IsNull() {
-			filters["customer_name"] = data.CustomerName.ValueString()
-		}
-		if !data.CustomerNativeName.IsNull() {
-			filters["customer_native_name"] = data.CustomerNativeName.ValueString()
-		}
-		if !data.CustomerUuid.IsNull() {
-			filters["customer_uuid"] = data.CustomerUuid.ValueString()
-		}
-		if !data.Description.IsNull() {
-			filters["description"] = data.Description.ValueString()
-		}
-		if !data.ExternalIp.IsNull() {
-			filters["external_ip"] = data.ExternalIp.ValueString()
-		}
-		if !data.Instance.IsNull() {
-			filters["instance"] = data.Instance.ValueString()
-		}
-		if !data.InstanceUuid.IsNull() {
-			filters["instance_uuid"] = data.InstanceUuid.ValueString()
-		}
-		if !data.Name.IsNull() {
-			filters["name"] = data.Name.ValueString()
-		}
-		if !data.NameExact.IsNull() {
-			filters["name_exact"] = data.NameExact.ValueString()
-		}
-		if !data.Project.IsNull() {
-			filters["project"] = data.Project.ValueString()
-		}
-		if !data.ProjectName.IsNull() {
-			filters["project_name"] = data.ProjectName.ValueString()
-		}
-		if !data.ProjectUuid.IsNull() {
-			filters["project_uuid"] = data.ProjectUuid.ValueString()
-		}
-		if !data.RuntimeState.IsNull() {
-			filters["runtime_state"] = data.RuntimeState.ValueString()
-		}
-		if !data.ServiceSettingsName.IsNull() {
-			filters["service_settings_name"] = data.ServiceSettingsName.ValueString()
-		}
-		if !data.ServiceSettingsUuid.IsNull() {
-			filters["service_settings_uuid"] = data.ServiceSettingsUuid.ValueString()
-		}
-		if !data.Snapshot.IsNull() {
-			filters["snapshot"] = data.Snapshot.ValueString()
-		}
-		if !data.SnapshotUuid.IsNull() {
-			filters["snapshot_uuid"] = data.SnapshotUuid.ValueString()
-		}
-		if !data.State.IsNull() {
-			filters["state"] = data.State.ValueString()
-		}
-		if !data.Tenant.IsNull() {
-			filters["tenant"] = data.Tenant.ValueString()
-		}
-		if !data.TenantUuid.IsNull() {
-			filters["tenant_uuid"] = data.TenantUuid.ValueString()
-		}
-		if !data.Uuid.IsNull() {
-			filters["uuid"] = data.Uuid.ValueString()
+
+		filters := make(map[string]string)
+		for _, fd := range filterDefs {
+			if fd.val.IsNull() || fd.val.IsUnknown() {
+				continue
+			}
+			switch v := fd.val.(type) {
+			case types.String:
+				filters[fd.name] = v.ValueString()
+			case types.Int64:
+				filters[fd.name] = fmt.Sprintf("%d", v.ValueInt64())
+			case types.Bool:
+				filters[fd.name] = fmt.Sprintf("%t", v.ValueBool())
+			case types.Float64:
+				filters[fd.name] = fmt.Sprintf("%f", v.ValueFloat64())
+			}
 		}
 
 		if len(filters) == 0 {

@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
@@ -118,87 +119,70 @@ func (d *StructureProjectDataSource) Schema(ctx context.Context, req datasource.
 			},
 			"backend_id": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "ID of the backend",
 			},
 			"can_admin": schema.BoolAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Return a list of projects where current user is admin.",
 			},
 			"can_manage": schema.BoolAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Return a list of projects where current user is manager or a customer owner.",
 			},
 			"conceal_finished_projects": schema.BoolAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Conceal finished projects",
 			},
 			"created": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Created after",
 			},
 			"customer": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Multiple values may be separated by commas.",
 			},
 			"customer_abbreviation": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Customer abbreviation",
 			},
 			"customer_name": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Customer name",
 			},
 			"customer_native_name": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Customer native name",
 			},
 			"description": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Description",
 			},
 			"include_terminated": schema.BoolAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Include soft-deleted (terminated) projects. Only available to staff and support users, or users with organizational roles who can see their terminated projects.",
 			},
 			"is_removed": schema.BoolAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Is removed",
 			},
 			"modified": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Modified after",
 			},
 			"name": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Name",
 			},
 			"name_exact": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Name (exact)",
 			},
 			"query": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Filter by name, slug, UUID, backend ID or resource effective ID",
 			},
 			"slug": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Slug",
 			},
 			"customer_display_billing_info_in_projects": schema.BoolAttribute{
@@ -332,57 +316,45 @@ func (d *StructureProjectDataSource) Read(ctx context.Context, req datasource.Re
 		// Filter by provided parameters
 		var results []StructureProjectApiResponse
 
-		filters := map[string]string{}
-		if !data.BackendId.IsNull() {
-			filters["backend_id"] = data.BackendId.ValueString()
+		type filterDef struct {
+			name string
+			val  attr.Value
 		}
-		if !data.CanAdmin.IsNull() {
-			filters["can_admin"] = fmt.Sprintf("%t", data.CanAdmin.ValueBool())
+		filterDefs := []filterDef{
+			{"backend_id", data.BackendId},
+			{"can_admin", data.CanAdmin},
+			{"can_manage", data.CanManage},
+			{"conceal_finished_projects", data.ConcealFinishedProjects},
+			{"created", data.Created},
+			{"customer", data.Customer},
+			{"customer_abbreviation", data.CustomerAbbreviation},
+			{"customer_name", data.CustomerName},
+			{"customer_native_name", data.CustomerNativeName},
+			{"description", data.Description},
+			{"include_terminated", data.IncludeTerminated},
+			{"is_removed", data.IsRemoved},
+			{"modified", data.Modified},
+			{"name", data.Name},
+			{"name_exact", data.NameExact},
+			{"query", data.Query},
+			{"slug", data.Slug},
 		}
-		if !data.CanManage.IsNull() {
-			filters["can_manage"] = fmt.Sprintf("%t", data.CanManage.ValueBool())
-		}
-		if !data.ConcealFinishedProjects.IsNull() {
-			filters["conceal_finished_projects"] = fmt.Sprintf("%t", data.ConcealFinishedProjects.ValueBool())
-		}
-		if !data.Created.IsNull() {
-			filters["created"] = data.Created.ValueString()
-		}
-		if !data.Customer.IsNull() {
-			filters["customer"] = data.Customer.ValueString()
-		}
-		if !data.CustomerAbbreviation.IsNull() {
-			filters["customer_abbreviation"] = data.CustomerAbbreviation.ValueString()
-		}
-		if !data.CustomerName.IsNull() {
-			filters["customer_name"] = data.CustomerName.ValueString()
-		}
-		if !data.CustomerNativeName.IsNull() {
-			filters["customer_native_name"] = data.CustomerNativeName.ValueString()
-		}
-		if !data.Description.IsNull() {
-			filters["description"] = data.Description.ValueString()
-		}
-		if !data.IncludeTerminated.IsNull() {
-			filters["include_terminated"] = fmt.Sprintf("%t", data.IncludeTerminated.ValueBool())
-		}
-		if !data.IsRemoved.IsNull() {
-			filters["is_removed"] = fmt.Sprintf("%t", data.IsRemoved.ValueBool())
-		}
-		if !data.Modified.IsNull() {
-			filters["modified"] = data.Modified.ValueString()
-		}
-		if !data.Name.IsNull() {
-			filters["name"] = data.Name.ValueString()
-		}
-		if !data.NameExact.IsNull() {
-			filters["name_exact"] = data.NameExact.ValueString()
-		}
-		if !data.Query.IsNull() {
-			filters["query"] = data.Query.ValueString()
-		}
-		if !data.Slug.IsNull() {
-			filters["slug"] = data.Slug.ValueString()
+
+		filters := make(map[string]string)
+		for _, fd := range filterDefs {
+			if fd.val.IsNull() || fd.val.IsUnknown() {
+				continue
+			}
+			switch v := fd.val.(type) {
+			case types.String:
+				filters[fd.name] = v.ValueString()
+			case types.Int64:
+				filters[fd.name] = fmt.Sprintf("%d", v.ValueInt64())
+			case types.Bool:
+				filters[fd.name] = fmt.Sprintf("%t", v.ValueBool())
+			case types.Float64:
+				filters[fd.name] = fmt.Sprintf("%f", v.ValueFloat64())
+			}
 		}
 
 		if len(filters) == 0 {

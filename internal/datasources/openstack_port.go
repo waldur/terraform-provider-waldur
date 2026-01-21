@@ -154,82 +154,66 @@ func (d *OpenstackPortDataSource) Schema(ctx context.Context, req datasource.Sch
 			},
 			"admin_state_up": schema.BoolAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Admin state up",
 			},
 			"backend_id": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "ID of the backend",
 			},
 			"device_id": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "ID of the device",
 			},
 			"device_owner": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Device owner",
 			},
 			"exclude_subnet_uuids": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Exclude Subnet UUIDs (comma-separated)",
 			},
 			"fixed_ips": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Search by fixed IP",
 			},
 			"has_device_owner": schema.BoolAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Has device owner",
 			},
 			"mac_address": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Mac address",
 			},
 			"name": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Name",
 			},
 			"name_exact": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Name (exact)",
 			},
 			"network_name": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Search by network name",
 			},
 			"network_uuid": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Search by network UUID",
 			},
 			"query": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Search by name, MAC address or backend ID",
 			},
 			"status": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Status",
 			},
 			"tenant": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Tenant URL",
 			},
 			"tenant_uuid": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Tenant UUID",
 			},
 			"access_url": schema.StringAttribute{
@@ -383,54 +367,44 @@ func (d *OpenstackPortDataSource) Read(ctx context.Context, req datasource.ReadR
 		// Filter by provided parameters
 		var results []OpenstackPortApiResponse
 
-		filters := map[string]string{}
-		if !data.AdminStateUp.IsNull() {
-			filters["admin_state_up"] = fmt.Sprintf("%t", data.AdminStateUp.ValueBool())
+		type filterDef struct {
+			name string
+			val  attr.Value
 		}
-		if !data.BackendId.IsNull() {
-			filters["backend_id"] = data.BackendId.ValueString()
+		filterDefs := []filterDef{
+			{"admin_state_up", data.AdminStateUp},
+			{"backend_id", data.BackendId},
+			{"device_id", data.DeviceId},
+			{"device_owner", data.DeviceOwner},
+			{"exclude_subnet_uuids", data.ExcludeSubnetUuids},
+			{"fixed_ips", data.FixedIps},
+			{"has_device_owner", data.HasDeviceOwner},
+			{"mac_address", data.MacAddress},
+			{"name", data.Name},
+			{"name_exact", data.NameExact},
+			{"network_name", data.NetworkName},
+			{"network_uuid", data.NetworkUuid},
+			{"query", data.Query},
+			{"status", data.Status},
+			{"tenant", data.Tenant},
+			{"tenant_uuid", data.TenantUuid},
 		}
-		if !data.DeviceId.IsNull() {
-			filters["device_id"] = data.DeviceId.ValueString()
-		}
-		if !data.DeviceOwner.IsNull() {
-			filters["device_owner"] = data.DeviceOwner.ValueString()
-		}
-		if !data.ExcludeSubnetUuids.IsNull() {
-			filters["exclude_subnet_uuids"] = data.ExcludeSubnetUuids.ValueString()
-		}
-		if !data.FixedIps.IsNull() {
-			filters["fixed_ips"] = data.FixedIps.ValueString()
-		}
-		if !data.HasDeviceOwner.IsNull() {
-			filters["has_device_owner"] = fmt.Sprintf("%t", data.HasDeviceOwner.ValueBool())
-		}
-		if !data.MacAddress.IsNull() {
-			filters["mac_address"] = data.MacAddress.ValueString()
-		}
-		if !data.Name.IsNull() {
-			filters["name"] = data.Name.ValueString()
-		}
-		if !data.NameExact.IsNull() {
-			filters["name_exact"] = data.NameExact.ValueString()
-		}
-		if !data.NetworkName.IsNull() {
-			filters["network_name"] = data.NetworkName.ValueString()
-		}
-		if !data.NetworkUuid.IsNull() {
-			filters["network_uuid"] = data.NetworkUuid.ValueString()
-		}
-		if !data.Query.IsNull() {
-			filters["query"] = data.Query.ValueString()
-		}
-		if !data.Status.IsNull() {
-			filters["status"] = data.Status.ValueString()
-		}
-		if !data.Tenant.IsNull() {
-			filters["tenant"] = data.Tenant.ValueString()
-		}
-		if !data.TenantUuid.IsNull() {
-			filters["tenant_uuid"] = data.TenantUuid.ValueString()
+
+		filters := make(map[string]string)
+		for _, fd := range filterDefs {
+			if fd.val.IsNull() || fd.val.IsUnknown() {
+				continue
+			}
+			switch v := fd.val.(type) {
+			case types.String:
+				filters[fd.name] = v.ValueString()
+			case types.Int64:
+				filters[fd.name] = fmt.Sprintf("%d", v.ValueInt64())
+			case types.Bool:
+				filters[fd.name] = fmt.Sprintf("%t", v.ValueBool())
+			case types.Float64:
+				filters[fd.name] = fmt.Sprintf("%f", v.ValueFloat64())
+			}
 		}
 
 		if len(filters) == 0 {

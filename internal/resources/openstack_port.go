@@ -148,25 +148,16 @@ func (r *OpenstackPortResource) Schema(ctx context.Context, req resource.SchemaR
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"ip_address": schema.StringAttribute{
-							Optional: true,
-							Computed: true,
-							PlanModifiers: []planmodifier.String{
-								stringplanmodifier.UseStateForUnknown(),
-							},
+							Optional:            true,
 							MarkdownDescription: "Ip address",
 						},
 						"mac_address": schema.StringAttribute{
-							Optional: true,
-							Computed: true,
-							PlanModifiers: []planmodifier.String{
-								stringplanmodifier.UseStateForUnknown(),
-							},
+							Optional:            true,
 							MarkdownDescription: "Mac address",
 						},
 					},
 				},
 				Optional: true,
-				Computed: true,
 				PlanModifiers: []planmodifier.List{
 					listplanmodifier.RequiresReplace(),
 				},
@@ -187,11 +178,7 @@ func (r *OpenstackPortResource) Schema(ctx context.Context, req resource.SchemaR
 				MarkdownDescription: "Created",
 			},
 			"description": schema.StringAttribute{
-				Optional: true,
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
+				Optional:            true,
 				MarkdownDescription: "Description of the resource",
 			},
 			"device_id": schema.StringAttribute{
@@ -236,7 +223,6 @@ func (r *OpenstackPortResource) Schema(ctx context.Context, req resource.SchemaR
 					},
 				},
 				Optional: true,
-				Computed: true,
 				PlanModifiers: []planmodifier.List{
 					listplanmodifier.RequiresReplace(),
 				},
@@ -252,7 +238,6 @@ func (r *OpenstackPortResource) Schema(ctx context.Context, req resource.SchemaR
 			},
 			"mac_address": schema.StringAttribute{
 				Optional: true,
-				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
 				},
@@ -271,7 +256,6 @@ func (r *OpenstackPortResource) Schema(ctx context.Context, req resource.SchemaR
 			},
 			"network": schema.StringAttribute{
 				Optional: true,
-				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
 				},
@@ -293,7 +277,6 @@ func (r *OpenstackPortResource) Schema(ctx context.Context, req resource.SchemaR
 			},
 			"port_security_enabled": schema.BoolAttribute{
 				Optional: true,
-				Computed: true,
 				PlanModifiers: []planmodifier.Bool{
 					boolplanmodifier.RequiresReplace(),
 				},
@@ -315,11 +298,7 @@ func (r *OpenstackPortResource) Schema(ctx context.Context, req resource.SchemaR
 						},
 					},
 				},
-				Optional: true,
-				Computed: true,
-				PlanModifiers: []planmodifier.List{
-					listplanmodifier.UseStateForUnknown(),
-				},
+				Optional:            true,
 				MarkdownDescription: "Security groups",
 			},
 			"state": schema.StringAttribute{
@@ -337,11 +316,7 @@ func (r *OpenstackPortResource) Schema(ctx context.Context, req resource.SchemaR
 				MarkdownDescription: "Port status in OpenStack (e.g. ACTIVE, DOWN)",
 			},
 			"target_tenant": schema.StringAttribute{
-				Optional: true,
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
+				Optional:            true,
 				MarkdownDescription: "Target tenant for shared network port creation. If not specified, defaults to network's tenant.",
 			},
 			"tenant": schema.StringAttribute{

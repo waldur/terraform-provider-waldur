@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
@@ -195,102 +196,82 @@ func (d *MarketplaceOrderDataSource) Schema(ctx context.Context, req datasource.
 			},
 			"can_approve_as_consumer": schema.BoolAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Can approve as consumer",
 			},
 			"can_approve_as_provider": schema.BoolAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Can approve as provider",
 			},
 			"category_uuid": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Category UUID",
 			},
 			"created": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Created after",
 			},
 			"customer_uuid": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Customer UUID",
 			},
 			"modified": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Modified after",
 			},
 			"offering": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Offering",
 			},
 			"offering_slug": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Multiple values may be separated by commas.",
 			},
 			"offering_type": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Offering type",
 			},
 			"offering_uuid": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Offering UUID",
 			},
 			"parent_offering_uuid": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "UUID of the parent offering",
 			},
 			"project_uuid": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Project UUID",
 			},
 			"provider_uuid": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Provider UUID",
 			},
 			"query": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Search by order UUID, slug, project name or resource name",
 			},
 			"resource": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Resource URL",
 			},
 			"resource_name": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Resource name",
 			},
 			"resource_uuid": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Resource UUID",
 			},
 			"service_manager_uuid": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Service manager UUID",
 			},
 			"state": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Order state",
 			},
 			"type": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Order type",
 			},
 			"activation_price": schema.Float64Attribute{
@@ -564,66 +545,48 @@ func (d *MarketplaceOrderDataSource) Read(ctx context.Context, req datasource.Re
 		// Filter by provided parameters
 		var results []MarketplaceOrderApiResponse
 
-		filters := map[string]string{}
-		if !data.CanApproveAsConsumer.IsNull() {
-			filters["can_approve_as_consumer"] = fmt.Sprintf("%t", data.CanApproveAsConsumer.ValueBool())
+		type filterDef struct {
+			name string
+			val  attr.Value
 		}
-		if !data.CanApproveAsProvider.IsNull() {
-			filters["can_approve_as_provider"] = fmt.Sprintf("%t", data.CanApproveAsProvider.ValueBool())
+		filterDefs := []filterDef{
+			{"can_approve_as_consumer", data.CanApproveAsConsumer},
+			{"can_approve_as_provider", data.CanApproveAsProvider},
+			{"category_uuid", data.CategoryUuid},
+			{"created", data.Created},
+			{"customer_uuid", data.CustomerUuid},
+			{"modified", data.Modified},
+			{"offering", data.Offering},
+			{"offering_slug", data.OfferingSlug},
+			{"offering_type", data.OfferingType},
+			{"offering_uuid", data.OfferingUuid},
+			{"parent_offering_uuid", data.ParentOfferingUuid},
+			{"project_uuid", data.ProjectUuid},
+			{"provider_uuid", data.ProviderUuid},
+			{"query", data.Query},
+			{"resource", data.Resource},
+			{"resource_name", data.ResourceName},
+			{"resource_uuid", data.ResourceUuid},
+			{"service_manager_uuid", data.ServiceManagerUuid},
+			{"state", data.State},
+			{"type", data.Type},
 		}
-		if !data.CategoryUuid.IsNull() {
-			filters["category_uuid"] = data.CategoryUuid.ValueString()
-		}
-		if !data.Created.IsNull() {
-			filters["created"] = data.Created.ValueString()
-		}
-		if !data.CustomerUuid.IsNull() {
-			filters["customer_uuid"] = data.CustomerUuid.ValueString()
-		}
-		if !data.Modified.IsNull() {
-			filters["modified"] = data.Modified.ValueString()
-		}
-		if !data.Offering.IsNull() {
-			filters["offering"] = data.Offering.ValueString()
-		}
-		if !data.OfferingSlug.IsNull() {
-			filters["offering_slug"] = data.OfferingSlug.ValueString()
-		}
-		if !data.OfferingType.IsNull() {
-			filters["offering_type"] = data.OfferingType.ValueString()
-		}
-		if !data.OfferingUuid.IsNull() {
-			filters["offering_uuid"] = data.OfferingUuid.ValueString()
-		}
-		if !data.ParentOfferingUuid.IsNull() {
-			filters["parent_offering_uuid"] = data.ParentOfferingUuid.ValueString()
-		}
-		if !data.ProjectUuid.IsNull() {
-			filters["project_uuid"] = data.ProjectUuid.ValueString()
-		}
-		if !data.ProviderUuid.IsNull() {
-			filters["provider_uuid"] = data.ProviderUuid.ValueString()
-		}
-		if !data.Query.IsNull() {
-			filters["query"] = data.Query.ValueString()
-		}
-		if !data.Resource.IsNull() {
-			filters["resource"] = data.Resource.ValueString()
-		}
-		if !data.ResourceName.IsNull() {
-			filters["resource_name"] = data.ResourceName.ValueString()
-		}
-		if !data.ResourceUuid.IsNull() {
-			filters["resource_uuid"] = data.ResourceUuid.ValueString()
-		}
-		if !data.ServiceManagerUuid.IsNull() {
-			filters["service_manager_uuid"] = data.ServiceManagerUuid.ValueString()
-		}
-		if !data.State.IsNull() {
-			filters["state"] = data.State.ValueString()
-		}
-		if !data.Type.IsNull() {
-			filters["type"] = data.Type.ValueString()
+
+		filters := make(map[string]string)
+		for _, fd := range filterDefs {
+			if fd.val.IsNull() || fd.val.IsUnknown() {
+				continue
+			}
+			switch v := fd.val.(type) {
+			case types.String:
+				filters[fd.name] = v.ValueString()
+			case types.Int64:
+				filters[fd.name] = fmt.Sprintf("%d", v.ValueInt64())
+			case types.Bool:
+				filters[fd.name] = fmt.Sprintf("%t", v.ValueBool())
+			case types.Float64:
+				filters[fd.name] = fmt.Sprintf("%f", v.ValueFloat64())
+			}
 		}
 
 		if len(filters) == 0 {

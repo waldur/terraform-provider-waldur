@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
@@ -79,87 +80,70 @@ func (d *OpenstackFlavorDataSource) Schema(ctx context.Context, req datasource.S
 			},
 			"cores": schema.Int64Attribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Cores",
 			},
 			"cores__gte": schema.Int64Attribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Cores gte",
 			},
 			"cores__lte": schema.Int64Attribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Cores lte",
 			},
 			"disk": schema.Int64Attribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Disk",
 			},
 			"disk__gte": schema.Int64Attribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Disk gte",
 			},
 			"disk__lte": schema.Int64Attribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Disk lte",
 			},
 			"name": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Name",
 			},
 			"name_exact": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Name (exact)",
 			},
 			"name_iregex": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Name (regex)",
 			},
 			"offering_uuid": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Offering UUID",
 			},
 			"ram": schema.Int64Attribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Ram",
 			},
 			"ram__gte": schema.Int64Attribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Ram gte",
 			},
 			"ram__lte": schema.Int64Attribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Ram lte",
 			},
 			"settings": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Settings URL",
 			},
 			"settings_uuid": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Settings UUID",
 			},
 			"tenant": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Tenant URL",
 			},
 			"tenant_uuid": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Tenant UUID",
 			},
 			"backend_id": schema.StringAttribute{
@@ -225,57 +209,45 @@ func (d *OpenstackFlavorDataSource) Read(ctx context.Context, req datasource.Rea
 		// Filter by provided parameters
 		var results []OpenstackFlavorApiResponse
 
-		filters := map[string]string{}
-		if !data.Cores.IsNull() {
-			filters["cores"] = fmt.Sprintf("%d", data.Cores.ValueInt64())
+		type filterDef struct {
+			name string
+			val  attr.Value
 		}
-		if !data.CoresGte.IsNull() {
-			filters["cores__gte"] = fmt.Sprintf("%d", data.CoresGte.ValueInt64())
+		filterDefs := []filterDef{
+			{"cores", data.Cores},
+			{"cores__gte", data.CoresGte},
+			{"cores__lte", data.CoresLte},
+			{"disk", data.Disk},
+			{"disk__gte", data.DiskGte},
+			{"disk__lte", data.DiskLte},
+			{"name", data.Name},
+			{"name_exact", data.NameExact},
+			{"name_iregex", data.NameIregex},
+			{"offering_uuid", data.OfferingUuid},
+			{"ram", data.Ram},
+			{"ram__gte", data.RamGte},
+			{"ram__lte", data.RamLte},
+			{"settings", data.Settings},
+			{"settings_uuid", data.SettingsUuid},
+			{"tenant", data.Tenant},
+			{"tenant_uuid", data.TenantUuid},
 		}
-		if !data.CoresLte.IsNull() {
-			filters["cores__lte"] = fmt.Sprintf("%d", data.CoresLte.ValueInt64())
-		}
-		if !data.Disk.IsNull() {
-			filters["disk"] = fmt.Sprintf("%d", data.Disk.ValueInt64())
-		}
-		if !data.DiskGte.IsNull() {
-			filters["disk__gte"] = fmt.Sprintf("%d", data.DiskGte.ValueInt64())
-		}
-		if !data.DiskLte.IsNull() {
-			filters["disk__lte"] = fmt.Sprintf("%d", data.DiskLte.ValueInt64())
-		}
-		if !data.Name.IsNull() {
-			filters["name"] = data.Name.ValueString()
-		}
-		if !data.NameExact.IsNull() {
-			filters["name_exact"] = data.NameExact.ValueString()
-		}
-		if !data.NameIregex.IsNull() {
-			filters["name_iregex"] = data.NameIregex.ValueString()
-		}
-		if !data.OfferingUuid.IsNull() {
-			filters["offering_uuid"] = data.OfferingUuid.ValueString()
-		}
-		if !data.Ram.IsNull() {
-			filters["ram"] = fmt.Sprintf("%d", data.Ram.ValueInt64())
-		}
-		if !data.RamGte.IsNull() {
-			filters["ram__gte"] = fmt.Sprintf("%d", data.RamGte.ValueInt64())
-		}
-		if !data.RamLte.IsNull() {
-			filters["ram__lte"] = fmt.Sprintf("%d", data.RamLte.ValueInt64())
-		}
-		if !data.Settings.IsNull() {
-			filters["settings"] = data.Settings.ValueString()
-		}
-		if !data.SettingsUuid.IsNull() {
-			filters["settings_uuid"] = data.SettingsUuid.ValueString()
-		}
-		if !data.Tenant.IsNull() {
-			filters["tenant"] = data.Tenant.ValueString()
-		}
-		if !data.TenantUuid.IsNull() {
-			filters["tenant_uuid"] = data.TenantUuid.ValueString()
+
+		filters := make(map[string]string)
+		for _, fd := range filterDefs {
+			if fd.val.IsNull() || fd.val.IsUnknown() {
+				continue
+			}
+			switch v := fd.val.(type) {
+			case types.String:
+				filters[fd.name] = v.ValueString()
+			case types.Int64:
+				filters[fd.name] = fmt.Sprintf("%d", v.ValueInt64())
+			case types.Bool:
+				filters[fd.name] = fmt.Sprintf("%t", v.ValueBool())
+			case types.Float64:
+				filters[fd.name] = fmt.Sprintf("%f", v.ValueFloat64())
+			}
 		}
 
 		if len(filters) == 0 {

@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
@@ -68,37 +69,30 @@ func (d *OpenstackImageDataSource) Schema(ctx context.Context, req datasource.Sc
 			},
 			"name": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Name",
 			},
 			"name_exact": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Name (exact)",
 			},
 			"offering_uuid": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Offering UUID",
 			},
 			"settings": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Settings URL",
 			},
 			"settings_uuid": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Settings UUID",
 			},
 			"tenant": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Tenant URL",
 			},
 			"tenant_uuid": schema.StringAttribute{
 				Optional:            true,
-				Computed:            true,
 				MarkdownDescription: "Tenant UUID",
 			},
 			"backend_id": schema.StringAttribute{
@@ -168,27 +162,35 @@ func (d *OpenstackImageDataSource) Read(ctx context.Context, req datasource.Read
 		// Filter by provided parameters
 		var results []OpenstackImageApiResponse
 
-		filters := map[string]string{}
-		if !data.Name.IsNull() {
-			filters["name"] = data.Name.ValueString()
+		type filterDef struct {
+			name string
+			val  attr.Value
 		}
-		if !data.NameExact.IsNull() {
-			filters["name_exact"] = data.NameExact.ValueString()
+		filterDefs := []filterDef{
+			{"name", data.Name},
+			{"name_exact", data.NameExact},
+			{"offering_uuid", data.OfferingUuid},
+			{"settings", data.Settings},
+			{"settings_uuid", data.SettingsUuid},
+			{"tenant", data.Tenant},
+			{"tenant_uuid", data.TenantUuid},
 		}
-		if !data.OfferingUuid.IsNull() {
-			filters["offering_uuid"] = data.OfferingUuid.ValueString()
-		}
-		if !data.Settings.IsNull() {
-			filters["settings"] = data.Settings.ValueString()
-		}
-		if !data.SettingsUuid.IsNull() {
-			filters["settings_uuid"] = data.SettingsUuid.ValueString()
-		}
-		if !data.Tenant.IsNull() {
-			filters["tenant"] = data.Tenant.ValueString()
-		}
-		if !data.TenantUuid.IsNull() {
-			filters["tenant_uuid"] = data.TenantUuid.ValueString()
+
+		filters := make(map[string]string)
+		for _, fd := range filterDefs {
+			if fd.val.IsNull() || fd.val.IsUnknown() {
+				continue
+			}
+			switch v := fd.val.(type) {
+			case types.String:
+				filters[fd.name] = v.ValueString()
+			case types.Int64:
+				filters[fd.name] = fmt.Sprintf("%d", v.ValueInt64())
+			case types.Bool:
+				filters[fd.name] = fmt.Sprintf("%t", v.ValueBool())
+			case types.Float64:
+				filters[fd.name] = fmt.Sprintf("%f", v.ValueFloat64())
+			}
 		}
 
 		if len(filters) == 0 {
