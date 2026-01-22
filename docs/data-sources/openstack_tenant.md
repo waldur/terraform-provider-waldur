@@ -85,7 +85,7 @@ Optional:
 - `project_uuid` (String) Project UUID
 - `service_settings_name` (String) Service settings name
 - `service_settings_uuid` (String) Service settings UUID
-- `state` (String) State
+- `state` (String) State Allowed values: `CREATING`, `CREATION_SCHEDULED`, `DELETING`, `DELETION_SCHEDULED`, `ERRED`, `OK`, `UPDATE_SCHEDULED`, `UPDATING`.
 - `uuid` (String) UUID
 
 

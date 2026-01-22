@@ -4,10 +4,12 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/waldur/terraform-provider-waldur/internal/client"
@@ -463,7 +465,10 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 					},
 					"state": schema.StringAttribute{
 						Optional:            true,
-						MarkdownDescription: "Offering state",
+						MarkdownDescription: "Offering state Allowed values: `Active`, `Archived`, `Draft`, `Paused`, `Unavailable`.",
+						Validators: []validator.String{
+							stringvalidator.OneOf("Active", "Archived", "Draft", "Paused", "Unavailable"),
+						},
 					},
 					"type": schema.StringAttribute{
 						Optional:            true,

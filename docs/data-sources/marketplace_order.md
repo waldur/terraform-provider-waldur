@@ -110,5 +110,5 @@ Optional:
 - `resource_name` (String) Resource name
 - `resource_uuid` (String) Resource UUID
 - `service_manager_uuid` (String) Service manager UUID
-- `state` (String) Order state
-- `type` (String) Order type
+- `state` (String) Order state Allowed values: `canceled`, `done`, `erred`, `executing`, `pending-consumer`, `pending-project`, `pending-provider`, `pending-start-date`, `rejected`.
+- `type` (String) Order type Allowed values: `Create`, `Restore`, `Terminate`, `Update`.

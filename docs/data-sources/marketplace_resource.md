@@ -110,7 +110,7 @@ Optional:
 - `offering_uuid` (String) Multiple values may be separated by commas.
 - `only_limit_based` (Boolean) Filter resources with only limit-based components
 - `only_usage_based` (Boolean) Filter resources with only usage-based components
-- `order_state` (String) Order state
+- `order_state` (String) Order state Allowed values: `canceled`, `done`, `erred`, `executing`, `pending-consumer`, `pending-project`, `pending-provider`, `pending-start-date`, `rejected`.
 - `parent_offering_uuid` (String) UUID of the parent offering
 - `paused` (Boolean) Paused
 - `plan_uuid` (String) Plan UUID
@@ -121,7 +121,7 @@ Optional:
 - `restrict_member_access` (Boolean) Restrict member access
 - `runtime_state` (String) Runtime state
 - `service_manager_uuid` (String) Service manager UUID
-- `state` (String) Resource state
+- `state` (String) Resource state Allowed values: `Creating`, `Erred`, `OK`, `Terminated`, `Terminating`, `Updating`.
 - `usage_based` (Boolean) Filter by usage-based offerings
 - `visible_to_providers` (Boolean) Include only resources visible to service providers
 - `visible_to_username` (String) Visible to username

@@ -110,7 +110,7 @@ Optional:
 - `scope_uuid` (String) Scope UUID
 - `service_manager_uuid` (String) Service manager UUID
 - `shared` (Boolean) Shared
-- `state` (String) Offering state
+- `state` (String) Offering state Allowed values: `Active`, `Archived`, `Draft`, `Paused`, `Unavailable`.
 - `type` (String) Offering type
 - `user_has_consent` (Boolean) User Has Consent
 - `user_has_offering_user` (Boolean) User Has Offering User

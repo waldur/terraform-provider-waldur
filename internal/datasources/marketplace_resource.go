@@ -4,10 +4,12 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/waldur/terraform-provider-waldur/internal/client"
@@ -342,7 +344,10 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 					},
 					"order_state": schema.StringAttribute{
 						Optional:            true,
-						MarkdownDescription: "Order state",
+						MarkdownDescription: "Order state Allowed values: `canceled`, `done`, `erred`, `executing`, `pending-consumer`, `pending-project`, `pending-provider`, `pending-start-date`, `rejected`.",
+						Validators: []validator.String{
+							stringvalidator.OneOf("canceled", "done", "erred", "executing", "pending-consumer", "pending-project", "pending-provider", "pending-start-date", "rejected"),
+						},
 					},
 					"parent_offering_uuid": schema.StringAttribute{
 						Optional:            true,
@@ -386,7 +391,10 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 					},
 					"state": schema.StringAttribute{
 						Optional:            true,
-						MarkdownDescription: "Resource state",
+						MarkdownDescription: "Resource state Allowed values: `Creating`, `Erred`, `OK`, `Terminated`, `Terminating`, `Updating`.",
+						Validators: []validator.String{
+							stringvalidator.OneOf("Creating", "Erred", "OK", "Terminated", "Terminating", "Updating"),
+						},
 					},
 					"usage_based": schema.BoolAttribute{
 						Optional:            true,

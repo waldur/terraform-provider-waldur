@@ -103,7 +103,7 @@ Optional:
 - `service_settings_uuid` (String) Service settings UUID
 - `snapshot` (String) Snapshot URL
 - `snapshot_uuid` (String) Snapshot UUID
-- `state` (String) State
+- `state` (String) State Allowed values: `CREATING`, `CREATION_SCHEDULED`, `DELETING`, `DELETION_SCHEDULED`, `ERRED`, `OK`, `UPDATE_SCHEDULED`, `UPDATING`.
 - `tenant` (String) Tenant URL
 - `tenant_uuid` (String) Tenant UUID
 - `uuid` (String) UUID
