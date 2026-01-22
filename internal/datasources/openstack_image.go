@@ -37,9 +37,8 @@ type OpenstackImageApiResponse struct {
 	Url       *string `json:"url" tfsdk:"url"`
 }
 
-// OpenstackImageDataSourceModel describes the data source data model.
-type OpenstackImageDataSourceModel struct {
-	UUID         types.String `tfsdk:"id"`
+// OpenstackImageFiltersModel contains the filter parameters for querying.
+type OpenstackImageFiltersModel struct {
 	Name         types.String `tfsdk:"name"`
 	NameExact    types.String `tfsdk:"name_exact"`
 	OfferingUuid types.String `tfsdk:"offering_uuid"`
@@ -47,10 +46,18 @@ type OpenstackImageDataSourceModel struct {
 	SettingsUuid types.String `tfsdk:"settings_uuid"`
 	Tenant       types.String `tfsdk:"tenant"`
 	TenantUuid   types.String `tfsdk:"tenant_uuid"`
-	BackendId    types.String `tfsdk:"backend_id"`
-	MinDisk      types.Int64  `tfsdk:"min_disk"`
-	MinRam       types.Int64  `tfsdk:"min_ram"`
-	Url          types.String `tfsdk:"url"`
+}
+
+// OpenstackImageDataSourceModel describes the data source data model.
+type OpenstackImageDataSourceModel struct {
+	UUID      types.String                `tfsdk:"id"`
+	Filters   *OpenstackImageFiltersModel `tfsdk:"filters"`
+	BackendId types.String                `tfsdk:"backend_id"`
+	MinDisk   types.Int64                 `tfsdk:"min_disk"`
+	MinRam    types.Int64                 `tfsdk:"min_ram"`
+	Name      types.String                `tfsdk:"name"`
+	Settings  types.String                `tfsdk:"settings"`
+	Url       types.String                `tfsdk:"url"`
 }
 
 func (d *OpenstackImageDataSource) Metadata(ctx context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
@@ -67,33 +74,39 @@ func (d *OpenstackImageDataSource) Schema(ctx context.Context, req datasource.Sc
 				Computed:            true,
 				MarkdownDescription: "Resource UUID",
 			},
-			"name": schema.StringAttribute{
+			"filters": schema.SingleNestedAttribute{
 				Optional:            true,
-				MarkdownDescription: "Name",
-			},
-			"name_exact": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Name (exact)",
-			},
-			"offering_uuid": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Offering UUID",
-			},
-			"settings": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Settings URL",
-			},
-			"settings_uuid": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Settings UUID",
-			},
-			"tenant": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Tenant URL",
-			},
-			"tenant_uuid": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Tenant UUID",
+				MarkdownDescription: "Filter parameters for querying Openstack Image",
+				Attributes: map[string]schema.Attribute{
+					"name": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Name",
+					},
+					"name_exact": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Name (exact)",
+					},
+					"offering_uuid": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Offering UUID",
+					},
+					"settings": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Settings URL",
+					},
+					"settings_uuid": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Settings UUID",
+					},
+					"tenant": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Tenant URL",
+					},
+					"tenant_uuid": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Tenant UUID",
+					},
+				},
 			},
 			"backend_id": schema.StringAttribute{
 				Computed:            true,
@@ -106,6 +119,14 @@ func (d *OpenstackImageDataSource) Schema(ctx context.Context, req datasource.Sc
 			"min_ram": schema.Int64Attribute{
 				Computed:            true,
 				MarkdownDescription: "Minimum memory size in MiB",
+			},
+			"name": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "Name of the resource",
+			},
+			"settings": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "Settings",
 			},
 			"url": schema.StringAttribute{
 				Computed:            true,
@@ -162,34 +183,36 @@ func (d *OpenstackImageDataSource) Read(ctx context.Context, req datasource.Read
 		// Filter by provided parameters
 		var results []OpenstackImageApiResponse
 
-		type filterDef struct {
-			name string
-			val  attr.Value
-		}
-		filterDefs := []filterDef{
-			{"name", data.Name},
-			{"name_exact", data.NameExact},
-			{"offering_uuid", data.OfferingUuid},
-			{"settings", data.Settings},
-			{"settings_uuid", data.SettingsUuid},
-			{"tenant", data.Tenant},
-			{"tenant_uuid", data.TenantUuid},
-		}
-
 		filters := make(map[string]string)
-		for _, fd := range filterDefs {
-			if fd.val.IsNull() || fd.val.IsUnknown() {
-				continue
+		if data.Filters != nil {
+			type filterDef struct {
+				name string
+				val  attr.Value
 			}
-			switch v := fd.val.(type) {
-			case types.String:
-				filters[fd.name] = v.ValueString()
-			case types.Int64:
-				filters[fd.name] = fmt.Sprintf("%d", v.ValueInt64())
-			case types.Bool:
-				filters[fd.name] = fmt.Sprintf("%t", v.ValueBool())
-			case types.Float64:
-				filters[fd.name] = fmt.Sprintf("%f", v.ValueFloat64())
+			filterDefs := []filterDef{
+				{"name", data.Filters.Name},
+				{"name_exact", data.Filters.NameExact},
+				{"offering_uuid", data.Filters.OfferingUuid},
+				{"settings", data.Filters.Settings},
+				{"settings_uuid", data.Filters.SettingsUuid},
+				{"tenant", data.Filters.Tenant},
+				{"tenant_uuid", data.Filters.TenantUuid},
+			}
+
+			for _, fd := range filterDefs {
+				if fd.val.IsNull() || fd.val.IsUnknown() {
+					continue
+				}
+				switch v := fd.val.(type) {
+				case types.String:
+					filters[fd.name] = v.ValueString()
+				case types.Int64:
+					filters[fd.name] = fmt.Sprintf("%d", v.ValueInt64())
+				case types.Bool:
+					filters[fd.name] = fmt.Sprintf("%t", v.ValueBool())
+				case types.Float64:
+					filters[fd.name] = fmt.Sprintf("%f", v.ValueFloat64())
+				}
 			}
 		}
 

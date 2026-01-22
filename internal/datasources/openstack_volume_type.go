@@ -35,9 +35,8 @@ type OpenstackVolumeTypeApiResponse struct {
 	Url         *string `json:"url" tfsdk:"url"`
 }
 
-// OpenstackVolumeTypeDataSourceModel describes the data source data model.
-type OpenstackVolumeTypeDataSourceModel struct {
-	UUID         types.String `tfsdk:"id"`
+// OpenstackVolumeTypeFiltersModel contains the filter parameters for querying.
+type OpenstackVolumeTypeFiltersModel struct {
 	Name         types.String `tfsdk:"name"`
 	NameExact    types.String `tfsdk:"name_exact"`
 	OfferingUuid types.String `tfsdk:"offering_uuid"`
@@ -45,8 +44,16 @@ type OpenstackVolumeTypeDataSourceModel struct {
 	SettingsUuid types.String `tfsdk:"settings_uuid"`
 	Tenant       types.String `tfsdk:"tenant"`
 	TenantUuid   types.String `tfsdk:"tenant_uuid"`
-	Description  types.String `tfsdk:"description"`
-	Url          types.String `tfsdk:"url"`
+}
+
+// OpenstackVolumeTypeDataSourceModel describes the data source data model.
+type OpenstackVolumeTypeDataSourceModel struct {
+	UUID        types.String                     `tfsdk:"id"`
+	Filters     *OpenstackVolumeTypeFiltersModel `tfsdk:"filters"`
+	Description types.String                     `tfsdk:"description"`
+	Name        types.String                     `tfsdk:"name"`
+	Settings    types.String                     `tfsdk:"settings"`
+	Url         types.String                     `tfsdk:"url"`
 }
 
 func (d *OpenstackVolumeTypeDataSource) Metadata(ctx context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
@@ -63,37 +70,51 @@ func (d *OpenstackVolumeTypeDataSource) Schema(ctx context.Context, req datasour
 				Computed:            true,
 				MarkdownDescription: "Resource UUID",
 			},
-			"name": schema.StringAttribute{
+			"filters": schema.SingleNestedAttribute{
 				Optional:            true,
-				MarkdownDescription: "Name",
-			},
-			"name_exact": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Name (exact)",
-			},
-			"offering_uuid": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Offering UUID",
-			},
-			"settings": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Settings URL",
-			},
-			"settings_uuid": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Settings UUID",
-			},
-			"tenant": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Tenant URL",
-			},
-			"tenant_uuid": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Tenant UUID",
+				MarkdownDescription: "Filter parameters for querying Openstack Volume Type",
+				Attributes: map[string]schema.Attribute{
+					"name": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Name",
+					},
+					"name_exact": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Name (exact)",
+					},
+					"offering_uuid": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Offering UUID",
+					},
+					"settings": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Settings URL",
+					},
+					"settings_uuid": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Settings UUID",
+					},
+					"tenant": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Tenant URL",
+					},
+					"tenant_uuid": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Tenant UUID",
+					},
+				},
 			},
 			"description": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Description of the resource",
+			},
+			"name": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "Name of the resource",
+			},
+			"settings": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "Settings",
 			},
 			"url": schema.StringAttribute{
 				Computed:            true,
@@ -150,34 +171,36 @@ func (d *OpenstackVolumeTypeDataSource) Read(ctx context.Context, req datasource
 		// Filter by provided parameters
 		var results []OpenstackVolumeTypeApiResponse
 
-		type filterDef struct {
-			name string
-			val  attr.Value
-		}
-		filterDefs := []filterDef{
-			{"name", data.Name},
-			{"name_exact", data.NameExact},
-			{"offering_uuid", data.OfferingUuid},
-			{"settings", data.Settings},
-			{"settings_uuid", data.SettingsUuid},
-			{"tenant", data.Tenant},
-			{"tenant_uuid", data.TenantUuid},
-		}
-
 		filters := make(map[string]string)
-		for _, fd := range filterDefs {
-			if fd.val.IsNull() || fd.val.IsUnknown() {
-				continue
+		if data.Filters != nil {
+			type filterDef struct {
+				name string
+				val  attr.Value
 			}
-			switch v := fd.val.(type) {
-			case types.String:
-				filters[fd.name] = v.ValueString()
-			case types.Int64:
-				filters[fd.name] = fmt.Sprintf("%d", v.ValueInt64())
-			case types.Bool:
-				filters[fd.name] = fmt.Sprintf("%t", v.ValueBool())
-			case types.Float64:
-				filters[fd.name] = fmt.Sprintf("%f", v.ValueFloat64())
+			filterDefs := []filterDef{
+				{"name", data.Filters.Name},
+				{"name_exact", data.Filters.NameExact},
+				{"offering_uuid", data.Filters.OfferingUuid},
+				{"settings", data.Filters.Settings},
+				{"settings_uuid", data.Filters.SettingsUuid},
+				{"tenant", data.Filters.Tenant},
+				{"tenant_uuid", data.Filters.TenantUuid},
+			}
+
+			for _, fd := range filterDefs {
+				if fd.val.IsNull() || fd.val.IsUnknown() {
+					continue
+				}
+				switch v := fd.val.(type) {
+				case types.String:
+					filters[fd.name] = v.ValueString()
+				case types.Int64:
+					filters[fd.name] = fmt.Sprintf("%d", v.ValueInt64())
+				case types.Bool:
+					filters[fd.name] = fmt.Sprintf("%t", v.ValueBool())
+				case types.Float64:
+					filters[fd.name] = fmt.Sprintf("%f", v.ValueFloat64())
+				}
 			}
 		}
 

@@ -17,13 +17,31 @@ Openstack Flavor data source - lookup by name or UUID
 
 ### Optional
 
+- `filters` (Attributes) Filter parameters for querying Openstack Flavor (see [below for nested schema](#nestedatt--filters))
+- `id` (String) Resource UUID
+
+### Read-Only
+
+- `backend_id` (String) ID of the backend
+- `cores` (Number) Number of cores in a VM
+- `disk` (Number) Root disk size in MiB
+- `display_name` (String) Name of the display
+- `name` (String) Name of the resource
+- `ram` (Number) Memory size in MiB
+- `settings` (String) Settings
+- `url` (String) Url
+
+<a id="nestedatt--filters"></a>
+### Nested Schema for `filters`
+
+Optional:
+
 - `cores` (Number) Cores
 - `cores__gte` (Number) Cores gte
 - `cores__lte` (Number) Cores lte
 - `disk` (Number) Disk
 - `disk__gte` (Number) Disk gte
 - `disk__lte` (Number) Disk lte
-- `id` (String) Resource UUID
 - `name` (String) Name
 - `name_exact` (String) Name (exact)
 - `name_iregex` (String) Name (regex)
@@ -35,9 +53,3 @@ Openstack Flavor data source - lookup by name or UUID
 - `settings_uuid` (String) Settings UUID
 - `tenant` (String) Tenant URL
 - `tenant_uuid` (String) Tenant UUID
-
-### Read-Only
-
-- `backend_id` (String) ID of the backend
-- `display_name` (String) Name of the display
-- `url` (String) Url

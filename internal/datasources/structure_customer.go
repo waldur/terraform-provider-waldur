@@ -104,61 +104,74 @@ type StructureCustomerPaymentProfilesAttributesResponse struct {
 	EndDate         *string `json:"end_date" tfsdk:"end_date"`
 }
 
+// StructureCustomerFiltersModel contains the filter parameters for querying.
+type StructureCustomerFiltersModel struct {
+	Abbreviation          types.String `tfsdk:"abbreviation"`
+	AgreementNumber       types.String `tfsdk:"agreement_number"`
+	Archived              types.Bool   `tfsdk:"archived"`
+	BackendId             types.String `tfsdk:"backend_id"`
+	ContactDetails        types.String `tfsdk:"contact_details"`
+	Name                  types.String `tfsdk:"name"`
+	NameExact             types.String `tfsdk:"name_exact"`
+	NativeName            types.String `tfsdk:"native_name"`
+	OrganizationGroupName types.String `tfsdk:"organization_group_name"`
+	OrganizationGroupUuid types.String `tfsdk:"organization_group_uuid"`
+	OwnedByCurrentUser    types.Bool   `tfsdk:"owned_by_current_user"`
+	Query                 types.String `tfsdk:"query"`
+	RegistrationCode      types.String `tfsdk:"registration_code"`
+}
+
 // StructureCustomerDataSourceModel describes the data source data model.
 type StructureCustomerDataSourceModel struct {
-	UUID                         types.String  `tfsdk:"id"`
-	Abbreviation                 types.String  `tfsdk:"abbreviation"`
-	AgreementNumber              types.String  `tfsdk:"agreement_number"`
-	Archived                     types.Bool    `tfsdk:"archived"`
-	BackendId                    types.String  `tfsdk:"backend_id"`
-	ContactDetails               types.String  `tfsdk:"contact_details"`
-	Name                         types.String  `tfsdk:"name"`
-	NameExact                    types.String  `tfsdk:"name_exact"`
-	NativeName                   types.String  `tfsdk:"native_name"`
-	OrganizationGroupName        types.String  `tfsdk:"organization_group_name"`
-	OrganizationGroupUuid        types.String  `tfsdk:"organization_group_uuid"`
-	OwnedByCurrentUser           types.Bool    `tfsdk:"owned_by_current_user"`
-	Query                        types.String  `tfsdk:"query"`
-	RegistrationCode             types.String  `tfsdk:"registration_code"`
-	AccessSubnets                types.String  `tfsdk:"access_subnets"`
-	AccountingStartDate          types.String  `tfsdk:"accounting_start_date"`
-	Address                      types.String  `tfsdk:"address"`
-	BankAccount                  types.String  `tfsdk:"bank_account"`
-	BankName                     types.String  `tfsdk:"bank_name"`
-	Blocked                      types.Bool    `tfsdk:"blocked"`
-	CallManagingOrganizationUuid types.String  `tfsdk:"call_managing_organization_uuid"`
-	Country                      types.String  `tfsdk:"country"`
-	CountryName                  types.String  `tfsdk:"country_name"`
-	Created                      types.String  `tfsdk:"created"`
-	CustomerCredit               types.Float64 `tfsdk:"customer_credit"`
-	CustomerUnallocatedCredit    types.Float64 `tfsdk:"customer_unallocated_credit"`
-	DefaultTaxPercent            types.String  `tfsdk:"default_tax_percent"`
-	Description                  types.String  `tfsdk:"description"`
-	DisplayBillingInfoInProjects types.Bool    `tfsdk:"display_billing_info_in_projects"`
-	DisplayName                  types.String  `tfsdk:"display_name"`
-	Domain                       types.String  `tfsdk:"domain"`
-	Email                        types.String  `tfsdk:"email"`
-	GracePeriodDays              types.Int64   `tfsdk:"grace_period_days"`
-	Homepage                     types.String  `tfsdk:"homepage"`
-	Image                        types.String  `tfsdk:"image"`
-	IsServiceProvider            types.Bool    `tfsdk:"is_service_provider"`
-	Latitude                     types.Float64 `tfsdk:"latitude"`
-	Longitude                    types.Float64 `tfsdk:"longitude"`
-	MaxServiceAccounts           types.Int64   `tfsdk:"max_service_accounts"`
-	NotificationEmails           types.String  `tfsdk:"notification_emails"`
-	OrganizationGroups           types.List    `tfsdk:"organization_groups"`
-	PaymentProfiles              types.List    `tfsdk:"payment_profiles"`
-	PhoneNumber                  types.String  `tfsdk:"phone_number"`
-	Postal                       types.String  `tfsdk:"postal"`
-	ProjectMetadataChecklist     types.String  `tfsdk:"project_metadata_checklist"`
-	ProjectsCount                types.Int64   `tfsdk:"projects_count"`
-	ServiceProvider              types.String  `tfsdk:"service_provider"`
-	ServiceProviderUuid          types.String  `tfsdk:"service_provider_uuid"`
-	Slug                         types.String  `tfsdk:"slug"`
-	SponsorNumber                types.Int64   `tfsdk:"sponsor_number"`
-	Url                          types.String  `tfsdk:"url"`
-	UsersCount                   types.Int64   `tfsdk:"users_count"`
-	VatCode                      types.String  `tfsdk:"vat_code"`
+	UUID                         types.String                   `tfsdk:"id"`
+	Filters                      *StructureCustomerFiltersModel `tfsdk:"filters"`
+	Abbreviation                 types.String                   `tfsdk:"abbreviation"`
+	AccessSubnets                types.String                   `tfsdk:"access_subnets"`
+	AccountingStartDate          types.String                   `tfsdk:"accounting_start_date"`
+	Address                      types.String                   `tfsdk:"address"`
+	AgreementNumber              types.String                   `tfsdk:"agreement_number"`
+	Archived                     types.Bool                     `tfsdk:"archived"`
+	BackendId                    types.String                   `tfsdk:"backend_id"`
+	BankAccount                  types.String                   `tfsdk:"bank_account"`
+	BankName                     types.String                   `tfsdk:"bank_name"`
+	Blocked                      types.Bool                     `tfsdk:"blocked"`
+	CallManagingOrganizationUuid types.String                   `tfsdk:"call_managing_organization_uuid"`
+	ContactDetails               types.String                   `tfsdk:"contact_details"`
+	Country                      types.String                   `tfsdk:"country"`
+	CountryName                  types.String                   `tfsdk:"country_name"`
+	Created                      types.String                   `tfsdk:"created"`
+	CustomerCredit               types.Float64                  `tfsdk:"customer_credit"`
+	CustomerUnallocatedCredit    types.Float64                  `tfsdk:"customer_unallocated_credit"`
+	DefaultTaxPercent            types.String                   `tfsdk:"default_tax_percent"`
+	Description                  types.String                   `tfsdk:"description"`
+	DisplayBillingInfoInProjects types.Bool                     `tfsdk:"display_billing_info_in_projects"`
+	DisplayName                  types.String                   `tfsdk:"display_name"`
+	Domain                       types.String                   `tfsdk:"domain"`
+	Email                        types.String                   `tfsdk:"email"`
+	GracePeriodDays              types.Int64                    `tfsdk:"grace_period_days"`
+	Homepage                     types.String                   `tfsdk:"homepage"`
+	Image                        types.String                   `tfsdk:"image"`
+	IsServiceProvider            types.Bool                     `tfsdk:"is_service_provider"`
+	Latitude                     types.Float64                  `tfsdk:"latitude"`
+	Longitude                    types.Float64                  `tfsdk:"longitude"`
+	MaxServiceAccounts           types.Int64                    `tfsdk:"max_service_accounts"`
+	Name                         types.String                   `tfsdk:"name"`
+	NativeName                   types.String                   `tfsdk:"native_name"`
+	NotificationEmails           types.String                   `tfsdk:"notification_emails"`
+	OrganizationGroups           types.List                     `tfsdk:"organization_groups"`
+	PaymentProfiles              types.List                     `tfsdk:"payment_profiles"`
+	PhoneNumber                  types.String                   `tfsdk:"phone_number"`
+	Postal                       types.String                   `tfsdk:"postal"`
+	ProjectMetadataChecklist     types.String                   `tfsdk:"project_metadata_checklist"`
+	ProjectsCount                types.Int64                    `tfsdk:"projects_count"`
+	RegistrationCode             types.String                   `tfsdk:"registration_code"`
+	ServiceProvider              types.String                   `tfsdk:"service_provider"`
+	ServiceProviderUuid          types.String                   `tfsdk:"service_provider_uuid"`
+	Slug                         types.String                   `tfsdk:"slug"`
+	SponsorNumber                types.Int64                    `tfsdk:"sponsor_number"`
+	Url                          types.String                   `tfsdk:"url"`
+	UsersCount                   types.Int64                    `tfsdk:"users_count"`
+	VatCode                      types.String                   `tfsdk:"vat_code"`
 }
 
 func (d *StructureCustomerDataSource) Metadata(ctx context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
@@ -175,57 +188,67 @@ func (d *StructureCustomerDataSource) Schema(ctx context.Context, req datasource
 				Computed:            true,
 				MarkdownDescription: "Resource UUID",
 			},
+			"filters": schema.SingleNestedAttribute{
+				Optional:            true,
+				MarkdownDescription: "Filter parameters for querying Structure Customer",
+				Attributes: map[string]schema.Attribute{
+					"abbreviation": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Abbreviation",
+					},
+					"agreement_number": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Agreement number",
+					},
+					"archived": schema.BoolAttribute{
+						Optional:            true,
+						MarkdownDescription: "Archived",
+					},
+					"backend_id": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "ID of the backend",
+					},
+					"contact_details": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Contact details",
+					},
+					"name": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Name",
+					},
+					"name_exact": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Name (exact)",
+					},
+					"native_name": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Native name",
+					},
+					"organization_group_name": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Organization group name",
+					},
+					"organization_group_uuid": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Organization group UUID",
+					},
+					"owned_by_current_user": schema.BoolAttribute{
+						Optional:            true,
+						MarkdownDescription: "Return a list of customers where current user is owner.",
+					},
+					"query": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Filter by name, native name, abbreviation, domain, UUID, registration code or agreement number",
+					},
+					"registration_code": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Registration code",
+					},
+				},
+			},
 			"abbreviation": schema.StringAttribute{
-				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Abbreviation",
-			},
-			"agreement_number": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Agreement number",
-			},
-			"archived": schema.BoolAttribute{
-				Optional:            true,
-				MarkdownDescription: "Archived",
-			},
-			"backend_id": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "ID of the backend",
-			},
-			"contact_details": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Contact details",
-			},
-			"name": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Name",
-			},
-			"name_exact": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Name (exact)",
-			},
-			"native_name": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Native name",
-			},
-			"organization_group_name": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Organization group name",
-			},
-			"organization_group_uuid": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Organization group UUID",
-			},
-			"owned_by_current_user": schema.BoolAttribute{
-				Optional:            true,
-				MarkdownDescription: "Return a list of customers where current user is owner.",
-			},
-			"query": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Filter by name, native name, abbreviation, domain, UUID, registration code or agreement number",
-			},
-			"registration_code": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Registration code",
 			},
 			"access_subnets": schema.StringAttribute{
 				Computed:            true,
@@ -238,6 +261,18 @@ func (d *StructureCustomerDataSource) Schema(ctx context.Context, req datasource
 			"address": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Address",
+			},
+			"agreement_number": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "Agreement number",
+			},
+			"archived": schema.BoolAttribute{
+				Computed:            true,
+				MarkdownDescription: "Archived",
+			},
+			"backend_id": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "Organization identifier in another application.",
 			},
 			"bank_account": schema.StringAttribute{
 				Computed:            true,
@@ -254,6 +289,10 @@ func (d *StructureCustomerDataSource) Schema(ctx context.Context, req datasource
 			"call_managing_organization_uuid": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "UUID of the call managing organization",
+			},
+			"contact_details": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "Contact details",
 			},
 			"country": schema.StringAttribute{
 				Computed:            true,
@@ -326,6 +365,14 @@ func (d *StructureCustomerDataSource) Schema(ctx context.Context, req datasource
 			"max_service_accounts": schema.Int64Attribute{
 				Computed:            true,
 				MarkdownDescription: "Maximum number of service accounts allowed",
+			},
+			"name": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "Name of the resource",
+			},
+			"native_name": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "Name of the native",
 			},
 			"notification_emails": schema.StringAttribute{
 				Computed:            true,
@@ -433,6 +480,10 @@ func (d *StructureCustomerDataSource) Schema(ctx context.Context, req datasource
 				Computed:            true,
 				MarkdownDescription: "Number of projects in this organization",
 			},
+			"registration_code": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "Registration code",
+			},
 			"service_provider": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Service provider",
@@ -512,40 +563,42 @@ func (d *StructureCustomerDataSource) Read(ctx context.Context, req datasource.R
 		// Filter by provided parameters
 		var results []StructureCustomerApiResponse
 
-		type filterDef struct {
-			name string
-			val  attr.Value
-		}
-		filterDefs := []filterDef{
-			{"abbreviation", data.Abbreviation},
-			{"agreement_number", data.AgreementNumber},
-			{"archived", data.Archived},
-			{"backend_id", data.BackendId},
-			{"contact_details", data.ContactDetails},
-			{"name", data.Name},
-			{"name_exact", data.NameExact},
-			{"native_name", data.NativeName},
-			{"organization_group_name", data.OrganizationGroupName},
-			{"organization_group_uuid", data.OrganizationGroupUuid},
-			{"owned_by_current_user", data.OwnedByCurrentUser},
-			{"query", data.Query},
-			{"registration_code", data.RegistrationCode},
-		}
-
 		filters := make(map[string]string)
-		for _, fd := range filterDefs {
-			if fd.val.IsNull() || fd.val.IsUnknown() {
-				continue
+		if data.Filters != nil {
+			type filterDef struct {
+				name string
+				val  attr.Value
 			}
-			switch v := fd.val.(type) {
-			case types.String:
-				filters[fd.name] = v.ValueString()
-			case types.Int64:
-				filters[fd.name] = fmt.Sprintf("%d", v.ValueInt64())
-			case types.Bool:
-				filters[fd.name] = fmt.Sprintf("%t", v.ValueBool())
-			case types.Float64:
-				filters[fd.name] = fmt.Sprintf("%f", v.ValueFloat64())
+			filterDefs := []filterDef{
+				{"abbreviation", data.Filters.Abbreviation},
+				{"agreement_number", data.Filters.AgreementNumber},
+				{"archived", data.Filters.Archived},
+				{"backend_id", data.Filters.BackendId},
+				{"contact_details", data.Filters.ContactDetails},
+				{"name", data.Filters.Name},
+				{"name_exact", data.Filters.NameExact},
+				{"native_name", data.Filters.NativeName},
+				{"organization_group_name", data.Filters.OrganizationGroupName},
+				{"organization_group_uuid", data.Filters.OrganizationGroupUuid},
+				{"owned_by_current_user", data.Filters.OwnedByCurrentUser},
+				{"query", data.Filters.Query},
+				{"registration_code", data.Filters.RegistrationCode},
+			}
+
+			for _, fd := range filterDefs {
+				if fd.val.IsNull() || fd.val.IsUnknown() {
+					continue
+				}
+				switch v := fd.val.(type) {
+				case types.String:
+					filters[fd.name] = v.ValueString()
+				case types.Int64:
+					filters[fd.name] = fmt.Sprintf("%d", v.ValueInt64())
+				case types.Bool:
+					filters[fd.name] = fmt.Sprintf("%t", v.ValueBool())
+				case types.Float64:
+					filters[fd.name] = fmt.Sprintf("%f", v.ValueFloat64())
+				}
 			}
 		}
 

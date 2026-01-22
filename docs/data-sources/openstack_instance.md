@@ -17,40 +17,25 @@ Openstack Instance data source - lookup by name or UUID
 
 ### Optional
 
-- `attach_volume_uuid` (String) Filter for attachment to volume UUID
-- `availability_zone_name` (String) Availability zone name
-- `backend_id` (String) Backend ID
-- `can_manage` (Boolean) Can manage
-- `customer` (String) Customer UUID
-- `customer_abbreviation` (String) Customer abbreviation
-- `customer_name` (String) Customer name
-- `customer_native_name` (String) Customer native name
-- `customer_uuid` (String) Customer UUID
-- `description` (String) Description
-- `external_ip` (String) External IP
+- `filters` (Attributes) Filter parameters for querying Openstack Instance (see [below for nested schema](#nestedatt--filters))
 - `id` (String) Resource UUID
-- `name` (String) Name
-- `name_exact` (String) Name (exact)
-- `project` (String) Project UUID
-- `project_name` (String) Project name
-- `project_uuid` (String) Project UUID
-- `query` (String) Search by name, internal IP, or external IP
-- `runtime_state` (String) Runtime state
-- `service_settings_name` (String) Service settings name
-- `service_settings_uuid` (String) Service settings UUID
-- `state` (String) State
-- `tenant` (String) Tenant URL
-- `tenant_uuid` (String) Tenant UUID
-- `uuid` (String) UUID
 
 ### Read-Only
 
 - `access_url` (String) Access url
 - `action` (String) Action
 - `availability_zone` (String) Availability zone where this instance is located
+- `availability_zone_name` (String) Name of the availability zone where instance is located
+- `backend_id` (String) Instance ID in the OpenStack backend
 - `connect_directly_to_external_network` (Boolean) If True, instance will be connected directly to external network
 - `cores` (Number) Number of cores in a VM
 - `created` (String) Created
+- `customer` (String) Customer
+- `customer_abbreviation` (String) Customer abbreviation
+- `customer_name` (String) Name of the customer
+- `customer_native_name` (String) Name of the customer native
+- `customer_uuid` (String) UUID of the customer
+- `description` (String) Description of the resource
 - `disk` (Number) Disk size in MiB
 - `error_message` (String) Error message
 - `error_traceback` (String) Error traceback
@@ -78,19 +63,59 @@ Openstack Instance data source - lookup by name or UUID
 - `min_disk` (Number) Minimum disk size in MiB
 - `min_ram` (Number) Minimum memory size in MiB
 - `modified` (String) Modified
+- `name` (String) Name of the resource
 - `ports` (Attributes List) Ports (see [below for nested schema](#nestedatt--ports))
+- `project` (String) Project
+- `project_name` (String) Name of the project
+- `project_uuid` (String) UUID of the project
 - `ram` (Number) Memory size in MiB
 - `resource_type` (String) Resource type
+- `runtime_state` (String) Runtime state
 - `security_groups` (Attributes List) Security groups (see [below for nested schema](#nestedatt--security_groups))
 - `server_group` (Attributes) Server group (see [below for nested schema](#nestedatt--server_group))
 - `service_name` (String) Name of the service
 - `service_settings` (String) OpenStack provider settings
 - `service_settings_error_message` (String) Service settings error message
 - `service_settings_state` (String) Service settings state
+- `service_settings_uuid` (String) UUID of the service settings
 - `start_time` (String) Start time
+- `state` (String) State
+- `tenant` (String) The OpenStack tenant to create the instance in
+- `tenant_uuid` (String) UUID of the OpenStack tenant
 - `url` (String) Url
 - `user_data` (String) Additional data that will be added to instance on provisioning
 - `volumes` (Attributes List) List of volumes attached to the instance (see [below for nested schema](#nestedatt--volumes))
+
+<a id="nestedatt--filters"></a>
+### Nested Schema for `filters`
+
+Optional:
+
+- `attach_volume_uuid` (String) Filter for attachment to volume UUID
+- `availability_zone_name` (String) Availability zone name
+- `backend_id` (String) Backend ID
+- `can_manage` (Boolean) Can manage
+- `customer` (String) Customer UUID
+- `customer_abbreviation` (String) Customer abbreviation
+- `customer_name` (String) Customer name
+- `customer_native_name` (String) Customer native name
+- `customer_uuid` (String) Customer UUID
+- `description` (String) Description
+- `external_ip` (String) External IP
+- `name` (String) Name
+- `name_exact` (String) Name (exact)
+- `project` (String) Project UUID
+- `project_name` (String) Project name
+- `project_uuid` (String) Project UUID
+- `query` (String) Search by name, internal IP, or external IP
+- `runtime_state` (String) Runtime state
+- `service_settings_name` (String) Service settings name
+- `service_settings_uuid` (String) Service settings UUID
+- `state` (String) State
+- `tenant` (String) Tenant URL
+- `tenant_uuid` (String) Tenant UUID
+- `uuid` (String) UUID
+
 
 <a id="nestedatt--floating_ips"></a>
 ### Nested Schema for `floating_ips`

@@ -17,6 +17,37 @@ Openstack Network data source - lookup by name or UUID
 
 ### Optional
 
+- `filters` (Attributes) Filter parameters for querying Openstack Network (see [below for nested schema](#nestedatt--filters))
+- `id` (String) Resource UUID
+
+### Read-Only
+
+- `access_url` (String) Access url
+- `backend_id` (String) ID of the backend
+- `created` (String) Created
+- `description` (String) Description of the resource
+- `error_message` (String) Error message
+- `error_traceback` (String) Error traceback
+- `is_external` (Boolean) Defines whether this network is external (public) or internal (private)
+- `modified` (String) Modified
+- `mtu` (Number) The maximum transmission unit (MTU) value to address fragmentation.
+- `name` (String) Name of the resource
+- `rbac_policies` (Attributes List) Rbac policies (see [below for nested schema](#nestedatt--rbac_policies))
+- `resource_type` (String) Resource type
+- `segmentation_id` (Number) VLAN ID for VLAN networks or tunnel ID for VXLAN/GRE networks
+- `state` (String) State
+- `subnets` (Attributes List) Subnets (see [below for nested schema](#nestedatt--subnets))
+- `tenant` (String) OpenStack tenant this network belongs to
+- `tenant_name` (String) Name of the tenant
+- `tenant_uuid` (String) UUID of the tenant
+- `type` (String) Network type, such as local, flat, vlan, vxlan, or gre
+- `url` (String) Url
+
+<a id="nestedatt--filters"></a>
+### Nested Schema for `filters`
+
+Optional:
+
 - `backend_id` (String) Backend ID
 - `can_manage` (Boolean) Can manage
 - `customer` (String) Customer UUID
@@ -27,7 +58,6 @@ Openstack Network data source - lookup by name or UUID
 - `description` (String) Description
 - `direct_only` (Boolean) Direct only
 - `external_ip` (String) External IP
-- `id` (String) Resource UUID
 - `is_external` (Boolean) Is external
 - `name` (String) Name
 - `name_exact` (String) Name (exact)
@@ -43,20 +73,6 @@ Openstack Network data source - lookup by name or UUID
 - `type` (String) Type
 - `uuid` (String) UUID
 
-### Read-Only
-
-- `access_url` (String) Access url
-- `created` (String) Created
-- `error_message` (String) Error message
-- `error_traceback` (String) Error traceback
-- `modified` (String) Modified
-- `mtu` (Number) The maximum transmission unit (MTU) value to address fragmentation.
-- `rbac_policies` (Attributes List) Rbac policies (see [below for nested schema](#nestedatt--rbac_policies))
-- `resource_type` (String) Resource type
-- `segmentation_id` (Number) VLAN ID for VLAN networks or tunnel ID for VXLAN/GRE networks
-- `subnets` (Attributes List) Subnets (see [below for nested schema](#nestedatt--subnets))
-- `tenant_name` (String) Name of the tenant
-- `url` (String) Url
 
 <a id="nestedatt--rbac_policies"></a>
 ### Nested Schema for `rbac_policies`

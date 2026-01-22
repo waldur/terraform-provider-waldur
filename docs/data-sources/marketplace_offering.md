@@ -17,6 +17,73 @@ Marketplace Offering data source - lookup by name or UUID
 
 ### Optional
 
+- `filters` (Attributes) Filter parameters for querying Marketplace Offering (see [below for nested schema](#nestedatt--filters))
+- `id` (String) Resource UUID
+
+### Read-Only
+
+- `access_url` (String) Publicly accessible offering access URL
+- `backend_id` (String) ID of the backend
+- `billable` (Boolean) Purchase and usage is invoiced.
+- `billing_type_classification` (String) Classify offering components by billing type. Returns 'limit_only', 'usage_only', or 'mixed'.
+- `category` (String) Category
+- `category_title` (String) Category title
+- `category_uuid` (String) UUID of the category
+- `citation_count` (Number) Number of citations of a DOI
+- `compliance_checklist` (String) Compliance checklist
+- `components` (Attributes List) Components (see [below for nested schema](#nestedatt--components))
+- `country` (String) Country code (ISO 3166-1 alpha-2)
+- `created` (String) Created
+- `datacite_doi` (String) Datacite doi
+- `description` (String) Description of the resource
+- `endpoints` (Attributes List) Endpoints (see [below for nested schema](#nestedatt--endpoints))
+- `files` (Attributes List) Files (see [below for nested schema](#nestedatt--files))
+- `full_description` (String) Full description
+- `getting_started` (String) Getting started
+- `google_calendar_is_public` (Boolean) Google calendar is public
+- `google_calendar_link` (String) Get the Google Calendar link for an offering.
+- `has_compliance_requirements` (Boolean) Has compliance requirements
+- `image` (String) Image
+- `integration_guide` (String) Integration guide
+- `latitude` (Number) Latitude
+- `longitude` (Number) Longitude
+- `name` (String) Name of the resource
+- `order_count` (Number) Order count
+- `organization_groups` (Attributes List) Organization groups (see [below for nested schema](#nestedatt--organization_groups))
+- `parent_description` (String) Parent description
+- `parent_name` (String) Name of the parent
+- `parent_uuid` (String) UUID of the parent
+- `partitions` (Attributes List) Partitions (see [below for nested schema](#nestedatt--partitions))
+- `paused_reason` (String) Paused reason
+- `plans` (Attributes List) Plans (see [below for nested schema](#nestedatt--plans))
+- `privacy_policy_link` (String) Privacy policy link
+- `promotion_campaigns` (Attributes List) Promotion campaigns (see [below for nested schema](#nestedatt--promotion_campaigns))
+- `quotas` (Attributes List) Quotas (see [below for nested schema](#nestedatt--quotas))
+- `roles` (Attributes List) Roles (see [below for nested schema](#nestedatt--roles))
+- `scope` (String) Scope
+- `scope_error_message` (String) Scope error message
+- `scope_name` (String) Name of the scope
+- `scope_state` (String) Scope state
+- `scope_uuid` (String) UUID of the scope
+- `screenshots` (Attributes List) Screenshots (see [below for nested schema](#nestedatt--screenshots))
+- `shared` (Boolean) Accessible to all customers.
+- `slug` (String) URL-friendly identifier. Only editable by staff users.
+- `software_catalogs` (Attributes List) Software catalogs (see [below for nested schema](#nestedatt--software_catalogs))
+- `state` (String) State
+- `thumbnail` (String) Thumbnail
+- `total_cost` (Number) Total cost
+- `total_cost_estimated` (Number) Total cost estimated
+- `total_customers` (Number) Total customers
+- `type` (String) Type
+- `url` (String) Url
+- `user_has_consent` (Boolean) User has consent
+- `vendor_details` (String) Vendor details
+
+<a id="nestedatt--filters"></a>
+### Nested Schema for `filters`
+
+Optional:
+
 - `accessible_via_calls` (Boolean) Accessible via calls
 - `allowed_customer_uuid` (String) Allowed customer UUID
 - `attributes` (String) Offering attributes (JSON)
@@ -30,7 +97,6 @@ Marketplace Offering data source - lookup by name or UUID
 - `description` (String) Description contains
 - `has_active_terms_of_service` (Boolean) Has Active Terms of Service
 - `has_terms_of_service` (Boolean) Has Terms of Service
-- `id` (String) Resource UUID
 - `keyword` (String) Keyword
 - `modified` (String) Modified after
 - `name` (String) Name
@@ -50,53 +116,6 @@ Marketplace Offering data source - lookup by name or UUID
 - `user_has_offering_user` (Boolean) User Has Offering User
 - `uuid_list` (String) Comma-separated offering UUIDs
 
-### Read-Only
-
-- `access_url` (String) Publicly accessible offering access URL
-- `backend_id` (String) ID of the backend
-- `billing_type_classification` (String) Classify offering components by billing type. Returns 'limit_only', 'usage_only', or 'mixed'.
-- `category` (String) Category
-- `category_title` (String) Category title
-- `citation_count` (Number) Number of citations of a DOI
-- `compliance_checklist` (String) Compliance checklist
-- `components` (Attributes List) Components (see [below for nested schema](#nestedatt--components))
-- `country` (String) Country code (ISO 3166-1 alpha-2)
-- `datacite_doi` (String) Datacite doi
-- `endpoints` (Attributes List) Endpoints (see [below for nested schema](#nestedatt--endpoints))
-- `files` (Attributes List) Files (see [below for nested schema](#nestedatt--files))
-- `full_description` (String) Full description
-- `getting_started` (String) Getting started
-- `google_calendar_is_public` (Boolean) Google calendar is public
-- `google_calendar_link` (String) Get the Google Calendar link for an offering.
-- `has_compliance_requirements` (Boolean) Has compliance requirements
-- `image` (String) Image
-- `integration_guide` (String) Integration guide
-- `latitude` (Number) Latitude
-- `longitude` (Number) Longitude
-- `order_count` (Number) Order count
-- `organization_groups` (Attributes List) Organization groups (see [below for nested schema](#nestedatt--organization_groups))
-- `parent_description` (String) Parent description
-- `parent_name` (String) Name of the parent
-- `partitions` (Attributes List) Partitions (see [below for nested schema](#nestedatt--partitions))
-- `paused_reason` (String) Paused reason
-- `plans` (Attributes List) Plans (see [below for nested schema](#nestedatt--plans))
-- `privacy_policy_link` (String) Privacy policy link
-- `promotion_campaigns` (Attributes List) Promotion campaigns (see [below for nested schema](#nestedatt--promotion_campaigns))
-- `quotas` (Attributes List) Quotas (see [below for nested schema](#nestedatt--quotas))
-- `roles` (Attributes List) Roles (see [below for nested schema](#nestedatt--roles))
-- `scope` (String) Scope
-- `scope_error_message` (String) Scope error message
-- `scope_name` (String) Name of the scope
-- `scope_state` (String) Scope state
-- `screenshots` (Attributes List) Screenshots (see [below for nested schema](#nestedatt--screenshots))
-- `slug` (String) URL-friendly identifier. Only editable by staff users.
-- `software_catalogs` (Attributes List) Software catalogs (see [below for nested schema](#nestedatt--software_catalogs))
-- `thumbnail` (String) Thumbnail
-- `total_cost` (Number) Total cost
-- `total_cost_estimated` (Number) Total cost estimated
-- `total_customers` (Number) Total customers
-- `url` (String) Url
-- `vendor_details` (String) Vendor details
 
 <a id="nestedatt--components"></a>
 ### Nested Schema for `components`

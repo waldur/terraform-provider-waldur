@@ -17,6 +17,69 @@ Openstack Volume data source - lookup by name or UUID
 
 ### Optional
 
+- `filters` (Attributes) Filter parameters for querying Openstack Volume (see [below for nested schema](#nestedatt--filters))
+- `id` (String) Resource UUID
+
+### Read-Only
+
+- `access_url` (String) Access url
+- `action` (String) Action
+- `availability_zone` (String) Availability zone where this volume is located
+- `availability_zone_name` (String) Name of the availability zone
+- `backend_id` (String) Volume ID in the OpenStack backend
+- `bootable` (Boolean) Indicates if this volume can be used to boot an instance
+- `created` (String) Created
+- `customer` (String) Customer
+- `customer_abbreviation` (String) Customer abbreviation
+- `customer_name` (String) Name of the customer
+- `customer_native_name` (String) Name of the customer native
+- `customer_uuid` (String) UUID of the customer
+- `description` (String) Description of the resource
+- `device` (String) Name of volume as instance device e.g. /dev/vdb.
+- `error_message` (String) Error message
+- `error_traceback` (String) Error traceback
+- `extend_enabled` (Boolean) Extend enabled
+- `image` (String) Image that this volume was created from, if any
+- `image_metadata` (String) Metadata of the image this volume was created from
+- `image_name` (String) Name of the image this volume was created from
+- `instance` (String) Instance that this volume is attached to, if any
+- `instance_marketplace_uuid` (String) UUID of the instance marketplace
+- `instance_name` (String) Name of the instance
+- `is_limit_based` (Boolean) Is limit based
+- `is_usage_based` (Boolean) Is usage based
+- `marketplace_category_name` (String) Name of the marketplace category
+- `marketplace_category_uuid` (String) UUID of the marketplace category
+- `marketplace_offering_name` (String) Name of the marketplace offering
+- `marketplace_offering_uuid` (String) UUID of the marketplace offering
+- `marketplace_plan_uuid` (String) UUID of the marketplace plan
+- `marketplace_resource_state` (String) Marketplace resource state
+- `marketplace_resource_uuid` (String) UUID of the marketplace resource
+- `modified` (String) Modified
+- `name` (String) Name of the resource
+- `project` (String) Project
+- `project_name` (String) Name of the project
+- `project_uuid` (String) UUID of the project
+- `resource_type` (String) Resource type
+- `runtime_state` (String) Runtime state
+- `service_name` (String) Name of the service
+- `service_settings` (String) Service settings
+- `service_settings_error_message` (String) Service settings error message
+- `service_settings_state` (String) Service settings state
+- `service_settings_uuid` (String) UUID of the service settings
+- `size` (Number) Size in MiB
+- `source_snapshot` (String) Snapshot that this volume was created from, if any
+- `state` (String) State
+- `tenant` (String) Tenant
+- `tenant_uuid` (String) UUID of the tenant
+- `type` (String) Type of the volume (e.g. SSD, HDD)
+- `type_name` (String) Name of the type
+- `url` (String) Url
+
+<a id="nestedatt--filters"></a>
+### Nested Schema for `filters`
+
+Optional:
+
 - `attach_instance_uuid` (String) Filter for attachment to instance UUID
 - `availability_zone_name` (String) Availability zone name
 - `backend_id` (String) Backend ID
@@ -28,7 +91,6 @@ Openstack Volume data source - lookup by name or UUID
 - `customer_uuid` (String) Customer UUID
 - `description` (String) Description
 - `external_ip` (String) External IP
-- `id` (String) Resource UUID
 - `instance` (String) Instance URL
 - `instance_uuid` (String) Instance UUID
 - `name` (String) Name
@@ -45,40 +107,3 @@ Openstack Volume data source - lookup by name or UUID
 - `tenant` (String) Tenant URL
 - `tenant_uuid` (String) Tenant UUID
 - `uuid` (String) UUID
-
-### Read-Only
-
-- `access_url` (String) Access url
-- `action` (String) Action
-- `availability_zone` (String) Availability zone where this volume is located
-- `bootable` (Boolean) Indicates if this volume can be used to boot an instance
-- `created` (String) Created
-- `device` (String) Name of volume as instance device e.g. /dev/vdb.
-- `error_message` (String) Error message
-- `error_traceback` (String) Error traceback
-- `extend_enabled` (Boolean) Extend enabled
-- `image` (String) Image that this volume was created from, if any
-- `image_metadata` (String) Metadata of the image this volume was created from
-- `image_name` (String) Name of the image this volume was created from
-- `instance_marketplace_uuid` (String) UUID of the instance marketplace
-- `instance_name` (String) Name of the instance
-- `is_limit_based` (Boolean) Is limit based
-- `is_usage_based` (Boolean) Is usage based
-- `marketplace_category_name` (String) Name of the marketplace category
-- `marketplace_category_uuid` (String) UUID of the marketplace category
-- `marketplace_offering_name` (String) Name of the marketplace offering
-- `marketplace_offering_uuid` (String) UUID of the marketplace offering
-- `marketplace_plan_uuid` (String) UUID of the marketplace plan
-- `marketplace_resource_state` (String) Marketplace resource state
-- `marketplace_resource_uuid` (String) UUID of the marketplace resource
-- `modified` (String) Modified
-- `resource_type` (String) Resource type
-- `service_name` (String) Name of the service
-- `service_settings` (String) Service settings
-- `service_settings_error_message` (String) Service settings error message
-- `service_settings_state` (String) Service settings state
-- `size` (Number) Size in MiB
-- `source_snapshot` (String) Snapshot that this volume was created from, if any
-- `type` (String) Type of the volume (e.g. SSD, HDD)
-- `type_name` (String) Name of the type
-- `url` (String) Url

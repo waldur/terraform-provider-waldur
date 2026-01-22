@@ -17,6 +17,44 @@ Openstack Port data source - lookup by name or UUID
 
 ### Optional
 
+- `filters` (Attributes) Filter parameters for querying Openstack Port (see [below for nested schema](#nestedatt--filters))
+- `id` (String) Resource UUID
+
+### Read-Only
+
+- `access_url` (String) Access url
+- `admin_state_up` (Boolean) Administrative state of the port. If down, port does not forward packets
+- `allowed_address_pairs` (Attributes List) Allowed address pairs (see [below for nested schema](#nestedatt--allowed_address_pairs))
+- `backend_id` (String) Port ID in OpenStack
+- `created` (String) Created
+- `description` (String) Description of the resource
+- `device_id` (String) ID of device (instance, router etc) to which this port is connected
+- `device_owner` (String) Entity that uses this port (e.g. network:router_interface)
+- `error_message` (String) Error message
+- `error_traceback` (String) Error traceback
+- `fixed_ips` (Attributes List) Fixed ips (see [below for nested schema](#nestedatt--fixed_ips))
+- `floating_ips` (List of String) Floating ips
+- `mac_address` (String) MAC address of the port
+- `modified` (String) Modified
+- `name` (String) Name of the resource
+- `network` (String) Network to which this port belongs
+- `network_name` (String) Name of the network
+- `network_uuid` (String) UUID of the network
+- `port_security_enabled` (Boolean) If True, security groups and rules will be applied to this port
+- `resource_type` (String) Resource type
+- `security_groups` (Attributes List) Security groups (see [below for nested schema](#nestedatt--security_groups))
+- `state` (String) State
+- `status` (String) Port status in OpenStack (e.g. ACTIVE, DOWN)
+- `tenant` (String) OpenStack tenant this port belongs to
+- `tenant_name` (String) Name of the tenant
+- `tenant_uuid` (String) UUID of the tenant
+- `url` (String) Url
+
+<a id="nestedatt--filters"></a>
+### Nested Schema for `filters`
+
+Optional:
+
 - `admin_state_up` (Boolean) Admin state up
 - `backend_id` (String) ID of the backend
 - `device_id` (String) ID of the device
@@ -24,7 +62,6 @@ Openstack Port data source - lookup by name or UUID
 - `exclude_subnet_uuids` (String) Exclude Subnet UUIDs (comma-separated)
 - `fixed_ips` (String) Search by fixed IP
 - `has_device_owner` (Boolean) Has device owner
-- `id` (String) Resource UUID
 - `mac_address` (String) Mac address
 - `name` (String) Name
 - `name_exact` (String) Name (exact)
@@ -35,23 +72,6 @@ Openstack Port data source - lookup by name or UUID
 - `tenant` (String) Tenant URL
 - `tenant_uuid` (String) Tenant UUID
 
-### Read-Only
-
-- `access_url` (String) Access url
-- `allowed_address_pairs` (Attributes List) Allowed address pairs (see [below for nested schema](#nestedatt--allowed_address_pairs))
-- `created` (String) Created
-- `description` (String) Description of the resource
-- `error_message` (String) Error message
-- `error_traceback` (String) Error traceback
-- `floating_ips` (List of String) Floating ips
-- `modified` (String) Modified
-- `network` (String) Network to which this port belongs
-- `port_security_enabled` (Boolean) If True, security groups and rules will be applied to this port
-- `resource_type` (String) Resource type
-- `security_groups` (Attributes List) Security groups (see [below for nested schema](#nestedatt--security_groups))
-- `state` (String) State
-- `tenant_name` (String) Name of the tenant
-- `url` (String) Url
 
 <a id="nestedatt--allowed_address_pairs"></a>
 ### Nested Schema for `allowed_address_pairs`
@@ -59,6 +79,15 @@ Openstack Port data source - lookup by name or UUID
 Optional:
 
 - `mac_address` (String) Mac address
+
+
+<a id="nestedatt--fixed_ips"></a>
+### Nested Schema for `fixed_ips`
+
+Optional:
+
+- `ip_address` (String) IP address to assign to the port
+- `subnet_id` (String) ID of the subnet in which to assign the IP address
 
 
 <a id="nestedatt--security_groups"></a>

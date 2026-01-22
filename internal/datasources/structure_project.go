@@ -31,13 +31,8 @@ type StructureProjectApiResponse struct {
 
 	BackendId                            *string  `json:"backend_id" tfsdk:"backend_id"`
 	Created                              *string  `json:"created" tfsdk:"created"`
-	Customer                             *string  `json:"customer" tfsdk:"customer"`
-	CustomerAbbreviation                 *string  `json:"customer_abbreviation" tfsdk:"customer_abbreviation"`
 	CustomerDisplayBillingInfoInProjects *bool    `json:"customer_display_billing_info_in_projects" tfsdk:"customer_display_billing_info_in_projects"`
-	CustomerName                         *string  `json:"customer_name" tfsdk:"customer_name"`
-	CustomerNativeName                   *string  `json:"customer_native_name" tfsdk:"customer_native_name"`
 	CustomerSlug                         *string  `json:"customer_slug" tfsdk:"customer_slug"`
-	CustomerUuid                         *string  `json:"customer_uuid" tfsdk:"customer_uuid"`
 	Description                          *string  `json:"description" tfsdk:"description"`
 	EndDate                              *string  `json:"end_date" tfsdk:"end_date"`
 	EndDateRequestedBy                   *string  `json:"end_date_requested_by" tfsdk:"end_date_requested_by"`
@@ -61,45 +56,56 @@ type StructureProjectApiResponse struct {
 	Url                                  *string  `json:"url" tfsdk:"url"`
 }
 
+// StructureProjectFiltersModel contains the filter parameters for querying.
+type StructureProjectFiltersModel struct {
+	BackendId               types.String `tfsdk:"backend_id"`
+	CanAdmin                types.Bool   `tfsdk:"can_admin"`
+	CanManage               types.Bool   `tfsdk:"can_manage"`
+	ConcealFinishedProjects types.Bool   `tfsdk:"conceal_finished_projects"`
+	Created                 types.String `tfsdk:"created"`
+	Customer                types.String `tfsdk:"customer"`
+	CustomerAbbreviation    types.String `tfsdk:"customer_abbreviation"`
+	CustomerName            types.String `tfsdk:"customer_name"`
+	CustomerNativeName      types.String `tfsdk:"customer_native_name"`
+	Description             types.String `tfsdk:"description"`
+	IncludeTerminated       types.Bool   `tfsdk:"include_terminated"`
+	IsRemoved               types.Bool   `tfsdk:"is_removed"`
+	Modified                types.String `tfsdk:"modified"`
+	Name                    types.String `tfsdk:"name"`
+	NameExact               types.String `tfsdk:"name_exact"`
+	Query                   types.String `tfsdk:"query"`
+	Slug                    types.String `tfsdk:"slug"`
+}
+
 // StructureProjectDataSourceModel describes the data source data model.
 type StructureProjectDataSourceModel struct {
-	UUID                                 types.String  `tfsdk:"id"`
-	BackendId                            types.String  `tfsdk:"backend_id"`
-	CanAdmin                             types.Bool    `tfsdk:"can_admin"`
-	CanManage                            types.Bool    `tfsdk:"can_manage"`
-	ConcealFinishedProjects              types.Bool    `tfsdk:"conceal_finished_projects"`
-	Created                              types.String  `tfsdk:"created"`
-	Customer                             types.String  `tfsdk:"customer"`
-	CustomerAbbreviation                 types.String  `tfsdk:"customer_abbreviation"`
-	CustomerName                         types.String  `tfsdk:"customer_name"`
-	CustomerNativeName                   types.String  `tfsdk:"customer_native_name"`
-	Description                          types.String  `tfsdk:"description"`
-	IncludeTerminated                    types.Bool    `tfsdk:"include_terminated"`
-	IsRemoved                            types.Bool    `tfsdk:"is_removed"`
-	Modified                             types.String  `tfsdk:"modified"`
-	Name                                 types.String  `tfsdk:"name"`
-	NameExact                            types.String  `tfsdk:"name_exact"`
-	Query                                types.String  `tfsdk:"query"`
-	Slug                                 types.String  `tfsdk:"slug"`
-	CustomerDisplayBillingInfoInProjects types.Bool    `tfsdk:"customer_display_billing_info_in_projects"`
-	CustomerSlug                         types.String  `tfsdk:"customer_slug"`
-	EndDate                              types.String  `tfsdk:"end_date"`
-	EndDateRequestedBy                   types.String  `tfsdk:"end_date_requested_by"`
-	GracePeriodDays                      types.Int64   `tfsdk:"grace_period_days"`
-	Image                                types.String  `tfsdk:"image"`
-	IsIndustry                           types.Bool    `tfsdk:"is_industry"`
-	Kind                                 types.String  `tfsdk:"kind"`
-	MaxServiceAccounts                   types.Int64   `tfsdk:"max_service_accounts"`
-	OecdFos2007Code                      types.String  `tfsdk:"oecd_fos_2007_code"`
-	OecdFos2007Label                     types.String  `tfsdk:"oecd_fos_2007_label"`
-	ProjectCredit                        types.Float64 `tfsdk:"project_credit"`
-	ResourcesCount                       types.Int64   `tfsdk:"resources_count"`
-	StaffNotes                           types.String  `tfsdk:"staff_notes"`
-	StartDate                            types.String  `tfsdk:"start_date"`
-	Type                                 types.String  `tfsdk:"type"`
-	TypeName                             types.String  `tfsdk:"type_name"`
-	TypeUuid                             types.String  `tfsdk:"type_uuid"`
-	Url                                  types.String  `tfsdk:"url"`
+	UUID                                 types.String                  `tfsdk:"id"`
+	Filters                              *StructureProjectFiltersModel `tfsdk:"filters"`
+	BackendId                            types.String                  `tfsdk:"backend_id"`
+	Created                              types.String                  `tfsdk:"created"`
+	CustomerDisplayBillingInfoInProjects types.Bool                    `tfsdk:"customer_display_billing_info_in_projects"`
+	CustomerSlug                         types.String                  `tfsdk:"customer_slug"`
+	Description                          types.String                  `tfsdk:"description"`
+	EndDate                              types.String                  `tfsdk:"end_date"`
+	EndDateRequestedBy                   types.String                  `tfsdk:"end_date_requested_by"`
+	GracePeriodDays                      types.Int64                   `tfsdk:"grace_period_days"`
+	Image                                types.String                  `tfsdk:"image"`
+	IsIndustry                           types.Bool                    `tfsdk:"is_industry"`
+	IsRemoved                            types.Bool                    `tfsdk:"is_removed"`
+	Kind                                 types.String                  `tfsdk:"kind"`
+	MaxServiceAccounts                   types.Int64                   `tfsdk:"max_service_accounts"`
+	Name                                 types.String                  `tfsdk:"name"`
+	OecdFos2007Code                      types.String                  `tfsdk:"oecd_fos_2007_code"`
+	OecdFos2007Label                     types.String                  `tfsdk:"oecd_fos_2007_label"`
+	ProjectCredit                        types.Float64                 `tfsdk:"project_credit"`
+	ResourcesCount                       types.Int64                   `tfsdk:"resources_count"`
+	Slug                                 types.String                  `tfsdk:"slug"`
+	StaffNotes                           types.String                  `tfsdk:"staff_notes"`
+	StartDate                            types.String                  `tfsdk:"start_date"`
+	Type                                 types.String                  `tfsdk:"type"`
+	TypeName                             types.String                  `tfsdk:"type_name"`
+	TypeUuid                             types.String                  `tfsdk:"type_uuid"`
+	Url                                  types.String                  `tfsdk:"url"`
 }
 
 func (d *StructureProjectDataSource) Metadata(ctx context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
@@ -116,73 +122,87 @@ func (d *StructureProjectDataSource) Schema(ctx context.Context, req datasource.
 				Computed:            true,
 				MarkdownDescription: "Resource UUID",
 			},
-			"backend_id": schema.StringAttribute{
+			"filters": schema.SingleNestedAttribute{
 				Optional:            true,
+				MarkdownDescription: "Filter parameters for querying Structure Project",
+				Attributes: map[string]schema.Attribute{
+					"backend_id": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "ID of the backend",
+					},
+					"can_admin": schema.BoolAttribute{
+						Optional:            true,
+						MarkdownDescription: "Return a list of projects where current user is admin.",
+					},
+					"can_manage": schema.BoolAttribute{
+						Optional:            true,
+						MarkdownDescription: "Return a list of projects where current user is manager or a customer owner.",
+					},
+					"conceal_finished_projects": schema.BoolAttribute{
+						Optional:            true,
+						MarkdownDescription: "Conceal finished projects",
+					},
+					"created": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Created after",
+					},
+					"customer": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Multiple values may be separated by commas.",
+					},
+					"customer_abbreviation": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Customer abbreviation",
+					},
+					"customer_name": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Customer name",
+					},
+					"customer_native_name": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Customer native name",
+					},
+					"description": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Description",
+					},
+					"include_terminated": schema.BoolAttribute{
+						Optional:            true,
+						MarkdownDescription: "Include soft-deleted (terminated) projects. Only available to staff and support users, or users with organizational roles who can see their terminated projects.",
+					},
+					"is_removed": schema.BoolAttribute{
+						Optional:            true,
+						MarkdownDescription: "Is removed",
+					},
+					"modified": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Modified after",
+					},
+					"name": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Name",
+					},
+					"name_exact": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Name (exact)",
+					},
+					"query": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Filter by name, slug, UUID, backend ID or resource effective ID",
+					},
+					"slug": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Slug",
+					},
+				},
+			},
+			"backend_id": schema.StringAttribute{
+				Computed:            true,
 				MarkdownDescription: "ID of the backend",
 			},
-			"can_admin": schema.BoolAttribute{
-				Optional:            true,
-				MarkdownDescription: "Return a list of projects where current user is admin.",
-			},
-			"can_manage": schema.BoolAttribute{
-				Optional:            true,
-				MarkdownDescription: "Return a list of projects where current user is manager or a customer owner.",
-			},
-			"conceal_finished_projects": schema.BoolAttribute{
-				Optional:            true,
-				MarkdownDescription: "Conceal finished projects",
-			},
 			"created": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Created after",
-			},
-			"customer": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Multiple values may be separated by commas.",
-			},
-			"customer_abbreviation": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Customer abbreviation",
-			},
-			"customer_name": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Customer name",
-			},
-			"customer_native_name": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Customer native name",
-			},
-			"description": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Description",
-			},
-			"include_terminated": schema.BoolAttribute{
-				Optional:            true,
-				MarkdownDescription: "Include soft-deleted (terminated) projects. Only available to staff and support users, or users with organizational roles who can see their terminated projects.",
-			},
-			"is_removed": schema.BoolAttribute{
-				Optional:            true,
-				MarkdownDescription: "Is removed",
-			},
-			"modified": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Modified after",
-			},
-			"name": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Name",
-			},
-			"name_exact": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Name (exact)",
-			},
-			"query": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Filter by name, slug, UUID, backend ID or resource effective ID",
-			},
-			"slug": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Slug",
+				Computed:            true,
+				MarkdownDescription: "Created",
 			},
 			"customer_display_billing_info_in_projects": schema.BoolAttribute{
 				Computed:            true,
@@ -191,6 +211,10 @@ func (d *StructureProjectDataSource) Schema(ctx context.Context, req datasource.
 			"customer_slug": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Customer slug",
+			},
+			"description": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "Project description (HTML content will be sanitized)",
 			},
 			"end_date": schema.StringAttribute{
 				Computed:            true,
@@ -212,6 +236,10 @@ func (d *StructureProjectDataSource) Schema(ctx context.Context, req datasource.
 				Computed:            true,
 				MarkdownDescription: "Is industry",
 			},
+			"is_removed": schema.BoolAttribute{
+				Computed:            true,
+				MarkdownDescription: "Is removed",
+			},
 			"kind": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Kind",
@@ -219,6 +247,10 @@ func (d *StructureProjectDataSource) Schema(ctx context.Context, req datasource.
 			"max_service_accounts": schema.Int64Attribute{
 				Computed:            true,
 				MarkdownDescription: "Maximum number of service accounts allowed",
+			},
+			"name": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "Name of the resource",
 			},
 			"oecd_fos_2007_code": schema.StringAttribute{
 				Computed:            true,
@@ -235,6 +267,10 @@ func (d *StructureProjectDataSource) Schema(ctx context.Context, req datasource.
 			"resources_count": schema.Int64Attribute{
 				Computed:            true,
 				MarkdownDescription: "Number of active resources in this project",
+			},
+			"slug": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "URL-friendly identifier. Only editable by staff users.",
 			},
 			"staff_notes": schema.StringAttribute{
 				Computed:            true,
@@ -311,44 +347,46 @@ func (d *StructureProjectDataSource) Read(ctx context.Context, req datasource.Re
 		// Filter by provided parameters
 		var results []StructureProjectApiResponse
 
-		type filterDef struct {
-			name string
-			val  attr.Value
-		}
-		filterDefs := []filterDef{
-			{"backend_id", data.BackendId},
-			{"can_admin", data.CanAdmin},
-			{"can_manage", data.CanManage},
-			{"conceal_finished_projects", data.ConcealFinishedProjects},
-			{"created", data.Created},
-			{"customer", data.Customer},
-			{"customer_abbreviation", data.CustomerAbbreviation},
-			{"customer_name", data.CustomerName},
-			{"customer_native_name", data.CustomerNativeName},
-			{"description", data.Description},
-			{"include_terminated", data.IncludeTerminated},
-			{"is_removed", data.IsRemoved},
-			{"modified", data.Modified},
-			{"name", data.Name},
-			{"name_exact", data.NameExact},
-			{"query", data.Query},
-			{"slug", data.Slug},
-		}
-
 		filters := make(map[string]string)
-		for _, fd := range filterDefs {
-			if fd.val.IsNull() || fd.val.IsUnknown() {
-				continue
+		if data.Filters != nil {
+			type filterDef struct {
+				name string
+				val  attr.Value
 			}
-			switch v := fd.val.(type) {
-			case types.String:
-				filters[fd.name] = v.ValueString()
-			case types.Int64:
-				filters[fd.name] = fmt.Sprintf("%d", v.ValueInt64())
-			case types.Bool:
-				filters[fd.name] = fmt.Sprintf("%t", v.ValueBool())
-			case types.Float64:
-				filters[fd.name] = fmt.Sprintf("%f", v.ValueFloat64())
+			filterDefs := []filterDef{
+				{"backend_id", data.Filters.BackendId},
+				{"can_admin", data.Filters.CanAdmin},
+				{"can_manage", data.Filters.CanManage},
+				{"conceal_finished_projects", data.Filters.ConcealFinishedProjects},
+				{"created", data.Filters.Created},
+				{"customer", data.Filters.Customer},
+				{"customer_abbreviation", data.Filters.CustomerAbbreviation},
+				{"customer_name", data.Filters.CustomerName},
+				{"customer_native_name", data.Filters.CustomerNativeName},
+				{"description", data.Filters.Description},
+				{"include_terminated", data.Filters.IncludeTerminated},
+				{"is_removed", data.Filters.IsRemoved},
+				{"modified", data.Filters.Modified},
+				{"name", data.Filters.Name},
+				{"name_exact", data.Filters.NameExact},
+				{"query", data.Filters.Query},
+				{"slug", data.Filters.Slug},
+			}
+
+			for _, fd := range filterDefs {
+				if fd.val.IsNull() || fd.val.IsUnknown() {
+					continue
+				}
+				switch v := fd.val.(type) {
+				case types.String:
+					filters[fd.name] = v.ValueString()
+				case types.Int64:
+					filters[fd.name] = fmt.Sprintf("%d", v.ValueInt64())
+				case types.Bool:
+					filters[fd.name] = fmt.Sprintf("%t", v.ValueBool())
+				case types.Float64:
+					filters[fd.name] = fmt.Sprintf("%f", v.ValueFloat64())
+				}
 			}
 		}
 

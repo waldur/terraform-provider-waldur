@@ -17,6 +17,32 @@ Openstack Security Group data source - lookup by name or UUID
 
 ### Optional
 
+- `filters` (Attributes) Filter parameters for querying Openstack Security Group (see [below for nested schema](#nestedatt--filters))
+- `id` (String) Resource UUID
+
+### Read-Only
+
+- `access_url` (String) Access url
+- `backend_id` (String) ID of the backend
+- `created` (String) Created
+- `description` (String) Description of the resource
+- `error_message` (String) Error message
+- `error_traceback` (String) Error traceback
+- `modified` (String) Modified
+- `name` (String) Name of the resource
+- `resource_type` (String) Resource type
+- `rules` (Attributes List) Rules (see [below for nested schema](#nestedatt--rules))
+- `state` (String) State
+- `tenant` (String) Tenant
+- `tenant_name` (String) Name of the tenant
+- `tenant_uuid` (String) UUID of the tenant
+- `url` (String) Url
+
+<a id="nestedatt--filters"></a>
+### Nested Schema for `filters`
+
+Optional:
+
 - `backend_id` (String) Backend ID
 - `can_manage` (Boolean) Can manage
 - `customer` (String) Customer UUID
@@ -26,7 +52,6 @@ Openstack Security Group data source - lookup by name or UUID
 - `customer_uuid` (String) Customer UUID
 - `description` (String) Description
 - `external_ip` (String) External IP
-- `id` (String) Resource UUID
 - `name` (String) Name
 - `name_exact` (String) Name (exact)
 - `project` (String) Project UUID
@@ -40,17 +65,6 @@ Openstack Security Group data source - lookup by name or UUID
 - `tenant_uuid` (String) Tenant UUID
 - `uuid` (String) UUID
 
-### Read-Only
-
-- `access_url` (String) Access url
-- `created` (String) Created
-- `error_message` (String) Error message
-- `error_traceback` (String) Error traceback
-- `modified` (String) Modified
-- `resource_type` (String) Resource type
-- `rules` (Attributes List) Rules (see [below for nested schema](#nestedatt--rules))
-- `tenant_name` (String) Name of the tenant
-- `url` (String) Url
 
 <a id="nestedatt--rules"></a>
 ### Nested Schema for `rules`

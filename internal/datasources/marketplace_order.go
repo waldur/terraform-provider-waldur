@@ -47,13 +47,10 @@ type MarketplaceOrderApiResponse struct {
 	CreatedByCivilNumber       *string  `json:"created_by_civil_number" tfsdk:"created_by_civil_number"`
 	CreatedByFullName          *string  `json:"created_by_full_name" tfsdk:"created_by_full_name"`
 	CreatedByUsername          *string  `json:"created_by_username" tfsdk:"created_by_username"`
-	CustomerName               *string  `json:"customer_name" tfsdk:"customer_name"`
 	CustomerSlug               *string  `json:"customer_slug" tfsdk:"customer_slug"`
-	CustomerUuid               *string  `json:"customer_uuid" tfsdk:"customer_uuid"`
 	ErrorMessage               *string  `json:"error_message" tfsdk:"error_message"`
 	ErrorTraceback             *string  `json:"error_traceback" tfsdk:"error_traceback"`
 	FixedPrice                 *float64 `json:"fixed_price" tfsdk:"fixed_price"`
-	MarketplaceResourceUuid    *string  `json:"marketplace_resource_uuid" tfsdk:"marketplace_resource_uuid"`
 	Modified                   *string  `json:"modified" tfsdk:"modified"`
 	NewCostEstimate            *string  `json:"new_cost_estimate" tfsdk:"new_cost_estimate"`
 	NewPlanName                *string  `json:"new_plan_name" tfsdk:"new_plan_name"`
@@ -78,9 +75,7 @@ type MarketplaceOrderApiResponse struct {
 	PlanUnit                   *string  `json:"plan_unit" tfsdk:"plan_unit"`
 	PlanUuid                   *string  `json:"plan_uuid" tfsdk:"plan_uuid"`
 	ProjectDescription         *string  `json:"project_description" tfsdk:"project_description"`
-	ProjectName                *string  `json:"project_name" tfsdk:"project_name"`
 	ProjectSlug                *string  `json:"project_slug" tfsdk:"project_slug"`
-	ProjectUuid                *string  `json:"project_uuid" tfsdk:"project_uuid"`
 	ProviderName               *string  `json:"provider_name" tfsdk:"provider_name"`
 	ProviderReviewedAt         *string  `json:"provider_reviewed_at" tfsdk:"provider_reviewed_at"`
 	ProviderReviewedBy         *string  `json:"provider_reviewed_by" tfsdk:"provider_reviewed_by"`
@@ -100,82 +95,98 @@ type MarketplaceOrderApiResponse struct {
 	Url                        *string  `json:"url" tfsdk:"url"`
 }
 
+// MarketplaceOrderFiltersModel contains the filter parameters for querying.
+type MarketplaceOrderFiltersModel struct {
+	CanApproveAsConsumer types.Bool   `tfsdk:"can_approve_as_consumer"`
+	CanApproveAsProvider types.Bool   `tfsdk:"can_approve_as_provider"`
+	CategoryUuid         types.String `tfsdk:"category_uuid"`
+	Created              types.String `tfsdk:"created"`
+	CustomerUuid         types.String `tfsdk:"customer_uuid"`
+	Modified             types.String `tfsdk:"modified"`
+	Offering             types.String `tfsdk:"offering"`
+	OfferingSlug         types.String `tfsdk:"offering_slug"`
+	OfferingType         types.String `tfsdk:"offering_type"`
+	OfferingUuid         types.String `tfsdk:"offering_uuid"`
+	ParentOfferingUuid   types.String `tfsdk:"parent_offering_uuid"`
+	ProjectUuid          types.String `tfsdk:"project_uuid"`
+	ProviderUuid         types.String `tfsdk:"provider_uuid"`
+	Query                types.String `tfsdk:"query"`
+	Resource             types.String `tfsdk:"resource"`
+	ResourceName         types.String `tfsdk:"resource_name"`
+	ResourceUuid         types.String `tfsdk:"resource_uuid"`
+	ServiceManagerUuid   types.String `tfsdk:"service_manager_uuid"`
+	State                types.String `tfsdk:"state"`
+	Type                 types.String `tfsdk:"type"`
+}
+
 // MarketplaceOrderDataSourceModel describes the data source data model.
 type MarketplaceOrderDataSourceModel struct {
-	UUID                       types.String  `tfsdk:"id"`
-	CanApproveAsConsumer       types.Bool    `tfsdk:"can_approve_as_consumer"`
-	CanApproveAsProvider       types.Bool    `tfsdk:"can_approve_as_provider"`
-	CategoryUuid               types.String  `tfsdk:"category_uuid"`
-	Created                    types.String  `tfsdk:"created"`
-	CustomerUuid               types.String  `tfsdk:"customer_uuid"`
-	Modified                   types.String  `tfsdk:"modified"`
-	Offering                   types.String  `tfsdk:"offering"`
-	OfferingSlug               types.String  `tfsdk:"offering_slug"`
-	OfferingType               types.String  `tfsdk:"offering_type"`
-	OfferingUuid               types.String  `tfsdk:"offering_uuid"`
-	ParentOfferingUuid         types.String  `tfsdk:"parent_offering_uuid"`
-	ProjectUuid                types.String  `tfsdk:"project_uuid"`
-	ProviderUuid               types.String  `tfsdk:"provider_uuid"`
-	Query                      types.String  `tfsdk:"query"`
-	Resource                   types.String  `tfsdk:"resource"`
-	ResourceName               types.String  `tfsdk:"resource_name"`
-	ResourceUuid               types.String  `tfsdk:"resource_uuid"`
-	ServiceManagerUuid         types.String  `tfsdk:"service_manager_uuid"`
-	State                      types.String  `tfsdk:"state"`
-	Type                       types.String  `tfsdk:"type"`
-	ActivationPrice            types.Float64 `tfsdk:"activation_price"`
-	Attachment                 types.String  `tfsdk:"attachment"`
-	BackendId                  types.String  `tfsdk:"backend_id"`
-	CallbackUrl                types.String  `tfsdk:"callback_url"`
-	CanTerminate               types.Bool    `tfsdk:"can_terminate"`
-	CategoryIcon               types.String  `tfsdk:"category_icon"`
-	CategoryTitle              types.String  `tfsdk:"category_title"`
-	CompletedAt                types.String  `tfsdk:"completed_at"`
-	ConsumerReviewedAt         types.String  `tfsdk:"consumer_reviewed_at"`
-	ConsumerReviewedBy         types.String  `tfsdk:"consumer_reviewed_by"`
-	ConsumerReviewedByFullName types.String  `tfsdk:"consumer_reviewed_by_full_name"`
-	ConsumerReviewedByUsername types.String  `tfsdk:"consumer_reviewed_by_username"`
-	Cost                       types.String  `tfsdk:"cost"`
-	CreatedByCivilNumber       types.String  `tfsdk:"created_by_civil_number"`
-	CreatedByFullName          types.String  `tfsdk:"created_by_full_name"`
-	CreatedByUsername          types.String  `tfsdk:"created_by_username"`
-	CustomerSlug               types.String  `tfsdk:"customer_slug"`
-	ErrorMessage               types.String  `tfsdk:"error_message"`
-	ErrorTraceback             types.String  `tfsdk:"error_traceback"`
-	FixedPrice                 types.Float64 `tfsdk:"fixed_price"`
-	NewCostEstimate            types.String  `tfsdk:"new_cost_estimate"`
-	NewPlanName                types.String  `tfsdk:"new_plan_name"`
-	NewPlanUuid                types.String  `tfsdk:"new_plan_uuid"`
-	OfferingBillable           types.Bool    `tfsdk:"offering_billable"`
-	OfferingDescription        types.String  `tfsdk:"offering_description"`
-	OfferingImage              types.String  `tfsdk:"offering_image"`
-	OfferingName               types.String  `tfsdk:"offering_name"`
-	OfferingShared             types.Bool    `tfsdk:"offering_shared"`
-	OfferingThumbnail          types.String  `tfsdk:"offering_thumbnail"`
-	OldCostEstimate            types.Float64 `tfsdk:"old_cost_estimate"`
-	OldPlanName                types.String  `tfsdk:"old_plan_name"`
-	OldPlanUuid                types.String  `tfsdk:"old_plan_uuid"`
-	OrderSubtype               types.String  `tfsdk:"order_subtype"`
-	Output                     types.String  `tfsdk:"output"`
-	Plan                       types.String  `tfsdk:"plan"`
-	PlanDescription            types.String  `tfsdk:"plan_description"`
-	PlanName                   types.String  `tfsdk:"plan_name"`
-	PlanUnit                   types.String  `tfsdk:"plan_unit"`
-	PlanUuid                   types.String  `tfsdk:"plan_uuid"`
-	ProjectDescription         types.String  `tfsdk:"project_description"`
-	ProjectSlug                types.String  `tfsdk:"project_slug"`
-	ProviderName               types.String  `tfsdk:"provider_name"`
-	ProviderReviewedAt         types.String  `tfsdk:"provider_reviewed_at"`
-	ProviderReviewedBy         types.String  `tfsdk:"provider_reviewed_by"`
-	ProviderReviewedByFullName types.String  `tfsdk:"provider_reviewed_by_full_name"`
-	ProviderReviewedByUsername types.String  `tfsdk:"provider_reviewed_by_username"`
-	ProviderSlug               types.String  `tfsdk:"provider_slug"`
-	RequestComment             types.String  `tfsdk:"request_comment"`
-	ResourceType               types.String  `tfsdk:"resource_type"`
-	Slug                       types.String  `tfsdk:"slug"`
-	StartDate                  types.String  `tfsdk:"start_date"`
-	TerminationComment         types.String  `tfsdk:"termination_comment"`
-	Url                        types.String  `tfsdk:"url"`
+	UUID                       types.String                  `tfsdk:"id"`
+	Filters                    *MarketplaceOrderFiltersModel `tfsdk:"filters"`
+	ActivationPrice            types.Float64                 `tfsdk:"activation_price"`
+	Attachment                 types.String                  `tfsdk:"attachment"`
+	BackendId                  types.String                  `tfsdk:"backend_id"`
+	CallbackUrl                types.String                  `tfsdk:"callback_url"`
+	CanTerminate               types.Bool                    `tfsdk:"can_terminate"`
+	CategoryIcon               types.String                  `tfsdk:"category_icon"`
+	CategoryTitle              types.String                  `tfsdk:"category_title"`
+	CategoryUuid               types.String                  `tfsdk:"category_uuid"`
+	CompletedAt                types.String                  `tfsdk:"completed_at"`
+	ConsumerReviewedAt         types.String                  `tfsdk:"consumer_reviewed_at"`
+	ConsumerReviewedBy         types.String                  `tfsdk:"consumer_reviewed_by"`
+	ConsumerReviewedByFullName types.String                  `tfsdk:"consumer_reviewed_by_full_name"`
+	ConsumerReviewedByUsername types.String                  `tfsdk:"consumer_reviewed_by_username"`
+	Cost                       types.String                  `tfsdk:"cost"`
+	Created                    types.String                  `tfsdk:"created"`
+	CreatedByCivilNumber       types.String                  `tfsdk:"created_by_civil_number"`
+	CreatedByFullName          types.String                  `tfsdk:"created_by_full_name"`
+	CreatedByUsername          types.String                  `tfsdk:"created_by_username"`
+	CustomerSlug               types.String                  `tfsdk:"customer_slug"`
+	ErrorMessage               types.String                  `tfsdk:"error_message"`
+	ErrorTraceback             types.String                  `tfsdk:"error_traceback"`
+	FixedPrice                 types.Float64                 `tfsdk:"fixed_price"`
+	Modified                   types.String                  `tfsdk:"modified"`
+	NewCostEstimate            types.String                  `tfsdk:"new_cost_estimate"`
+	NewPlanName                types.String                  `tfsdk:"new_plan_name"`
+	NewPlanUuid                types.String                  `tfsdk:"new_plan_uuid"`
+	Offering                   types.String                  `tfsdk:"offering"`
+	OfferingBillable           types.Bool                    `tfsdk:"offering_billable"`
+	OfferingDescription        types.String                  `tfsdk:"offering_description"`
+	OfferingImage              types.String                  `tfsdk:"offering_image"`
+	OfferingName               types.String                  `tfsdk:"offering_name"`
+	OfferingShared             types.Bool                    `tfsdk:"offering_shared"`
+	OfferingThumbnail          types.String                  `tfsdk:"offering_thumbnail"`
+	OfferingType               types.String                  `tfsdk:"offering_type"`
+	OfferingUuid               types.String                  `tfsdk:"offering_uuid"`
+	OldCostEstimate            types.Float64                 `tfsdk:"old_cost_estimate"`
+	OldPlanName                types.String                  `tfsdk:"old_plan_name"`
+	OldPlanUuid                types.String                  `tfsdk:"old_plan_uuid"`
+	OrderSubtype               types.String                  `tfsdk:"order_subtype"`
+	Output                     types.String                  `tfsdk:"output"`
+	Plan                       types.String                  `tfsdk:"plan"`
+	PlanDescription            types.String                  `tfsdk:"plan_description"`
+	PlanName                   types.String                  `tfsdk:"plan_name"`
+	PlanUnit                   types.String                  `tfsdk:"plan_unit"`
+	PlanUuid                   types.String                  `tfsdk:"plan_uuid"`
+	ProjectDescription         types.String                  `tfsdk:"project_description"`
+	ProjectSlug                types.String                  `tfsdk:"project_slug"`
+	ProviderName               types.String                  `tfsdk:"provider_name"`
+	ProviderReviewedAt         types.String                  `tfsdk:"provider_reviewed_at"`
+	ProviderReviewedBy         types.String                  `tfsdk:"provider_reviewed_by"`
+	ProviderReviewedByFullName types.String                  `tfsdk:"provider_reviewed_by_full_name"`
+	ProviderReviewedByUsername types.String                  `tfsdk:"provider_reviewed_by_username"`
+	ProviderSlug               types.String                  `tfsdk:"provider_slug"`
+	ProviderUuid               types.String                  `tfsdk:"provider_uuid"`
+	RequestComment             types.String                  `tfsdk:"request_comment"`
+	ResourceName               types.String                  `tfsdk:"resource_name"`
+	ResourceType               types.String                  `tfsdk:"resource_type"`
+	ResourceUuid               types.String                  `tfsdk:"resource_uuid"`
+	Slug                       types.String                  `tfsdk:"slug"`
+	StartDate                  types.String                  `tfsdk:"start_date"`
+	State                      types.String                  `tfsdk:"state"`
+	TerminationComment         types.String                  `tfsdk:"termination_comment"`
+	Type                       types.String                  `tfsdk:"type"`
+	Url                        types.String                  `tfsdk:"url"`
 }
 
 func (d *MarketplaceOrderDataSource) Metadata(ctx context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
@@ -192,85 +203,91 @@ func (d *MarketplaceOrderDataSource) Schema(ctx context.Context, req datasource.
 				Computed:            true,
 				MarkdownDescription: "Resource UUID",
 			},
-			"can_approve_as_consumer": schema.BoolAttribute{
+			"filters": schema.SingleNestedAttribute{
 				Optional:            true,
-				MarkdownDescription: "Can approve as consumer",
-			},
-			"can_approve_as_provider": schema.BoolAttribute{
-				Optional:            true,
-				MarkdownDescription: "Can approve as provider",
-			},
-			"category_uuid": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Category UUID",
-			},
-			"created": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Created after",
-			},
-			"customer_uuid": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Customer UUID",
-			},
-			"modified": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Modified after",
-			},
-			"offering": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Offering",
-			},
-			"offering_slug": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Multiple values may be separated by commas.",
-			},
-			"offering_type": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Offering type",
-			},
-			"offering_uuid": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Offering UUID",
-			},
-			"parent_offering_uuid": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "UUID of the parent offering",
-			},
-			"project_uuid": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Project UUID",
-			},
-			"provider_uuid": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Provider UUID",
-			},
-			"query": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Search by order UUID, slug, project name or resource name",
-			},
-			"resource": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Resource URL",
-			},
-			"resource_name": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Resource name",
-			},
-			"resource_uuid": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Resource UUID",
-			},
-			"service_manager_uuid": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Service manager UUID",
-			},
-			"state": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Order state",
-			},
-			"type": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Order type",
+				MarkdownDescription: "Filter parameters for querying Marketplace Order",
+				Attributes: map[string]schema.Attribute{
+					"can_approve_as_consumer": schema.BoolAttribute{
+						Optional:            true,
+						MarkdownDescription: "Can approve as consumer",
+					},
+					"can_approve_as_provider": schema.BoolAttribute{
+						Optional:            true,
+						MarkdownDescription: "Can approve as provider",
+					},
+					"category_uuid": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Category UUID",
+					},
+					"created": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Created after",
+					},
+					"customer_uuid": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Customer UUID",
+					},
+					"modified": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Modified after",
+					},
+					"offering": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Offering",
+					},
+					"offering_slug": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Multiple values may be separated by commas.",
+					},
+					"offering_type": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Offering type",
+					},
+					"offering_uuid": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Offering UUID",
+					},
+					"parent_offering_uuid": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "UUID of the parent offering",
+					},
+					"project_uuid": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Project UUID",
+					},
+					"provider_uuid": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Provider UUID",
+					},
+					"query": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Search by order UUID, slug, project name or resource name",
+					},
+					"resource": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Resource URL",
+					},
+					"resource_name": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Resource name",
+					},
+					"resource_uuid": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Resource UUID",
+					},
+					"service_manager_uuid": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Service manager UUID",
+					},
+					"state": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Order state",
+					},
+					"type": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Order type",
+					},
+				},
 			},
 			"activation_price": schema.Float64Attribute{
 				Computed:            true,
@@ -300,6 +317,10 @@ func (d *MarketplaceOrderDataSource) Schema(ctx context.Context, req datasource.
 				Computed:            true,
 				MarkdownDescription: "Category title",
 			},
+			"category_uuid": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "UUID of the category",
+			},
 			"completed_at": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Completed at",
@@ -323,6 +344,10 @@ func (d *MarketplaceOrderDataSource) Schema(ctx context.Context, req datasource.
 			"cost": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Cost",
+			},
+			"created": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "Created",
 			},
 			"created_by_civil_number": schema.StringAttribute{
 				Computed:            true,
@@ -352,6 +377,10 @@ func (d *MarketplaceOrderDataSource) Schema(ctx context.Context, req datasource.
 				Computed:            true,
 				MarkdownDescription: "Fixed price",
 			},
+			"modified": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "Modified",
+			},
 			"new_cost_estimate": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "New cost estimate",
@@ -363,6 +392,10 @@ func (d *MarketplaceOrderDataSource) Schema(ctx context.Context, req datasource.
 			"new_plan_uuid": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "UUID of the new plan",
+			},
+			"offering": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "Offering",
 			},
 			"offering_billable": schema.BoolAttribute{
 				Computed:            true,
@@ -387,6 +420,14 @@ func (d *MarketplaceOrderDataSource) Schema(ctx context.Context, req datasource.
 			"offering_thumbnail": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Offering thumbnail",
+			},
+			"offering_type": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "Offering type",
+			},
+			"offering_uuid": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "UUID of the offering",
 			},
 			"old_cost_estimate": schema.Float64Attribute{
 				Computed:            true,
@@ -460,13 +501,25 @@ func (d *MarketplaceOrderDataSource) Schema(ctx context.Context, req datasource.
 				Computed:            true,
 				MarkdownDescription: "Provider slug",
 			},
+			"provider_uuid": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "UUID of the provider",
+			},
 			"request_comment": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Request comment",
 			},
+			"resource_name": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "Name of the resource",
+			},
 			"resource_type": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Resource type",
+			},
+			"resource_uuid": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "UUID of the resource",
 			},
 			"slug": schema.StringAttribute{
 				Computed:            true,
@@ -476,9 +529,17 @@ func (d *MarketplaceOrderDataSource) Schema(ctx context.Context, req datasource.
 				Computed:            true,
 				MarkdownDescription: "Enables delayed processing of resource provisioning order.",
 			},
+			"state": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "State",
+			},
 			"termination_comment": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Termination comment",
+			},
+			"type": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "Type",
 			},
 			"url": schema.StringAttribute{
 				Computed:            true,
@@ -535,47 +596,49 @@ func (d *MarketplaceOrderDataSource) Read(ctx context.Context, req datasource.Re
 		// Filter by provided parameters
 		var results []MarketplaceOrderApiResponse
 
-		type filterDef struct {
-			name string
-			val  attr.Value
-		}
-		filterDefs := []filterDef{
-			{"can_approve_as_consumer", data.CanApproveAsConsumer},
-			{"can_approve_as_provider", data.CanApproveAsProvider},
-			{"category_uuid", data.CategoryUuid},
-			{"created", data.Created},
-			{"customer_uuid", data.CustomerUuid},
-			{"modified", data.Modified},
-			{"offering", data.Offering},
-			{"offering_slug", data.OfferingSlug},
-			{"offering_type", data.OfferingType},
-			{"offering_uuid", data.OfferingUuid},
-			{"parent_offering_uuid", data.ParentOfferingUuid},
-			{"project_uuid", data.ProjectUuid},
-			{"provider_uuid", data.ProviderUuid},
-			{"query", data.Query},
-			{"resource", data.Resource},
-			{"resource_name", data.ResourceName},
-			{"resource_uuid", data.ResourceUuid},
-			{"service_manager_uuid", data.ServiceManagerUuid},
-			{"state", data.State},
-			{"type", data.Type},
-		}
-
 		filters := make(map[string]string)
-		for _, fd := range filterDefs {
-			if fd.val.IsNull() || fd.val.IsUnknown() {
-				continue
+		if data.Filters != nil {
+			type filterDef struct {
+				name string
+				val  attr.Value
 			}
-			switch v := fd.val.(type) {
-			case types.String:
-				filters[fd.name] = v.ValueString()
-			case types.Int64:
-				filters[fd.name] = fmt.Sprintf("%d", v.ValueInt64())
-			case types.Bool:
-				filters[fd.name] = fmt.Sprintf("%t", v.ValueBool())
-			case types.Float64:
-				filters[fd.name] = fmt.Sprintf("%f", v.ValueFloat64())
+			filterDefs := []filterDef{
+				{"can_approve_as_consumer", data.Filters.CanApproveAsConsumer},
+				{"can_approve_as_provider", data.Filters.CanApproveAsProvider},
+				{"category_uuid", data.Filters.CategoryUuid},
+				{"created", data.Filters.Created},
+				{"customer_uuid", data.Filters.CustomerUuid},
+				{"modified", data.Filters.Modified},
+				{"offering", data.Filters.Offering},
+				{"offering_slug", data.Filters.OfferingSlug},
+				{"offering_type", data.Filters.OfferingType},
+				{"offering_uuid", data.Filters.OfferingUuid},
+				{"parent_offering_uuid", data.Filters.ParentOfferingUuid},
+				{"project_uuid", data.Filters.ProjectUuid},
+				{"provider_uuid", data.Filters.ProviderUuid},
+				{"query", data.Filters.Query},
+				{"resource", data.Filters.Resource},
+				{"resource_name", data.Filters.ResourceName},
+				{"resource_uuid", data.Filters.ResourceUuid},
+				{"service_manager_uuid", data.Filters.ServiceManagerUuid},
+				{"state", data.Filters.State},
+				{"type", data.Filters.Type},
+			}
+
+			for _, fd := range filterDefs {
+				if fd.val.IsNull() || fd.val.IsUnknown() {
+					continue
+				}
+				switch v := fd.val.(type) {
+				case types.String:
+					filters[fd.name] = v.ValueString()
+				case types.Int64:
+					filters[fd.name] = fmt.Sprintf("%d", v.ValueInt64())
+				case types.Bool:
+					filters[fd.name] = fmt.Sprintf("%t", v.ValueBool())
+				case types.Float64:
+					filters[fd.name] = fmt.Sprintf("%f", v.ValueFloat64())
+				}
 			}
 		}
 

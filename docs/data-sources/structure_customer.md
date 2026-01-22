@@ -17,30 +17,23 @@ Structure Customer data source - lookup by name or UUID
 
 ### Optional
 
-- `abbreviation` (String) Abbreviation
-- `agreement_number` (String) Agreement number
-- `archived` (Boolean) Archived
-- `backend_id` (String) ID of the backend
-- `contact_details` (String) Contact details
+- `filters` (Attributes) Filter parameters for querying Structure Customer (see [below for nested schema](#nestedatt--filters))
 - `id` (String) Resource UUID
-- `name` (String) Name
-- `name_exact` (String) Name (exact)
-- `native_name` (String) Native name
-- `organization_group_name` (String) Organization group name
-- `organization_group_uuid` (String) Organization group UUID
-- `owned_by_current_user` (Boolean) Return a list of customers where current user is owner.
-- `query` (String) Filter by name, native name, abbreviation, domain, UUID, registration code or agreement number
-- `registration_code` (String) Registration code
 
 ### Read-Only
 
+- `abbreviation` (String) Abbreviation
 - `access_subnets` (String) Enter a comma separated list of IPv4 or IPv6 CIDR addresses from where connection to self-service is allowed.
 - `accounting_start_date` (String) Accounting start date
 - `address` (String) Address
+- `agreement_number` (String) Agreement number
+- `archived` (Boolean) Archived
+- `backend_id` (String) Organization identifier in another application.
 - `bank_account` (String) Bank account
 - `bank_name` (String) Name of the bank
 - `blocked` (Boolean) Blocked
 - `call_managing_organization_uuid` (String) UUID of the call managing organization
+- `contact_details` (String) Contact details
 - `country` (String) Country code (ISO 3166-1 alpha-2)
 - `country_name` (String) Human-readable country name
 - `created` (String) Created
@@ -59,6 +52,8 @@ Structure Customer data source - lookup by name or UUID
 - `latitude` (Number) Latitude
 - `longitude` (Number) Longitude
 - `max_service_accounts` (Number) Maximum number of service accounts allowed
+- `name` (String) Name of the resource
+- `native_name` (String) Name of the native
 - `notification_emails` (String) Comma-separated list of notification email addresses
 - `organization_groups` (Attributes List) Organization groups this customer belongs to (see [below for nested schema](#nestedatt--organization_groups))
 - `payment_profiles` (Attributes List) Payment profiles (see [below for nested schema](#nestedatt--payment_profiles))
@@ -66,6 +61,7 @@ Structure Customer data source - lookup by name or UUID
 - `postal` (String) Postal
 - `project_metadata_checklist` (String) Checklist to be used for project metadata validation in this organization
 - `projects_count` (Number) Number of projects in this organization
+- `registration_code` (String) Registration code
 - `service_provider` (String) Service provider
 - `service_provider_uuid` (String) UUID of the service provider
 - `slug` (String) URL-friendly identifier. Only editable by staff users.
@@ -73,6 +69,26 @@ Structure Customer data source - lookup by name or UUID
 - `url` (String) Url
 - `users_count` (Number) Number of users with access to this organization
 - `vat_code` (String) VAT number
+
+<a id="nestedatt--filters"></a>
+### Nested Schema for `filters`
+
+Optional:
+
+- `abbreviation` (String) Abbreviation
+- `agreement_number` (String) Agreement number
+- `archived` (Boolean) Archived
+- `backend_id` (String) ID of the backend
+- `contact_details` (String) Contact details
+- `name` (String) Name
+- `name_exact` (String) Name (exact)
+- `native_name` (String) Native name
+- `organization_group_name` (String) Organization group name
+- `organization_group_uuid` (String) Organization group UUID
+- `owned_by_current_user` (Boolean) Return a list of customers where current user is owner.
+- `query` (String) Filter by name, native name, abbreviation, domain, UUID, registration code or agreement number
+- `registration_code` (String) Registration code
+
 
 <a id="nestedatt--organization_groups"></a>
 ### Nested Schema for `organization_groups`

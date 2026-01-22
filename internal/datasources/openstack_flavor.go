@@ -39,9 +39,8 @@ type OpenstackFlavorApiResponse struct {
 	Url         *string `json:"url" tfsdk:"url"`
 }
 
-// OpenstackFlavorDataSourceModel describes the data source data model.
-type OpenstackFlavorDataSourceModel struct {
-	UUID         types.String `tfsdk:"id"`
+// OpenstackFlavorFiltersModel contains the filter parameters for querying.
+type OpenstackFlavorFiltersModel struct {
 	Cores        types.Int64  `tfsdk:"cores"`
 	CoresGte     types.Int64  `tfsdk:"cores__gte"`
 	CoresLte     types.Int64  `tfsdk:"cores__lte"`
@@ -59,9 +58,20 @@ type OpenstackFlavorDataSourceModel struct {
 	SettingsUuid types.String `tfsdk:"settings_uuid"`
 	Tenant       types.String `tfsdk:"tenant"`
 	TenantUuid   types.String `tfsdk:"tenant_uuid"`
-	BackendId    types.String `tfsdk:"backend_id"`
-	DisplayName  types.String `tfsdk:"display_name"`
-	Url          types.String `tfsdk:"url"`
+}
+
+// OpenstackFlavorDataSourceModel describes the data source data model.
+type OpenstackFlavorDataSourceModel struct {
+	UUID        types.String                 `tfsdk:"id"`
+	Filters     *OpenstackFlavorFiltersModel `tfsdk:"filters"`
+	BackendId   types.String                 `tfsdk:"backend_id"`
+	Cores       types.Int64                  `tfsdk:"cores"`
+	Disk        types.Int64                  `tfsdk:"disk"`
+	DisplayName types.String                 `tfsdk:"display_name"`
+	Name        types.String                 `tfsdk:"name"`
+	Ram         types.Int64                  `tfsdk:"ram"`
+	Settings    types.String                 `tfsdk:"settings"`
+	Url         types.String                 `tfsdk:"url"`
 }
 
 func (d *OpenstackFlavorDataSource) Metadata(ctx context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
@@ -78,81 +88,107 @@ func (d *OpenstackFlavorDataSource) Schema(ctx context.Context, req datasource.S
 				Computed:            true,
 				MarkdownDescription: "Resource UUID",
 			},
-			"cores": schema.Int64Attribute{
+			"filters": schema.SingleNestedAttribute{
 				Optional:            true,
-				MarkdownDescription: "Cores",
-			},
-			"cores__gte": schema.Int64Attribute{
-				Optional:            true,
-				MarkdownDescription: "Cores gte",
-			},
-			"cores__lte": schema.Int64Attribute{
-				Optional:            true,
-				MarkdownDescription: "Cores lte",
-			},
-			"disk": schema.Int64Attribute{
-				Optional:            true,
-				MarkdownDescription: "Disk",
-			},
-			"disk__gte": schema.Int64Attribute{
-				Optional:            true,
-				MarkdownDescription: "Disk gte",
-			},
-			"disk__lte": schema.Int64Attribute{
-				Optional:            true,
-				MarkdownDescription: "Disk lte",
-			},
-			"name": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Name",
-			},
-			"name_exact": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Name (exact)",
-			},
-			"name_iregex": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Name (regex)",
-			},
-			"offering_uuid": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Offering UUID",
-			},
-			"ram": schema.Int64Attribute{
-				Optional:            true,
-				MarkdownDescription: "Ram",
-			},
-			"ram__gte": schema.Int64Attribute{
-				Optional:            true,
-				MarkdownDescription: "Ram gte",
-			},
-			"ram__lte": schema.Int64Attribute{
-				Optional:            true,
-				MarkdownDescription: "Ram lte",
-			},
-			"settings": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Settings URL",
-			},
-			"settings_uuid": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Settings UUID",
-			},
-			"tenant": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Tenant URL",
-			},
-			"tenant_uuid": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Tenant UUID",
+				MarkdownDescription: "Filter parameters for querying Openstack Flavor",
+				Attributes: map[string]schema.Attribute{
+					"cores": schema.Int64Attribute{
+						Optional:            true,
+						MarkdownDescription: "Cores",
+					},
+					"cores__gte": schema.Int64Attribute{
+						Optional:            true,
+						MarkdownDescription: "Cores gte",
+					},
+					"cores__lte": schema.Int64Attribute{
+						Optional:            true,
+						MarkdownDescription: "Cores lte",
+					},
+					"disk": schema.Int64Attribute{
+						Optional:            true,
+						MarkdownDescription: "Disk",
+					},
+					"disk__gte": schema.Int64Attribute{
+						Optional:            true,
+						MarkdownDescription: "Disk gte",
+					},
+					"disk__lte": schema.Int64Attribute{
+						Optional:            true,
+						MarkdownDescription: "Disk lte",
+					},
+					"name": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Name",
+					},
+					"name_exact": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Name (exact)",
+					},
+					"name_iregex": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Name (regex)",
+					},
+					"offering_uuid": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Offering UUID",
+					},
+					"ram": schema.Int64Attribute{
+						Optional:            true,
+						MarkdownDescription: "Ram",
+					},
+					"ram__gte": schema.Int64Attribute{
+						Optional:            true,
+						MarkdownDescription: "Ram gte",
+					},
+					"ram__lte": schema.Int64Attribute{
+						Optional:            true,
+						MarkdownDescription: "Ram lte",
+					},
+					"settings": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Settings URL",
+					},
+					"settings_uuid": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Settings UUID",
+					},
+					"tenant": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Tenant URL",
+					},
+					"tenant_uuid": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Tenant UUID",
+					},
+				},
 			},
 			"backend_id": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "ID of the backend",
 			},
+			"cores": schema.Int64Attribute{
+				Computed:            true,
+				MarkdownDescription: "Number of cores in a VM",
+			},
+			"disk": schema.Int64Attribute{
+				Computed:            true,
+				MarkdownDescription: "Root disk size in MiB",
+			},
 			"display_name": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Name of the display",
+			},
+			"name": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "Name of the resource",
+			},
+			"ram": schema.Int64Attribute{
+				Computed:            true,
+				MarkdownDescription: "Memory size in MiB",
+			},
+			"settings": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "Settings",
 			},
 			"url": schema.StringAttribute{
 				Computed:            true,
@@ -209,44 +245,46 @@ func (d *OpenstackFlavorDataSource) Read(ctx context.Context, req datasource.Rea
 		// Filter by provided parameters
 		var results []OpenstackFlavorApiResponse
 
-		type filterDef struct {
-			name string
-			val  attr.Value
-		}
-		filterDefs := []filterDef{
-			{"cores", data.Cores},
-			{"cores__gte", data.CoresGte},
-			{"cores__lte", data.CoresLte},
-			{"disk", data.Disk},
-			{"disk__gte", data.DiskGte},
-			{"disk__lte", data.DiskLte},
-			{"name", data.Name},
-			{"name_exact", data.NameExact},
-			{"name_iregex", data.NameIregex},
-			{"offering_uuid", data.OfferingUuid},
-			{"ram", data.Ram},
-			{"ram__gte", data.RamGte},
-			{"ram__lte", data.RamLte},
-			{"settings", data.Settings},
-			{"settings_uuid", data.SettingsUuid},
-			{"tenant", data.Tenant},
-			{"tenant_uuid", data.TenantUuid},
-		}
-
 		filters := make(map[string]string)
-		for _, fd := range filterDefs {
-			if fd.val.IsNull() || fd.val.IsUnknown() {
-				continue
+		if data.Filters != nil {
+			type filterDef struct {
+				name string
+				val  attr.Value
 			}
-			switch v := fd.val.(type) {
-			case types.String:
-				filters[fd.name] = v.ValueString()
-			case types.Int64:
-				filters[fd.name] = fmt.Sprintf("%d", v.ValueInt64())
-			case types.Bool:
-				filters[fd.name] = fmt.Sprintf("%t", v.ValueBool())
-			case types.Float64:
-				filters[fd.name] = fmt.Sprintf("%f", v.ValueFloat64())
+			filterDefs := []filterDef{
+				{"cores", data.Filters.Cores},
+				{"cores__gte", data.Filters.CoresGte},
+				{"cores__lte", data.Filters.CoresLte},
+				{"disk", data.Filters.Disk},
+				{"disk__gte", data.Filters.DiskGte},
+				{"disk__lte", data.Filters.DiskLte},
+				{"name", data.Filters.Name},
+				{"name_exact", data.Filters.NameExact},
+				{"name_iregex", data.Filters.NameIregex},
+				{"offering_uuid", data.Filters.OfferingUuid},
+				{"ram", data.Filters.Ram},
+				{"ram__gte", data.Filters.RamGte},
+				{"ram__lte", data.Filters.RamLte},
+				{"settings", data.Filters.Settings},
+				{"settings_uuid", data.Filters.SettingsUuid},
+				{"tenant", data.Filters.Tenant},
+				{"tenant_uuid", data.Filters.TenantUuid},
+			}
+
+			for _, fd := range filterDefs {
+				if fd.val.IsNull() || fd.val.IsUnknown() {
+					continue
+				}
+				switch v := fd.val.(type) {
+				case types.String:
+					filters[fd.name] = v.ValueString()
+				case types.Int64:
+					filters[fd.name] = fmt.Sprintf("%d", v.ValueInt64())
+				case types.Bool:
+					filters[fd.name] = fmt.Sprintf("%t", v.ValueBool())
+				case types.Float64:
+					filters[fd.name] = fmt.Sprintf("%f", v.ValueFloat64())
+				}
 			}
 		}
 

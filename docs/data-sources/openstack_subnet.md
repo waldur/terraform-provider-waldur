@@ -17,6 +17,41 @@ Openstack Subnet data source - lookup by name or UUID
 
 ### Optional
 
+- `filters` (Attributes) Filter parameters for querying Openstack Subnet (see [below for nested schema](#nestedatt--filters))
+- `id` (String) Resource UUID
+
+### Read-Only
+
+- `access_url` (String) Access url
+- `allocation_pools` (Attributes List) Allocation pools (see [below for nested schema](#nestedatt--allocation_pools))
+- `backend_id` (String) ID of the backend
+- `cidr` (String) Cidr
+- `created` (String) Created
+- `description` (String) Description of the resource
+- `disable_gateway` (Boolean) If True, no gateway IP address will be allocated
+- `dns_nameservers` (List of String) Dns nameservers
+- `enable_dhcp` (Boolean) If True, DHCP service will be enabled on this subnet
+- `error_message` (String) Error message
+- `error_traceback` (String) Error traceback
+- `gateway_ip` (String) IP address of the gateway for this subnet
+- `host_routes` (Attributes List) Host routes (see [below for nested schema](#nestedatt--host_routes))
+- `ip_version` (Number) IP protocol version (4 or 6)
+- `is_connected` (Boolean) Is subnet connected to the default tenant router.
+- `modified` (String) Modified
+- `name` (String) Name of the resource
+- `network` (String) Network to which this subnet belongs
+- `network_name` (String) Name of the network
+- `resource_type` (String) Resource type
+- `state` (String) State
+- `tenant` (String) Tenant
+- `tenant_name` (String) Name of the tenant
+- `url` (String) Url
+
+<a id="nestedatt--filters"></a>
+### Nested Schema for `filters`
+
+Optional:
+
 - `backend_id` (String) Backend ID
 - `can_manage` (Boolean) Can manage
 - `customer` (String) Customer UUID
@@ -28,7 +63,6 @@ Openstack Subnet data source - lookup by name or UUID
 - `direct_only` (Boolean) Direct only
 - `enable_dhcp` (Boolean) Enable dhcp
 - `external_ip` (String) External IP
-- `id` (String) Resource UUID
 - `ip_version` (Number) Ip version
 - `name` (String) Name
 - `name_exact` (String) Name (exact)
@@ -45,24 +79,6 @@ Openstack Subnet data source - lookup by name or UUID
 - `tenant_uuid` (String) Tenant UUID
 - `uuid` (String) UUID
 
-### Read-Only
-
-- `access_url` (String) Access url
-- `allocation_pools` (Attributes List) Allocation pools (see [below for nested schema](#nestedatt--allocation_pools))
-- `cidr` (String) Cidr
-- `created` (String) Created
-- `disable_gateway` (Boolean) If True, no gateway IP address will be allocated
-- `dns_nameservers` (List of String) Dns nameservers
-- `error_message` (String) Error message
-- `error_traceback` (String) Error traceback
-- `gateway_ip` (String) IP address of the gateway for this subnet
-- `host_routes` (Attributes List) Host routes (see [below for nested schema](#nestedatt--host_routes))
-- `is_connected` (Boolean) Is subnet connected to the default tenant router.
-- `modified` (String) Modified
-- `network_name` (String) Name of the network
-- `resource_type` (String) Resource type
-- `tenant_name` (String) Name of the tenant
-- `url` (String) Url
 
 <a id="nestedatt--allocation_pools"></a>
 ### Nested Schema for `allocation_pools`

@@ -17,7 +17,23 @@ Openstack Image data source - lookup by name or UUID
 
 ### Optional
 
+- `filters` (Attributes) Filter parameters for querying Openstack Image (see [below for nested schema](#nestedatt--filters))
 - `id` (String) Resource UUID
+
+### Read-Only
+
+- `backend_id` (String) ID of the backend
+- `min_disk` (Number) Minimum disk size in MiB
+- `min_ram` (Number) Minimum memory size in MiB
+- `name` (String) Name of the resource
+- `settings` (String) Settings
+- `url` (String) Url
+
+<a id="nestedatt--filters"></a>
+### Nested Schema for `filters`
+
+Optional:
+
 - `name` (String) Name
 - `name_exact` (String) Name (exact)
 - `offering_uuid` (String) Offering UUID
@@ -25,10 +41,3 @@ Openstack Image data source - lookup by name or UUID
 - `settings_uuid` (String) Settings UUID
 - `tenant` (String) Tenant URL
 - `tenant_uuid` (String) Tenant UUID
-
-### Read-Only
-
-- `backend_id` (String) ID of the backend
-- `min_disk` (Number) Minimum disk size in MiB
-- `min_ram` (Number) Minimum memory size in MiB
-- `url` (String) Url

@@ -40,9 +40,8 @@ type CoreSshPublicKeyApiResponse struct {
 	UserUuid          *string `json:"user_uuid" tfsdk:"user_uuid"`
 }
 
-// CoreSshPublicKeyDataSourceModel describes the data source data model.
-type CoreSshPublicKeyDataSourceModel struct {
-	UUID              types.String `tfsdk:"id"`
+// CoreSshPublicKeyFiltersModel contains the filter parameters for querying.
+type CoreSshPublicKeyFiltersModel struct {
 	Created           types.String `tfsdk:"created"`
 	FingerprintMd5    types.String `tfsdk:"fingerprint_md5"`
 	FingerprintSha256 types.String `tfsdk:"fingerprint_sha256"`
@@ -53,9 +52,21 @@ type CoreSshPublicKeyDataSourceModel struct {
 	NameExact         types.String `tfsdk:"name_exact"`
 	UserUuid          types.String `tfsdk:"user_uuid"`
 	Uuid              types.String `tfsdk:"uuid"`
-	PublicKey         types.String `tfsdk:"public_key"`
-	Type              types.String `tfsdk:"type"`
-	Url               types.String `tfsdk:"url"`
+}
+
+// CoreSshPublicKeyDataSourceModel describes the data source data model.
+type CoreSshPublicKeyDataSourceModel struct {
+	UUID              types.String                  `tfsdk:"id"`
+	Filters           *CoreSshPublicKeyFiltersModel `tfsdk:"filters"`
+	FingerprintMd5    types.String                  `tfsdk:"fingerprint_md5"`
+	FingerprintSha256 types.String                  `tfsdk:"fingerprint_sha256"`
+	FingerprintSha512 types.String                  `tfsdk:"fingerprint_sha512"`
+	IsShared          types.Bool                    `tfsdk:"is_shared"`
+	Name              types.String                  `tfsdk:"name"`
+	PublicKey         types.String                  `tfsdk:"public_key"`
+	Type              types.String                  `tfsdk:"type"`
+	Url               types.String                  `tfsdk:"url"`
+	UserUuid          types.String                  `tfsdk:"user_uuid"`
 }
 
 func (d *CoreSshPublicKeyDataSource) Metadata(ctx context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
@@ -72,45 +83,71 @@ func (d *CoreSshPublicKeyDataSource) Schema(ctx context.Context, req datasource.
 				Computed:            true,
 				MarkdownDescription: "Resource UUID",
 			},
-			"created": schema.StringAttribute{
+			"filters": schema.SingleNestedAttribute{
 				Optional:            true,
-				MarkdownDescription: "Created after",
+				MarkdownDescription: "Filter parameters for querying Core Ssh Public Key",
+				Attributes: map[string]schema.Attribute{
+					"created": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Created after",
+					},
+					"fingerprint_md5": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Fingerprint md5",
+					},
+					"fingerprint_sha256": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Fingerprint sha256",
+					},
+					"fingerprint_sha512": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Fingerprint sha512",
+					},
+					"is_shared": schema.BoolAttribute{
+						Optional:            true,
+						MarkdownDescription: "Is shared",
+					},
+					"modified": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Modified after",
+					},
+					"name": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Name",
+					},
+					"name_exact": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Name (exact)",
+					},
+					"user_uuid": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "User UUID",
+					},
+					"uuid": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "UUID",
+					},
+				},
 			},
 			"fingerprint_md5": schema.StringAttribute{
-				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Fingerprint md5",
 			},
 			"fingerprint_sha256": schema.StringAttribute{
-				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Fingerprint sha256",
 			},
 			"fingerprint_sha512": schema.StringAttribute{
-				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Fingerprint sha512",
 			},
 			"is_shared": schema.BoolAttribute{
-				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Is shared",
 			},
-			"modified": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Modified after",
-			},
 			"name": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Name",
-			},
-			"name_exact": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Name (exact)",
-			},
-			"user_uuid": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "User UUID",
-			},
-			"uuid": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "UUID",
+				Computed:            true,
+				MarkdownDescription: "Name of the resource",
 			},
 			"public_key": schema.StringAttribute{
 				Computed:            true,
@@ -123,6 +160,10 @@ func (d *CoreSshPublicKeyDataSource) Schema(ctx context.Context, req datasource.
 			"url": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Url",
+			},
+			"user_uuid": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "UUID of the user",
 			},
 		},
 	}
@@ -175,37 +216,39 @@ func (d *CoreSshPublicKeyDataSource) Read(ctx context.Context, req datasource.Re
 		// Filter by provided parameters
 		var results []CoreSshPublicKeyApiResponse
 
-		type filterDef struct {
-			name string
-			val  attr.Value
-		}
-		filterDefs := []filterDef{
-			{"created", data.Created},
-			{"fingerprint_md5", data.FingerprintMd5},
-			{"fingerprint_sha256", data.FingerprintSha256},
-			{"fingerprint_sha512", data.FingerprintSha512},
-			{"is_shared", data.IsShared},
-			{"modified", data.Modified},
-			{"name", data.Name},
-			{"name_exact", data.NameExact},
-			{"user_uuid", data.UserUuid},
-			{"uuid", data.Uuid},
-		}
-
 		filters := make(map[string]string)
-		for _, fd := range filterDefs {
-			if fd.val.IsNull() || fd.val.IsUnknown() {
-				continue
+		if data.Filters != nil {
+			type filterDef struct {
+				name string
+				val  attr.Value
 			}
-			switch v := fd.val.(type) {
-			case types.String:
-				filters[fd.name] = v.ValueString()
-			case types.Int64:
-				filters[fd.name] = fmt.Sprintf("%d", v.ValueInt64())
-			case types.Bool:
-				filters[fd.name] = fmt.Sprintf("%t", v.ValueBool())
-			case types.Float64:
-				filters[fd.name] = fmt.Sprintf("%f", v.ValueFloat64())
+			filterDefs := []filterDef{
+				{"created", data.Filters.Created},
+				{"fingerprint_md5", data.Filters.FingerprintMd5},
+				{"fingerprint_sha256", data.Filters.FingerprintSha256},
+				{"fingerprint_sha512", data.Filters.FingerprintSha512},
+				{"is_shared", data.Filters.IsShared},
+				{"modified", data.Filters.Modified},
+				{"name", data.Filters.Name},
+				{"name_exact", data.Filters.NameExact},
+				{"user_uuid", data.Filters.UserUuid},
+				{"uuid", data.Filters.Uuid},
+			}
+
+			for _, fd := range filterDefs {
+				if fd.val.IsNull() || fd.val.IsUnknown() {
+					continue
+				}
+				switch v := fd.val.(type) {
+				case types.String:
+					filters[fd.name] = v.ValueString()
+				case types.Int64:
+					filters[fd.name] = fmt.Sprintf("%d", v.ValueInt64())
+				case types.Bool:
+					filters[fd.name] = fmt.Sprintf("%t", v.ValueBool())
+				case types.Float64:
+					filters[fd.name] = fmt.Sprintf("%f", v.ValueFloat64())
+				}
 			}
 		}
 

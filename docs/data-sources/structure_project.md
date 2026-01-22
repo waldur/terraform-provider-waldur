@@ -17,6 +17,42 @@ Structure Project data source - lookup by name or UUID
 
 ### Optional
 
+- `filters` (Attributes) Filter parameters for querying Structure Project (see [below for nested schema](#nestedatt--filters))
+- `id` (String) Resource UUID
+
+### Read-Only
+
+- `backend_id` (String) ID of the backend
+- `created` (String) Created
+- `customer_display_billing_info_in_projects` (Boolean) Customer display billing info in projects
+- `customer_slug` (String) Customer slug
+- `description` (String) Project description (HTML content will be sanitized)
+- `end_date` (String) Project end date. Setting this field requires DELETE_PROJECT permission.
+- `end_date_requested_by` (String) End date requested by
+- `grace_period_days` (Number) Number of extra days after project end date before resources are terminated. Overrides customer-level setting.
+- `image` (String) Image
+- `is_industry` (Boolean) Is industry
+- `is_removed` (Boolean) Is removed
+- `kind` (String) Kind
+- `max_service_accounts` (Number) Maximum number of service accounts allowed
+- `name` (String) Name of the resource
+- `oecd_fos_2007_code` (String) Oecd fos 2007 code
+- `oecd_fos_2007_label` (String) Human-readable label for the OECD FOS 2007 classification code
+- `project_credit` (Number) Project credit
+- `resources_count` (Number) Number of active resources in this project
+- `slug` (String) URL-friendly identifier. Only editable by staff users.
+- `staff_notes` (String) Internal notes visible only to staff and support users (HTML content will be sanitized)
+- `start_date` (String) Project start date. Cannot be edited after the start date has arrived.
+- `type` (String) Type
+- `type_name` (String) Name of the type
+- `type_uuid` (String) UUID of the type
+- `url` (String) Url
+
+<a id="nestedatt--filters"></a>
+### Nested Schema for `filters`
+
+Optional:
+
 - `backend_id` (String) ID of the backend
 - `can_admin` (Boolean) Return a list of projects where current user is admin.
 - `can_manage` (Boolean) Return a list of projects where current user is manager or a customer owner.
@@ -27,7 +63,6 @@ Structure Project data source - lookup by name or UUID
 - `customer_name` (String) Customer name
 - `customer_native_name` (String) Customer native name
 - `description` (String) Description
-- `id` (String) Resource UUID
 - `include_terminated` (Boolean) Include soft-deleted (terminated) projects. Only available to staff and support users, or users with organizational roles who can see their terminated projects.
 - `is_removed` (Boolean) Is removed
 - `modified` (String) Modified after
@@ -35,25 +70,3 @@ Structure Project data source - lookup by name or UUID
 - `name_exact` (String) Name (exact)
 - `query` (String) Filter by name, slug, UUID, backend ID or resource effective ID
 - `slug` (String) Slug
-
-### Read-Only
-
-- `customer_display_billing_info_in_projects` (Boolean) Customer display billing info in projects
-- `customer_slug` (String) Customer slug
-- `end_date` (String) Project end date. Setting this field requires DELETE_PROJECT permission.
-- `end_date_requested_by` (String) End date requested by
-- `grace_period_days` (Number) Number of extra days after project end date before resources are terminated. Overrides customer-level setting.
-- `image` (String) Image
-- `is_industry` (Boolean) Is industry
-- `kind` (String) Kind
-- `max_service_accounts` (Number) Maximum number of service accounts allowed
-- `oecd_fos_2007_code` (String) Oecd fos 2007 code
-- `oecd_fos_2007_label` (String) Human-readable label for the OECD FOS 2007 classification code
-- `project_credit` (Number) Project credit
-- `resources_count` (Number) Number of active resources in this project
-- `staff_notes` (String) Internal notes visible only to staff and support users (HTML content will be sanitized)
-- `start_date` (String) Project start date. Cannot be edited after the start date has arrived.
-- `type` (String) Type
-- `type_name` (String) Name of the type
-- `type_uuid` (String) UUID of the type
-- `url` (String) Url

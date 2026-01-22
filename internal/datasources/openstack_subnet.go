@@ -29,52 +29,30 @@ type OpenstackSubnetDataSource struct {
 type OpenstackSubnetApiResponse struct {
 	UUID *string `json:"uuid"`
 
-	AccessUrl                   *string                                  `json:"access_url" tfsdk:"access_url"`
-	AllocationPools             []OpenstackSubnetAllocationPoolsResponse `json:"allocation_pools" tfsdk:"allocation_pools"`
-	BackendId                   *string                                  `json:"backend_id" tfsdk:"backend_id"`
-	Cidr                        *string                                  `json:"cidr" tfsdk:"cidr"`
-	Created                     *string                                  `json:"created" tfsdk:"created"`
-	Customer                    *string                                  `json:"customer" tfsdk:"customer"`
-	CustomerAbbreviation        *string                                  `json:"customer_abbreviation" tfsdk:"customer_abbreviation"`
-	CustomerName                *string                                  `json:"customer_name" tfsdk:"customer_name"`
-	CustomerNativeName          *string                                  `json:"customer_native_name" tfsdk:"customer_native_name"`
-	CustomerUuid                *string                                  `json:"customer_uuid" tfsdk:"customer_uuid"`
-	Description                 *string                                  `json:"description" tfsdk:"description"`
-	DisableGateway              *bool                                    `json:"disable_gateway" tfsdk:"disable_gateway"`
-	DnsNameservers              []string                                 `json:"dns_nameservers" tfsdk:"dns_nameservers"`
-	EnableDhcp                  *bool                                    `json:"enable_dhcp" tfsdk:"enable_dhcp"`
-	ErrorMessage                *string                                  `json:"error_message" tfsdk:"error_message"`
-	ErrorTraceback              *string                                  `json:"error_traceback" tfsdk:"error_traceback"`
-	GatewayIp                   *string                                  `json:"gateway_ip" tfsdk:"gateway_ip"`
-	HostRoutes                  []OpenstackSubnetHostRoutesResponse      `json:"host_routes" tfsdk:"host_routes"`
-	IpVersion                   *int64                                   `json:"ip_version" tfsdk:"ip_version"`
-	IsConnected                 *bool                                    `json:"is_connected" tfsdk:"is_connected"`
-	IsLimitBased                *bool                                    `json:"is_limit_based" tfsdk:"is_limit_based"`
-	IsUsageBased                *bool                                    `json:"is_usage_based" tfsdk:"is_usage_based"`
-	MarketplaceCategoryName     *string                                  `json:"marketplace_category_name" tfsdk:"marketplace_category_name"`
-	MarketplaceCategoryUuid     *string                                  `json:"marketplace_category_uuid" tfsdk:"marketplace_category_uuid"`
-	MarketplaceOfferingName     *string                                  `json:"marketplace_offering_name" tfsdk:"marketplace_offering_name"`
-	MarketplaceOfferingUuid     *string                                  `json:"marketplace_offering_uuid" tfsdk:"marketplace_offering_uuid"`
-	MarketplacePlanUuid         *string                                  `json:"marketplace_plan_uuid" tfsdk:"marketplace_plan_uuid"`
-	MarketplaceResourceState    *string                                  `json:"marketplace_resource_state" tfsdk:"marketplace_resource_state"`
-	MarketplaceResourceUuid     *string                                  `json:"marketplace_resource_uuid" tfsdk:"marketplace_resource_uuid"`
-	Modified                    *string                                  `json:"modified" tfsdk:"modified"`
-	Name                        *string                                  `json:"name" tfsdk:"name"`
-	Network                     *string                                  `json:"network" tfsdk:"network"`
-	NetworkName                 *string                                  `json:"network_name" tfsdk:"network_name"`
-	Project                     *string                                  `json:"project" tfsdk:"project"`
-	ProjectName                 *string                                  `json:"project_name" tfsdk:"project_name"`
-	ProjectUuid                 *string                                  `json:"project_uuid" tfsdk:"project_uuid"`
-	ResourceType                *string                                  `json:"resource_type" tfsdk:"resource_type"`
-	ServiceName                 *string                                  `json:"service_name" tfsdk:"service_name"`
-	ServiceSettings             *string                                  `json:"service_settings" tfsdk:"service_settings"`
-	ServiceSettingsErrorMessage *string                                  `json:"service_settings_error_message" tfsdk:"service_settings_error_message"`
-	ServiceSettingsState        *string                                  `json:"service_settings_state" tfsdk:"service_settings_state"`
-	ServiceSettingsUuid         *string                                  `json:"service_settings_uuid" tfsdk:"service_settings_uuid"`
-	State                       *string                                  `json:"state" tfsdk:"state"`
-	Tenant                      *string                                  `json:"tenant" tfsdk:"tenant"`
-	TenantName                  *string                                  `json:"tenant_name" tfsdk:"tenant_name"`
-	Url                         *string                                  `json:"url" tfsdk:"url"`
+	AccessUrl       *string                                  `json:"access_url" tfsdk:"access_url"`
+	AllocationPools []OpenstackSubnetAllocationPoolsResponse `json:"allocation_pools" tfsdk:"allocation_pools"`
+	BackendId       *string                                  `json:"backend_id" tfsdk:"backend_id"`
+	Cidr            *string                                  `json:"cidr" tfsdk:"cidr"`
+	Created         *string                                  `json:"created" tfsdk:"created"`
+	Description     *string                                  `json:"description" tfsdk:"description"`
+	DisableGateway  *bool                                    `json:"disable_gateway" tfsdk:"disable_gateway"`
+	DnsNameservers  []string                                 `json:"dns_nameservers" tfsdk:"dns_nameservers"`
+	EnableDhcp      *bool                                    `json:"enable_dhcp" tfsdk:"enable_dhcp"`
+	ErrorMessage    *string                                  `json:"error_message" tfsdk:"error_message"`
+	ErrorTraceback  *string                                  `json:"error_traceback" tfsdk:"error_traceback"`
+	GatewayIp       *string                                  `json:"gateway_ip" tfsdk:"gateway_ip"`
+	HostRoutes      []OpenstackSubnetHostRoutesResponse      `json:"host_routes" tfsdk:"host_routes"`
+	IpVersion       *int64                                   `json:"ip_version" tfsdk:"ip_version"`
+	IsConnected     *bool                                    `json:"is_connected" tfsdk:"is_connected"`
+	Modified        *string                                  `json:"modified" tfsdk:"modified"`
+	Name            *string                                  `json:"name" tfsdk:"name"`
+	Network         *string                                  `json:"network" tfsdk:"network"`
+	NetworkName     *string                                  `json:"network_name" tfsdk:"network_name"`
+	ResourceType    *string                                  `json:"resource_type" tfsdk:"resource_type"`
+	State           *string                                  `json:"state" tfsdk:"state"`
+	Tenant          *string                                  `json:"tenant" tfsdk:"tenant"`
+	TenantName      *string                                  `json:"tenant_name" tfsdk:"tenant_name"`
+	Url             *string                                  `json:"url" tfsdk:"url"`
 }
 
 type OpenstackSubnetAllocationPoolsResponse struct {
@@ -87,9 +65,8 @@ type OpenstackSubnetHostRoutesResponse struct {
 	Nexthop     *string `json:"nexthop" tfsdk:"nexthop"`
 }
 
-// OpenstackSubnetDataSourceModel describes the data source data model.
-type OpenstackSubnetDataSourceModel struct {
-	UUID                 types.String `tfsdk:"id"`
+// OpenstackSubnetFiltersModel contains the filter parameters for querying.
+type OpenstackSubnetFiltersModel struct {
 	BackendId            types.String `tfsdk:"backend_id"`
 	CanManage            types.Bool   `tfsdk:"can_manage"`
 	Customer             types.String `tfsdk:"customer"`
@@ -116,22 +93,36 @@ type OpenstackSubnetDataSourceModel struct {
 	Tenant               types.String `tfsdk:"tenant"`
 	TenantUuid           types.String `tfsdk:"tenant_uuid"`
 	Uuid                 types.String `tfsdk:"uuid"`
-	AccessUrl            types.String `tfsdk:"access_url"`
-	AllocationPools      types.List   `tfsdk:"allocation_pools"`
-	Cidr                 types.String `tfsdk:"cidr"`
-	Created              types.String `tfsdk:"created"`
-	DisableGateway       types.Bool   `tfsdk:"disable_gateway"`
-	DnsNameservers       types.List   `tfsdk:"dns_nameservers"`
-	ErrorMessage         types.String `tfsdk:"error_message"`
-	ErrorTraceback       types.String `tfsdk:"error_traceback"`
-	GatewayIp            types.String `tfsdk:"gateway_ip"`
-	HostRoutes           types.List   `tfsdk:"host_routes"`
-	IsConnected          types.Bool   `tfsdk:"is_connected"`
-	Modified             types.String `tfsdk:"modified"`
-	NetworkName          types.String `tfsdk:"network_name"`
-	ResourceType         types.String `tfsdk:"resource_type"`
-	TenantName           types.String `tfsdk:"tenant_name"`
-	Url                  types.String `tfsdk:"url"`
+}
+
+// OpenstackSubnetDataSourceModel describes the data source data model.
+type OpenstackSubnetDataSourceModel struct {
+	UUID            types.String                 `tfsdk:"id"`
+	Filters         *OpenstackSubnetFiltersModel `tfsdk:"filters"`
+	AccessUrl       types.String                 `tfsdk:"access_url"`
+	AllocationPools types.List                   `tfsdk:"allocation_pools"`
+	BackendId       types.String                 `tfsdk:"backend_id"`
+	Cidr            types.String                 `tfsdk:"cidr"`
+	Created         types.String                 `tfsdk:"created"`
+	Description     types.String                 `tfsdk:"description"`
+	DisableGateway  types.Bool                   `tfsdk:"disable_gateway"`
+	DnsNameservers  types.List                   `tfsdk:"dns_nameservers"`
+	EnableDhcp      types.Bool                   `tfsdk:"enable_dhcp"`
+	ErrorMessage    types.String                 `tfsdk:"error_message"`
+	ErrorTraceback  types.String                 `tfsdk:"error_traceback"`
+	GatewayIp       types.String                 `tfsdk:"gateway_ip"`
+	HostRoutes      types.List                   `tfsdk:"host_routes"`
+	IpVersion       types.Int64                  `tfsdk:"ip_version"`
+	IsConnected     types.Bool                   `tfsdk:"is_connected"`
+	Modified        types.String                 `tfsdk:"modified"`
+	Name            types.String                 `tfsdk:"name"`
+	Network         types.String                 `tfsdk:"network"`
+	NetworkName     types.String                 `tfsdk:"network_name"`
+	ResourceType    types.String                 `tfsdk:"resource_type"`
+	State           types.String                 `tfsdk:"state"`
+	Tenant          types.String                 `tfsdk:"tenant"`
+	TenantName      types.String                 `tfsdk:"tenant_name"`
+	Url             types.String                 `tfsdk:"url"`
 }
 
 func (d *OpenstackSubnetDataSource) Metadata(ctx context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
@@ -148,109 +139,115 @@ func (d *OpenstackSubnetDataSource) Schema(ctx context.Context, req datasource.S
 				Computed:            true,
 				MarkdownDescription: "Resource UUID",
 			},
-			"backend_id": schema.StringAttribute{
+			"filters": schema.SingleNestedAttribute{
 				Optional:            true,
-				MarkdownDescription: "Backend ID",
-			},
-			"can_manage": schema.BoolAttribute{
-				Optional:            true,
-				MarkdownDescription: "Can manage",
-			},
-			"customer": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Customer UUID",
-			},
-			"customer_abbreviation": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Customer abbreviation",
-			},
-			"customer_name": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Customer name",
-			},
-			"customer_native_name": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Customer native name",
-			},
-			"customer_uuid": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Customer UUID",
-			},
-			"description": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Description",
-			},
-			"direct_only": schema.BoolAttribute{
-				Optional:            true,
-				MarkdownDescription: "Direct only",
-			},
-			"enable_dhcp": schema.BoolAttribute{
-				Optional:            true,
-				MarkdownDescription: "Enable dhcp",
-			},
-			"external_ip": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "External IP",
-			},
-			"ip_version": schema.Int64Attribute{
-				Optional:            true,
-				MarkdownDescription: "Ip version",
-			},
-			"name": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Name",
-			},
-			"name_exact": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Name (exact)",
-			},
-			"network": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Network URL",
-			},
-			"network_uuid": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Network UUID",
-			},
-			"project": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Project UUID",
-			},
-			"project_name": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Project name",
-			},
-			"project_uuid": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Project UUID",
-			},
-			"rbac_only": schema.BoolAttribute{
-				Optional:            true,
-				MarkdownDescription: "RBAC only",
-			},
-			"service_settings_name": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Service settings name",
-			},
-			"service_settings_uuid": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Service settings UUID",
-			},
-			"state": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "State",
-			},
-			"tenant": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Tenant URL",
-			},
-			"tenant_uuid": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Tenant UUID",
-			},
-			"uuid": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "UUID",
+				MarkdownDescription: "Filter parameters for querying Openstack Subnet",
+				Attributes: map[string]schema.Attribute{
+					"backend_id": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Backend ID",
+					},
+					"can_manage": schema.BoolAttribute{
+						Optional:            true,
+						MarkdownDescription: "Can manage",
+					},
+					"customer": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Customer UUID",
+					},
+					"customer_abbreviation": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Customer abbreviation",
+					},
+					"customer_name": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Customer name",
+					},
+					"customer_native_name": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Customer native name",
+					},
+					"customer_uuid": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Customer UUID",
+					},
+					"description": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Description",
+					},
+					"direct_only": schema.BoolAttribute{
+						Optional:            true,
+						MarkdownDescription: "Direct only",
+					},
+					"enable_dhcp": schema.BoolAttribute{
+						Optional:            true,
+						MarkdownDescription: "Enable dhcp",
+					},
+					"external_ip": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "External IP",
+					},
+					"ip_version": schema.Int64Attribute{
+						Optional:            true,
+						MarkdownDescription: "Ip version",
+					},
+					"name": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Name",
+					},
+					"name_exact": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Name (exact)",
+					},
+					"network": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Network URL",
+					},
+					"network_uuid": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Network UUID",
+					},
+					"project": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Project UUID",
+					},
+					"project_name": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Project name",
+					},
+					"project_uuid": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Project UUID",
+					},
+					"rbac_only": schema.BoolAttribute{
+						Optional:            true,
+						MarkdownDescription: "RBAC only",
+					},
+					"service_settings_name": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Service settings name",
+					},
+					"service_settings_uuid": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Service settings UUID",
+					},
+					"state": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "State",
+					},
+					"tenant": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Tenant URL",
+					},
+					"tenant_uuid": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "Tenant UUID",
+					},
+					"uuid": schema.StringAttribute{
+						Optional:            true,
+						MarkdownDescription: "UUID",
+					},
+				},
 			},
 			"access_url": schema.StringAttribute{
 				Computed:            true,
@@ -272,6 +269,10 @@ func (d *OpenstackSubnetDataSource) Schema(ctx context.Context, req datasource.S
 				Computed:            true,
 				MarkdownDescription: "Allocation pools",
 			},
+			"backend_id": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "ID of the backend",
+			},
 			"cidr": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Cidr",
@@ -279,6 +280,10 @@ func (d *OpenstackSubnetDataSource) Schema(ctx context.Context, req datasource.S
 			"created": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Created",
+			},
+			"description": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "Description of the resource",
 			},
 			"disable_gateway": schema.BoolAttribute{
 				Computed:            true,
@@ -288,6 +293,10 @@ func (d *OpenstackSubnetDataSource) Schema(ctx context.Context, req datasource.S
 				ElementType:         types.StringType,
 				Computed:            true,
 				MarkdownDescription: "Dns nameservers",
+			},
+			"enable_dhcp": schema.BoolAttribute{
+				Computed:            true,
+				MarkdownDescription: "If True, DHCP service will be enabled on this subnet",
 			},
 			"error_message": schema.StringAttribute{
 				Computed:            true,
@@ -317,6 +326,10 @@ func (d *OpenstackSubnetDataSource) Schema(ctx context.Context, req datasource.S
 				Computed:            true,
 				MarkdownDescription: "Host routes",
 			},
+			"ip_version": schema.Int64Attribute{
+				Computed:            true,
+				MarkdownDescription: "IP protocol version (4 or 6)",
+			},
 			"is_connected": schema.BoolAttribute{
 				Computed:            true,
 				MarkdownDescription: "Is subnet connected to the default tenant router.",
@@ -325,6 +338,14 @@ func (d *OpenstackSubnetDataSource) Schema(ctx context.Context, req datasource.S
 				Computed:            true,
 				MarkdownDescription: "Modified",
 			},
+			"name": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "Name of the resource",
+			},
+			"network": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "Network to which this subnet belongs",
+			},
 			"network_name": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Name of the network",
@@ -332,6 +353,14 @@ func (d *OpenstackSubnetDataSource) Schema(ctx context.Context, req datasource.S
 			"resource_type": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Resource type",
+			},
+			"state": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "State",
+			},
+			"tenant": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "Tenant",
 			},
 			"tenant_name": schema.StringAttribute{
 				Computed:            true,
@@ -392,53 +421,55 @@ func (d *OpenstackSubnetDataSource) Read(ctx context.Context, req datasource.Rea
 		// Filter by provided parameters
 		var results []OpenstackSubnetApiResponse
 
-		type filterDef struct {
-			name string
-			val  attr.Value
-		}
-		filterDefs := []filterDef{
-			{"backend_id", data.BackendId},
-			{"can_manage", data.CanManage},
-			{"customer", data.Customer},
-			{"customer_abbreviation", data.CustomerAbbreviation},
-			{"customer_name", data.CustomerName},
-			{"customer_native_name", data.CustomerNativeName},
-			{"customer_uuid", data.CustomerUuid},
-			{"description", data.Description},
-			{"direct_only", data.DirectOnly},
-			{"enable_dhcp", data.EnableDhcp},
-			{"external_ip", data.ExternalIp},
-			{"ip_version", data.IpVersion},
-			{"name", data.Name},
-			{"name_exact", data.NameExact},
-			{"network", data.Network},
-			{"network_uuid", data.NetworkUuid},
-			{"project", data.Project},
-			{"project_name", data.ProjectName},
-			{"project_uuid", data.ProjectUuid},
-			{"rbac_only", data.RbacOnly},
-			{"service_settings_name", data.ServiceSettingsName},
-			{"service_settings_uuid", data.ServiceSettingsUuid},
-			{"state", data.State},
-			{"tenant", data.Tenant},
-			{"tenant_uuid", data.TenantUuid},
-			{"uuid", data.Uuid},
-		}
-
 		filters := make(map[string]string)
-		for _, fd := range filterDefs {
-			if fd.val.IsNull() || fd.val.IsUnknown() {
-				continue
+		if data.Filters != nil {
+			type filterDef struct {
+				name string
+				val  attr.Value
 			}
-			switch v := fd.val.(type) {
-			case types.String:
-				filters[fd.name] = v.ValueString()
-			case types.Int64:
-				filters[fd.name] = fmt.Sprintf("%d", v.ValueInt64())
-			case types.Bool:
-				filters[fd.name] = fmt.Sprintf("%t", v.ValueBool())
-			case types.Float64:
-				filters[fd.name] = fmt.Sprintf("%f", v.ValueFloat64())
+			filterDefs := []filterDef{
+				{"backend_id", data.Filters.BackendId},
+				{"can_manage", data.Filters.CanManage},
+				{"customer", data.Filters.Customer},
+				{"customer_abbreviation", data.Filters.CustomerAbbreviation},
+				{"customer_name", data.Filters.CustomerName},
+				{"customer_native_name", data.Filters.CustomerNativeName},
+				{"customer_uuid", data.Filters.CustomerUuid},
+				{"description", data.Filters.Description},
+				{"direct_only", data.Filters.DirectOnly},
+				{"enable_dhcp", data.Filters.EnableDhcp},
+				{"external_ip", data.Filters.ExternalIp},
+				{"ip_version", data.Filters.IpVersion},
+				{"name", data.Filters.Name},
+				{"name_exact", data.Filters.NameExact},
+				{"network", data.Filters.Network},
+				{"network_uuid", data.Filters.NetworkUuid},
+				{"project", data.Filters.Project},
+				{"project_name", data.Filters.ProjectName},
+				{"project_uuid", data.Filters.ProjectUuid},
+				{"rbac_only", data.Filters.RbacOnly},
+				{"service_settings_name", data.Filters.ServiceSettingsName},
+				{"service_settings_uuid", data.Filters.ServiceSettingsUuid},
+				{"state", data.Filters.State},
+				{"tenant", data.Filters.Tenant},
+				{"tenant_uuid", data.Filters.TenantUuid},
+				{"uuid", data.Filters.Uuid},
+			}
+
+			for _, fd := range filterDefs {
+				if fd.val.IsNull() || fd.val.IsUnknown() {
+					continue
+				}
+				switch v := fd.val.(type) {
+				case types.String:
+					filters[fd.name] = v.ValueString()
+				case types.Int64:
+					filters[fd.name] = fmt.Sprintf("%d", v.ValueInt64())
+				case types.Bool:
+					filters[fd.name] = fmt.Sprintf("%t", v.ValueBool())
+				case types.Float64:
+					filters[fd.name] = fmt.Sprintf("%f", v.ValueFloat64())
+				}
 			}
 		}
 

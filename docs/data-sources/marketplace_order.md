@@ -17,27 +17,8 @@ Marketplace Order data source - lookup by name or UUID
 
 ### Optional
 
-- `can_approve_as_consumer` (Boolean) Can approve as consumer
-- `can_approve_as_provider` (Boolean) Can approve as provider
-- `category_uuid` (String) Category UUID
-- `created` (String) Created after
-- `customer_uuid` (String) Customer UUID
+- `filters` (Attributes) Filter parameters for querying Marketplace Order (see [below for nested schema](#nestedatt--filters))
 - `id` (String) Resource UUID
-- `modified` (String) Modified after
-- `offering` (String) Offering
-- `offering_slug` (String) Multiple values may be separated by commas.
-- `offering_type` (String) Offering type
-- `offering_uuid` (String) Offering UUID
-- `parent_offering_uuid` (String) UUID of the parent offering
-- `project_uuid` (String) Project UUID
-- `provider_uuid` (String) Provider UUID
-- `query` (String) Search by order UUID, slug, project name or resource name
-- `resource` (String) Resource URL
-- `resource_name` (String) Resource name
-- `resource_uuid` (String) Resource UUID
-- `service_manager_uuid` (String) Service manager UUID
-- `state` (String) Order state
-- `type` (String) Order type
 
 ### Read-Only
 
@@ -48,12 +29,14 @@ Marketplace Order data source - lookup by name or UUID
 - `can_terminate` (Boolean) Can terminate
 - `category_icon` (String) Category icon
 - `category_title` (String) Category title
+- `category_uuid` (String) UUID of the category
 - `completed_at` (String) Completed at
 - `consumer_reviewed_at` (String) Consumer reviewed at
 - `consumer_reviewed_by` (String) Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters
 - `consumer_reviewed_by_full_name` (String) Name of the consumer reviewed by full
 - `consumer_reviewed_by_username` (String) Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters
 - `cost` (String) Cost
+- `created` (String) Created
 - `created_by_civil_number` (String) Created by civil number
 - `created_by_full_name` (String) Name of the created by full
 - `created_by_username` (String) Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters
@@ -61,15 +44,19 @@ Marketplace Order data source - lookup by name or UUID
 - `error_message` (String) Error message
 - `error_traceback` (String) Error traceback
 - `fixed_price` (Number) Fixed price
+- `modified` (String) Modified
 - `new_cost_estimate` (String) New cost estimate
 - `new_plan_name` (String) Name of the new plan
 - `new_plan_uuid` (String) UUID of the new plan
+- `offering` (String) Offering
 - `offering_billable` (Boolean) Purchase and usage is invoiced.
 - `offering_description` (String) Offering description
 - `offering_image` (String) Offering image
 - `offering_name` (String) Name of the offering
 - `offering_shared` (Boolean) Accessible to all customers.
 - `offering_thumbnail` (String) Offering thumbnail
+- `offering_type` (String) Offering type
+- `offering_uuid` (String) UUID of the offering
 - `old_cost_estimate` (Number) Old cost estimate
 - `old_plan_name` (String) Name of the old plan
 - `old_plan_uuid` (String) UUID of the old plan
@@ -88,9 +75,40 @@ Marketplace Order data source - lookup by name or UUID
 - `provider_reviewed_by_full_name` (String) Name of the provider reviewed by full
 - `provider_reviewed_by_username` (String) Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters
 - `provider_slug` (String) Provider slug
+- `provider_uuid` (String) UUID of the provider
 - `request_comment` (String) Request comment
+- `resource_name` (String) Name of the resource
 - `resource_type` (String) Resource type
+- `resource_uuid` (String) UUID of the resource
 - `slug` (String) Slug
 - `start_date` (String) Enables delayed processing of resource provisioning order.
+- `state` (String) State
 - `termination_comment` (String) Termination comment
+- `type` (String) Type
 - `url` (String) Url
+
+<a id="nestedatt--filters"></a>
+### Nested Schema for `filters`
+
+Optional:
+
+- `can_approve_as_consumer` (Boolean) Can approve as consumer
+- `can_approve_as_provider` (Boolean) Can approve as provider
+- `category_uuid` (String) Category UUID
+- `created` (String) Created after
+- `customer_uuid` (String) Customer UUID
+- `modified` (String) Modified after
+- `offering` (String) Offering
+- `offering_slug` (String) Multiple values may be separated by commas.
+- `offering_type` (String) Offering type
+- `offering_uuid` (String) Offering UUID
+- `parent_offering_uuid` (String) UUID of the parent offering
+- `project_uuid` (String) Project UUID
+- `provider_uuid` (String) Provider UUID
+- `query` (String) Search by order UUID, slug, project name or resource name
+- `resource` (String) Resource URL
+- `resource_name` (String) Resource name
+- `resource_uuid` (String) Resource UUID
+- `service_manager_uuid` (String) Service manager UUID
+- `state` (String) Order state
+- `type` (String) Order type

@@ -17,20 +17,33 @@ Core Ssh Public Key data source - lookup by name or UUID
 
 ### Optional
 
+- `filters` (Attributes) Filter parameters for querying Core Ssh Public Key (see [below for nested schema](#nestedatt--filters))
+- `id` (String) Resource UUID
+
+### Read-Only
+
+- `fingerprint_md5` (String) Fingerprint md5
+- `fingerprint_sha256` (String) Fingerprint sha256
+- `fingerprint_sha512` (String) Fingerprint sha512
+- `is_shared` (Boolean) Is shared
+- `name` (String) Name of the resource
+- `public_key` (String) Public key
+- `type` (String) Type
+- `url` (String) Url
+- `user_uuid` (String) UUID of the user
+
+<a id="nestedatt--filters"></a>
+### Nested Schema for `filters`
+
+Optional:
+
 - `created` (String) Created after
 - `fingerprint_md5` (String) Fingerprint md5
 - `fingerprint_sha256` (String) Fingerprint sha256
 - `fingerprint_sha512` (String) Fingerprint sha512
-- `id` (String) Resource UUID
 - `is_shared` (Boolean) Is shared
 - `modified` (String) Modified after
 - `name` (String) Name
 - `name_exact` (String) Name (exact)
 - `user_uuid` (String) User UUID
 - `uuid` (String) UUID
-
-### Read-Only
-
-- `public_key` (String) Public key
-- `type` (String) Type
-- `url` (String) Url

@@ -17,6 +17,76 @@ Marketplace Resource data source - lookup by name or UUID
 
 ### Optional
 
+- `filters` (Attributes) Filter parameters for querying Marketplace Resource (see [below for nested schema](#nestedatt--filters))
+- `id` (String) Resource UUID
+
+### Read-Only
+
+- `available_actions` (List of String) Available actions
+- `backend_id` (String) ID of the backend
+- `can_terminate` (Boolean) Can terminate
+- `category_icon` (String) Category icon
+- `category_title` (String) Category title
+- `category_uuid` (String) UUID of the category
+- `created` (String) Created
+- `customer_slug` (String) Customer slug
+- `description` (String) Description of the resource
+- `downscaled` (Boolean) Downscaled
+- `effective_id` (String) ID of the effective
+- `end_date` (String) The date is inclusive. Once reached, a resource will be scheduled for termination.
+- `end_date_requested_by` (String) End date requested by
+- `endpoints` (Attributes List) Endpoints (see [below for nested schema](#nestedatt--endpoints))
+- `error_message` (String) Error message
+- `error_traceback` (String) Error traceback
+- `last_sync` (String) Last sync
+- `modified` (String) Modified
+- `name` (String) Name of the resource
+- `offering` (String) Offering
+- `offering_billable` (Boolean) Purchase and usage is invoiced.
+- `offering_components` (Attributes List) Offering components (see [below for nested schema](#nestedatt--offering_components))
+- `offering_description` (String) Offering description
+- `offering_image` (String) Offering image
+- `offering_name` (String) Name of the offering
+- `offering_shared` (Boolean) Accessible to all customers.
+- `offering_slug` (String) Offering slug
+- `offering_state` (String) Offering state
+- `offering_thumbnail` (String) Offering thumbnail
+- `offering_type` (String) Offering type
+- `offering_uuid` (String) UUID of the offering
+- `parent_name` (String) Name of the parent
+- `parent_offering_name` (String) Name of the parent offering
+- `parent_offering_slug` (String) Parent offering slug
+- `parent_offering_uuid` (String) UUID of the parent offering
+- `parent_uuid` (String) UUID of the parent
+- `paused` (Boolean) Paused
+- `plan` (String) Plan
+- `plan_description` (String) Plan description
+- `plan_name` (String) Name of the plan
+- `plan_unit` (String) Plan unit
+- `plan_uuid` (String) UUID of the plan
+- `project_description` (String) Project description
+- `project_end_date` (String) The date is inclusive. Once reached, all project resource will be scheduled for termination.
+- `project_end_date_requested_by` (String) Project end date requested by
+- `project_slug` (String) Project slug
+- `provider_name` (String) Name of the provider
+- `provider_slug` (String) Provider slug
+- `provider_uuid` (String) UUID of the provider
+- `report` (Attributes List) Report (see [below for nested schema](#nestedatt--report))
+- `resource_type` (String) Resource type
+- `resource_uuid` (String) UUID of the resource
+- `restrict_member_access` (Boolean) Restrict member access
+- `scope` (String) Scope
+- `slug` (String) URL-friendly identifier. Only editable by staff users.
+- `state` (String) State
+- `url` (String) Url
+- `user_requires_reconsent` (Boolean) Check if the current user needs to re-consent for this resource's offering.
+- `username` (String) Username
+
+<a id="nestedatt--filters"></a>
+### Nested Schema for `filters`
+
+Optional:
+
 - `backend_id` (String) Backend ID
 - `category_uuid` (String) Category UUID
 - `component_count` (Number) Filter by exact number of components
@@ -25,7 +95,6 @@ Marketplace Resource data source - lookup by name or UUID
 - `customer_uuid` (String) Customer UUID
 - `downscaled` (Boolean) Downscaled
 - `has_terminate_date` (Boolean) Has termination date
-- `id` (String) Resource UUID
 - `is_attached` (Boolean) Filter by attached state
 - `lexis_links_supported` (Boolean) LEXIS links supported
 - `limit_based` (Boolean) Filter by limit-based offerings
@@ -57,49 +126,6 @@ Marketplace Resource data source - lookup by name or UUID
 - `visible_to_providers` (Boolean) Include only resources visible to service providers
 - `visible_to_username` (String) Visible to username
 
-### Read-Only
-
-- `available_actions` (List of String) Available actions
-- `can_terminate` (Boolean) Can terminate
-- `category_icon` (String) Category icon
-- `category_title` (String) Category title
-- `customer_slug` (String) Customer slug
-- `description` (String) Description of the resource
-- `effective_id` (String) ID of the effective
-- `end_date` (String) The date is inclusive. Once reached, a resource will be scheduled for termination.
-- `end_date_requested_by` (String) End date requested by
-- `endpoints` (Attributes List) Endpoints (see [below for nested schema](#nestedatt--endpoints))
-- `error_message` (String) Error message
-- `error_traceback` (String) Error traceback
-- `last_sync` (String) Last sync
-- `offering_components` (Attributes List) Offering components (see [below for nested schema](#nestedatt--offering_components))
-- `offering_description` (String) Offering description
-- `offering_image` (String) Offering image
-- `offering_name` (String) Name of the offering
-- `offering_state` (String) Offering state
-- `offering_thumbnail` (String) Offering thumbnail
-- `parent_name` (String) Name of the parent
-- `parent_offering_name` (String) Name of the parent offering
-- `parent_offering_slug` (String) Parent offering slug
-- `parent_uuid` (String) UUID of the parent
-- `plan` (String) Plan
-- `plan_description` (String) Plan description
-- `plan_name` (String) Name of the plan
-- `plan_unit` (String) Plan unit
-- `project_description` (String) Project description
-- `project_end_date` (String) The date is inclusive. Once reached, all project resource will be scheduled for termination.
-- `project_end_date_requested_by` (String) Project end date requested by
-- `project_slug` (String) Project slug
-- `provider_name` (String) Name of the provider
-- `provider_slug` (String) Provider slug
-- `report` (Attributes List) Report (see [below for nested schema](#nestedatt--report))
-- `resource_type` (String) Resource type
-- `resource_uuid` (String) UUID of the resource
-- `scope` (String) Scope
-- `slug` (String) URL-friendly identifier. Only editable by staff users.
-- `url` (String) Url
-- `user_requires_reconsent` (Boolean) Check if the current user needs to re-consent for this resource's offering.
-- `username` (String) Username
 
 <a id="nestedatt--endpoints"></a>
 ### Nested Schema for `endpoints`
