@@ -525,11 +525,6 @@ func (d *OpenstackNetworkDataSource) mapResponseToModel(ctx context.Context, api
 	model.AccessUrl = types.StringPointerValue(apiResp.AccessUrl)
 	model.BackendId = types.StringPointerValue(apiResp.BackendId)
 	model.Created = types.StringPointerValue(apiResp.Created)
-	model.Customer = types.StringPointerValue(apiResp.Customer)
-	model.CustomerAbbreviation = types.StringPointerValue(apiResp.CustomerAbbreviation)
-	model.CustomerName = types.StringPointerValue(apiResp.CustomerName)
-	model.CustomerNativeName = types.StringPointerValue(apiResp.CustomerNativeName)
-	model.CustomerUuid = types.StringPointerValue(apiResp.CustomerUuid)
 	model.Description = types.StringPointerValue(apiResp.Description)
 	model.ErrorMessage = types.StringPointerValue(apiResp.ErrorMessage)
 	model.ErrorTraceback = types.StringPointerValue(apiResp.ErrorTraceback)
@@ -537,9 +532,6 @@ func (d *OpenstackNetworkDataSource) mapResponseToModel(ctx context.Context, api
 	model.Modified = types.StringPointerValue(apiResp.Modified)
 	model.Mtu = types.Int64PointerValue(apiResp.Mtu)
 	model.Name = types.StringPointerValue(apiResp.Name)
-	model.Project = types.StringPointerValue(apiResp.Project)
-	model.ProjectName = types.StringPointerValue(apiResp.ProjectName)
-	model.ProjectUuid = types.StringPointerValue(apiResp.ProjectUuid)
 	listValRbacPolicies, listDiagsRbacPolicies := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
 		"backend_id":         types.StringType,
 		"created":            types.StringType,

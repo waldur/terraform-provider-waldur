@@ -96,46 +96,38 @@ type OpenstackPortSecurityGroupsResponse struct {
 
 // OpenstackPortDataSourceModel describes the data source data model.
 type OpenstackPortDataSourceModel struct {
-	UUID                 types.String `tfsdk:"id"`
-	AdminStateUp         types.Bool   `tfsdk:"admin_state_up"`
-	BackendId            types.String `tfsdk:"backend_id"`
-	DeviceId             types.String `tfsdk:"device_id"`
-	DeviceOwner          types.String `tfsdk:"device_owner"`
-	ExcludeSubnetUuids   types.String `tfsdk:"exclude_subnet_uuids"`
-	FixedIps             types.String `tfsdk:"fixed_ips"`
-	HasDeviceOwner       types.Bool   `tfsdk:"has_device_owner"`
-	MacAddress           types.String `tfsdk:"mac_address"`
-	Name                 types.String `tfsdk:"name"`
-	NameExact            types.String `tfsdk:"name_exact"`
-	NetworkName          types.String `tfsdk:"network_name"`
-	NetworkUuid          types.String `tfsdk:"network_uuid"`
-	Query                types.String `tfsdk:"query"`
-	Status               types.String `tfsdk:"status"`
-	Tenant               types.String `tfsdk:"tenant"`
-	TenantUuid           types.String `tfsdk:"tenant_uuid"`
-	AccessUrl            types.String `tfsdk:"access_url"`
-	AllowedAddressPairs  types.List   `tfsdk:"allowed_address_pairs"`
-	Created              types.String `tfsdk:"created"`
-	Customer             types.String `tfsdk:"customer"`
-	CustomerAbbreviation types.String `tfsdk:"customer_abbreviation"`
-	CustomerName         types.String `tfsdk:"customer_name"`
-	CustomerNativeName   types.String `tfsdk:"customer_native_name"`
-	CustomerUuid         types.String `tfsdk:"customer_uuid"`
-	Description          types.String `tfsdk:"description"`
-	ErrorMessage         types.String `tfsdk:"error_message"`
-	ErrorTraceback       types.String `tfsdk:"error_traceback"`
-	FloatingIps          types.List   `tfsdk:"floating_ips"`
-	Modified             types.String `tfsdk:"modified"`
-	Network              types.String `tfsdk:"network"`
-	PortSecurityEnabled  types.Bool   `tfsdk:"port_security_enabled"`
-	Project              types.String `tfsdk:"project"`
-	ProjectName          types.String `tfsdk:"project_name"`
-	ProjectUuid          types.String `tfsdk:"project_uuid"`
-	ResourceType         types.String `tfsdk:"resource_type"`
-	SecurityGroups       types.List   `tfsdk:"security_groups"`
-	State                types.String `tfsdk:"state"`
-	TenantName           types.String `tfsdk:"tenant_name"`
-	Url                  types.String `tfsdk:"url"`
+	UUID                types.String `tfsdk:"id"`
+	AdminStateUp        types.Bool   `tfsdk:"admin_state_up"`
+	BackendId           types.String `tfsdk:"backend_id"`
+	DeviceId            types.String `tfsdk:"device_id"`
+	DeviceOwner         types.String `tfsdk:"device_owner"`
+	ExcludeSubnetUuids  types.String `tfsdk:"exclude_subnet_uuids"`
+	FixedIps            types.String `tfsdk:"fixed_ips"`
+	HasDeviceOwner      types.Bool   `tfsdk:"has_device_owner"`
+	MacAddress          types.String `tfsdk:"mac_address"`
+	Name                types.String `tfsdk:"name"`
+	NameExact           types.String `tfsdk:"name_exact"`
+	NetworkName         types.String `tfsdk:"network_name"`
+	NetworkUuid         types.String `tfsdk:"network_uuid"`
+	Query               types.String `tfsdk:"query"`
+	Status              types.String `tfsdk:"status"`
+	Tenant              types.String `tfsdk:"tenant"`
+	TenantUuid          types.String `tfsdk:"tenant_uuid"`
+	AccessUrl           types.String `tfsdk:"access_url"`
+	AllowedAddressPairs types.List   `tfsdk:"allowed_address_pairs"`
+	Created             types.String `tfsdk:"created"`
+	Description         types.String `tfsdk:"description"`
+	ErrorMessage        types.String `tfsdk:"error_message"`
+	ErrorTraceback      types.String `tfsdk:"error_traceback"`
+	FloatingIps         types.List   `tfsdk:"floating_ips"`
+	Modified            types.String `tfsdk:"modified"`
+	Network             types.String `tfsdk:"network"`
+	PortSecurityEnabled types.Bool   `tfsdk:"port_security_enabled"`
+	ResourceType        types.String `tfsdk:"resource_type"`
+	SecurityGroups      types.List   `tfsdk:"security_groups"`
+	State               types.String `tfsdk:"state"`
+	TenantName          types.String `tfsdk:"tenant_name"`
+	Url                 types.String `tfsdk:"url"`
 }
 
 func (d *OpenstackPortDataSource) Metadata(ctx context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
@@ -236,26 +228,6 @@ func (d *OpenstackPortDataSource) Schema(ctx context.Context, req datasource.Sch
 				Computed:            true,
 				MarkdownDescription: "Created",
 			},
-			"customer": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Customer",
-			},
-			"customer_abbreviation": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Customer abbreviation",
-			},
-			"customer_name": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Name of the customer",
-			},
-			"customer_native_name": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Name of the customer native",
-			},
-			"customer_uuid": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "UUID of the customer",
-			},
 			"description": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Description of the resource",
@@ -284,18 +256,6 @@ func (d *OpenstackPortDataSource) Schema(ctx context.Context, req datasource.Sch
 			"port_security_enabled": schema.BoolAttribute{
 				Computed:            true,
 				MarkdownDescription: "If True, security groups and rules will be applied to this port",
-			},
-			"project": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Project",
-			},
-			"project_name": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Name of the project",
-			},
-			"project_uuid": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "UUID of the project",
 			},
 			"resource_type": schema.StringAttribute{
 				Computed:            true,
@@ -474,11 +434,6 @@ func (d *OpenstackPortDataSource) mapResponseToModel(ctx context.Context, apiRes
 	model.AllowedAddressPairs = listValAllowedAddressPairs
 	model.BackendId = types.StringPointerValue(apiResp.BackendId)
 	model.Created = types.StringPointerValue(apiResp.Created)
-	model.Customer = types.StringPointerValue(apiResp.Customer)
-	model.CustomerAbbreviation = types.StringPointerValue(apiResp.CustomerAbbreviation)
-	model.CustomerName = types.StringPointerValue(apiResp.CustomerName)
-	model.CustomerNativeName = types.StringPointerValue(apiResp.CustomerNativeName)
-	model.CustomerUuid = types.StringPointerValue(apiResp.CustomerUuid)
 	model.Description = types.StringPointerValue(apiResp.Description)
 	model.DeviceId = types.StringPointerValue(apiResp.DeviceId)
 	model.DeviceOwner = types.StringPointerValue(apiResp.DeviceOwner)
@@ -492,9 +447,6 @@ func (d *OpenstackPortDataSource) mapResponseToModel(ctx context.Context, apiRes
 	model.NetworkName = types.StringPointerValue(apiResp.NetworkName)
 	model.NetworkUuid = types.StringPointerValue(apiResp.NetworkUuid)
 	model.PortSecurityEnabled = types.BoolPointerValue(apiResp.PortSecurityEnabled)
-	model.Project = types.StringPointerValue(apiResp.Project)
-	model.ProjectName = types.StringPointerValue(apiResp.ProjectName)
-	model.ProjectUuid = types.StringPointerValue(apiResp.ProjectUuid)
 	model.ResourceType = types.StringPointerValue(apiResp.ResourceType)
 	listValSecurityGroups, listDiagsSecurityGroups := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
 		"name": types.StringType,

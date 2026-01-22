@@ -291,7 +291,6 @@ type MarketplaceOfferingDataSourceModel struct {
 	ComplianceChecklist       types.String  `tfsdk:"compliance_checklist"`
 	Components                types.List    `tfsdk:"components"`
 	Country                   types.String  `tfsdk:"country"`
-	CustomerName              types.String  `tfsdk:"customer_name"`
 	DataciteDoi               types.String  `tfsdk:"datacite_doi"`
 	Endpoints                 types.List    `tfsdk:"endpoints"`
 	Files                     types.List    `tfsdk:"files"`
@@ -312,8 +311,6 @@ type MarketplaceOfferingDataSourceModel struct {
 	PausedReason              types.String  `tfsdk:"paused_reason"`
 	Plans                     types.List    `tfsdk:"plans"`
 	PrivacyPolicyLink         types.String  `tfsdk:"privacy_policy_link"`
-	Project                   types.String  `tfsdk:"project"`
-	ProjectName               types.String  `tfsdk:"project_name"`
 	PromotionCampaigns        types.List    `tfsdk:"promotion_campaigns"`
 	Quotas                    types.List    `tfsdk:"quotas"`
 	Roles                     types.List    `tfsdk:"roles"`
@@ -589,10 +586,6 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 			"country": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Country code (ISO 3166-1 alpha-2)",
-			},
-			"customer_name": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Name of the customer",
 			},
 			"datacite_doi": schema.StringAttribute{
 				Computed:            true,
@@ -949,14 +942,6 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 			"privacy_policy_link": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Privacy policy link",
-			},
-			"project": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Project",
-			},
-			"project_name": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Name of the project",
 			},
 			"promotion_campaigns": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
@@ -1344,9 +1329,6 @@ func (d *MarketplaceOfferingDataSource) mapResponseToModel(ctx context.Context, 
 	model.Components = listValComponents
 	model.Country = types.StringPointerValue(apiResp.Country)
 	model.Created = types.StringPointerValue(apiResp.Created)
-	model.Customer = types.StringPointerValue(apiResp.Customer)
-	model.CustomerName = types.StringPointerValue(apiResp.CustomerName)
-	model.CustomerUuid = types.StringPointerValue(apiResp.CustomerUuid)
 	model.DataciteDoi = types.StringPointerValue(apiResp.DataciteDoi)
 	model.Description = types.StringPointerValue(apiResp.Description)
 	listValEndpoints, listDiagsEndpoints := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
@@ -1449,9 +1431,6 @@ func (d *MarketplaceOfferingDataSource) mapResponseToModel(ctx context.Context, 
 	diags.Append(listDiagsPlans...)
 	model.Plans = listValPlans
 	model.PrivacyPolicyLink = types.StringPointerValue(apiResp.PrivacyPolicyLink)
-	model.Project = types.StringPointerValue(apiResp.Project)
-	model.ProjectName = types.StringPointerValue(apiResp.ProjectName)
-	model.ProjectUuid = types.StringPointerValue(apiResp.ProjectUuid)
 	listValPromotionCampaigns, listDiagsPromotionCampaigns := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
 		"description":      types.StringType,
 		"discount":         types.Int64Type,

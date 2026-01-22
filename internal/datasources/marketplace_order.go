@@ -139,7 +139,6 @@ type MarketplaceOrderDataSourceModel struct {
 	CreatedByCivilNumber       types.String  `tfsdk:"created_by_civil_number"`
 	CreatedByFullName          types.String  `tfsdk:"created_by_full_name"`
 	CreatedByUsername          types.String  `tfsdk:"created_by_username"`
-	CustomerName               types.String  `tfsdk:"customer_name"`
 	CustomerSlug               types.String  `tfsdk:"customer_slug"`
 	ErrorMessage               types.String  `tfsdk:"error_message"`
 	ErrorTraceback             types.String  `tfsdk:"error_traceback"`
@@ -164,7 +163,6 @@ type MarketplaceOrderDataSourceModel struct {
 	PlanUnit                   types.String  `tfsdk:"plan_unit"`
 	PlanUuid                   types.String  `tfsdk:"plan_uuid"`
 	ProjectDescription         types.String  `tfsdk:"project_description"`
-	ProjectName                types.String  `tfsdk:"project_name"`
 	ProjectSlug                types.String  `tfsdk:"project_slug"`
 	ProviderName               types.String  `tfsdk:"provider_name"`
 	ProviderReviewedAt         types.String  `tfsdk:"provider_reviewed_at"`
@@ -338,10 +336,6 @@ func (d *MarketplaceOrderDataSource) Schema(ctx context.Context, req datasource.
 				Computed:            true,
 				MarkdownDescription: "Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters",
 			},
-			"customer_name": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Name of the customer",
-			},
 			"customer_slug": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Customer slug",
@@ -437,10 +431,6 @@ func (d *MarketplaceOrderDataSource) Schema(ctx context.Context, req datasource.
 			"project_description": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Project description",
-			},
-			"project_name": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Name of the project",
 			},
 			"project_slug": schema.StringAttribute{
 				Computed:            true,
@@ -652,9 +642,7 @@ func (d *MarketplaceOrderDataSource) mapResponseToModel(ctx context.Context, api
 	model.CreatedByCivilNumber = types.StringPointerValue(apiResp.CreatedByCivilNumber)
 	model.CreatedByFullName = types.StringPointerValue(apiResp.CreatedByFullName)
 	model.CreatedByUsername = types.StringPointerValue(apiResp.CreatedByUsername)
-	model.CustomerName = types.StringPointerValue(apiResp.CustomerName)
 	model.CustomerSlug = types.StringPointerValue(apiResp.CustomerSlug)
-	model.CustomerUuid = types.StringPointerValue(apiResp.CustomerUuid)
 	model.ErrorMessage = types.StringPointerValue(apiResp.ErrorMessage)
 	model.ErrorTraceback = types.StringPointerValue(apiResp.ErrorTraceback)
 	model.FixedPrice = types.Float64PointerValue(apiResp.FixedPrice)
@@ -682,9 +670,7 @@ func (d *MarketplaceOrderDataSource) mapResponseToModel(ctx context.Context, api
 	model.PlanUnit = types.StringPointerValue(apiResp.PlanUnit)
 	model.PlanUuid = types.StringPointerValue(apiResp.PlanUuid)
 	model.ProjectDescription = types.StringPointerValue(apiResp.ProjectDescription)
-	model.ProjectName = types.StringPointerValue(apiResp.ProjectName)
 	model.ProjectSlug = types.StringPointerValue(apiResp.ProjectSlug)
-	model.ProjectUuid = types.StringPointerValue(apiResp.ProjectUuid)
 	model.ProviderName = types.StringPointerValue(apiResp.ProviderName)
 	model.ProviderReviewedAt = types.StringPointerValue(apiResp.ProviderReviewedAt)
 	model.ProviderReviewedBy = types.StringPointerValue(apiResp.ProviderReviewedBy)

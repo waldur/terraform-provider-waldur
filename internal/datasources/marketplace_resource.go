@@ -176,7 +176,6 @@ type MarketplaceResourceDataSourceModel struct {
 	CanTerminate              types.Bool    `tfsdk:"can_terminate"`
 	CategoryIcon              types.String  `tfsdk:"category_icon"`
 	CategoryTitle             types.String  `tfsdk:"category_title"`
-	CustomerName              types.String  `tfsdk:"customer_name"`
 	CustomerSlug              types.String  `tfsdk:"customer_slug"`
 	Description               types.String  `tfsdk:"description"`
 	EffectiveId               types.String  `tfsdk:"effective_id"`
@@ -200,7 +199,6 @@ type MarketplaceResourceDataSourceModel struct {
 	PlanDescription           types.String  `tfsdk:"plan_description"`
 	PlanName                  types.String  `tfsdk:"plan_name"`
 	PlanUnit                  types.String  `tfsdk:"plan_unit"`
-	Project                   types.String  `tfsdk:"project"`
 	ProjectDescription        types.String  `tfsdk:"project_description"`
 	ProjectEndDate            types.String  `tfsdk:"project_end_date"`
 	ProjectEndDateRequestedBy types.String  `tfsdk:"project_end_date_requested_by"`
@@ -400,10 +398,6 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 				Computed:            true,
 				MarkdownDescription: "Category title",
 			},
-			"customer_name": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Name of the customer",
-			},
 			"customer_slug": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Customer slug",
@@ -591,10 +585,6 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 			"plan_unit": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Plan unit",
-			},
-			"project": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Project",
 			},
 			"project_description": schema.StringAttribute{
 				Computed:            true,
@@ -829,9 +819,7 @@ func (d *MarketplaceResourceDataSource) mapResponseToModel(ctx context.Context, 
 	model.CategoryTitle = types.StringPointerValue(apiResp.CategoryTitle)
 	model.CategoryUuid = types.StringPointerValue(apiResp.CategoryUuid)
 	model.Created = types.StringPointerValue(apiResp.Created)
-	model.CustomerName = types.StringPointerValue(apiResp.CustomerName)
 	model.CustomerSlug = types.StringPointerValue(apiResp.CustomerSlug)
-	model.CustomerUuid = types.StringPointerValue(apiResp.CustomerUuid)
 	model.Description = types.StringPointerValue(apiResp.Description)
 	model.Downscaled = types.BoolPointerValue(apiResp.Downscaled)
 	model.EffectiveId = types.StringPointerValue(apiResp.EffectiveId)
@@ -894,13 +882,10 @@ func (d *MarketplaceResourceDataSource) mapResponseToModel(ctx context.Context, 
 	model.PlanName = types.StringPointerValue(apiResp.PlanName)
 	model.PlanUnit = types.StringPointerValue(apiResp.PlanUnit)
 	model.PlanUuid = types.StringPointerValue(apiResp.PlanUuid)
-	model.Project = types.StringPointerValue(apiResp.Project)
 	model.ProjectDescription = types.StringPointerValue(apiResp.ProjectDescription)
 	model.ProjectEndDate = types.StringPointerValue(apiResp.ProjectEndDate)
 	model.ProjectEndDateRequestedBy = types.StringPointerValue(apiResp.ProjectEndDateRequestedBy)
-	model.ProjectName = types.StringPointerValue(apiResp.ProjectName)
 	model.ProjectSlug = types.StringPointerValue(apiResp.ProjectSlug)
-	model.ProjectUuid = types.StringPointerValue(apiResp.ProjectUuid)
 	model.ProviderName = types.StringPointerValue(apiResp.ProviderName)
 	model.ProviderSlug = types.StringPointerValue(apiResp.ProviderSlug)
 	model.ProviderUuid = types.StringPointerValue(apiResp.ProviderUuid)

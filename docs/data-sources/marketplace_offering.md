@@ -61,7 +61,6 @@ Marketplace Offering data source - lookup by name or UUID
 - `compliance_checklist` (String) Compliance checklist
 - `components` (Attributes List) Components (see [below for nested schema](#nestedatt--components))
 - `country` (String) Country code (ISO 3166-1 alpha-2)
-- `customer_name` (String) Name of the customer
 - `datacite_doi` (String) Datacite doi
 - `endpoints` (Attributes List) Endpoints (see [below for nested schema](#nestedatt--endpoints))
 - `files` (Attributes List) Files (see [below for nested schema](#nestedatt--files))
@@ -82,8 +81,6 @@ Marketplace Offering data source - lookup by name or UUID
 - `paused_reason` (String) Paused reason
 - `plans` (Attributes List) Plans (see [below for nested schema](#nestedatt--plans))
 - `privacy_policy_link` (String) Privacy policy link
-- `project` (String) Project
-- `project_name` (String) Name of the project
 - `promotion_campaigns` (Attributes List) Promotion campaigns (see [below for nested schema](#nestedatt--promotion_campaigns))
 - `quotas` (Attributes List) Quotas (see [below for nested schema](#nestedatt--quotas))
 - `roles` (Attributes List) Roles (see [below for nested schema](#nestedatt--roles))

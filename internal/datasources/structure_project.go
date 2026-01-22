@@ -83,7 +83,6 @@ type StructureProjectDataSourceModel struct {
 	Slug                                 types.String  `tfsdk:"slug"`
 	CustomerDisplayBillingInfoInProjects types.Bool    `tfsdk:"customer_display_billing_info_in_projects"`
 	CustomerSlug                         types.String  `tfsdk:"customer_slug"`
-	CustomerUuid                         types.String  `tfsdk:"customer_uuid"`
 	EndDate                              types.String  `tfsdk:"end_date"`
 	EndDateRequestedBy                   types.String  `tfsdk:"end_date_requested_by"`
 	GracePeriodDays                      types.Int64   `tfsdk:"grace_period_days"`
@@ -192,10 +191,6 @@ func (d *StructureProjectDataSource) Schema(ctx context.Context, req datasource.
 			"customer_slug": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Customer slug",
-			},
-			"customer_uuid": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "UUID of the customer",
 			},
 			"end_date": schema.StringAttribute{
 				Computed:            true,
@@ -404,13 +399,8 @@ func (d *StructureProjectDataSource) mapResponseToModel(ctx context.Context, api
 	model.UUID = types.StringPointerValue(apiResp.UUID)
 	model.BackendId = types.StringPointerValue(apiResp.BackendId)
 	model.Created = types.StringPointerValue(apiResp.Created)
-	model.Customer = types.StringPointerValue(apiResp.Customer)
-	model.CustomerAbbreviation = types.StringPointerValue(apiResp.CustomerAbbreviation)
 	model.CustomerDisplayBillingInfoInProjects = types.BoolPointerValue(apiResp.CustomerDisplayBillingInfoInProjects)
-	model.CustomerName = types.StringPointerValue(apiResp.CustomerName)
-	model.CustomerNativeName = types.StringPointerValue(apiResp.CustomerNativeName)
 	model.CustomerSlug = types.StringPointerValue(apiResp.CustomerSlug)
-	model.CustomerUuid = types.StringPointerValue(apiResp.CustomerUuid)
 	model.Description = types.StringPointerValue(apiResp.Description)
 	model.EndDate = types.StringPointerValue(apiResp.EndDate)
 	model.EndDateRequestedBy = types.StringPointerValue(apiResp.EndDateRequestedBy)

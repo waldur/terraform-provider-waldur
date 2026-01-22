@@ -63,7 +63,6 @@ Marketplace Resource data source - lookup by name or UUID
 - `can_terminate` (Boolean) Can terminate
 - `category_icon` (String) Category icon
 - `category_title` (String) Category title
-- `customer_name` (String) Name of the customer
 - `customer_slug` (String) Customer slug
 - `description` (String) Description of the resource
 - `effective_id` (String) ID of the effective
@@ -87,7 +86,6 @@ Marketplace Resource data source - lookup by name or UUID
 - `plan_description` (String) Plan description
 - `plan_name` (String) Name of the plan
 - `plan_unit` (String) Plan unit
-- `project` (String) Project
 - `project_description` (String) Project description
 - `project_end_date` (String) The date is inclusive. Once reached, all project resource will be scheduled for termination.
 - `project_end_date_requested_by` (String) Project end date requested by
