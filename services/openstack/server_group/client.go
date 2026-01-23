@@ -21,10 +21,7 @@ func NewClient(c *client.Client) *Client {
 // CreateOpenstackServerGroup creates a new resource.
 func (c *Client) CreateOpenstackServerGroup(ctx context.Context, req *OpenstackServerGroupCreateRequest) (*OpenstackServerGroupResponse, error) {
 	var apiResp OpenstackServerGroupResponse
-	path := "/api/openstack-tenants/{uuid}/create_server_group/"
-	path = strings.Replace(path, "{uuid}", *req.Tenant, 1)
-
-	err := c.Client.Post(ctx, path, req, &apiResp)
+	err := c.Client.ExecuteAction(ctx, "/api/openstack-tenants/{uuid}/create_server_group/", *req.Tenant, req, &apiResp)
 	if err != nil {
 		return nil, err
 	}

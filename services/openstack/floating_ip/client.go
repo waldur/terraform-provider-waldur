@@ -21,10 +21,7 @@ func NewClient(c *client.Client) *Client {
 // CreateOpenstackFloatingIp creates a new resource.
 func (c *Client) CreateOpenstackFloatingIp(ctx context.Context, req *OpenstackFloatingIpCreateRequest) (*OpenstackFloatingIpResponse, error) {
 	var apiResp OpenstackFloatingIpResponse
-	path := "/api/openstack-tenants/{uuid}/create_floating_ip/"
-	path = strings.Replace(path, "{uuid}", *req.Tenant, 1)
-
-	err := c.Client.Post(ctx, path, req, &apiResp)
+	err := c.Client.ExecuteAction(ctx, "/api/openstack-tenants/{uuid}/create_floating_ip/", *req.Tenant, req, &apiResp)
 	if err != nil {
 		return nil, err
 	}

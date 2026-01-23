@@ -21,10 +21,7 @@ func NewClient(c *client.Client) *Client {
 // CreateOpenstackSubnet creates a new resource.
 func (c *Client) CreateOpenstackSubnet(ctx context.Context, req *OpenstackSubnetCreateRequest) (*OpenstackSubnetResponse, error) {
 	var apiResp OpenstackSubnetResponse
-	path := "/api/openstack-networks/{uuid}/create_subnet/"
-	path = strings.Replace(path, "{uuid}", *req.Network, 1)
-
-	err := c.Client.Post(ctx, path, req, &apiResp)
+	err := c.Client.ExecuteAction(ctx, "/api/openstack-networks/{uuid}/create_subnet/", *req.Network, req, &apiResp)
 	if err != nil {
 		return nil, err
 	}

@@ -21,10 +21,7 @@ func NewClient(c *client.Client) *Client {
 // CreateOpenstackSecurityGroup creates a new resource.
 func (c *Client) CreateOpenstackSecurityGroup(ctx context.Context, req *OpenstackSecurityGroupCreateRequest) (*OpenstackSecurityGroupResponse, error) {
 	var apiResp OpenstackSecurityGroupResponse
-	path := "/api/openstack-tenants/{uuid}/create_security_group/"
-	path = strings.Replace(path, "{uuid}", *req.Tenant, 1)
-
-	err := c.Client.Post(ctx, path, req, &apiResp)
+	err := c.Client.ExecuteAction(ctx, "/api/openstack-tenants/{uuid}/create_security_group/", *req.Tenant, req, &apiResp)
 	if err != nil {
 		return nil, err
 	}
