@@ -308,7 +308,7 @@ func (r *OpenstackNetworkRbacPolicyResource) ImportState(ctx context.Context, re
 
 	// Parse composite ID: key1/key2/...
 	parts := strings.Split(req.ID, "/")
-	if len(parts) != 0 {
+	if len(parts) != 2 {
 		resp.Diagnostics.AddError(
 			"Invalid Import ID",
 			"Expected format: <network>/<target_tenant>",

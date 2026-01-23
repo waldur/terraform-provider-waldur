@@ -31,14 +31,33 @@ type BasePublicPlan struct {
 	Url                *string               `json:"url,omitempty" tfsdk:"url"`
 }
 
-type BillingTypeEnum struct {
-}
+type BillingTypeEnum string
 
-type BillingUnit struct {
-}
+const (
+	BillingTypeEnumFixed BillingTypeEnum = "fixed"
+	BillingTypeEnumUsage BillingTypeEnum = "usage"
+	BillingTypeEnumLimit BillingTypeEnum = "limit"
+	BillingTypeEnumOne   BillingTypeEnum = "one"
+	BillingTypeEnumFew   BillingTypeEnum = "few"
+)
 
-type DiscountTypeEnum struct {
-}
+type BillingUnit string
+
+const (
+	BillingUnitMonth     BillingUnit = "month"
+	BillingUnitQuarter   BillingUnit = "quarter"
+	BillingUnitHalfMonth BillingUnit = "half_month"
+	BillingUnitDay       BillingUnit = "day"
+	BillingUnitHour      BillingUnit = "hour"
+	BillingUnitQuantity  BillingUnit = "quantity"
+)
+
+type DiscountTypeEnum string
+
+const (
+	DiscountTypeEnumDiscount     DiscountTypeEnum = "discount"
+	DiscountTypeEnumSpecialPrice DiscountTypeEnum = "special_price"
+)
 
 type IntegrationStatus struct {
 	AgentType            *string `json:"agent_type,omitempty" tfsdk:"agent_type"`
@@ -516,8 +535,13 @@ type PaymentProfileAttributes struct {
 	EndDate         *string `json:"end_date,omitempty" tfsdk:"end_date"`
 }
 
-type PaymentTypeEnum struct {
-}
+type PaymentTypeEnum string
+
+const (
+	PaymentTypeEnumFixedPrice       PaymentTypeEnum = "fixed_price"
+	PaymentTypeEnumInvoices         PaymentTypeEnum = "invoices"
+	PaymentTypeEnumPaymentGwMonthly PaymentTypeEnum = "payment_gw_monthly"
+)
 
 type Quota struct {
 	Limit *int64  `json:"limit,omitempty" tfsdk:"limit"`
