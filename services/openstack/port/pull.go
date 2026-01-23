@@ -14,6 +14,10 @@ import (
 var _ action.Action = &OpenstackPortPullAction{}
 var _ action.ActionWithConfigure = &OpenstackPortPullAction{}
 
+type OpenstackPortPullModel struct {
+	Uuid types.String `tfsdk:"uuid"`
+}
+
 type OpenstackPortPullAction struct {
 	client *Client
 }
@@ -25,6 +29,7 @@ func NewOpenstackPortPullAction() action.Action {
 func (a *OpenstackPortPullAction) Metadata(ctx context.Context, req action.MetadataRequest, resp *action.MetadataResponse) {
 	resp.TypeName = req.ProviderTypeName + "_openstack_port_pull"
 }
+
 func (a *OpenstackPortPullAction) Schema(ctx context.Context, req action.SchemaRequest, resp *action.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		Description: "Perform pull action on openstack port",
@@ -52,10 +57,6 @@ func (a *OpenstackPortPullAction) Configure(ctx context.Context, req action.Conf
 	}
 
 	a.client = NewClient(clientRaw)
-}
-
-type OpenstackPortPullModel struct {
-	Uuid types.String `tfsdk:"uuid"`
 }
 
 func (a *OpenstackPortPullAction) Invoke(ctx context.Context, req action.InvokeRequest, resp *action.InvokeResponse) {

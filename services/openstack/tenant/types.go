@@ -4,13 +4,8 @@ import (
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
-// Shared Structs
-
-// Resource Structs
-
 // OpenstackTenant Structs
 
-// Create Request
 type OpenstackTenantCreateRequest struct {
 	Project    *string                         `json:"project" tfsdk:"project"`
 	Offering   *string                         `json:"offering" tfsdk:"offering"`
@@ -27,7 +22,6 @@ type OpenstackTenantCreateAttributes struct {
 	SubnetCidr                  *string                                      `json:"subnet_cidr,omitempty" tfsdk:"subnet_cidr"`
 }
 
-// Update Request
 type OpenstackTenantUpdateRequest struct {
 	AvailabilityZone            *string                                      `json:"availability_zone,omitempty" tfsdk:"availability_zone"`
 	DefaultVolumeTypeName       *string                                      `json:"default_volume_type_name,omitempty" tfsdk:"default_volume_type_name"`
@@ -38,13 +32,10 @@ type OpenstackTenantUpdateRequest struct {
 	SkipCreationOfDefaultSubnet *bool                                        `json:"skip_creation_of_default_subnet,omitempty" tfsdk:"skip_creation_of_default_subnet"`
 }
 
-// Update Actions Structs
-// push_security_groups Action
 type OpenstackTenantPushSecurityGroupsActionRequest struct {
 	SecurityGroups []common.OpenStackTenantSecurityGroupRequest `json:"security_groups" tfsdk:"security_groups"`
 }
 
-// Response Struct
 type OpenstackTenantResponse struct {
 	UUID *string `json:"uuid"`
 

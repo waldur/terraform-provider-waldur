@@ -14,6 +14,10 @@ import (
 var _ action.Action = &OpenstackVolumePullAction{}
 var _ action.ActionWithConfigure = &OpenstackVolumePullAction{}
 
+type OpenstackVolumePullModel struct {
+	Uuid types.String `tfsdk:"uuid"`
+}
+
 type OpenstackVolumePullAction struct {
 	client *Client
 }
@@ -25,6 +29,7 @@ func NewOpenstackVolumePullAction() action.Action {
 func (a *OpenstackVolumePullAction) Metadata(ctx context.Context, req action.MetadataRequest, resp *action.MetadataResponse) {
 	resp.TypeName = req.ProviderTypeName + "_openstack_volume_pull"
 }
+
 func (a *OpenstackVolumePullAction) Schema(ctx context.Context, req action.SchemaRequest, resp *action.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		Description: "Perform pull action on openstack volume",
@@ -52,10 +57,6 @@ func (a *OpenstackVolumePullAction) Configure(ctx context.Context, req action.Co
 	}
 
 	a.client = NewClient(clientRaw)
-}
-
-type OpenstackVolumePullModel struct {
-	Uuid types.String `tfsdk:"uuid"`
 }
 
 func (a *OpenstackVolumePullAction) Invoke(ctx context.Context, req action.InvokeRequest, resp *action.InvokeResponse) {

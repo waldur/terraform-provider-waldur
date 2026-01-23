@@ -51,7 +51,6 @@ type MarketplaceOrderFiltersModel struct {
 	Type                 types.String `tfsdk:"type"`
 }
 
-// MarketplaceOrderDataSourceModel describes the data source data model.
 type MarketplaceOrderDataSourceModel struct {
 	UUID                       types.String                  `tfsdk:"id"`
 	Filters                    *MarketplaceOrderFiltersModel `tfsdk:"filters"`

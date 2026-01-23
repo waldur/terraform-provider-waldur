@@ -4,13 +4,8 @@ import (
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
-// Shared Structs
-
-// Resource Structs
-
 // OpenstackPort Structs
 
-// Create Request
 type OpenstackPortCreateRequest struct {
 	AllowedAddressPairs []common.OpenStackAllowedAddressPairRequest      `json:"allowed_address_pairs,omitempty" tfsdk:"allowed_address_pairs"`
 	Description         *string                                          `json:"description,omitempty" tfsdk:"description"`
@@ -23,7 +18,6 @@ type OpenstackPortCreateRequest struct {
 	TargetTenant        *string                                          `json:"target_tenant,omitempty" tfsdk:"target_tenant"`
 }
 
-// Update Request
 type OpenstackPortUpdateRequest struct {
 	Description    *string                                          `json:"description,omitempty" tfsdk:"description"`
 	Name           *string                                          `json:"name,omitempty" tfsdk:"name"`
@@ -31,13 +25,10 @@ type OpenstackPortUpdateRequest struct {
 	TargetTenant   *string                                          `json:"target_tenant,omitempty" tfsdk:"target_tenant"`
 }
 
-// Update Actions Structs
-// update_security_groups Action
 type OpenstackPortUpdateSecurityGroupsActionRequest struct {
 	SecurityGroups []common.OpenStackPortNestedSecurityGroupRequest `json:"security_groups" tfsdk:"security_groups"`
 }
 
-// Response Struct
 type OpenstackPortResponse struct {
 	UUID *string `json:"uuid"`
 

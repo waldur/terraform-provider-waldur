@@ -243,6 +243,12 @@ func (c *Client) DeleteByUUID(ctx context.Context, path string, uuid string) err
 	return c.Delete(ctx, fullPath)
 }
 
+// ExecuteAction executes an action on a resource
+func (c *Client) ExecuteAction(ctx context.Context, pathTemplate string, uuid string, body interface{}, result interface{}) error {
+	path := strings.Replace(pathTemplate, "{uuid}", uuid, 1)
+	return c.Post(ctx, path, body, result)
+}
+
 // IsNotFoundError checks if an error represents a 404 Not Found response
 func IsNotFoundError(err error) bool {
 	if err == nil {

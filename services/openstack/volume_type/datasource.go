@@ -36,7 +36,6 @@ type OpenstackVolumeTypeFiltersModel struct {
 	TenantUuid   types.String `tfsdk:"tenant_uuid"`
 }
 
-// OpenstackVolumeTypeDataSourceModel describes the data source data model.
 type OpenstackVolumeTypeDataSourceModel struct {
 	UUID        types.String                     `tfsdk:"id"`
 	Filters     *OpenstackVolumeTypeFiltersModel `tfsdk:"filters"`

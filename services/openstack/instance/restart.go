@@ -14,6 +14,10 @@ import (
 var _ action.Action = &OpenstackInstanceRestartAction{}
 var _ action.ActionWithConfigure = &OpenstackInstanceRestartAction{}
 
+type OpenstackInstanceRestartModel struct {
+	Uuid types.String `tfsdk:"uuid"`
+}
+
 type OpenstackInstanceRestartAction struct {
 	client *Client
 }
@@ -25,6 +29,7 @@ func NewOpenstackInstanceRestartAction() action.Action {
 func (a *OpenstackInstanceRestartAction) Metadata(ctx context.Context, req action.MetadataRequest, resp *action.MetadataResponse) {
 	resp.TypeName = req.ProviderTypeName + "_openstack_instance_restart"
 }
+
 func (a *OpenstackInstanceRestartAction) Schema(ctx context.Context, req action.SchemaRequest, resp *action.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		Description: "Perform restart action on openstack instance",
@@ -52,10 +57,6 @@ func (a *OpenstackInstanceRestartAction) Configure(ctx context.Context, req acti
 	}
 
 	a.client = NewClient(clientRaw)
-}
-
-type OpenstackInstanceRestartModel struct {
-	Uuid types.String `tfsdk:"uuid"`
 }
 
 func (a *OpenstackInstanceRestartAction) Invoke(ctx context.Context, req action.InvokeRequest, resp *action.InvokeResponse) {

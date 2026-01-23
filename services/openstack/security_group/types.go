@@ -4,13 +4,8 @@ import (
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
-// Shared Structs
-
-// Resource Structs
-
 // OpenstackSecurityGroup Structs
 
-// Create Request
 type OpenstackSecurityGroupCreateRequest struct {
 	Description *string                                          `json:"description,omitempty" tfsdk:"description"`
 	Name        *string                                          `json:"name" tfsdk:"name"`
@@ -18,19 +13,15 @@ type OpenstackSecurityGroupCreateRequest struct {
 	Tenant      *string                                          `json:"tenant" tfsdk:"tenant"`
 }
 
-// Update Request
 type OpenstackSecurityGroupUpdateRequest struct {
 	Description *string `json:"description,omitempty" tfsdk:"description"`
 	Name        *string `json:"name,omitempty" tfsdk:"name"`
 }
 
-// Update Actions Structs
-// set_rules Action
 type OpenstackSecurityGroupSetRulesActionRequest struct {
 	Rules []common.OpenStackSecurityGroupRuleCreateRequest `json:"rules" tfsdk:"rules"`
 }
 
-// Response Struct
 type OpenstackSecurityGroupResponse struct {
 	UUID *string `json:"uuid"`
 

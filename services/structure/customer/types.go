@@ -1,12 +1,7 @@
 package customer
 
-// Shared Structs
-
-// Resource Structs
-
 // StructureCustomer Structs
 
-// Create Request
 type StructureCustomerCreateRequest struct {
 	Abbreviation                 *string  `json:"abbreviation,omitempty" tfsdk:"abbreviation"`
 	AccessSubnets                *string  `json:"access_subnets,omitempty" tfsdk:"access_subnets"`
@@ -43,7 +38,6 @@ type StructureCustomerCreateRequest struct {
 	VatCode                      *string  `json:"vat_code,omitempty" tfsdk:"vat_code"`
 }
 
-// Update Request
 type StructureCustomerUpdateRequest struct {
 	Abbreviation                 *string  `json:"abbreviation,omitempty" tfsdk:"abbreviation"`
 	AccessSubnets                *string  `json:"access_subnets,omitempty" tfsdk:"access_subnets"`
@@ -80,9 +74,6 @@ type StructureCustomerUpdateRequest struct {
 	VatCode                      *string  `json:"vat_code,omitempty" tfsdk:"vat_code"`
 }
 
-// Update Actions Structs
-
-// Response Struct
 type StructureCustomerResponse struct {
 	UUID *string `json:"uuid"`
 

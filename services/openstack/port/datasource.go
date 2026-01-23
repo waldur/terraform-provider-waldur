@@ -46,7 +46,6 @@ type OpenstackPortFiltersModel struct {
 	TenantUuid         types.String `tfsdk:"tenant_uuid"`
 }
 
-// OpenstackPortDataSourceModel describes the data source data model.
 type OpenstackPortDataSourceModel struct {
 	UUID                types.String               `tfsdk:"id"`
 	Filters             *OpenstackPortFiltersModel `tfsdk:"filters"`

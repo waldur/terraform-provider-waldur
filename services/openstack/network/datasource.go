@@ -56,7 +56,6 @@ type OpenstackNetworkFiltersModel struct {
 	Uuid                 types.String `tfsdk:"uuid"`
 }
 
-// OpenstackNetworkDataSourceModel describes the data source data model.
 type OpenstackNetworkDataSourceModel struct {
 	UUID           types.String                  `tfsdk:"id"`
 	Filters        *OpenstackNetworkFiltersModel `tfsdk:"filters"`

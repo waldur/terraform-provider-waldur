@@ -1,28 +1,19 @@
 package volume_attachment
 
-// Shared Structs
-
-// Resource Structs
-
 // OpenstackVolumeAttachment Structs
 
-// Create Request
 type OpenstackVolumeAttachmentCreateRequest struct {
 	Device   *string `json:"device,omitempty" tfsdk:"device"`
 	Instance *string `json:"instance" tfsdk:"instance"`
 	Volume   *string `json:"volume" tfsdk:"volume"`
 }
 
-// Update Request
 type OpenstackVolumeAttachmentUpdateRequest struct {
 	Bootable    *bool   `json:"bootable,omitempty" tfsdk:"bootable"`
 	Description *string `json:"description,omitempty" tfsdk:"description"`
 	Name        *string `json:"name,omitempty" tfsdk:"name"`
 }
 
-// Update Actions Structs
-
-// Response Struct
 type OpenstackVolumeAttachmentResponse struct {
 	UUID *string `json:"uuid"`
 

@@ -1,20 +1,10 @@
 package ssh_public_key
 
-// Shared Structs
-
-// Resource Structs
-
 // CoreSshPublicKey Structs
 
-// Create Request
 type CoreSshPublicKeyCreateRequest struct {
 }
 
-// Update Request
-
-// Update Actions Structs
-
-// Response Struct
 type CoreSshPublicKeyResponse struct {
 	UUID *string `json:"uuid"`
 

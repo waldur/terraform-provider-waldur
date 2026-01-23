@@ -70,7 +70,6 @@ type MarketplaceResourceFiltersModel struct {
 	VisibleToUsername    types.String  `tfsdk:"visible_to_username"`
 }
 
-// MarketplaceResourceDataSourceModel describes the data source data model.
 type MarketplaceResourceDataSourceModel struct {
 	UUID                      types.String                     `tfsdk:"id"`
 	Filters                   *MarketplaceResourceFiltersModel `tfsdk:"filters"`

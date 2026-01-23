@@ -50,7 +50,6 @@ type OpenstackTenantFiltersModel struct {
 	Uuid                 types.String `tfsdk:"uuid"`
 }
 
-// OpenstackTenantDataSourceModel describes the data source data model.
 type OpenstackTenantDataSourceModel struct {
 	UUID                        types.String                 `tfsdk:"id"`
 	Filters                     *OpenstackTenantFiltersModel `tfsdk:"filters"`

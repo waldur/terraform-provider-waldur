@@ -1,12 +1,7 @@
 package order
 
-// Shared Structs
-
-// Resource Structs
-
 // MarketplaceOrder Structs
 
-// Create Request
 type MarketplaceOrderCreateRequest struct {
 	AcceptingTermsOfService *bool                  `json:"accepting_terms_of_service,omitempty" tfsdk:"accepting_terms_of_service"`
 	Attributes              map[string]interface{} `json:"attributes" tfsdk:"attributes"`
@@ -23,11 +18,6 @@ type MarketplaceOrderCreateRequest struct {
 type MarketplaceOrderCreateAttributesRequest struct {
 }
 
-// Update Request
-
-// Update Actions Structs
-
-// Response Struct
 type MarketplaceOrderResponse struct {
 	UUID *string `json:"uuid"`
 

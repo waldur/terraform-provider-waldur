@@ -1,12 +1,7 @@
 package volume
 
-// Shared Structs
-
-// Resource Structs
-
 // OpenstackVolume Structs
 
-// Create Request
 type OpenstackVolumeCreateRequest struct {
 	Project    *string                         `json:"project" tfsdk:"project"`
 	Offering   *string                         `json:"offering" tfsdk:"offering"`
@@ -21,25 +16,19 @@ type OpenstackVolumeCreateAttributes struct {
 	Type             *string `json:"type,omitempty" tfsdk:"type"`
 }
 
-// Update Request
 type OpenstackVolumeUpdateRequest struct {
 	Bootable    *bool   `json:"bootable,omitempty" tfsdk:"bootable"`
 	Description *string `json:"description,omitempty" tfsdk:"description"`
 	Name        *string `json:"name,omitempty" tfsdk:"name"`
 }
 
-// Update Actions Structs
-// extend Action
 type OpenstackVolumeExtendActionRequest struct {
 	Size *int64 `json:"size" tfsdk:"size"`
 }
-
-// retype Action
 type OpenstackVolumeRetypeActionRequest struct {
 	Type *string `json:"type" tfsdk:"type"`
 }
 
-// Response Struct
 type OpenstackVolumeResponse struct {
 	UUID *string `json:"uuid"`
 

@@ -38,7 +38,6 @@ type OpenstackNetworkRbacPolicyFiltersModel struct {
 	TenantUuid       types.String `tfsdk:"tenant_uuid"`
 }
 
-// OpenstackNetworkRbacPolicyDataSourceModel describes the data source data model.
 type OpenstackNetworkRbacPolicyDataSourceModel struct {
 	UUID             types.String                            `tfsdk:"id"`
 	Filters          *OpenstackNetworkRbacPolicyFiltersModel `tfsdk:"filters"`

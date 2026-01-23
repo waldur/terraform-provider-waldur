@@ -14,6 +14,10 @@ import (
 var _ action.Action = &OpenstackVolumeUnlinkAction{}
 var _ action.ActionWithConfigure = &OpenstackVolumeUnlinkAction{}
 
+type OpenstackVolumeUnlinkModel struct {
+	Uuid types.String `tfsdk:"uuid"`
+}
+
 type OpenstackVolumeUnlinkAction struct {
 	client *Client
 }
@@ -25,6 +29,7 @@ func NewOpenstackVolumeUnlinkAction() action.Action {
 func (a *OpenstackVolumeUnlinkAction) Metadata(ctx context.Context, req action.MetadataRequest, resp *action.MetadataResponse) {
 	resp.TypeName = req.ProviderTypeName + "_openstack_volume_unlink"
 }
+
 func (a *OpenstackVolumeUnlinkAction) Schema(ctx context.Context, req action.SchemaRequest, resp *action.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		Description: "Perform unlink action on openstack volume",
@@ -52,10 +57,6 @@ func (a *OpenstackVolumeUnlinkAction) Configure(ctx context.Context, req action.
 	}
 
 	a.client = NewClient(clientRaw)
-}
-
-type OpenstackVolumeUnlinkModel struct {
-	Uuid types.String `tfsdk:"uuid"`
 }
 
 func (a *OpenstackVolumeUnlinkAction) Invoke(ctx context.Context, req action.InvokeRequest, resp *action.InvokeResponse) {

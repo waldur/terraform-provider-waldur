@@ -14,6 +14,10 @@ import (
 var _ action.Action = &OpenstackSubnetConnectAction{}
 var _ action.ActionWithConfigure = &OpenstackSubnetConnectAction{}
 
+type OpenstackSubnetConnectModel struct {
+	Uuid types.String `tfsdk:"uuid"`
+}
+
 type OpenstackSubnetConnectAction struct {
 	client *Client
 }
@@ -25,6 +29,7 @@ func NewOpenstackSubnetConnectAction() action.Action {
 func (a *OpenstackSubnetConnectAction) Metadata(ctx context.Context, req action.MetadataRequest, resp *action.MetadataResponse) {
 	resp.TypeName = req.ProviderTypeName + "_openstack_subnet_connect"
 }
+
 func (a *OpenstackSubnetConnectAction) Schema(ctx context.Context, req action.SchemaRequest, resp *action.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		Description: "Perform connect action on openstack subnet",
@@ -52,10 +57,6 @@ func (a *OpenstackSubnetConnectAction) Configure(ctx context.Context, req action
 	}
 
 	a.client = NewClient(clientRaw)
-}
-
-type OpenstackSubnetConnectModel struct {
-	Uuid types.String `tfsdk:"uuid"`
 }
 
 func (a *OpenstackSubnetConnectAction) Invoke(ctx context.Context, req action.InvokeRequest, resp *action.InvokeResponse) {

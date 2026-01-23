@@ -14,6 +14,10 @@ import (
 var _ action.Action = &OpenstackTenantPullAction{}
 var _ action.ActionWithConfigure = &OpenstackTenantPullAction{}
 
+type OpenstackTenantPullModel struct {
+	Uuid types.String `tfsdk:"uuid"`
+}
+
 type OpenstackTenantPullAction struct {
 	client *Client
 }
@@ -25,6 +29,7 @@ func NewOpenstackTenantPullAction() action.Action {
 func (a *OpenstackTenantPullAction) Metadata(ctx context.Context, req action.MetadataRequest, resp *action.MetadataResponse) {
 	resp.TypeName = req.ProviderTypeName + "_openstack_tenant_pull"
 }
+
 func (a *OpenstackTenantPullAction) Schema(ctx context.Context, req action.SchemaRequest, resp *action.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		Description: "Perform pull action on openstack tenant",
@@ -52,10 +57,6 @@ func (a *OpenstackTenantPullAction) Configure(ctx context.Context, req action.Co
 	}
 
 	a.client = NewClient(clientRaw)
-}
-
-type OpenstackTenantPullModel struct {
-	Uuid types.String `tfsdk:"uuid"`
 }
 
 func (a *OpenstackTenantPullAction) Invoke(ctx context.Context, req action.InvokeRequest, resp *action.InvokeResponse) {

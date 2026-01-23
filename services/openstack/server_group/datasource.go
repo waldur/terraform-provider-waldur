@@ -52,7 +52,6 @@ type OpenstackServerGroupFiltersModel struct {
 	Uuid                 types.String `tfsdk:"uuid"`
 }
 
-// OpenstackServerGroupDataSourceModel describes the data source data model.
 type OpenstackServerGroupDataSourceModel struct {
 	UUID           types.String                      `tfsdk:"id"`
 	Filters        *OpenstackServerGroupFiltersModel `tfsdk:"filters"`

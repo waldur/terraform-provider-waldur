@@ -14,6 +14,10 @@ import (
 var _ action.Action = &MarketplaceResourceTerminateAction{}
 var _ action.ActionWithConfigure = &MarketplaceResourceTerminateAction{}
 
+type MarketplaceResourceTerminateModel struct {
+	Uuid types.String `tfsdk:"uuid"`
+}
+
 type MarketplaceResourceTerminateAction struct {
 	client *Client
 }
@@ -25,6 +29,7 @@ func NewMarketplaceResourceTerminateAction() action.Action {
 func (a *MarketplaceResourceTerminateAction) Metadata(ctx context.Context, req action.MetadataRequest, resp *action.MetadataResponse) {
 	resp.TypeName = req.ProviderTypeName + "_marketplace_resource_terminate"
 }
+
 func (a *MarketplaceResourceTerminateAction) Schema(ctx context.Context, req action.SchemaRequest, resp *action.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		Description: "Perform terminate action on marketplace resource",
@@ -52,10 +57,6 @@ func (a *MarketplaceResourceTerminateAction) Configure(ctx context.Context, req 
 	}
 
 	a.client = NewClient(clientRaw)
-}
-
-type MarketplaceResourceTerminateModel struct {
-	Uuid types.String `tfsdk:"uuid"`
 }
 
 func (a *MarketplaceResourceTerminateAction) Invoke(ctx context.Context, req action.InvokeRequest, resp *action.InvokeResponse) {

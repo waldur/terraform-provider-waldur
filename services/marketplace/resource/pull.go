@@ -14,6 +14,10 @@ import (
 var _ action.Action = &MarketplaceResourcePullAction{}
 var _ action.ActionWithConfigure = &MarketplaceResourcePullAction{}
 
+type MarketplaceResourcePullModel struct {
+	Uuid types.String `tfsdk:"uuid"`
+}
+
 type MarketplaceResourcePullAction struct {
 	client *Client
 }
@@ -25,6 +29,7 @@ func NewMarketplaceResourcePullAction() action.Action {
 func (a *MarketplaceResourcePullAction) Metadata(ctx context.Context, req action.MetadataRequest, resp *action.MetadataResponse) {
 	resp.TypeName = req.ProviderTypeName + "_marketplace_resource_pull"
 }
+
 func (a *MarketplaceResourcePullAction) Schema(ctx context.Context, req action.SchemaRequest, resp *action.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		Description: "Perform pull action on marketplace resource",
@@ -52,10 +57,6 @@ func (a *MarketplaceResourcePullAction) Configure(ctx context.Context, req actio
 	}
 
 	a.client = NewClient(clientRaw)
-}
-
-type MarketplaceResourcePullModel struct {
-	Uuid types.String `tfsdk:"uuid"`
 }
 
 func (a *MarketplaceResourcePullAction) Invoke(ctx context.Context, req action.InvokeRequest, resp *action.InvokeResponse) {

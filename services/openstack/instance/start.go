@@ -14,6 +14,10 @@ import (
 var _ action.Action = &OpenstackInstanceStartAction{}
 var _ action.ActionWithConfigure = &OpenstackInstanceStartAction{}
 
+type OpenstackInstanceStartModel struct {
+	Uuid types.String `tfsdk:"uuid"`
+}
+
 type OpenstackInstanceStartAction struct {
 	client *Client
 }
@@ -25,6 +29,7 @@ func NewOpenstackInstanceStartAction() action.Action {
 func (a *OpenstackInstanceStartAction) Metadata(ctx context.Context, req action.MetadataRequest, resp *action.MetadataResponse) {
 	resp.TypeName = req.ProviderTypeName + "_openstack_instance_start"
 }
+
 func (a *OpenstackInstanceStartAction) Schema(ctx context.Context, req action.SchemaRequest, resp *action.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		Description: "Perform start action on openstack instance",
@@ -52,10 +57,6 @@ func (a *OpenstackInstanceStartAction) Configure(ctx context.Context, req action
 	}
 
 	a.client = NewClient(clientRaw)
-}
-
-type OpenstackInstanceStartModel struct {
-	Uuid types.String `tfsdk:"uuid"`
 }
 
 func (a *OpenstackInstanceStartAction) Invoke(ctx context.Context, req action.InvokeRequest, resp *action.InvokeResponse) {

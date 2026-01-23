@@ -46,7 +46,6 @@ type OpenstackFlavorFiltersModel struct {
 	TenantUuid   types.String `tfsdk:"tenant_uuid"`
 }
 
-// OpenstackFlavorDataSourceModel describes the data source data model.
 type OpenstackFlavorDataSourceModel struct {
 	UUID        types.String                 `tfsdk:"id"`
 	Filters     *OpenstackFlavorFiltersModel `tfsdk:"filters"`

@@ -4,13 +4,8 @@ import (
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
-// Shared Structs
-
-// Resource Structs
-
 // OpenstackInstance Structs
 
-// Create Request
 type OpenstackInstanceCreateRequest struct {
 	Project    *string                           `json:"project" tfsdk:"project"`
 	Offering   *string                           `json:"offering" tfsdk:"offering"`
@@ -35,29 +30,21 @@ type OpenstackInstanceCreateAttributes struct {
 	UserData                         *string                                         `json:"user_data,omitempty" tfsdk:"user_data"`
 }
 
-// Update Request
 type OpenstackInstanceUpdateRequest struct {
 	Description *string `json:"description,omitempty" tfsdk:"description"`
 	Name        *string `json:"name,omitempty" tfsdk:"name"`
 }
 
-// Update Actions Structs
-// update_floating_ips Action
 type OpenstackInstanceUpdateFloatingIpsActionRequest struct {
 	FloatingIps []common.OpenStackCreateFloatingIPRequest `json:"floating_ips" tfsdk:"floating_ips"`
 }
-
-// update_ports Action
 type OpenstackInstanceUpdatePortsActionRequest struct {
 	Ports []common.OpenStackCreateInstancePortRequest `json:"ports" tfsdk:"ports"`
 }
-
-// update_security_groups Action
 type OpenstackInstanceUpdateSecurityGroupsActionRequest struct {
 	SecurityGroups []common.OpenStackSecurityGroupHyperlinkRequest `json:"security_groups" tfsdk:"security_groups"`
 }
 
-// Response Struct
 type OpenstackInstanceResponse struct {
 	UUID *string `json:"uuid"`
 

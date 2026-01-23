@@ -390,7 +390,7 @@ func (r *OpenstackVolumeAttachmentResource) Read(ctx context.Context, req resour
 	targetUUID := parts[1]
 
 	var result map[string]interface{}
-	err := r.client.GetByUUID(ctx, "/api/openstack-volumes/{uuid}/", sourceUUID, &result)
+	err := r.client.Client.GetByUUID(ctx, "/api/openstack-volumes/{uuid}/", sourceUUID, &result)
 	if err != nil {
 		if client.IsNotFoundError(err) {
 			resp.State.RemoveResource(ctx)

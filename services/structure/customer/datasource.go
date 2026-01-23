@@ -43,7 +43,6 @@ type StructureCustomerFiltersModel struct {
 	RegistrationCode      types.String `tfsdk:"registration_code"`
 }
 
-// StructureCustomerDataSourceModel describes the data source data model.
 type StructureCustomerDataSourceModel struct {
 	UUID                         types.String                   `tfsdk:"id"`
 	Filters                      *StructureCustomerFiltersModel `tfsdk:"filters"`

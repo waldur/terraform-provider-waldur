@@ -36,7 +36,6 @@ type OpenstackImageFiltersModel struct {
 	TenantUuid   types.String `tfsdk:"tenant_uuid"`
 }
 
-// OpenstackImageDataSourceModel describes the data source data model.
 type OpenstackImageDataSourceModel struct {
 	UUID      types.String                `tfsdk:"id"`
 	Filters   *OpenstackImageFiltersModel `tfsdk:"filters"`

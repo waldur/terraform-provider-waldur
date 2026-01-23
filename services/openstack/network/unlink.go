@@ -14,6 +14,10 @@ import (
 var _ action.Action = &OpenstackNetworkUnlinkAction{}
 var _ action.ActionWithConfigure = &OpenstackNetworkUnlinkAction{}
 
+type OpenstackNetworkUnlinkModel struct {
+	Uuid types.String `tfsdk:"uuid"`
+}
+
 type OpenstackNetworkUnlinkAction struct {
 	client *Client
 }
@@ -25,6 +29,7 @@ func NewOpenstackNetworkUnlinkAction() action.Action {
 func (a *OpenstackNetworkUnlinkAction) Metadata(ctx context.Context, req action.MetadataRequest, resp *action.MetadataResponse) {
 	resp.TypeName = req.ProviderTypeName + "_openstack_network_unlink"
 }
+
 func (a *OpenstackNetworkUnlinkAction) Schema(ctx context.Context, req action.SchemaRequest, resp *action.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		Description: "Perform unlink action on openstack network",
@@ -52,10 +57,6 @@ func (a *OpenstackNetworkUnlinkAction) Configure(ctx context.Context, req action
 	}
 
 	a.client = NewClient(clientRaw)
-}
-
-type OpenstackNetworkUnlinkModel struct {
-	Uuid types.String `tfsdk:"uuid"`
 }
 
 func (a *OpenstackNetworkUnlinkAction) Invoke(ctx context.Context, req action.InvokeRequest, resp *action.InvokeResponse) {

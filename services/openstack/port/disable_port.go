@@ -14,6 +14,10 @@ import (
 var _ action.Action = &OpenstackPortDisablePortAction{}
 var _ action.ActionWithConfigure = &OpenstackPortDisablePortAction{}
 
+type OpenstackPortDisablePortModel struct {
+	Uuid types.String `tfsdk:"uuid"`
+}
+
 type OpenstackPortDisablePortAction struct {
 	client *Client
 }
@@ -25,6 +29,7 @@ func NewOpenstackPortDisablePortAction() action.Action {
 func (a *OpenstackPortDisablePortAction) Metadata(ctx context.Context, req action.MetadataRequest, resp *action.MetadataResponse) {
 	resp.TypeName = req.ProviderTypeName + "_openstack_port_disable_port"
 }
+
 func (a *OpenstackPortDisablePortAction) Schema(ctx context.Context, req action.SchemaRequest, resp *action.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		Description: "Perform disable_port action on openstack port",
@@ -52,10 +57,6 @@ func (a *OpenstackPortDisablePortAction) Configure(ctx context.Context, req acti
 	}
 
 	a.client = NewClient(clientRaw)
-}
-
-type OpenstackPortDisablePortModel struct {
-	Uuid types.String `tfsdk:"uuid"`
 }
 
 func (a *OpenstackPortDisablePortAction) Invoke(ctx context.Context, req action.InvokeRequest, resp *action.InvokeResponse) {

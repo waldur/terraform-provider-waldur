@@ -1,20 +1,10 @@
 package flavor
 
-// Shared Structs
-
-// Resource Structs
-
 // OpenstackFlavor Structs
 
-// Create Request
 type OpenstackFlavorCreateRequest struct {
 }
 
-// Update Request
-
-// Update Actions Structs
-
-// Response Struct
 type OpenstackFlavorResponse struct {
 	UUID *string `json:"uuid"`
 

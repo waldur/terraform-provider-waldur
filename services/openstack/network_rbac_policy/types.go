@@ -1,28 +1,19 @@
 package network_rbac_policy
 
-// Shared Structs
-
-// Resource Structs
-
 // OpenstackNetworkRbacPolicy Structs
 
-// Create Request
 type OpenstackNetworkRbacPolicyCreateRequest struct {
 	Network      *string `json:"network" tfsdk:"network"`
 	PolicyType   *string `json:"policy_type,omitempty" tfsdk:"policy_type"`
 	TargetTenant *string `json:"target_tenant" tfsdk:"target_tenant"`
 }
 
-// Update Request
 type OpenstackNetworkRbacPolicyUpdateRequest struct {
 	Network      *string `json:"network,omitempty" tfsdk:"network"`
 	PolicyType   *string `json:"policy_type,omitempty" tfsdk:"policy_type"`
 	TargetTenant *string `json:"target_tenant,omitempty" tfsdk:"target_tenant"`
 }
 
-// Update Actions Structs
-
-// Response Struct
 type OpenstackNetworkRbacPolicyResponse struct {
 	UUID *string `json:"uuid"`
 

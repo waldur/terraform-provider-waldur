@@ -1,31 +1,22 @@
 package network
 
-// Shared Structs
-
-// Resource Structs
-
 // OpenstackNetwork Structs
 
-// Create Request
 type OpenstackNetworkCreateRequest struct {
 	Description *string `json:"description,omitempty" tfsdk:"description"`
 	Name        *string `json:"name" tfsdk:"name"`
 	Tenant      *string `json:"tenant" tfsdk:"tenant"`
 }
 
-// Update Request
 type OpenstackNetworkUpdateRequest struct {
 	Description *string `json:"description,omitempty" tfsdk:"description"`
 	Name        *string `json:"name,omitempty" tfsdk:"name"`
 }
 
-// Update Actions Structs
-// set_mtu Action
 type OpenstackNetworkSetMtuActionRequest struct {
 	Mtu *int64 `json:"mtu" tfsdk:"mtu"`
 }
 
-// Response Struct
 type OpenstackNetworkResponse struct {
 	UUID *string `json:"uuid"`
 

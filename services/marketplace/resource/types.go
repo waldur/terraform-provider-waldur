@@ -1,32 +1,21 @@
 package resource
 
-// Shared Structs
-
-// Resource Structs
-
 // MarketplaceResource Structs
 
-// Create Request
 type MarketplaceResourceCreateRequest struct {
 }
 
-// Update Request
 type MarketplaceResourceUpdateRequest struct {
 	Description *string `json:"description,omitempty" tfsdk:"description"`
 	EndDate     *string `json:"end_date,omitempty" tfsdk:"end_date"`
 	Name        *string `json:"name,omitempty" tfsdk:"name"`
 }
 
-// Update Actions Structs
-// update_limits Action
 type MarketplaceResourceUpdateLimitsActionRequest struct {
 }
-
-// update_options Action
 type MarketplaceResourceUpdateOptionsActionRequest struct {
 }
 
-// Response Struct
 type MarketplaceResourceResponse struct {
 	UUID *string `json:"uuid"`
 

@@ -4,13 +4,8 @@ import (
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
-// Shared Structs
-
-// Resource Structs
-
 // MarketplaceOffering Structs
 
-// Create Request
 type MarketplaceOfferingCreateRequest struct {
 	AccessUrl           *string                           `json:"access_url,omitempty" tfsdk:"access_url"`
 	BackendId           *string                           `json:"backend_id,omitempty" tfsdk:"backend_id"`
@@ -40,11 +35,6 @@ type MarketplaceOfferingCreateRequest struct {
 	VendorDetails       *string                           `json:"vendor_details,omitempty" tfsdk:"vendor_details"`
 }
 
-// Update Request
-
-// Update Actions Structs
-
-// Response Struct
 type MarketplaceOfferingResponse struct {
 	UUID *string `json:"uuid"`
 

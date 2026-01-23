@@ -1,12 +1,7 @@
 package project
 
-// Shared Structs
-
-// Resource Structs
-
 // StructureProject Structs
 
-// Create Request
 type StructureProjectCreateRequest struct {
 	BackendId       *string `json:"backend_id,omitempty" tfsdk:"backend_id"`
 	Customer        *string `json:"customer" tfsdk:"customer"`
@@ -24,7 +19,6 @@ type StructureProjectCreateRequest struct {
 	Type            *string `json:"type,omitempty" tfsdk:"type"`
 }
 
-// Update Request
 type StructureProjectUpdateRequest struct {
 	BackendId       *string `json:"backend_id,omitempty" tfsdk:"backend_id"`
 	Customer        *string `json:"customer,omitempty" tfsdk:"customer"`
@@ -42,9 +36,6 @@ type StructureProjectUpdateRequest struct {
 	Type            *string `json:"type,omitempty" tfsdk:"type"`
 }
 
-// Update Actions Structs
-
-// Response Struct
 type StructureProjectResponse struct {
 	UUID *string `json:"uuid"`
 

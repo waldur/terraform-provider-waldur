@@ -55,7 +55,6 @@ type OpenstackFloatingIpFiltersModel struct {
 	Uuid                 types.String `tfsdk:"uuid"`
 }
 
-// OpenstackFloatingIpDataSourceModel describes the data source data model.
 type OpenstackFloatingIpDataSourceModel struct {
 	UUID             types.String                     `tfsdk:"id"`
 	Filters          *OpenstackFloatingIpFiltersModel `tfsdk:"filters"`

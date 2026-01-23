@@ -4,13 +4,8 @@ import (
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
-// Shared Structs
-
-// Resource Structs
-
 // OpenstackSubnet Structs
 
-// Create Request
 type OpenstackSubnetCreateRequest struct {
 	AllocationPools []common.OpenStackSubNetAllocationPoolRequest `json:"allocation_pools,omitempty" tfsdk:"allocation_pools"`
 	Cidr            *string                                       `json:"cidr,omitempty" tfsdk:"cidr"`
@@ -23,7 +18,6 @@ type OpenstackSubnetCreateRequest struct {
 	Network         *string                                       `json:"network" tfsdk:"network"`
 }
 
-// Update Request
 type OpenstackSubnetUpdateRequest struct {
 	AllocationPools []common.OpenStackSubNetAllocationPoolRequest `json:"allocation_pools,omitempty" tfsdk:"allocation_pools"`
 	Cidr            *string                                       `json:"cidr,omitempty" tfsdk:"cidr"`
@@ -35,9 +29,6 @@ type OpenstackSubnetUpdateRequest struct {
 	Name            *string                                       `json:"name,omitempty" tfsdk:"name"`
 }
 
-// Update Actions Structs
-
-// Response Struct
 type OpenstackSubnetResponse struct {
 	UUID *string `json:"uuid"`
 

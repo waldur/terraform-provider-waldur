@@ -14,6 +14,10 @@ import (
 var _ action.Action = &OpenstackSubnetDisconnectAction{}
 var _ action.ActionWithConfigure = &OpenstackSubnetDisconnectAction{}
 
+type OpenstackSubnetDisconnectModel struct {
+	Uuid types.String `tfsdk:"uuid"`
+}
+
 type OpenstackSubnetDisconnectAction struct {
 	client *Client
 }
@@ -25,6 +29,7 @@ func NewOpenstackSubnetDisconnectAction() action.Action {
 func (a *OpenstackSubnetDisconnectAction) Metadata(ctx context.Context, req action.MetadataRequest, resp *action.MetadataResponse) {
 	resp.TypeName = req.ProviderTypeName + "_openstack_subnet_disconnect"
 }
+
 func (a *OpenstackSubnetDisconnectAction) Schema(ctx context.Context, req action.SchemaRequest, resp *action.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		Description: "Perform disconnect action on openstack subnet",
@@ -52,10 +57,6 @@ func (a *OpenstackSubnetDisconnectAction) Configure(ctx context.Context, req act
 	}
 
 	a.client = NewClient(clientRaw)
-}
-
-type OpenstackSubnetDisconnectModel struct {
-	Uuid types.String `tfsdk:"uuid"`
 }
 
 func (a *OpenstackSubnetDisconnectAction) Invoke(ctx context.Context, req action.InvokeRequest, resp *action.InvokeResponse) {

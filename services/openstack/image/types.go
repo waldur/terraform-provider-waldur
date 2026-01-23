@@ -1,20 +1,10 @@
 package image
 
-// Shared Structs
-
-// Resource Structs
-
 // OpenstackImage Structs
 
-// Create Request
 type OpenstackImageCreateRequest struct {
 }
 
-// Update Request
-
-// Update Actions Structs
-
-// Response Struct
 type OpenstackImageResponse struct {
 	UUID *string `json:"uuid"`
 

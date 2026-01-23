@@ -46,7 +46,6 @@ type StructureProjectFiltersModel struct {
 	Slug                    types.String `tfsdk:"slug"`
 }
 
-// StructureProjectDataSourceModel describes the data source data model.
 type StructureProjectDataSourceModel struct {
 	UUID                                 types.String                  `tfsdk:"id"`
 	Filters                              *StructureProjectFiltersModel `tfsdk:"filters"`

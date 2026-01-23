@@ -1,20 +1,10 @@
 package volume_type
 
-// Shared Structs
-
-// Resource Structs
-
 // OpenstackVolumeType Structs
 
-// Create Request
 type OpenstackVolumeTypeCreateRequest struct {
 }
 
-// Update Request
-
-// Update Actions Structs
-
-// Response Struct
 type OpenstackVolumeTypeResponse struct {
 	UUID *string `json:"uuid"`
 

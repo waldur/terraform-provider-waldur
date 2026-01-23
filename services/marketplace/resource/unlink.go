@@ -14,6 +14,10 @@ import (
 var _ action.Action = &MarketplaceResourceUnlinkAction{}
 var _ action.ActionWithConfigure = &MarketplaceResourceUnlinkAction{}
 
+type MarketplaceResourceUnlinkModel struct {
+	Uuid types.String `tfsdk:"uuid"`
+}
+
 type MarketplaceResourceUnlinkAction struct {
 	client *Client
 }
@@ -25,6 +29,7 @@ func NewMarketplaceResourceUnlinkAction() action.Action {
 func (a *MarketplaceResourceUnlinkAction) Metadata(ctx context.Context, req action.MetadataRequest, resp *action.MetadataResponse) {
 	resp.TypeName = req.ProviderTypeName + "_marketplace_resource_unlink"
 }
+
 func (a *MarketplaceResourceUnlinkAction) Schema(ctx context.Context, req action.SchemaRequest, resp *action.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		Description: "Perform unlink action on marketplace resource",
@@ -52,10 +57,6 @@ func (a *MarketplaceResourceUnlinkAction) Configure(ctx context.Context, req act
 	}
 
 	a.client = NewClient(clientRaw)
-}
-
-type MarketplaceResourceUnlinkModel struct {
-	Uuid types.String `tfsdk:"uuid"`
 }
 
 func (a *MarketplaceResourceUnlinkAction) Invoke(ctx context.Context, req action.InvokeRequest, resp *action.InvokeResponse) {

@@ -39,7 +39,6 @@ type CoreSshPublicKeyFiltersModel struct {
 	Uuid              types.String `tfsdk:"uuid"`
 }
 
-// CoreSshPublicKeyDataSourceModel describes the data source data model.
 type CoreSshPublicKeyDataSourceModel struct {
 	UUID              types.String                  `tfsdk:"id"`
 	Filters           *CoreSshPublicKeyFiltersModel `tfsdk:"filters"`

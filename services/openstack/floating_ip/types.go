@@ -1,25 +1,15 @@
 package floating_ip
 
-// Shared Structs
-
-// Resource Structs
-
 // OpenstackFloatingIp Structs
 
-// Create Request
 type OpenstackFloatingIpCreateRequest struct {
 	Tenant *string `json:"tenant" tfsdk:"tenant"`
 }
 
-// Update Request
-
-// Update Actions Structs
-// update_description Action
 type OpenstackFloatingIpUpdateDescriptionActionRequest struct {
 	Description *string `json:"description" tfsdk:"description"`
 }
 
-// Response Struct
 type OpenstackFloatingIpResponse struct {
 	UUID *string `json:"uuid"`
 

@@ -14,6 +14,10 @@ import (
 var _ action.Action = &OpenstackSubnetPullAction{}
 var _ action.ActionWithConfigure = &OpenstackSubnetPullAction{}
 
+type OpenstackSubnetPullModel struct {
+	Uuid types.String `tfsdk:"uuid"`
+}
+
 type OpenstackSubnetPullAction struct {
 	client *Client
 }
@@ -25,6 +29,7 @@ func NewOpenstackSubnetPullAction() action.Action {
 func (a *OpenstackSubnetPullAction) Metadata(ctx context.Context, req action.MetadataRequest, resp *action.MetadataResponse) {
 	resp.TypeName = req.ProviderTypeName + "_openstack_subnet_pull"
 }
+
 func (a *OpenstackSubnetPullAction) Schema(ctx context.Context, req action.SchemaRequest, resp *action.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		Description: "Perform pull action on openstack subnet",
@@ -52,10 +57,6 @@ func (a *OpenstackSubnetPullAction) Configure(ctx context.Context, req action.Co
 	}
 
 	a.client = NewClient(clientRaw)
-}
-
-type OpenstackSubnetPullModel struct {
-	Uuid types.String `tfsdk:"uuid"`
 }
 
 func (a *OpenstackSubnetPullAction) Invoke(ctx context.Context, req action.InvokeRequest, resp *action.InvokeResponse) {

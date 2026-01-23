@@ -14,6 +14,10 @@ import (
 var _ action.Action = &OpenstackNetworkPullAction{}
 var _ action.ActionWithConfigure = &OpenstackNetworkPullAction{}
 
+type OpenstackNetworkPullModel struct {
+	Uuid types.String `tfsdk:"uuid"`
+}
+
 type OpenstackNetworkPullAction struct {
 	client *Client
 }
@@ -25,6 +29,7 @@ func NewOpenstackNetworkPullAction() action.Action {
 func (a *OpenstackNetworkPullAction) Metadata(ctx context.Context, req action.MetadataRequest, resp *action.MetadataResponse) {
 	resp.TypeName = req.ProviderTypeName + "_openstack_network_pull"
 }
+
 func (a *OpenstackNetworkPullAction) Schema(ctx context.Context, req action.SchemaRequest, resp *action.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		Description: "Perform pull action on openstack network",
@@ -52,10 +57,6 @@ func (a *OpenstackNetworkPullAction) Configure(ctx context.Context, req action.C
 	}
 
 	a.client = NewClient(clientRaw)
-}
-
-type OpenstackNetworkPullModel struct {
-	Uuid types.String `tfsdk:"uuid"`
 }
 
 func (a *OpenstackNetworkPullAction) Invoke(ctx context.Context, req action.InvokeRequest, resp *action.InvokeResponse) {

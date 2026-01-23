@@ -1,12 +1,7 @@
 package server_group
 
-// Shared Structs
-
-// Resource Structs
-
 // OpenstackServerGroup Structs
 
-// Create Request
 type OpenstackServerGroupCreateRequest struct {
 	Description *string `json:"description,omitempty" tfsdk:"description"`
 	Name        *string `json:"name" tfsdk:"name"`
@@ -14,16 +9,12 @@ type OpenstackServerGroupCreateRequest struct {
 	Tenant      *string `json:"tenant" tfsdk:"tenant"`
 }
 
-// Update Request
 type OpenstackServerGroupUpdateRequest struct {
 	Description *string `json:"description,omitempty" tfsdk:"description"`
 	Name        *string `json:"name,omitempty" tfsdk:"name"`
 	Policy      *string `json:"policy,omitempty" tfsdk:"policy"`
 }
 
-// Update Actions Structs
-
-// Response Struct
 type OpenstackServerGroupResponse struct {
 	UUID *string `json:"uuid"`
 

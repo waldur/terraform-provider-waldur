@@ -14,6 +14,10 @@ import (
 var _ action.Action = &OpenstackInstanceStopAction{}
 var _ action.ActionWithConfigure = &OpenstackInstanceStopAction{}
 
+type OpenstackInstanceStopModel struct {
+	Uuid types.String `tfsdk:"uuid"`
+}
+
 type OpenstackInstanceStopAction struct {
 	client *Client
 }
@@ -25,6 +29,7 @@ func NewOpenstackInstanceStopAction() action.Action {
 func (a *OpenstackInstanceStopAction) Metadata(ctx context.Context, req action.MetadataRequest, resp *action.MetadataResponse) {
 	resp.TypeName = req.ProviderTypeName + "_openstack_instance_stop"
 }
+
 func (a *OpenstackInstanceStopAction) Schema(ctx context.Context, req action.SchemaRequest, resp *action.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		Description: "Perform stop action on openstack instance",
@@ -52,10 +57,6 @@ func (a *OpenstackInstanceStopAction) Configure(ctx context.Context, req action.
 	}
 
 	a.client = NewClient(clientRaw)
-}
-
-type OpenstackInstanceStopModel struct {
-	Uuid types.String `tfsdk:"uuid"`
 }
 
 func (a *OpenstackInstanceStopAction) Invoke(ctx context.Context, req action.InvokeRequest, resp *action.InvokeResponse) {

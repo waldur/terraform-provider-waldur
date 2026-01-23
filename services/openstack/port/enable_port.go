@@ -14,6 +14,10 @@ import (
 var _ action.Action = &OpenstackPortEnablePortAction{}
 var _ action.ActionWithConfigure = &OpenstackPortEnablePortAction{}
 
+type OpenstackPortEnablePortModel struct {
+	Uuid types.String `tfsdk:"uuid"`
+}
+
 type OpenstackPortEnablePortAction struct {
 	client *Client
 }
@@ -25,6 +29,7 @@ func NewOpenstackPortEnablePortAction() action.Action {
 func (a *OpenstackPortEnablePortAction) Metadata(ctx context.Context, req action.MetadataRequest, resp *action.MetadataResponse) {
 	resp.TypeName = req.ProviderTypeName + "_openstack_port_enable_port"
 }
+
 func (a *OpenstackPortEnablePortAction) Schema(ctx context.Context, req action.SchemaRequest, resp *action.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		Description: "Perform enable_port action on openstack port",
@@ -52,10 +57,6 @@ func (a *OpenstackPortEnablePortAction) Configure(ctx context.Context, req actio
 	}
 
 	a.client = NewClient(clientRaw)
-}
-
-type OpenstackPortEnablePortModel struct {
-	Uuid types.String `tfsdk:"uuid"`
 }
 
 func (a *OpenstackPortEnablePortAction) Invoke(ctx context.Context, req action.InvokeRequest, resp *action.InvokeResponse) {
