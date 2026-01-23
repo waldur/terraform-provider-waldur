@@ -346,12 +346,15 @@ func (r *OpenstackServerGroupResource) mapResponseToModel(ctx context.Context, a
 	model.DisplayName = types.StringPointerValue(apiResp.DisplayName)
 	model.ErrorMessage = types.StringPointerValue(apiResp.ErrorMessage)
 	model.ErrorTraceback = types.StringPointerValue(apiResp.ErrorTraceback)
-	listValInstances, listDiagsInstances := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
-		"backend_id": types.StringType,
-		"name":       types.StringType,
-	}}, apiResp.Instances)
-	diags.Append(listDiagsInstances...)
-	model.Instances = listValInstances
+
+	{
+		listValInstances, listDiagsInstances := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+			"backend_id": types.StringType,
+			"name":       types.StringType,
+		}}, apiResp.Instances)
+		diags.Append(listDiagsInstances...)
+		model.Instances = listValInstances
+	}
 	model.Modified = types.StringPointerValue(apiResp.Modified)
 	model.Name = types.StringPointerValue(apiResp.Name)
 	model.Policy = types.StringPointerValue(apiResp.Policy)

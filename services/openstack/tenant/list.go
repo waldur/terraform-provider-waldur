@@ -270,13 +270,16 @@ func (l *OpenstackTenantList) List(ctx context.Context, req list.ListRequest, st
 			model.Project = types.StringPointerValue(apiResp.Project)
 			model.ProjectName = types.StringPointerValue(apiResp.ProjectName)
 			model.ProjectUuid = types.StringPointerValue(apiResp.ProjectUuid)
-			listValQuotas, listDiagsQuotas := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
-				"limit": types.Int64Type,
-				"name":  types.StringType,
-				"usage": types.Int64Type,
-			}}, apiResp.Quotas)
-			diags.Append(listDiagsQuotas...)
-			model.Quotas = listValQuotas
+
+			{
+				listValQuotas, listDiagsQuotas := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+					"limit": types.Int64Type,
+					"name":  types.StringType,
+					"usage": types.Int64Type,
+				}}, apiResp.Quotas)
+				diags.Append(listDiagsQuotas...)
+				model.Quotas = listValQuotas
+			}
 			model.ResourceType = types.StringPointerValue(apiResp.ResourceType)
 			model.ServiceName = types.StringPointerValue(apiResp.ServiceName)
 			model.ServiceSettings = types.StringPointerValue(apiResp.ServiceSettings)

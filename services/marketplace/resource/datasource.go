@@ -763,12 +763,15 @@ func (d *MarketplaceResourceDataSource) mapResponseToModel(ctx context.Context, 
 	model.EffectiveId = types.StringPointerValue(apiResp.EffectiveId)
 	model.EndDate = types.StringPointerValue(apiResp.EndDate)
 	model.EndDateRequestedBy = types.StringPointerValue(apiResp.EndDateRequestedBy)
-	listValEndpoints, listDiagsEndpoints := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
-		"name": types.StringType,
-		"url":  types.StringType,
-	}}, apiResp.Endpoints)
-	diags.Append(listDiagsEndpoints...)
-	model.Endpoints = listValEndpoints
+
+	{
+		listValEndpoints, listDiagsEndpoints := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+			"name": types.StringType,
+			"url":  types.StringType,
+		}}, apiResp.Endpoints)
+		diags.Append(listDiagsEndpoints...)
+		model.Endpoints = listValEndpoints
+	}
 	model.ErrorMessage = types.StringPointerValue(apiResp.ErrorMessage)
 	model.ErrorTraceback = types.StringPointerValue(apiResp.ErrorTraceback)
 	model.LastSync = types.StringPointerValue(apiResp.LastSync)
@@ -776,30 +779,33 @@ func (d *MarketplaceResourceDataSource) mapResponseToModel(ctx context.Context, 
 	model.Name = types.StringPointerValue(apiResp.Name)
 	model.Offering = types.StringPointerValue(apiResp.Offering)
 	model.OfferingBillable = types.BoolPointerValue(apiResp.OfferingBillable)
-	listValOfferingComponents, listDiagsOfferingComponents := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
-		"article_code":         types.StringType,
-		"billing_type":         types.StringType,
-		"default_limit":        types.Int64Type,
-		"description":          types.StringType,
-		"factor":               types.Int64Type,
-		"is_boolean":           types.BoolType,
-		"is_builtin":           types.BoolType,
-		"is_prepaid":           types.BoolType,
-		"limit_amount":         types.Int64Type,
-		"limit_period":         types.StringType,
-		"max_available_limit":  types.Int64Type,
-		"max_prepaid_duration": types.Int64Type,
-		"max_value":            types.Int64Type,
-		"measured_unit":        types.StringType,
-		"min_prepaid_duration": types.Int64Type,
-		"min_value":            types.Int64Type,
-		"name":                 types.StringType,
-		"overage_component":    types.StringType,
-		"type":                 types.StringType,
-		"unit_factor":          types.Int64Type,
-	}}, apiResp.OfferingComponents)
-	diags.Append(listDiagsOfferingComponents...)
-	model.OfferingComponents = listValOfferingComponents
+
+	{
+		listValOfferingComponents, listDiagsOfferingComponents := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+			"article_code":         types.StringType,
+			"billing_type":         types.StringType,
+			"default_limit":        types.Int64Type,
+			"description":          types.StringType,
+			"factor":               types.Int64Type,
+			"is_boolean":           types.BoolType,
+			"is_builtin":           types.BoolType,
+			"is_prepaid":           types.BoolType,
+			"limit_amount":         types.Int64Type,
+			"limit_period":         types.StringType,
+			"max_available_limit":  types.Int64Type,
+			"max_prepaid_duration": types.Int64Type,
+			"max_value":            types.Int64Type,
+			"measured_unit":        types.StringType,
+			"min_prepaid_duration": types.Int64Type,
+			"min_value":            types.Int64Type,
+			"name":                 types.StringType,
+			"overage_component":    types.StringType,
+			"type":                 types.StringType,
+			"unit_factor":          types.Int64Type,
+		}}, apiResp.OfferingComponents)
+		diags.Append(listDiagsOfferingComponents...)
+		model.OfferingComponents = listValOfferingComponents
+	}
 	model.OfferingDescription = types.StringPointerValue(apiResp.OfferingDescription)
 	model.OfferingImage = types.StringPointerValue(apiResp.OfferingImage)
 	model.OfferingName = types.StringPointerValue(apiResp.OfferingName)
@@ -827,12 +833,15 @@ func (d *MarketplaceResourceDataSource) mapResponseToModel(ctx context.Context, 
 	model.ProviderName = types.StringPointerValue(apiResp.ProviderName)
 	model.ProviderSlug = types.StringPointerValue(apiResp.ProviderSlug)
 	model.ProviderUuid = types.StringPointerValue(apiResp.ProviderUuid)
-	listValReport, listDiagsReport := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
-		"body":   types.StringType,
-		"header": types.StringType,
-	}}, apiResp.Report)
-	diags.Append(listDiagsReport...)
-	model.Report = listValReport
+
+	{
+		listValReport, listDiagsReport := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+			"body":   types.StringType,
+			"header": types.StringType,
+		}}, apiResp.Report)
+		diags.Append(listDiagsReport...)
+		model.Report = listValReport
+	}
 	model.ResourceType = types.StringPointerValue(apiResp.ResourceType)
 	model.ResourceUuid = types.StringPointerValue(apiResp.ResourceUuid)
 	model.RestrictMemberAccess = types.BoolPointerValue(apiResp.RestrictMemberAccess)

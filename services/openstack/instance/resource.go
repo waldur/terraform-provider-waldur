@@ -1156,6 +1156,7 @@ func (r *OpenstackInstanceResource) Create(ctx context.Context, req resource.Cre
 	}
 
 	// Phase 1: Payload Construction
+	// We map the Terraform schema fields to the 'attributes' map required by the Marketplace Order API.
 	attributes := OpenstackInstanceCreateAttributes{
 		AvailabilityZone:                 data.AvailabilityZone.ValueStringPointer(),
 		ConnectDirectlyToExternalNetwork: data.ConnectDirectlyToExternalNetwork.ValueBoolPointer(),
@@ -1175,6 +1176,7 @@ func (r *OpenstackInstanceResource) Create(ctx context.Context, req resource.Cre
 	common.PopulateSliceField(ctx, data.Ports, &attributes.Ports)
 	common.PopulateSliceField(ctx, data.SecurityGroups, &attributes.SecurityGroups)
 
+	// Construct the Create Order Request
 	payload := OpenstackInstanceCreateRequest{
 		Project:    data.Project.ValueStringPointer(),
 		Offering:   data.Offering.ValueStringPointer(),
@@ -1189,18 +1191,21 @@ func (r *OpenstackInstanceResource) Create(ctx context.Context, req resource.Cre
 	}
 
 	// Phase 3: Poll for Completion
+	// We use the 'time' package to handle the timeout specified in the TF config or default to 45m.
 	timeout, diags := data.Timeouts.Create(ctx, 45*time.Minute)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
 
+	// Wait for the order to reach a terminal state (done/erred)
 	finalOrder, err := common.WaitForOrder(ctx, r.client.Client, *orderRes.Uuid, timeout)
 	if err != nil {
 		resp.Diagnostics.AddError("Order Failed", err.Error())
 		return
 	}
 
+	// Resolve the created Resource UUID from the completed order
 	if uuid := common.ResolveResourceUUID(finalOrder); uuid != "" {
 		data.UUID = types.StringValue(uuid)
 	} else {
@@ -1208,7 +1213,7 @@ func (r *OpenstackInstanceResource) Create(ctx context.Context, req resource.Cre
 		return
 	}
 
-	// Fetch final resource state
+	// Fetch final resource state to ensure Terraform state matches reality
 	apiResp, err := r.client.GetOpenstackInstance(ctx, data.UUID.ValueString())
 	if err != nil {
 		resp.Diagnostics.AddError("Failed to Read Resource", err.Error())
@@ -1261,6 +1266,7 @@ func (r *OpenstackInstanceResource) Update(ctx context.Context, req resource.Upd
 	}
 
 	// Phase 1: Standard PATCH (Simple fields)
+	// We compare the plan (data) with the state (state) to determine which fields changed.
 	var patchPayload OpenstackInstanceUpdateRequest
 	if !data.Description.IsNull() && !data.Description.Equal(state.Description) {
 		patchPayload.Description = data.Description.ValueStringPointer()
@@ -1270,6 +1276,7 @@ func (r *OpenstackInstanceResource) Update(ctx context.Context, req resource.Upd
 	}
 
 	{
+		// Execute the PATCH request
 		_, err := r.client.UpdateOpenstackInstance(ctx, data.UUID.ValueString(), &patchPayload)
 		if err != nil {
 			resp.Diagnostics.AddError("Update Failed", err.Error())
@@ -1278,38 +1285,42 @@ func (r *OpenstackInstanceResource) Update(ctx context.Context, req resource.Upd
 	}
 
 	// Phase 2: RPC Actions
+	// These actions are triggered when their corresponding specific fields change.
 	if !data.FloatingIps.Equal(state.FloatingIps) {
-		// Convert Terraform value to API payload
+		// Convert Terraform value to API payload for the specific action
 		var req OpenstackInstanceUpdateFloatingIpsActionRequest
 		common.PopulateSliceField(ctx, data.FloatingIps, &req.FloatingIps)
 
+		// Execute the Action
 		if err := r.client.OpenstackInstanceUpdateFloatingIps(ctx, data.UUID.ValueString(), &req); err != nil {
 			resp.Diagnostics.AddError("RPC Action Failed: update_floating_ips", err.Error())
 			return
 		}
 	}
 	if !data.Ports.Equal(state.Ports) {
-		// Convert Terraform value to API payload
+		// Convert Terraform value to API payload for the specific action
 		var req OpenstackInstanceUpdatePortsActionRequest
 		common.PopulateSliceField(ctx, data.Ports, &req.Ports)
 
+		// Execute the Action
 		if err := r.client.OpenstackInstanceUpdatePorts(ctx, data.UUID.ValueString(), &req); err != nil {
 			resp.Diagnostics.AddError("RPC Action Failed: update_ports", err.Error())
 			return
 		}
 	}
 	if !data.SecurityGroups.Equal(state.SecurityGroups) {
-		// Convert Terraform value to API payload
+		// Convert Terraform value to API payload for the specific action
 		var req OpenstackInstanceUpdateSecurityGroupsActionRequest
 		common.PopulateSliceField(ctx, data.SecurityGroups, &req.SecurityGroups)
 
+		// Execute the Action
 		if err := r.client.OpenstackInstanceUpdateSecurityGroups(ctx, data.UUID.ValueString(), &req); err != nil {
 			resp.Diagnostics.AddError("RPC Action Failed: update_security_groups", err.Error())
 			return
 		}
 	}
 
-	// Fetch updated state
+	// Fetch updated state after all changes
 	apiResp, err := r.client.GetOpenstackInstance(ctx, data.UUID.ValueString())
 	if err != nil {
 		if client.IsNotFoundError(err) {
@@ -1340,6 +1351,7 @@ func (r *OpenstackInstanceResource) Delete(ctx context.Context, req resource.Del
 		payload["release_floating_ips"] = data.ReleaseFloatingIps.ValueBool()
 	}
 
+	// Submit termination order
 	orderUUID, err := r.client.TerminateOpenstackInstance(ctx, data.UUID.ValueString(), payload)
 	if err != nil {
 		resp.Diagnostics.AddError("Termination Failed", err.Error())
@@ -1392,23 +1404,26 @@ func (r *OpenstackInstanceResource) mapResponseToModel(ctx context.Context, apiR
 	model.ExternalIps, _ = types.ListValueFrom(ctx, types.StringType, apiResp.ExternalIps)
 	model.FlavorDisk = types.Int64PointerValue(apiResp.FlavorDisk)
 	model.FlavorName = types.StringPointerValue(apiResp.FlavorName)
-	listValFloatingIps, listDiagsFloatingIps := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
-		"ip_address": types.StringType,
-		"subnet":     types.StringType,
-		"url":        types.StringType,
-		"address":    types.StringType,
-		"port_fixed_ips": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+
+	{
+		listValFloatingIps, listDiagsFloatingIps := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
 			"ip_address": types.StringType,
-			"subnet_id":  types.StringType,
-		}}},
-		"port_mac_address":   types.StringType,
-		"subnet_cidr":        types.StringType,
-		"subnet_description": types.StringType,
-		"subnet_name":        types.StringType,
-		"subnet_uuid":        types.StringType,
-	}}, apiResp.FloatingIps)
-	diags.Append(listDiagsFloatingIps...)
-	model.FloatingIps = listValFloatingIps
+			"subnet":     types.StringType,
+			"url":        types.StringType,
+			"address":    types.StringType,
+			"port_fixed_ips": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+				"ip_address": types.StringType,
+				"subnet_id":  types.StringType,
+			}}},
+			"port_mac_address":   types.StringType,
+			"subnet_cidr":        types.StringType,
+			"subnet_description": types.StringType,
+			"subnet_name":        types.StringType,
+			"subnet_uuid":        types.StringType,
+		}}, apiResp.FloatingIps)
+		diags.Append(listDiagsFloatingIps...)
+		model.FloatingIps = listValFloatingIps
+	}
 	model.HypervisorHostname = types.StringPointerValue(apiResp.HypervisorHostname)
 	model.ImageName = types.StringPointerValue(apiResp.ImageName)
 	model.InternalIps, _ = types.ListValueFrom(ctx, types.StringType, apiResp.InternalIps)
@@ -1429,46 +1444,93 @@ func (r *OpenstackInstanceResource) mapResponseToModel(ctx context.Context, apiR
 	model.MinRam = types.Int64PointerValue(apiResp.MinRam)
 	model.Modified = types.StringPointerValue(apiResp.Modified)
 	model.Name = types.StringPointerValue(apiResp.Name)
-	listValPorts, listDiagsPorts := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
-		"fixed_ips": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
-			"ip_address": types.StringType,
-			"subnet_id":  types.StringType,
-		}}},
-		"port":   types.StringType,
-		"subnet": types.StringType,
-		"allowed_address_pairs": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
-			"mac_address": types.StringType,
-		}}},
-		"device_id":    types.StringType,
-		"device_owner": types.StringType,
-		"mac_address":  types.StringType,
-		"security_groups": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
-			"access_url":                 types.StringType,
-			"backend_id":                 types.StringType,
-			"created":                    types.StringType,
-			"customer":                   types.StringType,
-			"customer_abbreviation":      types.StringType,
-			"customer_name":              types.StringType,
-			"customer_native_name":       types.StringType,
-			"customer_uuid":              types.StringType,
-			"description":                types.StringType,
-			"error_message":              types.StringType,
-			"error_traceback":            types.StringType,
-			"is_limit_based":             types.BoolType,
-			"is_usage_based":             types.BoolType,
-			"marketplace_category_name":  types.StringType,
-			"marketplace_category_uuid":  types.StringType,
-			"marketplace_offering_name":  types.StringType,
-			"marketplace_offering_uuid":  types.StringType,
-			"marketplace_plan_uuid":      types.StringType,
-			"marketplace_resource_state": types.StringType,
-			"marketplace_resource_uuid":  types.StringType,
-			"modified":                   types.StringType,
-			"name":                       types.StringType,
-			"project":                    types.StringType,
-			"project_name":               types.StringType,
-			"project_uuid":               types.StringType,
-			"resource_type":              types.StringType,
+
+	{
+		listValPorts, listDiagsPorts := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+			"fixed_ips": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+				"ip_address": types.StringType,
+				"subnet_id":  types.StringType,
+			}}},
+			"port":   types.StringType,
+			"subnet": types.StringType,
+			"allowed_address_pairs": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+				"mac_address": types.StringType,
+			}}},
+			"device_id":    types.StringType,
+			"device_owner": types.StringType,
+			"mac_address":  types.StringType,
+			"security_groups": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+				"access_url":                 types.StringType,
+				"backend_id":                 types.StringType,
+				"created":                    types.StringType,
+				"customer":                   types.StringType,
+				"customer_abbreviation":      types.StringType,
+				"customer_name":              types.StringType,
+				"customer_native_name":       types.StringType,
+				"customer_uuid":              types.StringType,
+				"description":                types.StringType,
+				"error_message":              types.StringType,
+				"error_traceback":            types.StringType,
+				"is_limit_based":             types.BoolType,
+				"is_usage_based":             types.BoolType,
+				"marketplace_category_name":  types.StringType,
+				"marketplace_category_uuid":  types.StringType,
+				"marketplace_offering_name":  types.StringType,
+				"marketplace_offering_uuid":  types.StringType,
+				"marketplace_plan_uuid":      types.StringType,
+				"marketplace_resource_state": types.StringType,
+				"marketplace_resource_uuid":  types.StringType,
+				"modified":                   types.StringType,
+				"name":                       types.StringType,
+				"project":                    types.StringType,
+				"project_name":               types.StringType,
+				"project_uuid":               types.StringType,
+				"resource_type":              types.StringType,
+				"rules": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+					"cidr":              types.StringType,
+					"description":       types.StringType,
+					"direction":         types.StringType,
+					"ethertype":         types.StringType,
+					"from_port":         types.Int64Type,
+					"id":                types.Int64Type,
+					"protocol":          types.StringType,
+					"remote_group":      types.StringType,
+					"remote_group_name": types.StringType,
+					"remote_group_uuid": types.StringType,
+					"to_port":           types.Int64Type,
+				}}},
+				"service_name":                   types.StringType,
+				"service_settings":               types.StringType,
+				"service_settings_error_message": types.StringType,
+				"service_settings_state":         types.StringType,
+				"service_settings_uuid":          types.StringType,
+				"state":                          types.StringType,
+				"tenant":                         types.StringType,
+				"tenant_name":                    types.StringType,
+				"tenant_uuid":                    types.StringType,
+				"url":                            types.StringType,
+			}}},
+			"subnet_cidr":        types.StringType,
+			"subnet_description": types.StringType,
+			"subnet_name":        types.StringType,
+			"subnet_uuid":        types.StringType,
+			"url":                types.StringType,
+		}}, apiResp.Ports)
+		diags.Append(listDiagsPorts...)
+		model.Ports = listValPorts
+	}
+	model.Project = types.StringPointerValue(apiResp.Project)
+	model.ProjectName = types.StringPointerValue(apiResp.ProjectName)
+	model.ProjectUuid = types.StringPointerValue(apiResp.ProjectUuid)
+	model.Ram = types.Int64PointerValue(apiResp.Ram)
+	model.ResourceType = types.StringPointerValue(apiResp.ResourceType)
+	model.RuntimeState = types.StringPointerValue(apiResp.RuntimeState)
+
+	{
+		listValSecurityGroups, listDiagsSecurityGroups := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+			"url":         types.StringType,
+			"description": types.StringType,
+			"name":        types.StringType,
 			"rules": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
 				"cidr":              types.StringType,
 				"description":       types.StringType,
@@ -1477,56 +1539,15 @@ func (r *OpenstackInstanceResource) mapResponseToModel(ctx context.Context, apiR
 				"from_port":         types.Int64Type,
 				"id":                types.Int64Type,
 				"protocol":          types.StringType,
-				"remote_group":      types.StringType,
 				"remote_group_name": types.StringType,
 				"remote_group_uuid": types.StringType,
 				"to_port":           types.Int64Type,
 			}}},
-			"service_name":                   types.StringType,
-			"service_settings":               types.StringType,
-			"service_settings_error_message": types.StringType,
-			"service_settings_state":         types.StringType,
-			"service_settings_uuid":          types.StringType,
-			"state":                          types.StringType,
-			"tenant":                         types.StringType,
-			"tenant_name":                    types.StringType,
-			"tenant_uuid":                    types.StringType,
-			"url":                            types.StringType,
-		}}},
-		"subnet_cidr":        types.StringType,
-		"subnet_description": types.StringType,
-		"subnet_name":        types.StringType,
-		"subnet_uuid":        types.StringType,
-		"url":                types.StringType,
-	}}, apiResp.Ports)
-	diags.Append(listDiagsPorts...)
-	model.Ports = listValPorts
-	model.Project = types.StringPointerValue(apiResp.Project)
-	model.ProjectName = types.StringPointerValue(apiResp.ProjectName)
-	model.ProjectUuid = types.StringPointerValue(apiResp.ProjectUuid)
-	model.Ram = types.Int64PointerValue(apiResp.Ram)
-	model.ResourceType = types.StringPointerValue(apiResp.ResourceType)
-	model.RuntimeState = types.StringPointerValue(apiResp.RuntimeState)
-	listValSecurityGroups, listDiagsSecurityGroups := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
-		"url":         types.StringType,
-		"description": types.StringType,
-		"name":        types.StringType,
-		"rules": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
-			"cidr":              types.StringType,
-			"description":       types.StringType,
-			"direction":         types.StringType,
-			"ethertype":         types.StringType,
-			"from_port":         types.Int64Type,
-			"id":                types.Int64Type,
-			"protocol":          types.StringType,
-			"remote_group_name": types.StringType,
-			"remote_group_uuid": types.StringType,
-			"to_port":           types.Int64Type,
-		}}},
-		"state": types.StringType,
-	}}, apiResp.SecurityGroups)
-	diags.Append(listDiagsSecurityGroups...)
-	model.SecurityGroups = listValSecurityGroups
+			"state": types.StringType,
+		}}, apiResp.SecurityGroups)
+		diags.Append(listDiagsSecurityGroups...)
+		model.SecurityGroups = listValSecurityGroups
+	}
 	if apiResp.ServerGroup != nil {
 		objValServerGroup, objDiagsServerGroup := types.ObjectValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
 			"name":   types.StringType,
@@ -1555,21 +1576,24 @@ func (r *OpenstackInstanceResource) mapResponseToModel(ctx context.Context, apiR
 	model.TenantUuid = types.StringPointerValue(apiResp.TenantUuid)
 	model.Url = types.StringPointerValue(apiResp.Url)
 	model.UserData = types.StringPointerValue(apiResp.UserData)
-	listValVolumes, listDiagsVolumes := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
-		"bootable":                  types.BoolType,
-		"device":                    types.StringType,
-		"image_name":                types.StringType,
-		"marketplace_resource_uuid": types.StringType,
-		"name":                      types.StringType,
-		"resource_type":             types.StringType,
-		"size":                      types.Int64Type,
-		"state":                     types.StringType,
-		"type":                      types.StringType,
-		"type_name":                 types.StringType,
-		"url":                       types.StringType,
-	}}, apiResp.Volumes)
-	diags.Append(listDiagsVolumes...)
-	model.Volumes = listValVolumes
+
+	{
+		listValVolumes, listDiagsVolumes := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+			"bootable":                  types.BoolType,
+			"device":                    types.StringType,
+			"image_name":                types.StringType,
+			"marketplace_resource_uuid": types.StringType,
+			"name":                      types.StringType,
+			"resource_type":             types.StringType,
+			"size":                      types.Int64Type,
+			"state":                     types.StringType,
+			"type":                      types.StringType,
+			"type_name":                 types.StringType,
+			"url":                       types.StringType,
+		}}, apiResp.Volumes)
+		diags.Append(listDiagsVolumes...)
+		model.Volumes = listValVolumes
+	}
 
 	return diags
 }

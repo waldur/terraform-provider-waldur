@@ -18,6 +18,7 @@ func NewClient(c *client.Client) *Client {
 	return &Client{Client: c}
 }
 
+// CreateStructureProject creates a new resource.
 func (c *Client) CreateStructureProject(ctx context.Context, req *StructureProjectCreateRequest) (*StructureProjectResponse, error) {
 	var apiResp StructureProjectResponse
 	path := "/api/projects/"
@@ -29,15 +30,17 @@ func (c *Client) CreateStructureProject(ctx context.Context, req *StructureProje
 	return &apiResp, nil
 }
 
+// GetStructureProject retrieves a resource by its UUID.
 func (c *Client) GetStructureProject(ctx context.Context, id string) (*StructureProjectResponse, error) {
 	var apiResp StructureProjectResponse
-	err := c.Client.GetByUUID(ctx, "/api/projects/{uuid}/", id, &apiResp)
+	err := c.Client.Get(ctx, "/api/projects/{uuid}/", id, &apiResp)
 	if err != nil {
 		return nil, err
 	}
 	return &apiResp, nil
 }
 
+// UpdateStructureProject updates an existing resource.
 func (c *Client) UpdateStructureProject(ctx context.Context, id string, req *StructureProjectUpdateRequest) (*StructureProjectResponse, error) {
 	var apiResp StructureProjectResponse
 	err := c.Client.Update(ctx, "/api/projects/{uuid}/", id, req, &apiResp)
@@ -46,13 +49,16 @@ func (c *Client) UpdateStructureProject(ctx context.Context, id string, req *Str
 	}
 	return &apiResp, nil
 }
+
+// DeleteStructureProject deletes a resource.
 func (c *Client) DeleteStructureProject(ctx context.Context, id string) error {
-	return c.Client.DeleteByUUID(ctx, "/api/projects/{uuid}/", id)
+	return c.Client.Delete(ctx, "/api/projects/{uuid}/", id)
 }
 
+// ListStructureProject retrieves a list of resources with optional filtering.
 func (c *Client) ListStructureProject(ctx context.Context, filter map[string]string) ([]StructureProjectResponse, error) {
 	var listResult []StructureProjectResponse
-	err := c.Client.ListWithFilter(ctx, "/api/projects/", filter, &listResult)
+	err := c.Client.List(ctx, "/api/projects/", filter, &listResult)
 	if err != nil {
 		return nil, err
 	}

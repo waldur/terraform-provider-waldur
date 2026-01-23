@@ -360,7 +360,7 @@ func (r *OpenstackVolumeAttachmentResource) Create(ctx context.Context, req reso
 		return
 	}
 
-	// For Link resources, ID is composite of Source and Target UUIDs
+	// For Link resources, ID is composite of Source and Target UUIDs because the API might not return a distinct ID for the link itself.
 	data.UUID = types.StringValue(sourceUUID + "/" + data.Instance.ValueString())
 
 	resp.Diagnostics.Append(r.mapResponseToModel(ctx, *apiResp, &data)...)
@@ -390,7 +390,7 @@ func (r *OpenstackVolumeAttachmentResource) Read(ctx context.Context, req resour
 	targetUUID := parts[1]
 
 	var result map[string]interface{}
-	err := r.client.Client.GetByUUID(ctx, "/api/openstack-volumes/{uuid}/", sourceUUID, &result)
+	err := r.client.Client.Get(ctx, "/api/openstack-volumes/{uuid}/", sourceUUID, &result)
 	if err != nil {
 		if client.IsNotFoundError(err) {
 			resp.State.RemoveResource(ctx)
@@ -437,10 +437,7 @@ func (r *OpenstackVolumeAttachmentResource) Read(ctx context.Context, req resour
 		return
 	}
 
-	// Should probably create a mock result map containing source and target UUIDs
-	// to satisfy mapResponseFields if needed, but for now we just keep result which is Source
-	// We need to ensure we don't overwrite data.UUID with Source UUID
-	// So we delete "uuid" from result before mapping
+	// We delete "uuid" from result before mapping to avoid overwriting the composite ID in data.UUID
 	delete(result, "uuid")
 
 	// Save updated data into Terraform state

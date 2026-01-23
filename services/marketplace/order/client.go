@@ -18,6 +18,7 @@ func NewClient(c *client.Client) *Client {
 	return &Client{Client: c}
 }
 
+// CreateMarketplaceOrder creates a new resource.
 func (c *Client) CreateMarketplaceOrder(ctx context.Context, req *MarketplaceOrderCreateRequest) (*MarketplaceOrderResponse, error) {
 	var apiResp MarketplaceOrderResponse
 	path := "/api/marketplace-orders/"
@@ -29,22 +30,25 @@ func (c *Client) CreateMarketplaceOrder(ctx context.Context, req *MarketplaceOrd
 	return &apiResp, nil
 }
 
+// GetMarketplaceOrder retrieves a resource by its UUID.
 func (c *Client) GetMarketplaceOrder(ctx context.Context, id string) (*MarketplaceOrderResponse, error) {
 	var apiResp MarketplaceOrderResponse
-	err := c.Client.GetByUUID(ctx, "/api/marketplace-orders/{uuid}/", id, &apiResp)
+	err := c.Client.Get(ctx, "/api/marketplace-orders/{uuid}/", id, &apiResp)
 	if err != nil {
 		return nil, err
 	}
 	return &apiResp, nil
 }
 
+// DeleteMarketplaceOrder deletes a resource.
 func (c *Client) DeleteMarketplaceOrder(ctx context.Context, id string) error {
-	return c.Client.DeleteByUUID(ctx, "/api/marketplace-orders/{uuid}/", id)
+	return c.Client.Delete(ctx, "/api/marketplace-orders/{uuid}/", id)
 }
 
+// ListMarketplaceOrder retrieves a list of resources with optional filtering.
 func (c *Client) ListMarketplaceOrder(ctx context.Context, filter map[string]string) ([]MarketplaceOrderResponse, error) {
 	var listResult []MarketplaceOrderResponse
-	err := c.Client.ListWithFilter(ctx, "/api/marketplace-orders/", filter, &listResult)
+	err := c.Client.List(ctx, "/api/marketplace-orders/", filter, &listResult)
 	if err != nil {
 		return nil, err
 	}

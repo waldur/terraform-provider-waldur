@@ -32,7 +32,6 @@ type AdminAnnouncement struct {
 	MaintenanceUuid                 *string                                         `json:"maintenance_uuid,omitempty" tfsdk:"maintenance_uuid"`
 	Type                            *string                                         `json:"type,omitempty" tfsdk:"type"`
 }
-
 type AdminAnnouncementMaintenanceAffectedOfferings struct {
 	ImpactDescription  *string `json:"impact_description,omitempty" tfsdk:"impact_description"`
 	ImpactLevel        *string `json:"impact_level,omitempty" tfsdk:"impact_level"`
@@ -5121,13 +5120,11 @@ type NestedSoftwareCatalog struct {
 	PackageCount *int64                          `json:"package_count,omitempty" tfsdk:"package_count"`
 	Partition    *NestedSoftwareCatalogPartition `json:"partition,omitempty" tfsdk:"partition"`
 }
-
 type NestedSoftwareCatalogCatalog struct {
 	Description *string `json:"description,omitempty" tfsdk:"description"`
 	Name        *string `json:"name,omitempty" tfsdk:"name"`
 	Version     *string `json:"version,omitempty" tfsdk:"version"`
 }
-
 type NestedSoftwareCatalogPartition struct {
 	PartitionName *string `json:"partition_name,omitempty" tfsdk:"partition_name"`
 	PriorityTier  *int64  `json:"priority_tier,omitempty" tfsdk:"priority_tier"`

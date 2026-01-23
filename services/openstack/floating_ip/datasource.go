@@ -410,12 +410,15 @@ func (d *OpenstackFloatingIpDataSource) mapResponseToModel(ctx context.Context, 
 	model.Modified = types.StringPointerValue(apiResp.Modified)
 	model.Name = types.StringPointerValue(apiResp.Name)
 	model.Port = types.StringPointerValue(apiResp.Port)
-	listValPortFixedIps, listDiagsPortFixedIps := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
-		"ip_address": types.StringType,
-		"subnet_id":  types.StringType,
-	}}, apiResp.PortFixedIps)
-	diags.Append(listDiagsPortFixedIps...)
-	model.PortFixedIps = listValPortFixedIps
+
+	{
+		listValPortFixedIps, listDiagsPortFixedIps := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+			"ip_address": types.StringType,
+			"subnet_id":  types.StringType,
+		}}, apiResp.PortFixedIps)
+		diags.Append(listDiagsPortFixedIps...)
+		model.PortFixedIps = listValPortFixedIps
+	}
 	model.ResourceType = types.StringPointerValue(apiResp.ResourceType)
 	model.RuntimeState = types.StringPointerValue(apiResp.RuntimeState)
 	model.State = types.StringPointerValue(apiResp.State)

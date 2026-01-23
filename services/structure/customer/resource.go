@@ -651,32 +651,38 @@ func (r *StructureCustomerResource) mapResponseToModel(ctx context.Context, apiR
 	model.Name = types.StringPointerValue(apiResp.Name)
 	model.NativeName = types.StringPointerValue(apiResp.NativeName)
 	model.NotificationEmails = types.StringPointerValue(apiResp.NotificationEmails)
-	listValOrganizationGroups, listDiagsOrganizationGroups := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
-		"customers_count": types.Int64Type,
-		"name":            types.StringType,
-		"parent":          types.StringType,
-		"parent_name":     types.StringType,
-		"parent_uuid":     types.StringType,
-		"url":             types.StringType,
-	}}, apiResp.OrganizationGroups)
-	diags.Append(listDiagsOrganizationGroups...)
-	model.OrganizationGroups = listValOrganizationGroups
-	listValPaymentProfiles, listDiagsPaymentProfiles := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
-		"attributes": types.ObjectType{AttrTypes: map[string]attr.Type{
-			"agreement_number": types.StringType,
-			"contract_sum":     types.Int64Type,
-			"end_date":         types.StringType,
-		}},
-		"is_active":            types.BoolType,
-		"name":                 types.StringType,
-		"organization":         types.StringType,
-		"organization_uuid":    types.StringType,
-		"payment_type":         types.StringType,
-		"payment_type_display": types.StringType,
-		"url":                  types.StringType,
-	}}, apiResp.PaymentProfiles)
-	diags.Append(listDiagsPaymentProfiles...)
-	model.PaymentProfiles = listValPaymentProfiles
+
+	{
+		listValOrganizationGroups, listDiagsOrganizationGroups := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+			"customers_count": types.Int64Type,
+			"name":            types.StringType,
+			"parent":          types.StringType,
+			"parent_name":     types.StringType,
+			"parent_uuid":     types.StringType,
+			"url":             types.StringType,
+		}}, apiResp.OrganizationGroups)
+		diags.Append(listDiagsOrganizationGroups...)
+		model.OrganizationGroups = listValOrganizationGroups
+	}
+
+	{
+		listValPaymentProfiles, listDiagsPaymentProfiles := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+			"attributes": types.ObjectType{AttrTypes: map[string]attr.Type{
+				"agreement_number": types.StringType,
+				"contract_sum":     types.Int64Type,
+				"end_date":         types.StringType,
+			}},
+			"is_active":            types.BoolType,
+			"name":                 types.StringType,
+			"organization":         types.StringType,
+			"organization_uuid":    types.StringType,
+			"payment_type":         types.StringType,
+			"payment_type_display": types.StringType,
+			"url":                  types.StringType,
+		}}, apiResp.PaymentProfiles)
+		diags.Append(listDiagsPaymentProfiles...)
+		model.PaymentProfiles = listValPaymentProfiles
+	}
 	model.PhoneNumber = types.StringPointerValue(apiResp.PhoneNumber)
 	model.Postal = types.StringPointerValue(apiResp.Postal)
 	model.ProjectMetadataChecklist = types.StringPointerValue(apiResp.ProjectMetadataChecklist)

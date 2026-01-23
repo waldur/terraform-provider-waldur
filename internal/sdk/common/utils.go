@@ -91,7 +91,7 @@ func WaitForOrder(ctx context.Context, c *client.Client, orderUUID string, timeo
 		Target:  []string{"done"},
 		Refresh: func() (interface{}, string, error) {
 			var res OrderDetails
-			err := c.Get(ctx, fmt.Sprintf("/api/marketplace-orders/%s/", orderUUID), &res)
+			err := c.GetURL(ctx, fmt.Sprintf("/api/marketplace-orders/%s/", orderUUID), &res)
 			if err != nil {
 				return nil, "", err
 			}

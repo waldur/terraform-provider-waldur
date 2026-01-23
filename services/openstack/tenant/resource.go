@@ -511,6 +511,7 @@ func (r *OpenstackTenantResource) Create(ctx context.Context, req resource.Creat
 	}
 
 	// Phase 1: Payload Construction
+	// We map the Terraform schema fields to the 'attributes' map required by the Marketplace Order API.
 	attributes := OpenstackTenantCreateAttributes{
 		AvailabilityZone:            data.AvailabilityZone.ValueStringPointer(),
 		Description:                 data.Description.ValueStringPointer(),
@@ -522,6 +523,7 @@ func (r *OpenstackTenantResource) Create(ctx context.Context, req resource.Creat
 	}
 	common.PopulateSliceField(ctx, data.SecurityGroups, &attributes.SecurityGroups)
 
+	// Construct the Create Order Request
 	payload := OpenstackTenantCreateRequest{
 		Project:    data.Project.ValueStringPointer(),
 		Offering:   data.Offering.ValueStringPointer(),
@@ -536,18 +538,21 @@ func (r *OpenstackTenantResource) Create(ctx context.Context, req resource.Creat
 	}
 
 	// Phase 3: Poll for Completion
+	// We use the 'time' package to handle the timeout specified in the TF config or default to 45m.
 	timeout, diags := data.Timeouts.Create(ctx, 45*time.Minute)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
 
+	// Wait for the order to reach a terminal state (done/erred)
 	finalOrder, err := common.WaitForOrder(ctx, r.client.Client, *orderRes.Uuid, timeout)
 	if err != nil {
 		resp.Diagnostics.AddError("Order Failed", err.Error())
 		return
 	}
 
+	// Resolve the created Resource UUID from the completed order
 	if uuid := common.ResolveResourceUUID(finalOrder); uuid != "" {
 		data.UUID = types.StringValue(uuid)
 	} else {
@@ -555,7 +560,7 @@ func (r *OpenstackTenantResource) Create(ctx context.Context, req resource.Creat
 		return
 	}
 
-	// Fetch final resource state
+	// Fetch final resource state to ensure Terraform state matches reality
 	apiResp, err := r.client.GetOpenstackTenant(ctx, data.UUID.ValueString())
 	if err != nil {
 		resp.Diagnostics.AddError("Failed to Read Resource", err.Error())
@@ -608,6 +613,7 @@ func (r *OpenstackTenantResource) Update(ctx context.Context, req resource.Updat
 	}
 
 	// Phase 1: Standard PATCH (Simple fields)
+	// We compare the plan (data) with the state (state) to determine which fields changed.
 	var patchPayload OpenstackTenantUpdateRequest
 	if !data.AvailabilityZone.IsNull() && !data.AvailabilityZone.Equal(state.AvailabilityZone) {
 		patchPayload.AvailabilityZone = data.AvailabilityZone.ValueStringPointer()
@@ -629,6 +635,7 @@ func (r *OpenstackTenantResource) Update(ctx context.Context, req resource.Updat
 	}
 
 	{
+		// Execute the PATCH request
 		_, err := r.client.UpdateOpenstackTenant(ctx, data.UUID.ValueString(), &patchPayload)
 		if err != nil {
 			resp.Diagnostics.AddError("Update Failed", err.Error())
@@ -637,18 +644,20 @@ func (r *OpenstackTenantResource) Update(ctx context.Context, req resource.Updat
 	}
 
 	// Phase 2: RPC Actions
+	// These actions are triggered when their corresponding specific fields change.
 	if !data.SecurityGroups.Equal(state.SecurityGroups) {
-		// Convert Terraform value to API payload
+		// Convert Terraform value to API payload for the specific action
 		var req OpenstackTenantPushSecurityGroupsActionRequest
 		common.PopulateSliceField(ctx, data.SecurityGroups, &req.SecurityGroups)
 
+		// Execute the Action
 		if err := r.client.OpenstackTenantPushSecurityGroups(ctx, data.UUID.ValueString(), &req); err != nil {
 			resp.Diagnostics.AddError("RPC Action Failed: push_security_groups", err.Error())
 			return
 		}
 	}
 
-	// Fetch updated state
+	// Fetch updated state after all changes
 	apiResp, err := r.client.GetOpenstackTenant(ctx, data.UUID.ValueString())
 	if err != nil {
 		if client.IsNotFoundError(err) {
@@ -673,6 +682,7 @@ func (r *OpenstackTenantResource) Delete(ctx context.Context, req resource.Delet
 	// Order-based Delete
 	payload := map[string]interface{}{}
 
+	// Submit termination order
 	orderUUID, err := r.client.TerminateOpenstackTenant(ctx, data.UUID.ValueString(), payload)
 	if err != nil {
 		resp.Diagnostics.AddError("Termination Failed", err.Error())
@@ -733,13 +743,16 @@ func (r *OpenstackTenantResource) mapResponseToModel(ctx context.Context, apiRes
 	model.Project = types.StringPointerValue(apiResp.Project)
 	model.ProjectName = types.StringPointerValue(apiResp.ProjectName)
 	model.ProjectUuid = types.StringPointerValue(apiResp.ProjectUuid)
-	listValQuotas, listDiagsQuotas := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
-		"limit": types.Int64Type,
-		"name":  types.StringType,
-		"usage": types.Int64Type,
-	}}, apiResp.Quotas)
-	diags.Append(listDiagsQuotas...)
-	model.Quotas = listValQuotas
+
+	{
+		listValQuotas, listDiagsQuotas := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+			"limit": types.Int64Type,
+			"name":  types.StringType,
+			"usage": types.Int64Type,
+		}}, apiResp.Quotas)
+		diags.Append(listDiagsQuotas...)
+		model.Quotas = listValQuotas
+	}
 	model.ResourceType = types.StringPointerValue(apiResp.ResourceType)
 	model.ServiceName = types.StringPointerValue(apiResp.ServiceName)
 	model.ServiceSettings = types.StringPointerValue(apiResp.ServiceSettings)

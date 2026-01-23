@@ -429,12 +429,15 @@ func (d *OpenstackSubnetDataSource) mapResponseToModel(ctx context.Context, apiR
 
 	model.UUID = types.StringPointerValue(apiResp.UUID)
 	model.AccessUrl = types.StringPointerValue(apiResp.AccessUrl)
-	listValAllocationPools, listDiagsAllocationPools := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
-		"end":   types.StringType,
-		"start": types.StringType,
-	}}, apiResp.AllocationPools)
-	diags.Append(listDiagsAllocationPools...)
-	model.AllocationPools = listValAllocationPools
+
+	{
+		listValAllocationPools, listDiagsAllocationPools := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+			"end":   types.StringType,
+			"start": types.StringType,
+		}}, apiResp.AllocationPools)
+		diags.Append(listDiagsAllocationPools...)
+		model.AllocationPools = listValAllocationPools
+	}
 	model.BackendId = types.StringPointerValue(apiResp.BackendId)
 	model.Cidr = types.StringPointerValue(apiResp.Cidr)
 	model.Created = types.StringPointerValue(apiResp.Created)
@@ -445,12 +448,15 @@ func (d *OpenstackSubnetDataSource) mapResponseToModel(ctx context.Context, apiR
 	model.ErrorMessage = types.StringPointerValue(apiResp.ErrorMessage)
 	model.ErrorTraceback = types.StringPointerValue(apiResp.ErrorTraceback)
 	model.GatewayIp = types.StringPointerValue(apiResp.GatewayIp)
-	listValHostRoutes, listDiagsHostRoutes := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
-		"destination": types.StringType,
-		"nexthop":     types.StringType,
-	}}, apiResp.HostRoutes)
-	diags.Append(listDiagsHostRoutes...)
-	model.HostRoutes = listValHostRoutes
+
+	{
+		listValHostRoutes, listDiagsHostRoutes := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+			"destination": types.StringType,
+			"nexthop":     types.StringType,
+		}}, apiResp.HostRoutes)
+		diags.Append(listDiagsHostRoutes...)
+		model.HostRoutes = listValHostRoutes
+	}
 	model.IpVersion = types.Int64PointerValue(apiResp.IpVersion)
 	model.IsConnected = types.BoolPointerValue(apiResp.IsConnected)
 	model.Modified = types.StringPointerValue(apiResp.Modified)

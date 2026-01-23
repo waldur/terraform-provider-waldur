@@ -274,18 +274,21 @@ func (l *OpenstackSecurityGroupList) List(ctx context.Context, req list.ListRequ
 			model.Modified = types.StringPointerValue(apiResp.Modified)
 			model.Name = types.StringPointerValue(apiResp.Name)
 			model.ResourceType = types.StringPointerValue(apiResp.ResourceType)
-			listValRules, listDiagsRules := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
-				"cidr":         types.StringType,
-				"description":  types.StringType,
-				"direction":    types.StringType,
-				"ethertype":    types.StringType,
-				"from_port":    types.Int64Type,
-				"protocol":     types.StringType,
-				"remote_group": types.StringType,
-				"to_port":      types.Int64Type,
-			}}, apiResp.Rules)
-			diags.Append(listDiagsRules...)
-			model.Rules = listValRules
+
+			{
+				listValRules, listDiagsRules := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+					"cidr":         types.StringType,
+					"description":  types.StringType,
+					"direction":    types.StringType,
+					"ethertype":    types.StringType,
+					"from_port":    types.Int64Type,
+					"protocol":     types.StringType,
+					"remote_group": types.StringType,
+					"to_port":      types.Int64Type,
+				}}, apiResp.Rules)
+				diags.Append(listDiagsRules...)
+				model.Rules = listValRules
+			}
 			model.State = types.StringPointerValue(apiResp.State)
 			model.Tenant = types.StringPointerValue(apiResp.Tenant)
 			model.TenantName = types.StringPointerValue(apiResp.TenantName)

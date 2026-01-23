@@ -503,6 +503,7 @@ func (r *OpenstackVolumeResource) Create(ctx context.Context, req resource.Creat
 	}
 
 	// Phase 1: Payload Construction
+	// We map the Terraform schema fields to the 'attributes' map required by the Marketplace Order API.
 	attributes := OpenstackVolumeCreateAttributes{
 		AvailabilityZone: data.AvailabilityZone.ValueStringPointer(),
 		Description:      data.Description.ValueStringPointer(),
@@ -512,6 +513,7 @@ func (r *OpenstackVolumeResource) Create(ctx context.Context, req resource.Creat
 		Type:             data.Type.ValueStringPointer(),
 	}
 
+	// Construct the Create Order Request
 	payload := OpenstackVolumeCreateRequest{
 		Project:    data.Project.ValueStringPointer(),
 		Offering:   data.Offering.ValueStringPointer(),
@@ -526,18 +528,21 @@ func (r *OpenstackVolumeResource) Create(ctx context.Context, req resource.Creat
 	}
 
 	// Phase 3: Poll for Completion
+	// We use the 'time' package to handle the timeout specified in the TF config or default to 45m.
 	timeout, diags := data.Timeouts.Create(ctx, 45*time.Minute)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
 
+	// Wait for the order to reach a terminal state (done/erred)
 	finalOrder, err := common.WaitForOrder(ctx, r.client.Client, *orderRes.Uuid, timeout)
 	if err != nil {
 		resp.Diagnostics.AddError("Order Failed", err.Error())
 		return
 	}
 
+	// Resolve the created Resource UUID from the completed order
 	if uuid := common.ResolveResourceUUID(finalOrder); uuid != "" {
 		data.UUID = types.StringValue(uuid)
 	} else {
@@ -545,7 +550,7 @@ func (r *OpenstackVolumeResource) Create(ctx context.Context, req resource.Creat
 		return
 	}
 
-	// Fetch final resource state
+	// Fetch final resource state to ensure Terraform state matches reality
 	apiResp, err := r.client.GetOpenstackVolume(ctx, data.UUID.ValueString())
 	if err != nil {
 		resp.Diagnostics.AddError("Failed to Read Resource", err.Error())
@@ -598,6 +603,7 @@ func (r *OpenstackVolumeResource) Update(ctx context.Context, req resource.Updat
 	}
 
 	// Phase 1: Standard PATCH (Simple fields)
+	// We compare the plan (data) with the state (state) to determine which fields changed.
 	var patchPayload OpenstackVolumeUpdateRequest
 	if !data.Bootable.IsNull() && !data.Bootable.Equal(state.Bootable) {
 		patchPayload.Bootable = data.Bootable.ValueBoolPointer()
@@ -610,6 +616,7 @@ func (r *OpenstackVolumeResource) Update(ctx context.Context, req resource.Updat
 	}
 
 	{
+		// Execute the PATCH request
 		_, err := r.client.UpdateOpenstackVolume(ctx, data.UUID.ValueString(), &patchPayload)
 		if err != nil {
 			resp.Diagnostics.AddError("Update Failed", err.Error())
@@ -618,28 +625,31 @@ func (r *OpenstackVolumeResource) Update(ctx context.Context, req resource.Updat
 	}
 
 	// Phase 2: RPC Actions
+	// These actions are triggered when their corresponding specific fields change.
 	if !data.Size.Equal(state.Size) {
-		// Convert Terraform value to API payload
+		// Convert Terraform value to API payload for the specific action
 		var req OpenstackVolumeExtendActionRequest
 		req.Size = data.Size.ValueInt64Pointer()
 
+		// Execute the Action
 		if err := r.client.OpenstackVolumeExtend(ctx, data.UUID.ValueString(), &req); err != nil {
 			resp.Diagnostics.AddError("RPC Action Failed: extend", err.Error())
 			return
 		}
 	}
 	if !data.Type.Equal(state.Type) {
-		// Convert Terraform value to API payload
+		// Convert Terraform value to API payload for the specific action
 		var req OpenstackVolumeRetypeActionRequest
 		req.Type = data.Type.ValueStringPointer()
 
+		// Execute the Action
 		if err := r.client.OpenstackVolumeRetype(ctx, data.UUID.ValueString(), &req); err != nil {
 			resp.Diagnostics.AddError("RPC Action Failed: retype", err.Error())
 			return
 		}
 	}
 
-	// Fetch updated state
+	// Fetch updated state after all changes
 	apiResp, err := r.client.GetOpenstackVolume(ctx, data.UUID.ValueString())
 	if err != nil {
 		if client.IsNotFoundError(err) {
@@ -664,6 +674,7 @@ func (r *OpenstackVolumeResource) Delete(ctx context.Context, req resource.Delet
 	// Order-based Delete
 	payload := map[string]interface{}{}
 
+	// Submit termination order
 	orderUUID, err := r.client.TerminateOpenstackVolume(ctx, data.UUID.ValueString(), payload)
 	if err != nil {
 		resp.Diagnostics.AddError("Termination Failed", err.Error())
