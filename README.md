@@ -106,6 +106,9 @@ provider "waldur" {
 | `waldur_openstack_image` | Retrieves Image data |
 | `waldur_openstack_volume_type` | Retrieves VolumeType data |
 | `waldur_openstack_port` | Retrieves Port data |
+| `waldur_openstack_server_group` | Retrieves ServerGroup data |
+| `waldur_openstack_network_rbac_policy` | Retrieves NetworkRbacPolicy data |
+| `waldur_openstack_floating_ip` | Retrieves FloatingIp data |
 
 ## Documentation
 
