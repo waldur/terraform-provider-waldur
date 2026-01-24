@@ -295,21 +295,33 @@ func (r *OpenstackSubnetResource) Create(ctx context.Context, req resource.Creat
 	{
 		// Object array or other
 		var items []common.OpenStackSubNetAllocationPoolRequest
-		if diags := data.AllocationPools.ElementsAs(ctx, &items, false); !diags.HasError() && len(items) > 0 {
-			requestBody.AllocationPools = items
+		diags := data.AllocationPools.ElementsAs(ctx, &items, false)
+		resp.Diagnostics.Append(diags...)
+		if !diags.HasError() {
+			if !data.AllocationPools.IsNull() && !data.AllocationPools.IsUnknown() {
+				requestBody.AllocationPools = &items
+			}
 		}
 	}
 	{
 		var items []string
-		if diags := data.DnsNameservers.ElementsAs(ctx, &items, false); !diags.HasError() && len(items) > 0 {
-			requestBody.DnsNameservers = items
+		diags := data.DnsNameservers.ElementsAs(ctx, &items, false)
+		resp.Diagnostics.Append(diags...)
+		if !diags.HasError() {
+			if !data.DnsNameservers.IsNull() && !data.DnsNameservers.IsUnknown() {
+				requestBody.DnsNameservers = &items
+			}
 		}
 	}
 	{
 		// Object array or other
 		var items []common.OpenStackStaticRouteRequest
-		if diags := data.HostRoutes.ElementsAs(ctx, &items, false); !diags.HasError() && len(items) > 0 {
-			requestBody.HostRoutes = items
+		diags := data.HostRoutes.ElementsAs(ctx, &items, false)
+		resp.Diagnostics.Append(diags...)
+		if !diags.HasError() {
+			if !data.HostRoutes.IsNull() && !data.HostRoutes.IsUnknown() {
+				requestBody.HostRoutes = &items
+			}
 		}
 	}
 
@@ -394,21 +406,33 @@ func (r *OpenstackSubnetResource) Update(ctx context.Context, req resource.Updat
 	{
 		// Object array or other
 		var items []common.OpenStackSubNetAllocationPoolRequest
-		if diags := data.AllocationPools.ElementsAs(ctx, &items, false); !diags.HasError() && len(items) > 0 {
-			requestBody.AllocationPools = items
+		diags := data.AllocationPools.ElementsAs(ctx, &items, false)
+		resp.Diagnostics.Append(diags...)
+		if !diags.HasError() {
+			if !data.AllocationPools.IsNull() && !data.AllocationPools.IsUnknown() {
+				requestBody.AllocationPools = &items
+			}
 		}
 	}
 	{
 		var items []string
-		if diags := data.DnsNameservers.ElementsAs(ctx, &items, false); !diags.HasError() && len(items) > 0 {
-			requestBody.DnsNameservers = items
+		diags := data.DnsNameservers.ElementsAs(ctx, &items, false)
+		resp.Diagnostics.Append(diags...)
+		if !diags.HasError() {
+			if !data.DnsNameservers.IsNull() && !data.DnsNameservers.IsUnknown() {
+				requestBody.DnsNameservers = &items
+			}
 		}
 	}
 	{
 		// Object array or other
 		var items []common.OpenStackStaticRouteRequest
-		if diags := data.HostRoutes.ElementsAs(ctx, &items, false); !diags.HasError() && len(items) > 0 {
-			requestBody.HostRoutes = items
+		diags := data.HostRoutes.ElementsAs(ctx, &items, false)
+		resp.Diagnostics.Append(diags...)
+		if !diags.HasError() {
+			if !data.HostRoutes.IsNull() && !data.HostRoutes.IsUnknown() {
+				requestBody.HostRoutes = &items
+			}
 		}
 	}
 

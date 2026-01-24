@@ -12,24 +12,24 @@ type OpenstackTenantCreateRequest struct {
 	Attributes OpenstackTenantCreateAttributes `json:"attributes" tfsdk:"attributes"`
 }
 type OpenstackTenantCreateAttributes struct {
-	AvailabilityZone            *string                                      `json:"availability_zone,omitempty" tfsdk:"availability_zone"`
-	Description                 *string                                      `json:"description,omitempty" tfsdk:"description"`
-	Name                        *string                                      `json:"name,omitempty" tfsdk:"name"`
-	SecurityGroups              []common.OpenStackTenantSecurityGroupRequest `json:"security_groups,omitempty" tfsdk:"security_groups"`
-	SkipConnectionExtnet        *bool                                        `json:"skip_connection_extnet,omitempty" tfsdk:"skip_connection_extnet"`
-	SkipCreationOfDefaultRouter *bool                                        `json:"skip_creation_of_default_router,omitempty" tfsdk:"skip_creation_of_default_router"`
-	SkipCreationOfDefaultSubnet *bool                                        `json:"skip_creation_of_default_subnet,omitempty" tfsdk:"skip_creation_of_default_subnet"`
-	SubnetCidr                  *string                                      `json:"subnet_cidr,omitempty" tfsdk:"subnet_cidr"`
+	AvailabilityZone            *string                                       `json:"availability_zone,omitempty" tfsdk:"availability_zone"`
+	Description                 *string                                       `json:"description,omitempty" tfsdk:"description"`
+	Name                        *string                                       `json:"name,omitempty" tfsdk:"name"`
+	SecurityGroups              *[]common.OpenStackTenantSecurityGroupRequest `json:"security_groups,omitempty" tfsdk:"security_groups"`
+	SkipConnectionExtnet        *bool                                         `json:"skip_connection_extnet,omitempty" tfsdk:"skip_connection_extnet"`
+	SkipCreationOfDefaultRouter *bool                                         `json:"skip_creation_of_default_router,omitempty" tfsdk:"skip_creation_of_default_router"`
+	SkipCreationOfDefaultSubnet *bool                                         `json:"skip_creation_of_default_subnet,omitempty" tfsdk:"skip_creation_of_default_subnet"`
+	SubnetCidr                  *string                                       `json:"subnet_cidr,omitempty" tfsdk:"subnet_cidr"`
 }
 
 type OpenstackTenantUpdateRequest struct {
-	AvailabilityZone            *string                                      `json:"availability_zone,omitempty" tfsdk:"availability_zone"`
-	DefaultVolumeTypeName       *string                                      `json:"default_volume_type_name,omitempty" tfsdk:"default_volume_type_name"`
-	Description                 *string                                      `json:"description,omitempty" tfsdk:"description"`
-	Name                        *string                                      `json:"name,omitempty" tfsdk:"name"`
-	SecurityGroups              []common.OpenStackTenantSecurityGroupRequest `json:"security_groups,omitempty" tfsdk:"security_groups"`
-	SkipCreationOfDefaultRouter *bool                                        `json:"skip_creation_of_default_router,omitempty" tfsdk:"skip_creation_of_default_router"`
-	SkipCreationOfDefaultSubnet *bool                                        `json:"skip_creation_of_default_subnet,omitempty" tfsdk:"skip_creation_of_default_subnet"`
+	AvailabilityZone            *string                                       `json:"availability_zone,omitempty" tfsdk:"availability_zone"`
+	DefaultVolumeTypeName       *string                                       `json:"default_volume_type_name,omitempty" tfsdk:"default_volume_type_name"`
+	Description                 *string                                       `json:"description,omitempty" tfsdk:"description"`
+	Name                        *string                                       `json:"name,omitempty" tfsdk:"name"`
+	SecurityGroups              *[]common.OpenStackTenantSecurityGroupRequest `json:"security_groups,omitempty" tfsdk:"security_groups"`
+	SkipCreationOfDefaultRouter *bool                                         `json:"skip_creation_of_default_router,omitempty" tfsdk:"skip_creation_of_default_router"`
+	SkipCreationOfDefaultSubnet *bool                                         `json:"skip_creation_of_default_subnet,omitempty" tfsdk:"skip_creation_of_default_subnet"`
 }
 
 type OpenstackTenantPushSecurityGroupsActionRequest struct {

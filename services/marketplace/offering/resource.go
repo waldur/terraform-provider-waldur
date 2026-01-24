@@ -969,8 +969,12 @@ func (r *MarketplaceOfferingResource) Create(ctx context.Context, req resource.C
 	{
 		// Object array or other
 		var items []common.OfferingComponentRequest
-		if diags := data.Components.ElementsAs(ctx, &items, false); !diags.HasError() && len(items) > 0 {
-			requestBody.Components = items
+		diags := data.Components.ElementsAs(ctx, &items, false)
+		resp.Diagnostics.Append(diags...)
+		if !diags.HasError() {
+			if !data.Components.IsNull() && !data.Components.IsUnknown() {
+				requestBody.Components = &items
+			}
 		}
 	}
 	{
@@ -982,8 +986,12 @@ func (r *MarketplaceOfferingResource) Create(ctx context.Context, req resource.C
 	{
 		// Object array or other
 		var items []common.BaseProviderPlanRequest
-		if diags := data.Plans.ElementsAs(ctx, &items, false); !diags.HasError() && len(items) > 0 {
-			requestBody.Plans = items
+		diags := data.Plans.ElementsAs(ctx, &items, false)
+		resp.Diagnostics.Append(diags...)
+		if !diags.HasError() {
+			if !data.Plans.IsNull() && !data.Plans.IsUnknown() {
+				requestBody.Plans = &items
+			}
 		}
 	}
 	{

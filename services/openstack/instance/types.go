@@ -12,22 +12,22 @@ type OpenstackInstanceCreateRequest struct {
 	Attributes OpenstackInstanceCreateAttributes `json:"attributes" tfsdk:"attributes"`
 }
 type OpenstackInstanceCreateAttributes struct {
-	AvailabilityZone                 *string                                         `json:"availability_zone,omitempty" tfsdk:"availability_zone"`
-	ConnectDirectlyToExternalNetwork *bool                                           `json:"connect_directly_to_external_network,omitempty" tfsdk:"connect_directly_to_external_network"`
-	DataVolumeSize                   *int64                                          `json:"data_volume_size,omitempty" tfsdk:"data_volume_size"`
-	DataVolumeType                   *string                                         `json:"data_volume_type,omitempty" tfsdk:"data_volume_type"`
-	DataVolumes                      []common.OpenStackDataVolumeRequest             `json:"data_volumes,omitempty" tfsdk:"data_volumes"`
-	Description                      *string                                         `json:"description,omitempty" tfsdk:"description"`
-	Flavor                           *string                                         `json:"flavor,omitempty" tfsdk:"flavor"`
-	FloatingIps                      []common.OpenStackCreateFloatingIPRequest       `json:"floating_ips,omitempty" tfsdk:"floating_ips"`
-	Image                            *string                                         `json:"image,omitempty" tfsdk:"image"`
-	Name                             *string                                         `json:"name,omitempty" tfsdk:"name"`
-	Ports                            []common.OpenStackCreateInstancePortRequest     `json:"ports,omitempty" tfsdk:"ports"`
-	SecurityGroups                   []common.OpenStackSecurityGroupHyperlinkRequest `json:"security_groups,omitempty" tfsdk:"security_groups"`
-	SshPublicKey                     *string                                         `json:"ssh_public_key,omitempty" tfsdk:"ssh_public_key"`
-	SystemVolumeSize                 *int64                                          `json:"system_volume_size,omitempty" tfsdk:"system_volume_size"`
-	SystemVolumeType                 *string                                         `json:"system_volume_type,omitempty" tfsdk:"system_volume_type"`
-	UserData                         *string                                         `json:"user_data,omitempty" tfsdk:"user_data"`
+	AvailabilityZone                 *string                                          `json:"availability_zone,omitempty" tfsdk:"availability_zone"`
+	ConnectDirectlyToExternalNetwork *bool                                            `json:"connect_directly_to_external_network,omitempty" tfsdk:"connect_directly_to_external_network"`
+	DataVolumeSize                   *int64                                           `json:"data_volume_size,omitempty" tfsdk:"data_volume_size"`
+	DataVolumeType                   *string                                          `json:"data_volume_type,omitempty" tfsdk:"data_volume_type"`
+	DataVolumes                      *[]common.OpenStackDataVolumeRequest             `json:"data_volumes,omitempty" tfsdk:"data_volumes"`
+	Description                      *string                                          `json:"description,omitempty" tfsdk:"description"`
+	Flavor                           *string                                          `json:"flavor,omitempty" tfsdk:"flavor"`
+	FloatingIps                      *[]common.OpenStackCreateFloatingIPRequest       `json:"floating_ips,omitempty" tfsdk:"floating_ips"`
+	Image                            *string                                          `json:"image,omitempty" tfsdk:"image"`
+	Name                             *string                                          `json:"name,omitempty" tfsdk:"name"`
+	Ports                            *[]common.OpenStackCreateInstancePortRequest     `json:"ports,omitempty" tfsdk:"ports"`
+	SecurityGroups                   *[]common.OpenStackSecurityGroupHyperlinkRequest `json:"security_groups,omitempty" tfsdk:"security_groups"`
+	SshPublicKey                     *string                                          `json:"ssh_public_key,omitempty" tfsdk:"ssh_public_key"`
+	SystemVolumeSize                 *int64                                           `json:"system_volume_size,omitempty" tfsdk:"system_volume_size"`
+	SystemVolumeType                 *string                                          `json:"system_volume_type,omitempty" tfsdk:"system_volume_type"`
+	UserData                         *string                                          `json:"user_data,omitempty" tfsdk:"user_data"`
 }
 
 type OpenstackInstanceUpdateRequest struct {

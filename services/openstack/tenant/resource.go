@@ -521,7 +521,16 @@ func (r *OpenstackTenantResource) Create(ctx context.Context, req resource.Creat
 		SkipCreationOfDefaultSubnet: data.SkipCreationOfDefaultSubnet.ValueBoolPointer(),
 		SubnetCidr:                  data.SubnetCidr.ValueStringPointer(),
 	}
-	common.PopulateSliceField(ctx, data.SecurityGroups, &attributes.SecurityGroups)
+	{
+		var items []common.OpenStackTenantSecurityGroupRequest
+		diags := data.SecurityGroups.ElementsAs(ctx, &items, false)
+		resp.Diagnostics.Append(diags...)
+		if !diags.HasError() {
+			if !data.SecurityGroups.IsNull() && !data.SecurityGroups.IsUnknown() {
+				attributes.SecurityGroups = &items
+			}
+		}
+	}
 
 	// Construct the Create Order Request
 	payload := OpenstackTenantCreateRequest{

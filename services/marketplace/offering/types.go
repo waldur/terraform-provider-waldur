@@ -7,32 +7,32 @@ import (
 // MarketplaceOffering Structs
 
 type MarketplaceOfferingCreateRequest struct {
-	AccessUrl           *string                           `json:"access_url,omitempty" tfsdk:"access_url"`
-	BackendId           *string                           `json:"backend_id,omitempty" tfsdk:"backend_id"`
-	Billable            *bool                             `json:"billable,omitempty" tfsdk:"billable"`
-	Category            *string                           `json:"category" tfsdk:"category"`
-	ComplianceChecklist *string                           `json:"compliance_checklist,omitempty" tfsdk:"compliance_checklist"`
-	Components          []common.OfferingComponentRequest `json:"components,omitempty" tfsdk:"components"`
-	Country             *string                           `json:"country,omitempty" tfsdk:"country"`
-	Customer            *string                           `json:"customer,omitempty" tfsdk:"customer"`
-	DataciteDoi         *string                           `json:"datacite_doi,omitempty" tfsdk:"datacite_doi"`
-	Description         *string                           `json:"description,omitempty" tfsdk:"description"`
-	FullDescription     *string                           `json:"full_description,omitempty" tfsdk:"full_description"`
-	GettingStarted      *string                           `json:"getting_started,omitempty" tfsdk:"getting_started"`
-	Image               *string                           `json:"image,omitempty" tfsdk:"image"`
-	IntegrationGuide    *string                           `json:"integration_guide,omitempty" tfsdk:"integration_guide"`
-	Latitude            *float64                          `json:"latitude,omitempty" tfsdk:"latitude"`
-	Longitude           *float64                          `json:"longitude,omitempty" tfsdk:"longitude"`
-	Name                *string                           `json:"name" tfsdk:"name"`
-	Options             *common.OfferingOptionsRequest    `json:"options,omitempty" tfsdk:"options"`
-	Plans               []common.BaseProviderPlanRequest  `json:"plans,omitempty" tfsdk:"plans"`
-	PrivacyPolicyLink   *string                           `json:"privacy_policy_link,omitempty" tfsdk:"privacy_policy_link"`
-	ResourceOptions     *common.OfferingOptionsRequest    `json:"resource_options,omitempty" tfsdk:"resource_options"`
-	Shared              *bool                             `json:"shared,omitempty" tfsdk:"shared"`
-	Slug                *string                           `json:"slug,omitempty" tfsdk:"slug"`
-	Thumbnail           *string                           `json:"thumbnail,omitempty" tfsdk:"thumbnail"`
-	Type                *string                           `json:"type" tfsdk:"type"`
-	VendorDetails       *string                           `json:"vendor_details,omitempty" tfsdk:"vendor_details"`
+	AccessUrl           *string                            `json:"access_url,omitempty" tfsdk:"access_url"`
+	BackendId           *string                            `json:"backend_id,omitempty" tfsdk:"backend_id"`
+	Billable            *bool                              `json:"billable,omitempty" tfsdk:"billable"`
+	Category            *string                            `json:"category" tfsdk:"category"`
+	ComplianceChecklist *string                            `json:"compliance_checklist,omitempty" tfsdk:"compliance_checklist"`
+	Components          *[]common.OfferingComponentRequest `json:"components,omitempty" tfsdk:"components"`
+	Country             *string                            `json:"country,omitempty" tfsdk:"country"`
+	Customer            *string                            `json:"customer,omitempty" tfsdk:"customer"`
+	DataciteDoi         *string                            `json:"datacite_doi,omitempty" tfsdk:"datacite_doi"`
+	Description         *string                            `json:"description,omitempty" tfsdk:"description"`
+	FullDescription     *string                            `json:"full_description,omitempty" tfsdk:"full_description"`
+	GettingStarted      *string                            `json:"getting_started,omitempty" tfsdk:"getting_started"`
+	Image               *string                            `json:"image,omitempty" tfsdk:"image"`
+	IntegrationGuide    *string                            `json:"integration_guide,omitempty" tfsdk:"integration_guide"`
+	Latitude            *float64                           `json:"latitude,omitempty" tfsdk:"latitude"`
+	Longitude           *float64                           `json:"longitude,omitempty" tfsdk:"longitude"`
+	Name                *string                            `json:"name" tfsdk:"name"`
+	Options             *common.OfferingOptionsRequest     `json:"options,omitempty" tfsdk:"options"`
+	Plans               *[]common.BaseProviderPlanRequest  `json:"plans,omitempty" tfsdk:"plans"`
+	PrivacyPolicyLink   *string                            `json:"privacy_policy_link,omitempty" tfsdk:"privacy_policy_link"`
+	ResourceOptions     *common.OfferingOptionsRequest     `json:"resource_options,omitempty" tfsdk:"resource_options"`
+	Shared              *bool                              `json:"shared,omitempty" tfsdk:"shared"`
+	Slug                *string                            `json:"slug,omitempty" tfsdk:"slug"`
+	Thumbnail           *string                            `json:"thumbnail,omitempty" tfsdk:"thumbnail"`
+	Type                *string                            `json:"type" tfsdk:"type"`
+	VendorDetails       *string                            `json:"vendor_details,omitempty" tfsdk:"vendor_details"`
 }
 
 type MarketplaceOfferingResponse struct {

@@ -7,25 +7,25 @@ import (
 // OpenstackSubnet Structs
 
 type OpenstackSubnetCreateRequest struct {
-	AllocationPools []common.OpenStackSubNetAllocationPoolRequest `json:"allocation_pools,omitempty" tfsdk:"allocation_pools"`
-	Cidr            *string                                       `json:"cidr,omitempty" tfsdk:"cidr"`
-	Description     *string                                       `json:"description,omitempty" tfsdk:"description"`
-	DisableGateway  *bool                                         `json:"disable_gateway,omitempty" tfsdk:"disable_gateway"`
-	DnsNameservers  []string                                      `json:"dns_nameservers,omitempty" tfsdk:"dns_nameservers"`
-	GatewayIp       *string                                       `json:"gateway_ip,omitempty" tfsdk:"gateway_ip"`
-	HostRoutes      []common.OpenStackStaticRouteRequest          `json:"host_routes,omitempty" tfsdk:"host_routes"`
-	Name            *string                                       `json:"name" tfsdk:"name"`
+	AllocationPools *[]common.OpenStackSubNetAllocationPoolRequest `json:"allocation_pools,omitempty" tfsdk:"allocation_pools"`
+	Cidr            *string                                        `json:"cidr,omitempty" tfsdk:"cidr"`
+	Description     *string                                        `json:"description,omitempty" tfsdk:"description"`
+	DisableGateway  *bool                                          `json:"disable_gateway,omitempty" tfsdk:"disable_gateway"`
+	DnsNameservers  *[]string                                      `json:"dns_nameservers,omitempty" tfsdk:"dns_nameservers"`
+	GatewayIp       *string                                        `json:"gateway_ip,omitempty" tfsdk:"gateway_ip"`
+	HostRoutes      *[]common.OpenStackStaticRouteRequest          `json:"host_routes,omitempty" tfsdk:"host_routes"`
+	Name            *string                                        `json:"name" tfsdk:"name"`
 }
 
 type OpenstackSubnetUpdateRequest struct {
-	AllocationPools []common.OpenStackSubNetAllocationPoolRequest `json:"allocation_pools,omitempty" tfsdk:"allocation_pools"`
-	Cidr            *string                                       `json:"cidr,omitempty" tfsdk:"cidr"`
-	Description     *string                                       `json:"description,omitempty" tfsdk:"description"`
-	DisableGateway  *bool                                         `json:"disable_gateway,omitempty" tfsdk:"disable_gateway"`
-	DnsNameservers  []string                                      `json:"dns_nameservers,omitempty" tfsdk:"dns_nameservers"`
-	GatewayIp       *string                                       `json:"gateway_ip,omitempty" tfsdk:"gateway_ip"`
-	HostRoutes      []common.OpenStackStaticRouteRequest          `json:"host_routes,omitempty" tfsdk:"host_routes"`
-	Name            *string                                       `json:"name,omitempty" tfsdk:"name"`
+	AllocationPools *[]common.OpenStackSubNetAllocationPoolRequest `json:"allocation_pools,omitempty" tfsdk:"allocation_pools"`
+	Cidr            *string                                        `json:"cidr,omitempty" tfsdk:"cidr"`
+	Description     *string                                        `json:"description,omitempty" tfsdk:"description"`
+	DisableGateway  *bool                                          `json:"disable_gateway,omitempty" tfsdk:"disable_gateway"`
+	DnsNameservers  *[]string                                      `json:"dns_nameservers,omitempty" tfsdk:"dns_nameservers"`
+	GatewayIp       *string                                        `json:"gateway_ip,omitempty" tfsdk:"gateway_ip"`
+	HostRoutes      *[]common.OpenStackStaticRouteRequest          `json:"host_routes,omitempty" tfsdk:"host_routes"`
+	Name            *string                                        `json:"name,omitempty" tfsdk:"name"`
 }
 
 type OpenstackSubnetResponse struct {

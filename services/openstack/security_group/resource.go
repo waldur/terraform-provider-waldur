@@ -244,8 +244,12 @@ func (r *OpenstackSecurityGroupResource) Create(ctx context.Context, req resourc
 	{
 		// Object array or other
 		var items []common.OpenStackSecurityGroupRuleCreateRequest
-		if diags := data.Rules.ElementsAs(ctx, &items, false); !diags.HasError() && len(items) > 0 {
-			requestBody.Rules = items
+		diags := data.Rules.ElementsAs(ctx, &items, false)
+		resp.Diagnostics.Append(diags...)
+		if !diags.HasError() {
+			if len(items) > 0 {
+				requestBody.Rules = items
+			}
 		}
 	}
 

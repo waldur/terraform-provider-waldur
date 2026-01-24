@@ -7,22 +7,22 @@ import (
 // OpenstackPort Structs
 
 type OpenstackPortCreateRequest struct {
-	AllowedAddressPairs []common.OpenStackAllowedAddressPairRequest      `json:"allowed_address_pairs,omitempty" tfsdk:"allowed_address_pairs"`
-	Description         *string                                          `json:"description,omitempty" tfsdk:"description"`
-	FixedIps            []common.OpenStackFixedIpRequest                 `json:"fixed_ips,omitempty" tfsdk:"fixed_ips"`
-	MacAddress          *string                                          `json:"mac_address,omitempty" tfsdk:"mac_address"`
-	Name                *string                                          `json:"name" tfsdk:"name"`
-	Network             *string                                          `json:"network,omitempty" tfsdk:"network"`
-	PortSecurityEnabled *bool                                            `json:"port_security_enabled,omitempty" tfsdk:"port_security_enabled"`
-	SecurityGroups      []common.OpenStackPortNestedSecurityGroupRequest `json:"security_groups,omitempty" tfsdk:"security_groups"`
-	TargetTenant        *string                                          `json:"target_tenant,omitempty" tfsdk:"target_tenant"`
+	AllowedAddressPairs *[]common.OpenStackAllowedAddressPairRequest      `json:"allowed_address_pairs,omitempty" tfsdk:"allowed_address_pairs"`
+	Description         *string                                           `json:"description,omitempty" tfsdk:"description"`
+	FixedIps            *[]common.OpenStackFixedIpRequest                 `json:"fixed_ips,omitempty" tfsdk:"fixed_ips"`
+	MacAddress          *string                                           `json:"mac_address,omitempty" tfsdk:"mac_address"`
+	Name                *string                                           `json:"name" tfsdk:"name"`
+	Network             *string                                           `json:"network,omitempty" tfsdk:"network"`
+	PortSecurityEnabled *bool                                             `json:"port_security_enabled,omitempty" tfsdk:"port_security_enabled"`
+	SecurityGroups      *[]common.OpenStackPortNestedSecurityGroupRequest `json:"security_groups,omitempty" tfsdk:"security_groups"`
+	TargetTenant        *string                                           `json:"target_tenant,omitempty" tfsdk:"target_tenant"`
 }
 
 type OpenstackPortUpdateRequest struct {
-	Description    *string                                          `json:"description,omitempty" tfsdk:"description"`
-	Name           *string                                          `json:"name,omitempty" tfsdk:"name"`
-	SecurityGroups []common.OpenStackPortNestedSecurityGroupRequest `json:"security_groups,omitempty" tfsdk:"security_groups"`
-	TargetTenant   *string                                          `json:"target_tenant,omitempty" tfsdk:"target_tenant"`
+	Description    *string                                           `json:"description,omitempty" tfsdk:"description"`
+	Name           *string                                           `json:"name,omitempty" tfsdk:"name"`
+	SecurityGroups *[]common.OpenStackPortNestedSecurityGroupRequest `json:"security_groups,omitempty" tfsdk:"security_groups"`
+	TargetTenant   *string                                           `json:"target_tenant,omitempty" tfsdk:"target_tenant"`
 }
 
 type OpenstackPortUpdateSecurityGroupsActionRequest struct {

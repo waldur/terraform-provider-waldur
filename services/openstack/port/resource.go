@@ -348,22 +348,34 @@ func (r *OpenstackPortResource) Create(ctx context.Context, req resource.CreateR
 	{
 		// Object array or other
 		var items []common.OpenStackAllowedAddressPairRequest
-		if diags := data.AllowedAddressPairs.ElementsAs(ctx, &items, false); !diags.HasError() && len(items) > 0 {
-			requestBody.AllowedAddressPairs = items
+		diags := data.AllowedAddressPairs.ElementsAs(ctx, &items, false)
+		resp.Diagnostics.Append(diags...)
+		if !diags.HasError() {
+			if !data.AllowedAddressPairs.IsNull() && !data.AllowedAddressPairs.IsUnknown() {
+				requestBody.AllowedAddressPairs = &items
+			}
 		}
 	}
 	{
 		// Object array or other
 		var items []common.OpenStackFixedIpRequest
-		if diags := data.FixedIps.ElementsAs(ctx, &items, false); !diags.HasError() && len(items) > 0 {
-			requestBody.FixedIps = items
+		diags := data.FixedIps.ElementsAs(ctx, &items, false)
+		resp.Diagnostics.Append(diags...)
+		if !diags.HasError() {
+			if !data.FixedIps.IsNull() && !data.FixedIps.IsUnknown() {
+				requestBody.FixedIps = &items
+			}
 		}
 	}
 	{
 		// Object array or other
 		var items []common.OpenStackPortNestedSecurityGroupRequest
-		if diags := data.SecurityGroups.ElementsAs(ctx, &items, false); !diags.HasError() && len(items) > 0 {
-			requestBody.SecurityGroups = items
+		diags := data.SecurityGroups.ElementsAs(ctx, &items, false)
+		resp.Diagnostics.Append(diags...)
+		if !diags.HasError() {
+			if !data.SecurityGroups.IsNull() && !data.SecurityGroups.IsUnknown() {
+				requestBody.SecurityGroups = &items
+			}
 		}
 	}
 
@@ -446,8 +458,12 @@ func (r *OpenstackPortResource) Update(ctx context.Context, req resource.UpdateR
 	{
 		// Object array or other
 		var items []common.OpenStackPortNestedSecurityGroupRequest
-		if diags := data.SecurityGroups.ElementsAs(ctx, &items, false); !diags.HasError() && len(items) > 0 {
-			requestBody.SecurityGroups = items
+		diags := data.SecurityGroups.ElementsAs(ctx, &items, false)
+		resp.Diagnostics.Append(diags...)
+		if !diags.HasError() {
+			if !data.SecurityGroups.IsNull() && !data.SecurityGroups.IsUnknown() {
+				requestBody.SecurityGroups = &items
+			}
 		}
 	}
 
