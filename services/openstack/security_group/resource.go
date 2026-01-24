@@ -2,17 +2,18 @@ package security_group
 
 import (
 	"context"
+	"fmt"
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
-	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/hashicorp/terraform-plugin-log/tflog"
 
 	"github.com/waldur/terraform-provider-waldur/internal/client"
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
@@ -242,7 +243,6 @@ func (r *OpenstackSecurityGroupResource) Create(ctx context.Context, req resourc
 		Name:        data.Name.ValueStringPointer(),
 	}
 	{
-		// Object array or other
 		var items []common.OpenStackSecurityGroupRuleCreateRequest
 		diags := data.Rules.ElementsAs(ctx, &items, false)
 		resp.Diagnostics.Append(diags...)
@@ -391,7 +391,42 @@ func (r *OpenstackSecurityGroupResource) Delete(ctx context.Context, req resourc
 
 func (r *OpenstackSecurityGroupResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
 
-	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
+	uuid := req.ID
+	if uuid == "" {
+		resp.Diagnostics.AddError(
+			"Invalid Import ID",
+			"Import ID cannot be empty. Please provide the UUID of the Openstack Security Group.",
+		)
+		return
+	}
+
+	tflog.Info(ctx, "Importing Openstack Security Group", map[string]interface{}{
+		"uuid": uuid,
+	})
+
+	apiResp, err := r.client.GetOpenstackSecurityGroup(ctx, uuid)
+	if err != nil {
+		if client.IsNotFoundError(err) {
+			resp.Diagnostics.AddError(
+				"Resource Not Found",
+				fmt.Sprintf("Openstack Security Group with UUID '%s' does not exist or is not accessible.", uuid),
+			)
+			return
+		}
+		resp.Diagnostics.AddError(
+			"Unable to Import Openstack Security Group",
+			fmt.Sprintf("An error occurred while fetching the Openstack Security Group: %s", err.Error()),
+		)
+		return
+	}
+
+	var data OpenstackSecurityGroupResourceModel
+	resp.Diagnostics.Append(r.mapResponseToModel(ctx, *apiResp, &data)...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
 func (r *OpenstackSecurityGroupResource) mapResponseToModel(ctx context.Context, apiResp OpenstackSecurityGroupResponse, model *OpenstackSecurityGroupResourceModel) diag.Diagnostics {

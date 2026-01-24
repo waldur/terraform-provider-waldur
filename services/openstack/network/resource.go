@@ -2,12 +2,12 @@ package network
 
 import (
 	"context"
+	"fmt"
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
-	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
@@ -16,6 +16,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/hashicorp/terraform-plugin-log/tflog"
 
 	"github.com/waldur/terraform-provider-waldur/internal/client"
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
@@ -470,7 +471,42 @@ func (r *OpenstackNetworkResource) Delete(ctx context.Context, req resource.Dele
 
 func (r *OpenstackNetworkResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
 
-	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
+	uuid := req.ID
+	if uuid == "" {
+		resp.Diagnostics.AddError(
+			"Invalid Import ID",
+			"Import ID cannot be empty. Please provide the UUID of the Openstack Network.",
+		)
+		return
+	}
+
+	tflog.Info(ctx, "Importing Openstack Network", map[string]interface{}{
+		"uuid": uuid,
+	})
+
+	apiResp, err := r.client.GetOpenstackNetwork(ctx, uuid)
+	if err != nil {
+		if client.IsNotFoundError(err) {
+			resp.Diagnostics.AddError(
+				"Resource Not Found",
+				fmt.Sprintf("Openstack Network with UUID '%s' does not exist or is not accessible.", uuid),
+			)
+			return
+		}
+		resp.Diagnostics.AddError(
+			"Unable to Import Openstack Network",
+			fmt.Sprintf("An error occurred while fetching the Openstack Network: %s", err.Error()),
+		)
+		return
+	}
+
+	var data OpenstackNetworkResourceModel
+	resp.Diagnostics.Append(r.mapResponseToModel(ctx, *apiResp, &data)...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
 func (r *OpenstackNetworkResource) mapResponseToModel(ctx context.Context, apiResp OpenstackNetworkResponse, model *OpenstackNetworkResourceModel) diag.Diagnostics {

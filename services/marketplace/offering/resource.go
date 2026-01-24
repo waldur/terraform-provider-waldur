@@ -2,12 +2,12 @@ package offering
 
 import (
 	"context"
+	"fmt"
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
-	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
@@ -19,6 +19,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
+	"github.com/hashicorp/terraform-plugin-log/tflog"
 
 	"github.com/waldur/terraform-provider-waldur/internal/client"
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
@@ -967,7 +968,6 @@ func (r *MarketplaceOfferingResource) Create(ctx context.Context, req resource.C
 		VendorDetails:       data.VendorDetails.ValueStringPointer(),
 	}
 	{
-		// Object array or other
 		var items []common.OfferingComponentRequest
 		diags := data.Components.ElementsAs(ctx, &items, false)
 		resp.Diagnostics.Append(diags...)
@@ -984,7 +984,6 @@ func (r *MarketplaceOfferingResource) Create(ctx context.Context, req resource.C
 		}
 	}
 	{
-		// Object array or other
 		var items []common.BaseProviderPlanRequest
 		diags := data.Plans.ElementsAs(ctx, &items, false)
 		resp.Diagnostics.Append(diags...)
@@ -1100,7 +1099,42 @@ func (r *MarketplaceOfferingResource) Delete(ctx context.Context, req resource.D
 
 func (r *MarketplaceOfferingResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
 
-	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
+	uuid := req.ID
+	if uuid == "" {
+		resp.Diagnostics.AddError(
+			"Invalid Import ID",
+			"Import ID cannot be empty. Please provide the UUID of the Marketplace Offering.",
+		)
+		return
+	}
+
+	tflog.Info(ctx, "Importing Marketplace Offering", map[string]interface{}{
+		"uuid": uuid,
+	})
+
+	apiResp, err := r.client.GetMarketplaceOffering(ctx, uuid)
+	if err != nil {
+		if client.IsNotFoundError(err) {
+			resp.Diagnostics.AddError(
+				"Resource Not Found",
+				fmt.Sprintf("Marketplace Offering with UUID '%s' does not exist or is not accessible.", uuid),
+			)
+			return
+		}
+		resp.Diagnostics.AddError(
+			"Unable to Import Marketplace Offering",
+			fmt.Sprintf("An error occurred while fetching the Marketplace Offering: %s", err.Error()),
+		)
+		return
+	}
+
+	var data MarketplaceOfferingResourceModel
+	resp.Diagnostics.Append(r.mapResponseToModel(ctx, *apiResp, &data)...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
 func (r *MarketplaceOfferingResource) mapResponseToModel(ctx context.Context, apiResp MarketplaceOfferingResponse, model *MarketplaceOfferingResourceModel) diag.Diagnostics {

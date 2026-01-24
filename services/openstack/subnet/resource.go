@@ -2,12 +2,12 @@ package subnet
 
 import (
 	"context"
+	"fmt"
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
-	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
@@ -15,6 +15,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/hashicorp/terraform-plugin-log/tflog"
 
 	"github.com/waldur/terraform-provider-waldur/internal/client"
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
@@ -293,7 +294,6 @@ func (r *OpenstackSubnetResource) Create(ctx context.Context, req resource.Creat
 		Name:           data.Name.ValueStringPointer(),
 	}
 	{
-		// Object array or other
 		var items []common.OpenStackSubNetAllocationPoolRequest
 		diags := data.AllocationPools.ElementsAs(ctx, &items, false)
 		resp.Diagnostics.Append(diags...)
@@ -314,7 +314,6 @@ func (r *OpenstackSubnetResource) Create(ctx context.Context, req resource.Creat
 		}
 	}
 	{
-		// Object array or other
 		var items []common.OpenStackStaticRouteRequest
 		diags := data.HostRoutes.ElementsAs(ctx, &items, false)
 		resp.Diagnostics.Append(diags...)
@@ -404,7 +403,6 @@ func (r *OpenstackSubnetResource) Update(ctx context.Context, req resource.Updat
 		Name:           data.Name.ValueStringPointer(),
 	}
 	{
-		// Object array or other
 		var items []common.OpenStackSubNetAllocationPoolRequest
 		diags := data.AllocationPools.ElementsAs(ctx, &items, false)
 		resp.Diagnostics.Append(diags...)
@@ -425,7 +423,6 @@ func (r *OpenstackSubnetResource) Update(ctx context.Context, req resource.Updat
 		}
 	}
 	{
-		// Object array or other
 		var items []common.OpenStackStaticRouteRequest
 		diags := data.HostRoutes.ElementsAs(ctx, &items, false)
 		resp.Diagnostics.Append(diags...)
@@ -498,7 +495,42 @@ func (r *OpenstackSubnetResource) Delete(ctx context.Context, req resource.Delet
 
 func (r *OpenstackSubnetResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
 
-	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
+	uuid := req.ID
+	if uuid == "" {
+		resp.Diagnostics.AddError(
+			"Invalid Import ID",
+			"Import ID cannot be empty. Please provide the UUID of the Openstack Subnet.",
+		)
+		return
+	}
+
+	tflog.Info(ctx, "Importing Openstack Subnet", map[string]interface{}{
+		"uuid": uuid,
+	})
+
+	apiResp, err := r.client.GetOpenstackSubnet(ctx, uuid)
+	if err != nil {
+		if client.IsNotFoundError(err) {
+			resp.Diagnostics.AddError(
+				"Resource Not Found",
+				fmt.Sprintf("Openstack Subnet with UUID '%s' does not exist or is not accessible.", uuid),
+			)
+			return
+		}
+		resp.Diagnostics.AddError(
+			"Unable to Import Openstack Subnet",
+			fmt.Sprintf("An error occurred while fetching the Openstack Subnet: %s", err.Error()),
+		)
+		return
+	}
+
+	var data OpenstackSubnetResourceModel
+	resp.Diagnostics.Append(r.mapResponseToModel(ctx, *apiResp, &data)...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
 func (r *OpenstackSubnetResource) mapResponseToModel(ctx context.Context, apiResp OpenstackSubnetResponse, model *OpenstackSubnetResourceModel) diag.Diagnostics {
