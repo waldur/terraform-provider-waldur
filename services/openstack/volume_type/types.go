@@ -13,3 +13,11 @@ type OpenstackVolumeTypeResponse struct {
 	Settings    *string `json:"settings" tfsdk:"settings"`
 	Url         *string `json:"url" tfsdk:"url"`
 }
+
+func (r *OpenstackVolumeTypeResponse) GetState() string {
+	return "OK"
+}
+
+func (r *OpenstackVolumeTypeResponse) GetErrorMessage() string {
+	return ""
+}

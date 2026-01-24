@@ -26,3 +26,11 @@ type OpenstackNetworkRbacPolicyResponse struct {
 	TargetTenantName *string `json:"target_tenant_name" tfsdk:"target_tenant_name"`
 	Url              *string `json:"url" tfsdk:"url"`
 }
+
+func (r *OpenstackNetworkRbacPolicyResponse) GetState() string {
+	return "OK"
+}
+
+func (r *OpenstackNetworkRbacPolicyResponse) GetErrorMessage() string {
+	return ""
+}

@@ -17,3 +17,11 @@ type OpenstackFlavorResponse struct {
 	Settings    *string `json:"settings" tfsdk:"settings"`
 	Url         *string `json:"url" tfsdk:"url"`
 }
+
+func (r *OpenstackFlavorResponse) GetState() string {
+	return "OK"
+}
+
+func (r *OpenstackFlavorResponse) GetErrorMessage() string {
+	return ""
+}

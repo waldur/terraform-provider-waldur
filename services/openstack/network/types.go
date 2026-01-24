@@ -88,3 +88,17 @@ type OpenstackNetworkSubnetsAllocationPoolsResponse struct {
 	End   *string `json:"end" tfsdk:"end"`
 	Start *string `json:"start" tfsdk:"start"`
 }
+
+func (r *OpenstackNetworkResponse) GetState() string {
+	if r.State != nil {
+		return *r.State
+	}
+	return "OK"
+}
+
+func (r *OpenstackNetworkResponse) GetErrorMessage() string {
+	if r.ErrorMessage != nil {
+		return *r.ErrorMessage
+	}
+	return ""
+}

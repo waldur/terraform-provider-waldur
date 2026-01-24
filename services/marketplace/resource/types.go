@@ -120,3 +120,17 @@ type MarketplaceResourceReportResponse struct {
 	Body   *string `json:"body" tfsdk:"body"`
 	Header *string `json:"header" tfsdk:"header"`
 }
+
+func (r *MarketplaceResourceResponse) GetState() string {
+	if r.State != nil {
+		return *r.State
+	}
+	return "OK"
+}
+
+func (r *MarketplaceResourceResponse) GetErrorMessage() string {
+	if r.ErrorMessage != nil {
+		return *r.ErrorMessage
+	}
+	return ""
+}

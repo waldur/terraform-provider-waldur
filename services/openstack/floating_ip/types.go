@@ -63,3 +63,17 @@ type OpenstackFloatingIpPortFixedIpsResponse struct {
 	IpAddress *string `json:"ip_address" tfsdk:"ip_address"`
 	SubnetId  *string `json:"subnet_id" tfsdk:"subnet_id"`
 }
+
+func (r *OpenstackFloatingIpResponse) GetState() string {
+	if r.State != nil {
+		return *r.State
+	}
+	return "OK"
+}
+
+func (r *OpenstackFloatingIpResponse) GetErrorMessage() string {
+	if r.ErrorMessage != nil {
+		return *r.ErrorMessage
+	}
+	return ""
+}

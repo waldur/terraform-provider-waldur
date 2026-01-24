@@ -18,3 +18,11 @@ type CoreSshPublicKeyResponse struct {
 	Url               *string `json:"url" tfsdk:"url"`
 	UserUuid          *string `json:"user_uuid" tfsdk:"user_uuid"`
 }
+
+func (r *CoreSshPublicKeyResponse) GetState() string {
+	return "OK"
+}
+
+func (r *CoreSshPublicKeyResponse) GetErrorMessage() string {
+	return ""
+}

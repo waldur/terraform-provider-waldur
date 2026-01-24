@@ -85,3 +85,17 @@ type OpenstackVolumeResponse struct {
 	TypeName                    *string `json:"type_name" tfsdk:"type_name"`
 	Url                         *string `json:"url" tfsdk:"url"`
 }
+
+func (r *OpenstackVolumeResponse) GetState() string {
+	if r.State != nil {
+		return *r.State
+	}
+	return "OK"
+}
+
+func (r *OpenstackVolumeResponse) GetErrorMessage() string {
+	if r.ErrorMessage != nil {
+		return *r.ErrorMessage
+	}
+	return ""
+}

@@ -62,3 +62,17 @@ type OpenstackServerGroupInstancesResponse struct {
 	BackendId *string `json:"backend_id" tfsdk:"backend_id"`
 	Name      *string `json:"name" tfsdk:"name"`
 }
+
+func (r *OpenstackServerGroupResponse) GetState() string {
+	if r.State != nil {
+		return *r.State
+	}
+	return "OK"
+}
+
+func (r *OpenstackServerGroupResponse) GetErrorMessage() string {
+	if r.ErrorMessage != nil {
+		return *r.ErrorMessage
+	}
+	return ""
+}

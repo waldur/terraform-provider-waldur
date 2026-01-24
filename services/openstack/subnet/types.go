@@ -88,3 +88,17 @@ type OpenstackSubnetHostRoutesResponse struct {
 	Destination *string `json:"destination" tfsdk:"destination"`
 	Nexthop     *string `json:"nexthop" tfsdk:"nexthop"`
 }
+
+func (r *OpenstackSubnetResponse) GetState() string {
+	if r.State != nil {
+		return *r.State
+	}
+	return "OK"
+}
+
+func (r *OpenstackSubnetResponse) GetErrorMessage() string {
+	if r.ErrorMessage != nil {
+		return *r.ErrorMessage
+	}
+	return ""
+}

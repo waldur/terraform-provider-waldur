@@ -96,3 +96,17 @@ type OpenstackPortFixedIpsResponse struct {
 type OpenstackPortSecurityGroupsResponse struct {
 	Name *string `json:"name" tfsdk:"name"`
 }
+
+func (r *OpenstackPortResponse) GetState() string {
+	if r.State != nil {
+		return *r.State
+	}
+	return "OK"
+}
+
+func (r *OpenstackPortResponse) GetErrorMessage() string {
+	if r.ErrorMessage != nil {
+		return *r.ErrorMessage
+	}
+	return ""
+}

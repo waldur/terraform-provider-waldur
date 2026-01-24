@@ -91,3 +91,17 @@ type MarketplaceOrderResponse struct {
 	Type                       *string  `json:"type" tfsdk:"type"`
 	Url                        *string  `json:"url" tfsdk:"url"`
 }
+
+func (r *MarketplaceOrderResponse) GetState() string {
+	if r.State != nil {
+		return *r.State
+	}
+	return "OK"
+}
+
+func (r *MarketplaceOrderResponse) GetErrorMessage() string {
+	if r.ErrorMessage != nil {
+		return *r.ErrorMessage
+	}
+	return ""
+}

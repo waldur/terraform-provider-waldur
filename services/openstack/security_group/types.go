@@ -73,3 +73,17 @@ type OpenstackSecurityGroupRulesResponse struct {
 	RemoteGroup *string `json:"remote_group" tfsdk:"remote_group"`
 	ToPort      *int64  `json:"to_port" tfsdk:"to_port"`
 }
+
+func (r *OpenstackSecurityGroupResponse) GetState() string {
+	if r.State != nil {
+		return *r.State
+	}
+	return "OK"
+}
+
+func (r *OpenstackSecurityGroupResponse) GetErrorMessage() string {
+	if r.ErrorMessage != nil {
+		return *r.ErrorMessage
+	}
+	return ""
+}

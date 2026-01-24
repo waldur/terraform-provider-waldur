@@ -122,47 +122,33 @@ func WaitForOrder(ctx context.Context, c *client.Client, orderUUID string, timeo
 	return rawResult.(*OrderDetails), nil
 }
 
+// ResourceWithState defines the interface for resources that have a state and error message.
+type ResourceWithState interface {
+	GetState() string
+	GetErrorMessage() string
+}
+
 // WaitForResource blocks until a resource reaches the "OK" state.
-func WaitForResource[T any](ctx context.Context, getResource func(context.Context) (*T, error), timeout time.Duration) (*T, error) {
+func WaitForResource[T ResourceWithState](ctx context.Context, getResource func(context.Context) (T, error), timeout time.Duration) (T, error) {
 	stateConf := &retry.StateChangeConf{
 		Pending: []string{"CREATION_SCHEDULED", "CREATING", "UPDATE_SCHEDULED", "UPDATING", "DELETION_SCHEDULED", "DELETING"},
 		Target:  []string{"OK"},
 		Refresh: func() (interface{}, string, error) {
 			res, err := getResource(ctx)
 			if err != nil {
+				// return nil doesn't work for generic T if T is not nullable interface, but here T is ResourceWithState (interface), so nil is fine?
+				// Actually T is a type parameter constrained by interface. We can return *new(T) or similar?
+				// But we are returning (interface{}, ...). generic T is lost here.
 				return nil, "", err
 			}
 
-			// Use reflection to check for "state" field
-			val := reflect.ValueOf(res)
-			if val.Kind() == reflect.Ptr {
-				val = val.Elem()
-			}
-
-			state := "OK" // Default state if field not found
-			if val.Kind() == reflect.Struct {
-				field := val.FieldByName("State")
-				if field.IsValid() && field.Kind() == reflect.String {
-					state = field.String()
-				}
-			}
+			// Use interface methods directly on res
+			state := res.GetState()
 
 			if state == "ERRED" {
-				// Try to find error_message
-				msg := "resource in erred state"
-				if val.Kind() == reflect.Struct {
-					errField := val.FieldByName("ErrorMessage")
-					if errField.IsValid() && errField.Kind() == reflect.String {
-						msg = errField.String()
-					} else {
-						// Ptr to string?
-						errField = val.FieldByName("ErrorMessage")
-						if errField.IsValid() && errField.Kind() == reflect.Ptr && !errField.IsNil() {
-							if errField.Elem().Kind() == reflect.String {
-								msg = errField.Elem().String()
-							}
-						}
-					}
+				msg := res.GetErrorMessage()
+				if msg == "" {
+					msg = "unknown error"
 				}
 				return res, "failed", fmt.Errorf("%s", msg)
 			}
@@ -176,14 +162,15 @@ func WaitForResource[T any](ctx context.Context, getResource func(context.Contex
 
 	rawResult, err := stateConf.WaitForStateContext(ctx)
 	if err != nil {
-		return nil, err
+		var zero T
+		return zero, err
 	}
 
-	return rawResult.(*T), nil
+	return rawResult.(T), nil
 }
 
 // WaitForDeletion blocks until a resource is gone (404).
-func WaitForDeletion[T any](ctx context.Context, getResource func(context.Context) (*T, error), timeout time.Duration) error {
+func WaitForDeletion[T ResourceWithState](ctx context.Context, getResource func(context.Context) (T, error), timeout time.Duration) error {
 	stateConf := &retry.StateChangeConf{
 		Pending: []string{"CREATION_SCHEDULED", "CREATING", "UPDATE_SCHEDULED", "UPDATING", "DELETION_SCHEDULED", "DELETING", "OK"},
 		Refresh: func() (interface{}, string, error) {
@@ -195,36 +182,13 @@ func WaitForDeletion[T any](ctx context.Context, getResource func(context.Contex
 				return nil, "", err
 			}
 
-			// Use reflection to check for "state" field
-			val := reflect.ValueOf(res)
-			if val.Kind() == reflect.Ptr {
-				val = val.Elem()
-			}
-
-			state := "DELETING" // Default state if field not found
-			if val.Kind() == reflect.Struct {
-				field := val.FieldByName("State")
-				if field.IsValid() && field.Kind() == reflect.String {
-					state = field.String()
-				}
-			}
+			// Use interface methods
+			state := res.GetState()
 
 			if state == "ERRED" {
-				// Try to find error_message
-				msg := "resource in erred state"
-				if val.Kind() == reflect.Struct {
-					errField := val.FieldByName("ErrorMessage")
-					if errField.IsValid() && errField.Kind() == reflect.String {
-						msg = errField.String()
-					} else {
-						// Ptr to string?
-						errField = val.FieldByName("ErrorMessage")
-						if errField.IsValid() && errField.Kind() == reflect.Ptr && !errField.IsNil() {
-							if errField.Elem().Kind() == reflect.String {
-								msg = errField.Elem().String()
-							}
-						}
-					}
+				msg := res.GetErrorMessage()
+				if msg == "" {
+					msg = "unknown error"
 				}
 				return res, "failed", fmt.Errorf("%s", msg)
 			}

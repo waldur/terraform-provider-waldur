@@ -87,3 +87,17 @@ type OpenstackTenantQuotasResponse struct {
 	Name  *string `json:"name" tfsdk:"name"`
 	Usage *int64  `json:"usage" tfsdk:"usage"`
 }
+
+func (r *OpenstackTenantResponse) GetState() string {
+	if r.State != nil {
+		return *r.State
+	}
+	return "OK"
+}
+
+func (r *OpenstackTenantResponse) GetErrorMessage() string {
+	if r.ErrorMessage != nil {
+		return *r.ErrorMessage
+	}
+	return ""
+}

@@ -233,3 +233,14 @@ type MarketplaceOfferingSoftwareCatalogsPartitionResponse struct {
 	PriorityTier  *int64  `json:"priority_tier" tfsdk:"priority_tier"`
 	Qos           *string `json:"qos" tfsdk:"qos"`
 }
+
+func (r *MarketplaceOfferingResponse) GetState() string {
+	if r.State != nil {
+		return *r.State
+	}
+	return "OK"
+}
+
+func (r *MarketplaceOfferingResponse) GetErrorMessage() string {
+	return ""
+}

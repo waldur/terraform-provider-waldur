@@ -70,3 +70,17 @@ type OpenstackVolumeAttachmentResponse struct {
 	TypeName                    *string `json:"type_name" tfsdk:"type_name"`
 	Url                         *string `json:"url" tfsdk:"url"`
 }
+
+func (r *OpenstackVolumeAttachmentResponse) GetState() string {
+	if r.State != nil {
+		return *r.State
+	}
+	return "OK"
+}
+
+func (r *OpenstackVolumeAttachmentResponse) GetErrorMessage() string {
+	if r.ErrorMessage != nil {
+		return *r.ErrorMessage
+	}
+	return ""
+}

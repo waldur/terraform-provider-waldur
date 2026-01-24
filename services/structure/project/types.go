@@ -70,3 +70,11 @@ type StructureProjectResponse struct {
 	TypeUuid                             *string  `json:"type_uuid" tfsdk:"type_uuid"`
 	Url                                  *string  `json:"url" tfsdk:"url"`
 }
+
+func (r *StructureProjectResponse) GetState() string {
+	return "OK"
+}
+
+func (r *StructureProjectResponse) GetErrorMessage() string {
+	return ""
+}

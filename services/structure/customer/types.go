@@ -151,3 +151,11 @@ type StructureCustomerPaymentProfilesAttributesResponse struct {
 	ContractSum     *int64  `json:"contract_sum" tfsdk:"contract_sum"`
 	EndDate         *string `json:"end_date" tfsdk:"end_date"`
 }
+
+func (r *StructureCustomerResponse) GetState() string {
+	return "OK"
+}
+
+func (r *StructureCustomerResponse) GetErrorMessage() string {
+	return ""
+}

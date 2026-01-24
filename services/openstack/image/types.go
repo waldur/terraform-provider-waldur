@@ -15,3 +15,11 @@ type OpenstackImageResponse struct {
 	Settings  *string `json:"settings" tfsdk:"settings"`
 	Url       *string `json:"url" tfsdk:"url"`
 }
+
+func (r *OpenstackImageResponse) GetState() string {
+	return "OK"
+}
+
+func (r *OpenstackImageResponse) GetErrorMessage() string {
+	return ""
+}
