@@ -2,6 +2,7 @@ package project
 
 import (
 	"context"
+	"time"
 
 	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
@@ -16,6 +17,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/waldur/terraform-provider-waldur/internal/client"
+	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
 // Ensure provider defined types fully satisfy framework interfaces.
@@ -256,21 +258,22 @@ func (r *StructureProjectResource) Create(ctx context.Context, req resource.Crea
 		return
 	}
 
-	var requestBody StructureProjectCreateRequest // Prepare request body
-	requestBody.BackendId = data.BackendId.ValueStringPointer()
-	requestBody.Customer = data.Customer.ValueStringPointer()
-	requestBody.Description = data.Description.ValueStringPointer()
-	requestBody.EndDate = data.EndDate.ValueStringPointer()
-	requestBody.GracePeriodDays = data.GracePeriodDays.ValueInt64Pointer()
-	requestBody.Image = data.Image.ValueStringPointer()
-	requestBody.IsIndustry = data.IsIndustry.ValueBoolPointer()
-	requestBody.Kind = data.Kind.ValueStringPointer()
-	requestBody.Name = data.Name.ValueStringPointer()
-	requestBody.OecdFos2007Code = data.OecdFos2007Code.ValueStringPointer()
-	requestBody.Slug = data.Slug.ValueStringPointer()
-	requestBody.StaffNotes = data.StaffNotes.ValueStringPointer()
-	requestBody.StartDate = data.StartDate.ValueStringPointer()
-	requestBody.Type = data.Type.ValueStringPointer()
+	requestBody := StructureProjectCreateRequest{
+		BackendId:       data.BackendId.ValueStringPointer(),
+		Customer:        data.Customer.ValueStringPointer(),
+		Description:     data.Description.ValueStringPointer(),
+		EndDate:         data.EndDate.ValueStringPointer(),
+		GracePeriodDays: data.GracePeriodDays.ValueInt64Pointer(),
+		Image:           data.Image.ValueStringPointer(),
+		IsIndustry:      data.IsIndustry.ValueBoolPointer(),
+		Kind:            data.Kind.ValueStringPointer(),
+		Name:            data.Name.ValueStringPointer(),
+		OecdFos2007Code: data.OecdFos2007Code.ValueStringPointer(),
+		Slug:            data.Slug.ValueStringPointer(),
+		StaffNotes:      data.StaffNotes.ValueStringPointer(),
+		StartDate:       data.StartDate.ValueStringPointer(),
+		Type:            data.Type.ValueStringPointer(),
+	}
 
 	apiResp, err := r.client.CreateStructureProject(ctx, &requestBody)
 	if err != nil {
@@ -281,6 +284,21 @@ func (r *StructureProjectResource) Create(ctx context.Context, req resource.Crea
 		return
 	}
 	data.UUID = types.StringPointerValue(apiResp.UUID)
+
+	createTimeout, diags := data.Timeouts.Create(ctx, 30*time.Minute)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	newResp, err := common.WaitForResource(ctx, func(ctx context.Context) (*StructureProjectResponse, error) {
+		return r.client.GetStructureProject(ctx, data.UUID.ValueString())
+	}, createTimeout)
+	if err != nil {
+		resp.Diagnostics.AddError("Failed to wait for resource creation", err.Error())
+		return
+	}
+	apiResp = newResp
 
 	resp.Diagnostics.Append(r.mapResponseToModel(ctx, *apiResp, &data)...)
 
@@ -328,21 +346,22 @@ func (r *StructureProjectResource) Update(ctx context.Context, req resource.Upda
 		return
 	}
 
-	var requestBody StructureProjectUpdateRequest // Prepare request body
-	requestBody.BackendId = data.BackendId.ValueStringPointer()
-	requestBody.Customer = data.Customer.ValueStringPointer()
-	requestBody.Description = data.Description.ValueStringPointer()
-	requestBody.EndDate = data.EndDate.ValueStringPointer()
-	requestBody.GracePeriodDays = data.GracePeriodDays.ValueInt64Pointer()
-	requestBody.Image = data.Image.ValueStringPointer()
-	requestBody.IsIndustry = data.IsIndustry.ValueBoolPointer()
-	requestBody.Kind = data.Kind.ValueStringPointer()
-	requestBody.Name = data.Name.ValueStringPointer()
-	requestBody.OecdFos2007Code = data.OecdFos2007Code.ValueStringPointer()
-	requestBody.Slug = data.Slug.ValueStringPointer()
-	requestBody.StaffNotes = data.StaffNotes.ValueStringPointer()
-	requestBody.StartDate = data.StartDate.ValueStringPointer()
-	requestBody.Type = data.Type.ValueStringPointer()
+	requestBody := StructureProjectUpdateRequest{
+		BackendId:       data.BackendId.ValueStringPointer(),
+		Customer:        data.Customer.ValueStringPointer(),
+		Description:     data.Description.ValueStringPointer(),
+		EndDate:         data.EndDate.ValueStringPointer(),
+		GracePeriodDays: data.GracePeriodDays.ValueInt64Pointer(),
+		Image:           data.Image.ValueStringPointer(),
+		IsIndustry:      data.IsIndustry.ValueBoolPointer(),
+		Kind:            data.Kind.ValueStringPointer(),
+		Name:            data.Name.ValueStringPointer(),
+		OecdFos2007Code: data.OecdFos2007Code.ValueStringPointer(),
+		Slug:            data.Slug.ValueStringPointer(),
+		StaffNotes:      data.StaffNotes.ValueStringPointer(),
+		StartDate:       data.StartDate.ValueStringPointer(),
+		Type:            data.Type.ValueStringPointer(),
+	}
 
 	apiResp, err := r.client.UpdateStructureProject(ctx, data.UUID.ValueString(), &requestBody)
 	if err != nil {
@@ -353,10 +372,20 @@ func (r *StructureProjectResource) Update(ctx context.Context, req resource.Upda
 		return
 	}
 
-	// Update UUID from response
-	if apiResp.UUID != nil {
-		data.UUID = types.StringPointerValue(apiResp.UUID)
+	updateTimeout, diags := data.Timeouts.Update(ctx, 30*time.Minute)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
 	}
+
+	newResp, err := common.WaitForResource(ctx, func(ctx context.Context) (*StructureProjectResponse, error) {
+		return r.client.GetStructureProject(ctx, data.UUID.ValueString())
+	}, updateTimeout)
+	if err != nil {
+		resp.Diagnostics.AddError("Failed to wait for resource update", err.Error())
+		return
+	}
+	apiResp = newResp
 
 	resp.Diagnostics.Append(r.mapResponseToModel(ctx, *apiResp, &data)...)
 
@@ -376,6 +405,20 @@ func (r *StructureProjectResource) Delete(ctx context.Context, req resource.Dele
 			"Unable to Delete Structure Project",
 			"An error occurred while deleting the Structure Project: "+err.Error(),
 		)
+		return
+	}
+
+	deleteTimeout, diags := data.Timeouts.Delete(ctx, 10*time.Minute)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	err = common.WaitForDeletion(ctx, func(ctx context.Context) (*StructureProjectResponse, error) {
+		return r.client.GetStructureProject(ctx, data.UUID.ValueString())
+	}, deleteTimeout)
+	if err != nil {
+		resp.Diagnostics.AddError("Failed to wait for resource deletion", err.Error())
 		return
 	}
 }

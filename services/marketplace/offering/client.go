@@ -18,7 +18,6 @@ func NewClient(c *client.Client) *Client {
 	return &Client{Client: c}
 }
 
-// CreateMarketplaceOffering creates a new resource.
 func (c *Client) CreateMarketplaceOffering(ctx context.Context, req *MarketplaceOfferingCreateRequest) (*MarketplaceOfferingResponse, error) {
 	var apiResp MarketplaceOfferingResponse
 	path := "/api/marketplace-provider-offerings/"
@@ -30,7 +29,6 @@ func (c *Client) CreateMarketplaceOffering(ctx context.Context, req *Marketplace
 	return &apiResp, nil
 }
 
-// GetMarketplaceOffering retrieves a resource by its UUID.
 func (c *Client) GetMarketplaceOffering(ctx context.Context, id string) (*MarketplaceOfferingResponse, error) {
 	var apiResp MarketplaceOfferingResponse
 	err := c.Client.Get(ctx, "/api/marketplace-provider-offerings/{uuid}/", id, &apiResp)
@@ -40,12 +38,10 @@ func (c *Client) GetMarketplaceOffering(ctx context.Context, id string) (*Market
 	return &apiResp, nil
 }
 
-// DeleteMarketplaceOffering deletes a resource.
 func (c *Client) DeleteMarketplaceOffering(ctx context.Context, id string) error {
 	return c.Client.Delete(ctx, "/api/marketplace-provider-offerings/{uuid}/", id)
 }
 
-// ListMarketplaceOffering retrieves a list of resources with optional filtering.
 func (c *Client) ListMarketplaceOffering(ctx context.Context, filter map[string]string) ([]MarketplaceOfferingResponse, error) {
 	var listResult []MarketplaceOfferingResponse
 	err := c.Client.List(ctx, "/api/marketplace-provider-offerings/", filter, &listResult)

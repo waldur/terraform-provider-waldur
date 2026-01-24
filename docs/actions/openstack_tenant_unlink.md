@@ -18,3 +18,7 @@ Perform unlink action on openstack tenant
 ### Required
 
 - `uuid` (String) The UUID of the openstack tenant
+
+### Optional
+
+- `timeout` (String) Timeout for the action execution and state stabilization (e.g. '10m').

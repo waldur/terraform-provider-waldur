@@ -260,7 +260,9 @@ func (l *OpenstackPortList) List(ctx context.Context, req list.ListRequest, stre
 				diags.Append(listDiagsFixedIps...)
 				model.FixedIps = listValFixedIps
 			}
-			model.FloatingIps, _ = types.ListValueFrom(ctx, types.StringType, apiResp.FloatingIps)
+			listValFloatingIps, listDiagsFloatingIps := types.ListValueFrom(ctx, types.StringType, apiResp.FloatingIps)
+			model.FloatingIps = listValFloatingIps
+			diags.Append(listDiagsFloatingIps...)
 			model.MacAddress = types.StringPointerValue(apiResp.MacAddress)
 			model.Modified = types.StringPointerValue(apiResp.Modified)
 			model.Name = types.StringPointerValue(apiResp.Name)

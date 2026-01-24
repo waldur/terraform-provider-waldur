@@ -121,3 +121,121 @@ func WaitForOrder(ctx context.Context, c *client.Client, orderUUID string, timeo
 
 	return rawResult.(*OrderDetails), nil
 }
+
+// WaitForResource blocks until a resource reaches the "OK" state.
+func WaitForResource[T any](ctx context.Context, getResource func(context.Context) (*T, error), timeout time.Duration) (*T, error) {
+	stateConf := &retry.StateChangeConf{
+		Pending: []string{"CREATION_SCHEDULED", "CREATING", "UPDATE_SCHEDULED", "UPDATING", "DELETION_SCHEDULED", "DELETING"},
+		Target:  []string{"OK"},
+		Refresh: func() (interface{}, string, error) {
+			res, err := getResource(ctx)
+			if err != nil {
+				return nil, "", err
+			}
+
+			// Use reflection to check for "state" field
+			val := reflect.ValueOf(res)
+			if val.Kind() == reflect.Ptr {
+				val = val.Elem()
+			}
+
+			state := "OK" // Default state if field not found
+			if val.Kind() == reflect.Struct {
+				field := val.FieldByName("State")
+				if field.IsValid() && field.Kind() == reflect.String {
+					state = field.String()
+				}
+			}
+
+			if state == "ERRED" {
+				// Try to find error_message
+				msg := "resource in erred state"
+				if val.Kind() == reflect.Struct {
+					errField := val.FieldByName("ErrorMessage")
+					if errField.IsValid() && errField.Kind() == reflect.String {
+						msg = errField.String()
+					} else {
+						// Ptr to string?
+						errField = val.FieldByName("ErrorMessage")
+						if errField.IsValid() && errField.Kind() == reflect.Ptr && !errField.IsNil() {
+							if errField.Elem().Kind() == reflect.String {
+								msg = errField.Elem().String()
+							}
+						}
+					}
+				}
+				return res, "failed", fmt.Errorf("%s", msg)
+			}
+
+			return res, state, nil
+		},
+		Timeout:    timeout,
+		Delay:      10 * time.Second,
+		MinTimeout: 5 * time.Second,
+	}
+
+	rawResult, err := stateConf.WaitForStateContext(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return rawResult.(*T), nil
+}
+
+// WaitForDeletion blocks until a resource is gone (404).
+func WaitForDeletion[T any](ctx context.Context, getResource func(context.Context) (*T, error), timeout time.Duration) error {
+	stateConf := &retry.StateChangeConf{
+		Pending: []string{"CREATION_SCHEDULED", "CREATING", "UPDATE_SCHEDULED", "UPDATING", "DELETION_SCHEDULED", "DELETING", "OK"},
+		Refresh: func() (interface{}, string, error) {
+			res, err := getResource(ctx)
+			if err != nil {
+				if client.IsNotFoundError(err) {
+					return nil, "", nil
+				}
+				return nil, "", err
+			}
+
+			// Use reflection to check for "state" field
+			val := reflect.ValueOf(res)
+			if val.Kind() == reflect.Ptr {
+				val = val.Elem()
+			}
+
+			state := "DELETING" // Default state if field not found
+			if val.Kind() == reflect.Struct {
+				field := val.FieldByName("State")
+				if field.IsValid() && field.Kind() == reflect.String {
+					state = field.String()
+				}
+			}
+
+			if state == "ERRED" {
+				// Try to find error_message
+				msg := "resource in erred state"
+				if val.Kind() == reflect.Struct {
+					errField := val.FieldByName("ErrorMessage")
+					if errField.IsValid() && errField.Kind() == reflect.String {
+						msg = errField.String()
+					} else {
+						// Ptr to string?
+						errField = val.FieldByName("ErrorMessage")
+						if errField.IsValid() && errField.Kind() == reflect.Ptr && !errField.IsNil() {
+							if errField.Elem().Kind() == reflect.String {
+								msg = errField.Elem().String()
+							}
+						}
+					}
+				}
+				return res, "failed", fmt.Errorf("%s", msg)
+			}
+
+			return res, state, nil
+		},
+		Timeout:    timeout,
+		Delay:      10 * time.Second,
+		MinTimeout: 5 * time.Second,
+	}
+
+	_, err := stateConf.WaitForStateContext(ctx)
+	return err
+}

@@ -2,6 +2,7 @@ package order
 
 import (
 	"context"
+	"time"
 
 	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
@@ -16,6 +17,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/waldur/terraform-provider-waldur/internal/client"
+	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
 // Ensure provider defined types fully satisfy framework interfaces.
@@ -629,22 +631,23 @@ func (r *MarketplaceOrderResource) Create(ctx context.Context, req resource.Crea
 		return
 	}
 
-	var requestBody MarketplaceOrderCreateRequest // Prepare request body
-	requestBody.AcceptingTermsOfService = data.AcceptingTermsOfService.ValueBoolPointer()
+	requestBody := MarketplaceOrderCreateRequest{
+		AcceptingTermsOfService: data.AcceptingTermsOfService.ValueBoolPointer(),
+		CallbackUrl:             data.CallbackUrl.ValueStringPointer(),
+		Offering:                data.Offering.ValueStringPointer(),
+		Plan:                    data.Plan.ValueStringPointer(),
+		Project:                 data.Project.ValueStringPointer(),
+		RequestComment:          data.RequestComment.ValueStringPointer(),
+		Slug:                    data.Slug.ValueStringPointer(),
+		StartDate:               data.StartDate.ValueStringPointer(),
+		Type:                    data.Type.ValueStringPointer(),
+	}
 	{
 		var mapItems map[string]interface{}
 		if diags := data.Attributes.ElementsAs(ctx, &mapItems, false); !diags.HasError() && len(mapItems) > 0 {
 			requestBody.Attributes = mapItems
 		}
 	}
-	requestBody.CallbackUrl = data.CallbackUrl.ValueStringPointer()
-	requestBody.Offering = data.Offering.ValueStringPointer()
-	requestBody.Plan = data.Plan.ValueStringPointer()
-	requestBody.Project = data.Project.ValueStringPointer()
-	requestBody.RequestComment = data.RequestComment.ValueStringPointer()
-	requestBody.Slug = data.Slug.ValueStringPointer()
-	requestBody.StartDate = data.StartDate.ValueStringPointer()
-	requestBody.Type = data.Type.ValueStringPointer()
 
 	apiResp, err := r.client.CreateMarketplaceOrder(ctx, &requestBody)
 	if err != nil {
@@ -655,6 +658,21 @@ func (r *MarketplaceOrderResource) Create(ctx context.Context, req resource.Crea
 		return
 	}
 	data.UUID = types.StringPointerValue(apiResp.UUID)
+
+	createTimeout, diags := data.Timeouts.Create(ctx, 30*time.Minute)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	newResp, err := common.WaitForResource(ctx, func(ctx context.Context) (*MarketplaceOrderResponse, error) {
+		return r.client.GetMarketplaceOrder(ctx, data.UUID.ValueString())
+	}, createTimeout)
+	if err != nil {
+		resp.Diagnostics.AddError("Failed to wait for resource creation", err.Error())
+		return
+	}
+	apiResp = newResp
 
 	resp.Diagnostics.Append(r.mapResponseToModel(ctx, *apiResp, &data)...)
 
@@ -710,6 +728,20 @@ func (r *MarketplaceOrderResource) Delete(ctx context.Context, req resource.Dele
 			"Unable to Delete Marketplace Order",
 			"An error occurred while deleting the Marketplace Order: "+err.Error(),
 		)
+		return
+	}
+
+	deleteTimeout, diags := data.Timeouts.Delete(ctx, 10*time.Minute)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	err = common.WaitForDeletion(ctx, func(ctx context.Context) (*MarketplaceOrderResponse, error) {
+		return r.client.GetMarketplaceOrder(ctx, data.UUID.ValueString())
+	}, deleteTimeout)
+	if err != nil {
+		resp.Diagnostics.AddError("Failed to wait for resource deletion", err.Error())
 		return
 	}
 }

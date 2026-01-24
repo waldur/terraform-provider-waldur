@@ -2,6 +2,7 @@ package network
 
 import (
 	"context"
+	"time"
 
 	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
@@ -17,6 +18,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/waldur/terraform-provider-waldur/internal/client"
+	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
 // Ensure provider defined types fully satisfy framework interfaces.
@@ -325,11 +327,12 @@ func (r *OpenstackNetworkResource) Create(ctx context.Context, req resource.Crea
 		return
 	}
 
-	var requestBody OpenstackNetworkCreateRequest // Prepare request body
-	requestBody.Description = data.Description.ValueStringPointer()
-	requestBody.Name = data.Name.ValueStringPointer()
+	requestBody := OpenstackNetworkCreateRequest{
+		Description: data.Description.ValueStringPointer(),
+		Name:        data.Name.ValueStringPointer(),
+	}
 
-	apiResp, err := r.client.CreateOpenstackNetwork(ctx, &requestBody)
+	apiResp, err := r.client.CreateOpenstackNetwork(ctx, data.Tenant.ValueString(), &requestBody)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Unable to Create Openstack Network",
@@ -338,6 +341,21 @@ func (r *OpenstackNetworkResource) Create(ctx context.Context, req resource.Crea
 		return
 	}
 	data.UUID = types.StringPointerValue(apiResp.UUID)
+
+	createTimeout, diags := data.Timeouts.Create(ctx, 30*time.Minute)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	newResp, err := common.WaitForResource(ctx, func(ctx context.Context) (*OpenstackNetworkResponse, error) {
+		return r.client.GetOpenstackNetwork(ctx, data.UUID.ValueString())
+	}, createTimeout)
+	if err != nil {
+		resp.Diagnostics.AddError("Failed to wait for resource creation", err.Error())
+		return
+	}
+	apiResp = newResp
 
 	resp.Diagnostics.Append(r.mapResponseToModel(ctx, *apiResp, &data)...)
 
@@ -385,9 +403,10 @@ func (r *OpenstackNetworkResource) Update(ctx context.Context, req resource.Upda
 		return
 	}
 
-	var requestBody OpenstackNetworkUpdateRequest // Prepare request body
-	requestBody.Description = data.Description.ValueStringPointer()
-	requestBody.Name = data.Name.ValueStringPointer()
+	requestBody := OpenstackNetworkUpdateRequest{
+		Description: data.Description.ValueStringPointer(),
+		Name:        data.Name.ValueStringPointer(),
+	}
 
 	apiResp, err := r.client.UpdateOpenstackNetwork(ctx, data.UUID.ValueString(), &requestBody)
 	if err != nil {
@@ -398,10 +417,20 @@ func (r *OpenstackNetworkResource) Update(ctx context.Context, req resource.Upda
 		return
 	}
 
-	// Update UUID from response
-	if apiResp.UUID != nil {
-		data.UUID = types.StringPointerValue(apiResp.UUID)
+	updateTimeout, diags := data.Timeouts.Update(ctx, 30*time.Minute)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
 	}
+
+	newResp, err := common.WaitForResource(ctx, func(ctx context.Context) (*OpenstackNetworkResponse, error) {
+		return r.client.GetOpenstackNetwork(ctx, data.UUID.ValueString())
+	}, updateTimeout)
+	if err != nil {
+		resp.Diagnostics.AddError("Failed to wait for resource update", err.Error())
+		return
+	}
+	apiResp = newResp
 
 	resp.Diagnostics.Append(r.mapResponseToModel(ctx, *apiResp, &data)...)
 
@@ -421,6 +450,20 @@ func (r *OpenstackNetworkResource) Delete(ctx context.Context, req resource.Dele
 			"Unable to Delete Openstack Network",
 			"An error occurred while deleting the Openstack Network: "+err.Error(),
 		)
+		return
+	}
+
+	deleteTimeout, diags := data.Timeouts.Delete(ctx, 10*time.Minute)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	err = common.WaitForDeletion(ctx, func(ctx context.Context) (*OpenstackNetworkResponse, error) {
+		return r.client.GetOpenstackNetwork(ctx, data.UUID.ValueString())
+	}, deleteTimeout)
+	if err != nil {
+		resp.Diagnostics.AddError("Failed to wait for resource deletion", err.Error())
 		return
 	}
 }

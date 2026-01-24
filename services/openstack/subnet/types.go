@@ -15,7 +15,6 @@ type OpenstackSubnetCreateRequest struct {
 	GatewayIp       *string                                       `json:"gateway_ip,omitempty" tfsdk:"gateway_ip"`
 	HostRoutes      []common.OpenStackStaticRouteRequest          `json:"host_routes,omitempty" tfsdk:"host_routes"`
 	Name            *string                                       `json:"name" tfsdk:"name"`
-	Network         *string                                       `json:"network" tfsdk:"network"`
 }
 
 type OpenstackSubnetUpdateRequest struct {

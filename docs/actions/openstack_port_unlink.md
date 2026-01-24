@@ -18,3 +18,7 @@ Perform unlink action on openstack port
 ### Required
 
 - `uuid` (String) The UUID of the openstack port
+
+### Optional
+
+- `timeout` (String) Timeout for the action execution and state stabilization (e.g. '10m').

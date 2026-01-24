@@ -2,6 +2,7 @@ package customer
 
 import (
 	"context"
+	"time"
 
 	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
@@ -18,6 +19,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/waldur/terraform-provider-waldur/internal/client"
+	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
 // Ensure provider defined types fully satisfy framework interfaces.
@@ -447,40 +449,41 @@ func (r *StructureCustomerResource) Create(ctx context.Context, req resource.Cre
 		return
 	}
 
-	var requestBody StructureCustomerCreateRequest // Prepare request body
-	requestBody.Abbreviation = data.Abbreviation.ValueStringPointer()
-	requestBody.AccessSubnets = data.AccessSubnets.ValueStringPointer()
-	requestBody.AccountingStartDate = data.AccountingStartDate.ValueStringPointer()
-	requestBody.Address = data.Address.ValueStringPointer()
-	requestBody.AgreementNumber = data.AgreementNumber.ValueStringPointer()
-	requestBody.Archived = data.Archived.ValueBoolPointer()
-	requestBody.BackendId = data.BackendId.ValueStringPointer()
-	requestBody.BankAccount = data.BankAccount.ValueStringPointer()
-	requestBody.BankName = data.BankName.ValueStringPointer()
-	requestBody.Blocked = data.Blocked.ValueBoolPointer()
-	requestBody.ContactDetails = data.ContactDetails.ValueStringPointer()
-	requestBody.Country = data.Country.ValueStringPointer()
-	requestBody.DefaultTaxPercent = data.DefaultTaxPercent.ValueStringPointer()
-	requestBody.Description = data.Description.ValueStringPointer()
-	requestBody.DisplayBillingInfoInProjects = data.DisplayBillingInfoInProjects.ValueBoolPointer()
-	requestBody.Domain = data.Domain.ValueStringPointer()
-	requestBody.Email = data.Email.ValueStringPointer()
-	requestBody.GracePeriodDays = data.GracePeriodDays.ValueInt64Pointer()
-	requestBody.Homepage = data.Homepage.ValueStringPointer()
-	requestBody.Image = data.Image.ValueStringPointer()
-	requestBody.Latitude = data.Latitude.ValueFloat64Pointer()
-	requestBody.Longitude = data.Longitude.ValueFloat64Pointer()
-	requestBody.MaxServiceAccounts = data.MaxServiceAccounts.ValueInt64Pointer()
-	requestBody.Name = data.Name.ValueStringPointer()
-	requestBody.NativeName = data.NativeName.ValueStringPointer()
-	requestBody.NotificationEmails = data.NotificationEmails.ValueStringPointer()
-	requestBody.PhoneNumber = data.PhoneNumber.ValueStringPointer()
-	requestBody.Postal = data.Postal.ValueStringPointer()
-	requestBody.ProjectMetadataChecklist = data.ProjectMetadataChecklist.ValueStringPointer()
-	requestBody.RegistrationCode = data.RegistrationCode.ValueStringPointer()
-	requestBody.Slug = data.Slug.ValueStringPointer()
-	requestBody.SponsorNumber = data.SponsorNumber.ValueInt64Pointer()
-	requestBody.VatCode = data.VatCode.ValueStringPointer()
+	requestBody := StructureCustomerCreateRequest{
+		Abbreviation:                 data.Abbreviation.ValueStringPointer(),
+		AccessSubnets:                data.AccessSubnets.ValueStringPointer(),
+		AccountingStartDate:          data.AccountingStartDate.ValueStringPointer(),
+		Address:                      data.Address.ValueStringPointer(),
+		AgreementNumber:              data.AgreementNumber.ValueStringPointer(),
+		Archived:                     data.Archived.ValueBoolPointer(),
+		BackendId:                    data.BackendId.ValueStringPointer(),
+		BankAccount:                  data.BankAccount.ValueStringPointer(),
+		BankName:                     data.BankName.ValueStringPointer(),
+		Blocked:                      data.Blocked.ValueBoolPointer(),
+		ContactDetails:               data.ContactDetails.ValueStringPointer(),
+		Country:                      data.Country.ValueStringPointer(),
+		DefaultTaxPercent:            data.DefaultTaxPercent.ValueStringPointer(),
+		Description:                  data.Description.ValueStringPointer(),
+		DisplayBillingInfoInProjects: data.DisplayBillingInfoInProjects.ValueBoolPointer(),
+		Domain:                       data.Domain.ValueStringPointer(),
+		Email:                        data.Email.ValueStringPointer(),
+		GracePeriodDays:              data.GracePeriodDays.ValueInt64Pointer(),
+		Homepage:                     data.Homepage.ValueStringPointer(),
+		Image:                        data.Image.ValueStringPointer(),
+		Latitude:                     data.Latitude.ValueFloat64Pointer(),
+		Longitude:                    data.Longitude.ValueFloat64Pointer(),
+		MaxServiceAccounts:           data.MaxServiceAccounts.ValueInt64Pointer(),
+		Name:                         data.Name.ValueStringPointer(),
+		NativeName:                   data.NativeName.ValueStringPointer(),
+		NotificationEmails:           data.NotificationEmails.ValueStringPointer(),
+		PhoneNumber:                  data.PhoneNumber.ValueStringPointer(),
+		Postal:                       data.Postal.ValueStringPointer(),
+		ProjectMetadataChecklist:     data.ProjectMetadataChecklist.ValueStringPointer(),
+		RegistrationCode:             data.RegistrationCode.ValueStringPointer(),
+		Slug:                         data.Slug.ValueStringPointer(),
+		SponsorNumber:                data.SponsorNumber.ValueInt64Pointer(),
+		VatCode:                      data.VatCode.ValueStringPointer(),
+	}
 
 	apiResp, err := r.client.CreateStructureCustomer(ctx, &requestBody)
 	if err != nil {
@@ -491,6 +494,21 @@ func (r *StructureCustomerResource) Create(ctx context.Context, req resource.Cre
 		return
 	}
 	data.UUID = types.StringPointerValue(apiResp.UUID)
+
+	createTimeout, diags := data.Timeouts.Create(ctx, 30*time.Minute)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	newResp, err := common.WaitForResource(ctx, func(ctx context.Context) (*StructureCustomerResponse, error) {
+		return r.client.GetStructureCustomer(ctx, data.UUID.ValueString())
+	}, createTimeout)
+	if err != nil {
+		resp.Diagnostics.AddError("Failed to wait for resource creation", err.Error())
+		return
+	}
+	apiResp = newResp
 
 	resp.Diagnostics.Append(r.mapResponseToModel(ctx, *apiResp, &data)...)
 
@@ -538,40 +556,41 @@ func (r *StructureCustomerResource) Update(ctx context.Context, req resource.Upd
 		return
 	}
 
-	var requestBody StructureCustomerUpdateRequest // Prepare request body
-	requestBody.Abbreviation = data.Abbreviation.ValueStringPointer()
-	requestBody.AccessSubnets = data.AccessSubnets.ValueStringPointer()
-	requestBody.AccountingStartDate = data.AccountingStartDate.ValueStringPointer()
-	requestBody.Address = data.Address.ValueStringPointer()
-	requestBody.AgreementNumber = data.AgreementNumber.ValueStringPointer()
-	requestBody.Archived = data.Archived.ValueBoolPointer()
-	requestBody.BackendId = data.BackendId.ValueStringPointer()
-	requestBody.BankAccount = data.BankAccount.ValueStringPointer()
-	requestBody.BankName = data.BankName.ValueStringPointer()
-	requestBody.Blocked = data.Blocked.ValueBoolPointer()
-	requestBody.ContactDetails = data.ContactDetails.ValueStringPointer()
-	requestBody.Country = data.Country.ValueStringPointer()
-	requestBody.DefaultTaxPercent = data.DefaultTaxPercent.ValueStringPointer()
-	requestBody.Description = data.Description.ValueStringPointer()
-	requestBody.DisplayBillingInfoInProjects = data.DisplayBillingInfoInProjects.ValueBoolPointer()
-	requestBody.Domain = data.Domain.ValueStringPointer()
-	requestBody.Email = data.Email.ValueStringPointer()
-	requestBody.GracePeriodDays = data.GracePeriodDays.ValueInt64Pointer()
-	requestBody.Homepage = data.Homepage.ValueStringPointer()
-	requestBody.Image = data.Image.ValueStringPointer()
-	requestBody.Latitude = data.Latitude.ValueFloat64Pointer()
-	requestBody.Longitude = data.Longitude.ValueFloat64Pointer()
-	requestBody.MaxServiceAccounts = data.MaxServiceAccounts.ValueInt64Pointer()
-	requestBody.Name = data.Name.ValueStringPointer()
-	requestBody.NativeName = data.NativeName.ValueStringPointer()
-	requestBody.NotificationEmails = data.NotificationEmails.ValueStringPointer()
-	requestBody.PhoneNumber = data.PhoneNumber.ValueStringPointer()
-	requestBody.Postal = data.Postal.ValueStringPointer()
-	requestBody.ProjectMetadataChecklist = data.ProjectMetadataChecklist.ValueStringPointer()
-	requestBody.RegistrationCode = data.RegistrationCode.ValueStringPointer()
-	requestBody.Slug = data.Slug.ValueStringPointer()
-	requestBody.SponsorNumber = data.SponsorNumber.ValueInt64Pointer()
-	requestBody.VatCode = data.VatCode.ValueStringPointer()
+	requestBody := StructureCustomerUpdateRequest{
+		Abbreviation:                 data.Abbreviation.ValueStringPointer(),
+		AccessSubnets:                data.AccessSubnets.ValueStringPointer(),
+		AccountingStartDate:          data.AccountingStartDate.ValueStringPointer(),
+		Address:                      data.Address.ValueStringPointer(),
+		AgreementNumber:              data.AgreementNumber.ValueStringPointer(),
+		Archived:                     data.Archived.ValueBoolPointer(),
+		BackendId:                    data.BackendId.ValueStringPointer(),
+		BankAccount:                  data.BankAccount.ValueStringPointer(),
+		BankName:                     data.BankName.ValueStringPointer(),
+		Blocked:                      data.Blocked.ValueBoolPointer(),
+		ContactDetails:               data.ContactDetails.ValueStringPointer(),
+		Country:                      data.Country.ValueStringPointer(),
+		DefaultTaxPercent:            data.DefaultTaxPercent.ValueStringPointer(),
+		Description:                  data.Description.ValueStringPointer(),
+		DisplayBillingInfoInProjects: data.DisplayBillingInfoInProjects.ValueBoolPointer(),
+		Domain:                       data.Domain.ValueStringPointer(),
+		Email:                        data.Email.ValueStringPointer(),
+		GracePeriodDays:              data.GracePeriodDays.ValueInt64Pointer(),
+		Homepage:                     data.Homepage.ValueStringPointer(),
+		Image:                        data.Image.ValueStringPointer(),
+		Latitude:                     data.Latitude.ValueFloat64Pointer(),
+		Longitude:                    data.Longitude.ValueFloat64Pointer(),
+		MaxServiceAccounts:           data.MaxServiceAccounts.ValueInt64Pointer(),
+		Name:                         data.Name.ValueStringPointer(),
+		NativeName:                   data.NativeName.ValueStringPointer(),
+		NotificationEmails:           data.NotificationEmails.ValueStringPointer(),
+		PhoneNumber:                  data.PhoneNumber.ValueStringPointer(),
+		Postal:                       data.Postal.ValueStringPointer(),
+		ProjectMetadataChecklist:     data.ProjectMetadataChecklist.ValueStringPointer(),
+		RegistrationCode:             data.RegistrationCode.ValueStringPointer(),
+		Slug:                         data.Slug.ValueStringPointer(),
+		SponsorNumber:                data.SponsorNumber.ValueInt64Pointer(),
+		VatCode:                      data.VatCode.ValueStringPointer(),
+	}
 
 	apiResp, err := r.client.UpdateStructureCustomer(ctx, data.UUID.ValueString(), &requestBody)
 	if err != nil {
@@ -582,10 +601,20 @@ func (r *StructureCustomerResource) Update(ctx context.Context, req resource.Upd
 		return
 	}
 
-	// Update UUID from response
-	if apiResp.UUID != nil {
-		data.UUID = types.StringPointerValue(apiResp.UUID)
+	updateTimeout, diags := data.Timeouts.Update(ctx, 30*time.Minute)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
 	}
+
+	newResp, err := common.WaitForResource(ctx, func(ctx context.Context) (*StructureCustomerResponse, error) {
+		return r.client.GetStructureCustomer(ctx, data.UUID.ValueString())
+	}, updateTimeout)
+	if err != nil {
+		resp.Diagnostics.AddError("Failed to wait for resource update", err.Error())
+		return
+	}
+	apiResp = newResp
 
 	resp.Diagnostics.Append(r.mapResponseToModel(ctx, *apiResp, &data)...)
 
@@ -605,6 +634,20 @@ func (r *StructureCustomerResource) Delete(ctx context.Context, req resource.Del
 			"Unable to Delete Structure Customer",
 			"An error occurred while deleting the Structure Customer: "+err.Error(),
 		)
+		return
+	}
+
+	deleteTimeout, diags := data.Timeouts.Delete(ctx, 10*time.Minute)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	err = common.WaitForDeletion(ctx, func(ctx context.Context) (*StructureCustomerResponse, error) {
+		return r.client.GetStructureCustomer(ctx, data.UUID.ValueString())
+	}, deleteTimeout)
+	if err != nil {
+		resp.Diagnostics.AddError("Failed to wait for resource deletion", err.Error())
 		return
 	}
 }

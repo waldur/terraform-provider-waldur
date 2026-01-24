@@ -2,6 +2,7 @@ package offering
 
 import (
 	"context"
+	"time"
 
 	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
@@ -941,29 +942,37 @@ func (r *MarketplaceOfferingResource) Create(ctx context.Context, req resource.C
 		return
 	}
 
-	var requestBody MarketplaceOfferingCreateRequest // Prepare request body
-	requestBody.AccessUrl = data.AccessUrl.ValueStringPointer()
-	requestBody.BackendId = data.BackendId.ValueStringPointer()
-	requestBody.Billable = data.Billable.ValueBoolPointer()
-	requestBody.Category = data.Category.ValueStringPointer()
-	requestBody.ComplianceChecklist = data.ComplianceChecklist.ValueStringPointer()
+	requestBody := MarketplaceOfferingCreateRequest{
+		AccessUrl:           data.AccessUrl.ValueStringPointer(),
+		BackendId:           data.BackendId.ValueStringPointer(),
+		Billable:            data.Billable.ValueBoolPointer(),
+		Category:            data.Category.ValueStringPointer(),
+		ComplianceChecklist: data.ComplianceChecklist.ValueStringPointer(),
+		Country:             data.Country.ValueStringPointer(),
+		Customer:            data.Customer.ValueStringPointer(),
+		DataciteDoi:         data.DataciteDoi.ValueStringPointer(),
+		Description:         data.Description.ValueStringPointer(),
+		FullDescription:     data.FullDescription.ValueStringPointer(),
+		GettingStarted:      data.GettingStarted.ValueStringPointer(),
+		Image:               data.Image.ValueStringPointer(),
+		IntegrationGuide:    data.IntegrationGuide.ValueStringPointer(),
+		Latitude:            data.Latitude.ValueFloat64Pointer(),
+		Longitude:           data.Longitude.ValueFloat64Pointer(),
+		Name:                data.Name.ValueStringPointer(),
+		PrivacyPolicyLink:   data.PrivacyPolicyLink.ValueStringPointer(),
+		Shared:              data.Shared.ValueBoolPointer(),
+		Slug:                data.Slug.ValueStringPointer(),
+		Thumbnail:           data.Thumbnail.ValueStringPointer(),
+		Type:                data.Type.ValueStringPointer(),
+		VendorDetails:       data.VendorDetails.ValueStringPointer(),
+	}
 	{
+		// Object array or other
 		var items []common.OfferingComponentRequest
 		if diags := data.Components.ElementsAs(ctx, &items, false); !diags.HasError() && len(items) > 0 {
 			requestBody.Components = items
 		}
 	}
-	requestBody.Country = data.Country.ValueStringPointer()
-	requestBody.Customer = data.Customer.ValueStringPointer()
-	requestBody.DataciteDoi = data.DataciteDoi.ValueStringPointer()
-	requestBody.Description = data.Description.ValueStringPointer()
-	requestBody.FullDescription = data.FullDescription.ValueStringPointer()
-	requestBody.GettingStarted = data.GettingStarted.ValueStringPointer()
-	requestBody.Image = data.Image.ValueStringPointer()
-	requestBody.IntegrationGuide = data.IntegrationGuide.ValueStringPointer()
-	requestBody.Latitude = data.Latitude.ValueFloat64Pointer()
-	requestBody.Longitude = data.Longitude.ValueFloat64Pointer()
-	requestBody.Name = data.Name.ValueStringPointer()
 	{
 		var obj common.OfferingOptionsRequest
 		if diags := data.Options.As(ctx, &obj, basetypes.ObjectAsOptions{}); !diags.HasError() {
@@ -971,23 +980,18 @@ func (r *MarketplaceOfferingResource) Create(ctx context.Context, req resource.C
 		}
 	}
 	{
+		// Object array or other
 		var items []common.BaseProviderPlanRequest
 		if diags := data.Plans.ElementsAs(ctx, &items, false); !diags.HasError() && len(items) > 0 {
 			requestBody.Plans = items
 		}
 	}
-	requestBody.PrivacyPolicyLink = data.PrivacyPolicyLink.ValueStringPointer()
 	{
 		var obj common.OfferingOptionsRequest
 		if diags := data.ResourceOptions.As(ctx, &obj, basetypes.ObjectAsOptions{}); !diags.HasError() {
 			requestBody.ResourceOptions = &obj
 		}
 	}
-	requestBody.Shared = data.Shared.ValueBoolPointer()
-	requestBody.Slug = data.Slug.ValueStringPointer()
-	requestBody.Thumbnail = data.Thumbnail.ValueStringPointer()
-	requestBody.Type = data.Type.ValueStringPointer()
-	requestBody.VendorDetails = data.VendorDetails.ValueStringPointer()
 
 	apiResp, err := r.client.CreateMarketplaceOffering(ctx, &requestBody)
 	if err != nil {
@@ -998,6 +1002,21 @@ func (r *MarketplaceOfferingResource) Create(ctx context.Context, req resource.C
 		return
 	}
 	data.UUID = types.StringPointerValue(apiResp.UUID)
+
+	createTimeout, diags := data.Timeouts.Create(ctx, 30*time.Minute)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	newResp, err := common.WaitForResource(ctx, func(ctx context.Context) (*MarketplaceOfferingResponse, error) {
+		return r.client.GetMarketplaceOffering(ctx, data.UUID.ValueString())
+	}, createTimeout)
+	if err != nil {
+		resp.Diagnostics.AddError("Failed to wait for resource creation", err.Error())
+		return
+	}
+	apiResp = newResp
 
 	resp.Diagnostics.Append(r.mapResponseToModel(ctx, *apiResp, &data)...)
 
@@ -1053,6 +1072,20 @@ func (r *MarketplaceOfferingResource) Delete(ctx context.Context, req resource.D
 			"Unable to Delete Marketplace Offering",
 			"An error occurred while deleting the Marketplace Offering: "+err.Error(),
 		)
+		return
+	}
+
+	deleteTimeout, diags := data.Timeouts.Delete(ctx, 10*time.Minute)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	err = common.WaitForDeletion(ctx, func(ctx context.Context) (*MarketplaceOfferingResponse, error) {
+		return r.client.GetMarketplaceOffering(ctx, data.UUID.ValueString())
+	}, deleteTimeout)
+	if err != nil {
+		resp.Diagnostics.AddError("Failed to wait for resource deletion", err.Error())
 		return
 	}
 }

@@ -2,6 +2,7 @@ package server_group
 
 import (
 	"context"
+	"time"
 
 	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
@@ -15,6 +16,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/waldur/terraform-provider-waldur/internal/client"
+	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
 // Ensure provider defined types fully satisfy framework interfaces.
@@ -228,12 +230,13 @@ func (r *OpenstackServerGroupResource) Create(ctx context.Context, req resource.
 		return
 	}
 
-	var requestBody OpenstackServerGroupCreateRequest // Prepare request body
-	requestBody.Description = data.Description.ValueStringPointer()
-	requestBody.Name = data.Name.ValueStringPointer()
-	requestBody.Policy = data.Policy.ValueStringPointer()
+	requestBody := OpenstackServerGroupCreateRequest{
+		Description: data.Description.ValueStringPointer(),
+		Name:        data.Name.ValueStringPointer(),
+		Policy:      data.Policy.ValueStringPointer(),
+	}
 
-	apiResp, err := r.client.CreateOpenstackServerGroup(ctx, &requestBody)
+	apiResp, err := r.client.CreateOpenstackServerGroup(ctx, data.Tenant.ValueString(), &requestBody)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Unable to Create Openstack Server Group",
@@ -242,6 +245,21 @@ func (r *OpenstackServerGroupResource) Create(ctx context.Context, req resource.
 		return
 	}
 	data.UUID = types.StringPointerValue(apiResp.UUID)
+
+	createTimeout, diags := data.Timeouts.Create(ctx, 30*time.Minute)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	newResp, err := common.WaitForResource(ctx, func(ctx context.Context) (*OpenstackServerGroupResponse, error) {
+		return r.client.GetOpenstackServerGroup(ctx, data.UUID.ValueString())
+	}, createTimeout)
+	if err != nil {
+		resp.Diagnostics.AddError("Failed to wait for resource creation", err.Error())
+		return
+	}
+	apiResp = newResp
 
 	resp.Diagnostics.Append(r.mapResponseToModel(ctx, *apiResp, &data)...)
 
@@ -289,10 +307,11 @@ func (r *OpenstackServerGroupResource) Update(ctx context.Context, req resource.
 		return
 	}
 
-	var requestBody OpenstackServerGroupUpdateRequest // Prepare request body
-	requestBody.Description = data.Description.ValueStringPointer()
-	requestBody.Name = data.Name.ValueStringPointer()
-	requestBody.Policy = data.Policy.ValueStringPointer()
+	requestBody := OpenstackServerGroupUpdateRequest{
+		Description: data.Description.ValueStringPointer(),
+		Name:        data.Name.ValueStringPointer(),
+		Policy:      data.Policy.ValueStringPointer(),
+	}
 
 	apiResp, err := r.client.UpdateOpenstackServerGroup(ctx, data.UUID.ValueString(), &requestBody)
 	if err != nil {
@@ -303,10 +322,20 @@ func (r *OpenstackServerGroupResource) Update(ctx context.Context, req resource.
 		return
 	}
 
-	// Update UUID from response
-	if apiResp.UUID != nil {
-		data.UUID = types.StringPointerValue(apiResp.UUID)
+	updateTimeout, diags := data.Timeouts.Update(ctx, 30*time.Minute)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
 	}
+
+	newResp, err := common.WaitForResource(ctx, func(ctx context.Context) (*OpenstackServerGroupResponse, error) {
+		return r.client.GetOpenstackServerGroup(ctx, data.UUID.ValueString())
+	}, updateTimeout)
+	if err != nil {
+		resp.Diagnostics.AddError("Failed to wait for resource update", err.Error())
+		return
+	}
+	apiResp = newResp
 
 	resp.Diagnostics.Append(r.mapResponseToModel(ctx, *apiResp, &data)...)
 
@@ -326,6 +355,20 @@ func (r *OpenstackServerGroupResource) Delete(ctx context.Context, req resource.
 			"Unable to Delete Openstack Server Group",
 			"An error occurred while deleting the Openstack Server Group: "+err.Error(),
 		)
+		return
+	}
+
+	deleteTimeout, diags := data.Timeouts.Delete(ctx, 10*time.Minute)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	err = common.WaitForDeletion(ctx, func(ctx context.Context) (*OpenstackServerGroupResponse, error) {
+		return r.client.GetOpenstackServerGroup(ctx, data.UUID.ValueString())
+	}, deleteTimeout)
+	if err != nil {
+		resp.Diagnostics.AddError("Failed to wait for resource deletion", err.Error())
 		return
 	}
 }

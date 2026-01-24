@@ -2,6 +2,7 @@ package floating_ip
 
 import (
 	"context"
+	"time"
 
 	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
@@ -15,6 +16,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/waldur/terraform-provider-waldur/internal/client"
+	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
 // Ensure provider defined types fully satisfy framework interfaces.
@@ -285,9 +287,9 @@ func (r *OpenstackFloatingIpResource) Create(ctx context.Context, req resource.C
 		return
 	}
 
-	var requestBody OpenstackFloatingIpCreateRequest // Prepare request body
+	requestBody := OpenstackFloatingIpCreateRequest{}
 
-	apiResp, err := r.client.CreateOpenstackFloatingIp(ctx, &requestBody)
+	apiResp, err := r.client.CreateOpenstackFloatingIp(ctx, data.Tenant.ValueString(), &requestBody)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Unable to Create Openstack Floating Ip",
@@ -296,6 +298,21 @@ func (r *OpenstackFloatingIpResource) Create(ctx context.Context, req resource.C
 		return
 	}
 	data.UUID = types.StringPointerValue(apiResp.UUID)
+
+	createTimeout, diags := data.Timeouts.Create(ctx, 30*time.Minute)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	newResp, err := common.WaitForResource(ctx, func(ctx context.Context) (*OpenstackFloatingIpResponse, error) {
+		return r.client.GetOpenstackFloatingIp(ctx, data.UUID.ValueString())
+	}, createTimeout)
+	if err != nil {
+		resp.Diagnostics.AddError("Failed to wait for resource creation", err.Error())
+		return
+	}
+	apiResp = newResp
 
 	resp.Diagnostics.Append(r.mapResponseToModel(ctx, *apiResp, &data)...)
 
@@ -351,6 +368,20 @@ func (r *OpenstackFloatingIpResource) Delete(ctx context.Context, req resource.D
 			"Unable to Delete Openstack Floating Ip",
 			"An error occurred while deleting the Openstack Floating Ip: "+err.Error(),
 		)
+		return
+	}
+
+	deleteTimeout, diags := data.Timeouts.Delete(ctx, 10*time.Minute)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	err = common.WaitForDeletion(ctx, func(ctx context.Context) (*OpenstackFloatingIpResponse, error) {
+		return r.client.GetOpenstackFloatingIp(ctx, data.UUID.ValueString())
+	}, deleteTimeout)
+	if err != nil {
+		resp.Diagnostics.AddError("Failed to wait for resource deletion", err.Error())
 		return
 	}
 }

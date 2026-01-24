@@ -42,7 +42,6 @@ func (c *Client) TerminateOpenstackTenant(ctx context.Context, id string, req ma
 	return "", nil
 }
 
-// GetOpenstackTenant retrieves a resource by its UUID.
 func (c *Client) GetOpenstackTenant(ctx context.Context, id string) (*OpenstackTenantResponse, error) {
 	var apiResp OpenstackTenantResponse
 	err := c.Client.Get(ctx, "/api/openstack-tenants/{uuid}/", id, &apiResp)
@@ -52,7 +51,6 @@ func (c *Client) GetOpenstackTenant(ctx context.Context, id string) (*OpenstackT
 	return &apiResp, nil
 }
 
-// UpdateOpenstackTenant updates an existing resource.
 func (c *Client) UpdateOpenstackTenant(ctx context.Context, id string, req *OpenstackTenantUpdateRequest) (*OpenstackTenantResponse, error) {
 	var apiResp OpenstackTenantResponse
 	err := c.Client.Update(ctx, "/api/openstack-tenants/{uuid}/", id, req, &apiResp)
@@ -62,7 +60,6 @@ func (c *Client) UpdateOpenstackTenant(ctx context.Context, id string, req *Open
 	return &apiResp, nil
 }
 
-// ListOpenstackTenant retrieves a list of resources with optional filtering.
 func (c *Client) ListOpenstackTenant(ctx context.Context, filter map[string]string) ([]OpenstackTenantResponse, error) {
 	var listResult []OpenstackTenantResponse
 	err := c.Client.List(ctx, "/api/openstack-tenants/", filter, &listResult)
@@ -72,20 +69,15 @@ func (c *Client) ListOpenstackTenant(ctx context.Context, filter map[string]stri
 	return listResult, nil
 }
 
-// OpenstackTenantPushSecurityGroups executes the push_security_groups action.
 func (c *Client) OpenstackTenantPushSecurityGroups(ctx context.Context, id string, req *OpenstackTenantPushSecurityGroupsActionRequest) error {
 	path := "/api/openstack-tenants/{uuid}/push_security_groups/"
 	err := c.Client.ExecuteAction(ctx, path, id, req, nil)
 	return err
 }
-
-// OpenstackTenantPull executes the pull action.
 func (c *Client) OpenstackTenantPull(ctx context.Context, id string) error {
 	err := c.Client.ExecuteAction(ctx, "/api/openstack-tenants/{uuid}/pull/", id, nil, nil)
 	return err
 }
-
-// OpenstackTenantUnlink executes the unlink action.
 func (c *Client) OpenstackTenantUnlink(ctx context.Context, id string) error {
 	err := c.Client.ExecuteAction(ctx, "/api/openstack-tenants/{uuid}/unlink/", id, nil, nil)
 	return err

@@ -10,7 +10,6 @@ type OpenstackSecurityGroupCreateRequest struct {
 	Description *string                                          `json:"description,omitempty" tfsdk:"description"`
 	Name        *string                                          `json:"name" tfsdk:"name"`
 	Rules       []common.OpenStackSecurityGroupRuleCreateRequest `json:"rules" tfsdk:"rules"`
-	Tenant      *string                                          `json:"tenant" tfsdk:"tenant"`
 }
 
 type OpenstackSecurityGroupUpdateRequest struct {

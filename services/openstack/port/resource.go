@@ -2,6 +2,7 @@ package port
 
 import (
 	"context"
+	"time"
 
 	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
@@ -336,31 +337,35 @@ func (r *OpenstackPortResource) Create(ctx context.Context, req resource.CreateR
 		return
 	}
 
-	var requestBody OpenstackPortCreateRequest // Prepare request body
+	requestBody := OpenstackPortCreateRequest{
+		Description:         data.Description.ValueStringPointer(),
+		MacAddress:          data.MacAddress.ValueStringPointer(),
+		Name:                data.Name.ValueStringPointer(),
+		Network:             data.Network.ValueStringPointer(),
+		PortSecurityEnabled: data.PortSecurityEnabled.ValueBoolPointer(),
+		TargetTenant:        data.TargetTenant.ValueStringPointer(),
+	}
 	{
+		// Object array or other
 		var items []common.OpenStackAllowedAddressPairRequest
 		if diags := data.AllowedAddressPairs.ElementsAs(ctx, &items, false); !diags.HasError() && len(items) > 0 {
 			requestBody.AllowedAddressPairs = items
 		}
 	}
-	requestBody.Description = data.Description.ValueStringPointer()
 	{
+		// Object array or other
 		var items []common.OpenStackFixedIpRequest
 		if diags := data.FixedIps.ElementsAs(ctx, &items, false); !diags.HasError() && len(items) > 0 {
 			requestBody.FixedIps = items
 		}
 	}
-	requestBody.MacAddress = data.MacAddress.ValueStringPointer()
-	requestBody.Name = data.Name.ValueStringPointer()
-	requestBody.Network = data.Network.ValueStringPointer()
-	requestBody.PortSecurityEnabled = data.PortSecurityEnabled.ValueBoolPointer()
 	{
+		// Object array or other
 		var items []common.OpenStackPortNestedSecurityGroupRequest
 		if diags := data.SecurityGroups.ElementsAs(ctx, &items, false); !diags.HasError() && len(items) > 0 {
 			requestBody.SecurityGroups = items
 		}
 	}
-	requestBody.TargetTenant = data.TargetTenant.ValueStringPointer()
 
 	apiResp, err := r.client.CreateOpenstackPort(ctx, &requestBody)
 	if err != nil {
@@ -371,6 +376,21 @@ func (r *OpenstackPortResource) Create(ctx context.Context, req resource.CreateR
 		return
 	}
 	data.UUID = types.StringPointerValue(apiResp.UUID)
+
+	createTimeout, diags := data.Timeouts.Create(ctx, 30*time.Minute)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	newResp, err := common.WaitForResource(ctx, func(ctx context.Context) (*OpenstackPortResponse, error) {
+		return r.client.GetOpenstackPort(ctx, data.UUID.ValueString())
+	}, createTimeout)
+	if err != nil {
+		resp.Diagnostics.AddError("Failed to wait for resource creation", err.Error())
+		return
+	}
+	apiResp = newResp
 
 	resp.Diagnostics.Append(r.mapResponseToModel(ctx, *apiResp, &data)...)
 
@@ -418,16 +438,18 @@ func (r *OpenstackPortResource) Update(ctx context.Context, req resource.UpdateR
 		return
 	}
 
-	var requestBody OpenstackPortUpdateRequest // Prepare request body
-	requestBody.Description = data.Description.ValueStringPointer()
-	requestBody.Name = data.Name.ValueStringPointer()
+	requestBody := OpenstackPortUpdateRequest{
+		Description:  data.Description.ValueStringPointer(),
+		Name:         data.Name.ValueStringPointer(),
+		TargetTenant: data.TargetTenant.ValueStringPointer(),
+	}
 	{
+		// Object array or other
 		var items []common.OpenStackPortNestedSecurityGroupRequest
 		if diags := data.SecurityGroups.ElementsAs(ctx, &items, false); !diags.HasError() && len(items) > 0 {
 			requestBody.SecurityGroups = items
 		}
 	}
-	requestBody.TargetTenant = data.TargetTenant.ValueStringPointer()
 
 	apiResp, err := r.client.UpdateOpenstackPort(ctx, data.UUID.ValueString(), &requestBody)
 	if err != nil {
@@ -438,10 +460,20 @@ func (r *OpenstackPortResource) Update(ctx context.Context, req resource.UpdateR
 		return
 	}
 
-	// Update UUID from response
-	if apiResp.UUID != nil {
-		data.UUID = types.StringPointerValue(apiResp.UUID)
+	updateTimeout, diags := data.Timeouts.Update(ctx, 30*time.Minute)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
 	}
+
+	newResp, err := common.WaitForResource(ctx, func(ctx context.Context) (*OpenstackPortResponse, error) {
+		return r.client.GetOpenstackPort(ctx, data.UUID.ValueString())
+	}, updateTimeout)
+	if err != nil {
+		resp.Diagnostics.AddError("Failed to wait for resource update", err.Error())
+		return
+	}
+	apiResp = newResp
 
 	resp.Diagnostics.Append(r.mapResponseToModel(ctx, *apiResp, &data)...)
 
@@ -461,6 +493,20 @@ func (r *OpenstackPortResource) Delete(ctx context.Context, req resource.DeleteR
 			"Unable to Delete Openstack Port",
 			"An error occurred while deleting the Openstack Port: "+err.Error(),
 		)
+		return
+	}
+
+	deleteTimeout, diags := data.Timeouts.Delete(ctx, 10*time.Minute)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	err = common.WaitForDeletion(ctx, func(ctx context.Context) (*OpenstackPortResponse, error) {
+		return r.client.GetOpenstackPort(ctx, data.UUID.ValueString())
+	}, deleteTimeout)
+	if err != nil {
+		resp.Diagnostics.AddError("Failed to wait for resource deletion", err.Error())
 		return
 	}
 }
@@ -501,7 +547,9 @@ func (r *OpenstackPortResource) mapResponseToModel(ctx context.Context, apiResp 
 		diags.Append(listDiagsFixedIps...)
 		model.FixedIps = listValFixedIps
 	}
-	model.FloatingIps, _ = types.ListValueFrom(ctx, types.StringType, apiResp.FloatingIps)
+	listValFloatingIps, listDiagsFloatingIps := types.ListValueFrom(ctx, types.StringType, apiResp.FloatingIps)
+	model.FloatingIps = listValFloatingIps
+	diags.Append(listDiagsFloatingIps...)
 	model.MacAddress = types.StringPointerValue(apiResp.MacAddress)
 	model.Modified = types.StringPointerValue(apiResp.Modified)
 	model.Name = types.StringPointerValue(apiResp.Name)

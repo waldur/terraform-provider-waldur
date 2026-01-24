@@ -61,7 +61,6 @@ func (c *Client) doRequest(ctx context.Context, method, path string, body interf
 	// Construct full URL, avoiding double slashes
 	fullURL := strings.TrimSuffix(c.baseURL, "/") + path
 
-	// Prepare request body
 	var reqBody io.Reader
 	if body != nil {
 		jsonData, err := json.Marshal(body)

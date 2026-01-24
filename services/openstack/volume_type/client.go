@@ -18,7 +18,6 @@ func NewClient(c *client.Client) *Client {
 	return &Client{Client: c}
 }
 
-// GetOpenstackVolumeType retrieves a resource by its UUID.
 func (c *Client) GetOpenstackVolumeType(ctx context.Context, id string) (*OpenstackVolumeTypeResponse, error) {
 	var apiResp OpenstackVolumeTypeResponse
 	err := c.Client.Get(ctx, "/api/openstack-volume-types/{uuid}/", id, &apiResp)
@@ -28,7 +27,6 @@ func (c *Client) GetOpenstackVolumeType(ctx context.Context, id string) (*Openst
 	return &apiResp, nil
 }
 
-// ListOpenstackVolumeType retrieves a list of resources with optional filtering.
 func (c *Client) ListOpenstackVolumeType(ctx context.Context, filter map[string]string) ([]OpenstackVolumeTypeResponse, error) {
 	var listResult []OpenstackVolumeTypeResponse
 	err := c.Client.List(ctx, "/api/openstack-volume-types/", filter, &listResult)

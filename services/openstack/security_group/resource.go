@@ -2,6 +2,7 @@ package security_group
 
 import (
 	"context"
+	"time"
 
 	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
@@ -236,9 +237,10 @@ func (r *OpenstackSecurityGroupResource) Create(ctx context.Context, req resourc
 		return
 	}
 
-	var requestBody OpenstackSecurityGroupCreateRequest // Prepare request body
-	requestBody.Description = data.Description.ValueStringPointer()
-	requestBody.Name = data.Name.ValueStringPointer()
+	requestBody := OpenstackSecurityGroupCreateRequest{
+		Description: data.Description.ValueStringPointer(),
+		Name:        data.Name.ValueStringPointer(),
+	}
 	{
 		// Object array or other
 		var items []common.OpenStackSecurityGroupRuleCreateRequest
@@ -247,7 +249,7 @@ func (r *OpenstackSecurityGroupResource) Create(ctx context.Context, req resourc
 		}
 	}
 
-	apiResp, err := r.client.CreateOpenstackSecurityGroup(ctx, &requestBody)
+	apiResp, err := r.client.CreateOpenstackSecurityGroup(ctx, data.Tenant.ValueString(), &requestBody)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Unable to Create Openstack Security Group",
@@ -256,6 +258,21 @@ func (r *OpenstackSecurityGroupResource) Create(ctx context.Context, req resourc
 		return
 	}
 	data.UUID = types.StringPointerValue(apiResp.UUID)
+
+	createTimeout, diags := data.Timeouts.Create(ctx, 30*time.Minute)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	newResp, err := common.WaitForResource(ctx, func(ctx context.Context) (*OpenstackSecurityGroupResponse, error) {
+		return r.client.GetOpenstackSecurityGroup(ctx, data.UUID.ValueString())
+	}, createTimeout)
+	if err != nil {
+		resp.Diagnostics.AddError("Failed to wait for resource creation", err.Error())
+		return
+	}
+	apiResp = newResp
 
 	resp.Diagnostics.Append(r.mapResponseToModel(ctx, *apiResp, &data)...)
 
@@ -303,9 +320,10 @@ func (r *OpenstackSecurityGroupResource) Update(ctx context.Context, req resourc
 		return
 	}
 
-	var requestBody OpenstackSecurityGroupUpdateRequest // Prepare request body
-	requestBody.Description = data.Description.ValueStringPointer()
-	requestBody.Name = data.Name.ValueStringPointer()
+	requestBody := OpenstackSecurityGroupUpdateRequest{
+		Description: data.Description.ValueStringPointer(),
+		Name:        data.Name.ValueStringPointer(),
+	}
 
 	apiResp, err := r.client.UpdateOpenstackSecurityGroup(ctx, data.UUID.ValueString(), &requestBody)
 	if err != nil {
@@ -316,10 +334,20 @@ func (r *OpenstackSecurityGroupResource) Update(ctx context.Context, req resourc
 		return
 	}
 
-	// Update UUID from response
-	if apiResp.UUID != nil {
-		data.UUID = types.StringPointerValue(apiResp.UUID)
+	updateTimeout, diags := data.Timeouts.Update(ctx, 30*time.Minute)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
 	}
+
+	newResp, err := common.WaitForResource(ctx, func(ctx context.Context) (*OpenstackSecurityGroupResponse, error) {
+		return r.client.GetOpenstackSecurityGroup(ctx, data.UUID.ValueString())
+	}, updateTimeout)
+	if err != nil {
+		resp.Diagnostics.AddError("Failed to wait for resource update", err.Error())
+		return
+	}
+	apiResp = newResp
 
 	resp.Diagnostics.Append(r.mapResponseToModel(ctx, *apiResp, &data)...)
 
@@ -339,6 +367,20 @@ func (r *OpenstackSecurityGroupResource) Delete(ctx context.Context, req resourc
 			"Unable to Delete Openstack Security Group",
 			"An error occurred while deleting the Openstack Security Group: "+err.Error(),
 		)
+		return
+	}
+
+	deleteTimeout, diags := data.Timeouts.Delete(ctx, 10*time.Minute)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	err = common.WaitForDeletion(ctx, func(ctx context.Context) (*OpenstackSecurityGroupResponse, error) {
+		return r.client.GetOpenstackSecurityGroup(ctx, data.UUID.ValueString())
+	}, deleteTimeout)
+	if err != nil {
+		resp.Diagnostics.AddError("Failed to wait for resource deletion", err.Error())
 		return
 	}
 }

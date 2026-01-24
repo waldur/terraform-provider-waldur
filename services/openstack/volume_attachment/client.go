@@ -18,7 +18,6 @@ func NewClient(c *client.Client) *Client {
 	return &Client{Client: c}
 }
 
-// GetOpenstackVolumeAttachment retrieves a resource by its UUID.
 func (c *Client) GetOpenstackVolumeAttachment(ctx context.Context, id string) (*OpenstackVolumeAttachmentResponse, error) {
 	var apiResp OpenstackVolumeAttachmentResponse
 	err := c.Client.Get(ctx, "/api/openstack-volumes/{uuid}/", id, &apiResp)
@@ -28,7 +27,6 @@ func (c *Client) GetOpenstackVolumeAttachment(ctx context.Context, id string) (*
 	return &apiResp, nil
 }
 
-// UpdateOpenstackVolumeAttachment updates an existing resource.
 func (c *Client) UpdateOpenstackVolumeAttachment(ctx context.Context, id string, req *OpenstackVolumeAttachmentUpdateRequest) (*OpenstackVolumeAttachmentResponse, error) {
 	var apiResp OpenstackVolumeAttachmentResponse
 	err := c.Client.Update(ctx, "/api/openstack-volumes/{uuid}/", id, req, &apiResp)
@@ -38,7 +36,6 @@ func (c *Client) UpdateOpenstackVolumeAttachment(ctx context.Context, id string,
 	return &apiResp, nil
 }
 
-// ListOpenstackVolumeAttachment retrieves a list of resources with optional filtering.
 func (c *Client) ListOpenstackVolumeAttachment(ctx context.Context, filter map[string]string) ([]OpenstackVolumeAttachmentResponse, error) {
 	var listResult []OpenstackVolumeAttachmentResponse
 	err := c.Client.List(ctx, "/api/openstack-volumes/", filter, &listResult)
@@ -48,7 +45,6 @@ func (c *Client) ListOpenstackVolumeAttachment(ctx context.Context, filter map[s
 	return listResult, nil
 }
 
-// LinkOpenstackVolumeAttachment performs the link action (e.g. attaching a volume).
 func (c *Client) LinkOpenstackVolumeAttachment(ctx context.Context, req *OpenstackVolumeAttachmentCreateRequest) (*OpenstackVolumeAttachmentResponse, error) {
 	sourceUUID := *req.Volume
 
@@ -59,8 +55,6 @@ func (c *Client) LinkOpenstackVolumeAttachment(ctx context.Context, req *Opensta
 	}
 	return &apiResp, nil
 }
-
-// UnlinkOpenstackVolumeAttachment performs the unlink action (e.g. detaching a volume).
 func (c *Client) UnlinkOpenstackVolumeAttachment(ctx context.Context, sourceUUID string) error {
 	err := c.Client.ExecuteAction(ctx, "/api/openstack-volumes/{uuid}/detach/", sourceUUID, nil, nil)
 	return err

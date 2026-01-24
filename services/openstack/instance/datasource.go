@@ -1066,8 +1066,12 @@ func (d *OpenstackInstanceDataSource) mapResponseToModel(ctx context.Context, ap
 	model.Disk = types.Int64PointerValue(apiResp.Disk)
 	model.ErrorMessage = types.StringPointerValue(apiResp.ErrorMessage)
 	model.ErrorTraceback = types.StringPointerValue(apiResp.ErrorTraceback)
-	model.ExternalAddress, _ = types.ListValueFrom(ctx, types.StringType, apiResp.ExternalAddress)
-	model.ExternalIps, _ = types.ListValueFrom(ctx, types.StringType, apiResp.ExternalIps)
+	listValExternalAddress, listDiagsExternalAddress := types.ListValueFrom(ctx, types.StringType, apiResp.ExternalAddress)
+	model.ExternalAddress = listValExternalAddress
+	diags.Append(listDiagsExternalAddress...)
+	listValExternalIps, listDiagsExternalIps := types.ListValueFrom(ctx, types.StringType, apiResp.ExternalIps)
+	model.ExternalIps = listValExternalIps
+	diags.Append(listDiagsExternalIps...)
 	model.FlavorDisk = types.Int64PointerValue(apiResp.FlavorDisk)
 	model.FlavorName = types.StringPointerValue(apiResp.FlavorName)
 
@@ -1091,7 +1095,9 @@ func (d *OpenstackInstanceDataSource) mapResponseToModel(ctx context.Context, ap
 	}
 	model.HypervisorHostname = types.StringPointerValue(apiResp.HypervisorHostname)
 	model.ImageName = types.StringPointerValue(apiResp.ImageName)
-	model.InternalIps, _ = types.ListValueFrom(ctx, types.StringType, apiResp.InternalIps)
+	listValInternalIps, listDiagsInternalIps := types.ListValueFrom(ctx, types.StringType, apiResp.InternalIps)
+	model.InternalIps = listValInternalIps
+	diags.Append(listDiagsInternalIps...)
 	model.IsLimitBased = types.BoolPointerValue(apiResp.IsLimitBased)
 	model.IsUsageBased = types.BoolPointerValue(apiResp.IsUsageBased)
 	model.KeyFingerprint = types.StringPointerValue(apiResp.KeyFingerprint)

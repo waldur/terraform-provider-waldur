@@ -2,6 +2,7 @@ package subnet
 
 import (
 	"context"
+	"time"
 
 	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
@@ -284,32 +285,35 @@ func (r *OpenstackSubnetResource) Create(ctx context.Context, req resource.Creat
 		return
 	}
 
-	var requestBody OpenstackSubnetCreateRequest // Prepare request body
+	requestBody := OpenstackSubnetCreateRequest{
+		Cidr:           data.Cidr.ValueStringPointer(),
+		Description:    data.Description.ValueStringPointer(),
+		DisableGateway: data.DisableGateway.ValueBoolPointer(),
+		GatewayIp:      data.GatewayIp.ValueStringPointer(),
+		Name:           data.Name.ValueStringPointer(),
+	}
 	{
+		// Object array or other
 		var items []common.OpenStackSubNetAllocationPoolRequest
 		if diags := data.AllocationPools.ElementsAs(ctx, &items, false); !diags.HasError() && len(items) > 0 {
 			requestBody.AllocationPools = items
 		}
 	}
-	requestBody.Cidr = data.Cidr.ValueStringPointer()
-	requestBody.Description = data.Description.ValueStringPointer()
-	requestBody.DisableGateway = data.DisableGateway.ValueBoolPointer()
 	{
 		var items []string
 		if diags := data.DnsNameservers.ElementsAs(ctx, &items, false); !diags.HasError() && len(items) > 0 {
 			requestBody.DnsNameservers = items
 		}
 	}
-	requestBody.GatewayIp = data.GatewayIp.ValueStringPointer()
 	{
+		// Object array or other
 		var items []common.OpenStackStaticRouteRequest
 		if diags := data.HostRoutes.ElementsAs(ctx, &items, false); !diags.HasError() && len(items) > 0 {
 			requestBody.HostRoutes = items
 		}
 	}
-	requestBody.Name = data.Name.ValueStringPointer()
 
-	apiResp, err := r.client.CreateOpenstackSubnet(ctx, &requestBody)
+	apiResp, err := r.client.CreateOpenstackSubnet(ctx, data.Network.ValueString(), &requestBody)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Unable to Create Openstack Subnet",
@@ -318,6 +322,21 @@ func (r *OpenstackSubnetResource) Create(ctx context.Context, req resource.Creat
 		return
 	}
 	data.UUID = types.StringPointerValue(apiResp.UUID)
+
+	createTimeout, diags := data.Timeouts.Create(ctx, 30*time.Minute)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	newResp, err := common.WaitForResource(ctx, func(ctx context.Context) (*OpenstackSubnetResponse, error) {
+		return r.client.GetOpenstackSubnet(ctx, data.UUID.ValueString())
+	}, createTimeout)
+	if err != nil {
+		resp.Diagnostics.AddError("Failed to wait for resource creation", err.Error())
+		return
+	}
+	apiResp = newResp
 
 	resp.Diagnostics.Append(r.mapResponseToModel(ctx, *apiResp, &data)...)
 
@@ -365,30 +384,33 @@ func (r *OpenstackSubnetResource) Update(ctx context.Context, req resource.Updat
 		return
 	}
 
-	var requestBody OpenstackSubnetUpdateRequest // Prepare request body
+	requestBody := OpenstackSubnetUpdateRequest{
+		Cidr:           data.Cidr.ValueStringPointer(),
+		Description:    data.Description.ValueStringPointer(),
+		DisableGateway: data.DisableGateway.ValueBoolPointer(),
+		GatewayIp:      data.GatewayIp.ValueStringPointer(),
+		Name:           data.Name.ValueStringPointer(),
+	}
 	{
+		// Object array or other
 		var items []common.OpenStackSubNetAllocationPoolRequest
 		if diags := data.AllocationPools.ElementsAs(ctx, &items, false); !diags.HasError() && len(items) > 0 {
 			requestBody.AllocationPools = items
 		}
 	}
-	requestBody.Cidr = data.Cidr.ValueStringPointer()
-	requestBody.Description = data.Description.ValueStringPointer()
-	requestBody.DisableGateway = data.DisableGateway.ValueBoolPointer()
 	{
 		var items []string
 		if diags := data.DnsNameservers.ElementsAs(ctx, &items, false); !diags.HasError() && len(items) > 0 {
 			requestBody.DnsNameservers = items
 		}
 	}
-	requestBody.GatewayIp = data.GatewayIp.ValueStringPointer()
 	{
+		// Object array or other
 		var items []common.OpenStackStaticRouteRequest
 		if diags := data.HostRoutes.ElementsAs(ctx, &items, false); !diags.HasError() && len(items) > 0 {
 			requestBody.HostRoutes = items
 		}
 	}
-	requestBody.Name = data.Name.ValueStringPointer()
 
 	apiResp, err := r.client.UpdateOpenstackSubnet(ctx, data.UUID.ValueString(), &requestBody)
 	if err != nil {
@@ -399,10 +421,20 @@ func (r *OpenstackSubnetResource) Update(ctx context.Context, req resource.Updat
 		return
 	}
 
-	// Update UUID from response
-	if apiResp.UUID != nil {
-		data.UUID = types.StringPointerValue(apiResp.UUID)
+	updateTimeout, diags := data.Timeouts.Update(ctx, 30*time.Minute)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
 	}
+
+	newResp, err := common.WaitForResource(ctx, func(ctx context.Context) (*OpenstackSubnetResponse, error) {
+		return r.client.GetOpenstackSubnet(ctx, data.UUID.ValueString())
+	}, updateTimeout)
+	if err != nil {
+		resp.Diagnostics.AddError("Failed to wait for resource update", err.Error())
+		return
+	}
+	apiResp = newResp
 
 	resp.Diagnostics.Append(r.mapResponseToModel(ctx, *apiResp, &data)...)
 
@@ -422,6 +454,20 @@ func (r *OpenstackSubnetResource) Delete(ctx context.Context, req resource.Delet
 			"Unable to Delete Openstack Subnet",
 			"An error occurred while deleting the Openstack Subnet: "+err.Error(),
 		)
+		return
+	}
+
+	deleteTimeout, diags := data.Timeouts.Delete(ctx, 10*time.Minute)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	err = common.WaitForDeletion(ctx, func(ctx context.Context) (*OpenstackSubnetResponse, error) {
+		return r.client.GetOpenstackSubnet(ctx, data.UUID.ValueString())
+	}, deleteTimeout)
+	if err != nil {
+		resp.Diagnostics.AddError("Failed to wait for resource deletion", err.Error())
 		return
 	}
 }
@@ -450,7 +496,9 @@ func (r *OpenstackSubnetResource) mapResponseToModel(ctx context.Context, apiRes
 	model.Created = types.StringPointerValue(apiResp.Created)
 	model.Description = types.StringPointerValue(apiResp.Description)
 	model.DisableGateway = types.BoolPointerValue(apiResp.DisableGateway)
-	model.DnsNameservers, _ = types.ListValueFrom(ctx, types.StringType, apiResp.DnsNameservers)
+	listValDnsNameservers, listDiagsDnsNameservers := types.ListValueFrom(ctx, types.StringType, apiResp.DnsNameservers)
+	model.DnsNameservers = listValDnsNameservers
+	diags.Append(listDiagsDnsNameservers...)
 	model.EnableDhcp = types.BoolPointerValue(apiResp.EnableDhcp)
 	model.ErrorMessage = types.StringPointerValue(apiResp.ErrorMessage)
 	model.ErrorTraceback = types.StringPointerValue(apiResp.ErrorTraceback)

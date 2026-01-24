@@ -6,7 +6,6 @@ type OpenstackServerGroupCreateRequest struct {
 	Description *string `json:"description,omitempty" tfsdk:"description"`
 	Name        *string `json:"name" tfsdk:"name"`
 	Policy      *string `json:"policy,omitempty" tfsdk:"policy"`
-	Tenant      *string `json:"tenant" tfsdk:"tenant"`
 }
 
 type OpenstackServerGroupUpdateRequest struct {

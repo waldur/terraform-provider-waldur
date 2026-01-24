@@ -18,3 +18,7 @@ Perform terminate action on marketplace resource
 ### Required
 
 - `uuid` (String) The UUID of the marketplace resource
+
+### Optional
+
+- `timeout` (String) Timeout for the action execution and state stabilization (e.g. '10m').

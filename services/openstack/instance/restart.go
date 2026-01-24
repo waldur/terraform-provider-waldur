@@ -3,11 +3,13 @@ package instance
 import (
 	"context"
 	"fmt"
+	"time"
 
 	"github.com/hashicorp/terraform-plugin-framework/action"
 	"github.com/hashicorp/terraform-plugin-framework/action/schema"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/waldur/terraform-provider-waldur/internal/client"
+	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
 // Ensure implementation satisfies interfaces.
@@ -15,7 +17,8 @@ var _ action.Action = &OpenstackInstanceRestartAction{}
 var _ action.ActionWithConfigure = &OpenstackInstanceRestartAction{}
 
 type OpenstackInstanceRestartModel struct {
-	Uuid types.String `tfsdk:"uuid"`
+	Uuid    types.String `tfsdk:"uuid"`
+	Timeout types.String `tfsdk:"timeout"`
 }
 
 type OpenstackInstanceRestartAction struct {
@@ -37,6 +40,10 @@ func (a *OpenstackInstanceRestartAction) Schema(ctx context.Context, req action.
 			"uuid": schema.StringAttribute{
 				Description: "The UUID of the openstack instance",
 				Required:    true,
+			},
+			"timeout": schema.StringAttribute{
+				Description: "Timeout for the action execution and state stabilization (e.g. '10m').",
+				Optional:    true,
 			},
 		},
 	}
@@ -76,5 +83,23 @@ func (a *OpenstackInstanceRestartAction) Invoke(ctx context.Context, req action.
 			fmt.Sprintf("Failed to perform restart on %s: %s", uuid, err),
 		)
 		return
+	}
+
+	// Wait for resource to stabilize
+	timeout := 10 * time.Minute
+	if !data.Timeout.IsNull() {
+		var err error
+		timeout, err = time.ParseDuration(data.Timeout.ValueString())
+		if err != nil {
+			resp.Diagnostics.AddError("Invalid timeout", "Failed to parse timeout: "+err.Error())
+			return
+		}
+	}
+
+	_, err = common.WaitForResource(ctx, func(ctx context.Context) (*OpenstackInstanceResponse, error) {
+		return a.client.GetOpenstackInstance(ctx, uuid)
+	}, timeout)
+	if err != nil {
+		resp.Diagnostics.AddWarning("Resource state check failed", err.Error())
 	}
 }

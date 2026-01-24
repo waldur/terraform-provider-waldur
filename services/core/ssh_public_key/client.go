@@ -18,7 +18,6 @@ func NewClient(c *client.Client) *Client {
 	return &Client{Client: c}
 }
 
-// GetCoreSshPublicKey retrieves a resource by its UUID.
 func (c *Client) GetCoreSshPublicKey(ctx context.Context, id string) (*CoreSshPublicKeyResponse, error) {
 	var apiResp CoreSshPublicKeyResponse
 	err := c.Client.Get(ctx, "/api/keys/{uuid}/", id, &apiResp)
@@ -28,7 +27,6 @@ func (c *Client) GetCoreSshPublicKey(ctx context.Context, id string) (*CoreSshPu
 	return &apiResp, nil
 }
 
-// ListCoreSshPublicKey retrieves a list of resources with optional filtering.
 func (c *Client) ListCoreSshPublicKey(ctx context.Context, filter map[string]string) ([]CoreSshPublicKeyResponse, error) {
 	var listResult []CoreSshPublicKeyResponse
 	err := c.Client.List(ctx, "/api/keys/", filter, &listResult)

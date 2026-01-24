@@ -2,6 +2,7 @@ package resource
 
 import (
 	"context"
+	"time"
 
 	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
@@ -16,6 +17,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/waldur/terraform-provider-waldur/internal/client"
+	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
 // Ensure provider defined types fully satisfy framework interfaces.
@@ -716,10 +718,11 @@ func (r *MarketplaceResourceResource) Update(ctx context.Context, req resource.U
 		return
 	}
 
-	var requestBody MarketplaceResourceUpdateRequest // Prepare request body
-	requestBody.Description = data.Description.ValueStringPointer()
-	requestBody.EndDate = data.EndDate.ValueStringPointer()
-	requestBody.Name = data.Name.ValueStringPointer()
+	requestBody := MarketplaceResourceUpdateRequest{
+		Description: data.Description.ValueStringPointer(),
+		EndDate:     data.EndDate.ValueStringPointer(),
+		Name:        data.Name.ValueStringPointer(),
+	}
 
 	apiResp, err := r.client.UpdateMarketplaceResource(ctx, data.UUID.ValueString(), &requestBody)
 	if err != nil {
@@ -730,10 +733,20 @@ func (r *MarketplaceResourceResource) Update(ctx context.Context, req resource.U
 		return
 	}
 
-	// Update UUID from response
-	if apiResp.UUID != nil {
-		data.UUID = types.StringPointerValue(apiResp.UUID)
+	updateTimeout, diags := data.Timeouts.Update(ctx, 30*time.Minute)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
 	}
+
+	newResp, err := common.WaitForResource(ctx, func(ctx context.Context) (*MarketplaceResourceResponse, error) {
+		return r.client.GetMarketplaceResource(ctx, data.UUID.ValueString())
+	}, updateTimeout)
+	if err != nil {
+		resp.Diagnostics.AddError("Failed to wait for resource update", err.Error())
+		return
+	}
+	apiResp = newResp
 
 	resp.Diagnostics.Append(r.mapResponseToModel(ctx, *apiResp, &data)...)
 
@@ -753,7 +766,9 @@ func (r *MarketplaceResourceResource) mapResponseToModel(ctx context.Context, ap
 	var diags diag.Diagnostics
 
 	model.UUID = types.StringPointerValue(apiResp.UUID)
-	model.AvailableActions, _ = types.ListValueFrom(ctx, types.StringType, apiResp.AvailableActions)
+	listValAvailableActions, listDiagsAvailableActions := types.ListValueFrom(ctx, types.StringType, apiResp.AvailableActions)
+	model.AvailableActions = listValAvailableActions
+	diags.Append(listDiagsAvailableActions...)
 	model.BackendId = types.StringPointerValue(apiResp.BackendId)
 	model.CanTerminate = types.BoolPointerValue(apiResp.CanTerminate)
 	model.CategoryIcon = types.StringPointerValue(apiResp.CategoryIcon)

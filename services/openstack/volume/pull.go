@@ -3,11 +3,13 @@ package volume
 import (
 	"context"
 	"fmt"
+	"time"
 
 	"github.com/hashicorp/terraform-plugin-framework/action"
 	"github.com/hashicorp/terraform-plugin-framework/action/schema"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/waldur/terraform-provider-waldur/internal/client"
+	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
 // Ensure implementation satisfies interfaces.
@@ -15,7 +17,8 @@ var _ action.Action = &OpenstackVolumePullAction{}
 var _ action.ActionWithConfigure = &OpenstackVolumePullAction{}
 
 type OpenstackVolumePullModel struct {
-	Uuid types.String `tfsdk:"uuid"`
+	Uuid    types.String `tfsdk:"uuid"`
+	Timeout types.String `tfsdk:"timeout"`
 }
 
 type OpenstackVolumePullAction struct {
@@ -37,6 +40,10 @@ func (a *OpenstackVolumePullAction) Schema(ctx context.Context, req action.Schem
 			"uuid": schema.StringAttribute{
 				Description: "The UUID of the openstack volume",
 				Required:    true,
+			},
+			"timeout": schema.StringAttribute{
+				Description: "Timeout for the action execution and state stabilization (e.g. '10m').",
+				Optional:    true,
 			},
 		},
 	}
@@ -76,5 +83,23 @@ func (a *OpenstackVolumePullAction) Invoke(ctx context.Context, req action.Invok
 			fmt.Sprintf("Failed to perform pull on %s: %s", uuid, err),
 		)
 		return
+	}
+
+	// Wait for resource to stabilize
+	timeout := 10 * time.Minute
+	if !data.Timeout.IsNull() {
+		var err error
+		timeout, err = time.ParseDuration(data.Timeout.ValueString())
+		if err != nil {
+			resp.Diagnostics.AddError("Invalid timeout", "Failed to parse timeout: "+err.Error())
+			return
+		}
+	}
+
+	_, err = common.WaitForResource(ctx, func(ctx context.Context) (*OpenstackVolumeResponse, error) {
+		return a.client.GetOpenstackVolume(ctx, uuid)
+	}, timeout)
+	if err != nil {
+		resp.Diagnostics.AddWarning("Resource state check failed", err.Error())
 	}
 }

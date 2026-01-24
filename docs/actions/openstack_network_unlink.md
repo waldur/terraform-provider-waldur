@@ -18,3 +18,7 @@ Perform unlink action on openstack network
 ### Required
 
 - `uuid` (String) The UUID of the openstack network
+
+### Optional
+
+- `timeout` (String) Timeout for the action execution and state stabilization (e.g. '10m').

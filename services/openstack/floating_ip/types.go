@@ -3,7 +3,6 @@ package floating_ip
 // OpenstackFloatingIp Structs
 
 type OpenstackFloatingIpCreateRequest struct {
-	Tenant *string `json:"tenant" tfsdk:"tenant"`
 }
 
 type OpenstackFloatingIpUpdateDescriptionActionRequest struct {

@@ -320,7 +320,9 @@ func (l *OpenstackSubnetList) List(ctx context.Context, req list.ListRequest, st
 			model.Created = types.StringPointerValue(apiResp.Created)
 			model.Description = types.StringPointerValue(apiResp.Description)
 			model.DisableGateway = types.BoolPointerValue(apiResp.DisableGateway)
-			model.DnsNameservers, _ = types.ListValueFrom(ctx, types.StringType, apiResp.DnsNameservers)
+			listValDnsNameservers, listDiagsDnsNameservers := types.ListValueFrom(ctx, types.StringType, apiResp.DnsNameservers)
+			model.DnsNameservers = listValDnsNameservers
+			diags.Append(listDiagsDnsNameservers...)
 			model.EnableDhcp = types.BoolPointerValue(apiResp.EnableDhcp)
 			model.ErrorMessage = types.StringPointerValue(apiResp.ErrorMessage)
 			model.ErrorTraceback = types.StringPointerValue(apiResp.ErrorTraceback)

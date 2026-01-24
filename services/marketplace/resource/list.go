@@ -377,7 +377,9 @@ func (l *MarketplaceResourceList) List(ctx context.Context, req list.ListRequest
 			var diags diag.Diagnostics
 
 			data.UUID = types.StringPointerValue(apiResp.UUID)
-			model.AvailableActions, _ = types.ListValueFrom(ctx, types.StringType, apiResp.AvailableActions)
+			listValAvailableActions, listDiagsAvailableActions := types.ListValueFrom(ctx, types.StringType, apiResp.AvailableActions)
+			model.AvailableActions = listValAvailableActions
+			diags.Append(listDiagsAvailableActions...)
 			model.BackendId = types.StringPointerValue(apiResp.BackendId)
 			model.CanTerminate = types.BoolPointerValue(apiResp.CanTerminate)
 			model.CategoryIcon = types.StringPointerValue(apiResp.CategoryIcon)
