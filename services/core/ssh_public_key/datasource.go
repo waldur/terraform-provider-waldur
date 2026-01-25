@@ -104,11 +104,11 @@ func (d *CoreSshPublicKeyDataSource) Schema(ctx context.Context, req datasource.
 				MarkdownDescription: "Is shared",
 			},
 			"name": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Name of the resource",
 			},
 			"public_key": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Public key",
 			},
 			"type": schema.StringAttribute{

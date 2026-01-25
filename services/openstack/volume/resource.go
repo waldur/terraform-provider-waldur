@@ -3,16 +3,16 @@ package volume
 import (
 	"context"
 	"fmt"
-	"time"
 
 	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
 	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
-	"github.com/hashicorp/terraform-plugin-framework/diag"
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
@@ -370,6 +370,10 @@ func (r *OpenstackVolumeResource) Schema(ctx context.Context, req resource.Schem
 			"size": schema.Int64Attribute{
 				Optional:            true,
 				MarkdownDescription: "Size in MiB",
+				Validators: []validator.Int64{
+					int64validator.AtLeast(0),
+					int64validator.AtMost(2147483647),
+				},
 			},
 			"source_snapshot": schema.StringAttribute{
 				Computed: true,
@@ -480,8 +484,8 @@ func (r *OpenstackVolumeResource) Create(ctx context.Context, req resource.Creat
 	}
 
 	// Phase 3: Poll for Completion
-	// We use the 'time' package to handle the timeout specified in the TF config or default to 45m.
-	timeout, diags := data.Timeouts.Create(ctx, 45*time.Minute)
+	// We use the 'time' package to handle the timeout specified in the TF config or default to global default.
+	timeout, diags := data.Timeouts.Create(ctx, common.DefaultCreateTimeout)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -635,7 +639,7 @@ func (r *OpenstackVolumeResource) Delete(ctx context.Context, req resource.Delet
 
 	// Wait for deletion if order UUID is returned
 	if orderUUID != "" {
-		timeout, diags := data.Timeouts.Delete(ctx, 45*time.Minute)
+		timeout, diags := data.Timeouts.Delete(ctx, common.DefaultDeleteTimeout)
 		resp.Diagnostics.Append(diags...)
 		if resp.Diagnostics.HasError() {
 			return
@@ -687,8 +691,4 @@ func (r *OpenstackVolumeResource) ImportState(ctx context.Context, req resource.
 	}
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
-}
-
-func (r *OpenstackVolumeResource) mapResponseToModel(ctx context.Context, apiResp OpenstackVolumeResponse, model *OpenstackVolumeResourceModel) diag.Diagnostics {
-	return model.CopyFrom(ctx, apiResp)
 }

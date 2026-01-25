@@ -3,16 +3,15 @@ package port
 import (
 	"context"
 	"fmt"
-	"time"
 
 	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
 	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
-	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/setplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
@@ -156,11 +155,11 @@ func (r *OpenstackPortResource) Schema(ctx context.Context, req resource.SchemaR
 				},
 				MarkdownDescription: "Fixed ips",
 			},
-			"floating_ips": schema.ListAttribute{
-				CustomType: types.ListType{ElemType: types.StringType},
-				Computed:   true,
-				PlanModifiers: []planmodifier.List{
-					listplanmodifier.UseStateForUnknown(),
+			"floating_ips": schema.SetAttribute{
+				ElementType: types.StringType,
+				Computed:    true,
+				PlanModifiers: []planmodifier.Set{
+					setplanmodifier.UseStateForUnknown(),
 				},
 				MarkdownDescription: "Floating ips",
 			},
@@ -218,7 +217,7 @@ func (r *OpenstackPortResource) Schema(ctx context.Context, req resource.SchemaR
 				},
 				MarkdownDescription: "Resource type",
 			},
-			"security_groups": schema.ListNestedAttribute{
+			"security_groups": schema.SetNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"name": schema.StringAttribute{
@@ -362,7 +361,7 @@ func (r *OpenstackPortResource) Create(ctx context.Context, req resource.CreateR
 	}
 	data.UUID = types.StringPointerValue(apiResp.UUID)
 
-	createTimeout, diags := data.Timeouts.Create(ctx, 30*time.Minute)
+	createTimeout, diags := data.Timeouts.Create(ctx, common.DefaultCreateTimeout)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -448,7 +447,7 @@ func (r *OpenstackPortResource) Update(ctx context.Context, req resource.UpdateR
 		return
 	}
 
-	updateTimeout, diags := data.Timeouts.Update(ctx, 30*time.Minute)
+	updateTimeout, diags := data.Timeouts.Update(ctx, common.DefaultUpdateTimeout)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -484,7 +483,7 @@ func (r *OpenstackPortResource) Delete(ctx context.Context, req resource.DeleteR
 		return
 	}
 
-	deleteTimeout, diags := data.Timeouts.Delete(ctx, 10*time.Minute)
+	deleteTimeout, diags := data.Timeouts.Delete(ctx, common.DefaultDeleteTimeout)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -537,8 +536,4 @@ func (r *OpenstackPortResource) ImportState(ctx context.Context, req resource.Im
 	}
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
-}
-
-func (r *OpenstackPortResource) mapResponseToModel(ctx context.Context, apiResp OpenstackPortResponse, model *OpenstackPortResourceModel) diag.Diagnostics {
-	return model.CopyFrom(ctx, apiResp)
 }

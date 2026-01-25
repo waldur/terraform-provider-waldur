@@ -9,7 +9,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
-// MarketplaceResourceFiltersModel contains the filter parameters for querying.
 type MarketplaceResourceFiltersModel struct {
 	BackendId            types.String  `tfsdk:"backend_id"`
 	CategoryUuid         types.String  `tfsdk:"category_uuid"`

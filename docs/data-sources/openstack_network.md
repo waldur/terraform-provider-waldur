@@ -17,21 +17,21 @@ Openstack Network data source - lookup by name or UUID
 
 ### Optional
 
+- `description` (String) Description of the resource
 - `filters` (Attributes) Filter parameters for querying Openstack Network (see [below for nested schema](#nestedatt--filters))
 - `id` (String) Resource UUID
+- `name` (String) Name of the resource
 
 ### Read-Only
 
 - `access_url` (String) Access url
 - `backend_id` (String) ID of the backend
 - `created` (String) Created
-- `description` (String) Description of the resource
 - `error_message` (String) Error message
 - `error_traceback` (String) Error traceback
 - `is_external` (Boolean) Defines whether this network is external (public) or internal (private)
 - `modified` (String) Modified
 - `mtu` (Number) The maximum transmission unit (MTU) value to address fragmentation.
-- `name` (String) Name of the resource
 - `rbac_policies` (Attributes List) Rbac policies (see [below for nested schema](#nestedatt--rbac_policies))
 - `resource_type` (String) Resource type
 - `segmentation_id` (Number) VLAN ID for VLAN networks or tunnel ID for VXLAN/GRE networks

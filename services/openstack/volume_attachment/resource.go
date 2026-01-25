@@ -6,7 +6,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
 	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
-	"github.com/hashicorp/terraform-plugin-framework/diag"
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -14,6 +14,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/waldur/terraform-provider-waldur/internal/client"
@@ -223,6 +224,10 @@ func (r *OpenstackVolumeAttachmentResource) Schema(ctx context.Context, req reso
 					int64planmodifier.RequiresReplace(),
 				},
 				MarkdownDescription: "Size in MiB",
+				Validators: []validator.Int64{
+					int64validator.AtLeast(0),
+					int64validator.AtMost(2147483647),
+				},
 			},
 			"source_snapshot": schema.StringAttribute{
 				Computed: true,
@@ -455,8 +460,4 @@ func (r *OpenstackVolumeAttachmentResource) ImportState(ctx context.Context, req
 	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), req.ID)...)
 	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("volume"), parts[0])...)
 	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("instance"), parts[1])...)
-}
-
-func (r *OpenstackVolumeAttachmentResource) mapResponseToModel(ctx context.Context, apiResp OpenstackVolumeAttachmentResponse, model *OpenstackVolumeAttachmentResourceModel) diag.Diagnostics {
-	return model.CopyFrom(ctx, apiResp)
 }

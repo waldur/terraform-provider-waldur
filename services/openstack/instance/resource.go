@@ -3,11 +3,12 @@ package instance
 import (
 	"context"
 	"fmt"
-	"time"
+	"regexp"
 
 	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
 	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
-	"github.com/hashicorp/terraform-plugin-framework/diag"
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
@@ -17,6 +18,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
@@ -168,6 +170,9 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 					int64planmodifier.RequiresReplace(),
 				},
 				MarkdownDescription: "Size of the data volume in MiB. Minimum size is 1024 MiB (1 GiB)",
+				Validators: []validator.Int64{
+					int64validator.AtLeast(1024),
+				},
 			},
 			"data_volume_type": schema.StringAttribute{
 				Optional: true,
@@ -229,16 +234,16 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 				MarkdownDescription: "Error traceback",
 			},
 			"external_address": schema.ListAttribute{
-				CustomType: types.ListType{ElemType: types.StringType},
-				Computed:   true,
+				ElementType: types.StringType,
+				Computed:    true,
 				PlanModifiers: []planmodifier.List{
 					listplanmodifier.UseStateForUnknown(),
 				},
 				MarkdownDescription: "External address",
 			},
 			"external_ips": schema.ListAttribute{
-				CustomType: types.ListType{ElemType: types.StringType},
-				Computed:   true,
+				ElementType: types.StringType,
+				Computed:    true,
 				PlanModifiers: []planmodifier.List{
 					listplanmodifier.UseStateForUnknown(),
 				},
@@ -265,7 +270,7 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 				},
 				MarkdownDescription: "Name of the flavor used by this instance",
 			},
-			"floating_ips": schema.ListNestedAttribute{
+			"floating_ips": schema.SetNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"ip_address": schema.StringAttribute{
@@ -347,8 +352,8 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 				MarkdownDescription: "Name of the image",
 			},
 			"internal_ips": schema.ListAttribute{
-				CustomType: types.ListType{ElemType: types.StringType},
-				Computed:   true,
+				ElementType: types.StringType,
+				Computed:    true,
 				PlanModifiers: []planmodifier.List{
 					listplanmodifier.UseStateForUnknown(),
 				},
@@ -529,7 +534,7 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 							Computed:            true,
 							MarkdownDescription: "MAC address of the port",
 						},
-						"security_groups": schema.ListNestedAttribute{
+						"security_groups": schema.SetNestedAttribute{
 							NestedObject: schema.NestedAttributeObject{
 								Attributes: map[string]schema.Attribute{
 									"access_url": schema.StringAttribute{
@@ -660,6 +665,10 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 												"from_port": schema.Int64Attribute{
 													Optional:            true,
 													MarkdownDescription: "Starting port number in the range (1-65535)",
+													Validators: []validator.Int64{
+														int64validator.AtLeast(-2147483648),
+														int64validator.AtMost(65535),
+													},
 												},
 												"id": schema.Int64Attribute{
 													Computed:            true,
@@ -684,6 +693,10 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 												"to_port": schema.Int64Attribute{
 													Optional:            true,
 													MarkdownDescription: "Ending port number in the range (1-65535)",
+													Validators: []validator.Int64{
+														int64validator.AtLeast(-2147483648),
+														int64validator.AtMost(65535),
+													},
 												},
 											},
 										},
@@ -810,7 +823,7 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 				},
 				MarkdownDescription: "Runtime state",
 			},
-			"security_groups": schema.ListNestedAttribute{
+			"security_groups": schema.SetNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"url": schema.StringAttribute{
@@ -847,6 +860,10 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 									"from_port": schema.Int64Attribute{
 										Optional:            true,
 										MarkdownDescription: "Starting port number in the range (1-65535)",
+										Validators: []validator.Int64{
+											int64validator.AtLeast(-2147483648),
+											int64validator.AtMost(65535),
+										},
 									},
 									"id": schema.Int64Attribute{
 										Computed:            true,
@@ -867,6 +884,10 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 									"to_port": schema.Int64Attribute{
 										Optional:            true,
 										MarkdownDescription: "Ending port number in the range (1-65535)",
+										Validators: []validator.Int64{
+											int64validator.AtLeast(-2147483648),
+											int64validator.AtMost(65535),
+										},
 									},
 								},
 							},
@@ -970,6 +991,9 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 					int64planmodifier.RequiresReplace(),
 				},
 				MarkdownDescription: "Size of the system volume in MiB. Minimum size is 1024 MiB (1 GiB)",
+				Validators: []validator.Int64{
+					int64validator.AtLeast(1024),
+				},
 			},
 			"system_volume_type": schema.StringAttribute{
 				Optional: true,
@@ -1016,6 +1040,9 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 						"device": schema.StringAttribute{
 							Optional:            true,
 							MarkdownDescription: "Name of volume as instance device e.g. /dev/vdb.",
+							Validators: []validator.String{
+								stringvalidator.RegexMatches(regexp.MustCompile(`^/dev/[a-zA-Z0-9]+$`), ""),
+							},
 						},
 						"image_name": schema.StringAttribute{
 							Optional:            true,
@@ -1036,6 +1063,10 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 						"size": schema.Int64Attribute{
 							Optional:            true,
 							MarkdownDescription: "Size in MiB",
+							Validators: []validator.Int64{
+								int64validator.AtLeast(0),
+								int64validator.AtMost(2147483647),
+							},
 						},
 						"state": schema.StringAttribute{
 							Computed:            true,
@@ -1170,8 +1201,8 @@ func (r *OpenstackInstanceResource) Create(ctx context.Context, req resource.Cre
 	}
 
 	// Phase 3: Poll for Completion
-	// We use the 'time' package to handle the timeout specified in the TF config or default to 45m.
-	timeout, diags := data.Timeouts.Create(ctx, 45*time.Minute)
+	// We use the 'time' package to handle the timeout specified in the TF config or default to global default.
+	timeout, diags := data.Timeouts.Create(ctx, common.DefaultCreateTimeout)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -1268,7 +1299,7 @@ func (r *OpenstackInstanceResource) Update(ctx context.Context, req resource.Upd
 	if !data.FloatingIps.Equal(state.FloatingIps) {
 		// Convert Terraform value to API payload for the specific action
 		var req OpenstackInstanceUpdateFloatingIpsActionRequest
-		common.PopulateSliceField(ctx, data.FloatingIps, &req.FloatingIps)
+		common.PopulateSetField(ctx, data.FloatingIps, &req.FloatingIps)
 
 		// Execute the Action
 		if err := r.client.OpenstackInstanceUpdateFloatingIps(ctx, data.UUID.ValueString(), &req); err != nil {
@@ -1290,7 +1321,7 @@ func (r *OpenstackInstanceResource) Update(ctx context.Context, req resource.Upd
 	if !data.SecurityGroups.Equal(state.SecurityGroups) {
 		// Convert Terraform value to API payload for the specific action
 		var req OpenstackInstanceUpdateSecurityGroupsActionRequest
-		common.PopulateSliceField(ctx, data.SecurityGroups, &req.SecurityGroups)
+		common.PopulateSetField(ctx, data.SecurityGroups, &req.SecurityGroups)
 
 		// Execute the Action
 		if err := r.client.OpenstackInstanceUpdateSecurityGroups(ctx, data.UUID.ValueString(), &req); err != nil {
@@ -1339,7 +1370,7 @@ func (r *OpenstackInstanceResource) Delete(ctx context.Context, req resource.Del
 
 	// Wait for deletion if order UUID is returned
 	if orderUUID != "" {
-		timeout, diags := data.Timeouts.Delete(ctx, 45*time.Minute)
+		timeout, diags := data.Timeouts.Delete(ctx, common.DefaultDeleteTimeout)
 		resp.Diagnostics.Append(diags...)
 		if resp.Diagnostics.HasError() {
 			return
@@ -1391,8 +1422,4 @@ func (r *OpenstackInstanceResource) ImportState(ctx context.Context, req resourc
 	}
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
-}
-
-func (r *OpenstackInstanceResource) mapResponseToModel(ctx context.Context, apiResp OpenstackInstanceResponse, model *OpenstackInstanceResourceModel) diag.Diagnostics {
-	return model.CopyFrom(ctx, apiResp)
 }

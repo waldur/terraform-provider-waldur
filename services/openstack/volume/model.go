@@ -8,7 +8,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
-// OpenstackVolumeFiltersModel contains the filter parameters for querying.
 type OpenstackVolumeFiltersModel struct {
 	AttachInstanceUuid   types.String `tfsdk:"attach_instance_uuid"`
 	AvailabilityZoneName types.String `tfsdk:"availability_zone_name"`

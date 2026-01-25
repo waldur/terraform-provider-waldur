@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -129,7 +130,7 @@ func (d *OpenstackPortDataSource) Schema(ctx context.Context, req datasource.Sch
 						},
 					},
 				},
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Allowed address pairs",
 			},
 			"backend_id": schema.StringAttribute{
@@ -137,11 +138,12 @@ func (d *OpenstackPortDataSource) Schema(ctx context.Context, req datasource.Sch
 				MarkdownDescription: "Port ID in OpenStack",
 			},
 			"created": schema.StringAttribute{
+				CustomType:          timetypes.RFC3339Type{},
 				Computed:            true,
 				MarkdownDescription: "Created",
 			},
 			"description": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Description of the resource",
 			},
 			"device_id": schema.StringAttribute{
@@ -173,28 +175,29 @@ func (d *OpenstackPortDataSource) Schema(ctx context.Context, req datasource.Sch
 						},
 					},
 				},
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Fixed ips",
 			},
-			"floating_ips": schema.ListAttribute{
+			"floating_ips": schema.SetAttribute{
 				ElementType:         types.StringType,
 				Computed:            true,
 				MarkdownDescription: "Floating ips",
 			},
 			"mac_address": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "MAC address of the port",
 			},
 			"modified": schema.StringAttribute{
+				CustomType:          timetypes.RFC3339Type{},
 				Computed:            true,
 				MarkdownDescription: "Modified",
 			},
 			"name": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Name of the resource",
 			},
 			"network": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Network to which this port belongs",
 			},
 			"network_name": schema.StringAttribute{
@@ -206,14 +209,14 @@ func (d *OpenstackPortDataSource) Schema(ctx context.Context, req datasource.Sch
 				MarkdownDescription: "UUID of the network",
 			},
 			"port_security_enabled": schema.BoolAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "If True, security groups and rules will be applied to this port",
 			},
 			"resource_type": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Resource type",
 			},
-			"security_groups": schema.ListNestedAttribute{
+			"security_groups": schema.SetNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"name": schema.StringAttribute{
@@ -226,7 +229,7 @@ func (d *OpenstackPortDataSource) Schema(ctx context.Context, req datasource.Sch
 						},
 					},
 				},
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Security groups",
 			},
 			"state": schema.StringAttribute{

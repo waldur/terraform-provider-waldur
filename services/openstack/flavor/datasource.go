@@ -4,8 +4,10 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 
 	"github.com/waldur/terraform-provider-waldur/internal/client"
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
@@ -116,31 +118,43 @@ func (d *OpenstackFlavorDataSource) Schema(ctx context.Context, req datasource.S
 				},
 			},
 			"backend_id": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "ID of the backend",
 			},
 			"cores": schema.Int64Attribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Number of cores in a VM",
+				Validators: []validator.Int64{
+					int64validator.AtLeast(0),
+					int64validator.AtMost(32767),
+				},
 			},
 			"disk": schema.Int64Attribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Root disk size in MiB",
+				Validators: []validator.Int64{
+					int64validator.AtLeast(0),
+					int64validator.AtMost(2147483647),
+				},
 			},
 			"display_name": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Name of the display",
 			},
 			"name": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Name of the resource",
 			},
 			"ram": schema.Int64Attribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Memory size in MiB",
+				Validators: []validator.Int64{
+					int64validator.AtLeast(0),
+					int64validator.AtMost(2147483647),
+				},
 			},
 			"settings": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Settings",
 			},
 			"url": schema.StringAttribute{

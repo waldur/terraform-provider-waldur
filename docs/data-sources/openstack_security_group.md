@@ -17,21 +17,21 @@ Openstack Security Group data source - lookup by name or UUID
 
 ### Optional
 
+- `description` (String) Description of the resource
 - `filters` (Attributes) Filter parameters for querying Openstack Security Group (see [below for nested schema](#nestedatt--filters))
 - `id` (String) Resource UUID
+- `name` (String) Name of the resource
+- `rules` (Attributes List) Rules (see [below for nested schema](#nestedatt--rules))
 
 ### Read-Only
 
 - `access_url` (String) Access url
 - `backend_id` (String) ID of the backend
 - `created` (String) Created
-- `description` (String) Description of the resource
 - `error_message` (String) Error message
 - `error_traceback` (String) Error traceback
 - `modified` (String) Modified
-- `name` (String) Name of the resource
 - `resource_type` (String) Resource type
-- `rules` (Attributes List) Rules (see [below for nested schema](#nestedatt--rules))
 - `state` (String) State
 - `tenant` (String) Tenant
 - `tenant_name` (String) Name of the tenant

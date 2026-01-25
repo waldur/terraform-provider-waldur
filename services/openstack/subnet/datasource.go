@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -165,7 +166,7 @@ func (d *OpenstackSubnetDataSource) Schema(ctx context.Context, req datasource.S
 						},
 					},
 				},
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Allocation pools",
 			},
 			"backend_id": schema.StringAttribute{
@@ -173,24 +174,25 @@ func (d *OpenstackSubnetDataSource) Schema(ctx context.Context, req datasource.S
 				MarkdownDescription: "ID of the backend",
 			},
 			"cidr": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Cidr",
 			},
 			"created": schema.StringAttribute{
+				CustomType:          timetypes.RFC3339Type{},
 				Computed:            true,
 				MarkdownDescription: "Created",
 			},
 			"description": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Description of the resource",
 			},
 			"disable_gateway": schema.BoolAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "If True, no gateway IP address will be allocated",
 			},
 			"dns_nameservers": schema.ListAttribute{
 				ElementType:         types.StringType,
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Dns nameservers",
 			},
 			"enable_dhcp": schema.BoolAttribute{
@@ -206,7 +208,7 @@ func (d *OpenstackSubnetDataSource) Schema(ctx context.Context, req datasource.S
 				MarkdownDescription: "Error traceback",
 			},
 			"gateway_ip": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "IP address of the gateway for this subnet",
 			},
 			"host_routes": schema.ListNestedAttribute{
@@ -222,7 +224,7 @@ func (d *OpenstackSubnetDataSource) Schema(ctx context.Context, req datasource.S
 						},
 					},
 				},
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Host routes",
 			},
 			"ip_version": schema.Int64Attribute{
@@ -234,11 +236,12 @@ func (d *OpenstackSubnetDataSource) Schema(ctx context.Context, req datasource.S
 				MarkdownDescription: "Is subnet connected to the default tenant router.",
 			},
 			"modified": schema.StringAttribute{
+				CustomType:          timetypes.RFC3339Type{},
 				Computed:            true,
 				MarkdownDescription: "Modified",
 			},
 			"name": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Name of the resource",
 			},
 			"network": schema.StringAttribute{

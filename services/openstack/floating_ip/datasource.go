@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
 
@@ -152,6 +153,7 @@ func (d *OpenstackFloatingIpDataSource) Schema(ctx context.Context, req datasour
 				MarkdownDescription: "ID of network in OpenStack where this floating IP is allocated",
 			},
 			"created": schema.StringAttribute{
+				CustomType:          timetypes.RFC3339Type{},
 				Computed:            true,
 				MarkdownDescription: "Created",
 			},
@@ -184,6 +186,7 @@ func (d *OpenstackFloatingIpDataSource) Schema(ctx context.Context, req datasour
 				MarkdownDescription: "UUID of the instance",
 			},
 			"modified": schema.StringAttribute{
+				CustomType:          timetypes.RFC3339Type{},
 				Computed:            true,
 				MarkdownDescription: "Modified",
 			},

@@ -70,6 +70,14 @@ func PopulateSliceField[T any](ctx context.Context, list types.List, target *[]T
 	}
 }
 
+// PopulateSetField helps populating a slice field from a Terraform set.
+func PopulateSetField[T any](ctx context.Context, set types.Set, target *[]T) {
+	var items []T
+	if diags := set.ElementsAs(ctx, &items, false); !diags.HasError() && len(items) > 0 {
+		*target = items
+	}
+}
+
 // ResolveResourceUUID extracts the resource UUID from a marketplace order response.
 func ResolveResourceUUID(orderRes *OrderDetails) string {
 	if orderRes == nil {

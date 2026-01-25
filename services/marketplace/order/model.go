@@ -8,7 +8,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
-// MarketplaceOrderFiltersModel contains the filter parameters for querying.
 type MarketplaceOrderFiltersModel struct {
 	CanApproveAsConsumer types.Bool   `tfsdk:"can_approve_as_consumer"`
 	CanApproveAsProvider types.Bool   `tfsdk:"can_approve_as_provider"`

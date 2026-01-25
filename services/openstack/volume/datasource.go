@@ -4,8 +4,11 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 
 	"github.com/waldur/terraform-provider-waldur/internal/client"
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
@@ -160,7 +163,7 @@ func (d *OpenstackVolumeDataSource) Schema(ctx context.Context, req datasource.S
 				MarkdownDescription: "Action",
 			},
 			"availability_zone": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Availability zone where this volume is located",
 			},
 			"availability_zone_name": schema.StringAttribute{
@@ -172,10 +175,11 @@ func (d *OpenstackVolumeDataSource) Schema(ctx context.Context, req datasource.S
 				MarkdownDescription: "Volume ID in the OpenStack backend",
 			},
 			"bootable": schema.BoolAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Indicates if this volume can be used to boot an instance",
 			},
 			"created": schema.StringAttribute{
+				CustomType:          timetypes.RFC3339Type{},
 				Computed:            true,
 				MarkdownDescription: "Created",
 			},
@@ -200,7 +204,7 @@ func (d *OpenstackVolumeDataSource) Schema(ctx context.Context, req datasource.S
 				MarkdownDescription: "UUID of the customer",
 			},
 			"description": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Description of the resource",
 			},
 			"device": schema.StringAttribute{
@@ -220,7 +224,7 @@ func (d *OpenstackVolumeDataSource) Schema(ctx context.Context, req datasource.S
 				MarkdownDescription: "Extend enabled",
 			},
 			"image": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Image that this volume was created from, if any",
 			},
 			"image_metadata": schema.StringAttribute{
@@ -280,15 +284,16 @@ func (d *OpenstackVolumeDataSource) Schema(ctx context.Context, req datasource.S
 				MarkdownDescription: "UUID of the marketplace resource",
 			},
 			"modified": schema.StringAttribute{
+				CustomType:          timetypes.RFC3339Type{},
 				Computed:            true,
 				MarkdownDescription: "Modified",
 			},
 			"name": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Name of the resource",
 			},
 			"project": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Project",
 			},
 			"project_name": schema.StringAttribute{
@@ -328,8 +333,12 @@ func (d *OpenstackVolumeDataSource) Schema(ctx context.Context, req datasource.S
 				MarkdownDescription: "UUID of the service settings",
 			},
 			"size": schema.Int64Attribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Size in MiB",
+				Validators: []validator.Int64{
+					int64validator.AtLeast(0),
+					int64validator.AtMost(2147483647),
+				},
 			},
 			"source_snapshot": schema.StringAttribute{
 				Computed:            true,
@@ -340,7 +349,7 @@ func (d *OpenstackVolumeDataSource) Schema(ctx context.Context, req datasource.S
 				MarkdownDescription: "State",
 			},
 			"tenant": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Tenant",
 			},
 			"tenant_uuid": schema.StringAttribute{
@@ -348,7 +357,7 @@ func (d *OpenstackVolumeDataSource) Schema(ctx context.Context, req datasource.S
 				MarkdownDescription: "UUID of the tenant",
 			},
 			"type": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Type of the volume (e.g. SSD, HDD)",
 			},
 			"type_name": schema.StringAttribute{

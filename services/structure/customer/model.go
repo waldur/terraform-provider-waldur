@@ -9,7 +9,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
-// StructureCustomerFiltersModel contains the filter parameters for querying.
 type StructureCustomerFiltersModel struct {
 	Abbreviation          types.String `tfsdk:"abbreviation"`
 	AgreementNumber       types.String `tfsdk:"agreement_number"`

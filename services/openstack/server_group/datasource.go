@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
 
@@ -132,11 +133,12 @@ func (d *OpenstackServerGroupDataSource) Schema(ctx context.Context, req datasou
 				MarkdownDescription: "ID of the backend",
 			},
 			"created": schema.StringAttribute{
+				CustomType:          timetypes.RFC3339Type{},
 				Computed:            true,
 				MarkdownDescription: "Created",
 			},
 			"description": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Description of the resource",
 			},
 			"display_name": schema.StringAttribute{
@@ -168,15 +170,16 @@ func (d *OpenstackServerGroupDataSource) Schema(ctx context.Context, req datasou
 				MarkdownDescription: "Instances",
 			},
 			"modified": schema.StringAttribute{
+				CustomType:          timetypes.RFC3339Type{},
 				Computed:            true,
 				MarkdownDescription: "Modified",
 			},
 			"name": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Name of the resource",
 			},
 			"policy": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Server group policy determining the rules for scheduling servers in this group",
 			},
 			"resource_type": schema.StringAttribute{

@@ -3,9 +3,13 @@ package order
 import (
 	"context"
 	"fmt"
+	"regexp"
 
+	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
+	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 
 	"github.com/waldur/terraform-provider-waldur/internal/client"
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
@@ -116,15 +120,15 @@ func (d *MarketplaceOrderDataSource) Schema(ctx context.Context, req datasource.
 				MarkdownDescription: "Activation price",
 			},
 			"attachment": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Attachment",
 			},
 			"backend_id": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "ID of the backend",
 			},
 			"callback_url": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Callback url",
 			},
 			"can_terminate": schema.BoolAttribute{
@@ -144,10 +148,12 @@ func (d *MarketplaceOrderDataSource) Schema(ctx context.Context, req datasource.
 				MarkdownDescription: "UUID of the category",
 			},
 			"completed_at": schema.StringAttribute{
+				CustomType:          timetypes.RFC3339Type{},
 				Computed:            true,
 				MarkdownDescription: "Completed at",
 			},
 			"consumer_reviewed_at": schema.StringAttribute{
+				CustomType:          timetypes.RFC3339Type{},
 				Computed:            true,
 				MarkdownDescription: "Consumer reviewed at",
 			},
@@ -166,8 +172,12 @@ func (d *MarketplaceOrderDataSource) Schema(ctx context.Context, req datasource.
 			"cost": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Cost",
+				Validators: []validator.String{
+					stringvalidator.RegexMatches(regexp.MustCompile(`^-?\d{0,12}(?:\.\d{0,10})?$`), ""),
+				},
 			},
 			"created": schema.StringAttribute{
+				CustomType:          timetypes.RFC3339Type{},
 				Computed:            true,
 				MarkdownDescription: "Created",
 			},
@@ -200,12 +210,16 @@ func (d *MarketplaceOrderDataSource) Schema(ctx context.Context, req datasource.
 				MarkdownDescription: "Fixed price",
 			},
 			"modified": schema.StringAttribute{
+				CustomType:          timetypes.RFC3339Type{},
 				Computed:            true,
 				MarkdownDescription: "Modified",
 			},
 			"new_cost_estimate": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "New cost estimate",
+				Validators: []validator.String{
+					stringvalidator.RegexMatches(regexp.MustCompile(`^-?\d{0,12}(?:\.\d{0,10})?$`), ""),
+				},
 			},
 			"new_plan_name": schema.StringAttribute{
 				Computed:            true,
@@ -216,7 +230,7 @@ func (d *MarketplaceOrderDataSource) Schema(ctx context.Context, req datasource.
 				MarkdownDescription: "UUID of the new plan",
 			},
 			"offering": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Offering",
 			},
 			"offering_billable": schema.BoolAttribute{
@@ -272,7 +286,7 @@ func (d *MarketplaceOrderDataSource) Schema(ctx context.Context, req datasource.
 				MarkdownDescription: "Output",
 			},
 			"plan": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Plan",
 			},
 			"plan_description": schema.StringAttribute{
@@ -304,6 +318,7 @@ func (d *MarketplaceOrderDataSource) Schema(ctx context.Context, req datasource.
 				MarkdownDescription: "Name of the provider",
 			},
 			"provider_reviewed_at": schema.StringAttribute{
+				CustomType:          timetypes.RFC3339Type{},
 				Computed:            true,
 				MarkdownDescription: "Provider reviewed at",
 			},
@@ -328,7 +343,7 @@ func (d *MarketplaceOrderDataSource) Schema(ctx context.Context, req datasource.
 				MarkdownDescription: "UUID of the provider",
 			},
 			"request_comment": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Request comment",
 			},
 			"resource_name": schema.StringAttribute{
@@ -346,9 +361,12 @@ func (d *MarketplaceOrderDataSource) Schema(ctx context.Context, req datasource.
 			"slug": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Slug",
+				Validators: []validator.String{
+					stringvalidator.RegexMatches(regexp.MustCompile(`^[-a-zA-Z0-9_]+$`), ""),
+				},
 			},
 			"start_date": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Enables delayed processing of resource provisioning order.",
 			},
 			"state": schema.StringAttribute{
@@ -360,7 +378,7 @@ func (d *MarketplaceOrderDataSource) Schema(ctx context.Context, req datasource.
 				MarkdownDescription: "Termination comment",
 			},
 			"type": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Type",
 			},
 			"url": schema.StringAttribute{

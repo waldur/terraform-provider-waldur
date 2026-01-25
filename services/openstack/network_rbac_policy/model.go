@@ -8,7 +8,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
-// OpenstackNetworkRbacPolicyFiltersModel contains the filter parameters for querying.
 type OpenstackNetworkRbacPolicyFiltersModel struct {
 	Network          types.String `tfsdk:"network"`
 	NetworkUuid      types.String `tfsdk:"network_uuid"`

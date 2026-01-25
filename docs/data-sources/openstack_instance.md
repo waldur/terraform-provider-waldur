@@ -17,17 +17,26 @@ Openstack Instance data source - lookup by name or UUID
 
 ### Optional
 
+- `availability_zone` (String) Availability zone where this instance is located
+- `connect_directly_to_external_network` (Boolean) If True, instance will be connected directly to external network
+- `description` (String) Description of the resource
 - `filters` (Attributes) Filter parameters for querying Openstack Instance (see [below for nested schema](#nestedatt--filters))
+- `floating_ips` (Attributes Set) Floating ips (see [below for nested schema](#nestedatt--floating_ips))
 - `id` (String) Resource UUID
+- `name` (String) Name of the resource
+- `ports` (Attributes List) Ports (see [below for nested schema](#nestedatt--ports))
+- `project` (String) Project
+- `security_groups` (Attributes Set) Security groups (see [below for nested schema](#nestedatt--security_groups))
+- `server_group` (Attributes) Server group (see [below for nested schema](#nestedatt--server_group))
+- `tenant` (String) The OpenStack tenant to create the instance in
+- `user_data` (String) Additional data that will be added to instance on provisioning
 
 ### Read-Only
 
 - `access_url` (String) Access url
 - `action` (String) Action
-- `availability_zone` (String) Availability zone where this instance is located
 - `availability_zone_name` (String) Name of the availability zone where instance is located
 - `backend_id` (String) Instance ID in the OpenStack backend
-- `connect_directly_to_external_network` (Boolean) If True, instance will be connected directly to external network
 - `cores` (Number) Number of cores in a VM
 - `created` (String) Created
 - `customer` (String) Customer
@@ -35,7 +44,6 @@ Openstack Instance data source - lookup by name or UUID
 - `customer_name` (String) Name of the customer
 - `customer_native_name` (String) Name of the customer native
 - `customer_uuid` (String) UUID of the customer
-- `description` (String) Description of the resource
 - `disk` (Number) Disk size in MiB
 - `error_message` (String) Error message
 - `error_traceback` (String) Error traceback
@@ -43,7 +51,6 @@ Openstack Instance data source - lookup by name or UUID
 - `external_ips` (List of String) External ips
 - `flavor_disk` (Number) Flavor disk size in MiB
 - `flavor_name` (String) Name of the flavor used by this instance
-- `floating_ips` (Attributes List) Floating ips (see [below for nested schema](#nestedatt--floating_ips))
 - `hypervisor_hostname` (String) Name of the hypervisor hosting this instance
 - `image_name` (String) Name of the image
 - `internal_ips` (List of String) Internal ips
@@ -63,16 +70,11 @@ Openstack Instance data source - lookup by name or UUID
 - `min_disk` (Number) Minimum disk size in MiB
 - `min_ram` (Number) Minimum memory size in MiB
 - `modified` (String) Modified
-- `name` (String) Name of the resource
-- `ports` (Attributes List) Ports (see [below for nested schema](#nestedatt--ports))
-- `project` (String) Project
 - `project_name` (String) Name of the project
 - `project_uuid` (String) UUID of the project
 - `ram` (Number) Memory size in MiB
 - `resource_type` (String) Resource type
 - `runtime_state` (String) Runtime state
-- `security_groups` (Attributes List) Security groups (see [below for nested schema](#nestedatt--security_groups))
-- `server_group` (Attributes) Server group (see [below for nested schema](#nestedatt--server_group))
 - `service_name` (String) Name of the service
 - `service_settings` (String) OpenStack provider settings
 - `service_settings_error_message` (String) Service settings error message
@@ -80,10 +82,8 @@ Openstack Instance data source - lookup by name or UUID
 - `service_settings_uuid` (String) UUID of the service settings
 - `start_time` (String) Start time
 - `state` (String) State
-- `tenant` (String) The OpenStack tenant to create the instance in
 - `tenant_uuid` (String) UUID of the OpenStack tenant
 - `url` (String) Url
-- `user_data` (String) Additional data that will be added to instance on provisioning
 - `volumes` (Attributes List) List of volumes attached to the instance (see [below for nested schema](#nestedatt--volumes))
 
 <a id="nestedatt--filters"></a>
@@ -158,7 +158,7 @@ Read-Only:
 - `device_id` (String) ID of device (instance, router etc) to which this port is connected
 - `device_owner` (String) Entity that uses this port (e.g. network:router_interface)
 - `mac_address` (String) MAC address of the port
-- `security_groups` (Attributes List) Security groups (see [below for nested schema](#nestedatt--ports--security_groups))
+- `security_groups` (Attributes Set) Security groups (see [below for nested schema](#nestedatt--ports--security_groups))
 - `subnet_cidr` (String) IPv4 network address in CIDR format (e.g. 192.168.0.0/24)
 - `subnet_description` (String) Subnet description
 - `subnet_name` (String) Name of the subnet

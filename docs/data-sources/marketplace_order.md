@@ -17,15 +17,20 @@ Marketplace Order data source - lookup by name or UUID
 
 ### Optional
 
+- `attachment` (String) Attachment
+- `backend_id` (String) ID of the backend
+- `callback_url` (String) Callback url
 - `filters` (Attributes) Filter parameters for querying Marketplace Order (see [below for nested schema](#nestedatt--filters))
 - `id` (String) Resource UUID
+- `offering` (String) Offering
+- `plan` (String) Plan
+- `request_comment` (String) Request comment
+- `start_date` (String) Enables delayed processing of resource provisioning order.
+- `type` (String) Type
 
 ### Read-Only
 
 - `activation_price` (Number) Activation price
-- `attachment` (String) Attachment
-- `backend_id` (String) ID of the backend
-- `callback_url` (String) Callback url
 - `can_terminate` (Boolean) Can terminate
 - `category_icon` (String) Category icon
 - `category_title` (String) Category title
@@ -48,7 +53,6 @@ Marketplace Order data source - lookup by name or UUID
 - `new_cost_estimate` (String) New cost estimate
 - `new_plan_name` (String) Name of the new plan
 - `new_plan_uuid` (String) UUID of the new plan
-- `offering` (String) Offering
 - `offering_billable` (Boolean) Purchase and usage is invoiced.
 - `offering_description` (String) Offering description
 - `offering_image` (String) Offering image
@@ -62,7 +66,6 @@ Marketplace Order data source - lookup by name or UUID
 - `old_plan_uuid` (String) UUID of the old plan
 - `order_subtype` (String) Order subtype
 - `output` (String) Output
-- `plan` (String) Plan
 - `plan_description` (String) Plan description
 - `plan_name` (String) Name of the plan
 - `plan_unit` (String) Plan unit
@@ -76,15 +79,12 @@ Marketplace Order data source - lookup by name or UUID
 - `provider_reviewed_by_username` (String) Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters
 - `provider_slug` (String) Provider slug
 - `provider_uuid` (String) UUID of the provider
-- `request_comment` (String) Request comment
 - `resource_name` (String) Name of the resource
 - `resource_type` (String) Resource type
 - `resource_uuid` (String) UUID of the resource
 - `slug` (String) Slug
-- `start_date` (String) Enables delayed processing of resource provisioning order.
 - `state` (String) State
 - `termination_comment` (String) Termination comment
-- `type` (String) Type
 - `url` (String) Url
 
 <a id="nestedatt--filters"></a>

@@ -9,7 +9,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
-// OpenstackPortFiltersModel contains the filter parameters for querying.
 type OpenstackPortFiltersModel struct {
 	AdminStateUp       types.Bool   `tfsdk:"admin_state_up"`
 	BackendId          types.String `tfsdk:"backend_id"`
@@ -47,7 +46,7 @@ type OpenstackPortModel struct {
 	ErrorMessage                types.String      `tfsdk:"error_message"`
 	ErrorTraceback              types.String      `tfsdk:"error_traceback"`
 	FixedIps                    types.List        `tfsdk:"fixed_ips"`
-	FloatingIps                 types.List        `tfsdk:"floating_ips"`
+	FloatingIps                 types.Set         `tfsdk:"floating_ips"`
 	IsLimitBased                types.Bool        `tfsdk:"is_limit_based"`
 	IsUsageBased                types.Bool        `tfsdk:"is_usage_based"`
 	MacAddress                  types.String      `tfsdk:"mac_address"`
@@ -68,7 +67,7 @@ type OpenstackPortModel struct {
 	ProjectName                 types.String      `tfsdk:"project_name"`
 	ProjectUuid                 types.String      `tfsdk:"project_uuid"`
 	ResourceType                types.String      `tfsdk:"resource_type"`
-	SecurityGroups              types.List        `tfsdk:"security_groups"`
+	SecurityGroups              types.Set         `tfsdk:"security_groups"`
 	ServiceName                 types.String      `tfsdk:"service_name"`
 	ServiceSettings             types.String      `tfsdk:"service_settings"`
 	ServiceSettingsErrorMessage types.String      `tfsdk:"service_settings_error_message"`
@@ -116,9 +115,9 @@ func (model *OpenstackPortModel) CopyFrom(ctx context.Context, apiResp Openstack
 		diags.Append(listDiagsFixedIps...)
 		model.FixedIps = listValFixedIps
 	}
-	listValFloatingIps, listDiagsFloatingIps := types.ListValueFrom(ctx, types.StringType, apiResp.FloatingIps)
-	model.FloatingIps = listValFloatingIps
-	diags.Append(listDiagsFloatingIps...)
+	setValFloatingIps, setDiagsFloatingIps := types.SetValueFrom(ctx, types.StringType, apiResp.FloatingIps)
+	model.FloatingIps = setValFloatingIps
+	diags.Append(setDiagsFloatingIps...)
 	model.MacAddress = types.StringPointerValue(apiResp.MacAddress)
 	valModified, diagsModified := timetypes.NewRFC3339PointerValue(apiResp.Modified)
 	diags.Append(diagsModified...)
@@ -129,13 +128,12 @@ func (model *OpenstackPortModel) CopyFrom(ctx context.Context, apiResp Openstack
 	model.NetworkUuid = types.StringPointerValue(apiResp.NetworkUuid)
 	model.PortSecurityEnabled = types.BoolPointerValue(apiResp.PortSecurityEnabled)
 	model.ResourceType = types.StringPointerValue(apiResp.ResourceType)
-
 	{
-		listValSecurityGroups, listDiagsSecurityGroups := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+		setValSecurityGroups, setDiagsSecurityGroups := types.SetValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
 			"name": types.StringType,
 		}}, apiResp.SecurityGroups)
-		diags.Append(listDiagsSecurityGroups...)
-		model.SecurityGroups = listValSecurityGroups
+		diags.Append(setDiagsSecurityGroups...)
+		model.SecurityGroups = setValSecurityGroups
 	}
 	model.State = types.StringPointerValue(apiResp.State)
 	model.Status = types.StringPointerValue(apiResp.Status)

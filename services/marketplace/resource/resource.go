@@ -3,17 +3,19 @@ package resource
 import (
 	"context"
 	"fmt"
-	"time"
+	"regexp"
 
 	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
 	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
-	"github.com/hashicorp/terraform-plugin-framework/diag"
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
@@ -57,8 +59,8 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 				},
 			},
 			"available_actions": schema.ListAttribute{
-				CustomType: types.ListType{ElemType: types.StringType},
-				Computed:   true,
+				ElementType: types.StringType,
+				Computed:    true,
 				PlanModifiers: []planmodifier.List{
 					listplanmodifier.UseStateForUnknown(),
 				},
@@ -233,10 +235,17 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 						"billing_type": schema.StringAttribute{
 							Optional:            true,
 							MarkdownDescription: "Billing type",
+							Validators: []validator.String{
+								stringvalidator.OneOf("fixed", "usage", "limit", "one", "few"),
+							},
 						},
 						"default_limit": schema.Int64Attribute{
 							Optional:            true,
 							MarkdownDescription: "Default limit",
+							Validators: []validator.Int64{
+								int64validator.AtLeast(-2147483648),
+								int64validator.AtMost(2147483647),
+							},
 						},
 						"description": schema.StringAttribute{
 							Optional:            true,
@@ -261,6 +270,10 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 						"limit_amount": schema.Int64Attribute{
 							Optional:            true,
 							MarkdownDescription: "Limit amount",
+							Validators: []validator.Int64{
+								int64validator.AtLeast(-2147483648),
+								int64validator.AtMost(2147483647),
+							},
 						},
 						"limit_period": schema.StringAttribute{
 							Optional:            true,
@@ -269,14 +282,26 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 						"max_available_limit": schema.Int64Attribute{
 							Optional:            true,
 							MarkdownDescription: "Max available limit",
+							Validators: []validator.Int64{
+								int64validator.AtLeast(-2147483648),
+								int64validator.AtMost(2147483647),
+							},
 						},
 						"max_prepaid_duration": schema.Int64Attribute{
 							Optional:            true,
 							MarkdownDescription: "Max prepaid duration",
+							Validators: []validator.Int64{
+								int64validator.AtLeast(-2147483648),
+								int64validator.AtMost(2147483647),
+							},
 						},
 						"max_value": schema.Int64Attribute{
 							Optional:            true,
 							MarkdownDescription: "Max value",
+							Validators: []validator.Int64{
+								int64validator.AtLeast(-2147483648),
+								int64validator.AtMost(2147483647),
+							},
 						},
 						"measured_unit": schema.StringAttribute{
 							Optional:            true,
@@ -285,10 +310,18 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 						"min_prepaid_duration": schema.Int64Attribute{
 							Optional:            true,
 							MarkdownDescription: "Min prepaid duration",
+							Validators: []validator.Int64{
+								int64validator.AtLeast(-2147483648),
+								int64validator.AtMost(2147483647),
+							},
 						},
 						"min_value": schema.Int64Attribute{
 							Optional:            true,
 							MarkdownDescription: "Min value",
+							Validators: []validator.Int64{
+								int64validator.AtLeast(-2147483648),
+								int64validator.AtMost(2147483647),
+							},
 						},
 						"name": schema.StringAttribute{
 							Optional:            true,
@@ -301,10 +334,17 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 						"type": schema.StringAttribute{
 							Optional:            true,
 							MarkdownDescription: "Unique internal name of the measured unit, for example floating_ip.",
+							Validators: []validator.String{
+								stringvalidator.RegexMatches(regexp.MustCompile(`^[a-zA-Z0-9_\-\/:]+$`), ""),
+							},
 						},
 						"unit_factor": schema.Int64Attribute{
 							Optional:            true,
 							MarkdownDescription: "The conversion factor from backend units to measured_unit",
+							Validators: []validator.Int64{
+								int64validator.AtLeast(-2147483648),
+								int64validator.AtMost(2147483647),
+							},
 						},
 					},
 				},
@@ -559,6 +599,9 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 					stringplanmodifier.RequiresReplace(),
 				},
 				MarkdownDescription: "URL-friendly identifier. Only editable by staff users.",
+				Validators: []validator.String{
+					stringvalidator.RegexMatches(regexp.MustCompile(`^[-a-zA-Z0-9_]+$`), ""),
+				},
 			},
 			"state": schema.StringAttribute{
 				Computed: true,
@@ -678,7 +721,7 @@ func (r *MarketplaceResourceResource) Update(ctx context.Context, req resource.U
 		return
 	}
 
-	updateTimeout, diags := data.Timeouts.Update(ctx, 30*time.Minute)
+	updateTimeout, diags := data.Timeouts.Update(ctx, common.DefaultUpdateTimeout)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -740,8 +783,4 @@ func (r *MarketplaceResourceResource) ImportState(ctx context.Context, req resou
 	}
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
-}
-
-func (r *MarketplaceResourceResource) mapResponseToModel(ctx context.Context, apiResp MarketplaceResourceResponse, model *MarketplaceResourceResourceModel) diag.Diagnostics {
-	return model.CopyFrom(ctx, apiResp)
 }

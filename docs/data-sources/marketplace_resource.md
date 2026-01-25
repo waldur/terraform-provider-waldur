@@ -17,8 +17,15 @@ Marketplace Resource data source - lookup by name or UUID
 
 ### Optional
 
+- `downscaled` (Boolean) Downscaled
+- `end_date` (String) The date is inclusive. Once reached, a resource will be scheduled for termination.
 - `filters` (Attributes) Filter parameters for querying Marketplace Resource (see [below for nested schema](#nestedatt--filters))
 - `id` (String) Resource UUID
+- `name` (String) Name of the resource
+- `offering` (String) Offering
+- `paused` (Boolean) Paused
+- `plan` (String) Plan
+- `slug` (String) URL-friendly identifier. Only editable by staff users.
 
 ### Read-Only
 
@@ -31,17 +38,13 @@ Marketplace Resource data source - lookup by name or UUID
 - `created` (String) Created
 - `customer_slug` (String) Customer slug
 - `description` (String) Description of the resource
-- `downscaled` (Boolean) Downscaled
 - `effective_id` (String) ID of the effective
-- `end_date` (String) The date is inclusive. Once reached, a resource will be scheduled for termination.
 - `end_date_requested_by` (String) End date requested by
 - `endpoints` (Attributes List) Endpoints (see [below for nested schema](#nestedatt--endpoints))
 - `error_message` (String) Error message
 - `error_traceback` (String) Error traceback
 - `last_sync` (String) Last sync
 - `modified` (String) Modified
-- `name` (String) Name of the resource
-- `offering` (String) Offering
 - `offering_billable` (Boolean) Purchase and usage is invoiced.
 - `offering_components` (Attributes List) Offering components (see [below for nested schema](#nestedatt--offering_components))
 - `offering_description` (String) Offering description
@@ -58,8 +61,6 @@ Marketplace Resource data source - lookup by name or UUID
 - `parent_offering_slug` (String) Parent offering slug
 - `parent_offering_uuid` (String) UUID of the parent offering
 - `parent_uuid` (String) UUID of the parent
-- `paused` (Boolean) Paused
-- `plan` (String) Plan
 - `plan_description` (String) Plan description
 - `plan_name` (String) Name of the plan
 - `plan_unit` (String) Plan unit
@@ -76,7 +77,6 @@ Marketplace Resource data source - lookup by name or UUID
 - `resource_uuid` (String) UUID of the resource
 - `restrict_member_access` (Boolean) Restrict member access
 - `scope` (String) Scope
-- `slug` (String) URL-friendly identifier. Only editable by staff users.
 - `state` (String) State
 - `url` (String) Url
 - `user_requires_reconsent` (Boolean) Check if the current user needs to re-consent for this resource's offering.

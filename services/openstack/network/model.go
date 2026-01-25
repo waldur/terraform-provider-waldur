@@ -9,7 +9,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
-// OpenstackNetworkFiltersModel contains the filter parameters for querying.
 type OpenstackNetworkFiltersModel struct {
 	BackendId            types.String `tfsdk:"backend_id"`
 	CanManage            types.Bool   `tfsdk:"can_manage"`

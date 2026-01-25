@@ -3,11 +3,9 @@ package subnet
 import (
 	"context"
 	"fmt"
-	"time"
 
 	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
 	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
-	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
@@ -107,7 +105,7 @@ func (r *OpenstackSubnetResource) Schema(ctx context.Context, req resource.Schem
 				MarkdownDescription: "If True, no gateway IP address will be allocated",
 			},
 			"dns_nameservers": schema.ListAttribute{
-				CustomType:          types.ListType{ElemType: types.StringType},
+				ElementType:         types.StringType,
 				Optional:            true,
 				MarkdownDescription: "Dns nameservers",
 			},
@@ -312,7 +310,7 @@ func (r *OpenstackSubnetResource) Create(ctx context.Context, req resource.Creat
 	}
 	data.UUID = types.StringPointerValue(apiResp.UUID)
 
-	createTimeout, diags := data.Timeouts.Create(ctx, 30*time.Minute)
+	createTimeout, diags := data.Timeouts.Create(ctx, common.DefaultCreateTimeout)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -420,7 +418,7 @@ func (r *OpenstackSubnetResource) Update(ctx context.Context, req resource.Updat
 		return
 	}
 
-	updateTimeout, diags := data.Timeouts.Update(ctx, 30*time.Minute)
+	updateTimeout, diags := data.Timeouts.Update(ctx, common.DefaultUpdateTimeout)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -456,7 +454,7 @@ func (r *OpenstackSubnetResource) Delete(ctx context.Context, req resource.Delet
 		return
 	}
 
-	deleteTimeout, diags := data.Timeouts.Delete(ctx, 10*time.Minute)
+	deleteTimeout, diags := data.Timeouts.Delete(ctx, common.DefaultDeleteTimeout)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -509,8 +507,4 @@ func (r *OpenstackSubnetResource) ImportState(ctx context.Context, req resource.
 	}
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
-}
-
-func (r *OpenstackSubnetResource) mapResponseToModel(ctx context.Context, apiResp OpenstackSubnetResponse, model *OpenstackSubnetResourceModel) diag.Diagnostics {
-	return model.CopyFrom(ctx, apiResp)
 }

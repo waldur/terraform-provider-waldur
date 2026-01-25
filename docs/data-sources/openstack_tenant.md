@@ -17,13 +17,21 @@ Openstack Tenant data source - lookup by name or UUID
 
 ### Optional
 
+- `availability_zone` (String) Optional availability group. Will be used for all instances provisioned in this tenant
+- `default_volume_type_name` (String) Volume type name to use when creating volumes.
+- `description` (String) Description of the resource
 - `filters` (Attributes) Filter parameters for querying Openstack Tenant (see [below for nested schema](#nestedatt--filters))
 - `id` (String) Resource UUID
+- `name` (String) Name of the resource
+- `project` (String) Project
+- `service_settings` (String) Service settings
+- `skip_creation_of_default_router` (Boolean) Skip creation of default router
+- `user_password` (String, Sensitive) Password of the tenant user
+- `user_username` (String) Username of the tenant user
 
 ### Read-Only
 
 - `access_url` (String) Access url
-- `availability_zone` (String) Optional availability group. Will be used for all instances provisioned in this tenant
 - `backend_id` (String) ID of tenant in the OpenStack backend
 - `created` (String) Created
 - `customer` (String) Customer
@@ -31,8 +39,6 @@ Openstack Tenant data source - lookup by name or UUID
 - `customer_name` (String) Name of the customer
 - `customer_native_name` (String) Name of the customer native
 - `customer_uuid` (String) UUID of the customer
-- `default_volume_type_name` (String) Volume type name to use when creating volumes.
-- `description` (String) Description of the resource
 - `error_message` (String) Error message
 - `error_traceback` (String) Error traceback
 - `external_network_id` (String) ID of external network connected to OpenStack tenant
@@ -47,22 +53,16 @@ Openstack Tenant data source - lookup by name or UUID
 - `marketplace_resource_state` (String) Marketplace resource state
 - `marketplace_resource_uuid` (String) UUID of the marketplace resource
 - `modified` (String) Modified
-- `name` (String) Name of the resource
-- `project` (String) Project
 - `project_name` (String) Name of the project
 - `project_uuid` (String) UUID of the project
 - `quotas` (Attributes List) Quotas (see [below for nested schema](#nestedatt--quotas))
 - `resource_type` (String) Resource type
 - `service_name` (String) Name of the service
-- `service_settings` (String) Service settings
 - `service_settings_error_message` (String) Service settings error message
 - `service_settings_state` (String) Service settings state
 - `service_settings_uuid` (String) UUID of the service settings
-- `skip_creation_of_default_router` (Boolean) Skip creation of default router
 - `state` (String) State
 - `url` (String) Url
-- `user_password` (String) Password of the tenant user
-- `user_username` (String) Username of the tenant user
 
 <a id="nestedatt--filters"></a>
 ### Nested Schema for `filters`

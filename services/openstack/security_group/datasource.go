@@ -4,8 +4,11 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 
 	"github.com/waldur/terraform-provider-waldur/internal/client"
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
@@ -136,11 +139,12 @@ func (d *OpenstackSecurityGroupDataSource) Schema(ctx context.Context, req datas
 				MarkdownDescription: "ID of the backend",
 			},
 			"created": schema.StringAttribute{
+				CustomType:          timetypes.RFC3339Type{},
 				Computed:            true,
 				MarkdownDescription: "Created",
 			},
 			"description": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Description of the resource",
 			},
 			"error_message": schema.StringAttribute{
@@ -152,11 +156,12 @@ func (d *OpenstackSecurityGroupDataSource) Schema(ctx context.Context, req datas
 				MarkdownDescription: "Error traceback",
 			},
 			"modified": schema.StringAttribute{
+				CustomType:          timetypes.RFC3339Type{},
 				Computed:            true,
 				MarkdownDescription: "Modified",
 			},
 			"name": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Name of the resource",
 			},
 			"resource_type": schema.StringAttribute{
@@ -185,6 +190,10 @@ func (d *OpenstackSecurityGroupDataSource) Schema(ctx context.Context, req datas
 						"from_port": schema.Int64Attribute{
 							Optional:            true,
 							MarkdownDescription: "Starting port number in the range (1-65535)",
+							Validators: []validator.Int64{
+								int64validator.AtLeast(-2147483648),
+								int64validator.AtMost(65535),
+							},
 						},
 						"id": schema.Int64Attribute{
 							Computed:            true,
@@ -209,10 +218,14 @@ func (d *OpenstackSecurityGroupDataSource) Schema(ctx context.Context, req datas
 						"to_port": schema.Int64Attribute{
 							Optional:            true,
 							MarkdownDescription: "Ending port number in the range (1-65535)",
+							Validators: []validator.Int64{
+								int64validator.AtLeast(-2147483648),
+								int64validator.AtMost(65535),
+							},
 						},
 					},
 				},
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Rules",
 			},
 			"state": schema.StringAttribute{

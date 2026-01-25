@@ -17,11 +17,6 @@ Structure Customer data source - lookup by name or UUID
 
 ### Optional
 
-- `filters` (Attributes) Filter parameters for querying Structure Customer (see [below for nested schema](#nestedatt--filters))
-- `id` (String) Resource UUID
-
-### Read-Only
-
 - `abbreviation` (String) Abbreviation
 - `access_subnets` (String) Enter a comma separated list of IPv4 or IPv6 CIDR addresses from where connection to self-service is allowed.
 - `accounting_start_date` (String) Accounting start date
@@ -32,43 +27,48 @@ Structure Customer data source - lookup by name or UUID
 - `bank_account` (String) Bank account
 - `bank_name` (String) Name of the bank
 - `blocked` (Boolean) Blocked
-- `call_managing_organization_uuid` (String) UUID of the call managing organization
 - `contact_details` (String) Contact details
 - `country` (String) Country code (ISO 3166-1 alpha-2)
-- `country_name` (String) Human-readable country name
-- `created` (String) Created
-- `customer_credit` (Number) Customer credit
-- `customer_unallocated_credit` (Number) Customer unallocated credit
 - `default_tax_percent` (String) Default tax percent
 - `description` (String) Description of the resource
 - `display_billing_info_in_projects` (Boolean) Display billing info in projects
-- `display_name` (String) Display name of the organization (includes native name if available)
 - `domain` (String) Domain
 - `email` (String) Email
+- `filters` (Attributes) Filter parameters for querying Structure Customer (see [below for nested schema](#nestedatt--filters))
 - `grace_period_days` (Number) Number of extra days after project end date before resources are terminated
 - `homepage` (String) Homepage
+- `id` (String) Resource UUID
 - `image` (String) Image
-- `is_service_provider` (Boolean) Is service provider
 - `latitude` (Number) Latitude
 - `longitude` (Number) Longitude
 - `max_service_accounts` (Number) Maximum number of service accounts allowed
 - `name` (String) Name of the resource
 - `native_name` (String) Name of the native
 - `notification_emails` (String) Comma-separated list of notification email addresses
-- `organization_groups` (Attributes List) Organization groups this customer belongs to (see [below for nested schema](#nestedatt--organization_groups))
-- `payment_profiles` (Attributes List) Payment profiles (see [below for nested schema](#nestedatt--payment_profiles))
 - `phone_number` (String) Phone number
 - `postal` (String) Postal
 - `project_metadata_checklist` (String) Checklist to be used for project metadata validation in this organization
-- `projects_count` (Number) Number of projects in this organization
 - `registration_code` (String) Registration code
-- `service_provider` (String) Service provider
-- `service_provider_uuid` (String) UUID of the service provider
 - `slug` (String) URL-friendly identifier. Only editable by staff users.
 - `sponsor_number` (Number) External ID of the sponsor covering the costs
+- `vat_code` (String) VAT number
+
+### Read-Only
+
+- `call_managing_organization_uuid` (String) UUID of the call managing organization
+- `country_name` (String) Human-readable country name
+- `created` (String) Created
+- `customer_credit` (Number) Customer credit
+- `customer_unallocated_credit` (Number) Customer unallocated credit
+- `display_name` (String) Display name of the organization (includes native name if available)
+- `is_service_provider` (Boolean) Is service provider
+- `organization_groups` (Attributes List) Organization groups this customer belongs to (see [below for nested schema](#nestedatt--organization_groups))
+- `payment_profiles` (Attributes List) Payment profiles (see [below for nested schema](#nestedatt--payment_profiles))
+- `projects_count` (Number) Number of projects in this organization
+- `service_provider` (String) Service provider
+- `service_provider_uuid` (String) UUID of the service provider
 - `url` (String) Url
 - `users_count` (Number) Number of users with access to this organization
-- `vat_code` (String) VAT number
 
 <a id="nestedatt--filters"></a>
 ### Nested Schema for `filters`

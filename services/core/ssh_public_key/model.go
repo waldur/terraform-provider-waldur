@@ -7,7 +7,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
-// CoreSshPublicKeyFiltersModel contains the filter parameters for querying.
 type CoreSshPublicKeyFiltersModel struct {
 	Created           types.String `tfsdk:"created"`
 	FingerprintMd5    types.String `tfsdk:"fingerprint_md5"`

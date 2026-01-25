@@ -3,9 +3,14 @@ package project
 import (
 	"context"
 	"fmt"
+	"regexp"
 
+	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 
 	"github.com/waldur/terraform-provider-waldur/internal/client"
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
@@ -112,10 +117,11 @@ func (d *StructureProjectDataSource) Schema(ctx context.Context, req datasource.
 				},
 			},
 			"backend_id": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "ID of the backend",
 			},
 			"created": schema.StringAttribute{
+				CustomType:          timetypes.RFC3339Type{},
 				Computed:            true,
 				MarkdownDescription: "Created",
 			},
@@ -128,11 +134,11 @@ func (d *StructureProjectDataSource) Schema(ctx context.Context, req datasource.
 				MarkdownDescription: "Customer slug",
 			},
 			"description": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Project description (HTML content will be sanitized)",
 			},
 			"end_date": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Project end date. Setting this field requires DELETE_PROJECT permission.",
 			},
 			"end_date_requested_by": schema.StringAttribute{
@@ -140,15 +146,19 @@ func (d *StructureProjectDataSource) Schema(ctx context.Context, req datasource.
 				MarkdownDescription: "End date requested by",
 			},
 			"grace_period_days": schema.Int64Attribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Number of extra days after project end date before resources are terminated. Overrides customer-level setting.",
+				Validators: []validator.Int64{
+					int64validator.AtLeast(0),
+					int64validator.AtMost(2147483647),
+				},
 			},
 			"image": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Image",
 			},
 			"is_industry": schema.BoolAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Is industry",
 			},
 			"is_removed": schema.BoolAttribute{
@@ -156,19 +166,23 @@ func (d *StructureProjectDataSource) Schema(ctx context.Context, req datasource.
 				MarkdownDescription: "Is removed",
 			},
 			"kind": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Kind",
 			},
 			"max_service_accounts": schema.Int64Attribute{
 				Computed:            true,
 				MarkdownDescription: "Maximum number of service accounts allowed",
+				Validators: []validator.Int64{
+					int64validator.AtLeast(0),
+					int64validator.AtMost(32767),
+				},
 			},
 			"name": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Name of the resource",
 			},
 			"oecd_fos_2007_code": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Oecd fos 2007 code",
 			},
 			"oecd_fos_2007_label": schema.StringAttribute{
@@ -184,19 +198,22 @@ func (d *StructureProjectDataSource) Schema(ctx context.Context, req datasource.
 				MarkdownDescription: "Number of active resources in this project",
 			},
 			"slug": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "URL-friendly identifier. Only editable by staff users.",
+				Validators: []validator.String{
+					stringvalidator.RegexMatches(regexp.MustCompile(`^[-a-zA-Z0-9_]+$`), ""),
+				},
 			},
 			"staff_notes": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Internal notes visible only to staff and support users (HTML content will be sanitized)",
 			},
 			"start_date": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Project start date. Cannot be edited after the start date has arrived.",
 			},
 			"type": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Type",
 			},
 			"type_name": schema.StringAttribute{

@@ -27,7 +27,7 @@ Openstack Port resource
 - `mac_address` (String) MAC address of the port
 - `network` (String) Network to which this port belongs
 - `port_security_enabled` (Boolean) If True, security groups and rules will be applied to this port
-- `security_groups` (Attributes List) Security groups (see [below for nested schema](#nestedatt--security_groups))
+- `security_groups` (Attributes Set) Security groups (see [below for nested schema](#nestedatt--security_groups))
 - `target_tenant` (String) Target tenant for shared network port creation. If not specified, defaults to network's tenant.
 - `timeouts` (Block, Optional) (see [below for nested schema](#nestedblock--timeouts))
 
@@ -41,7 +41,7 @@ Openstack Port resource
 - `device_owner` (String) Entity that uses this port (e.g. network:router_interface)
 - `error_message` (String) Error message
 - `error_traceback` (String) Error traceback
-- `floating_ips` (List of String) Floating ips
+- `floating_ips` (Set of String) Floating ips
 - `id` (String) Resource UUID (used as Terraform ID)
 - `modified` (String) Modified
 - `network_name` (String) Name of the network

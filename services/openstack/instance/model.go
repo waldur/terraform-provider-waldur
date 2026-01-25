@@ -9,7 +9,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
-// OpenstackInstanceFiltersModel contains the filter parameters for querying.
 type OpenstackInstanceFiltersModel struct {
 	AttachVolumeUuid     types.String `tfsdk:"attach_volume_uuid"`
 	AvailabilityZoneName types.String `tfsdk:"availability_zone_name"`
@@ -59,7 +58,7 @@ type OpenstackInstanceModel struct {
 	ExternalIps                      types.List        `tfsdk:"external_ips"`
 	FlavorDisk                       types.Int64       `tfsdk:"flavor_disk"`
 	FlavorName                       types.String      `tfsdk:"flavor_name"`
-	FloatingIps                      types.List        `tfsdk:"floating_ips"`
+	FloatingIps                      types.Set         `tfsdk:"floating_ips"`
 	HypervisorHostname               types.String      `tfsdk:"hypervisor_hostname"`
 	ImageName                        types.String      `tfsdk:"image_name"`
 	InternalIps                      types.List        `tfsdk:"internal_ips"`
@@ -87,7 +86,7 @@ type OpenstackInstanceModel struct {
 	Ram                              types.Int64       `tfsdk:"ram"`
 	ResourceType                     types.String      `tfsdk:"resource_type"`
 	RuntimeState                     types.String      `tfsdk:"runtime_state"`
-	SecurityGroups                   types.List        `tfsdk:"security_groups"`
+	SecurityGroups                   types.Set         `tfsdk:"security_groups"`
 	ServerGroup                      types.Object      `tfsdk:"server_group"`
 	ServiceName                      types.String      `tfsdk:"service_name"`
 	ServiceSettings                  types.String      `tfsdk:"service_settings"`
@@ -135,9 +134,8 @@ func (model *OpenstackInstanceModel) CopyFrom(ctx context.Context, apiResp Opens
 	diags.Append(listDiagsExternalIps...)
 	model.FlavorDisk = types.Int64PointerValue(apiResp.FlavorDisk)
 	model.FlavorName = types.StringPointerValue(apiResp.FlavorName)
-
 	{
-		listValFloatingIps, listDiagsFloatingIps := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+		setValFloatingIps, setDiagsFloatingIps := types.SetValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
 			"ip_address": types.StringType,
 			"subnet":     types.StringType,
 			"url":        types.StringType,
@@ -152,8 +150,8 @@ func (model *OpenstackInstanceModel) CopyFrom(ctx context.Context, apiResp Opens
 			"subnet_name":        types.StringType,
 			"subnet_uuid":        types.StringType,
 		}}, apiResp.FloatingIps)
-		diags.Append(listDiagsFloatingIps...)
-		model.FloatingIps = listValFloatingIps
+		diags.Append(setDiagsFloatingIps...)
+		model.FloatingIps = setValFloatingIps
 	}
 	model.HypervisorHostname = types.StringPointerValue(apiResp.HypervisorHostname)
 	model.ImageName = types.StringPointerValue(apiResp.ImageName)
@@ -194,7 +192,7 @@ func (model *OpenstackInstanceModel) CopyFrom(ctx context.Context, apiResp Opens
 			"device_id":    types.StringType,
 			"device_owner": types.StringType,
 			"mac_address":  types.StringType,
-			"security_groups": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+			"security_groups": types.SetType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
 				"access_url":                 types.StringType,
 				"backend_id":                 types.StringType,
 				"created":                    types.StringType,
@@ -260,9 +258,8 @@ func (model *OpenstackInstanceModel) CopyFrom(ctx context.Context, apiResp Opens
 	model.Ram = types.Int64PointerValue(apiResp.Ram)
 	model.ResourceType = types.StringPointerValue(apiResp.ResourceType)
 	model.RuntimeState = types.StringPointerValue(apiResp.RuntimeState)
-
 	{
-		listValSecurityGroups, listDiagsSecurityGroups := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+		setValSecurityGroups, setDiagsSecurityGroups := types.SetValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
 			"url":         types.StringType,
 			"description": types.StringType,
 			"name":        types.StringType,
@@ -280,8 +277,8 @@ func (model *OpenstackInstanceModel) CopyFrom(ctx context.Context, apiResp Opens
 			}}},
 			"state": types.StringType,
 		}}, apiResp.SecurityGroups)
-		diags.Append(listDiagsSecurityGroups...)
-		model.SecurityGroups = listValSecurityGroups
+		diags.Append(setDiagsSecurityGroups...)
+		model.SecurityGroups = setValSecurityGroups
 	}
 	if apiResp.ServerGroup != nil {
 		objValServerGroup, objDiagsServerGroup := types.ObjectValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{

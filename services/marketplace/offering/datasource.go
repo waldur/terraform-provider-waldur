@@ -3,10 +3,14 @@ package offering
 import (
 	"context"
 	"fmt"
+	"regexp"
 
 	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 
 	"github.com/waldur/terraform-provider-waldur/internal/client"
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
@@ -161,15 +165,15 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 				},
 			},
 			"access_url": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Publicly accessible offering access URL",
 			},
 			"backend_id": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "ID of the backend",
 			},
 			"billable": schema.BoolAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Purchase and usage is invoiced.",
 			},
 			"billing_type_classification": schema.StringAttribute{
@@ -177,7 +181,7 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 				MarkdownDescription: "Classify offering components by billing type. Returns 'limit_only', 'usage_only', or 'mixed'.",
 			},
 			"category": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Category",
 			},
 			"category_title": schema.StringAttribute{
@@ -193,7 +197,7 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 				MarkdownDescription: "Number of citations of a DOI",
 			},
 			"compliance_checklist": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Compliance checklist",
 			},
 			"components": schema.ListNestedAttribute{
@@ -206,10 +210,17 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 						"billing_type": schema.StringAttribute{
 							Optional:            true,
 							MarkdownDescription: "Billing type",
+							Validators: []validator.String{
+								stringvalidator.OneOf("fixed", "usage", "limit", "one", "few"),
+							},
 						},
 						"default_limit": schema.Int64Attribute{
 							Optional:            true,
 							MarkdownDescription: "Default limit",
+							Validators: []validator.Int64{
+								int64validator.AtLeast(-2147483648),
+								int64validator.AtMost(2147483647),
+							},
 						},
 						"description": schema.StringAttribute{
 							Optional:            true,
@@ -234,6 +245,10 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 						"limit_amount": schema.Int64Attribute{
 							Optional:            true,
 							MarkdownDescription: "Limit amount",
+							Validators: []validator.Int64{
+								int64validator.AtLeast(-2147483648),
+								int64validator.AtMost(2147483647),
+							},
 						},
 						"limit_period": schema.StringAttribute{
 							Optional:            true,
@@ -242,14 +257,26 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 						"max_available_limit": schema.Int64Attribute{
 							Optional:            true,
 							MarkdownDescription: "Max available limit",
+							Validators: []validator.Int64{
+								int64validator.AtLeast(-2147483648),
+								int64validator.AtMost(2147483647),
+							},
 						},
 						"max_prepaid_duration": schema.Int64Attribute{
 							Optional:            true,
 							MarkdownDescription: "Max prepaid duration",
+							Validators: []validator.Int64{
+								int64validator.AtLeast(-2147483648),
+								int64validator.AtMost(2147483647),
+							},
 						},
 						"max_value": schema.Int64Attribute{
 							Optional:            true,
 							MarkdownDescription: "Max value",
+							Validators: []validator.Int64{
+								int64validator.AtLeast(-2147483648),
+								int64validator.AtMost(2147483647),
+							},
 						},
 						"measured_unit": schema.StringAttribute{
 							Optional:            true,
@@ -258,10 +285,18 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 						"min_prepaid_duration": schema.Int64Attribute{
 							Optional:            true,
 							MarkdownDescription: "Min prepaid duration",
+							Validators: []validator.Int64{
+								int64validator.AtLeast(-2147483648),
+								int64validator.AtMost(2147483647),
+							},
 						},
 						"min_value": schema.Int64Attribute{
 							Optional:            true,
 							MarkdownDescription: "Min value",
+							Validators: []validator.Int64{
+								int64validator.AtLeast(-2147483648),
+								int64validator.AtMost(2147483647),
+							},
 						},
 						"name": schema.StringAttribute{
 							Optional:            true,
@@ -274,10 +309,17 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 						"type": schema.StringAttribute{
 							Optional:            true,
 							MarkdownDescription: "Unique internal name of the measured unit, for example floating_ip.",
+							Validators: []validator.String{
+								stringvalidator.RegexMatches(regexp.MustCompile(`^[a-zA-Z0-9_\-\/:]+$`), ""),
+							},
 						},
 						"unit_factor": schema.Int64Attribute{
 							Optional:            true,
 							MarkdownDescription: "The conversion factor from backend units to measured_unit",
+							Validators: []validator.Int64{
+								int64validator.AtLeast(-2147483648),
+								int64validator.AtMost(2147483647),
+							},
 						},
 					},
 				},
@@ -285,19 +327,20 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 				MarkdownDescription: "Components",
 			},
 			"country": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Country code (ISO 3166-1 alpha-2)",
 			},
 			"created": schema.StringAttribute{
+				CustomType:          timetypes.RFC3339Type{},
 				Computed:            true,
 				MarkdownDescription: "Created",
 			},
 			"datacite_doi": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Datacite doi",
 			},
 			"description": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Description of the resource",
 			},
 			"endpoints": schema.ListNestedAttribute{
@@ -338,11 +381,11 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 				MarkdownDescription: "Files",
 			},
 			"full_description": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Full description",
 			},
 			"getting_started": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Getting started",
 			},
 			"google_calendar_is_public": schema.BoolAttribute{
@@ -358,23 +401,23 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 				MarkdownDescription: "Has compliance requirements",
 			},
 			"image": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Image",
 			},
 			"integration_guide": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Integration guide",
 			},
 			"latitude": schema.Float64Attribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Latitude",
 			},
 			"longitude": schema.Float64Attribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Longitude",
 			},
 			"name": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Name of the resource",
 			},
 			"order_count": schema.Int64Attribute{
@@ -431,26 +474,47 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 						"cpu_bind": schema.Int64Attribute{
 							Optional:            true,
 							MarkdownDescription: "Default task binding policy (SLURM cpu_bind)",
+							Validators: []validator.Int64{
+								int64validator.AtLeast(0),
+								int64validator.AtMost(2147483647),
+							},
 						},
 						"def_cpu_per_gpu": schema.Int64Attribute{
 							Optional:            true,
 							MarkdownDescription: "Default CPUs allocated per GPU",
+							Validators: []validator.Int64{
+								int64validator.AtLeast(0),
+								int64validator.AtMost(2147483647),
+							},
 						},
 						"def_mem_per_cpu": schema.Int64Attribute{
 							Optional:            true,
 							MarkdownDescription: "Default memory per CPU in MB",
+							Validators: []validator.Int64{
+								int64validator.AtLeast(0),
+							},
 						},
 						"def_mem_per_gpu": schema.Int64Attribute{
 							Optional:            true,
 							MarkdownDescription: "Default memory per GPU in MB",
+							Validators: []validator.Int64{
+								int64validator.AtLeast(0),
+							},
 						},
 						"def_mem_per_node": schema.Int64Attribute{
 							Optional:            true,
 							MarkdownDescription: "Default memory per node in MB",
+							Validators: []validator.Int64{
+								int64validator.AtLeast(0),
+							},
 						},
 						"default_time": schema.Int64Attribute{
 							Optional:            true,
 							MarkdownDescription: "Default time limit in minutes",
+							Validators: []validator.Int64{
+								int64validator.AtLeast(0),
+								int64validator.AtMost(2147483647),
+							},
 						},
 						"exclusive_topo": schema.BoolAttribute{
 							Optional:            true,
@@ -463,34 +527,64 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 						"grace_time": schema.Int64Attribute{
 							Optional:            true,
 							MarkdownDescription: "Preemption grace time in seconds",
+							Validators: []validator.Int64{
+								int64validator.AtLeast(0),
+								int64validator.AtMost(2147483647),
+							},
 						},
 						"max_cpus_per_node": schema.Int64Attribute{
 							Optional:            true,
 							MarkdownDescription: "Maximum allocated CPUs per node",
+							Validators: []validator.Int64{
+								int64validator.AtLeast(0),
+								int64validator.AtMost(2147483647),
+							},
 						},
 						"max_cpus_per_socket": schema.Int64Attribute{
 							Optional:            true,
 							MarkdownDescription: "Maximum allocated CPUs per socket",
+							Validators: []validator.Int64{
+								int64validator.AtLeast(0),
+								int64validator.AtMost(2147483647),
+							},
 						},
 						"max_mem_per_cpu": schema.Int64Attribute{
 							Optional:            true,
 							MarkdownDescription: "Maximum memory per CPU in MB",
+							Validators: []validator.Int64{
+								int64validator.AtLeast(0),
+							},
 						},
 						"max_mem_per_node": schema.Int64Attribute{
 							Optional:            true,
 							MarkdownDescription: "Maximum memory per node in MB",
+							Validators: []validator.Int64{
+								int64validator.AtLeast(0),
+							},
 						},
 						"max_nodes": schema.Int64Attribute{
 							Optional:            true,
 							MarkdownDescription: "Maximum nodes per job",
+							Validators: []validator.Int64{
+								int64validator.AtLeast(0),
+								int64validator.AtMost(2147483647),
+							},
 						},
 						"max_time": schema.Int64Attribute{
 							Optional:            true,
 							MarkdownDescription: "Maximum time limit in minutes",
+							Validators: []validator.Int64{
+								int64validator.AtLeast(0),
+								int64validator.AtMost(2147483647),
+							},
 						},
 						"min_nodes": schema.Int64Attribute{
 							Optional:            true,
 							MarkdownDescription: "Minimum nodes per job",
+							Validators: []validator.Int64{
+								int64validator.AtLeast(0),
+								int64validator.AtMost(2147483647),
+							},
 						},
 						"partition_name": schema.StringAttribute{
 							Optional:            true,
@@ -499,6 +593,10 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 						"priority_tier": schema.Int64Attribute{
 							Optional:            true,
 							MarkdownDescription: "Priority tier for scheduling and preemption",
+							Validators: []validator.Int64{
+								int64validator.AtLeast(0),
+								int64validator.AtMost(32767),
+							},
 						},
 						"qos": schema.StringAttribute{
 							Optional:            true,
@@ -538,18 +636,33 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 									"amount": schema.Int64Attribute{
 										Optional:            true,
 										MarkdownDescription: "Amount",
+										Validators: []validator.Int64{
+											int64validator.AtLeast(0),
+											int64validator.AtMost(2147483647),
+										},
 									},
 									"discount_rate": schema.Int64Attribute{
 										Optional:            true,
 										MarkdownDescription: "Discount rate in percentage.",
+										Validators: []validator.Int64{
+											int64validator.AtLeast(0),
+											int64validator.AtMost(2147483647),
+										},
 									},
 									"discount_threshold": schema.Int64Attribute{
 										Optional:            true,
 										MarkdownDescription: "Minimum amount to be eligible for discount.",
+										Validators: []validator.Int64{
+											int64validator.AtLeast(0),
+											int64validator.AtMost(2147483647),
+										},
 									},
 									"future_price": schema.StringAttribute{
 										Optional:            true,
 										MarkdownDescription: "Future price",
+										Validators: []validator.String{
+											stringvalidator.RegexMatches(regexp.MustCompile(`^-?\d{0,12}(?:\.\d{0,10})?$`), ""),
+										},
 									},
 									"measured_unit": schema.StringAttribute{
 										Computed:            true,
@@ -562,6 +675,9 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 									"price": schema.StringAttribute{
 										Optional:            true,
 										MarkdownDescription: "Price",
+										Validators: []validator.String{
+											stringvalidator.RegexMatches(regexp.MustCompile(`^-?\d{0,12}(?:\.\d{0,10})?$`), ""),
+										},
 									},
 									"type": schema.StringAttribute{
 										Computed:            true,
@@ -587,6 +703,10 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 						"max_amount": schema.Int64Attribute{
 							Optional:            true,
 							MarkdownDescription: "Maximum number of plans that could be active. Plan is disabled when maximum amount is reached.",
+							Validators: []validator.Int64{
+								int64validator.AtLeast(1),
+								int64validator.AtMost(32767),
+							},
 						},
 						"minimal_price": schema.Float64Attribute{
 							Computed:            true,
@@ -643,10 +763,16 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 						"unit": schema.StringAttribute{
 							Optional:            true,
 							MarkdownDescription: "Unit",
+							Validators: []validator.String{
+								stringvalidator.OneOf("month", "quarter", "half_month", "day", "hour", "quantity"),
+							},
 						},
 						"unit_price": schema.StringAttribute{
 							Optional:            true,
 							MarkdownDescription: "Unit price",
+							Validators: []validator.String{
+								stringvalidator.RegexMatches(regexp.MustCompile(`^-?\d{0,12}(?:\.\d{0,10})?$`), ""),
+							},
 						},
 						"url": schema.StringAttribute{
 							Optional:            true,
@@ -658,7 +784,7 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 				MarkdownDescription: "Plans",
 			},
 			"privacy_policy_link": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Privacy policy link",
 			},
 			"promotion_campaigns": schema.ListNestedAttribute{
@@ -671,10 +797,17 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 						"discount": schema.Int64Attribute{
 							Optional:            true,
 							MarkdownDescription: "Discount",
+							Validators: []validator.Int64{
+								int64validator.AtLeast(-2147483648),
+								int64validator.AtMost(2147483647),
+							},
 						},
 						"discount_type": schema.StringAttribute{
 							Optional:            true,
 							MarkdownDescription: "Discount type",
+							Validators: []validator.String{
+								stringvalidator.OneOf("discount", "special_price"),
+							},
 						},
 						"end_date": schema.StringAttribute{
 							Optional:            true,
@@ -683,6 +816,10 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 						"months": schema.Int64Attribute{
 							Optional:            true,
 							MarkdownDescription: "How many months in a row should the related service (when activated) get special deal (0 for indefinitely until active)",
+							Validators: []validator.Int64{
+								int64validator.AtLeast(0),
+								int64validator.AtMost(2147483647),
+							},
 						},
 						"name": schema.StringAttribute{
 							Optional:            true,
@@ -699,6 +836,10 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 						"stock": schema.Int64Attribute{
 							Optional:            true,
 							MarkdownDescription: "Stock",
+							Validators: []validator.Int64{
+								int64validator.AtLeast(0),
+								int64validator.AtMost(2147483647),
+							},
 						},
 					},
 				},
@@ -791,12 +932,15 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 				MarkdownDescription: "Screenshots",
 			},
 			"shared": schema.BoolAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Accessible to all customers.",
 			},
 			"slug": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "URL-friendly identifier. Only editable by staff users.",
+				Validators: []validator.String{
+					stringvalidator.RegexMatches(regexp.MustCompile(`^[-a-zA-Z0-9_]+$`), ""),
+				},
 			},
 			"software_catalogs": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
@@ -851,7 +995,7 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 				MarkdownDescription: "State",
 			},
 			"thumbnail": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Thumbnail",
 			},
 			"total_cost": schema.Int64Attribute{
@@ -867,7 +1011,7 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 				MarkdownDescription: "Total customers",
 			},
 			"type": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Type",
 			},
 			"url": schema.StringAttribute{
@@ -879,7 +1023,7 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 				MarkdownDescription: "User has consent",
 			},
 			"vendor_details": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Vendor details",
 			},
 		},

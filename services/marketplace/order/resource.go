@@ -3,11 +3,11 @@ package order
 import (
 	"context"
 	"fmt"
-	"time"
+	"regexp"
 
 	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
 	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
-	"github.com/hashicorp/terraform-plugin-framework/diag"
+	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
@@ -15,6 +15,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/mapplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
@@ -176,6 +177,9 @@ func (r *MarketplaceOrderResource) Schema(ctx context.Context, req resource.Sche
 					stringplanmodifier.UseStateForUnknown(),
 				},
 				MarkdownDescription: "Cost",
+				Validators: []validator.String{
+					stringvalidator.RegexMatches(regexp.MustCompile(`^-?\d{0,12}(?:\.\d{0,10})?$`), ""),
+				},
 			},
 			"created": schema.StringAttribute{
 				CustomType: timetypes.RFC3339Type{},
@@ -248,6 +252,9 @@ func (r *MarketplaceOrderResource) Schema(ctx context.Context, req resource.Sche
 					stringplanmodifier.UseStateForUnknown(),
 				},
 				MarkdownDescription: "New cost estimate",
+				Validators: []validator.String{
+					stringvalidator.RegexMatches(regexp.MustCompile(`^-?\d{0,12}(?:\.\d{0,10})?$`), ""),
+				},
 			},
 			"new_plan_name": schema.StringAttribute{
 				Computed: true,
@@ -501,6 +508,9 @@ func (r *MarketplaceOrderResource) Schema(ctx context.Context, req resource.Sche
 					stringplanmodifier.UseStateForUnknown(),
 				},
 				MarkdownDescription: "URL-friendly identifier. Only editable by staff users.",
+				Validators: []validator.String{
+					stringvalidator.RegexMatches(regexp.MustCompile(`^[-a-zA-Z0-9_]+$`), ""),
+				},
 			},
 			"start_date": schema.StringAttribute{
 				Optional: true,
@@ -602,7 +612,7 @@ func (r *MarketplaceOrderResource) Create(ctx context.Context, req resource.Crea
 	}
 	data.UUID = types.StringPointerValue(apiResp.UUID)
 
-	createTimeout, diags := data.Timeouts.Create(ctx, 30*time.Minute)
+	createTimeout, diags := data.Timeouts.Create(ctx, common.DefaultCreateTimeout)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -674,7 +684,7 @@ func (r *MarketplaceOrderResource) Delete(ctx context.Context, req resource.Dele
 		return
 	}
 
-	deleteTimeout, diags := data.Timeouts.Delete(ctx, 10*time.Minute)
+	deleteTimeout, diags := data.Timeouts.Delete(ctx, common.DefaultDeleteTimeout)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -727,8 +737,4 @@ func (r *MarketplaceOrderResource) ImportState(ctx context.Context, req resource
 	}
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
-}
-
-func (r *MarketplaceOrderResource) mapResponseToModel(ctx context.Context, apiResp MarketplaceOrderResponse, model *MarketplaceOrderResourceModel) diag.Diagnostics {
-	return model.CopyFrom(ctx, apiResp)
 }

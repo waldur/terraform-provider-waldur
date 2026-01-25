@@ -9,7 +9,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
-// MarketplaceOfferingFiltersModel contains the filter parameters for querying.
 type MarketplaceOfferingFiltersModel struct {
 	AccessibleViaCalls      types.Bool   `tfsdk:"accessible_via_calls"`
 	AllowedCustomerUuid     types.String `tfsdk:"allowed_customer_uuid"`

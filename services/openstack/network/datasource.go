@@ -5,8 +5,10 @@ import (
 	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 
 	"github.com/waldur/terraform-provider-waldur/internal/client"
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
@@ -149,11 +151,12 @@ func (d *OpenstackNetworkDataSource) Schema(ctx context.Context, req datasource.
 				MarkdownDescription: "ID of the backend",
 			},
 			"created": schema.StringAttribute{
+				CustomType:          timetypes.RFC3339Type{},
 				Computed:            true,
 				MarkdownDescription: "Created",
 			},
 			"description": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Description of the resource",
 			},
 			"error_message": schema.StringAttribute{
@@ -169,6 +172,7 @@ func (d *OpenstackNetworkDataSource) Schema(ctx context.Context, req datasource.
 				MarkdownDescription: "Defines whether this network is external (public) or internal (private)",
 			},
 			"modified": schema.StringAttribute{
+				CustomType:          timetypes.RFC3339Type{},
 				Computed:            true,
 				MarkdownDescription: "Modified",
 			},
@@ -177,7 +181,7 @@ func (d *OpenstackNetworkDataSource) Schema(ctx context.Context, req datasource.
 				MarkdownDescription: "The maximum transmission unit (MTU) value to address fragmentation.",
 			},
 			"name": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Name of the resource",
 			},
 			"rbac_policies": schema.ListNestedAttribute{
@@ -271,6 +275,10 @@ func (d *OpenstackNetworkDataSource) Schema(ctx context.Context, req datasource.
 						"ip_version": schema.Int64Attribute{
 							Optional:            true,
 							MarkdownDescription: "IP protocol version (4 or 6)",
+							Validators: []validator.Int64{
+								int64validator.AtLeast(-32768),
+								int64validator.AtMost(32767),
+							},
 						},
 						"name": schema.StringAttribute{
 							Optional:            true,

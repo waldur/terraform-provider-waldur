@@ -4,11 +4,9 @@ import (
 	"context"
 	"fmt"
 	"strings"
-	"time"
 
 	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
 	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
-	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -175,7 +173,7 @@ func (r *OpenstackNetworkRbacPolicyResource) Create(ctx context.Context, req res
 	}
 	data.UUID = types.StringValue(compositeID)
 
-	createTimeout, diags := data.Timeouts.Create(ctx, 30*time.Minute)
+	createTimeout, diags := data.Timeouts.Create(ctx, common.DefaultCreateTimeout)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -288,7 +286,7 @@ func (r *OpenstackNetworkRbacPolicyResource) Update(ctx context.Context, req res
 		return
 	}
 
-	updateTimeout, diags := data.Timeouts.Update(ctx, 30*time.Minute)
+	updateTimeout, diags := data.Timeouts.Update(ctx, common.DefaultUpdateTimeout)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -324,7 +322,7 @@ func (r *OpenstackNetworkRbacPolicyResource) Delete(ctx context.Context, req res
 		return
 	}
 
-	deleteTimeout, diags := data.Timeouts.Delete(ctx, 10*time.Minute)
+	deleteTimeout, diags := data.Timeouts.Delete(ctx, common.DefaultDeleteTimeout)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -353,8 +351,4 @@ func (r *OpenstackNetworkRbacPolicyResource) ImportState(ctx context.Context, re
 	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("id"), req.ID)...)
 	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("network"), parts[0])...)
 	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("target_tenant"), parts[1])...)
-}
-
-func (r *OpenstackNetworkRbacPolicyResource) mapResponseToModel(ctx context.Context, apiResp OpenstackNetworkRbacPolicyResponse, model *OpenstackNetworkRbacPolicyResourceModel) diag.Diagnostics {
-	return model.CopyFrom(ctx, apiResp)
 }

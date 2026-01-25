@@ -3,11 +3,10 @@ package network
 import (
 	"context"
 	"fmt"
-	"time"
 
 	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
 	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
-	"github.com/hashicorp/terraform-plugin-framework/diag"
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
@@ -15,6 +14,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
@@ -226,6 +226,10 @@ func (r *OpenstackNetworkResource) Schema(ctx context.Context, req resource.Sche
 						"ip_version": schema.Int64Attribute{
 							Optional:            true,
 							MarkdownDescription: "IP protocol version (4 or 6)",
+							Validators: []validator.Int64{
+								int64validator.AtLeast(-32768),
+								int64validator.AtMost(32767),
+							},
 						},
 						"name": schema.StringAttribute{
 							Optional:            true,
@@ -326,7 +330,7 @@ func (r *OpenstackNetworkResource) Create(ctx context.Context, req resource.Crea
 	}
 	data.UUID = types.StringPointerValue(apiResp.UUID)
 
-	createTimeout, diags := data.Timeouts.Create(ctx, 30*time.Minute)
+	createTimeout, diags := data.Timeouts.Create(ctx, common.DefaultCreateTimeout)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -401,7 +405,7 @@ func (r *OpenstackNetworkResource) Update(ctx context.Context, req resource.Upda
 		return
 	}
 
-	updateTimeout, diags := data.Timeouts.Update(ctx, 30*time.Minute)
+	updateTimeout, diags := data.Timeouts.Update(ctx, common.DefaultUpdateTimeout)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -437,7 +441,7 @@ func (r *OpenstackNetworkResource) Delete(ctx context.Context, req resource.Dele
 		return
 	}
 
-	deleteTimeout, diags := data.Timeouts.Delete(ctx, 10*time.Minute)
+	deleteTimeout, diags := data.Timeouts.Delete(ctx, common.DefaultDeleteTimeout)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -490,8 +494,4 @@ func (r *OpenstackNetworkResource) ImportState(ctx context.Context, req resource
 	}
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
-}
-
-func (r *OpenstackNetworkResource) mapResponseToModel(ctx context.Context, apiResp OpenstackNetworkResponse, model *OpenstackNetworkResourceModel) diag.Diagnostics {
-	return model.CopyFrom(ctx, apiResp)
 }

@@ -7,7 +7,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
-// OpenstackFlavorFiltersModel contains the filter parameters for querying.
 type OpenstackFlavorFiltersModel struct {
 	Cores        types.Int64  `tfsdk:"cores"`
 	CoresGte     types.Int64  `tfsdk:"cores__gte"`

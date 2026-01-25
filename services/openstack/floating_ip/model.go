@@ -9,7 +9,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
-// OpenstackFloatingIpFiltersModel contains the filter parameters for querying.
 type OpenstackFloatingIpFiltersModel struct {
 	Address              types.String `tfsdk:"address"`
 	BackendId            types.String `tfsdk:"backend_id"`

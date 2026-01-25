@@ -25,7 +25,7 @@ Openstack Tenant resource
 - `availability_zone` (String) Optional availability group. Will be used for all instances provisioned in this tenant
 - `description` (String) Description of the resource
 - `name` (String) Name of the resource
-- `security_groups` (Attributes List) Security groups (see [below for nested schema](#nestedatt--security_groups))
+- `security_groups` (Attributes Set) Security groups (see [below for nested schema](#nestedatt--security_groups))
 - `skip_connection_extnet` (Boolean) Skip connection extnet
 - `skip_creation_of_default_router` (Boolean) Skip creation of default router
 - `skip_creation_of_default_subnet` (Boolean) Skip creation of default subnet
@@ -69,7 +69,7 @@ Openstack Tenant resource
 - `service_settings_uuid` (String) UUID of the service settings
 - `state` (String) State
 - `url` (String) Url
-- `user_password` (String) Password of the tenant user
+- `user_password` (String, Sensitive) Password of the tenant user
 - `user_username` (String) Username of the tenant user
 
 <a id="nestedatt--security_groups"></a>

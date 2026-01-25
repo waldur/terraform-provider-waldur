@@ -3,9 +3,14 @@ package customer
 import (
 	"context"
 	"fmt"
+	"regexp"
 
+	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 
 	"github.com/waldur/terraform-provider-waldur/internal/client"
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
@@ -96,43 +101,44 @@ func (d *StructureCustomerDataSource) Schema(ctx context.Context, req datasource
 				},
 			},
 			"abbreviation": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Abbreviation",
 			},
 			"access_subnets": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Enter a comma separated list of IPv4 or IPv6 CIDR addresses from where connection to self-service is allowed.",
 			},
 			"accounting_start_date": schema.StringAttribute{
-				Computed:            true,
+				CustomType:          timetypes.RFC3339Type{},
+				Optional:            true,
 				MarkdownDescription: "Accounting start date",
 			},
 			"address": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Address",
 			},
 			"agreement_number": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Agreement number",
 			},
 			"archived": schema.BoolAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Archived",
 			},
 			"backend_id": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Organization identifier in another application.",
 			},
 			"bank_account": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Bank account",
 			},
 			"bank_name": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Name of the bank",
 			},
 			"blocked": schema.BoolAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Blocked",
 			},
 			"call_managing_organization_uuid": schema.StringAttribute{
@@ -140,11 +146,11 @@ func (d *StructureCustomerDataSource) Schema(ctx context.Context, req datasource
 				MarkdownDescription: "UUID of the call managing organization",
 			},
 			"contact_details": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Contact details",
 			},
 			"country": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Country code (ISO 3166-1 alpha-2)",
 			},
 			"country_name": schema.StringAttribute{
@@ -152,6 +158,7 @@ func (d *StructureCustomerDataSource) Schema(ctx context.Context, req datasource
 				MarkdownDescription: "Human-readable country name",
 			},
 			"created": schema.StringAttribute{
+				CustomType:          timetypes.RFC3339Type{},
 				Computed:            true,
 				MarkdownDescription: "Created",
 			},
@@ -164,15 +171,18 @@ func (d *StructureCustomerDataSource) Schema(ctx context.Context, req datasource
 				MarkdownDescription: "Customer unallocated credit",
 			},
 			"default_tax_percent": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Default tax percent",
+				Validators: []validator.String{
+					stringvalidator.RegexMatches(regexp.MustCompile(`^-?\d{0,3}(?:\.\d{0,2})?$`), ""),
+				},
 			},
 			"description": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Description of the resource",
 			},
 			"display_billing_info_in_projects": schema.BoolAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Display billing info in projects",
 			},
 			"display_name": schema.StringAttribute{
@@ -180,23 +190,27 @@ func (d *StructureCustomerDataSource) Schema(ctx context.Context, req datasource
 				MarkdownDescription: "Display name of the organization (includes native name if available)",
 			},
 			"domain": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Domain",
 			},
 			"email": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Email",
 			},
 			"grace_period_days": schema.Int64Attribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Number of extra days after project end date before resources are terminated",
+				Validators: []validator.Int64{
+					int64validator.AtLeast(0),
+					int64validator.AtMost(2147483647),
+				},
 			},
 			"homepage": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Homepage",
 			},
 			"image": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Image",
 			},
 			"is_service_provider": schema.BoolAttribute{
@@ -204,27 +218,31 @@ func (d *StructureCustomerDataSource) Schema(ctx context.Context, req datasource
 				MarkdownDescription: "Is service provider",
 			},
 			"latitude": schema.Float64Attribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Latitude",
 			},
 			"longitude": schema.Float64Attribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Longitude",
 			},
 			"max_service_accounts": schema.Int64Attribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Maximum number of service accounts allowed",
+				Validators: []validator.Int64{
+					int64validator.AtLeast(0),
+					int64validator.AtMost(32767),
+				},
 			},
 			"name": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Name of the resource",
 			},
 			"native_name": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Name of the native",
 			},
 			"notification_emails": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Comma-separated list of notification email addresses",
 			},
 			"organization_groups": schema.ListNestedAttribute{
@@ -299,6 +317,9 @@ func (d *StructureCustomerDataSource) Schema(ctx context.Context, req datasource
 						"payment_type": schema.StringAttribute{
 							Optional:            true,
 							MarkdownDescription: "Payment type",
+							Validators: []validator.String{
+								stringvalidator.OneOf("fixed_price", "invoices", "payment_gw_monthly"),
+							},
 						},
 						"payment_type_display": schema.StringAttribute{
 							Computed:            true,
@@ -314,15 +335,15 @@ func (d *StructureCustomerDataSource) Schema(ctx context.Context, req datasource
 				MarkdownDescription: "Payment profiles",
 			},
 			"phone_number": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Phone number",
 			},
 			"postal": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Postal",
 			},
 			"project_metadata_checklist": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Checklist to be used for project metadata validation in this organization",
 			},
 			"projects_count": schema.Int64Attribute{
@@ -330,7 +351,7 @@ func (d *StructureCustomerDataSource) Schema(ctx context.Context, req datasource
 				MarkdownDescription: "Number of projects in this organization",
 			},
 			"registration_code": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Registration code",
 			},
 			"service_provider": schema.StringAttribute{
@@ -342,12 +363,19 @@ func (d *StructureCustomerDataSource) Schema(ctx context.Context, req datasource
 				MarkdownDescription: "UUID of the service provider",
 			},
 			"slug": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "URL-friendly identifier. Only editable by staff users.",
+				Validators: []validator.String{
+					stringvalidator.RegexMatches(regexp.MustCompile(`^[-a-zA-Z0-9_]+$`), ""),
+				},
 			},
 			"sponsor_number": schema.Int64Attribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "External ID of the sponsor covering the costs",
+				Validators: []validator.Int64{
+					int64validator.AtLeast(0),
+					int64validator.AtMost(2147483647),
+				},
 			},
 			"url": schema.StringAttribute{
 				Computed:            true,
@@ -358,7 +386,7 @@ func (d *StructureCustomerDataSource) Schema(ctx context.Context, req datasource
 				MarkdownDescription: "Number of users with access to this organization",
 			},
 			"vat_code": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "VAT number",
 			},
 		},

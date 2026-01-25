@@ -3,11 +3,12 @@ package project
 import (
 	"context"
 	"fmt"
-	"time"
+	"regexp"
 
 	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
 	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
-	"github.com/hashicorp/terraform-plugin-framework/diag"
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
@@ -15,6 +16,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
@@ -105,6 +107,10 @@ func (r *StructureProjectResource) Schema(ctx context.Context, req resource.Sche
 			"grace_period_days": schema.Int64Attribute{
 				Optional:            true,
 				MarkdownDescription: "Number of extra days after project end date before resources are terminated. Overrides customer-level setting.",
+				Validators: []validator.Int64{
+					int64validator.AtLeast(0),
+					int64validator.AtMost(2147483647),
+				},
 			},
 			"image": schema.StringAttribute{
 				Optional:            true,
@@ -131,6 +137,10 @@ func (r *StructureProjectResource) Schema(ctx context.Context, req resource.Sche
 					int64planmodifier.UseStateForUnknown(),
 				},
 				MarkdownDescription: "Maximum number of service accounts allowed",
+				Validators: []validator.Int64{
+					int64validator.AtLeast(0),
+					int64validator.AtMost(32767),
+				},
 			},
 			"name": schema.StringAttribute{
 				Required:            true,
@@ -164,6 +174,9 @@ func (r *StructureProjectResource) Schema(ctx context.Context, req resource.Sche
 			"slug": schema.StringAttribute{
 				Optional:            true,
 				MarkdownDescription: "URL-friendly identifier. Only editable by staff users.",
+				Validators: []validator.String{
+					stringvalidator.RegexMatches(regexp.MustCompile(`^[-a-zA-Z0-9_]+$`), ""),
+				},
 			},
 			"staff_notes": schema.StringAttribute{
 				Optional:            true,
@@ -262,7 +275,7 @@ func (r *StructureProjectResource) Create(ctx context.Context, req resource.Crea
 	}
 	data.UUID = types.StringPointerValue(apiResp.UUID)
 
-	createTimeout, diags := data.Timeouts.Create(ctx, 30*time.Minute)
+	createTimeout, diags := data.Timeouts.Create(ctx, common.DefaultCreateTimeout)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -349,7 +362,7 @@ func (r *StructureProjectResource) Update(ctx context.Context, req resource.Upda
 		return
 	}
 
-	updateTimeout, diags := data.Timeouts.Update(ctx, 30*time.Minute)
+	updateTimeout, diags := data.Timeouts.Update(ctx, common.DefaultUpdateTimeout)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -385,7 +398,7 @@ func (r *StructureProjectResource) Delete(ctx context.Context, req resource.Dele
 		return
 	}
 
-	deleteTimeout, diags := data.Timeouts.Delete(ctx, 10*time.Minute)
+	deleteTimeout, diags := data.Timeouts.Delete(ctx, common.DefaultDeleteTimeout)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -438,8 +451,4 @@ func (r *StructureProjectResource) ImportState(ctx context.Context, req resource
 	}
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
-}
-
-func (r *StructureProjectResource) mapResponseToModel(ctx context.Context, apiResp StructureProjectResponse, model *StructureProjectResourceModel) diag.Diagnostics {
-	return model.CopyFrom(ctx, apiResp)
 }

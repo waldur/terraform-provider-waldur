@@ -3,11 +3,12 @@ package customer
 import (
 	"context"
 	"fmt"
-	"time"
+	"regexp"
 
 	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
 	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
-	"github.com/hashicorp/terraform-plugin-framework/diag"
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
@@ -16,6 +17,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
@@ -146,6 +148,9 @@ func (r *StructureCustomerResource) Schema(ctx context.Context, req resource.Sch
 			"default_tax_percent": schema.StringAttribute{
 				Optional:            true,
 				MarkdownDescription: "Default tax percent",
+				Validators: []validator.String{
+					stringvalidator.RegexMatches(regexp.MustCompile(`^-?\d{0,3}(?:\.\d{0,2})?$`), ""),
+				},
 			},
 			"description": schema.StringAttribute{
 				Optional:            true,
@@ -173,6 +178,10 @@ func (r *StructureCustomerResource) Schema(ctx context.Context, req resource.Sch
 			"grace_period_days": schema.Int64Attribute{
 				Optional:            true,
 				MarkdownDescription: "Number of extra days after project end date before resources are terminated",
+				Validators: []validator.Int64{
+					int64validator.AtLeast(0),
+					int64validator.AtMost(2147483647),
+				},
 			},
 			"homepage": schema.StringAttribute{
 				Optional:            true,
@@ -200,6 +209,10 @@ func (r *StructureCustomerResource) Schema(ctx context.Context, req resource.Sch
 			"max_service_accounts": schema.Int64Attribute{
 				Optional:            true,
 				MarkdownDescription: "Maximum number of service accounts allowed",
+				Validators: []validator.Int64{
+					int64validator.AtLeast(0),
+					int64validator.AtMost(32767),
+				},
 			},
 			"name": schema.StringAttribute{
 				Required:            true,
@@ -288,6 +301,9 @@ func (r *StructureCustomerResource) Schema(ctx context.Context, req resource.Sch
 						"payment_type": schema.StringAttribute{
 							Optional:            true,
 							MarkdownDescription: "Payment type",
+							Validators: []validator.String{
+								stringvalidator.OneOf("fixed_price", "invoices", "payment_gw_monthly"),
+							},
 						},
 						"payment_type_display": schema.StringAttribute{
 							Computed:            true,
@@ -345,10 +361,17 @@ func (r *StructureCustomerResource) Schema(ctx context.Context, req resource.Sch
 			"slug": schema.StringAttribute{
 				Optional:            true,
 				MarkdownDescription: "URL-friendly identifier. Only editable by staff users.",
+				Validators: []validator.String{
+					stringvalidator.RegexMatches(regexp.MustCompile(`^[-a-zA-Z0-9_]+$`), ""),
+				},
 			},
 			"sponsor_number": schema.Int64Attribute{
 				Optional:            true,
 				MarkdownDescription: "External ID of the sponsor covering the costs",
+				Validators: []validator.Int64{
+					int64validator.AtLeast(0),
+					int64validator.AtMost(2147483647),
+				},
 			},
 			"url": schema.StringAttribute{
 				Computed: true,
@@ -451,7 +474,7 @@ func (r *StructureCustomerResource) Create(ctx context.Context, req resource.Cre
 	}
 	data.UUID = types.StringPointerValue(apiResp.UUID)
 
-	createTimeout, diags := data.Timeouts.Create(ctx, 30*time.Minute)
+	createTimeout, diags := data.Timeouts.Create(ctx, common.DefaultCreateTimeout)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -557,7 +580,7 @@ func (r *StructureCustomerResource) Update(ctx context.Context, req resource.Upd
 		return
 	}
 
-	updateTimeout, diags := data.Timeouts.Update(ctx, 30*time.Minute)
+	updateTimeout, diags := data.Timeouts.Update(ctx, common.DefaultUpdateTimeout)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -593,7 +616,7 @@ func (r *StructureCustomerResource) Delete(ctx context.Context, req resource.Del
 		return
 	}
 
-	deleteTimeout, diags := data.Timeouts.Delete(ctx, 10*time.Minute)
+	deleteTimeout, diags := data.Timeouts.Delete(ctx, common.DefaultDeleteTimeout)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -646,8 +669,4 @@ func (r *StructureCustomerResource) ImportState(ctx context.Context, req resourc
 	}
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
-}
-
-func (r *StructureCustomerResource) mapResponseToModel(ctx context.Context, apiResp StructureCustomerResponse, model *StructureCustomerResourceModel) diag.Diagnostics {
-	return model.CopyFrom(ctx, apiResp)
 }

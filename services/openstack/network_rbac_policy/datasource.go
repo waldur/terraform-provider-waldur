@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
@@ -85,11 +86,12 @@ func (d *OpenstackNetworkRbacPolicyDataSource) Schema(ctx context.Context, req d
 				MarkdownDescription: "ID of the backend",
 			},
 			"created": schema.StringAttribute{
+				CustomType:          timetypes.RFC3339Type{},
 				Computed:            true,
 				MarkdownDescription: "Created",
 			},
 			"network": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Network",
 			},
 			"network_name": schema.StringAttribute{
@@ -97,11 +99,11 @@ func (d *OpenstackNetworkRbacPolicyDataSource) Schema(ctx context.Context, req d
 				MarkdownDescription: "Name of the network",
 			},
 			"policy_type": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Type of access granted - either shared access or external network access",
 			},
 			"target_tenant": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Target tenant",
 			},
 			"target_tenant_name": schema.StringAttribute{

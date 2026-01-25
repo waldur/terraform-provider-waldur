@@ -1,5 +1,13 @@
 package common
 
+import "time"
+
+const (
+	DefaultCreateTimeout = 45 * time.Minute
+	DefaultUpdateTimeout = 45 * time.Minute
+	DefaultDeleteTimeout = 45 * time.Minute
+)
+
 type BaseProviderPlanRequest struct {
 	Archived    *bool   `json:"archived,omitempty" tfsdk:"archived"`
 	ArticleCode *string `json:"article_code,omitempty" tfsdk:"article_code"`

@@ -7,7 +7,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
-// OpenstackImageFiltersModel contains the filter parameters for querying.
 type OpenstackImageFiltersModel struct {
 	Name         types.String `tfsdk:"name"`
 	NameExact    types.String `tfsdk:"name_exact"`

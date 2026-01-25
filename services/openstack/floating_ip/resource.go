@@ -3,11 +3,9 @@ package floating_ip
 import (
 	"context"
 	"fmt"
-	"time"
 
 	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
 	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
-	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listplanmodifier"
@@ -279,7 +277,7 @@ func (r *OpenstackFloatingIpResource) Create(ctx context.Context, req resource.C
 	}
 	data.UUID = types.StringPointerValue(apiResp.UUID)
 
-	createTimeout, diags := data.Timeouts.Create(ctx, 30*time.Minute)
+	createTimeout, diags := data.Timeouts.Create(ctx, common.DefaultCreateTimeout)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -351,7 +349,7 @@ func (r *OpenstackFloatingIpResource) Delete(ctx context.Context, req resource.D
 		return
 	}
 
-	deleteTimeout, diags := data.Timeouts.Delete(ctx, 10*time.Minute)
+	deleteTimeout, diags := data.Timeouts.Delete(ctx, common.DefaultDeleteTimeout)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -404,8 +402,4 @@ func (r *OpenstackFloatingIpResource) ImportState(ctx context.Context, req resou
 	}
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
-}
-
-func (r *OpenstackFloatingIpResource) mapResponseToModel(ctx context.Context, apiResp OpenstackFloatingIpResponse, model *OpenstackFloatingIpResourceModel) diag.Diagnostics {
-	return model.CopyFrom(ctx, apiResp)
 }

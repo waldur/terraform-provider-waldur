@@ -3,11 +3,12 @@ package offering
 import (
 	"context"
 	"fmt"
-	"time"
+	"regexp"
 
 	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
 	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
-	"github.com/hashicorp/terraform-plugin-framework/diag"
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
@@ -17,6 +18,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
@@ -135,10 +137,17 @@ func (r *MarketplaceOfferingResource) Schema(ctx context.Context, req resource.S
 						"billing_type": schema.StringAttribute{
 							Required:            true,
 							MarkdownDescription: "Billing type",
+							Validators: []validator.String{
+								stringvalidator.OneOf("fixed", "usage", "limit", "one", "few"),
+							},
 						},
 						"default_limit": schema.Int64Attribute{
 							Optional:            true,
 							MarkdownDescription: "Default limit",
+							Validators: []validator.Int64{
+								int64validator.AtLeast(-2147483648),
+								int64validator.AtMost(2147483647),
+							},
 						},
 						"description": schema.StringAttribute{
 							Optional:            true,
@@ -155,6 +164,10 @@ func (r *MarketplaceOfferingResource) Schema(ctx context.Context, req resource.S
 						"limit_amount": schema.Int64Attribute{
 							Optional:            true,
 							MarkdownDescription: "Limit amount",
+							Validators: []validator.Int64{
+								int64validator.AtLeast(-2147483648),
+								int64validator.AtMost(2147483647),
+							},
 						},
 						"limit_period": schema.StringAttribute{
 							Optional:            true,
@@ -163,14 +176,26 @@ func (r *MarketplaceOfferingResource) Schema(ctx context.Context, req resource.S
 						"max_available_limit": schema.Int64Attribute{
 							Optional:            true,
 							MarkdownDescription: "Max available limit",
+							Validators: []validator.Int64{
+								int64validator.AtLeast(-2147483648),
+								int64validator.AtMost(2147483647),
+							},
 						},
 						"max_prepaid_duration": schema.Int64Attribute{
 							Optional:            true,
 							MarkdownDescription: "Max prepaid duration",
+							Validators: []validator.Int64{
+								int64validator.AtLeast(-2147483648),
+								int64validator.AtMost(2147483647),
+							},
 						},
 						"max_value": schema.Int64Attribute{
 							Optional:            true,
 							MarkdownDescription: "Max value",
+							Validators: []validator.Int64{
+								int64validator.AtLeast(-2147483648),
+								int64validator.AtMost(2147483647),
+							},
 						},
 						"measured_unit": schema.StringAttribute{
 							Optional:            true,
@@ -179,10 +204,18 @@ func (r *MarketplaceOfferingResource) Schema(ctx context.Context, req resource.S
 						"min_prepaid_duration": schema.Int64Attribute{
 							Optional:            true,
 							MarkdownDescription: "Min prepaid duration",
+							Validators: []validator.Int64{
+								int64validator.AtLeast(-2147483648),
+								int64validator.AtMost(2147483647),
+							},
 						},
 						"min_value": schema.Int64Attribute{
 							Optional:            true,
 							MarkdownDescription: "Min value",
+							Validators: []validator.Int64{
+								int64validator.AtLeast(-2147483648),
+								int64validator.AtMost(2147483647),
+							},
 						},
 						"name": schema.StringAttribute{
 							Required:            true,
@@ -195,10 +228,17 @@ func (r *MarketplaceOfferingResource) Schema(ctx context.Context, req resource.S
 						"type": schema.StringAttribute{
 							Required:            true,
 							MarkdownDescription: "Unique internal name of the measured unit, for example floating_ip.",
+							Validators: []validator.String{
+								stringvalidator.RegexMatches(regexp.MustCompile(`^[a-zA-Z0-9_\-\/:]+$`), ""),
+							},
 						},
 						"unit_factor": schema.Int64Attribute{
 							Optional:            true,
 							MarkdownDescription: "The conversion factor from backend units to measured_unit",
+							Validators: []validator.Int64{
+								int64validator.AtLeast(-2147483648),
+								int64validator.AtMost(2147483647),
+							},
 						},
 					},
 				},
@@ -388,7 +428,7 @@ func (r *MarketplaceOfferingResource) Schema(ctx context.Context, req resource.S
 			"options": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
 					"order": schema.ListAttribute{
-						CustomType:          types.ListType{ElemType: types.StringType},
+						ElementType:         types.StringType,
 						Required:            true,
 						MarkdownDescription: "Order",
 					},
@@ -468,26 +508,47 @@ func (r *MarketplaceOfferingResource) Schema(ctx context.Context, req resource.S
 						"cpu_bind": schema.Int64Attribute{
 							Optional:            true,
 							MarkdownDescription: "Default task binding policy (SLURM cpu_bind)",
+							Validators: []validator.Int64{
+								int64validator.AtLeast(0),
+								int64validator.AtMost(2147483647),
+							},
 						},
 						"def_cpu_per_gpu": schema.Int64Attribute{
 							Optional:            true,
 							MarkdownDescription: "Default CPUs allocated per GPU",
+							Validators: []validator.Int64{
+								int64validator.AtLeast(0),
+								int64validator.AtMost(2147483647),
+							},
 						},
 						"def_mem_per_cpu": schema.Int64Attribute{
 							Optional:            true,
 							MarkdownDescription: "Default memory per CPU in MB",
+							Validators: []validator.Int64{
+								int64validator.AtLeast(0),
+							},
 						},
 						"def_mem_per_gpu": schema.Int64Attribute{
 							Optional:            true,
 							MarkdownDescription: "Default memory per GPU in MB",
+							Validators: []validator.Int64{
+								int64validator.AtLeast(0),
+							},
 						},
 						"def_mem_per_node": schema.Int64Attribute{
 							Optional:            true,
 							MarkdownDescription: "Default memory per node in MB",
+							Validators: []validator.Int64{
+								int64validator.AtLeast(0),
+							},
 						},
 						"default_time": schema.Int64Attribute{
 							Optional:            true,
 							MarkdownDescription: "Default time limit in minutes",
+							Validators: []validator.Int64{
+								int64validator.AtLeast(0),
+								int64validator.AtMost(2147483647),
+							},
 						},
 						"exclusive_topo": schema.BoolAttribute{
 							Optional:            true,
@@ -500,34 +561,64 @@ func (r *MarketplaceOfferingResource) Schema(ctx context.Context, req resource.S
 						"grace_time": schema.Int64Attribute{
 							Optional:            true,
 							MarkdownDescription: "Preemption grace time in seconds",
+							Validators: []validator.Int64{
+								int64validator.AtLeast(0),
+								int64validator.AtMost(2147483647),
+							},
 						},
 						"max_cpus_per_node": schema.Int64Attribute{
 							Optional:            true,
 							MarkdownDescription: "Maximum allocated CPUs per node",
+							Validators: []validator.Int64{
+								int64validator.AtLeast(0),
+								int64validator.AtMost(2147483647),
+							},
 						},
 						"max_cpus_per_socket": schema.Int64Attribute{
 							Optional:            true,
 							MarkdownDescription: "Maximum allocated CPUs per socket",
+							Validators: []validator.Int64{
+								int64validator.AtLeast(0),
+								int64validator.AtMost(2147483647),
+							},
 						},
 						"max_mem_per_cpu": schema.Int64Attribute{
 							Optional:            true,
 							MarkdownDescription: "Maximum memory per CPU in MB",
+							Validators: []validator.Int64{
+								int64validator.AtLeast(0),
+							},
 						},
 						"max_mem_per_node": schema.Int64Attribute{
 							Optional:            true,
 							MarkdownDescription: "Maximum memory per node in MB",
+							Validators: []validator.Int64{
+								int64validator.AtLeast(0),
+							},
 						},
 						"max_nodes": schema.Int64Attribute{
 							Optional:            true,
 							MarkdownDescription: "Maximum nodes per job",
+							Validators: []validator.Int64{
+								int64validator.AtLeast(0),
+								int64validator.AtMost(2147483647),
+							},
 						},
 						"max_time": schema.Int64Attribute{
 							Optional:            true,
 							MarkdownDescription: "Maximum time limit in minutes",
+							Validators: []validator.Int64{
+								int64validator.AtLeast(0),
+								int64validator.AtMost(2147483647),
+							},
 						},
 						"min_nodes": schema.Int64Attribute{
 							Optional:            true,
 							MarkdownDescription: "Minimum nodes per job",
+							Validators: []validator.Int64{
+								int64validator.AtLeast(0),
+								int64validator.AtMost(2147483647),
+							},
 						},
 						"partition_name": schema.StringAttribute{
 							Optional:            true,
@@ -536,6 +627,10 @@ func (r *MarketplaceOfferingResource) Schema(ctx context.Context, req resource.S
 						"priority_tier": schema.Int64Attribute{
 							Optional:            true,
 							MarkdownDescription: "Priority tier for scheduling and preemption",
+							Validators: []validator.Int64{
+								int64validator.AtLeast(0),
+								int64validator.AtMost(32767),
+							},
 						},
 						"qos": schema.StringAttribute{
 							Optional:            true,
@@ -582,6 +677,10 @@ func (r *MarketplaceOfferingResource) Schema(ctx context.Context, req resource.S
 						"max_amount": schema.Int64Attribute{
 							Optional:            true,
 							MarkdownDescription: "Maximum number of plans that could be active. Plan is disabled when maximum amount is reached.",
+							Validators: []validator.Int64{
+								int64validator.AtLeast(1),
+								int64validator.AtMost(32767),
+							},
 						},
 						"name": schema.StringAttribute{
 							Required:            true,
@@ -590,10 +689,16 @@ func (r *MarketplaceOfferingResource) Schema(ctx context.Context, req resource.S
 						"unit": schema.StringAttribute{
 							Optional:            true,
 							MarkdownDescription: "Unit",
+							Validators: []validator.String{
+								stringvalidator.OneOf("month", "quarter", "half_month", "day", "hour", "quantity"),
+							},
 						},
 						"unit_price": schema.StringAttribute{
 							Optional:            true,
 							MarkdownDescription: "Unit price",
+							Validators: []validator.String{
+								stringvalidator.RegexMatches(regexp.MustCompile(`^-?\d{0,12}(?:\.\d{0,10})?$`), ""),
+							},
 						},
 					},
 				},
@@ -636,7 +741,7 @@ func (r *MarketplaceOfferingResource) Schema(ctx context.Context, req resource.S
 			"resource_options": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
 					"order": schema.ListAttribute{
-						CustomType:          types.ListType{ElemType: types.StringType},
+						ElementType:         types.StringType,
 						Required:            true,
 						MarkdownDescription: "Order",
 					},
@@ -746,6 +851,9 @@ func (r *MarketplaceOfferingResource) Schema(ctx context.Context, req resource.S
 					stringplanmodifier.RequiresReplace(),
 				},
 				MarkdownDescription: "URL-friendly identifier. Only editable by staff users.",
+				Validators: []validator.String{
+					stringvalidator.RegexMatches(regexp.MustCompile(`^[-a-zA-Z0-9_]+$`), ""),
+				},
 			},
 			"software_catalogs": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
@@ -958,7 +1066,7 @@ func (r *MarketplaceOfferingResource) Create(ctx context.Context, req resource.C
 	}
 	data.UUID = types.StringPointerValue(apiResp.UUID)
 
-	createTimeout, diags := data.Timeouts.Create(ctx, 30*time.Minute)
+	createTimeout, diags := data.Timeouts.Create(ctx, common.DefaultCreateTimeout)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -1030,7 +1138,7 @@ func (r *MarketplaceOfferingResource) Delete(ctx context.Context, req resource.D
 		return
 	}
 
-	deleteTimeout, diags := data.Timeouts.Delete(ctx, 10*time.Minute)
+	deleteTimeout, diags := data.Timeouts.Delete(ctx, common.DefaultDeleteTimeout)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -1083,8 +1191,4 @@ func (r *MarketplaceOfferingResource) ImportState(ctx context.Context, req resou
 	}
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
-}
-
-func (r *MarketplaceOfferingResource) mapResponseToModel(ctx context.Context, apiResp MarketplaceOfferingResponse, model *MarketplaceOfferingResourceModel) diag.Diagnostics {
-	return model.CopyFrom(ctx, apiResp)
 }

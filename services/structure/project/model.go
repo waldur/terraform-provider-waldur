@@ -8,7 +8,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
-// StructureProjectFiltersModel contains the filter parameters for querying.
 type StructureProjectFiltersModel struct {
 	BackendId               types.String `tfsdk:"backend_id"`
 	CanAdmin                types.Bool   `tfsdk:"can_admin"`

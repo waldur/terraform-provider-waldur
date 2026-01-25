@@ -3,15 +3,15 @@ package security_group
 import (
 	"context"
 	"fmt"
-	"time"
 
 	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
 	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
-	"github.com/hashicorp/terraform-plugin-framework/diag"
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
@@ -135,6 +135,10 @@ func (r *OpenstackSecurityGroupResource) Schema(ctx context.Context, req resourc
 						"from_port": schema.Int64Attribute{
 							Optional:            true,
 							MarkdownDescription: "Starting port number in the range (1-65535)",
+							Validators: []validator.Int64{
+								int64validator.AtLeast(-2147483648),
+								int64validator.AtMost(65535),
+							},
 						},
 						"protocol": schema.StringAttribute{
 							Optional:            true,
@@ -147,6 +151,10 @@ func (r *OpenstackSecurityGroupResource) Schema(ctx context.Context, req resourc
 						"to_port": schema.Int64Attribute{
 							Optional:            true,
 							MarkdownDescription: "Ending port number in the range (1-65535)",
+							Validators: []validator.Int64{
+								int64validator.AtLeast(-2147483648),
+								int64validator.AtMost(65535),
+							},
 						},
 					},
 				},
@@ -250,7 +258,7 @@ func (r *OpenstackSecurityGroupResource) Create(ctx context.Context, req resourc
 	}
 	data.UUID = types.StringPointerValue(apiResp.UUID)
 
-	createTimeout, diags := data.Timeouts.Create(ctx, 30*time.Minute)
+	createTimeout, diags := data.Timeouts.Create(ctx, common.DefaultCreateTimeout)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -325,7 +333,7 @@ func (r *OpenstackSecurityGroupResource) Update(ctx context.Context, req resourc
 		return
 	}
 
-	updateTimeout, diags := data.Timeouts.Update(ctx, 30*time.Minute)
+	updateTimeout, diags := data.Timeouts.Update(ctx, common.DefaultUpdateTimeout)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -361,7 +369,7 @@ func (r *OpenstackSecurityGroupResource) Delete(ctx context.Context, req resourc
 		return
 	}
 
-	deleteTimeout, diags := data.Timeouts.Delete(ctx, 10*time.Minute)
+	deleteTimeout, diags := data.Timeouts.Delete(ctx, common.DefaultDeleteTimeout)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
@@ -414,8 +422,4 @@ func (r *OpenstackSecurityGroupResource) ImportState(ctx context.Context, req re
 	}
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
-}
-
-func (r *OpenstackSecurityGroupResource) mapResponseToModel(ctx context.Context, apiResp OpenstackSecurityGroupResponse, model *OpenstackSecurityGroupResourceModel) diag.Diagnostics {
-	return model.CopyFrom(ctx, apiResp)
 }

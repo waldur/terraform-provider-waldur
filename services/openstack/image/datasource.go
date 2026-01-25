@@ -4,8 +4,10 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 
 	"github.com/waldur/terraform-provider-waldur/internal/client"
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
@@ -76,23 +78,31 @@ func (d *OpenstackImageDataSource) Schema(ctx context.Context, req datasource.Sc
 				},
 			},
 			"backend_id": schema.StringAttribute{
-				Computed:            true,
+				Required:            true,
 				MarkdownDescription: "ID of the backend",
 			},
 			"min_disk": schema.Int64Attribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Minimum disk size in MiB",
+				Validators: []validator.Int64{
+					int64validator.AtLeast(0),
+					int64validator.AtMost(2147483647),
+				},
 			},
 			"min_ram": schema.Int64Attribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Minimum memory size in MiB",
+				Validators: []validator.Int64{
+					int64validator.AtLeast(0),
+					int64validator.AtMost(2147483647),
+				},
 			},
 			"name": schema.StringAttribute{
-				Computed:            true,
+				Required:            true,
 				MarkdownDescription: "Name of the resource",
 			},
 			"settings": schema.StringAttribute{
-				Computed:            true,
+				Required:            true,
 				MarkdownDescription: "Settings",
 			},
 			"url": schema.StringAttribute{

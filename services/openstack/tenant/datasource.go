@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
 
@@ -120,7 +121,7 @@ func (d *OpenstackTenantDataSource) Schema(ctx context.Context, req datasource.S
 				MarkdownDescription: "Access url",
 			},
 			"availability_zone": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Optional availability group. Will be used for all instances provisioned in this tenant",
 			},
 			"backend_id": schema.StringAttribute{
@@ -128,6 +129,7 @@ func (d *OpenstackTenantDataSource) Schema(ctx context.Context, req datasource.S
 				MarkdownDescription: "ID of tenant in the OpenStack backend",
 			},
 			"created": schema.StringAttribute{
+				CustomType:          timetypes.RFC3339Type{},
 				Computed:            true,
 				MarkdownDescription: "Created",
 			},
@@ -152,11 +154,11 @@ func (d *OpenstackTenantDataSource) Schema(ctx context.Context, req datasource.S
 				MarkdownDescription: "UUID of the customer",
 			},
 			"default_volume_type_name": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Volume type name to use when creating volumes.",
 			},
 			"description": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Description of the resource",
 			},
 			"error_message": schema.StringAttribute{
@@ -212,15 +214,16 @@ func (d *OpenstackTenantDataSource) Schema(ctx context.Context, req datasource.S
 				MarkdownDescription: "UUID of the marketplace resource",
 			},
 			"modified": schema.StringAttribute{
+				CustomType:          timetypes.RFC3339Type{},
 				Computed:            true,
 				MarkdownDescription: "Modified",
 			},
 			"name": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Name of the resource",
 			},
 			"project": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Project",
 			},
 			"project_name": schema.StringAttribute{
@@ -260,7 +263,7 @@ func (d *OpenstackTenantDataSource) Schema(ctx context.Context, req datasource.S
 				MarkdownDescription: "Name of the service",
 			},
 			"service_settings": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Service settings",
 			},
 			"service_settings_error_message": schema.StringAttribute{
@@ -276,7 +279,7 @@ func (d *OpenstackTenantDataSource) Schema(ctx context.Context, req datasource.S
 				MarkdownDescription: "UUID of the service settings",
 			},
 			"skip_creation_of_default_router": schema.BoolAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Skip creation of default router",
 			},
 			"state": schema.StringAttribute{
@@ -288,11 +291,12 @@ func (d *OpenstackTenantDataSource) Schema(ctx context.Context, req datasource.S
 				MarkdownDescription: "Url",
 			},
 			"user_password": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Password of the tenant user",
+				Sensitive:           true,
 			},
 			"user_username": schema.StringAttribute{
-				Computed:            true,
+				Optional:            true,
 				MarkdownDescription: "Username of the tenant user",
 			},
 		},
