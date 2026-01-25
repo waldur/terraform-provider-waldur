@@ -99,8 +99,6 @@ Optional:
 - `customer_uuid` (String) Customer UUID
 - `modified` (String) Modified after
 - `offering` (String) Offering
-- `offering_slug` (String) Multiple values may be separated by commas.
-- `offering_type` (String) Offering type
 - `offering_uuid` (String) Offering UUID
 - `parent_offering_uuid` (String) UUID of the parent offering
 - `project_uuid` (String) Project UUID
@@ -110,5 +108,3 @@ Optional:
 - `resource_name` (String) Resource name
 - `resource_uuid` (String) Resource UUID
 - `service_manager_uuid` (String) Service manager UUID
-- `state` (String) Order state Allowed values: `canceled`, `done`, `erred`, `executing`, `pending-consumer`, `pending-project`, `pending-provider`, `pending-start-date`, `rejected`.
-- `type` (String) Order type Allowed values: `Create`, `Restore`, `Terminate`, `Update`.

@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
+	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
@@ -33,39 +34,9 @@ type OpenstackVolumeAttachmentResource struct {
 
 // OpenstackVolumeAttachmentResourceModel describes the resource data model.
 type OpenstackVolumeAttachmentResourceModel struct {
-	UUID                    types.String   `tfsdk:"id"`
-	AccessUrl               types.String   `tfsdk:"access_url"`
-	Action                  types.String   `tfsdk:"action"`
-	AvailabilityZone        types.String   `tfsdk:"availability_zone"`
-	AvailabilityZoneName    types.String   `tfsdk:"availability_zone_name"`
-	BackendId               types.String   `tfsdk:"backend_id"`
-	Bootable                types.Bool     `tfsdk:"bootable"`
-	Created                 types.String   `tfsdk:"created"`
-	Description             types.String   `tfsdk:"description"`
-	Device                  types.String   `tfsdk:"device"`
-	ErrorMessage            types.String   `tfsdk:"error_message"`
-	ErrorTraceback          types.String   `tfsdk:"error_traceback"`
-	ExtendEnabled           types.Bool     `tfsdk:"extend_enabled"`
-	Image                   types.String   `tfsdk:"image"`
-	ImageMetadata           types.String   `tfsdk:"image_metadata"`
-	ImageName               types.String   `tfsdk:"image_name"`
-	Instance                types.String   `tfsdk:"instance"`
-	InstanceMarketplaceUuid types.String   `tfsdk:"instance_marketplace_uuid"`
-	InstanceName            types.String   `tfsdk:"instance_name"`
-	Modified                types.String   `tfsdk:"modified"`
-	Name                    types.String   `tfsdk:"name"`
-	ResourceType            types.String   `tfsdk:"resource_type"`
-	RuntimeState            types.String   `tfsdk:"runtime_state"`
-	Size                    types.Int64    `tfsdk:"size"`
-	SourceSnapshot          types.String   `tfsdk:"source_snapshot"`
-	State                   types.String   `tfsdk:"state"`
-	Tenant                  types.String   `tfsdk:"tenant"`
-	TenantUuid              types.String   `tfsdk:"tenant_uuid"`
-	Type                    types.String   `tfsdk:"type"`
-	TypeName                types.String   `tfsdk:"type_name"`
-	Url                     types.String   `tfsdk:"url"`
-	Volume                  types.String   `tfsdk:"volume"`
-	Timeouts                timeouts.Value `tfsdk:"timeouts"`
+	OpenstackVolumeAttachmentModel
+	Volume   types.String   `tfsdk:"volume"`
+	Timeouts timeouts.Value `tfsdk:"timeouts"`
 }
 
 func (r *OpenstackVolumeAttachmentResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
@@ -129,7 +100,8 @@ func (r *OpenstackVolumeAttachmentResource) Schema(ctx context.Context, req reso
 				MarkdownDescription: "Indicates if this volume can be used to boot an instance",
 			},
 			"created": schema.StringAttribute{
-				Computed: true,
+				CustomType: timetypes.RFC3339Type{},
+				Computed:   true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
@@ -215,7 +187,8 @@ func (r *OpenstackVolumeAttachmentResource) Schema(ctx context.Context, req reso
 				MarkdownDescription: "Name of the instance",
 			},
 			"modified": schema.StringAttribute{
-				Computed: true,
+				CustomType: timetypes.RFC3339Type{},
+				Computed:   true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
@@ -363,7 +336,7 @@ func (r *OpenstackVolumeAttachmentResource) Create(ctx context.Context, req reso
 	// For Link resources, ID is composite of Source and Target UUIDs because the API might not return a distinct ID for the link itself.
 	data.UUID = types.StringValue(sourceUUID + "/" + data.Instance.ValueString())
 
-	resp.Diagnostics.Append(r.mapResponseToModel(ctx, *apiResp, &data)...)
+	resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
@@ -485,39 +458,5 @@ func (r *OpenstackVolumeAttachmentResource) ImportState(ctx context.Context, req
 }
 
 func (r *OpenstackVolumeAttachmentResource) mapResponseToModel(ctx context.Context, apiResp OpenstackVolumeAttachmentResponse, model *OpenstackVolumeAttachmentResourceModel) diag.Diagnostics {
-	var diags diag.Diagnostics
-
-	model.UUID = types.StringPointerValue(apiResp.UUID)
-	model.AccessUrl = types.StringPointerValue(apiResp.AccessUrl)
-	model.Action = types.StringPointerValue(apiResp.Action)
-	model.AvailabilityZone = types.StringPointerValue(apiResp.AvailabilityZone)
-	model.AvailabilityZoneName = types.StringPointerValue(apiResp.AvailabilityZoneName)
-	model.BackendId = types.StringPointerValue(apiResp.BackendId)
-	model.Bootable = types.BoolPointerValue(apiResp.Bootable)
-	model.Created = types.StringPointerValue(apiResp.Created)
-	model.Description = types.StringPointerValue(apiResp.Description)
-	model.Device = types.StringPointerValue(apiResp.Device)
-	model.ErrorMessage = types.StringPointerValue(apiResp.ErrorMessage)
-	model.ErrorTraceback = types.StringPointerValue(apiResp.ErrorTraceback)
-	model.ExtendEnabled = types.BoolPointerValue(apiResp.ExtendEnabled)
-	model.Image = types.StringPointerValue(apiResp.Image)
-	model.ImageMetadata = types.StringPointerValue(apiResp.ImageMetadata)
-	model.ImageName = types.StringPointerValue(apiResp.ImageName)
-	model.Instance = types.StringPointerValue(apiResp.Instance)
-	model.InstanceMarketplaceUuid = types.StringPointerValue(apiResp.InstanceMarketplaceUuid)
-	model.InstanceName = types.StringPointerValue(apiResp.InstanceName)
-	model.Modified = types.StringPointerValue(apiResp.Modified)
-	model.Name = types.StringPointerValue(apiResp.Name)
-	model.ResourceType = types.StringPointerValue(apiResp.ResourceType)
-	model.RuntimeState = types.StringPointerValue(apiResp.RuntimeState)
-	model.Size = types.Int64PointerValue(apiResp.Size)
-	model.SourceSnapshot = types.StringPointerValue(apiResp.SourceSnapshot)
-	model.State = types.StringPointerValue(apiResp.State)
-	model.Tenant = types.StringPointerValue(apiResp.Tenant)
-	model.TenantUuid = types.StringPointerValue(apiResp.TenantUuid)
-	model.Type = types.StringPointerValue(apiResp.Type)
-	model.TypeName = types.StringPointerValue(apiResp.TypeName)
-	model.Url = types.StringPointerValue(apiResp.Url)
-
-	return diags
+	return model.CopyFrom(ctx, apiResp)
 }

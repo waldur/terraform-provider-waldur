@@ -101,7 +101,6 @@ Optional:
 - `modified` (String) Modified after
 - `name` (String) Name
 - `name_exact` (String) Name (exact)
-- `organization_group_uuid` (String) Organization group UUID
 - `parent_uuid` (String) Parent offering UUID
 - `project_uuid` (String) Project UUID
 - `query` (String) Search by offering name, slug or description
@@ -110,8 +109,6 @@ Optional:
 - `scope_uuid` (String) Scope UUID
 - `service_manager_uuid` (String) Service manager UUID
 - `shared` (Boolean) Shared
-- `state` (String) Offering state Allowed values: `Active`, `Archived`, `Draft`, `Paused`, `Unavailable`.
-- `type` (String) Offering type
 - `user_has_consent` (Boolean) User Has Consent
 - `user_has_offering_user` (Boolean) User Has Offering User
 - `uuid_list` (String) Comma-separated offering UUIDs

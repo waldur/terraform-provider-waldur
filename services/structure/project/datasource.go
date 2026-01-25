@@ -6,8 +6,6 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
-	"github.com/hashicorp/terraform-plugin-framework/diag"
-	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/waldur/terraform-provider-waldur/internal/client"
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
@@ -20,60 +18,13 @@ func NewStructureProjectDataSource() datasource.DataSource {
 	return &StructureProjectDataSource{}
 }
 
-// StructureProjectDataSource defines the data source implementation.
 type StructureProjectDataSource struct {
 	client *Client
 }
 
-// StructureProjectFiltersModel contains the filter parameters for querying.
-type StructureProjectFiltersModel struct {
-	BackendId               types.String `tfsdk:"backend_id"`
-	CanAdmin                types.Bool   `tfsdk:"can_admin"`
-	CanManage               types.Bool   `tfsdk:"can_manage"`
-	ConcealFinishedProjects types.Bool   `tfsdk:"conceal_finished_projects"`
-	Created                 types.String `tfsdk:"created"`
-	Customer                types.String `tfsdk:"customer"`
-	CustomerAbbreviation    types.String `tfsdk:"customer_abbreviation"`
-	CustomerName            types.String `tfsdk:"customer_name"`
-	CustomerNativeName      types.String `tfsdk:"customer_native_name"`
-	Description             types.String `tfsdk:"description"`
-	IncludeTerminated       types.Bool   `tfsdk:"include_terminated"`
-	IsRemoved               types.Bool   `tfsdk:"is_removed"`
-	Modified                types.String `tfsdk:"modified"`
-	Name                    types.String `tfsdk:"name"`
-	NameExact               types.String `tfsdk:"name_exact"`
-	Query                   types.String `tfsdk:"query"`
-	Slug                    types.String `tfsdk:"slug"`
-}
-
 type StructureProjectDataSourceModel struct {
-	UUID                                 types.String                  `tfsdk:"id"`
-	Filters                              *StructureProjectFiltersModel `tfsdk:"filters"`
-	BackendId                            types.String                  `tfsdk:"backend_id"`
-	Created                              types.String                  `tfsdk:"created"`
-	CustomerDisplayBillingInfoInProjects types.Bool                    `tfsdk:"customer_display_billing_info_in_projects"`
-	CustomerSlug                         types.String                  `tfsdk:"customer_slug"`
-	Description                          types.String                  `tfsdk:"description"`
-	EndDate                              types.String                  `tfsdk:"end_date"`
-	EndDateRequestedBy                   types.String                  `tfsdk:"end_date_requested_by"`
-	GracePeriodDays                      types.Int64                   `tfsdk:"grace_period_days"`
-	Image                                types.String                  `tfsdk:"image"`
-	IsIndustry                           types.Bool                    `tfsdk:"is_industry"`
-	IsRemoved                            types.Bool                    `tfsdk:"is_removed"`
-	Kind                                 types.String                  `tfsdk:"kind"`
-	MaxServiceAccounts                   types.Int64                   `tfsdk:"max_service_accounts"`
-	Name                                 types.String                  `tfsdk:"name"`
-	OecdFos2007Code                      types.String                  `tfsdk:"oecd_fos_2007_code"`
-	OecdFos2007Label                     types.String                  `tfsdk:"oecd_fos_2007_label"`
-	ProjectCredit                        types.Float64                 `tfsdk:"project_credit"`
-	ResourcesCount                       types.Int64                   `tfsdk:"resources_count"`
-	Slug                                 types.String                  `tfsdk:"slug"`
-	StaffNotes                           types.String                  `tfsdk:"staff_notes"`
-	StartDate                            types.String                  `tfsdk:"start_date"`
-	Type                                 types.String                  `tfsdk:"type"`
-	TypeName                             types.String                  `tfsdk:"type_name"`
-	TypeUuid                             types.String                  `tfsdk:"type_uuid"`
-	Url                                  types.String                  `tfsdk:"url"`
+	StructureProjectModel
+	Filters *StructureProjectFiltersModel `tfsdk:"filters"`
 }
 
 func (d *StructureProjectDataSource) Metadata(ctx context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
@@ -113,10 +64,6 @@ func (d *StructureProjectDataSource) Schema(ctx context.Context, req datasource.
 					"created": schema.StringAttribute{
 						Optional:            true,
 						MarkdownDescription: "Created after",
-					},
-					"customer": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Multiple values may be separated by commas.",
 					},
 					"customer_abbreviation": schema.StringAttribute{
 						Optional:            true,
@@ -307,7 +254,7 @@ func (d *StructureProjectDataSource) Read(ctx context.Context, req datasource.Re
 			return
 		}
 
-		resp.Diagnostics.Append(d.mapResponseToModel(ctx, *apiResp, &data)...)
+		resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
 
 	} else {
 		filters := common.BuildQueryFilters(data.Filters)
@@ -346,42 +293,9 @@ func (d *StructureProjectDataSource) Read(ctx context.Context, req datasource.Re
 			return
 		}
 
-		resp.Diagnostics.Append(d.mapResponseToModel(ctx, results[0], &data)...)
+		resp.Diagnostics.Append(data.CopyFrom(ctx, results[0])...)
 	}
 
 	// Save data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
-}
-
-func (d *StructureProjectDataSource) mapResponseToModel(ctx context.Context, apiResp StructureProjectResponse, model *StructureProjectDataSourceModel) diag.Diagnostics {
-	var diags diag.Diagnostics
-
-	model.UUID = types.StringPointerValue(apiResp.UUID)
-	model.BackendId = types.StringPointerValue(apiResp.BackendId)
-	model.Created = types.StringPointerValue(apiResp.Created)
-	model.CustomerDisplayBillingInfoInProjects = types.BoolPointerValue(apiResp.CustomerDisplayBillingInfoInProjects)
-	model.CustomerSlug = types.StringPointerValue(apiResp.CustomerSlug)
-	model.Description = types.StringPointerValue(apiResp.Description)
-	model.EndDate = types.StringPointerValue(apiResp.EndDate)
-	model.EndDateRequestedBy = types.StringPointerValue(apiResp.EndDateRequestedBy)
-	model.GracePeriodDays = types.Int64PointerValue(apiResp.GracePeriodDays)
-	model.Image = types.StringPointerValue(apiResp.Image)
-	model.IsIndustry = types.BoolPointerValue(apiResp.IsIndustry)
-	model.IsRemoved = types.BoolPointerValue(apiResp.IsRemoved)
-	model.Kind = types.StringPointerValue(apiResp.Kind)
-	model.MaxServiceAccounts = types.Int64PointerValue(apiResp.MaxServiceAccounts)
-	model.Name = types.StringPointerValue(apiResp.Name)
-	model.OecdFos2007Code = types.StringPointerValue(apiResp.OecdFos2007Code)
-	model.OecdFos2007Label = types.StringPointerValue(apiResp.OecdFos2007Label)
-	model.ProjectCredit = types.Float64PointerValue(apiResp.ProjectCredit)
-	model.ResourcesCount = types.Int64PointerValue(apiResp.ResourcesCount)
-	model.Slug = types.StringPointerValue(apiResp.Slug)
-	model.StaffNotes = types.StringPointerValue(apiResp.StaffNotes)
-	model.StartDate = types.StringPointerValue(apiResp.StartDate)
-	model.Type = types.StringPointerValue(apiResp.Type)
-	model.TypeName = types.StringPointerValue(apiResp.TypeName)
-	model.TypeUuid = types.StringPointerValue(apiResp.TypeUuid)
-	model.Url = types.StringPointerValue(apiResp.Url)
-
-	return diags
 }

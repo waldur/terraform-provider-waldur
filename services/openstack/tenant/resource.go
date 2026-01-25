@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
-	"github.com/hashicorp/terraform-plugin-framework/attr"
+	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -36,53 +36,12 @@ type OpenstackTenantResource struct {
 
 // OpenstackTenantResourceModel describes the resource data model.
 type OpenstackTenantResourceModel struct {
-	UUID                        types.String   `tfsdk:"id"`
-	AccessUrl                   types.String   `tfsdk:"access_url"`
-	AvailabilityZone            types.String   `tfsdk:"availability_zone"`
-	BackendId                   types.String   `tfsdk:"backend_id"`
-	Created                     types.String   `tfsdk:"created"`
-	Customer                    types.String   `tfsdk:"customer"`
-	CustomerAbbreviation        types.String   `tfsdk:"customer_abbreviation"`
-	CustomerName                types.String   `tfsdk:"customer_name"`
-	CustomerNativeName          types.String   `tfsdk:"customer_native_name"`
-	CustomerUuid                types.String   `tfsdk:"customer_uuid"`
-	DefaultVolumeTypeName       types.String   `tfsdk:"default_volume_type_name"`
-	Description                 types.String   `tfsdk:"description"`
-	ErrorMessage                types.String   `tfsdk:"error_message"`
-	ErrorTraceback              types.String   `tfsdk:"error_traceback"`
-	ExternalNetworkId           types.String   `tfsdk:"external_network_id"`
-	InternalNetworkId           types.String   `tfsdk:"internal_network_id"`
-	IsLimitBased                types.Bool     `tfsdk:"is_limit_based"`
-	IsUsageBased                types.Bool     `tfsdk:"is_usage_based"`
-	MarketplaceCategoryName     types.String   `tfsdk:"marketplace_category_name"`
-	MarketplaceCategoryUuid     types.String   `tfsdk:"marketplace_category_uuid"`
-	MarketplaceOfferingName     types.String   `tfsdk:"marketplace_offering_name"`
-	MarketplaceOfferingUuid     types.String   `tfsdk:"marketplace_offering_uuid"`
-	MarketplacePlanUuid         types.String   `tfsdk:"marketplace_plan_uuid"`
-	MarketplaceResourceState    types.String   `tfsdk:"marketplace_resource_state"`
-	MarketplaceResourceUuid     types.String   `tfsdk:"marketplace_resource_uuid"`
-	Modified                    types.String   `tfsdk:"modified"`
-	Name                        types.String   `tfsdk:"name"`
+	OpenstackTenantModel
 	Offering                    types.String   `tfsdk:"offering"`
-	Project                     types.String   `tfsdk:"project"`
-	ProjectName                 types.String   `tfsdk:"project_name"`
-	ProjectUuid                 types.String   `tfsdk:"project_uuid"`
-	Quotas                      types.List     `tfsdk:"quotas"`
-	ResourceType                types.String   `tfsdk:"resource_type"`
 	SecurityGroups              types.List     `tfsdk:"security_groups"`
-	ServiceName                 types.String   `tfsdk:"service_name"`
-	ServiceSettings             types.String   `tfsdk:"service_settings"`
-	ServiceSettingsErrorMessage types.String   `tfsdk:"service_settings_error_message"`
-	ServiceSettingsState        types.String   `tfsdk:"service_settings_state"`
-	ServiceSettingsUuid         types.String   `tfsdk:"service_settings_uuid"`
 	SkipConnectionExtnet        types.Bool     `tfsdk:"skip_connection_extnet"`
-	SkipCreationOfDefaultRouter types.Bool     `tfsdk:"skip_creation_of_default_router"`
 	SkipCreationOfDefaultSubnet types.Bool     `tfsdk:"skip_creation_of_default_subnet"`
-	State                       types.String   `tfsdk:"state"`
 	SubnetCidr                  types.String   `tfsdk:"subnet_cidr"`
-	Url                         types.String   `tfsdk:"url"`
-	UserPassword                types.String   `tfsdk:"user_password"`
-	UserUsername                types.String   `tfsdk:"user_username"`
 	Timeouts                    timeouts.Value `tfsdk:"timeouts"`
 }
 
@@ -121,7 +80,8 @@ func (r *OpenstackTenantResource) Schema(ctx context.Context, req resource.Schem
 				MarkdownDescription: "ID of tenant in the OpenStack backend",
 			},
 			"created": schema.StringAttribute{
-				Computed: true,
+				CustomType: timetypes.RFC3339Type{},
+				Computed:   true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
@@ -265,7 +225,8 @@ func (r *OpenstackTenantResource) Schema(ctx context.Context, req resource.Schem
 				MarkdownDescription: "UUID of the marketplace resource",
 			},
 			"modified": schema.StringAttribute{
-				Computed: true,
+				CustomType: timetypes.RFC3339Type{},
+				Computed:   true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
@@ -576,7 +537,7 @@ func (r *OpenstackTenantResource) Create(ctx context.Context, req resource.Creat
 		resp.Diagnostics.AddError("Failed to Read Resource", err.Error())
 		return
 	}
-	resp.Diagnostics.Append(r.mapResponseToModel(ctx, *apiResp, &data)...)
+	resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
@@ -607,7 +568,7 @@ func (r *OpenstackTenantResource) Read(ctx context.Context, req resource.ReadReq
 		return
 	}
 
-	resp.Diagnostics.Append(r.mapResponseToModel(ctx, *apiResp, &data)...)
+	resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
 
 	// Save updated data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
@@ -677,7 +638,7 @@ func (r *OpenstackTenantResource) Update(ctx context.Context, req resource.Updat
 		resp.Diagnostics.AddError("Failed to Read Resource After Update", err.Error())
 		return
 	}
-	resp.Diagnostics.Append(r.mapResponseToModel(ctx, *apiResp, &data)...)
+	resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
@@ -747,7 +708,7 @@ func (r *OpenstackTenantResource) ImportState(ctx context.Context, req resource.
 	}
 
 	var data OpenstackTenantResourceModel
-	resp.Diagnostics.Append(r.mapResponseToModel(ctx, *apiResp, &data)...)
+	resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
@@ -756,59 +717,5 @@ func (r *OpenstackTenantResource) ImportState(ctx context.Context, req resource.
 }
 
 func (r *OpenstackTenantResource) mapResponseToModel(ctx context.Context, apiResp OpenstackTenantResponse, model *OpenstackTenantResourceModel) diag.Diagnostics {
-	var diags diag.Diagnostics
-
-	model.UUID = types.StringPointerValue(apiResp.UUID)
-	model.AccessUrl = types.StringPointerValue(apiResp.AccessUrl)
-	model.AvailabilityZone = types.StringPointerValue(apiResp.AvailabilityZone)
-	model.BackendId = types.StringPointerValue(apiResp.BackendId)
-	model.Created = types.StringPointerValue(apiResp.Created)
-	model.Customer = types.StringPointerValue(apiResp.Customer)
-	model.CustomerAbbreviation = types.StringPointerValue(apiResp.CustomerAbbreviation)
-	model.CustomerName = types.StringPointerValue(apiResp.CustomerName)
-	model.CustomerNativeName = types.StringPointerValue(apiResp.CustomerNativeName)
-	model.CustomerUuid = types.StringPointerValue(apiResp.CustomerUuid)
-	model.DefaultVolumeTypeName = types.StringPointerValue(apiResp.DefaultVolumeTypeName)
-	model.Description = types.StringPointerValue(apiResp.Description)
-	model.ErrorMessage = types.StringPointerValue(apiResp.ErrorMessage)
-	model.ErrorTraceback = types.StringPointerValue(apiResp.ErrorTraceback)
-	model.ExternalNetworkId = types.StringPointerValue(apiResp.ExternalNetworkId)
-	model.InternalNetworkId = types.StringPointerValue(apiResp.InternalNetworkId)
-	model.IsLimitBased = types.BoolPointerValue(apiResp.IsLimitBased)
-	model.IsUsageBased = types.BoolPointerValue(apiResp.IsUsageBased)
-	model.MarketplaceCategoryName = types.StringPointerValue(apiResp.MarketplaceCategoryName)
-	model.MarketplaceCategoryUuid = types.StringPointerValue(apiResp.MarketplaceCategoryUuid)
-	model.MarketplaceOfferingName = types.StringPointerValue(apiResp.MarketplaceOfferingName)
-	model.MarketplaceOfferingUuid = types.StringPointerValue(apiResp.MarketplaceOfferingUuid)
-	model.MarketplacePlanUuid = types.StringPointerValue(apiResp.MarketplacePlanUuid)
-	model.MarketplaceResourceState = types.StringPointerValue(apiResp.MarketplaceResourceState)
-	model.MarketplaceResourceUuid = types.StringPointerValue(apiResp.MarketplaceResourceUuid)
-	model.Modified = types.StringPointerValue(apiResp.Modified)
-	model.Name = types.StringPointerValue(apiResp.Name)
-	model.Project = types.StringPointerValue(apiResp.Project)
-	model.ProjectName = types.StringPointerValue(apiResp.ProjectName)
-	model.ProjectUuid = types.StringPointerValue(apiResp.ProjectUuid)
-
-	{
-		listValQuotas, listDiagsQuotas := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
-			"limit": types.Int64Type,
-			"name":  types.StringType,
-			"usage": types.Int64Type,
-		}}, apiResp.Quotas)
-		diags.Append(listDiagsQuotas...)
-		model.Quotas = listValQuotas
-	}
-	model.ResourceType = types.StringPointerValue(apiResp.ResourceType)
-	model.ServiceName = types.StringPointerValue(apiResp.ServiceName)
-	model.ServiceSettings = types.StringPointerValue(apiResp.ServiceSettings)
-	model.ServiceSettingsErrorMessage = types.StringPointerValue(apiResp.ServiceSettingsErrorMessage)
-	model.ServiceSettingsState = types.StringPointerValue(apiResp.ServiceSettingsState)
-	model.ServiceSettingsUuid = types.StringPointerValue(apiResp.ServiceSettingsUuid)
-	model.SkipCreationOfDefaultRouter = types.BoolPointerValue(apiResp.SkipCreationOfDefaultRouter)
-	model.State = types.StringPointerValue(apiResp.State)
-	model.Url = types.StringPointerValue(apiResp.Url)
-	model.UserPassword = types.StringPointerValue(apiResp.UserPassword)
-	model.UserUsername = types.StringPointerValue(apiResp.UserUsername)
-
-	return diags
+	return model.CopyFrom(ctx, apiResp)
 }

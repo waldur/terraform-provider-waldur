@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
-	"github.com/hashicorp/terraform-plugin-framework/attr"
+	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -37,28 +37,8 @@ type OpenstackNetworkResource struct {
 
 // OpenstackNetworkResourceModel describes the resource data model.
 type OpenstackNetworkResourceModel struct {
-	UUID           types.String   `tfsdk:"id"`
-	AccessUrl      types.String   `tfsdk:"access_url"`
-	BackendId      types.String   `tfsdk:"backend_id"`
-	Created        types.String   `tfsdk:"created"`
-	Description    types.String   `tfsdk:"description"`
-	ErrorMessage   types.String   `tfsdk:"error_message"`
-	ErrorTraceback types.String   `tfsdk:"error_traceback"`
-	IsExternal     types.Bool     `tfsdk:"is_external"`
-	Modified       types.String   `tfsdk:"modified"`
-	Mtu            types.Int64    `tfsdk:"mtu"`
-	Name           types.String   `tfsdk:"name"`
-	RbacPolicies   types.List     `tfsdk:"rbac_policies"`
-	ResourceType   types.String   `tfsdk:"resource_type"`
-	SegmentationId types.Int64    `tfsdk:"segmentation_id"`
-	State          types.String   `tfsdk:"state"`
-	Subnets        types.List     `tfsdk:"subnets"`
-	Tenant         types.String   `tfsdk:"tenant"`
-	TenantName     types.String   `tfsdk:"tenant_name"`
-	TenantUuid     types.String   `tfsdk:"tenant_uuid"`
-	Type           types.String   `tfsdk:"type"`
-	Url            types.String   `tfsdk:"url"`
-	Timeouts       timeouts.Value `tfsdk:"timeouts"`
+	OpenstackNetworkModel
+	Timeouts timeouts.Value `tfsdk:"timeouts"`
 }
 
 func (r *OpenstackNetworkResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
@@ -92,7 +72,8 @@ func (r *OpenstackNetworkResource) Schema(ctx context.Context, req resource.Sche
 				MarkdownDescription: "ID of the backend",
 			},
 			"created": schema.StringAttribute{
-				Computed: true,
+				CustomType: timetypes.RFC3339Type{},
+				Computed:   true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
@@ -124,7 +105,8 @@ func (r *OpenstackNetworkResource) Schema(ctx context.Context, req resource.Sche
 				MarkdownDescription: "Defines whether this network is external (public) or internal (private)",
 			},
 			"modified": schema.StringAttribute{
-				Computed: true,
+				CustomType: timetypes.RFC3339Type{},
+				Computed:   true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
@@ -149,6 +131,7 @@ func (r *OpenstackNetworkResource) Schema(ctx context.Context, req resource.Sche
 							MarkdownDescription: "ID of the backend",
 						},
 						"created": schema.StringAttribute{
+							CustomType:          timetypes.RFC3339Type{},
 							Computed:            true,
 							MarkdownDescription: "Created",
 						},
@@ -358,7 +341,7 @@ func (r *OpenstackNetworkResource) Create(ctx context.Context, req resource.Crea
 	}
 	apiResp = newResp
 
-	resp.Diagnostics.Append(r.mapResponseToModel(ctx, *apiResp, &data)...)
+	resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
@@ -389,7 +372,7 @@ func (r *OpenstackNetworkResource) Read(ctx context.Context, req resource.ReadRe
 		return
 	}
 
-	resp.Diagnostics.Append(r.mapResponseToModel(ctx, *apiResp, &data)...)
+	resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
 
 	// Save updated data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
@@ -433,7 +416,7 @@ func (r *OpenstackNetworkResource) Update(ctx context.Context, req resource.Upda
 	}
 	apiResp = newResp
 
-	resp.Diagnostics.Append(r.mapResponseToModel(ctx, *apiResp, &data)...)
+	resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
@@ -501,7 +484,7 @@ func (r *OpenstackNetworkResource) ImportState(ctx context.Context, req resource
 	}
 
 	var data OpenstackNetworkResourceModel
-	resp.Diagnostics.Append(r.mapResponseToModel(ctx, *apiResp, &data)...)
+	resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
@@ -510,59 +493,5 @@ func (r *OpenstackNetworkResource) ImportState(ctx context.Context, req resource
 }
 
 func (r *OpenstackNetworkResource) mapResponseToModel(ctx context.Context, apiResp OpenstackNetworkResponse, model *OpenstackNetworkResourceModel) diag.Diagnostics {
-	var diags diag.Diagnostics
-
-	model.UUID = types.StringPointerValue(apiResp.UUID)
-	model.AccessUrl = types.StringPointerValue(apiResp.AccessUrl)
-	model.BackendId = types.StringPointerValue(apiResp.BackendId)
-	model.Created = types.StringPointerValue(apiResp.Created)
-	model.Description = types.StringPointerValue(apiResp.Description)
-	model.ErrorMessage = types.StringPointerValue(apiResp.ErrorMessage)
-	model.ErrorTraceback = types.StringPointerValue(apiResp.ErrorTraceback)
-	model.IsExternal = types.BoolPointerValue(apiResp.IsExternal)
-	model.Modified = types.StringPointerValue(apiResp.Modified)
-	model.Mtu = types.Int64PointerValue(apiResp.Mtu)
-	model.Name = types.StringPointerValue(apiResp.Name)
-
-	{
-		listValRbacPolicies, listDiagsRbacPolicies := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
-			"backend_id":         types.StringType,
-			"created":            types.StringType,
-			"network":            types.StringType,
-			"network_name":       types.StringType,
-			"policy_type":        types.StringType,
-			"target_tenant":      types.StringType,
-			"target_tenant_name": types.StringType,
-			"url":                types.StringType,
-		}}, apiResp.RbacPolicies)
-		diags.Append(listDiagsRbacPolicies...)
-		model.RbacPolicies = listValRbacPolicies
-	}
-	model.ResourceType = types.StringPointerValue(apiResp.ResourceType)
-	model.SegmentationId = types.Int64PointerValue(apiResp.SegmentationId)
-	model.State = types.StringPointerValue(apiResp.State)
-
-	{
-		listValSubnets, listDiagsSubnets := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
-			"allocation_pools": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
-				"end":   types.StringType,
-				"start": types.StringType,
-			}}},
-			"cidr":        types.StringType,
-			"description": types.StringType,
-			"enable_dhcp": types.BoolType,
-			"gateway_ip":  types.StringType,
-			"ip_version":  types.Int64Type,
-			"name":        types.StringType,
-		}}, apiResp.Subnets)
-		diags.Append(listDiagsSubnets...)
-		model.Subnets = listValSubnets
-	}
-	model.Tenant = types.StringPointerValue(apiResp.Tenant)
-	model.TenantName = types.StringPointerValue(apiResp.TenantName)
-	model.TenantUuid = types.StringPointerValue(apiResp.TenantUuid)
-	model.Type = types.StringPointerValue(apiResp.Type)
-	model.Url = types.StringPointerValue(apiResp.Url)
-
-	return diags
+	return model.CopyFrom(ctx, apiResp)
 }

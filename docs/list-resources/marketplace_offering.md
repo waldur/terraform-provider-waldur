@@ -17,6 +17,13 @@ description: |-
 
 ### Optional
 
+- `filters` (Attributes) Filter parameters for querying Marketplace Offering (see [below for nested schema](#nestedatt--filters))
+
+<a id="nestedatt--filters"></a>
+### Nested Schema for `filters`
+
+Optional:
+
 - `accessible_via_calls` (Boolean) Accessible via calls
 - `allowed_customer_uuid` (String) Allowed customer UUID
 - `attributes` (String) Offering attributes (JSON)

@@ -4,12 +4,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
-	"github.com/hashicorp/terraform-plugin-framework/diag"
-	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
-	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/waldur/terraform-provider-waldur/internal/client"
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
@@ -22,102 +18,13 @@ func NewMarketplaceOrderDataSource() datasource.DataSource {
 	return &MarketplaceOrderDataSource{}
 }
 
-// MarketplaceOrderDataSource defines the data source implementation.
 type MarketplaceOrderDataSource struct {
 	client *Client
 }
 
-// MarketplaceOrderFiltersModel contains the filter parameters for querying.
-type MarketplaceOrderFiltersModel struct {
-	CanApproveAsConsumer types.Bool   `tfsdk:"can_approve_as_consumer"`
-	CanApproveAsProvider types.Bool   `tfsdk:"can_approve_as_provider"`
-	CategoryUuid         types.String `tfsdk:"category_uuid"`
-	Created              types.String `tfsdk:"created"`
-	CustomerUuid         types.String `tfsdk:"customer_uuid"`
-	Modified             types.String `tfsdk:"modified"`
-	Offering             types.String `tfsdk:"offering"`
-	OfferingSlug         types.String `tfsdk:"offering_slug"`
-	OfferingType         types.String `tfsdk:"offering_type"`
-	OfferingUuid         types.String `tfsdk:"offering_uuid"`
-	ParentOfferingUuid   types.String `tfsdk:"parent_offering_uuid"`
-	ProjectUuid          types.String `tfsdk:"project_uuid"`
-	ProviderUuid         types.String `tfsdk:"provider_uuid"`
-	Query                types.String `tfsdk:"query"`
-	Resource             types.String `tfsdk:"resource"`
-	ResourceName         types.String `tfsdk:"resource_name"`
-	ResourceUuid         types.String `tfsdk:"resource_uuid"`
-	ServiceManagerUuid   types.String `tfsdk:"service_manager_uuid"`
-	State                types.String `tfsdk:"state"`
-	Type                 types.String `tfsdk:"type"`
-}
-
 type MarketplaceOrderDataSourceModel struct {
-	UUID                       types.String                  `tfsdk:"id"`
-	Filters                    *MarketplaceOrderFiltersModel `tfsdk:"filters"`
-	ActivationPrice            types.Float64                 `tfsdk:"activation_price"`
-	Attachment                 types.String                  `tfsdk:"attachment"`
-	BackendId                  types.String                  `tfsdk:"backend_id"`
-	CallbackUrl                types.String                  `tfsdk:"callback_url"`
-	CanTerminate               types.Bool                    `tfsdk:"can_terminate"`
-	CategoryIcon               types.String                  `tfsdk:"category_icon"`
-	CategoryTitle              types.String                  `tfsdk:"category_title"`
-	CategoryUuid               types.String                  `tfsdk:"category_uuid"`
-	CompletedAt                types.String                  `tfsdk:"completed_at"`
-	ConsumerReviewedAt         types.String                  `tfsdk:"consumer_reviewed_at"`
-	ConsumerReviewedBy         types.String                  `tfsdk:"consumer_reviewed_by"`
-	ConsumerReviewedByFullName types.String                  `tfsdk:"consumer_reviewed_by_full_name"`
-	ConsumerReviewedByUsername types.String                  `tfsdk:"consumer_reviewed_by_username"`
-	Cost                       types.String                  `tfsdk:"cost"`
-	Created                    types.String                  `tfsdk:"created"`
-	CreatedByCivilNumber       types.String                  `tfsdk:"created_by_civil_number"`
-	CreatedByFullName          types.String                  `tfsdk:"created_by_full_name"`
-	CreatedByUsername          types.String                  `tfsdk:"created_by_username"`
-	CustomerSlug               types.String                  `tfsdk:"customer_slug"`
-	ErrorMessage               types.String                  `tfsdk:"error_message"`
-	ErrorTraceback             types.String                  `tfsdk:"error_traceback"`
-	FixedPrice                 types.Float64                 `tfsdk:"fixed_price"`
-	Modified                   types.String                  `tfsdk:"modified"`
-	NewCostEstimate            types.String                  `tfsdk:"new_cost_estimate"`
-	NewPlanName                types.String                  `tfsdk:"new_plan_name"`
-	NewPlanUuid                types.String                  `tfsdk:"new_plan_uuid"`
-	Offering                   types.String                  `tfsdk:"offering"`
-	OfferingBillable           types.Bool                    `tfsdk:"offering_billable"`
-	OfferingDescription        types.String                  `tfsdk:"offering_description"`
-	OfferingImage              types.String                  `tfsdk:"offering_image"`
-	OfferingName               types.String                  `tfsdk:"offering_name"`
-	OfferingShared             types.Bool                    `tfsdk:"offering_shared"`
-	OfferingThumbnail          types.String                  `tfsdk:"offering_thumbnail"`
-	OfferingType               types.String                  `tfsdk:"offering_type"`
-	OfferingUuid               types.String                  `tfsdk:"offering_uuid"`
-	OldCostEstimate            types.Float64                 `tfsdk:"old_cost_estimate"`
-	OldPlanName                types.String                  `tfsdk:"old_plan_name"`
-	OldPlanUuid                types.String                  `tfsdk:"old_plan_uuid"`
-	OrderSubtype               types.String                  `tfsdk:"order_subtype"`
-	Output                     types.String                  `tfsdk:"output"`
-	Plan                       types.String                  `tfsdk:"plan"`
-	PlanDescription            types.String                  `tfsdk:"plan_description"`
-	PlanName                   types.String                  `tfsdk:"plan_name"`
-	PlanUnit                   types.String                  `tfsdk:"plan_unit"`
-	PlanUuid                   types.String                  `tfsdk:"plan_uuid"`
-	ProjectDescription         types.String                  `tfsdk:"project_description"`
-	ProjectSlug                types.String                  `tfsdk:"project_slug"`
-	ProviderName               types.String                  `tfsdk:"provider_name"`
-	ProviderReviewedAt         types.String                  `tfsdk:"provider_reviewed_at"`
-	ProviderReviewedBy         types.String                  `tfsdk:"provider_reviewed_by"`
-	ProviderReviewedByFullName types.String                  `tfsdk:"provider_reviewed_by_full_name"`
-	ProviderReviewedByUsername types.String                  `tfsdk:"provider_reviewed_by_username"`
-	ProviderSlug               types.String                  `tfsdk:"provider_slug"`
-	ProviderUuid               types.String                  `tfsdk:"provider_uuid"`
-	RequestComment             types.String                  `tfsdk:"request_comment"`
-	ResourceName               types.String                  `tfsdk:"resource_name"`
-	ResourceType               types.String                  `tfsdk:"resource_type"`
-	ResourceUuid               types.String                  `tfsdk:"resource_uuid"`
-	Slug                       types.String                  `tfsdk:"slug"`
-	StartDate                  types.String                  `tfsdk:"start_date"`
-	State                      types.String                  `tfsdk:"state"`
-	TerminationComment         types.String                  `tfsdk:"termination_comment"`
-	Type                       types.String                  `tfsdk:"type"`
-	Url                        types.String                  `tfsdk:"url"`
+	MarketplaceOrderModel
+	Filters *MarketplaceOrderFiltersModel `tfsdk:"filters"`
 }
 
 func (d *MarketplaceOrderDataSource) Metadata(ctx context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
@@ -166,14 +73,6 @@ func (d *MarketplaceOrderDataSource) Schema(ctx context.Context, req datasource.
 						Optional:            true,
 						MarkdownDescription: "Offering",
 					},
-					"offering_slug": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Multiple values may be separated by commas.",
-					},
-					"offering_type": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Offering type",
-					},
 					"offering_uuid": schema.StringAttribute{
 						Optional:            true,
 						MarkdownDescription: "Offering UUID",
@@ -209,20 +108,6 @@ func (d *MarketplaceOrderDataSource) Schema(ctx context.Context, req datasource.
 					"service_manager_uuid": schema.StringAttribute{
 						Optional:            true,
 						MarkdownDescription: "Service manager UUID",
-					},
-					"state": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Order state Allowed values: `canceled`, `done`, `erred`, `executing`, `pending-consumer`, `pending-project`, `pending-provider`, `pending-start-date`, `rejected`.",
-						Validators: []validator.String{
-							stringvalidator.OneOf("canceled", "done", "erred", "executing", "pending-consumer", "pending-project", "pending-provider", "pending-start-date", "rejected"),
-						},
-					},
-					"type": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Order type Allowed values: `Create`, `Restore`, `Terminate`, `Update`.",
-						Validators: []validator.String{
-							stringvalidator.OneOf("Create", "Restore", "Terminate", "Update"),
-						},
 					},
 				},
 			},
@@ -525,7 +410,7 @@ func (d *MarketplaceOrderDataSource) Read(ctx context.Context, req datasource.Re
 			return
 		}
 
-		resp.Diagnostics.Append(d.mapResponseToModel(ctx, *apiResp, &data)...)
+		resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
 
 	} else {
 		filters := common.BuildQueryFilters(data.Filters)
@@ -564,81 +449,9 @@ func (d *MarketplaceOrderDataSource) Read(ctx context.Context, req datasource.Re
 			return
 		}
 
-		resp.Diagnostics.Append(d.mapResponseToModel(ctx, results[0], &data)...)
+		resp.Diagnostics.Append(data.CopyFrom(ctx, results[0])...)
 	}
 
 	// Save data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
-}
-
-func (d *MarketplaceOrderDataSource) mapResponseToModel(ctx context.Context, apiResp MarketplaceOrderResponse, model *MarketplaceOrderDataSourceModel) diag.Diagnostics {
-	var diags diag.Diagnostics
-
-	model.UUID = types.StringPointerValue(apiResp.UUID)
-	model.ActivationPrice = types.Float64PointerValue(apiResp.ActivationPrice)
-	model.Attachment = types.StringPointerValue(apiResp.Attachment)
-	model.BackendId = types.StringPointerValue(apiResp.BackendId)
-	model.CallbackUrl = types.StringPointerValue(apiResp.CallbackUrl)
-	model.CanTerminate = types.BoolPointerValue(apiResp.CanTerminate)
-	model.CategoryIcon = types.StringPointerValue(apiResp.CategoryIcon)
-	model.CategoryTitle = types.StringPointerValue(apiResp.CategoryTitle)
-	model.CategoryUuid = types.StringPointerValue(apiResp.CategoryUuid)
-	model.CompletedAt = types.StringPointerValue(apiResp.CompletedAt)
-	model.ConsumerReviewedAt = types.StringPointerValue(apiResp.ConsumerReviewedAt)
-	model.ConsumerReviewedBy = types.StringPointerValue(apiResp.ConsumerReviewedBy)
-	model.ConsumerReviewedByFullName = types.StringPointerValue(apiResp.ConsumerReviewedByFullName)
-	model.ConsumerReviewedByUsername = types.StringPointerValue(apiResp.ConsumerReviewedByUsername)
-	model.Cost = types.StringPointerValue(apiResp.Cost)
-	model.Created = types.StringPointerValue(apiResp.Created)
-	model.CreatedByCivilNumber = types.StringPointerValue(apiResp.CreatedByCivilNumber)
-	model.CreatedByFullName = types.StringPointerValue(apiResp.CreatedByFullName)
-	model.CreatedByUsername = types.StringPointerValue(apiResp.CreatedByUsername)
-	model.CustomerSlug = types.StringPointerValue(apiResp.CustomerSlug)
-	model.ErrorMessage = types.StringPointerValue(apiResp.ErrorMessage)
-	model.ErrorTraceback = types.StringPointerValue(apiResp.ErrorTraceback)
-	model.FixedPrice = types.Float64PointerValue(apiResp.FixedPrice)
-	model.Modified = types.StringPointerValue(apiResp.Modified)
-	model.NewCostEstimate = types.StringPointerValue(apiResp.NewCostEstimate)
-	model.NewPlanName = types.StringPointerValue(apiResp.NewPlanName)
-	model.NewPlanUuid = types.StringPointerValue(apiResp.NewPlanUuid)
-	model.Offering = types.StringPointerValue(apiResp.Offering)
-	model.OfferingBillable = types.BoolPointerValue(apiResp.OfferingBillable)
-	model.OfferingDescription = types.StringPointerValue(apiResp.OfferingDescription)
-	model.OfferingImage = types.StringPointerValue(apiResp.OfferingImage)
-	model.OfferingName = types.StringPointerValue(apiResp.OfferingName)
-	model.OfferingShared = types.BoolPointerValue(apiResp.OfferingShared)
-	model.OfferingThumbnail = types.StringPointerValue(apiResp.OfferingThumbnail)
-	model.OfferingType = types.StringPointerValue(apiResp.OfferingType)
-	model.OfferingUuid = types.StringPointerValue(apiResp.OfferingUuid)
-	model.OldCostEstimate = types.Float64PointerValue(apiResp.OldCostEstimate)
-	model.OldPlanName = types.StringPointerValue(apiResp.OldPlanName)
-	model.OldPlanUuid = types.StringPointerValue(apiResp.OldPlanUuid)
-	model.OrderSubtype = types.StringPointerValue(apiResp.OrderSubtype)
-	model.Output = types.StringPointerValue(apiResp.Output)
-	model.Plan = types.StringPointerValue(apiResp.Plan)
-	model.PlanDescription = types.StringPointerValue(apiResp.PlanDescription)
-	model.PlanName = types.StringPointerValue(apiResp.PlanName)
-	model.PlanUnit = types.StringPointerValue(apiResp.PlanUnit)
-	model.PlanUuid = types.StringPointerValue(apiResp.PlanUuid)
-	model.ProjectDescription = types.StringPointerValue(apiResp.ProjectDescription)
-	model.ProjectSlug = types.StringPointerValue(apiResp.ProjectSlug)
-	model.ProviderName = types.StringPointerValue(apiResp.ProviderName)
-	model.ProviderReviewedAt = types.StringPointerValue(apiResp.ProviderReviewedAt)
-	model.ProviderReviewedBy = types.StringPointerValue(apiResp.ProviderReviewedBy)
-	model.ProviderReviewedByFullName = types.StringPointerValue(apiResp.ProviderReviewedByFullName)
-	model.ProviderReviewedByUsername = types.StringPointerValue(apiResp.ProviderReviewedByUsername)
-	model.ProviderSlug = types.StringPointerValue(apiResp.ProviderSlug)
-	model.ProviderUuid = types.StringPointerValue(apiResp.ProviderUuid)
-	model.RequestComment = types.StringPointerValue(apiResp.RequestComment)
-	model.ResourceName = types.StringPointerValue(apiResp.ResourceName)
-	model.ResourceType = types.StringPointerValue(apiResp.ResourceType)
-	model.ResourceUuid = types.StringPointerValue(apiResp.ResourceUuid)
-	model.Slug = types.StringPointerValue(apiResp.Slug)
-	model.StartDate = types.StringPointerValue(apiResp.StartDate)
-	model.State = types.StringPointerValue(apiResp.State)
-	model.TerminationComment = types.StringPointerValue(apiResp.TerminationComment)
-	model.Type = types.StringPointerValue(apiResp.Type)
-	model.Url = types.StringPointerValue(apiResp.Url)
-
-	return diags
 }

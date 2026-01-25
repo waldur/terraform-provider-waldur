@@ -4,12 +4,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
-	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
-	"github.com/hashicorp/terraform-plugin-framework/diag"
-	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/waldur/terraform-provider-waldur/internal/client"
@@ -23,68 +19,13 @@ func NewOpenstackSubnetDataSource() datasource.DataSource {
 	return &OpenstackSubnetDataSource{}
 }
 
-// OpenstackSubnetDataSource defines the data source implementation.
 type OpenstackSubnetDataSource struct {
 	client *Client
 }
 
-// OpenstackSubnetFiltersModel contains the filter parameters for querying.
-type OpenstackSubnetFiltersModel struct {
-	BackendId            types.String `tfsdk:"backend_id"`
-	CanManage            types.Bool   `tfsdk:"can_manage"`
-	Customer             types.String `tfsdk:"customer"`
-	CustomerAbbreviation types.String `tfsdk:"customer_abbreviation"`
-	CustomerName         types.String `tfsdk:"customer_name"`
-	CustomerNativeName   types.String `tfsdk:"customer_native_name"`
-	CustomerUuid         types.String `tfsdk:"customer_uuid"`
-	Description          types.String `tfsdk:"description"`
-	DirectOnly           types.Bool   `tfsdk:"direct_only"`
-	EnableDhcp           types.Bool   `tfsdk:"enable_dhcp"`
-	ExternalIp           types.String `tfsdk:"external_ip"`
-	IpVersion            types.Int64  `tfsdk:"ip_version"`
-	Name                 types.String `tfsdk:"name"`
-	NameExact            types.String `tfsdk:"name_exact"`
-	Network              types.String `tfsdk:"network"`
-	NetworkUuid          types.String `tfsdk:"network_uuid"`
-	Project              types.String `tfsdk:"project"`
-	ProjectName          types.String `tfsdk:"project_name"`
-	ProjectUuid          types.String `tfsdk:"project_uuid"`
-	RbacOnly             types.Bool   `tfsdk:"rbac_only"`
-	ServiceSettingsName  types.String `tfsdk:"service_settings_name"`
-	ServiceSettingsUuid  types.String `tfsdk:"service_settings_uuid"`
-	State                types.String `tfsdk:"state"`
-	Tenant               types.String `tfsdk:"tenant"`
-	TenantUuid           types.String `tfsdk:"tenant_uuid"`
-	Uuid                 types.String `tfsdk:"uuid"`
-}
-
 type OpenstackSubnetDataSourceModel struct {
-	UUID            types.String                 `tfsdk:"id"`
-	Filters         *OpenstackSubnetFiltersModel `tfsdk:"filters"`
-	AccessUrl       types.String                 `tfsdk:"access_url"`
-	AllocationPools types.List                   `tfsdk:"allocation_pools"`
-	BackendId       types.String                 `tfsdk:"backend_id"`
-	Cidr            types.String                 `tfsdk:"cidr"`
-	Created         types.String                 `tfsdk:"created"`
-	Description     types.String                 `tfsdk:"description"`
-	DisableGateway  types.Bool                   `tfsdk:"disable_gateway"`
-	DnsNameservers  types.List                   `tfsdk:"dns_nameservers"`
-	EnableDhcp      types.Bool                   `tfsdk:"enable_dhcp"`
-	ErrorMessage    types.String                 `tfsdk:"error_message"`
-	ErrorTraceback  types.String                 `tfsdk:"error_traceback"`
-	GatewayIp       types.String                 `tfsdk:"gateway_ip"`
-	HostRoutes      types.List                   `tfsdk:"host_routes"`
-	IpVersion       types.Int64                  `tfsdk:"ip_version"`
-	IsConnected     types.Bool                   `tfsdk:"is_connected"`
-	Modified        types.String                 `tfsdk:"modified"`
-	Name            types.String                 `tfsdk:"name"`
-	Network         types.String                 `tfsdk:"network"`
-	NetworkName     types.String                 `tfsdk:"network_name"`
-	ResourceType    types.String                 `tfsdk:"resource_type"`
-	State           types.String                 `tfsdk:"state"`
-	Tenant          types.String                 `tfsdk:"tenant"`
-	TenantName      types.String                 `tfsdk:"tenant_name"`
-	Url             types.String                 `tfsdk:"url"`
+	OpenstackSubnetModel
+	Filters *OpenstackSubnetFiltersModel `tfsdk:"filters"`
 }
 
 func (d *OpenstackSubnetDataSource) Metadata(ctx context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
@@ -192,13 +133,6 @@ func (d *OpenstackSubnetDataSource) Schema(ctx context.Context, req datasource.S
 					"service_settings_uuid": schema.StringAttribute{
 						Optional:            true,
 						MarkdownDescription: "Service settings UUID",
-					},
-					"state": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "State Allowed values: `CREATING`, `CREATION_SCHEDULED`, `DELETING`, `DELETION_SCHEDULED`, `ERRED`, `OK`, `UPDATE_SCHEDULED`, `UPDATING`.",
-						Validators: []validator.String{
-							stringvalidator.OneOf("CREATING", "CREATION_SCHEDULED", "DELETING", "DELETION_SCHEDULED", "ERRED", "OK", "UPDATE_SCHEDULED", "UPDATING"),
-						},
 					},
 					"tenant": schema.StringAttribute{
 						Optional:            true,
@@ -378,7 +312,7 @@ func (d *OpenstackSubnetDataSource) Read(ctx context.Context, req datasource.Rea
 			return
 		}
 
-		resp.Diagnostics.Append(d.mapResponseToModel(ctx, *apiResp, &data)...)
+		resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
 
 	} else {
 		filters := common.BuildQueryFilters(data.Filters)
@@ -417,59 +351,9 @@ func (d *OpenstackSubnetDataSource) Read(ctx context.Context, req datasource.Rea
 			return
 		}
 
-		resp.Diagnostics.Append(d.mapResponseToModel(ctx, results[0], &data)...)
+		resp.Diagnostics.Append(data.CopyFrom(ctx, results[0])...)
 	}
 
 	// Save data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
-}
-
-func (d *OpenstackSubnetDataSource) mapResponseToModel(ctx context.Context, apiResp OpenstackSubnetResponse, model *OpenstackSubnetDataSourceModel) diag.Diagnostics {
-	var diags diag.Diagnostics
-
-	model.UUID = types.StringPointerValue(apiResp.UUID)
-	model.AccessUrl = types.StringPointerValue(apiResp.AccessUrl)
-
-	{
-		listValAllocationPools, listDiagsAllocationPools := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
-			"end":   types.StringType,
-			"start": types.StringType,
-		}}, apiResp.AllocationPools)
-		diags.Append(listDiagsAllocationPools...)
-		model.AllocationPools = listValAllocationPools
-	}
-	model.BackendId = types.StringPointerValue(apiResp.BackendId)
-	model.Cidr = types.StringPointerValue(apiResp.Cidr)
-	model.Created = types.StringPointerValue(apiResp.Created)
-	model.Description = types.StringPointerValue(apiResp.Description)
-	model.DisableGateway = types.BoolPointerValue(apiResp.DisableGateway)
-	listValDnsNameservers, listDiagsDnsNameservers := types.ListValueFrom(ctx, types.StringType, apiResp.DnsNameservers)
-	model.DnsNameservers = listValDnsNameservers
-	diags.Append(listDiagsDnsNameservers...)
-	model.EnableDhcp = types.BoolPointerValue(apiResp.EnableDhcp)
-	model.ErrorMessage = types.StringPointerValue(apiResp.ErrorMessage)
-	model.ErrorTraceback = types.StringPointerValue(apiResp.ErrorTraceback)
-	model.GatewayIp = types.StringPointerValue(apiResp.GatewayIp)
-
-	{
-		listValHostRoutes, listDiagsHostRoutes := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
-			"destination": types.StringType,
-			"nexthop":     types.StringType,
-		}}, apiResp.HostRoutes)
-		diags.Append(listDiagsHostRoutes...)
-		model.HostRoutes = listValHostRoutes
-	}
-	model.IpVersion = types.Int64PointerValue(apiResp.IpVersion)
-	model.IsConnected = types.BoolPointerValue(apiResp.IsConnected)
-	model.Modified = types.StringPointerValue(apiResp.Modified)
-	model.Name = types.StringPointerValue(apiResp.Name)
-	model.Network = types.StringPointerValue(apiResp.Network)
-	model.NetworkName = types.StringPointerValue(apiResp.NetworkName)
-	model.ResourceType = types.StringPointerValue(apiResp.ResourceType)
-	model.State = types.StringPointerValue(apiResp.State)
-	model.Tenant = types.StringPointerValue(apiResp.Tenant)
-	model.TenantName = types.StringPointerValue(apiResp.TenantName)
-	model.Url = types.StringPointerValue(apiResp.Url)
-
-	return diags
 }

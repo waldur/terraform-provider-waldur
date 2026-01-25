@@ -17,6 +17,13 @@ description: |-
 
 ### Optional
 
+- `filters` (Attributes) Filter parameters for querying Openstack Volume (see [below for nested schema](#nestedatt--filters))
+
+<a id="nestedatt--filters"></a>
+### Nested Schema for `filters`
+
+Optional:
+
 - `attach_instance_uuid` (String) Filter for attachment to instance UUID
 - `availability_zone_name` (String) Availability zone name
 - `backend_id` (String) Backend ID

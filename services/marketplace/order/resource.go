@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
+	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -36,75 +37,11 @@ type MarketplaceOrderResource struct {
 
 // MarketplaceOrderResourceModel describes the resource data model.
 type MarketplaceOrderResourceModel struct {
-	UUID                       types.String   `tfsdk:"id"`
-	AcceptingTermsOfService    types.Bool     `tfsdk:"accepting_terms_of_service"`
-	ActivationPrice            types.Float64  `tfsdk:"activation_price"`
-	Attachment                 types.String   `tfsdk:"attachment"`
-	Attributes                 types.Map      `tfsdk:"attributes"`
-	BackendId                  types.String   `tfsdk:"backend_id"`
-	CallbackUrl                types.String   `tfsdk:"callback_url"`
-	CanTerminate               types.Bool     `tfsdk:"can_terminate"`
-	CategoryIcon               types.String   `tfsdk:"category_icon"`
-	CategoryTitle              types.String   `tfsdk:"category_title"`
-	CategoryUuid               types.String   `tfsdk:"category_uuid"`
-	CompletedAt                types.String   `tfsdk:"completed_at"`
-	ConsumerReviewedAt         types.String   `tfsdk:"consumer_reviewed_at"`
-	ConsumerReviewedBy         types.String   `tfsdk:"consumer_reviewed_by"`
-	ConsumerReviewedByFullName types.String   `tfsdk:"consumer_reviewed_by_full_name"`
-	ConsumerReviewedByUsername types.String   `tfsdk:"consumer_reviewed_by_username"`
-	Cost                       types.String   `tfsdk:"cost"`
-	Created                    types.String   `tfsdk:"created"`
-	CreatedByCivilNumber       types.String   `tfsdk:"created_by_civil_number"`
-	CreatedByFullName          types.String   `tfsdk:"created_by_full_name"`
-	CreatedByUsername          types.String   `tfsdk:"created_by_username"`
-	CustomerSlug               types.String   `tfsdk:"customer_slug"`
-	ErrorMessage               types.String   `tfsdk:"error_message"`
-	ErrorTraceback             types.String   `tfsdk:"error_traceback"`
-	FixedPrice                 types.Float64  `tfsdk:"fixed_price"`
-	Modified                   types.String   `tfsdk:"modified"`
-	NewCostEstimate            types.String   `tfsdk:"new_cost_estimate"`
-	NewPlanName                types.String   `tfsdk:"new_plan_name"`
-	NewPlanUuid                types.String   `tfsdk:"new_plan_uuid"`
-	Offering                   types.String   `tfsdk:"offering"`
-	OfferingBillable           types.Bool     `tfsdk:"offering_billable"`
-	OfferingDescription        types.String   `tfsdk:"offering_description"`
-	OfferingImage              types.String   `tfsdk:"offering_image"`
-	OfferingName               types.String   `tfsdk:"offering_name"`
-	OfferingShared             types.Bool     `tfsdk:"offering_shared"`
-	OfferingThumbnail          types.String   `tfsdk:"offering_thumbnail"`
-	OfferingType               types.String   `tfsdk:"offering_type"`
-	OfferingUuid               types.String   `tfsdk:"offering_uuid"`
-	OldCostEstimate            types.Float64  `tfsdk:"old_cost_estimate"`
-	OldPlanName                types.String   `tfsdk:"old_plan_name"`
-	OldPlanUuid                types.String   `tfsdk:"old_plan_uuid"`
-	OrderSubtype               types.String   `tfsdk:"order_subtype"`
-	Output                     types.String   `tfsdk:"output"`
-	Plan                       types.String   `tfsdk:"plan"`
-	PlanDescription            types.String   `tfsdk:"plan_description"`
-	PlanName                   types.String   `tfsdk:"plan_name"`
-	PlanUnit                   types.String   `tfsdk:"plan_unit"`
-	PlanUuid                   types.String   `tfsdk:"plan_uuid"`
-	Project                    types.String   `tfsdk:"project"`
-	ProjectDescription         types.String   `tfsdk:"project_description"`
-	ProjectSlug                types.String   `tfsdk:"project_slug"`
-	ProviderName               types.String   `tfsdk:"provider_name"`
-	ProviderReviewedAt         types.String   `tfsdk:"provider_reviewed_at"`
-	ProviderReviewedBy         types.String   `tfsdk:"provider_reviewed_by"`
-	ProviderReviewedByFullName types.String   `tfsdk:"provider_reviewed_by_full_name"`
-	ProviderReviewedByUsername types.String   `tfsdk:"provider_reviewed_by_username"`
-	ProviderSlug               types.String   `tfsdk:"provider_slug"`
-	ProviderUuid               types.String   `tfsdk:"provider_uuid"`
-	RequestComment             types.String   `tfsdk:"request_comment"`
-	ResourceName               types.String   `tfsdk:"resource_name"`
-	ResourceType               types.String   `tfsdk:"resource_type"`
-	ResourceUuid               types.String   `tfsdk:"resource_uuid"`
-	Slug                       types.String   `tfsdk:"slug"`
-	StartDate                  types.String   `tfsdk:"start_date"`
-	State                      types.String   `tfsdk:"state"`
-	TerminationComment         types.String   `tfsdk:"termination_comment"`
-	Type                       types.String   `tfsdk:"type"`
-	Url                        types.String   `tfsdk:"url"`
-	Timeouts                   timeouts.Value `tfsdk:"timeouts"`
+	MarketplaceOrderModel
+	AcceptingTermsOfService types.Bool     `tfsdk:"accepting_terms_of_service"`
+	Attributes              types.Map      `tfsdk:"attributes"`
+	Project                 types.String   `tfsdk:"project"`
+	Timeouts                timeouts.Value `tfsdk:"timeouts"`
 }
 
 func (r *MarketplaceOrderResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
@@ -197,14 +134,16 @@ func (r *MarketplaceOrderResource) Schema(ctx context.Context, req resource.Sche
 				MarkdownDescription: "UUID of the category",
 			},
 			"completed_at": schema.StringAttribute{
-				Computed: true,
+				CustomType: timetypes.RFC3339Type{},
+				Computed:   true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
 				MarkdownDescription: "Completed at",
 			},
 			"consumer_reviewed_at": schema.StringAttribute{
-				Computed: true,
+				CustomType: timetypes.RFC3339Type{},
+				Computed:   true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
@@ -239,7 +178,8 @@ func (r *MarketplaceOrderResource) Schema(ctx context.Context, req resource.Sche
 				MarkdownDescription: "Cost",
 			},
 			"created": schema.StringAttribute{
-				Computed: true,
+				CustomType: timetypes.RFC3339Type{},
+				Computed:   true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
@@ -295,7 +235,8 @@ func (r *MarketplaceOrderResource) Schema(ctx context.Context, req resource.Sche
 				MarkdownDescription: "Fixed price",
 			},
 			"modified": schema.StringAttribute{
-				Computed: true,
+				CustomType: timetypes.RFC3339Type{},
+				Computed:   true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
@@ -484,7 +425,8 @@ func (r *MarketplaceOrderResource) Schema(ctx context.Context, req resource.Sche
 				MarkdownDescription: "Name of the provider",
 			},
 			"provider_reviewed_at": schema.StringAttribute{
-				Computed: true,
+				CustomType: timetypes.RFC3339Type{},
+				Computed:   true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
@@ -675,7 +617,7 @@ func (r *MarketplaceOrderResource) Create(ctx context.Context, req resource.Crea
 	}
 	apiResp = newResp
 
-	resp.Diagnostics.Append(r.mapResponseToModel(ctx, *apiResp, &data)...)
+	resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
@@ -706,7 +648,7 @@ func (r *MarketplaceOrderResource) Read(ctx context.Context, req resource.ReadRe
 		return
 	}
 
-	resp.Diagnostics.Append(r.mapResponseToModel(ctx, *apiResp, &data)...)
+	resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
 
 	// Save updated data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
@@ -779,7 +721,7 @@ func (r *MarketplaceOrderResource) ImportState(ctx context.Context, req resource
 	}
 
 	var data MarketplaceOrderResourceModel
-	resp.Diagnostics.Append(r.mapResponseToModel(ctx, *apiResp, &data)...)
+	resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
@@ -788,73 +730,5 @@ func (r *MarketplaceOrderResource) ImportState(ctx context.Context, req resource
 }
 
 func (r *MarketplaceOrderResource) mapResponseToModel(ctx context.Context, apiResp MarketplaceOrderResponse, model *MarketplaceOrderResourceModel) diag.Diagnostics {
-	var diags diag.Diagnostics
-
-	model.UUID = types.StringPointerValue(apiResp.UUID)
-	model.ActivationPrice = types.Float64PointerValue(apiResp.ActivationPrice)
-	model.Attachment = types.StringPointerValue(apiResp.Attachment)
-	model.BackendId = types.StringPointerValue(apiResp.BackendId)
-	model.CallbackUrl = types.StringPointerValue(apiResp.CallbackUrl)
-	model.CanTerminate = types.BoolPointerValue(apiResp.CanTerminate)
-	model.CategoryIcon = types.StringPointerValue(apiResp.CategoryIcon)
-	model.CategoryTitle = types.StringPointerValue(apiResp.CategoryTitle)
-	model.CategoryUuid = types.StringPointerValue(apiResp.CategoryUuid)
-	model.CompletedAt = types.StringPointerValue(apiResp.CompletedAt)
-	model.ConsumerReviewedAt = types.StringPointerValue(apiResp.ConsumerReviewedAt)
-	model.ConsumerReviewedBy = types.StringPointerValue(apiResp.ConsumerReviewedBy)
-	model.ConsumerReviewedByFullName = types.StringPointerValue(apiResp.ConsumerReviewedByFullName)
-	model.ConsumerReviewedByUsername = types.StringPointerValue(apiResp.ConsumerReviewedByUsername)
-	model.Cost = types.StringPointerValue(apiResp.Cost)
-	model.Created = types.StringPointerValue(apiResp.Created)
-	model.CreatedByCivilNumber = types.StringPointerValue(apiResp.CreatedByCivilNumber)
-	model.CreatedByFullName = types.StringPointerValue(apiResp.CreatedByFullName)
-	model.CreatedByUsername = types.StringPointerValue(apiResp.CreatedByUsername)
-	model.CustomerSlug = types.StringPointerValue(apiResp.CustomerSlug)
-	model.ErrorMessage = types.StringPointerValue(apiResp.ErrorMessage)
-	model.ErrorTraceback = types.StringPointerValue(apiResp.ErrorTraceback)
-	model.FixedPrice = types.Float64PointerValue(apiResp.FixedPrice)
-	model.Modified = types.StringPointerValue(apiResp.Modified)
-	model.NewCostEstimate = types.StringPointerValue(apiResp.NewCostEstimate)
-	model.NewPlanName = types.StringPointerValue(apiResp.NewPlanName)
-	model.NewPlanUuid = types.StringPointerValue(apiResp.NewPlanUuid)
-	model.Offering = types.StringPointerValue(apiResp.Offering)
-	model.OfferingBillable = types.BoolPointerValue(apiResp.OfferingBillable)
-	model.OfferingDescription = types.StringPointerValue(apiResp.OfferingDescription)
-	model.OfferingImage = types.StringPointerValue(apiResp.OfferingImage)
-	model.OfferingName = types.StringPointerValue(apiResp.OfferingName)
-	model.OfferingShared = types.BoolPointerValue(apiResp.OfferingShared)
-	model.OfferingThumbnail = types.StringPointerValue(apiResp.OfferingThumbnail)
-	model.OfferingType = types.StringPointerValue(apiResp.OfferingType)
-	model.OfferingUuid = types.StringPointerValue(apiResp.OfferingUuid)
-	model.OldCostEstimate = types.Float64PointerValue(apiResp.OldCostEstimate)
-	model.OldPlanName = types.StringPointerValue(apiResp.OldPlanName)
-	model.OldPlanUuid = types.StringPointerValue(apiResp.OldPlanUuid)
-	model.OrderSubtype = types.StringPointerValue(apiResp.OrderSubtype)
-	model.Output = types.StringPointerValue(apiResp.Output)
-	model.Plan = types.StringPointerValue(apiResp.Plan)
-	model.PlanDescription = types.StringPointerValue(apiResp.PlanDescription)
-	model.PlanName = types.StringPointerValue(apiResp.PlanName)
-	model.PlanUnit = types.StringPointerValue(apiResp.PlanUnit)
-	model.PlanUuid = types.StringPointerValue(apiResp.PlanUuid)
-	model.ProjectDescription = types.StringPointerValue(apiResp.ProjectDescription)
-	model.ProjectSlug = types.StringPointerValue(apiResp.ProjectSlug)
-	model.ProviderName = types.StringPointerValue(apiResp.ProviderName)
-	model.ProviderReviewedAt = types.StringPointerValue(apiResp.ProviderReviewedAt)
-	model.ProviderReviewedBy = types.StringPointerValue(apiResp.ProviderReviewedBy)
-	model.ProviderReviewedByFullName = types.StringPointerValue(apiResp.ProviderReviewedByFullName)
-	model.ProviderReviewedByUsername = types.StringPointerValue(apiResp.ProviderReviewedByUsername)
-	model.ProviderSlug = types.StringPointerValue(apiResp.ProviderSlug)
-	model.ProviderUuid = types.StringPointerValue(apiResp.ProviderUuid)
-	model.RequestComment = types.StringPointerValue(apiResp.RequestComment)
-	model.ResourceName = types.StringPointerValue(apiResp.ResourceName)
-	model.ResourceType = types.StringPointerValue(apiResp.ResourceType)
-	model.ResourceUuid = types.StringPointerValue(apiResp.ResourceUuid)
-	model.Slug = types.StringPointerValue(apiResp.Slug)
-	model.StartDate = types.StringPointerValue(apiResp.StartDate)
-	model.State = types.StringPointerValue(apiResp.State)
-	model.TerminationComment = types.StringPointerValue(apiResp.TerminationComment)
-	model.Type = types.StringPointerValue(apiResp.Type)
-	model.Url = types.StringPointerValue(apiResp.Url)
-
-	return diags
+	return model.CopyFrom(ctx, apiResp)
 }

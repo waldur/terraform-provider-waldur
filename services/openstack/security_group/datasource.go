@@ -4,13 +4,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
-	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
-	"github.com/hashicorp/terraform-plugin-framework/diag"
-	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
-	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/waldur/terraform-provider-waldur/internal/client"
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
@@ -23,54 +18,13 @@ func NewOpenstackSecurityGroupDataSource() datasource.DataSource {
 	return &OpenstackSecurityGroupDataSource{}
 }
 
-// OpenstackSecurityGroupDataSource defines the data source implementation.
 type OpenstackSecurityGroupDataSource struct {
 	client *Client
 }
 
-// OpenstackSecurityGroupFiltersModel contains the filter parameters for querying.
-type OpenstackSecurityGroupFiltersModel struct {
-	BackendId            types.String `tfsdk:"backend_id"`
-	CanManage            types.Bool   `tfsdk:"can_manage"`
-	Customer             types.String `tfsdk:"customer"`
-	CustomerAbbreviation types.String `tfsdk:"customer_abbreviation"`
-	CustomerName         types.String `tfsdk:"customer_name"`
-	CustomerNativeName   types.String `tfsdk:"customer_native_name"`
-	CustomerUuid         types.String `tfsdk:"customer_uuid"`
-	Description          types.String `tfsdk:"description"`
-	ExternalIp           types.String `tfsdk:"external_ip"`
-	Name                 types.String `tfsdk:"name"`
-	NameExact            types.String `tfsdk:"name_exact"`
-	Project              types.String `tfsdk:"project"`
-	ProjectName          types.String `tfsdk:"project_name"`
-	ProjectUuid          types.String `tfsdk:"project_uuid"`
-	Query                types.String `tfsdk:"query"`
-	ServiceSettingsName  types.String `tfsdk:"service_settings_name"`
-	ServiceSettingsUuid  types.String `tfsdk:"service_settings_uuid"`
-	State                types.String `tfsdk:"state"`
-	Tenant               types.String `tfsdk:"tenant"`
-	TenantUuid           types.String `tfsdk:"tenant_uuid"`
-	Uuid                 types.String `tfsdk:"uuid"`
-}
-
 type OpenstackSecurityGroupDataSourceModel struct {
-	UUID           types.String                        `tfsdk:"id"`
-	Filters        *OpenstackSecurityGroupFiltersModel `tfsdk:"filters"`
-	AccessUrl      types.String                        `tfsdk:"access_url"`
-	BackendId      types.String                        `tfsdk:"backend_id"`
-	Created        types.String                        `tfsdk:"created"`
-	Description    types.String                        `tfsdk:"description"`
-	ErrorMessage   types.String                        `tfsdk:"error_message"`
-	ErrorTraceback types.String                        `tfsdk:"error_traceback"`
-	Modified       types.String                        `tfsdk:"modified"`
-	Name           types.String                        `tfsdk:"name"`
-	ResourceType   types.String                        `tfsdk:"resource_type"`
-	Rules          types.List                          `tfsdk:"rules"`
-	State          types.String                        `tfsdk:"state"`
-	Tenant         types.String                        `tfsdk:"tenant"`
-	TenantName     types.String                        `tfsdk:"tenant_name"`
-	TenantUuid     types.String                        `tfsdk:"tenant_uuid"`
-	Url            types.String                        `tfsdk:"url"`
+	OpenstackSecurityGroupModel
+	Filters *OpenstackSecurityGroupFiltersModel `tfsdk:"filters"`
 }
 
 func (d *OpenstackSecurityGroupDataSource) Metadata(ctx context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
@@ -158,13 +112,6 @@ func (d *OpenstackSecurityGroupDataSource) Schema(ctx context.Context, req datas
 					"service_settings_uuid": schema.StringAttribute{
 						Optional:            true,
 						MarkdownDescription: "Service settings UUID",
-					},
-					"state": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "State Allowed values: `CREATING`, `CREATION_SCHEDULED`, `DELETING`, `DELETION_SCHEDULED`, `ERRED`, `OK`, `UPDATE_SCHEDULED`, `UPDATING`.",
-						Validators: []validator.String{
-							stringvalidator.OneOf("CREATING", "CREATION_SCHEDULED", "DELETING", "DELETION_SCHEDULED", "ERRED", "OK", "UPDATE_SCHEDULED", "UPDATING"),
-						},
 					},
 					"tenant": schema.StringAttribute{
 						Optional:            true,
@@ -331,7 +278,7 @@ func (d *OpenstackSecurityGroupDataSource) Read(ctx context.Context, req datasou
 			return
 		}
 
-		resp.Diagnostics.Append(d.mapResponseToModel(ctx, *apiResp, &data)...)
+		resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
 
 	} else {
 		filters := common.BuildQueryFilters(data.Filters)
@@ -370,49 +317,9 @@ func (d *OpenstackSecurityGroupDataSource) Read(ctx context.Context, req datasou
 			return
 		}
 
-		resp.Diagnostics.Append(d.mapResponseToModel(ctx, results[0], &data)...)
+		resp.Diagnostics.Append(data.CopyFrom(ctx, results[0])...)
 	}
 
 	// Save data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
-}
-
-func (d *OpenstackSecurityGroupDataSource) mapResponseToModel(ctx context.Context, apiResp OpenstackSecurityGroupResponse, model *OpenstackSecurityGroupDataSourceModel) diag.Diagnostics {
-	var diags diag.Diagnostics
-
-	model.UUID = types.StringPointerValue(apiResp.UUID)
-	model.AccessUrl = types.StringPointerValue(apiResp.AccessUrl)
-	model.BackendId = types.StringPointerValue(apiResp.BackendId)
-	model.Created = types.StringPointerValue(apiResp.Created)
-	model.Description = types.StringPointerValue(apiResp.Description)
-	model.ErrorMessage = types.StringPointerValue(apiResp.ErrorMessage)
-	model.ErrorTraceback = types.StringPointerValue(apiResp.ErrorTraceback)
-	model.Modified = types.StringPointerValue(apiResp.Modified)
-	model.Name = types.StringPointerValue(apiResp.Name)
-	model.ResourceType = types.StringPointerValue(apiResp.ResourceType)
-
-	{
-		listValRules, listDiagsRules := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
-			"cidr":              types.StringType,
-			"description":       types.StringType,
-			"direction":         types.StringType,
-			"ethertype":         types.StringType,
-			"from_port":         types.Int64Type,
-			"id":                types.Int64Type,
-			"protocol":          types.StringType,
-			"remote_group":      types.StringType,
-			"remote_group_name": types.StringType,
-			"remote_group_uuid": types.StringType,
-			"to_port":           types.Int64Type,
-		}}, apiResp.Rules)
-		diags.Append(listDiagsRules...)
-		model.Rules = listValRules
-	}
-	model.State = types.StringPointerValue(apiResp.State)
-	model.Tenant = types.StringPointerValue(apiResp.Tenant)
-	model.TenantName = types.StringPointerValue(apiResp.TenantName)
-	model.TenantUuid = types.StringPointerValue(apiResp.TenantUuid)
-	model.Url = types.StringPointerValue(apiResp.Url)
-
-	return diags
 }

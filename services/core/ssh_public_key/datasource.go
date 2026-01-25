@@ -6,8 +6,6 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
-	"github.com/hashicorp/terraform-plugin-framework/diag"
-	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/waldur/terraform-provider-waldur/internal/client"
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
@@ -20,37 +18,13 @@ func NewCoreSshPublicKeyDataSource() datasource.DataSource {
 	return &CoreSshPublicKeyDataSource{}
 }
 
-// CoreSshPublicKeyDataSource defines the data source implementation.
 type CoreSshPublicKeyDataSource struct {
 	client *Client
 }
 
-// CoreSshPublicKeyFiltersModel contains the filter parameters for querying.
-type CoreSshPublicKeyFiltersModel struct {
-	Created           types.String `tfsdk:"created"`
-	FingerprintMd5    types.String `tfsdk:"fingerprint_md5"`
-	FingerprintSha256 types.String `tfsdk:"fingerprint_sha256"`
-	FingerprintSha512 types.String `tfsdk:"fingerprint_sha512"`
-	IsShared          types.Bool   `tfsdk:"is_shared"`
-	Modified          types.String `tfsdk:"modified"`
-	Name              types.String `tfsdk:"name"`
-	NameExact         types.String `tfsdk:"name_exact"`
-	UserUuid          types.String `tfsdk:"user_uuid"`
-	Uuid              types.String `tfsdk:"uuid"`
-}
-
 type CoreSshPublicKeyDataSourceModel struct {
-	UUID              types.String                  `tfsdk:"id"`
-	Filters           *CoreSshPublicKeyFiltersModel `tfsdk:"filters"`
-	FingerprintMd5    types.String                  `tfsdk:"fingerprint_md5"`
-	FingerprintSha256 types.String                  `tfsdk:"fingerprint_sha256"`
-	FingerprintSha512 types.String                  `tfsdk:"fingerprint_sha512"`
-	IsShared          types.Bool                    `tfsdk:"is_shared"`
-	Name              types.String                  `tfsdk:"name"`
-	PublicKey         types.String                  `tfsdk:"public_key"`
-	Type              types.String                  `tfsdk:"type"`
-	Url               types.String                  `tfsdk:"url"`
-	UserUuid          types.String                  `tfsdk:"user_uuid"`
+	CoreSshPublicKeyModel
+	Filters *CoreSshPublicKeyFiltersModel `tfsdk:"filters"`
 }
 
 func (d *CoreSshPublicKeyDataSource) Metadata(ctx context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
@@ -192,7 +166,7 @@ func (d *CoreSshPublicKeyDataSource) Read(ctx context.Context, req datasource.Re
 			return
 		}
 
-		resp.Diagnostics.Append(d.mapResponseToModel(ctx, *apiResp, &data)...)
+		resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
 
 	} else {
 		filters := common.BuildQueryFilters(data.Filters)
@@ -231,26 +205,9 @@ func (d *CoreSshPublicKeyDataSource) Read(ctx context.Context, req datasource.Re
 			return
 		}
 
-		resp.Diagnostics.Append(d.mapResponseToModel(ctx, results[0], &data)...)
+		resp.Diagnostics.Append(data.CopyFrom(ctx, results[0])...)
 	}
 
 	// Save data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
-}
-
-func (d *CoreSshPublicKeyDataSource) mapResponseToModel(ctx context.Context, apiResp CoreSshPublicKeyResponse, model *CoreSshPublicKeyDataSourceModel) diag.Diagnostics {
-	var diags diag.Diagnostics
-
-	model.UUID = types.StringPointerValue(apiResp.UUID)
-	model.FingerprintMd5 = types.StringPointerValue(apiResp.FingerprintMd5)
-	model.FingerprintSha256 = types.StringPointerValue(apiResp.FingerprintSha256)
-	model.FingerprintSha512 = types.StringPointerValue(apiResp.FingerprintSha512)
-	model.IsShared = types.BoolPointerValue(apiResp.IsShared)
-	model.Name = types.StringPointerValue(apiResp.Name)
-	model.PublicKey = types.StringPointerValue(apiResp.PublicKey)
-	model.Type = types.StringPointerValue(apiResp.Type)
-	model.Url = types.StringPointerValue(apiResp.Url)
-	model.UserUuid = types.StringPointerValue(apiResp.UserUuid)
-
-	return diags
 }

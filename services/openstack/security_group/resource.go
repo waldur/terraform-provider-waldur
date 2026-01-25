@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
-	"github.com/hashicorp/terraform-plugin-framework/attr"
+	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -34,23 +34,8 @@ type OpenstackSecurityGroupResource struct {
 
 // OpenstackSecurityGroupResourceModel describes the resource data model.
 type OpenstackSecurityGroupResourceModel struct {
-	UUID           types.String   `tfsdk:"id"`
-	AccessUrl      types.String   `tfsdk:"access_url"`
-	BackendId      types.String   `tfsdk:"backend_id"`
-	Created        types.String   `tfsdk:"created"`
-	Description    types.String   `tfsdk:"description"`
-	ErrorMessage   types.String   `tfsdk:"error_message"`
-	ErrorTraceback types.String   `tfsdk:"error_traceback"`
-	Modified       types.String   `tfsdk:"modified"`
-	Name           types.String   `tfsdk:"name"`
-	ResourceType   types.String   `tfsdk:"resource_type"`
-	Rules          types.List     `tfsdk:"rules"`
-	State          types.String   `tfsdk:"state"`
-	Tenant         types.String   `tfsdk:"tenant"`
-	TenantName     types.String   `tfsdk:"tenant_name"`
-	TenantUuid     types.String   `tfsdk:"tenant_uuid"`
-	Url            types.String   `tfsdk:"url"`
-	Timeouts       timeouts.Value `tfsdk:"timeouts"`
+	OpenstackSecurityGroupModel
+	Timeouts timeouts.Value `tfsdk:"timeouts"`
 }
 
 func (r *OpenstackSecurityGroupResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
@@ -84,7 +69,8 @@ func (r *OpenstackSecurityGroupResource) Schema(ctx context.Context, req resourc
 				MarkdownDescription: "ID of the backend",
 			},
 			"created": schema.StringAttribute{
-				Computed: true,
+				CustomType: timetypes.RFC3339Type{},
+				Computed:   true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
@@ -109,7 +95,8 @@ func (r *OpenstackSecurityGroupResource) Schema(ctx context.Context, req resourc
 				MarkdownDescription: "Error traceback",
 			},
 			"modified": schema.StringAttribute{
-				Computed: true,
+				CustomType: timetypes.RFC3339Type{},
+				Computed:   true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
@@ -278,7 +265,7 @@ func (r *OpenstackSecurityGroupResource) Create(ctx context.Context, req resourc
 	}
 	apiResp = newResp
 
-	resp.Diagnostics.Append(r.mapResponseToModel(ctx, *apiResp, &data)...)
+	resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
@@ -309,7 +296,7 @@ func (r *OpenstackSecurityGroupResource) Read(ctx context.Context, req resource.
 		return
 	}
 
-	resp.Diagnostics.Append(r.mapResponseToModel(ctx, *apiResp, &data)...)
+	resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
 
 	// Save updated data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
@@ -353,7 +340,7 @@ func (r *OpenstackSecurityGroupResource) Update(ctx context.Context, req resourc
 	}
 	apiResp = newResp
 
-	resp.Diagnostics.Append(r.mapResponseToModel(ctx, *apiResp, &data)...)
+	resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
@@ -421,7 +408,7 @@ func (r *OpenstackSecurityGroupResource) ImportState(ctx context.Context, req re
 	}
 
 	var data OpenstackSecurityGroupResourceModel
-	resp.Diagnostics.Append(r.mapResponseToModel(ctx, *apiResp, &data)...)
+	resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
@@ -430,38 +417,5 @@ func (r *OpenstackSecurityGroupResource) ImportState(ctx context.Context, req re
 }
 
 func (r *OpenstackSecurityGroupResource) mapResponseToModel(ctx context.Context, apiResp OpenstackSecurityGroupResponse, model *OpenstackSecurityGroupResourceModel) diag.Diagnostics {
-	var diags diag.Diagnostics
-
-	model.UUID = types.StringPointerValue(apiResp.UUID)
-	model.AccessUrl = types.StringPointerValue(apiResp.AccessUrl)
-	model.BackendId = types.StringPointerValue(apiResp.BackendId)
-	model.Created = types.StringPointerValue(apiResp.Created)
-	model.Description = types.StringPointerValue(apiResp.Description)
-	model.ErrorMessage = types.StringPointerValue(apiResp.ErrorMessage)
-	model.ErrorTraceback = types.StringPointerValue(apiResp.ErrorTraceback)
-	model.Modified = types.StringPointerValue(apiResp.Modified)
-	model.Name = types.StringPointerValue(apiResp.Name)
-	model.ResourceType = types.StringPointerValue(apiResp.ResourceType)
-
-	{
-		listValRules, listDiagsRules := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
-			"cidr":         types.StringType,
-			"description":  types.StringType,
-			"direction":    types.StringType,
-			"ethertype":    types.StringType,
-			"from_port":    types.Int64Type,
-			"protocol":     types.StringType,
-			"remote_group": types.StringType,
-			"to_port":      types.Int64Type,
-		}}, apiResp.Rules)
-		diags.Append(listDiagsRules...)
-		model.Rules = listValRules
-	}
-	model.State = types.StringPointerValue(apiResp.State)
-	model.Tenant = types.StringPointerValue(apiResp.Tenant)
-	model.TenantName = types.StringPointerValue(apiResp.TenantName)
-	model.TenantUuid = types.StringPointerValue(apiResp.TenantUuid)
-	model.Url = types.StringPointerValue(apiResp.Url)
-
-	return diags
+	return model.CopyFrom(ctx, apiResp)
 }

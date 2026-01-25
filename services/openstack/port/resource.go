@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
-	"github.com/hashicorp/terraform-plugin-framework/attr"
+	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -36,36 +36,9 @@ type OpenstackPortResource struct {
 
 // OpenstackPortResourceModel describes the resource data model.
 type OpenstackPortResourceModel struct {
-	UUID                types.String   `tfsdk:"id"`
-	AccessUrl           types.String   `tfsdk:"access_url"`
-	AdminStateUp        types.Bool     `tfsdk:"admin_state_up"`
-	AllowedAddressPairs types.List     `tfsdk:"allowed_address_pairs"`
-	BackendId           types.String   `tfsdk:"backend_id"`
-	Created             types.String   `tfsdk:"created"`
-	Description         types.String   `tfsdk:"description"`
-	DeviceId            types.String   `tfsdk:"device_id"`
-	DeviceOwner         types.String   `tfsdk:"device_owner"`
-	ErrorMessage        types.String   `tfsdk:"error_message"`
-	ErrorTraceback      types.String   `tfsdk:"error_traceback"`
-	FixedIps            types.List     `tfsdk:"fixed_ips"`
-	FloatingIps         types.List     `tfsdk:"floating_ips"`
-	MacAddress          types.String   `tfsdk:"mac_address"`
-	Modified            types.String   `tfsdk:"modified"`
-	Name                types.String   `tfsdk:"name"`
-	Network             types.String   `tfsdk:"network"`
-	NetworkName         types.String   `tfsdk:"network_name"`
-	NetworkUuid         types.String   `tfsdk:"network_uuid"`
-	PortSecurityEnabled types.Bool     `tfsdk:"port_security_enabled"`
-	ResourceType        types.String   `tfsdk:"resource_type"`
-	SecurityGroups      types.List     `tfsdk:"security_groups"`
-	State               types.String   `tfsdk:"state"`
-	Status              types.String   `tfsdk:"status"`
-	TargetTenant        types.String   `tfsdk:"target_tenant"`
-	Tenant              types.String   `tfsdk:"tenant"`
-	TenantName          types.String   `tfsdk:"tenant_name"`
-	TenantUuid          types.String   `tfsdk:"tenant_uuid"`
-	Url                 types.String   `tfsdk:"url"`
-	Timeouts            timeouts.Value `tfsdk:"timeouts"`
+	OpenstackPortModel
+	TargetTenant types.String   `tfsdk:"target_tenant"`
+	Timeouts     timeouts.Value `tfsdk:"timeouts"`
 }
 
 func (r *OpenstackPortResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
@@ -125,7 +98,8 @@ func (r *OpenstackPortResource) Schema(ctx context.Context, req resource.SchemaR
 				MarkdownDescription: "Port ID in OpenStack",
 			},
 			"created": schema.StringAttribute{
-				Computed: true,
+				CustomType: timetypes.RFC3339Type{},
+				Computed:   true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
@@ -198,7 +172,8 @@ func (r *OpenstackPortResource) Schema(ctx context.Context, req resource.SchemaR
 				MarkdownDescription: "MAC address of the port",
 			},
 			"modified": schema.StringAttribute{
-				Computed: true,
+				CustomType: timetypes.RFC3339Type{},
+				Computed:   true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
@@ -402,7 +377,7 @@ func (r *OpenstackPortResource) Create(ctx context.Context, req resource.CreateR
 	}
 	apiResp = newResp
 
-	resp.Diagnostics.Append(r.mapResponseToModel(ctx, *apiResp, &data)...)
+	resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
@@ -433,7 +408,7 @@ func (r *OpenstackPortResource) Read(ctx context.Context, req resource.ReadReque
 		return
 	}
 
-	resp.Diagnostics.Append(r.mapResponseToModel(ctx, *apiResp, &data)...)
+	resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
 
 	// Save updated data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
@@ -488,7 +463,7 @@ func (r *OpenstackPortResource) Update(ctx context.Context, req resource.UpdateR
 	}
 	apiResp = newResp
 
-	resp.Diagnostics.Append(r.mapResponseToModel(ctx, *apiResp, &data)...)
+	resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
@@ -556,7 +531,7 @@ func (r *OpenstackPortResource) ImportState(ctx context.Context, req resource.Im
 	}
 
 	var data OpenstackPortResourceModel
-	resp.Diagnostics.Append(r.mapResponseToModel(ctx, *apiResp, &data)...)
+	resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
@@ -565,61 +540,5 @@ func (r *OpenstackPortResource) ImportState(ctx context.Context, req resource.Im
 }
 
 func (r *OpenstackPortResource) mapResponseToModel(ctx context.Context, apiResp OpenstackPortResponse, model *OpenstackPortResourceModel) diag.Diagnostics {
-	var diags diag.Diagnostics
-
-	model.UUID = types.StringPointerValue(apiResp.UUID)
-	model.AccessUrl = types.StringPointerValue(apiResp.AccessUrl)
-	model.AdminStateUp = types.BoolPointerValue(apiResp.AdminStateUp)
-
-	{
-		listValAllowedAddressPairs, listDiagsAllowedAddressPairs := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
-			"ip_address":  types.StringType,
-			"mac_address": types.StringType,
-		}}, apiResp.AllowedAddressPairs)
-		diags.Append(listDiagsAllowedAddressPairs...)
-		model.AllowedAddressPairs = listValAllowedAddressPairs
-	}
-	model.BackendId = types.StringPointerValue(apiResp.BackendId)
-	model.Created = types.StringPointerValue(apiResp.Created)
-	model.Description = types.StringPointerValue(apiResp.Description)
-	model.DeviceId = types.StringPointerValue(apiResp.DeviceId)
-	model.DeviceOwner = types.StringPointerValue(apiResp.DeviceOwner)
-	model.ErrorMessage = types.StringPointerValue(apiResp.ErrorMessage)
-	model.ErrorTraceback = types.StringPointerValue(apiResp.ErrorTraceback)
-
-	{
-		listValFixedIps, listDiagsFixedIps := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
-			"ip_address": types.StringType,
-			"subnet_id":  types.StringType,
-		}}, apiResp.FixedIps)
-		diags.Append(listDiagsFixedIps...)
-		model.FixedIps = listValFixedIps
-	}
-	listValFloatingIps, listDiagsFloatingIps := types.ListValueFrom(ctx, types.StringType, apiResp.FloatingIps)
-	model.FloatingIps = listValFloatingIps
-	diags.Append(listDiagsFloatingIps...)
-	model.MacAddress = types.StringPointerValue(apiResp.MacAddress)
-	model.Modified = types.StringPointerValue(apiResp.Modified)
-	model.Name = types.StringPointerValue(apiResp.Name)
-	model.Network = types.StringPointerValue(apiResp.Network)
-	model.NetworkName = types.StringPointerValue(apiResp.NetworkName)
-	model.NetworkUuid = types.StringPointerValue(apiResp.NetworkUuid)
-	model.PortSecurityEnabled = types.BoolPointerValue(apiResp.PortSecurityEnabled)
-	model.ResourceType = types.StringPointerValue(apiResp.ResourceType)
-
-	{
-		listValSecurityGroups, listDiagsSecurityGroups := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
-			"name": types.StringType,
-		}}, apiResp.SecurityGroups)
-		diags.Append(listDiagsSecurityGroups...)
-		model.SecurityGroups = listValSecurityGroups
-	}
-	model.State = types.StringPointerValue(apiResp.State)
-	model.Status = types.StringPointerValue(apiResp.Status)
-	model.Tenant = types.StringPointerValue(apiResp.Tenant)
-	model.TenantName = types.StringPointerValue(apiResp.TenantName)
-	model.TenantUuid = types.StringPointerValue(apiResp.TenantUuid)
-	model.Url = types.StringPointerValue(apiResp.Url)
-
-	return diags
+	return model.CopyFrom(ctx, apiResp)
 }

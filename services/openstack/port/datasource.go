@@ -4,10 +4,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
-	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/waldur/terraform-provider-waldur/internal/client"
@@ -21,61 +19,13 @@ func NewOpenstackPortDataSource() datasource.DataSource {
 	return &OpenstackPortDataSource{}
 }
 
-// OpenstackPortDataSource defines the data source implementation.
 type OpenstackPortDataSource struct {
 	client *Client
 }
 
-// OpenstackPortFiltersModel contains the filter parameters for querying.
-type OpenstackPortFiltersModel struct {
-	AdminStateUp       types.Bool   `tfsdk:"admin_state_up"`
-	BackendId          types.String `tfsdk:"backend_id"`
-	DeviceId           types.String `tfsdk:"device_id"`
-	DeviceOwner        types.String `tfsdk:"device_owner"`
-	ExcludeSubnetUuids types.String `tfsdk:"exclude_subnet_uuids"`
-	FixedIps           types.String `tfsdk:"fixed_ips"`
-	HasDeviceOwner     types.Bool   `tfsdk:"has_device_owner"`
-	MacAddress         types.String `tfsdk:"mac_address"`
-	Name               types.String `tfsdk:"name"`
-	NameExact          types.String `tfsdk:"name_exact"`
-	NetworkName        types.String `tfsdk:"network_name"`
-	NetworkUuid        types.String `tfsdk:"network_uuid"`
-	Query              types.String `tfsdk:"query"`
-	Status             types.String `tfsdk:"status"`
-	Tenant             types.String `tfsdk:"tenant"`
-	TenantUuid         types.String `tfsdk:"tenant_uuid"`
-}
-
 type OpenstackPortDataSourceModel struct {
-	UUID                types.String               `tfsdk:"id"`
-	Filters             *OpenstackPortFiltersModel `tfsdk:"filters"`
-	AccessUrl           types.String               `tfsdk:"access_url"`
-	AdminStateUp        types.Bool                 `tfsdk:"admin_state_up"`
-	AllowedAddressPairs types.List                 `tfsdk:"allowed_address_pairs"`
-	BackendId           types.String               `tfsdk:"backend_id"`
-	Created             types.String               `tfsdk:"created"`
-	Description         types.String               `tfsdk:"description"`
-	DeviceId            types.String               `tfsdk:"device_id"`
-	DeviceOwner         types.String               `tfsdk:"device_owner"`
-	ErrorMessage        types.String               `tfsdk:"error_message"`
-	ErrorTraceback      types.String               `tfsdk:"error_traceback"`
-	FixedIps            types.List                 `tfsdk:"fixed_ips"`
-	FloatingIps         types.List                 `tfsdk:"floating_ips"`
-	MacAddress          types.String               `tfsdk:"mac_address"`
-	Modified            types.String               `tfsdk:"modified"`
-	Name                types.String               `tfsdk:"name"`
-	Network             types.String               `tfsdk:"network"`
-	NetworkName         types.String               `tfsdk:"network_name"`
-	NetworkUuid         types.String               `tfsdk:"network_uuid"`
-	PortSecurityEnabled types.Bool                 `tfsdk:"port_security_enabled"`
-	ResourceType        types.String               `tfsdk:"resource_type"`
-	SecurityGroups      types.List                 `tfsdk:"security_groups"`
-	State               types.String               `tfsdk:"state"`
-	Status              types.String               `tfsdk:"status"`
-	Tenant              types.String               `tfsdk:"tenant"`
-	TenantName          types.String               `tfsdk:"tenant_name"`
-	TenantUuid          types.String               `tfsdk:"tenant_uuid"`
-	Url                 types.String               `tfsdk:"url"`
+	OpenstackPortModel
+	Filters *OpenstackPortFiltersModel `tfsdk:"filters"`
 }
 
 func (d *OpenstackPortDataSource) Metadata(ctx context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
@@ -346,7 +296,7 @@ func (d *OpenstackPortDataSource) Read(ctx context.Context, req datasource.ReadR
 			return
 		}
 
-		resp.Diagnostics.Append(d.mapResponseToModel(ctx, *apiResp, &data)...)
+		resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
 
 	} else {
 		filters := common.BuildQueryFilters(data.Filters)
@@ -385,69 +335,9 @@ func (d *OpenstackPortDataSource) Read(ctx context.Context, req datasource.ReadR
 			return
 		}
 
-		resp.Diagnostics.Append(d.mapResponseToModel(ctx, results[0], &data)...)
+		resp.Diagnostics.Append(data.CopyFrom(ctx, results[0])...)
 	}
 
 	// Save data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
-}
-
-func (d *OpenstackPortDataSource) mapResponseToModel(ctx context.Context, apiResp OpenstackPortResponse, model *OpenstackPortDataSourceModel) diag.Diagnostics {
-	var diags diag.Diagnostics
-
-	model.UUID = types.StringPointerValue(apiResp.UUID)
-	model.AccessUrl = types.StringPointerValue(apiResp.AccessUrl)
-	model.AdminStateUp = types.BoolPointerValue(apiResp.AdminStateUp)
-
-	{
-		listValAllowedAddressPairs, listDiagsAllowedAddressPairs := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
-			"mac_address": types.StringType,
-		}}, apiResp.AllowedAddressPairs)
-		diags.Append(listDiagsAllowedAddressPairs...)
-		model.AllowedAddressPairs = listValAllowedAddressPairs
-	}
-	model.BackendId = types.StringPointerValue(apiResp.BackendId)
-	model.Created = types.StringPointerValue(apiResp.Created)
-	model.Description = types.StringPointerValue(apiResp.Description)
-	model.DeviceId = types.StringPointerValue(apiResp.DeviceId)
-	model.DeviceOwner = types.StringPointerValue(apiResp.DeviceOwner)
-	model.ErrorMessage = types.StringPointerValue(apiResp.ErrorMessage)
-	model.ErrorTraceback = types.StringPointerValue(apiResp.ErrorTraceback)
-
-	{
-		listValFixedIps, listDiagsFixedIps := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
-			"ip_address": types.StringType,
-			"subnet_id":  types.StringType,
-		}}, apiResp.FixedIps)
-		diags.Append(listDiagsFixedIps...)
-		model.FixedIps = listValFixedIps
-	}
-	listValFloatingIps, listDiagsFloatingIps := types.ListValueFrom(ctx, types.StringType, apiResp.FloatingIps)
-	model.FloatingIps = listValFloatingIps
-	diags.Append(listDiagsFloatingIps...)
-	model.MacAddress = types.StringPointerValue(apiResp.MacAddress)
-	model.Modified = types.StringPointerValue(apiResp.Modified)
-	model.Name = types.StringPointerValue(apiResp.Name)
-	model.Network = types.StringPointerValue(apiResp.Network)
-	model.NetworkName = types.StringPointerValue(apiResp.NetworkName)
-	model.NetworkUuid = types.StringPointerValue(apiResp.NetworkUuid)
-	model.PortSecurityEnabled = types.BoolPointerValue(apiResp.PortSecurityEnabled)
-	model.ResourceType = types.StringPointerValue(apiResp.ResourceType)
-
-	{
-		listValSecurityGroups, listDiagsSecurityGroups := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
-			"name": types.StringType,
-			"url":  types.StringType,
-		}}, apiResp.SecurityGroups)
-		diags.Append(listDiagsSecurityGroups...)
-		model.SecurityGroups = listValSecurityGroups
-	}
-	model.State = types.StringPointerValue(apiResp.State)
-	model.Status = types.StringPointerValue(apiResp.Status)
-	model.Tenant = types.StringPointerValue(apiResp.Tenant)
-	model.TenantName = types.StringPointerValue(apiResp.TenantName)
-	model.TenantUuid = types.StringPointerValue(apiResp.TenantUuid)
-	model.Url = types.StringPointerValue(apiResp.Url)
-
-	return diags
 }

@@ -70,7 +70,6 @@ Optional:
 - `runtime_state` (String) Runtime state
 - `service_settings_name` (String) Service settings name
 - `service_settings_uuid` (String) Service settings UUID
-- `state` (String) State Allowed values: `CREATING`, `CREATION_SCHEDULED`, `DELETING`, `DELETION_SCHEDULED`, `ERRED`, `OK`, `UPDATE_SCHEDULED`, `UPDATING`.
 - `tenant` (String) Tenant URL
 - `tenant_uuid` (String) Tenant UUID
 - `uuid` (String) UUID

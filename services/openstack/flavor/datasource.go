@@ -6,8 +6,6 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
-	"github.com/hashicorp/terraform-plugin-framework/diag"
-	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/waldur/terraform-provider-waldur/internal/client"
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
@@ -20,43 +18,13 @@ func NewOpenstackFlavorDataSource() datasource.DataSource {
 	return &OpenstackFlavorDataSource{}
 }
 
-// OpenstackFlavorDataSource defines the data source implementation.
 type OpenstackFlavorDataSource struct {
 	client *Client
 }
 
-// OpenstackFlavorFiltersModel contains the filter parameters for querying.
-type OpenstackFlavorFiltersModel struct {
-	Cores        types.Int64  `tfsdk:"cores"`
-	CoresGte     types.Int64  `tfsdk:"cores__gte"`
-	CoresLte     types.Int64  `tfsdk:"cores__lte"`
-	Disk         types.Int64  `tfsdk:"disk"`
-	DiskGte      types.Int64  `tfsdk:"disk__gte"`
-	DiskLte      types.Int64  `tfsdk:"disk__lte"`
-	Name         types.String `tfsdk:"name"`
-	NameExact    types.String `tfsdk:"name_exact"`
-	NameIregex   types.String `tfsdk:"name_iregex"`
-	OfferingUuid types.String `tfsdk:"offering_uuid"`
-	Ram          types.Int64  `tfsdk:"ram"`
-	RamGte       types.Int64  `tfsdk:"ram__gte"`
-	RamLte       types.Int64  `tfsdk:"ram__lte"`
-	Settings     types.String `tfsdk:"settings"`
-	SettingsUuid types.String `tfsdk:"settings_uuid"`
-	Tenant       types.String `tfsdk:"tenant"`
-	TenantUuid   types.String `tfsdk:"tenant_uuid"`
-}
-
 type OpenstackFlavorDataSourceModel struct {
-	UUID        types.String                 `tfsdk:"id"`
-	Filters     *OpenstackFlavorFiltersModel `tfsdk:"filters"`
-	BackendId   types.String                 `tfsdk:"backend_id"`
-	Cores       types.Int64                  `tfsdk:"cores"`
-	Disk        types.Int64                  `tfsdk:"disk"`
-	DisplayName types.String                 `tfsdk:"display_name"`
-	Name        types.String                 `tfsdk:"name"`
-	Ram         types.Int64                  `tfsdk:"ram"`
-	Settings    types.String                 `tfsdk:"settings"`
-	Url         types.String                 `tfsdk:"url"`
+	OpenstackFlavorModel
+	Filters *OpenstackFlavorFiltersModel `tfsdk:"filters"`
 }
 
 func (d *OpenstackFlavorDataSource) Metadata(ctx context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
@@ -222,7 +190,7 @@ func (d *OpenstackFlavorDataSource) Read(ctx context.Context, req datasource.Rea
 			return
 		}
 
-		resp.Diagnostics.Append(d.mapResponseToModel(ctx, *apiResp, &data)...)
+		resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
 
 	} else {
 		filters := common.BuildQueryFilters(data.Filters)
@@ -261,25 +229,9 @@ func (d *OpenstackFlavorDataSource) Read(ctx context.Context, req datasource.Rea
 			return
 		}
 
-		resp.Diagnostics.Append(d.mapResponseToModel(ctx, results[0], &data)...)
+		resp.Diagnostics.Append(data.CopyFrom(ctx, results[0])...)
 	}
 
 	// Save data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
-}
-
-func (d *OpenstackFlavorDataSource) mapResponseToModel(ctx context.Context, apiResp OpenstackFlavorResponse, model *OpenstackFlavorDataSourceModel) diag.Diagnostics {
-	var diags diag.Diagnostics
-
-	model.UUID = types.StringPointerValue(apiResp.UUID)
-	model.BackendId = types.StringPointerValue(apiResp.BackendId)
-	model.Cores = types.Int64PointerValue(apiResp.Cores)
-	model.Disk = types.Int64PointerValue(apiResp.Disk)
-	model.DisplayName = types.StringPointerValue(apiResp.DisplayName)
-	model.Name = types.StringPointerValue(apiResp.Name)
-	model.Ram = types.Int64PointerValue(apiResp.Ram)
-	model.Settings = types.StringPointerValue(apiResp.Settings)
-	model.Url = types.StringPointerValue(apiResp.Url)
-
-	return diags
 }

@@ -1,0 +1,114 @@
+package server_group
+
+import (
+	"context"
+
+	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
+	"github.com/hashicorp/terraform-plugin-framework/attr"
+	"github.com/hashicorp/terraform-plugin-framework/diag"
+	"github.com/hashicorp/terraform-plugin-framework/types"
+)
+
+// OpenstackServerGroupFiltersModel contains the filter parameters for querying.
+type OpenstackServerGroupFiltersModel struct {
+	BackendId            types.String `tfsdk:"backend_id"`
+	CanManage            types.Bool   `tfsdk:"can_manage"`
+	Customer             types.String `tfsdk:"customer"`
+	CustomerAbbreviation types.String `tfsdk:"customer_abbreviation"`
+	CustomerName         types.String `tfsdk:"customer_name"`
+	CustomerNativeName   types.String `tfsdk:"customer_native_name"`
+	CustomerUuid         types.String `tfsdk:"customer_uuid"`
+	Description          types.String `tfsdk:"description"`
+	ExternalIp           types.String `tfsdk:"external_ip"`
+	Name                 types.String `tfsdk:"name"`
+	NameExact            types.String `tfsdk:"name_exact"`
+	Project              types.String `tfsdk:"project"`
+	ProjectName          types.String `tfsdk:"project_name"`
+	ProjectUuid          types.String `tfsdk:"project_uuid"`
+	ServiceSettingsName  types.String `tfsdk:"service_settings_name"`
+	ServiceSettingsUuid  types.String `tfsdk:"service_settings_uuid"`
+	Tenant               types.String `tfsdk:"tenant"`
+	TenantUuid           types.String `tfsdk:"tenant_uuid"`
+	Uuid                 types.String `tfsdk:"uuid"`
+}
+
+type OpenstackServerGroupModel struct {
+	UUID                        types.String      `tfsdk:"id"`
+	AccessUrl                   types.String      `tfsdk:"access_url"`
+	BackendId                   types.String      `tfsdk:"backend_id"`
+	Created                     timetypes.RFC3339 `tfsdk:"created"`
+	Customer                    types.String      `tfsdk:"customer"`
+	CustomerAbbreviation        types.String      `tfsdk:"customer_abbreviation"`
+	CustomerName                types.String      `tfsdk:"customer_name"`
+	CustomerNativeName          types.String      `tfsdk:"customer_native_name"`
+	CustomerUuid                types.String      `tfsdk:"customer_uuid"`
+	Description                 types.String      `tfsdk:"description"`
+	DisplayName                 types.String      `tfsdk:"display_name"`
+	ErrorMessage                types.String      `tfsdk:"error_message"`
+	ErrorTraceback              types.String      `tfsdk:"error_traceback"`
+	Instances                   types.List        `tfsdk:"instances"`
+	IsLimitBased                types.Bool        `tfsdk:"is_limit_based"`
+	IsUsageBased                types.Bool        `tfsdk:"is_usage_based"`
+	MarketplaceCategoryName     types.String      `tfsdk:"marketplace_category_name"`
+	MarketplaceCategoryUuid     types.String      `tfsdk:"marketplace_category_uuid"`
+	MarketplaceOfferingName     types.String      `tfsdk:"marketplace_offering_name"`
+	MarketplaceOfferingUuid     types.String      `tfsdk:"marketplace_offering_uuid"`
+	MarketplacePlanUuid         types.String      `tfsdk:"marketplace_plan_uuid"`
+	MarketplaceResourceState    types.String      `tfsdk:"marketplace_resource_state"`
+	MarketplaceResourceUuid     types.String      `tfsdk:"marketplace_resource_uuid"`
+	Modified                    timetypes.RFC3339 `tfsdk:"modified"`
+	Name                        types.String      `tfsdk:"name"`
+	Policy                      types.String      `tfsdk:"policy"`
+	Project                     types.String      `tfsdk:"project"`
+	ProjectName                 types.String      `tfsdk:"project_name"`
+	ProjectUuid                 types.String      `tfsdk:"project_uuid"`
+	ResourceType                types.String      `tfsdk:"resource_type"`
+	ServiceName                 types.String      `tfsdk:"service_name"`
+	ServiceSettings             types.String      `tfsdk:"service_settings"`
+	ServiceSettingsErrorMessage types.String      `tfsdk:"service_settings_error_message"`
+	ServiceSettingsState        types.String      `tfsdk:"service_settings_state"`
+	ServiceSettingsUuid         types.String      `tfsdk:"service_settings_uuid"`
+	State                       types.String      `tfsdk:"state"`
+	Tenant                      types.String      `tfsdk:"tenant"`
+	TenantName                  types.String      `tfsdk:"tenant_name"`
+	TenantUuid                  types.String      `tfsdk:"tenant_uuid"`
+	Url                         types.String      `tfsdk:"url"`
+}
+
+// CopyFrom maps the API response to the model fields.
+func (model *OpenstackServerGroupModel) CopyFrom(ctx context.Context, apiResp OpenstackServerGroupResponse) diag.Diagnostics {
+	var diags diag.Diagnostics
+
+	model.UUID = types.StringPointerValue(apiResp.UUID)
+	model.AccessUrl = types.StringPointerValue(apiResp.AccessUrl)
+	model.BackendId = types.StringPointerValue(apiResp.BackendId)
+	valCreated, diagsCreated := timetypes.NewRFC3339PointerValue(apiResp.Created)
+	diags.Append(diagsCreated...)
+	model.Created = valCreated
+	model.Description = types.StringPointerValue(apiResp.Description)
+	model.DisplayName = types.StringPointerValue(apiResp.DisplayName)
+	model.ErrorMessage = types.StringPointerValue(apiResp.ErrorMessage)
+	model.ErrorTraceback = types.StringPointerValue(apiResp.ErrorTraceback)
+
+	{
+		listValInstances, listDiagsInstances := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+			"backend_id": types.StringType,
+			"name":       types.StringType,
+		}}, apiResp.Instances)
+		diags.Append(listDiagsInstances...)
+		model.Instances = listValInstances
+	}
+	valModified, diagsModified := timetypes.NewRFC3339PointerValue(apiResp.Modified)
+	diags.Append(diagsModified...)
+	model.Modified = valModified
+	model.Name = types.StringPointerValue(apiResp.Name)
+	model.Policy = types.StringPointerValue(apiResp.Policy)
+	model.ResourceType = types.StringPointerValue(apiResp.ResourceType)
+	model.State = types.StringPointerValue(apiResp.State)
+	model.Tenant = types.StringPointerValue(apiResp.Tenant)
+	model.TenantName = types.StringPointerValue(apiResp.TenantName)
+	model.TenantUuid = types.StringPointerValue(apiResp.TenantUuid)
+	model.Url = types.StringPointerValue(apiResp.Url)
+
+	return diags
+}

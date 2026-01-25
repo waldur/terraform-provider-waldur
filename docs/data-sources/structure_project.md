@@ -58,7 +58,6 @@ Optional:
 - `can_manage` (Boolean) Return a list of projects where current user is manager or a customer owner.
 - `conceal_finished_projects` (Boolean) Conceal finished projects
 - `created` (String) Created after
-- `customer` (String) Multiple values may be separated by commas.
 - `customer_abbreviation` (String) Customer abbreviation
 - `customer_name` (String) Customer name
 - `customer_native_name` (String) Customer native name

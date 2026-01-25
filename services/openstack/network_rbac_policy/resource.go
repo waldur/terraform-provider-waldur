@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
+	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
@@ -34,16 +35,8 @@ type OpenstackNetworkRbacPolicyResource struct {
 
 // OpenstackNetworkRbacPolicyResourceModel describes the resource data model.
 type OpenstackNetworkRbacPolicyResourceModel struct {
-	UUID             types.String   `tfsdk:"id"`
-	BackendId        types.String   `tfsdk:"backend_id"`
-	Created          types.String   `tfsdk:"created"`
-	Network          types.String   `tfsdk:"network"`
-	NetworkName      types.String   `tfsdk:"network_name"`
-	PolicyType       types.String   `tfsdk:"policy_type"`
-	TargetTenant     types.String   `tfsdk:"target_tenant"`
-	TargetTenantName types.String   `tfsdk:"target_tenant_name"`
-	Url              types.String   `tfsdk:"url"`
-	Timeouts         timeouts.Value `tfsdk:"timeouts"`
+	OpenstackNetworkRbacPolicyModel
+	Timeouts timeouts.Value `tfsdk:"timeouts"`
 }
 
 func (r *OpenstackNetworkRbacPolicyResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
@@ -70,7 +63,8 @@ func (r *OpenstackNetworkRbacPolicyResource) Schema(ctx context.Context, req res
 				MarkdownDescription: "ID of the backend",
 			},
 			"created": schema.StringAttribute{
-				Computed: true,
+				CustomType: timetypes.RFC3339Type{},
+				Computed:   true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
@@ -196,7 +190,7 @@ func (r *OpenstackNetworkRbacPolicyResource) Create(ctx context.Context, req res
 	}
 	apiResp = newResp
 
-	resp.Diagnostics.Append(r.mapResponseToModel(ctx, *apiResp, &data)...)
+	resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
@@ -264,7 +258,7 @@ func (r *OpenstackNetworkRbacPolicyResource) Read(ctx context.Context, req resou
 		return
 	}
 
-	resp.Diagnostics.Append(r.mapResponseToModel(ctx, *apiResp, &data)...)
+	resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
 
 	// Save updated data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
@@ -309,7 +303,7 @@ func (r *OpenstackNetworkRbacPolicyResource) Update(ctx context.Context, req res
 	}
 	apiResp = newResp
 
-	resp.Diagnostics.Append(r.mapResponseToModel(ctx, *apiResp, &data)...)
+	resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
@@ -362,17 +356,5 @@ func (r *OpenstackNetworkRbacPolicyResource) ImportState(ctx context.Context, re
 }
 
 func (r *OpenstackNetworkRbacPolicyResource) mapResponseToModel(ctx context.Context, apiResp OpenstackNetworkRbacPolicyResponse, model *OpenstackNetworkRbacPolicyResourceModel) diag.Diagnostics {
-	var diags diag.Diagnostics
-
-	model.UUID = types.StringPointerValue(apiResp.UUID)
-	model.BackendId = types.StringPointerValue(apiResp.BackendId)
-	model.Created = types.StringPointerValue(apiResp.Created)
-	model.Network = types.StringPointerValue(apiResp.Network)
-	model.NetworkName = types.StringPointerValue(apiResp.NetworkName)
-	model.PolicyType = types.StringPointerValue(apiResp.PolicyType)
-	model.TargetTenant = types.StringPointerValue(apiResp.TargetTenant)
-	model.TargetTenantName = types.StringPointerValue(apiResp.TargetTenantName)
-	model.Url = types.StringPointerValue(apiResp.Url)
-
-	return diags
+	return model.CopyFrom(ctx, apiResp)
 }

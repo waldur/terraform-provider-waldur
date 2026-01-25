@@ -6,8 +6,6 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
-	"github.com/hashicorp/terraform-plugin-framework/diag"
-	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/waldur/terraform-provider-waldur/internal/client"
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
@@ -20,29 +18,13 @@ func NewOpenstackVolumeTypeDataSource() datasource.DataSource {
 	return &OpenstackVolumeTypeDataSource{}
 }
 
-// OpenstackVolumeTypeDataSource defines the data source implementation.
 type OpenstackVolumeTypeDataSource struct {
 	client *Client
 }
 
-// OpenstackVolumeTypeFiltersModel contains the filter parameters for querying.
-type OpenstackVolumeTypeFiltersModel struct {
-	Name         types.String `tfsdk:"name"`
-	NameExact    types.String `tfsdk:"name_exact"`
-	OfferingUuid types.String `tfsdk:"offering_uuid"`
-	Settings     types.String `tfsdk:"settings"`
-	SettingsUuid types.String `tfsdk:"settings_uuid"`
-	Tenant       types.String `tfsdk:"tenant"`
-	TenantUuid   types.String `tfsdk:"tenant_uuid"`
-}
-
 type OpenstackVolumeTypeDataSourceModel struct {
-	UUID        types.String                     `tfsdk:"id"`
-	Filters     *OpenstackVolumeTypeFiltersModel `tfsdk:"filters"`
-	Description types.String                     `tfsdk:"description"`
-	Name        types.String                     `tfsdk:"name"`
-	Settings    types.String                     `tfsdk:"settings"`
-	Url         types.String                     `tfsdk:"url"`
+	OpenstackVolumeTypeModel
+	Filters *OpenstackVolumeTypeFiltersModel `tfsdk:"filters"`
 }
 
 func (d *OpenstackVolumeTypeDataSource) Metadata(ctx context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
@@ -152,7 +134,7 @@ func (d *OpenstackVolumeTypeDataSource) Read(ctx context.Context, req datasource
 			return
 		}
 
-		resp.Diagnostics.Append(d.mapResponseToModel(ctx, *apiResp, &data)...)
+		resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
 
 	} else {
 		filters := common.BuildQueryFilters(data.Filters)
@@ -191,21 +173,9 @@ func (d *OpenstackVolumeTypeDataSource) Read(ctx context.Context, req datasource
 			return
 		}
 
-		resp.Diagnostics.Append(d.mapResponseToModel(ctx, results[0], &data)...)
+		resp.Diagnostics.Append(data.CopyFrom(ctx, results[0])...)
 	}
 
 	// Save data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
-}
-
-func (d *OpenstackVolumeTypeDataSource) mapResponseToModel(ctx context.Context, apiResp OpenstackVolumeTypeResponse, model *OpenstackVolumeTypeDataSourceModel) diag.Diagnostics {
-	var diags diag.Diagnostics
-
-	model.UUID = types.StringPointerValue(apiResp.UUID)
-	model.Description = types.StringPointerValue(apiResp.Description)
-	model.Name = types.StringPointerValue(apiResp.Name)
-	model.Settings = types.StringPointerValue(apiResp.Settings)
-	model.Url = types.StringPointerValue(apiResp.Url)
-
-	return diags
 }

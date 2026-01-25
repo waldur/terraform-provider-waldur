@@ -17,6 +17,13 @@ description: |-
 
 ### Optional
 
+- `filters` (Attributes) Filter parameters for querying Openstack Tenant (see [below for nested schema](#nestedatt--filters))
+
+<a id="nestedatt--filters"></a>
+### Nested Schema for `filters`
+
+Optional:
+
 - `backend_id` (String) Backend ID
 - `can_manage` (Boolean) Can manage
 - `customer` (String) Customer UUID

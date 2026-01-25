@@ -7,9 +7,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
-	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
-	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/waldur/terraform-provider-waldur/internal/client"
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
@@ -22,33 +20,13 @@ func NewOpenstackNetworkRbacPolicyDataSource() datasource.DataSource {
 	return &OpenstackNetworkRbacPolicyDataSource{}
 }
 
-// OpenstackNetworkRbacPolicyDataSource defines the data source implementation.
 type OpenstackNetworkRbacPolicyDataSource struct {
 	client *Client
 }
 
-// OpenstackNetworkRbacPolicyFiltersModel contains the filter parameters for querying.
-type OpenstackNetworkRbacPolicyFiltersModel struct {
-	Network          types.String `tfsdk:"network"`
-	NetworkUuid      types.String `tfsdk:"network_uuid"`
-	PolicyType       types.String `tfsdk:"policy_type"`
-	TargetTenant     types.String `tfsdk:"target_tenant"`
-	TargetTenantUuid types.String `tfsdk:"target_tenant_uuid"`
-	Tenant           types.String `tfsdk:"tenant"`
-	TenantUuid       types.String `tfsdk:"tenant_uuid"`
-}
-
 type OpenstackNetworkRbacPolicyDataSourceModel struct {
-	UUID             types.String                            `tfsdk:"id"`
-	Filters          *OpenstackNetworkRbacPolicyFiltersModel `tfsdk:"filters"`
-	BackendId        types.String                            `tfsdk:"backend_id"`
-	Created          types.String                            `tfsdk:"created"`
-	Network          types.String                            `tfsdk:"network"`
-	NetworkName      types.String                            `tfsdk:"network_name"`
-	PolicyType       types.String                            `tfsdk:"policy_type"`
-	TargetTenant     types.String                            `tfsdk:"target_tenant"`
-	TargetTenantName types.String                            `tfsdk:"target_tenant_name"`
-	Url              types.String                            `tfsdk:"url"`
+	OpenstackNetworkRbacPolicyModel
+	Filters *OpenstackNetworkRbacPolicyFiltersModel `tfsdk:"filters"`
 }
 
 func (d *OpenstackNetworkRbacPolicyDataSource) Metadata(ctx context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
@@ -177,7 +155,7 @@ func (d *OpenstackNetworkRbacPolicyDataSource) Read(ctx context.Context, req dat
 			return
 		}
 
-		resp.Diagnostics.Append(d.mapResponseToModel(ctx, *apiResp, &data)...)
+		resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
 
 	} else {
 		filters := common.BuildQueryFilters(data.Filters)
@@ -216,25 +194,9 @@ func (d *OpenstackNetworkRbacPolicyDataSource) Read(ctx context.Context, req dat
 			return
 		}
 
-		resp.Diagnostics.Append(d.mapResponseToModel(ctx, results[0], &data)...)
+		resp.Diagnostics.Append(data.CopyFrom(ctx, results[0])...)
 	}
 
 	// Save data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
-}
-
-func (d *OpenstackNetworkRbacPolicyDataSource) mapResponseToModel(ctx context.Context, apiResp OpenstackNetworkRbacPolicyResponse, model *OpenstackNetworkRbacPolicyDataSourceModel) diag.Diagnostics {
-	var diags diag.Diagnostics
-
-	model.UUID = types.StringPointerValue(apiResp.UUID)
-	model.BackendId = types.StringPointerValue(apiResp.BackendId)
-	model.Created = types.StringPointerValue(apiResp.Created)
-	model.Network = types.StringPointerValue(apiResp.Network)
-	model.NetworkName = types.StringPointerValue(apiResp.NetworkName)
-	model.PolicyType = types.StringPointerValue(apiResp.PolicyType)
-	model.TargetTenant = types.StringPointerValue(apiResp.TargetTenant)
-	model.TargetTenantName = types.StringPointerValue(apiResp.TargetTenantName)
-	model.Url = types.StringPointerValue(apiResp.Url)
-
-	return diags
 }

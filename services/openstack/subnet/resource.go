@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
-	"github.com/hashicorp/terraform-plugin-framework/attr"
+	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -36,32 +36,8 @@ type OpenstackSubnetResource struct {
 
 // OpenstackSubnetResourceModel describes the resource data model.
 type OpenstackSubnetResourceModel struct {
-	UUID            types.String   `tfsdk:"id"`
-	AccessUrl       types.String   `tfsdk:"access_url"`
-	AllocationPools types.List     `tfsdk:"allocation_pools"`
-	BackendId       types.String   `tfsdk:"backend_id"`
-	Cidr            types.String   `tfsdk:"cidr"`
-	Created         types.String   `tfsdk:"created"`
-	Description     types.String   `tfsdk:"description"`
-	DisableGateway  types.Bool     `tfsdk:"disable_gateway"`
-	DnsNameservers  types.List     `tfsdk:"dns_nameservers"`
-	EnableDhcp      types.Bool     `tfsdk:"enable_dhcp"`
-	ErrorMessage    types.String   `tfsdk:"error_message"`
-	ErrorTraceback  types.String   `tfsdk:"error_traceback"`
-	GatewayIp       types.String   `tfsdk:"gateway_ip"`
-	HostRoutes      types.List     `tfsdk:"host_routes"`
-	IpVersion       types.Int64    `tfsdk:"ip_version"`
-	IsConnected     types.Bool     `tfsdk:"is_connected"`
-	Modified        types.String   `tfsdk:"modified"`
-	Name            types.String   `tfsdk:"name"`
-	Network         types.String   `tfsdk:"network"`
-	NetworkName     types.String   `tfsdk:"network_name"`
-	ResourceType    types.String   `tfsdk:"resource_type"`
-	State           types.String   `tfsdk:"state"`
-	Tenant          types.String   `tfsdk:"tenant"`
-	TenantName      types.String   `tfsdk:"tenant_name"`
-	Url             types.String   `tfsdk:"url"`
-	Timeouts        timeouts.Value `tfsdk:"timeouts"`
+	OpenstackSubnetModel
+	Timeouts timeouts.Value `tfsdk:"timeouts"`
 }
 
 func (r *OpenstackSubnetResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
@@ -115,7 +91,8 @@ func (r *OpenstackSubnetResource) Schema(ctx context.Context, req resource.Schem
 				MarkdownDescription: "Cidr",
 			},
 			"created": schema.StringAttribute{
-				Computed: true,
+				CustomType: timetypes.RFC3339Type{},
+				Computed:   true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
@@ -190,7 +167,8 @@ func (r *OpenstackSubnetResource) Schema(ctx context.Context, req resource.Schem
 				MarkdownDescription: "Is subnet connected to the default tenant router.",
 			},
 			"modified": schema.StringAttribute{
-				Computed: true,
+				CustomType: timetypes.RFC3339Type{},
+				Computed:   true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
@@ -349,7 +327,7 @@ func (r *OpenstackSubnetResource) Create(ctx context.Context, req resource.Creat
 	}
 	apiResp = newResp
 
-	resp.Diagnostics.Append(r.mapResponseToModel(ctx, *apiResp, &data)...)
+	resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
@@ -380,7 +358,7 @@ func (r *OpenstackSubnetResource) Read(ctx context.Context, req resource.ReadReq
 		return
 	}
 
-	resp.Diagnostics.Append(r.mapResponseToModel(ctx, *apiResp, &data)...)
+	resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
 
 	// Save updated data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
@@ -457,7 +435,7 @@ func (r *OpenstackSubnetResource) Update(ctx context.Context, req resource.Updat
 	}
 	apiResp = newResp
 
-	resp.Diagnostics.Append(r.mapResponseToModel(ctx, *apiResp, &data)...)
+	resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
@@ -525,7 +503,7 @@ func (r *OpenstackSubnetResource) ImportState(ctx context.Context, req resource.
 	}
 
 	var data OpenstackSubnetResourceModel
-	resp.Diagnostics.Append(r.mapResponseToModel(ctx, *apiResp, &data)...)
+	resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
@@ -534,51 +512,5 @@ func (r *OpenstackSubnetResource) ImportState(ctx context.Context, req resource.
 }
 
 func (r *OpenstackSubnetResource) mapResponseToModel(ctx context.Context, apiResp OpenstackSubnetResponse, model *OpenstackSubnetResourceModel) diag.Diagnostics {
-	var diags diag.Diagnostics
-
-	model.UUID = types.StringPointerValue(apiResp.UUID)
-	model.AccessUrl = types.StringPointerValue(apiResp.AccessUrl)
-
-	{
-		listValAllocationPools, listDiagsAllocationPools := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
-			"end":   types.StringType,
-			"start": types.StringType,
-		}}, apiResp.AllocationPools)
-		diags.Append(listDiagsAllocationPools...)
-		model.AllocationPools = listValAllocationPools
-	}
-	model.BackendId = types.StringPointerValue(apiResp.BackendId)
-	model.Cidr = types.StringPointerValue(apiResp.Cidr)
-	model.Created = types.StringPointerValue(apiResp.Created)
-	model.Description = types.StringPointerValue(apiResp.Description)
-	model.DisableGateway = types.BoolPointerValue(apiResp.DisableGateway)
-	listValDnsNameservers, listDiagsDnsNameservers := types.ListValueFrom(ctx, types.StringType, apiResp.DnsNameservers)
-	model.DnsNameservers = listValDnsNameservers
-	diags.Append(listDiagsDnsNameservers...)
-	model.EnableDhcp = types.BoolPointerValue(apiResp.EnableDhcp)
-	model.ErrorMessage = types.StringPointerValue(apiResp.ErrorMessage)
-	model.ErrorTraceback = types.StringPointerValue(apiResp.ErrorTraceback)
-	model.GatewayIp = types.StringPointerValue(apiResp.GatewayIp)
-
-	{
-		listValHostRoutes, listDiagsHostRoutes := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
-			"destination": types.StringType,
-			"nexthop":     types.StringType,
-		}}, apiResp.HostRoutes)
-		diags.Append(listDiagsHostRoutes...)
-		model.HostRoutes = listValHostRoutes
-	}
-	model.IpVersion = types.Int64PointerValue(apiResp.IpVersion)
-	model.IsConnected = types.BoolPointerValue(apiResp.IsConnected)
-	model.Modified = types.StringPointerValue(apiResp.Modified)
-	model.Name = types.StringPointerValue(apiResp.Name)
-	model.Network = types.StringPointerValue(apiResp.Network)
-	model.NetworkName = types.StringPointerValue(apiResp.NetworkName)
-	model.ResourceType = types.StringPointerValue(apiResp.ResourceType)
-	model.State = types.StringPointerValue(apiResp.State)
-	model.Tenant = types.StringPointerValue(apiResp.Tenant)
-	model.TenantName = types.StringPointerValue(apiResp.TenantName)
-	model.Url = types.StringPointerValue(apiResp.Url)
-
-	return diags
+	return model.CopyFrom(ctx, apiResp)
 }

@@ -4,14 +4,13 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/list"
 	"github.com/hashicorp/terraform-plugin-framework/list/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
-	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/waldur/terraform-provider-waldur/internal/client"
+	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
 var _ list.ListResource = &OpenstackSecurityGroupList{}
@@ -31,93 +30,99 @@ func (l *OpenstackSecurityGroupList) Metadata(ctx context.Context, req resource.
 func (l *OpenstackSecurityGroupList) ListResourceConfigSchema(ctx context.Context, req list.ListResourceSchemaRequest, resp *list.ListResourceSchemaResponse) {
 	resp.Schema = schema.Schema{
 		Attributes: map[string]schema.Attribute{
-			"backend_id": schema.StringAttribute{
-				Description: "Backend ID",
+			"filters": schema.SingleNestedAttribute{
 				Optional:    true,
-			},
-			"can_manage": schema.BoolAttribute{
-				Description: "Can manage",
-				Optional:    true,
-			},
-			"customer": schema.StringAttribute{
-				Description: "Customer UUID",
-				Optional:    true,
-			},
-			"customer_abbreviation": schema.StringAttribute{
-				Description: "Customer abbreviation",
-				Optional:    true,
-			},
-			"customer_name": schema.StringAttribute{
-				Description: "Customer name",
-				Optional:    true,
-			},
-			"customer_native_name": schema.StringAttribute{
-				Description: "Customer native name",
-				Optional:    true,
-			},
-			"customer_uuid": schema.StringAttribute{
-				Description: "Customer UUID",
-				Optional:    true,
-			},
-			"description": schema.StringAttribute{
-				Description: "Description",
-				Optional:    true,
-			},
-			"external_ip": schema.StringAttribute{
-				Description: "External IP",
-				Optional:    true,
-			},
-			"name": schema.StringAttribute{
-				Description: "Name",
-				Optional:    true,
-			},
-			"name_exact": schema.StringAttribute{
-				Description: "Name (exact)",
-				Optional:    true,
-			},
-			"page": schema.Int64Attribute{
-				Description: "A page number within the paginated result set.",
-				Optional:    true,
-			},
-			"page_size": schema.Int64Attribute{
-				Description: "Number of results to return per page.",
-				Optional:    true,
-			},
-			"project": schema.StringAttribute{
-				Description: "Project UUID",
-				Optional:    true,
-			},
-			"project_name": schema.StringAttribute{
-				Description: "Project name",
-				Optional:    true,
-			},
-			"project_uuid": schema.StringAttribute{
-				Description: "Project UUID",
-				Optional:    true,
-			},
-			"query": schema.StringAttribute{
-				Description: "Search by name or description",
-				Optional:    true,
-			},
-			"service_settings_name": schema.StringAttribute{
-				Description: "Service settings name",
-				Optional:    true,
-			},
-			"service_settings_uuid": schema.StringAttribute{
-				Description: "Service settings UUID",
-				Optional:    true,
-			},
-			"tenant": schema.StringAttribute{
-				Description: "Tenant URL",
-				Optional:    true,
-			},
-			"tenant_uuid": schema.StringAttribute{
-				Description: "Tenant UUID",
-				Optional:    true,
-			},
-			"uuid": schema.StringAttribute{
-				Description: "UUID",
-				Optional:    true,
+				Description: "Filter parameters for querying Openstack Security Group",
+				Attributes: map[string]schema.Attribute{
+					"backend_id": schema.StringAttribute{
+						Description: "Backend ID",
+						Optional:    true,
+					},
+					"can_manage": schema.BoolAttribute{
+						Description: "Can manage",
+						Optional:    true,
+					},
+					"customer": schema.StringAttribute{
+						Description: "Customer UUID",
+						Optional:    true,
+					},
+					"customer_abbreviation": schema.StringAttribute{
+						Description: "Customer abbreviation",
+						Optional:    true,
+					},
+					"customer_name": schema.StringAttribute{
+						Description: "Customer name",
+						Optional:    true,
+					},
+					"customer_native_name": schema.StringAttribute{
+						Description: "Customer native name",
+						Optional:    true,
+					},
+					"customer_uuid": schema.StringAttribute{
+						Description: "Customer UUID",
+						Optional:    true,
+					},
+					"description": schema.StringAttribute{
+						Description: "Description",
+						Optional:    true,
+					},
+					"external_ip": schema.StringAttribute{
+						Description: "External IP",
+						Optional:    true,
+					},
+					"name": schema.StringAttribute{
+						Description: "Name",
+						Optional:    true,
+					},
+					"name_exact": schema.StringAttribute{
+						Description: "Name (exact)",
+						Optional:    true,
+					},
+					"page": schema.Int64Attribute{
+						Description: "A page number within the paginated result set.",
+						Optional:    true,
+					},
+					"page_size": schema.Int64Attribute{
+						Description: "Number of results to return per page.",
+						Optional:    true,
+					},
+					"project": schema.StringAttribute{
+						Description: "Project UUID",
+						Optional:    true,
+					},
+					"project_name": schema.StringAttribute{
+						Description: "Project name",
+						Optional:    true,
+					},
+					"project_uuid": schema.StringAttribute{
+						Description: "Project UUID",
+						Optional:    true,
+					},
+					"query": schema.StringAttribute{
+						Description: "Search by name or description",
+						Optional:    true,
+					},
+					"service_settings_name": schema.StringAttribute{
+						Description: "Service settings name",
+						Optional:    true,
+					},
+					"service_settings_uuid": schema.StringAttribute{
+						Description: "Service settings UUID",
+						Optional:    true,
+					},
+					"tenant": schema.StringAttribute{
+						Description: "Tenant URL",
+						Optional:    true,
+					},
+					"tenant_uuid": schema.StringAttribute{
+						Description: "Tenant UUID",
+						Optional:    true,
+					},
+					"uuid": schema.StringAttribute{
+						Description: "UUID",
+						Optional:    true,
+					},
+				},
 			},
 		},
 	}
@@ -141,28 +146,7 @@ func (l *OpenstackSecurityGroupList) Configure(ctx context.Context, req resource
 }
 
 type OpenstackSecurityGroupListModel struct {
-	BackendId            types.String `tfsdk:"backend_id"`
-	CanManage            types.Bool   `tfsdk:"can_manage"`
-	Customer             types.String `tfsdk:"customer"`
-	CustomerAbbreviation types.String `tfsdk:"customer_abbreviation"`
-	CustomerName         types.String `tfsdk:"customer_name"`
-	CustomerNativeName   types.String `tfsdk:"customer_native_name"`
-	CustomerUuid         types.String `tfsdk:"customer_uuid"`
-	Description          types.String `tfsdk:"description"`
-	ExternalIp           types.String `tfsdk:"external_ip"`
-	Name                 types.String `tfsdk:"name"`
-	NameExact            types.String `tfsdk:"name_exact"`
-	Page                 types.Int64  `tfsdk:"page"`
-	PageSize             types.Int64  `tfsdk:"page_size"`
-	Project              types.String `tfsdk:"project"`
-	ProjectName          types.String `tfsdk:"project_name"`
-	ProjectUuid          types.String `tfsdk:"project_uuid"`
-	Query                types.String `tfsdk:"query"`
-	ServiceSettingsName  types.String `tfsdk:"service_settings_name"`
-	ServiceSettingsUuid  types.String `tfsdk:"service_settings_uuid"`
-	Tenant               types.String `tfsdk:"tenant"`
-	TenantUuid           types.String `tfsdk:"tenant_uuid"`
-	Uuid                 types.String `tfsdk:"uuid"`
+	Filters *OpenstackSecurityGroupFiltersModel `tfsdk:"filters"`
 }
 
 func (l *OpenstackSecurityGroupList) List(ctx context.Context, req list.ListRequest, stream *list.ListResultsStream) {
@@ -176,73 +160,7 @@ func (l *OpenstackSecurityGroupList) List(ctx context.Context, req list.ListRequ
 	}
 
 	// Prepare filters
-	filters := make(map[string]string)
-	if !config.BackendId.IsNull() && !config.BackendId.IsUnknown() {
-		filters["backend_id"] = config.BackendId.ValueString()
-	}
-	if !config.CanManage.IsNull() && !config.CanManage.IsUnknown() {
-		filters["can_manage"] = fmt.Sprintf("%t", config.CanManage.ValueBool())
-	}
-	if !config.Customer.IsNull() && !config.Customer.IsUnknown() {
-		filters["customer"] = config.Customer.ValueString()
-	}
-	if !config.CustomerAbbreviation.IsNull() && !config.CustomerAbbreviation.IsUnknown() {
-		filters["customer_abbreviation"] = config.CustomerAbbreviation.ValueString()
-	}
-	if !config.CustomerName.IsNull() && !config.CustomerName.IsUnknown() {
-		filters["customer_name"] = config.CustomerName.ValueString()
-	}
-	if !config.CustomerNativeName.IsNull() && !config.CustomerNativeName.IsUnknown() {
-		filters["customer_native_name"] = config.CustomerNativeName.ValueString()
-	}
-	if !config.CustomerUuid.IsNull() && !config.CustomerUuid.IsUnknown() {
-		filters["customer_uuid"] = config.CustomerUuid.ValueString()
-	}
-	if !config.Description.IsNull() && !config.Description.IsUnknown() {
-		filters["description"] = config.Description.ValueString()
-	}
-	if !config.ExternalIp.IsNull() && !config.ExternalIp.IsUnknown() {
-		filters["external_ip"] = config.ExternalIp.ValueString()
-	}
-	if !config.Name.IsNull() && !config.Name.IsUnknown() {
-		filters["name"] = config.Name.ValueString()
-	}
-	if !config.NameExact.IsNull() && !config.NameExact.IsUnknown() {
-		filters["name_exact"] = config.NameExact.ValueString()
-	}
-	if !config.Page.IsNull() && !config.Page.IsUnknown() {
-		filters["page"] = fmt.Sprintf("%d", config.Page.ValueInt64())
-	}
-	if !config.PageSize.IsNull() && !config.PageSize.IsUnknown() {
-		filters["page_size"] = fmt.Sprintf("%d", config.PageSize.ValueInt64())
-	}
-	if !config.Project.IsNull() && !config.Project.IsUnknown() {
-		filters["project"] = config.Project.ValueString()
-	}
-	if !config.ProjectName.IsNull() && !config.ProjectName.IsUnknown() {
-		filters["project_name"] = config.ProjectName.ValueString()
-	}
-	if !config.ProjectUuid.IsNull() && !config.ProjectUuid.IsUnknown() {
-		filters["project_uuid"] = config.ProjectUuid.ValueString()
-	}
-	if !config.Query.IsNull() && !config.Query.IsUnknown() {
-		filters["query"] = config.Query.ValueString()
-	}
-	if !config.ServiceSettingsName.IsNull() && !config.ServiceSettingsName.IsUnknown() {
-		filters["service_settings_name"] = config.ServiceSettingsName.ValueString()
-	}
-	if !config.ServiceSettingsUuid.IsNull() && !config.ServiceSettingsUuid.IsUnknown() {
-		filters["service_settings_uuid"] = config.ServiceSettingsUuid.ValueString()
-	}
-	if !config.Tenant.IsNull() && !config.Tenant.IsUnknown() {
-		filters["tenant"] = config.Tenant.ValueString()
-	}
-	if !config.TenantUuid.IsNull() && !config.TenantUuid.IsUnknown() {
-		filters["tenant_uuid"] = config.TenantUuid.ValueString()
-	}
-	if !config.Uuid.IsNull() && !config.Uuid.IsUnknown() {
-		filters["uuid"] = config.Uuid.ValueString()
-	}
+	filters := common.BuildQueryFilters(config.Filters)
 
 	// Call API
 	listResult, err := l.client.ListOpenstackSecurityGroup(ctx, filters)
@@ -264,36 +182,7 @@ func (l *OpenstackSecurityGroupList) List(ctx context.Context, req list.ListRequ
 
 			var diags diag.Diagnostics
 
-			data.UUID = types.StringPointerValue(apiResp.UUID)
-			model.AccessUrl = types.StringPointerValue(apiResp.AccessUrl)
-			model.BackendId = types.StringPointerValue(apiResp.BackendId)
-			model.Created = types.StringPointerValue(apiResp.Created)
-			model.Description = types.StringPointerValue(apiResp.Description)
-			model.ErrorMessage = types.StringPointerValue(apiResp.ErrorMessage)
-			model.ErrorTraceback = types.StringPointerValue(apiResp.ErrorTraceback)
-			model.Modified = types.StringPointerValue(apiResp.Modified)
-			model.Name = types.StringPointerValue(apiResp.Name)
-			model.ResourceType = types.StringPointerValue(apiResp.ResourceType)
-
-			{
-				listValRules, listDiagsRules := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
-					"cidr":         types.StringType,
-					"description":  types.StringType,
-					"direction":    types.StringType,
-					"ethertype":    types.StringType,
-					"from_port":    types.Int64Type,
-					"protocol":     types.StringType,
-					"remote_group": types.StringType,
-					"to_port":      types.Int64Type,
-				}}, apiResp.Rules)
-				diags.Append(listDiagsRules...)
-				model.Rules = listValRules
-			}
-			model.State = types.StringPointerValue(apiResp.State)
-			model.Tenant = types.StringPointerValue(apiResp.Tenant)
-			model.TenantName = types.StringPointerValue(apiResp.TenantName)
-			model.TenantUuid = types.StringPointerValue(apiResp.TenantUuid)
-			model.Url = types.StringPointerValue(apiResp.Url)
+			diags.Append(model.CopyFrom(ctx, apiResp)...)
 
 			// Set the resource state
 			// For ListResource, we generally return the "Resource" state matching the main resource schema.

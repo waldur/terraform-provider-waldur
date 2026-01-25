@@ -6,8 +6,6 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
-	"github.com/hashicorp/terraform-plugin-framework/diag"
-	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/waldur/terraform-provider-waldur/internal/client"
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
@@ -20,31 +18,13 @@ func NewOpenstackImageDataSource() datasource.DataSource {
 	return &OpenstackImageDataSource{}
 }
 
-// OpenstackImageDataSource defines the data source implementation.
 type OpenstackImageDataSource struct {
 	client *Client
 }
 
-// OpenstackImageFiltersModel contains the filter parameters for querying.
-type OpenstackImageFiltersModel struct {
-	Name         types.String `tfsdk:"name"`
-	NameExact    types.String `tfsdk:"name_exact"`
-	OfferingUuid types.String `tfsdk:"offering_uuid"`
-	Settings     types.String `tfsdk:"settings"`
-	SettingsUuid types.String `tfsdk:"settings_uuid"`
-	Tenant       types.String `tfsdk:"tenant"`
-	TenantUuid   types.String `tfsdk:"tenant_uuid"`
-}
-
 type OpenstackImageDataSourceModel struct {
-	UUID      types.String                `tfsdk:"id"`
-	Filters   *OpenstackImageFiltersModel `tfsdk:"filters"`
-	BackendId types.String                `tfsdk:"backend_id"`
-	MinDisk   types.Int64                 `tfsdk:"min_disk"`
-	MinRam    types.Int64                 `tfsdk:"min_ram"`
-	Name      types.String                `tfsdk:"name"`
-	Settings  types.String                `tfsdk:"settings"`
-	Url       types.String                `tfsdk:"url"`
+	OpenstackImageModel
+	Filters *OpenstackImageFiltersModel `tfsdk:"filters"`
 }
 
 func (d *OpenstackImageDataSource) Metadata(ctx context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
@@ -162,7 +142,7 @@ func (d *OpenstackImageDataSource) Read(ctx context.Context, req datasource.Read
 			return
 		}
 
-		resp.Diagnostics.Append(d.mapResponseToModel(ctx, *apiResp, &data)...)
+		resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
 
 	} else {
 		filters := common.BuildQueryFilters(data.Filters)
@@ -201,23 +181,9 @@ func (d *OpenstackImageDataSource) Read(ctx context.Context, req datasource.Read
 			return
 		}
 
-		resp.Diagnostics.Append(d.mapResponseToModel(ctx, results[0], &data)...)
+		resp.Diagnostics.Append(data.CopyFrom(ctx, results[0])...)
 	}
 
 	// Save data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
-}
-
-func (d *OpenstackImageDataSource) mapResponseToModel(ctx context.Context, apiResp OpenstackImageResponse, model *OpenstackImageDataSourceModel) diag.Diagnostics {
-	var diags diag.Diagnostics
-
-	model.UUID = types.StringPointerValue(apiResp.UUID)
-	model.BackendId = types.StringPointerValue(apiResp.BackendId)
-	model.MinDisk = types.Int64PointerValue(apiResp.MinDisk)
-	model.MinRam = types.Int64PointerValue(apiResp.MinRam)
-	model.Name = types.StringPointerValue(apiResp.Name)
-	model.Settings = types.StringPointerValue(apiResp.Settings)
-	model.Url = types.StringPointerValue(apiResp.Url)
-
-	return diags
 }

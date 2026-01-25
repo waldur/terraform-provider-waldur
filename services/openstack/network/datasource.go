@@ -4,13 +4,9 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
-	"github.com/hashicorp/terraform-plugin-framework/attr"
+	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
-	"github.com/hashicorp/terraform-plugin-framework/diag"
-	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
-	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/waldur/terraform-provider-waldur/internal/client"
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
@@ -23,62 +19,13 @@ func NewOpenstackNetworkDataSource() datasource.DataSource {
 	return &OpenstackNetworkDataSource{}
 }
 
-// OpenstackNetworkDataSource defines the data source implementation.
 type OpenstackNetworkDataSource struct {
 	client *Client
 }
 
-// OpenstackNetworkFiltersModel contains the filter parameters for querying.
-type OpenstackNetworkFiltersModel struct {
-	BackendId            types.String `tfsdk:"backend_id"`
-	CanManage            types.Bool   `tfsdk:"can_manage"`
-	Customer             types.String `tfsdk:"customer"`
-	CustomerAbbreviation types.String `tfsdk:"customer_abbreviation"`
-	CustomerName         types.String `tfsdk:"customer_name"`
-	CustomerNativeName   types.String `tfsdk:"customer_native_name"`
-	CustomerUuid         types.String `tfsdk:"customer_uuid"`
-	Description          types.String `tfsdk:"description"`
-	DirectOnly           types.Bool   `tfsdk:"direct_only"`
-	ExternalIp           types.String `tfsdk:"external_ip"`
-	IsExternal           types.Bool   `tfsdk:"is_external"`
-	Name                 types.String `tfsdk:"name"`
-	NameExact            types.String `tfsdk:"name_exact"`
-	Project              types.String `tfsdk:"project"`
-	ProjectName          types.String `tfsdk:"project_name"`
-	ProjectUuid          types.String `tfsdk:"project_uuid"`
-	RbacOnly             types.Bool   `tfsdk:"rbac_only"`
-	ServiceSettingsName  types.String `tfsdk:"service_settings_name"`
-	ServiceSettingsUuid  types.String `tfsdk:"service_settings_uuid"`
-	State                types.String `tfsdk:"state"`
-	Tenant               types.String `tfsdk:"tenant"`
-	TenantUuid           types.String `tfsdk:"tenant_uuid"`
-	Type                 types.String `tfsdk:"type"`
-	Uuid                 types.String `tfsdk:"uuid"`
-}
-
 type OpenstackNetworkDataSourceModel struct {
-	UUID           types.String                  `tfsdk:"id"`
-	Filters        *OpenstackNetworkFiltersModel `tfsdk:"filters"`
-	AccessUrl      types.String                  `tfsdk:"access_url"`
-	BackendId      types.String                  `tfsdk:"backend_id"`
-	Created        types.String                  `tfsdk:"created"`
-	Description    types.String                  `tfsdk:"description"`
-	ErrorMessage   types.String                  `tfsdk:"error_message"`
-	ErrorTraceback types.String                  `tfsdk:"error_traceback"`
-	IsExternal     types.Bool                    `tfsdk:"is_external"`
-	Modified       types.String                  `tfsdk:"modified"`
-	Mtu            types.Int64                   `tfsdk:"mtu"`
-	Name           types.String                  `tfsdk:"name"`
-	RbacPolicies   types.List                    `tfsdk:"rbac_policies"`
-	ResourceType   types.String                  `tfsdk:"resource_type"`
-	SegmentationId types.Int64                   `tfsdk:"segmentation_id"`
-	State          types.String                  `tfsdk:"state"`
-	Subnets        types.List                    `tfsdk:"subnets"`
-	Tenant         types.String                  `tfsdk:"tenant"`
-	TenantName     types.String                  `tfsdk:"tenant_name"`
-	TenantUuid     types.String                  `tfsdk:"tenant_uuid"`
-	Type           types.String                  `tfsdk:"type"`
-	Url            types.String                  `tfsdk:"url"`
+	OpenstackNetworkModel
+	Filters *OpenstackNetworkFiltersModel `tfsdk:"filters"`
 }
 
 func (d *OpenstackNetworkDataSource) Metadata(ctx context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
@@ -175,13 +122,6 @@ func (d *OpenstackNetworkDataSource) Schema(ctx context.Context, req datasource.
 						Optional:            true,
 						MarkdownDescription: "Service settings UUID",
 					},
-					"state": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "State Allowed values: `CREATING`, `CREATION_SCHEDULED`, `DELETING`, `DELETION_SCHEDULED`, `ERRED`, `OK`, `UPDATE_SCHEDULED`, `UPDATING`.",
-						Validators: []validator.String{
-							stringvalidator.OneOf("CREATING", "CREATION_SCHEDULED", "DELETING", "DELETION_SCHEDULED", "ERRED", "OK", "UPDATE_SCHEDULED", "UPDATING"),
-						},
-					},
 					"tenant": schema.StringAttribute{
 						Optional:            true,
 						MarkdownDescription: "Tenant URL",
@@ -248,6 +188,7 @@ func (d *OpenstackNetworkDataSource) Schema(ctx context.Context, req datasource.
 							MarkdownDescription: "ID of the backend",
 						},
 						"created": schema.StringAttribute{
+							CustomType:          timetypes.RFC3339Type{},
 							Computed:            true,
 							MarkdownDescription: "Created",
 						},
@@ -403,7 +344,7 @@ func (d *OpenstackNetworkDataSource) Read(ctx context.Context, req datasource.Re
 			return
 		}
 
-		resp.Diagnostics.Append(d.mapResponseToModel(ctx, *apiResp, &data)...)
+		resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
 
 	} else {
 		filters := common.BuildQueryFilters(data.Filters)
@@ -442,67 +383,9 @@ func (d *OpenstackNetworkDataSource) Read(ctx context.Context, req datasource.Re
 			return
 		}
 
-		resp.Diagnostics.Append(d.mapResponseToModel(ctx, results[0], &data)...)
+		resp.Diagnostics.Append(data.CopyFrom(ctx, results[0])...)
 	}
 
 	// Save data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
-}
-
-func (d *OpenstackNetworkDataSource) mapResponseToModel(ctx context.Context, apiResp OpenstackNetworkResponse, model *OpenstackNetworkDataSourceModel) diag.Diagnostics {
-	var diags diag.Diagnostics
-
-	model.UUID = types.StringPointerValue(apiResp.UUID)
-	model.AccessUrl = types.StringPointerValue(apiResp.AccessUrl)
-	model.BackendId = types.StringPointerValue(apiResp.BackendId)
-	model.Created = types.StringPointerValue(apiResp.Created)
-	model.Description = types.StringPointerValue(apiResp.Description)
-	model.ErrorMessage = types.StringPointerValue(apiResp.ErrorMessage)
-	model.ErrorTraceback = types.StringPointerValue(apiResp.ErrorTraceback)
-	model.IsExternal = types.BoolPointerValue(apiResp.IsExternal)
-	model.Modified = types.StringPointerValue(apiResp.Modified)
-	model.Mtu = types.Int64PointerValue(apiResp.Mtu)
-	model.Name = types.StringPointerValue(apiResp.Name)
-
-	{
-		listValRbacPolicies, listDiagsRbacPolicies := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
-			"backend_id":         types.StringType,
-			"created":            types.StringType,
-			"network":            types.StringType,
-			"network_name":       types.StringType,
-			"policy_type":        types.StringType,
-			"target_tenant":      types.StringType,
-			"target_tenant_name": types.StringType,
-			"url":                types.StringType,
-		}}, apiResp.RbacPolicies)
-		diags.Append(listDiagsRbacPolicies...)
-		model.RbacPolicies = listValRbacPolicies
-	}
-	model.ResourceType = types.StringPointerValue(apiResp.ResourceType)
-	model.SegmentationId = types.Int64PointerValue(apiResp.SegmentationId)
-	model.State = types.StringPointerValue(apiResp.State)
-
-	{
-		listValSubnets, listDiagsSubnets := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
-			"allocation_pools": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
-				"end":   types.StringType,
-				"start": types.StringType,
-			}}},
-			"cidr":        types.StringType,
-			"description": types.StringType,
-			"enable_dhcp": types.BoolType,
-			"gateway_ip":  types.StringType,
-			"ip_version":  types.Int64Type,
-			"name":        types.StringType,
-		}}, apiResp.Subnets)
-		diags.Append(listDiagsSubnets...)
-		model.Subnets = listValSubnets
-	}
-	model.Tenant = types.StringPointerValue(apiResp.Tenant)
-	model.TenantName = types.StringPointerValue(apiResp.TenantName)
-	model.TenantUuid = types.StringPointerValue(apiResp.TenantUuid)
-	model.Type = types.StringPointerValue(apiResp.Type)
-	model.Url = types.StringPointerValue(apiResp.Url)
-
-	return diags
 }

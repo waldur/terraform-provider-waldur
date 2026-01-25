@@ -84,7 +84,6 @@ Optional:
 - `name_exact` (String) Name (exact)
 - `native_name` (String) Native name
 - `organization_group_name` (String) Organization group name
-- `organization_group_uuid` (String) Organization group UUID
 - `owned_by_current_user` (Boolean) Return a list of customers where current user is owner.
 - `query` (String) Filter by name, native name, abbreviation, domain, UUID, registration code or agreement number
 - `registration_code` (String) Registration code

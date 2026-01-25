@@ -4,13 +4,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
-	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
-	"github.com/hashicorp/terraform-plugin-framework/diag"
-	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
-	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/waldur/terraform-provider-waldur/internal/client"
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
@@ -23,64 +18,13 @@ func NewOpenstackFloatingIpDataSource() datasource.DataSource {
 	return &OpenstackFloatingIpDataSource{}
 }
 
-// OpenstackFloatingIpDataSource defines the data source implementation.
 type OpenstackFloatingIpDataSource struct {
 	client *Client
 }
 
-// OpenstackFloatingIpFiltersModel contains the filter parameters for querying.
-type OpenstackFloatingIpFiltersModel struct {
-	Address              types.String `tfsdk:"address"`
-	BackendId            types.String `tfsdk:"backend_id"`
-	CanManage            types.Bool   `tfsdk:"can_manage"`
-	Customer             types.String `tfsdk:"customer"`
-	CustomerAbbreviation types.String `tfsdk:"customer_abbreviation"`
-	CustomerName         types.String `tfsdk:"customer_name"`
-	CustomerNativeName   types.String `tfsdk:"customer_native_name"`
-	CustomerUuid         types.String `tfsdk:"customer_uuid"`
-	Description          types.String `tfsdk:"description"`
-	ExternalIp           types.String `tfsdk:"external_ip"`
-	Free                 types.Bool   `tfsdk:"free"`
-	Name                 types.String `tfsdk:"name"`
-	NameExact            types.String `tfsdk:"name_exact"`
-	Project              types.String `tfsdk:"project"`
-	ProjectName          types.String `tfsdk:"project_name"`
-	ProjectUuid          types.String `tfsdk:"project_uuid"`
-	RuntimeState         types.String `tfsdk:"runtime_state"`
-	ServiceSettingsName  types.String `tfsdk:"service_settings_name"`
-	ServiceSettingsUuid  types.String `tfsdk:"service_settings_uuid"`
-	State                types.String `tfsdk:"state"`
-	Tenant               types.String `tfsdk:"tenant"`
-	TenantUuid           types.String `tfsdk:"tenant_uuid"`
-	Uuid                 types.String `tfsdk:"uuid"`
-}
-
 type OpenstackFloatingIpDataSourceModel struct {
-	UUID             types.String                     `tfsdk:"id"`
-	Filters          *OpenstackFloatingIpFiltersModel `tfsdk:"filters"`
-	AccessUrl        types.String                     `tfsdk:"access_url"`
-	Address          types.String                     `tfsdk:"address"`
-	BackendId        types.String                     `tfsdk:"backend_id"`
-	BackendNetworkId types.String                     `tfsdk:"backend_network_id"`
-	Created          types.String                     `tfsdk:"created"`
-	Description      types.String                     `tfsdk:"description"`
-	ErrorMessage     types.String                     `tfsdk:"error_message"`
-	ErrorTraceback   types.String                     `tfsdk:"error_traceback"`
-	ExternalAddress  types.String                     `tfsdk:"external_address"`
-	InstanceName     types.String                     `tfsdk:"instance_name"`
-	InstanceUrl      types.String                     `tfsdk:"instance_url"`
-	InstanceUuid     types.String                     `tfsdk:"instance_uuid"`
-	Modified         types.String                     `tfsdk:"modified"`
-	Name             types.String                     `tfsdk:"name"`
-	Port             types.String                     `tfsdk:"port"`
-	PortFixedIps     types.List                       `tfsdk:"port_fixed_ips"`
-	ResourceType     types.String                     `tfsdk:"resource_type"`
-	RuntimeState     types.String                     `tfsdk:"runtime_state"`
-	State            types.String                     `tfsdk:"state"`
-	Tenant           types.String                     `tfsdk:"tenant"`
-	TenantName       types.String                     `tfsdk:"tenant_name"`
-	TenantUuid       types.String                     `tfsdk:"tenant_uuid"`
-	Url              types.String                     `tfsdk:"url"`
+	OpenstackFloatingIpModel
+	Filters *OpenstackFloatingIpFiltersModel `tfsdk:"filters"`
 }
 
 func (d *OpenstackFloatingIpDataSource) Metadata(ctx context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
@@ -176,13 +120,6 @@ func (d *OpenstackFloatingIpDataSource) Schema(ctx context.Context, req datasour
 					"service_settings_uuid": schema.StringAttribute{
 						Optional:            true,
 						MarkdownDescription: "Service settings UUID",
-					},
-					"state": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "State Allowed values: `CREATING`, `CREATION_SCHEDULED`, `DELETING`, `DELETION_SCHEDULED`, `ERRED`, `OK`, `UPDATE_SCHEDULED`, `UPDATING`.",
-						Validators: []validator.String{
-							stringvalidator.OneOf("CREATING", "CREATION_SCHEDULED", "DELETING", "DELETION_SCHEDULED", "ERRED", "OK", "UPDATE_SCHEDULED", "UPDATING"),
-						},
 					},
 					"tenant": schema.StringAttribute{
 						Optional:            true,
@@ -345,7 +282,7 @@ func (d *OpenstackFloatingIpDataSource) Read(ctx context.Context, req datasource
 			return
 		}
 
-		resp.Diagnostics.Append(d.mapResponseToModel(ctx, *apiResp, &data)...)
+		resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
 
 	} else {
 		filters := common.BuildQueryFilters(data.Filters)
@@ -384,48 +321,9 @@ func (d *OpenstackFloatingIpDataSource) Read(ctx context.Context, req datasource
 			return
 		}
 
-		resp.Diagnostics.Append(d.mapResponseToModel(ctx, results[0], &data)...)
+		resp.Diagnostics.Append(data.CopyFrom(ctx, results[0])...)
 	}
 
 	// Save data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
-}
-
-func (d *OpenstackFloatingIpDataSource) mapResponseToModel(ctx context.Context, apiResp OpenstackFloatingIpResponse, model *OpenstackFloatingIpDataSourceModel) diag.Diagnostics {
-	var diags diag.Diagnostics
-
-	model.UUID = types.StringPointerValue(apiResp.UUID)
-	model.AccessUrl = types.StringPointerValue(apiResp.AccessUrl)
-	model.Address = types.StringPointerValue(apiResp.Address)
-	model.BackendId = types.StringPointerValue(apiResp.BackendId)
-	model.BackendNetworkId = types.StringPointerValue(apiResp.BackendNetworkId)
-	model.Created = types.StringPointerValue(apiResp.Created)
-	model.Description = types.StringPointerValue(apiResp.Description)
-	model.ErrorMessage = types.StringPointerValue(apiResp.ErrorMessage)
-	model.ErrorTraceback = types.StringPointerValue(apiResp.ErrorTraceback)
-	model.ExternalAddress = types.StringPointerValue(apiResp.ExternalAddress)
-	model.InstanceName = types.StringPointerValue(apiResp.InstanceName)
-	model.InstanceUrl = types.StringPointerValue(apiResp.InstanceUrl)
-	model.InstanceUuid = types.StringPointerValue(apiResp.InstanceUuid)
-	model.Modified = types.StringPointerValue(apiResp.Modified)
-	model.Name = types.StringPointerValue(apiResp.Name)
-	model.Port = types.StringPointerValue(apiResp.Port)
-
-	{
-		listValPortFixedIps, listDiagsPortFixedIps := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
-			"ip_address": types.StringType,
-			"subnet_id":  types.StringType,
-		}}, apiResp.PortFixedIps)
-		diags.Append(listDiagsPortFixedIps...)
-		model.PortFixedIps = listValPortFixedIps
-	}
-	model.ResourceType = types.StringPointerValue(apiResp.ResourceType)
-	model.RuntimeState = types.StringPointerValue(apiResp.RuntimeState)
-	model.State = types.StringPointerValue(apiResp.State)
-	model.Tenant = types.StringPointerValue(apiResp.Tenant)
-	model.TenantName = types.StringPointerValue(apiResp.TenantName)
-	model.TenantUuid = types.StringPointerValue(apiResp.TenantUuid)
-	model.Url = types.StringPointerValue(apiResp.Url)
-
-	return diags
 }

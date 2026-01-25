@@ -8,9 +8,9 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/list"
 	"github.com/hashicorp/terraform-plugin-framework/list/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
-	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/waldur/terraform-provider-waldur/internal/client"
+	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
 var _ list.ListResource = &OpenstackNetworkRbacPolicyList{}
@@ -30,41 +30,47 @@ func (l *OpenstackNetworkRbacPolicyList) Metadata(ctx context.Context, req resou
 func (l *OpenstackNetworkRbacPolicyList) ListResourceConfigSchema(ctx context.Context, req list.ListResourceSchemaRequest, resp *list.ListResourceSchemaResponse) {
 	resp.Schema = schema.Schema{
 		Attributes: map[string]schema.Attribute{
-			"network": schema.StringAttribute{
-				Description: "Network URL",
+			"filters": schema.SingleNestedAttribute{
 				Optional:    true,
-			},
-			"network_uuid": schema.StringAttribute{
-				Description: "Network UUID",
-				Optional:    true,
-			},
-			"page": schema.Int64Attribute{
-				Description: "A page number within the paginated result set.",
-				Optional:    true,
-			},
-			"page_size": schema.Int64Attribute{
-				Description: "Number of results to return per page.",
-				Optional:    true,
-			},
-			"policy_type": schema.StringAttribute{
-				Description: "Type of access granted - either shared access or external network access",
-				Optional:    true,
-			},
-			"target_tenant": schema.StringAttribute{
-				Description: "Target tenant URL",
-				Optional:    true,
-			},
-			"target_tenant_uuid": schema.StringAttribute{
-				Description: "Target tenant UUID",
-				Optional:    true,
-			},
-			"tenant": schema.StringAttribute{
-				Description: "Tenant URL",
-				Optional:    true,
-			},
-			"tenant_uuid": schema.StringAttribute{
-				Description: "Tenant UUID",
-				Optional:    true,
+				Description: "Filter parameters for querying Openstack Network Rbac Policy",
+				Attributes: map[string]schema.Attribute{
+					"network": schema.StringAttribute{
+						Description: "Network URL",
+						Optional:    true,
+					},
+					"network_uuid": schema.StringAttribute{
+						Description: "Network UUID",
+						Optional:    true,
+					},
+					"page": schema.Int64Attribute{
+						Description: "A page number within the paginated result set.",
+						Optional:    true,
+					},
+					"page_size": schema.Int64Attribute{
+						Description: "Number of results to return per page.",
+						Optional:    true,
+					},
+					"policy_type": schema.StringAttribute{
+						Description: "Type of access granted - either shared access or external network access",
+						Optional:    true,
+					},
+					"target_tenant": schema.StringAttribute{
+						Description: "Target tenant URL",
+						Optional:    true,
+					},
+					"target_tenant_uuid": schema.StringAttribute{
+						Description: "Target tenant UUID",
+						Optional:    true,
+					},
+					"tenant": schema.StringAttribute{
+						Description: "Tenant URL",
+						Optional:    true,
+					},
+					"tenant_uuid": schema.StringAttribute{
+						Description: "Tenant UUID",
+						Optional:    true,
+					},
+				},
 			},
 		},
 	}
@@ -88,15 +94,7 @@ func (l *OpenstackNetworkRbacPolicyList) Configure(ctx context.Context, req reso
 }
 
 type OpenstackNetworkRbacPolicyListModel struct {
-	Network          types.String `tfsdk:"network"`
-	NetworkUuid      types.String `tfsdk:"network_uuid"`
-	Page             types.Int64  `tfsdk:"page"`
-	PageSize         types.Int64  `tfsdk:"page_size"`
-	PolicyType       types.String `tfsdk:"policy_type"`
-	TargetTenant     types.String `tfsdk:"target_tenant"`
-	TargetTenantUuid types.String `tfsdk:"target_tenant_uuid"`
-	Tenant           types.String `tfsdk:"tenant"`
-	TenantUuid       types.String `tfsdk:"tenant_uuid"`
+	Filters *OpenstackNetworkRbacPolicyFiltersModel `tfsdk:"filters"`
 }
 
 func (l *OpenstackNetworkRbacPolicyList) List(ctx context.Context, req list.ListRequest, stream *list.ListResultsStream) {
@@ -110,34 +108,7 @@ func (l *OpenstackNetworkRbacPolicyList) List(ctx context.Context, req list.List
 	}
 
 	// Prepare filters
-	filters := make(map[string]string)
-	if !config.Network.IsNull() && !config.Network.IsUnknown() {
-		filters["network"] = config.Network.ValueString()
-	}
-	if !config.NetworkUuid.IsNull() && !config.NetworkUuid.IsUnknown() {
-		filters["network_uuid"] = config.NetworkUuid.ValueString()
-	}
-	if !config.Page.IsNull() && !config.Page.IsUnknown() {
-		filters["page"] = fmt.Sprintf("%d", config.Page.ValueInt64())
-	}
-	if !config.PageSize.IsNull() && !config.PageSize.IsUnknown() {
-		filters["page_size"] = fmt.Sprintf("%d", config.PageSize.ValueInt64())
-	}
-	if !config.PolicyType.IsNull() && !config.PolicyType.IsUnknown() {
-		filters["policy_type"] = config.PolicyType.ValueString()
-	}
-	if !config.TargetTenant.IsNull() && !config.TargetTenant.IsUnknown() {
-		filters["target_tenant"] = config.TargetTenant.ValueString()
-	}
-	if !config.TargetTenantUuid.IsNull() && !config.TargetTenantUuid.IsUnknown() {
-		filters["target_tenant_uuid"] = config.TargetTenantUuid.ValueString()
-	}
-	if !config.Tenant.IsNull() && !config.Tenant.IsUnknown() {
-		filters["tenant"] = config.Tenant.ValueString()
-	}
-	if !config.TenantUuid.IsNull() && !config.TenantUuid.IsUnknown() {
-		filters["tenant_uuid"] = config.TenantUuid.ValueString()
-	}
+	filters := common.BuildQueryFilters(config.Filters)
 
 	// Call API
 	listResult, err := l.client.ListOpenstackNetworkRbacPolicy(ctx, filters)
@@ -159,15 +130,7 @@ func (l *OpenstackNetworkRbacPolicyList) List(ctx context.Context, req list.List
 
 			var diags diag.Diagnostics
 
-			data.UUID = types.StringPointerValue(apiResp.UUID)
-			model.BackendId = types.StringPointerValue(apiResp.BackendId)
-			model.Created = types.StringPointerValue(apiResp.Created)
-			model.Network = types.StringPointerValue(apiResp.Network)
-			model.NetworkName = types.StringPointerValue(apiResp.NetworkName)
-			model.PolicyType = types.StringPointerValue(apiResp.PolicyType)
-			model.TargetTenant = types.StringPointerValue(apiResp.TargetTenant)
-			model.TargetTenantName = types.StringPointerValue(apiResp.TargetTenantName)
-			model.Url = types.StringPointerValue(apiResp.Url)
+			diags.Append(model.CopyFrom(ctx, apiResp)...)
 
 			// Set the resource state
 			// For ListResource, we generally return the "Resource" state matching the main resource schema.

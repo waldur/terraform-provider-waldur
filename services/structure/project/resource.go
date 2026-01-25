@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
+	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -36,34 +37,8 @@ type StructureProjectResource struct {
 
 // StructureProjectResourceModel describes the resource data model.
 type StructureProjectResourceModel struct {
-	UUID                                 types.String   `tfsdk:"id"`
-	BackendId                            types.String   `tfsdk:"backend_id"`
-	Created                              types.String   `tfsdk:"created"`
-	Customer                             types.String   `tfsdk:"customer"`
-	CustomerDisplayBillingInfoInProjects types.Bool     `tfsdk:"customer_display_billing_info_in_projects"`
-	CustomerSlug                         types.String   `tfsdk:"customer_slug"`
-	Description                          types.String   `tfsdk:"description"`
-	EndDate                              types.String   `tfsdk:"end_date"`
-	EndDateRequestedBy                   types.String   `tfsdk:"end_date_requested_by"`
-	GracePeriodDays                      types.Int64    `tfsdk:"grace_period_days"`
-	Image                                types.String   `tfsdk:"image"`
-	IsIndustry                           types.Bool     `tfsdk:"is_industry"`
-	IsRemoved                            types.Bool     `tfsdk:"is_removed"`
-	Kind                                 types.String   `tfsdk:"kind"`
-	MaxServiceAccounts                   types.Int64    `tfsdk:"max_service_accounts"`
-	Name                                 types.String   `tfsdk:"name"`
-	OecdFos2007Code                      types.String   `tfsdk:"oecd_fos_2007_code"`
-	OecdFos2007Label                     types.String   `tfsdk:"oecd_fos_2007_label"`
-	ProjectCredit                        types.Float64  `tfsdk:"project_credit"`
-	ResourcesCount                       types.Int64    `tfsdk:"resources_count"`
-	Slug                                 types.String   `tfsdk:"slug"`
-	StaffNotes                           types.String   `tfsdk:"staff_notes"`
-	StartDate                            types.String   `tfsdk:"start_date"`
-	Type                                 types.String   `tfsdk:"type"`
-	TypeName                             types.String   `tfsdk:"type_name"`
-	TypeUuid                             types.String   `tfsdk:"type_uuid"`
-	Url                                  types.String   `tfsdk:"url"`
-	Timeouts                             timeouts.Value `tfsdk:"timeouts"`
+	StructureProjectModel
+	Timeouts timeouts.Value `tfsdk:"timeouts"`
 }
 
 func (r *StructureProjectResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
@@ -87,7 +62,8 @@ func (r *StructureProjectResource) Schema(ctx context.Context, req resource.Sche
 				MarkdownDescription: "ID of the backend",
 			},
 			"created": schema.StringAttribute{
-				Computed: true,
+				CustomType: timetypes.RFC3339Type{},
+				Computed:   true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
@@ -301,7 +277,7 @@ func (r *StructureProjectResource) Create(ctx context.Context, req resource.Crea
 	}
 	apiResp = newResp
 
-	resp.Diagnostics.Append(r.mapResponseToModel(ctx, *apiResp, &data)...)
+	resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
@@ -332,7 +308,7 @@ func (r *StructureProjectResource) Read(ctx context.Context, req resource.ReadRe
 		return
 	}
 
-	resp.Diagnostics.Append(r.mapResponseToModel(ctx, *apiResp, &data)...)
+	resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
 
 	// Save updated data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
@@ -388,7 +364,7 @@ func (r *StructureProjectResource) Update(ctx context.Context, req resource.Upda
 	}
 	apiResp = newResp
 
-	resp.Diagnostics.Append(r.mapResponseToModel(ctx, *apiResp, &data)...)
+	resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
@@ -456,7 +432,7 @@ func (r *StructureProjectResource) ImportState(ctx context.Context, req resource
 	}
 
 	var data StructureProjectResourceModel
-	resp.Diagnostics.Append(r.mapResponseToModel(ctx, *apiResp, &data)...)
+	resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
@@ -465,35 +441,5 @@ func (r *StructureProjectResource) ImportState(ctx context.Context, req resource
 }
 
 func (r *StructureProjectResource) mapResponseToModel(ctx context.Context, apiResp StructureProjectResponse, model *StructureProjectResourceModel) diag.Diagnostics {
-	var diags diag.Diagnostics
-
-	model.UUID = types.StringPointerValue(apiResp.UUID)
-	model.BackendId = types.StringPointerValue(apiResp.BackendId)
-	model.Created = types.StringPointerValue(apiResp.Created)
-	model.Customer = types.StringPointerValue(apiResp.Customer)
-	model.CustomerDisplayBillingInfoInProjects = types.BoolPointerValue(apiResp.CustomerDisplayBillingInfoInProjects)
-	model.CustomerSlug = types.StringPointerValue(apiResp.CustomerSlug)
-	model.Description = types.StringPointerValue(apiResp.Description)
-	model.EndDate = types.StringPointerValue(apiResp.EndDate)
-	model.EndDateRequestedBy = types.StringPointerValue(apiResp.EndDateRequestedBy)
-	model.GracePeriodDays = types.Int64PointerValue(apiResp.GracePeriodDays)
-	model.Image = types.StringPointerValue(apiResp.Image)
-	model.IsIndustry = types.BoolPointerValue(apiResp.IsIndustry)
-	model.IsRemoved = types.BoolPointerValue(apiResp.IsRemoved)
-	model.Kind = types.StringPointerValue(apiResp.Kind)
-	model.MaxServiceAccounts = types.Int64PointerValue(apiResp.MaxServiceAccounts)
-	model.Name = types.StringPointerValue(apiResp.Name)
-	model.OecdFos2007Code = types.StringPointerValue(apiResp.OecdFos2007Code)
-	model.OecdFos2007Label = types.StringPointerValue(apiResp.OecdFos2007Label)
-	model.ProjectCredit = types.Float64PointerValue(apiResp.ProjectCredit)
-	model.ResourcesCount = types.Int64PointerValue(apiResp.ResourcesCount)
-	model.Slug = types.StringPointerValue(apiResp.Slug)
-	model.StaffNotes = types.StringPointerValue(apiResp.StaffNotes)
-	model.StartDate = types.StringPointerValue(apiResp.StartDate)
-	model.Type = types.StringPointerValue(apiResp.Type)
-	model.TypeName = types.StringPointerValue(apiResp.TypeName)
-	model.TypeUuid = types.StringPointerValue(apiResp.TypeUuid)
-	model.Url = types.StringPointerValue(apiResp.Url)
-
-	return diags
+	return model.CopyFrom(ctx, apiResp)
 }

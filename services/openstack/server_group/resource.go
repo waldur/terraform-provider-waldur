@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
-	"github.com/hashicorp/terraform-plugin-framework/attr"
+	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -35,25 +35,8 @@ type OpenstackServerGroupResource struct {
 
 // OpenstackServerGroupResourceModel describes the resource data model.
 type OpenstackServerGroupResourceModel struct {
-	UUID           types.String   `tfsdk:"id"`
-	AccessUrl      types.String   `tfsdk:"access_url"`
-	BackendId      types.String   `tfsdk:"backend_id"`
-	Created        types.String   `tfsdk:"created"`
-	Description    types.String   `tfsdk:"description"`
-	DisplayName    types.String   `tfsdk:"display_name"`
-	ErrorMessage   types.String   `tfsdk:"error_message"`
-	ErrorTraceback types.String   `tfsdk:"error_traceback"`
-	Instances      types.List     `tfsdk:"instances"`
-	Modified       types.String   `tfsdk:"modified"`
-	Name           types.String   `tfsdk:"name"`
-	Policy         types.String   `tfsdk:"policy"`
-	ResourceType   types.String   `tfsdk:"resource_type"`
-	State          types.String   `tfsdk:"state"`
-	Tenant         types.String   `tfsdk:"tenant"`
-	TenantName     types.String   `tfsdk:"tenant_name"`
-	TenantUuid     types.String   `tfsdk:"tenant_uuid"`
-	Url            types.String   `tfsdk:"url"`
-	Timeouts       timeouts.Value `tfsdk:"timeouts"`
+	OpenstackServerGroupModel
+	Timeouts timeouts.Value `tfsdk:"timeouts"`
 }
 
 func (r *OpenstackServerGroupResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
@@ -87,7 +70,8 @@ func (r *OpenstackServerGroupResource) Schema(ctx context.Context, req resource.
 				MarkdownDescription: "ID of the backend",
 			},
 			"created": schema.StringAttribute{
-				Computed: true,
+				CustomType: timetypes.RFC3339Type{},
+				Computed:   true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
@@ -138,7 +122,8 @@ func (r *OpenstackServerGroupResource) Schema(ctx context.Context, req resource.
 				MarkdownDescription: "Instances",
 			},
 			"modified": schema.StringAttribute{
-				Computed: true,
+				CustomType: timetypes.RFC3339Type{},
+				Computed:   true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
@@ -262,7 +247,7 @@ func (r *OpenstackServerGroupResource) Create(ctx context.Context, req resource.
 	}
 	apiResp = newResp
 
-	resp.Diagnostics.Append(r.mapResponseToModel(ctx, *apiResp, &data)...)
+	resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
@@ -293,7 +278,7 @@ func (r *OpenstackServerGroupResource) Read(ctx context.Context, req resource.Re
 		return
 	}
 
-	resp.Diagnostics.Append(r.mapResponseToModel(ctx, *apiResp, &data)...)
+	resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
 
 	// Save updated data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
@@ -338,7 +323,7 @@ func (r *OpenstackServerGroupResource) Update(ctx context.Context, req resource.
 	}
 	apiResp = newResp
 
-	resp.Diagnostics.Append(r.mapResponseToModel(ctx, *apiResp, &data)...)
+	resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
@@ -406,7 +391,7 @@ func (r *OpenstackServerGroupResource) ImportState(ctx context.Context, req reso
 	}
 
 	var data OpenstackServerGroupResourceModel
-	resp.Diagnostics.Append(r.mapResponseToModel(ctx, *apiResp, &data)...)
+	resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
@@ -415,34 +400,5 @@ func (r *OpenstackServerGroupResource) ImportState(ctx context.Context, req reso
 }
 
 func (r *OpenstackServerGroupResource) mapResponseToModel(ctx context.Context, apiResp OpenstackServerGroupResponse, model *OpenstackServerGroupResourceModel) diag.Diagnostics {
-	var diags diag.Diagnostics
-
-	model.UUID = types.StringPointerValue(apiResp.UUID)
-	model.AccessUrl = types.StringPointerValue(apiResp.AccessUrl)
-	model.BackendId = types.StringPointerValue(apiResp.BackendId)
-	model.Created = types.StringPointerValue(apiResp.Created)
-	model.Description = types.StringPointerValue(apiResp.Description)
-	model.DisplayName = types.StringPointerValue(apiResp.DisplayName)
-	model.ErrorMessage = types.StringPointerValue(apiResp.ErrorMessage)
-	model.ErrorTraceback = types.StringPointerValue(apiResp.ErrorTraceback)
-
-	{
-		listValInstances, listDiagsInstances := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
-			"backend_id": types.StringType,
-			"name":       types.StringType,
-		}}, apiResp.Instances)
-		diags.Append(listDiagsInstances...)
-		model.Instances = listValInstances
-	}
-	model.Modified = types.StringPointerValue(apiResp.Modified)
-	model.Name = types.StringPointerValue(apiResp.Name)
-	model.Policy = types.StringPointerValue(apiResp.Policy)
-	model.ResourceType = types.StringPointerValue(apiResp.ResourceType)
-	model.State = types.StringPointerValue(apiResp.State)
-	model.Tenant = types.StringPointerValue(apiResp.Tenant)
-	model.TenantName = types.StringPointerValue(apiResp.TenantName)
-	model.TenantUuid = types.StringPointerValue(apiResp.TenantUuid)
-	model.Url = types.StringPointerValue(apiResp.Url)
-
-	return diags
+	return model.CopyFrom(ctx, apiResp)
 }

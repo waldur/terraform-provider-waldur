@@ -2,8 +2,6 @@ package tenant
 
 import (
 	"context"
-	"fmt"
-	"strings"
 
 	"github.com/waldur/terraform-provider-waldur/internal/client"
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
@@ -14,8 +12,6 @@ type Client struct {
 }
 
 func NewClient(c *client.Client) *Client {
-	_ = fmt.Errorf
-	_ = strings.Split
 	return &Client{Client: c}
 }
 

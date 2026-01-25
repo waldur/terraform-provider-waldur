@@ -17,6 +17,13 @@ description: |-
 
 ### Optional
 
+- `filters` (Attributes) Filter parameters for querying Structure Project (see [below for nested schema](#nestedatt--filters))
+
+<a id="nestedatt--filters"></a>
+### Nested Schema for `filters`
+
+Optional:
+
 - `backend_id` (String)
 - `can_admin` (Boolean) Return a list of projects where current user is admin.
 - `can_manage` (Boolean) Return a list of projects where current user is manager or a customer owner.

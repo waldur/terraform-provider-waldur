@@ -17,6 +17,13 @@ description: |-
 
 ### Optional
 
+- `filters` (Attributes) Filter parameters for querying Marketplace Resource (see [below for nested schema](#nestedatt--filters))
+
+<a id="nestedatt--filters"></a>
+### Nested Schema for `filters`
+
+Optional:
+
 - `backend_id` (String) Backend ID
 - `category_uuid` (String) Category UUID
 - `component_count` (Number) Filter by exact number of components

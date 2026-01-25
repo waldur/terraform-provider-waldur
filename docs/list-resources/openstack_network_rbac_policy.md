@@ -17,6 +17,13 @@ description: |-
 
 ### Optional
 
+- `filters` (Attributes) Filter parameters for querying Openstack Network Rbac Policy (see [below for nested schema](#nestedatt--filters))
+
+<a id="nestedatt--filters"></a>
+### Nested Schema for `filters`
+
+Optional:
+
 - `network` (String) Network URL
 - `network_uuid` (String) Network UUID
 - `page` (Number) A page number within the paginated result set.

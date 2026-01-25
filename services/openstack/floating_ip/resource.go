@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
-	"github.com/hashicorp/terraform-plugin-framework/attr"
+	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -35,31 +35,8 @@ type OpenstackFloatingIpResource struct {
 
 // OpenstackFloatingIpResourceModel describes the resource data model.
 type OpenstackFloatingIpResourceModel struct {
-	UUID             types.String   `tfsdk:"id"`
-	AccessUrl        types.String   `tfsdk:"access_url"`
-	Address          types.String   `tfsdk:"address"`
-	BackendId        types.String   `tfsdk:"backend_id"`
-	BackendNetworkId types.String   `tfsdk:"backend_network_id"`
-	Created          types.String   `tfsdk:"created"`
-	Description      types.String   `tfsdk:"description"`
-	ErrorMessage     types.String   `tfsdk:"error_message"`
-	ErrorTraceback   types.String   `tfsdk:"error_traceback"`
-	ExternalAddress  types.String   `tfsdk:"external_address"`
-	InstanceName     types.String   `tfsdk:"instance_name"`
-	InstanceUrl      types.String   `tfsdk:"instance_url"`
-	InstanceUuid     types.String   `tfsdk:"instance_uuid"`
-	Modified         types.String   `tfsdk:"modified"`
-	Name             types.String   `tfsdk:"name"`
-	Port             types.String   `tfsdk:"port"`
-	PortFixedIps     types.List     `tfsdk:"port_fixed_ips"`
-	ResourceType     types.String   `tfsdk:"resource_type"`
-	RuntimeState     types.String   `tfsdk:"runtime_state"`
-	State            types.String   `tfsdk:"state"`
-	Tenant           types.String   `tfsdk:"tenant"`
-	TenantName       types.String   `tfsdk:"tenant_name"`
-	TenantUuid       types.String   `tfsdk:"tenant_uuid"`
-	Url              types.String   `tfsdk:"url"`
-	Timeouts         timeouts.Value `tfsdk:"timeouts"`
+	OpenstackFloatingIpModel
+	Timeouts timeouts.Value `tfsdk:"timeouts"`
 }
 
 func (r *OpenstackFloatingIpResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
@@ -107,7 +84,8 @@ func (r *OpenstackFloatingIpResource) Schema(ctx context.Context, req resource.S
 				MarkdownDescription: "ID of network in OpenStack where this floating IP is allocated",
 			},
 			"created": schema.StringAttribute{
-				Computed: true,
+				CustomType: timetypes.RFC3339Type{},
+				Computed:   true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
@@ -163,7 +141,8 @@ func (r *OpenstackFloatingIpResource) Schema(ctx context.Context, req resource.S
 				MarkdownDescription: "UUID of the instance",
 			},
 			"modified": schema.StringAttribute{
-				Computed: true,
+				CustomType: timetypes.RFC3339Type{},
+				Computed:   true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
@@ -315,7 +294,7 @@ func (r *OpenstackFloatingIpResource) Create(ctx context.Context, req resource.C
 	}
 	apiResp = newResp
 
-	resp.Diagnostics.Append(r.mapResponseToModel(ctx, *apiResp, &data)...)
+	resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
@@ -346,7 +325,7 @@ func (r *OpenstackFloatingIpResource) Read(ctx context.Context, req resource.Rea
 		return
 	}
 
-	resp.Diagnostics.Append(r.mapResponseToModel(ctx, *apiResp, &data)...)
+	resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
 
 	// Save updated data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
@@ -419,7 +398,7 @@ func (r *OpenstackFloatingIpResource) ImportState(ctx context.Context, req resou
 	}
 
 	var data OpenstackFloatingIpResourceModel
-	resp.Diagnostics.Append(r.mapResponseToModel(ctx, *apiResp, &data)...)
+	resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
@@ -428,40 +407,5 @@ func (r *OpenstackFloatingIpResource) ImportState(ctx context.Context, req resou
 }
 
 func (r *OpenstackFloatingIpResource) mapResponseToModel(ctx context.Context, apiResp OpenstackFloatingIpResponse, model *OpenstackFloatingIpResourceModel) diag.Diagnostics {
-	var diags diag.Diagnostics
-
-	model.UUID = types.StringPointerValue(apiResp.UUID)
-	model.AccessUrl = types.StringPointerValue(apiResp.AccessUrl)
-	model.Address = types.StringPointerValue(apiResp.Address)
-	model.BackendId = types.StringPointerValue(apiResp.BackendId)
-	model.BackendNetworkId = types.StringPointerValue(apiResp.BackendNetworkId)
-	model.Created = types.StringPointerValue(apiResp.Created)
-	model.Description = types.StringPointerValue(apiResp.Description)
-	model.ErrorMessage = types.StringPointerValue(apiResp.ErrorMessage)
-	model.ErrorTraceback = types.StringPointerValue(apiResp.ErrorTraceback)
-	model.ExternalAddress = types.StringPointerValue(apiResp.ExternalAddress)
-	model.InstanceName = types.StringPointerValue(apiResp.InstanceName)
-	model.InstanceUrl = types.StringPointerValue(apiResp.InstanceUrl)
-	model.InstanceUuid = types.StringPointerValue(apiResp.InstanceUuid)
-	model.Modified = types.StringPointerValue(apiResp.Modified)
-	model.Name = types.StringPointerValue(apiResp.Name)
-	model.Port = types.StringPointerValue(apiResp.Port)
-
-	{
-		listValPortFixedIps, listDiagsPortFixedIps := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
-			"ip_address": types.StringType,
-			"subnet_id":  types.StringType,
-		}}, apiResp.PortFixedIps)
-		diags.Append(listDiagsPortFixedIps...)
-		model.PortFixedIps = listValPortFixedIps
-	}
-	model.ResourceType = types.StringPointerValue(apiResp.ResourceType)
-	model.RuntimeState = types.StringPointerValue(apiResp.RuntimeState)
-	model.State = types.StringPointerValue(apiResp.State)
-	model.Tenant = types.StringPointerValue(apiResp.Tenant)
-	model.TenantName = types.StringPointerValue(apiResp.TenantName)
-	model.TenantUuid = types.StringPointerValue(apiResp.TenantUuid)
-	model.Url = types.StringPointerValue(apiResp.Url)
-
-	return diags
+	return model.CopyFrom(ctx, apiResp)
 }
