@@ -29,7 +29,7 @@ Openstack Network Rbac Policy resource
 
 - `backend_id` (String) ID of the backend
 - `created` (String) Created
-- `id` (String) Resource UUID (used as Terraform ID)
+- `id` (String) Openstack Network Rbac Policy UUID (used as Terraform ID)
 - `network_name` (String) Name of the network
 - `target_tenant_name` (String) Name of the target tenant
 - `url` (String) Url

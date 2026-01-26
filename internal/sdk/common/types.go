@@ -3,9 +3,12 @@ package common
 import "time"
 
 const (
-	DefaultCreateTimeout = 45 * time.Minute
-	DefaultUpdateTimeout = 45 * time.Minute
-	DefaultDeleteTimeout = 45 * time.Minute
+	DefaultCreateTimeout  = 15 * time.Minute
+	DefaultUpdateTimeout  = 15 * time.Minute
+	DefaultDeleteTimeout  = 15 * time.Minute
+	DefaultActionTimeout  = 15 * time.Minute
+	DefaultPollDelay      = 10 * time.Second
+	DefaultPollMinTimeout = 5 * time.Second
 )
 
 type BaseProviderPlanRequest struct {

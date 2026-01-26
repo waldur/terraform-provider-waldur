@@ -17,10 +17,10 @@ Openstack Network data source - lookup by name or UUID
 
 ### Optional
 
-- `description` (String) Description of the resource
+- `description` (String) Description of the Openstack Network
 - `filters` (Attributes) Filter parameters for querying Openstack Network (see [below for nested schema](#nestedatt--filters))
-- `id` (String) Resource UUID
-- `name` (String) Name of the resource
+- `id` (String) Openstack Network UUID
+- `name` (String) Name of the Openstack Network
 
 ### Read-Only
 
@@ -97,11 +97,11 @@ Read-Only:
 Optional:
 
 - `cidr` (String) IPv4 network address in CIDR format (e.g. 192.168.0.0/24)
-- `description` (String) Description of the resource
+- `description` (String) Description of the Openstack Network
 - `enable_dhcp` (Boolean) If True, DHCP service will be enabled on this subnet
 - `gateway_ip` (String) IP address of the gateway for this subnet
 - `ip_version` (Number) IP protocol version (4 or 6)
-- `name` (String) Name of the resource
+- `name` (String) Name of the Openstack Network
 
 Read-Only:
 

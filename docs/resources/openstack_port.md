@@ -17,12 +17,12 @@ Openstack Port resource
 
 ### Required
 
-- `name` (String) Name of the resource
+- `name` (String) Name of the Openstack Port
 
 ### Optional
 
 - `allowed_address_pairs` (Attributes List) Allowed address pairs (see [below for nested schema](#nestedatt--allowed_address_pairs))
-- `description` (String) Description of the resource
+- `description` (String) Description of the Openstack Port
 - `fixed_ips` (Attributes List) Fixed ips (see [below for nested schema](#nestedatt--fixed_ips))
 - `mac_address` (String) MAC address of the port
 - `network` (String) Network to which this port belongs
@@ -42,7 +42,7 @@ Openstack Port resource
 - `error_message` (String) Error message
 - `error_traceback` (String) Error traceback
 - `floating_ips` (Set of String) Floating ips
-- `id` (String) Resource UUID (used as Terraform ID)
+- `id` (String) Openstack Port UUID (used as Terraform ID)
 - `modified` (String) Modified
 - `network_name` (String) Name of the network
 - `network_uuid` (String) UUID of the network
@@ -77,7 +77,7 @@ Required:
 
 Required:
 
-- `name` (String) Name of the resource
+- `name` (String) Name of the Openstack Port
 
 
 <a id="nestedblock--timeouts"></a>

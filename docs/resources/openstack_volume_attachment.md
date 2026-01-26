@@ -23,9 +23,9 @@ Openstack Volume Attachment resource
 
 - `availability_zone` (String) Availability zone where this volume is located
 - `bootable` (Boolean) Indicates if this volume can be used to boot an instance
-- `description` (String) Description of the resource
+- `description` (String) Description of the Openstack Volume Attachment
 - `image` (String) Image that this volume was created from, if any
-- `name` (String) Name of the resource
+- `name` (String) Name of the Openstack Volume Attachment
 - `size` (Number) Size in MiB
 - `tenant` (String) Tenant
 - `timeouts` (Block, Optional) (see [below for nested schema](#nestedblock--timeouts))
@@ -42,7 +42,7 @@ Openstack Volume Attachment resource
 - `error_message` (String) Error message
 - `error_traceback` (String) Error traceback
 - `extend_enabled` (Boolean) Extend enabled
-- `id` (String) Resource UUID (used as Terraform ID)
+- `id` (String) Openstack Volume Attachment UUID (used as Terraform ID)
 - `image_metadata` (String) Metadata of the image this volume was created from
 - `image_name` (String) Name of the image this volume was created from
 - `instance` (String) Instance that this volume is attached to, if any

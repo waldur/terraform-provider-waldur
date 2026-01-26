@@ -1,7 +1,5 @@
 package customer
 
-// StructureCustomer Structs
-
 type StructureCustomerCreateRequest struct {
 	Abbreviation                 *string  `json:"abbreviation,omitempty" tfsdk:"abbreviation"`
 	AccessSubnets                *string  `json:"access_subnets,omitempty" tfsdk:"access_subnets"`

@@ -4,9 +4,11 @@ import (
 	"context"
 	"fmt"
 	"reflect"
+	"strings"
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-framework/attr"
+	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/waldur/terraform-provider-waldur/internal/client"
@@ -63,19 +65,23 @@ func BuildQueryFilters(filtersStruct interface{}) map[string]string {
 }
 
 // PopulateSliceField helps populating a slice field from a Terraform list.
-func PopulateSliceField[T any](ctx context.Context, list types.List, target *[]T) {
+func PopulateSliceField[T any](ctx context.Context, list types.List, target *[]T) diag.Diagnostics {
 	var items []T
-	if diags := list.ElementsAs(ctx, &items, false); !diags.HasError() && len(items) > 0 {
+	diags := list.ElementsAs(ctx, &items, false)
+	if !diags.HasError() && len(items) > 0 {
 		*target = items
 	}
+	return diags
 }
 
 // PopulateSetField helps populating a slice field from a Terraform set.
-func PopulateSetField[T any](ctx context.Context, set types.Set, target *[]T) {
+func PopulateSetField[T any](ctx context.Context, set types.Set, target *[]T) diag.Diagnostics {
 	var items []T
-	if diags := set.ElementsAs(ctx, &items, false); !diags.HasError() && len(items) > 0 {
+	diags := set.ElementsAs(ctx, &items, false)
+	if !diags.HasError() && len(items) > 0 {
 		*target = items
 	}
+	return diags
 }
 
 // ResolveResourceUUID extracts the resource UUID from a marketplace order response.
@@ -118,8 +124,8 @@ func WaitForOrder(ctx context.Context, c *client.Client, orderUUID string, timeo
 			return &res, state, nil
 		},
 		Timeout:    timeout,
-		Delay:      10 * time.Second,
-		MinTimeout: 5 * time.Second,
+		Delay:      DefaultPollDelay,
+		MinTimeout: DefaultPollMinTimeout,
 	}
 
 	rawResult, err := stateConf.WaitForStateContext(ctx)
@@ -164,8 +170,8 @@ func WaitForResource[T ResourceWithState](ctx context.Context, getResource func(
 			return res, state, nil
 		},
 		Timeout:    timeout,
-		Delay:      10 * time.Second,
-		MinTimeout: 5 * time.Second,
+		Delay:      DefaultPollDelay,
+		MinTimeout: DefaultPollMinTimeout,
 	}
 
 	rawResult, err := stateConf.WaitForStateContext(ctx)
@@ -184,7 +190,7 @@ func WaitForDeletion[T ResourceWithState](ctx context.Context, getResource func(
 		Refresh: func() (interface{}, string, error) {
 			res, err := getResource(ctx)
 			if err != nil {
-				if client.IsNotFoundError(err) {
+				if IsNotFoundError(err) {
 					return nil, "", nil
 				}
 				return nil, "", err
@@ -204,10 +210,18 @@ func WaitForDeletion[T ResourceWithState](ctx context.Context, getResource func(
 			return res, state, nil
 		},
 		Timeout:    timeout,
-		Delay:      10 * time.Second,
-		MinTimeout: 5 * time.Second,
+		Delay:      DefaultPollDelay,
+		MinTimeout: DefaultPollMinTimeout,
 	}
 
 	_, err := stateConf.WaitForStateContext(ctx)
 	return err
+}
+
+// IsNotFoundError checks if an error represents a 404 Not Found response
+func IsNotFoundError(err error) bool {
+	if err == nil {
+		return false
+	}
+	return strings.Contains(err.Error(), "HTTP 404")
 }

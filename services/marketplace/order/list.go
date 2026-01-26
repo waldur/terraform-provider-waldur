@@ -2,14 +2,12 @@ package order
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/list"
 	"github.com/hashicorp/terraform-plugin-framework/list/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 
-	"github.com/waldur/terraform-provider-waldur/internal/client"
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
@@ -30,103 +28,20 @@ func (l *MarketplaceOrderList) Metadata(ctx context.Context, req resource.Metada
 func (l *MarketplaceOrderList) ListResourceConfigSchema(ctx context.Context, req list.ListResourceSchemaRequest, resp *list.ListResourceSchemaResponse) {
 	resp.Schema = schema.Schema{
 		Attributes: map[string]schema.Attribute{
-			"filters": schema.SingleNestedAttribute{
-				Optional:    true,
-				Description: "Filter parameters for querying Marketplace Order",
-				Attributes: map[string]schema.Attribute{
-					"can_approve_as_consumer": schema.BoolAttribute{
-						Description: "Can approve as consumer",
-						Optional:    true,
-					},
-					"can_approve_as_provider": schema.BoolAttribute{
-						Description: "Can approve as provider",
-						Optional:    true,
-					},
-					"category_uuid": schema.StringAttribute{
-						Description: "Category UUID",
-						Optional:    true,
-					},
-					"created": schema.StringAttribute{
-						Description: "Created after",
-						Optional:    true,
-					},
-					"customer_uuid": schema.StringAttribute{
-						Description: "Customer UUID",
-						Optional:    true,
-					},
-					"modified": schema.StringAttribute{
-						Description: "Modified after",
-						Optional:    true,
-					},
-					"offering": schema.StringAttribute{
-						Description: "",
-						Optional:    true,
-					},
-					"offering_uuid": schema.StringAttribute{
-						Description: "Offering UUID",
-						Optional:    true,
-					},
-					"page": schema.Int64Attribute{
-						Description: "A page number within the paginated result set.",
-						Optional:    true,
-					},
-					"page_size": schema.Int64Attribute{
-						Description: "Number of results to return per page.",
-						Optional:    true,
-					},
-					"parent_offering_uuid": schema.StringAttribute{
-						Description: "",
-						Optional:    true,
-					},
-					"project_uuid": schema.StringAttribute{
-						Description: "Project UUID",
-						Optional:    true,
-					},
-					"provider_uuid": schema.StringAttribute{
-						Description: "Provider UUID",
-						Optional:    true,
-					},
-					"query": schema.StringAttribute{
-						Description: "Search by order UUID, slug, project name or resource name",
-						Optional:    true,
-					},
-					"resource": schema.StringAttribute{
-						Description: "Resource URL",
-						Optional:    true,
-					},
-					"resource_name": schema.StringAttribute{
-						Description: "Resource name",
-						Optional:    true,
-					},
-					"resource_uuid": schema.StringAttribute{
-						Description: "Resource UUID",
-						Optional:    true,
-					},
-					"service_manager_uuid": schema.StringAttribute{
-						Description: "Service manager UUID",
-						Optional:    true,
-					},
-				},
-			},
+			"filters": (&MarketplaceOrderFiltersModel{}).GetSchema(),
 		},
 	}
 }
 
 func (l *MarketplaceOrderList) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
-	if req.ProviderData == nil {
-		return
-	}
-
-	client, ok := req.ProviderData.(*client.Client)
-	if !ok {
+	l.client = &Client{}
+	if err := l.client.Configure(ctx, req.ProviderData); err != nil {
 		resp.Diagnostics.AddError(
 			"Unexpected List Configure Type",
-			fmt.Sprintf("Expected *client.Client, got: %T", req.ProviderData),
+			err.Error(),
 		)
 		return
 	}
-
-	l.client = NewClient(client)
 }
 
 type MarketplaceOrderListModel struct {

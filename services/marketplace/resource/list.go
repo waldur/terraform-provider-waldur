@@ -2,14 +2,12 @@ package resource
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/list"
 	"github.com/hashicorp/terraform-plugin-framework/list/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 
-	"github.com/waldur/terraform-provider-waldur/internal/client"
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
@@ -30,175 +28,20 @@ func (l *MarketplaceResourceList) Metadata(ctx context.Context, req resource.Met
 func (l *MarketplaceResourceList) ListResourceConfigSchema(ctx context.Context, req list.ListResourceSchemaRequest, resp *list.ListResourceSchemaResponse) {
 	resp.Schema = schema.Schema{
 		Attributes: map[string]schema.Attribute{
-			"filters": schema.SingleNestedAttribute{
-				Optional:    true,
-				Description: "Filter parameters for querying Marketplace Resource",
-				Attributes: map[string]schema.Attribute{
-					"backend_id": schema.StringAttribute{
-						Description: "Backend ID",
-						Optional:    true,
-					},
-					"category_uuid": schema.StringAttribute{
-						Description: "Category UUID",
-						Optional:    true,
-					},
-					"component_count": schema.Float64Attribute{
-						Description: "Filter by exact number of components",
-						Optional:    true,
-					},
-					"created": schema.StringAttribute{
-						Description: "Created after",
-						Optional:    true,
-					},
-					"customer": schema.StringAttribute{
-						Description: "Customer URL",
-						Optional:    true,
-					},
-					"customer_uuid": schema.StringAttribute{
-						Description: "Customer UUID",
-						Optional:    true,
-					},
-					"downscaled": schema.BoolAttribute{
-						Description: "Downscaled",
-						Optional:    true,
-					},
-					"has_terminate_date": schema.BoolAttribute{
-						Description: "Has termination date",
-						Optional:    true,
-					},
-					"is_attached": schema.BoolAttribute{
-						Description: "Filter by attached state",
-						Optional:    true,
-					},
-					"lexis_links_supported": schema.BoolAttribute{
-						Description: "LEXIS links supported",
-						Optional:    true,
-					},
-					"limit_based": schema.BoolAttribute{
-						Description: "Filter by limit-based offerings",
-						Optional:    true,
-					},
-					"limit_component_count": schema.Float64Attribute{
-						Description: "Filter by exact number of limit-based components",
-						Optional:    true,
-					},
-					"modified": schema.StringAttribute{
-						Description: "Modified after",
-						Optional:    true,
-					},
-					"name": schema.StringAttribute{
-						Description: "Name",
-						Optional:    true,
-					},
-					"name_exact": schema.StringAttribute{
-						Description: "Name (exact)",
-						Optional:    true,
-					},
-					"offering": schema.StringAttribute{
-						Description: "",
-						Optional:    true,
-					},
-					"offering_billable": schema.BoolAttribute{
-						Description: "Offering billable",
-						Optional:    true,
-					},
-					"offering_shared": schema.BoolAttribute{
-						Description: "Offering shared",
-						Optional:    true,
-					},
-					"offering_type": schema.StringAttribute{
-						Description: "Offering type",
-						Optional:    true,
-					},
-					"only_limit_based": schema.BoolAttribute{
-						Description: "Filter resources with only limit-based components",
-						Optional:    true,
-					},
-					"only_usage_based": schema.BoolAttribute{
-						Description: "Filter resources with only usage-based components",
-						Optional:    true,
-					},
-					"page": schema.Int64Attribute{
-						Description: "A page number within the paginated result set.",
-						Optional:    true,
-					},
-					"page_size": schema.Int64Attribute{
-						Description: "Number of results to return per page.",
-						Optional:    true,
-					},
-					"parent_offering_uuid": schema.StringAttribute{
-						Description: "",
-						Optional:    true,
-					},
-					"paused": schema.BoolAttribute{
-						Description: "Paused",
-						Optional:    true,
-					},
-					"plan_uuid": schema.StringAttribute{
-						Description: "Plan UUID",
-						Optional:    true,
-					},
-					"project_name": schema.StringAttribute{
-						Description: "Project name",
-						Optional:    true,
-					},
-					"project_uuid": schema.StringAttribute{
-						Description: "Project UUID",
-						Optional:    true,
-					},
-					"provider_uuid": schema.StringAttribute{
-						Description: "Provider UUID",
-						Optional:    true,
-					},
-					"query": schema.StringAttribute{
-						Description: "Search by resource UUID, name, slug, backend ID, effective ID, IPs or hypervisor",
-						Optional:    true,
-					},
-					"restrict_member_access": schema.BoolAttribute{
-						Description: "Restrict member access",
-						Optional:    true,
-					},
-					"runtime_state": schema.StringAttribute{
-						Description: "Runtime state",
-						Optional:    true,
-					},
-					"service_manager_uuid": schema.StringAttribute{
-						Description: "Service manager UUID",
-						Optional:    true,
-					},
-					"usage_based": schema.BoolAttribute{
-						Description: "Filter by usage-based offerings",
-						Optional:    true,
-					},
-					"visible_to_providers": schema.BoolAttribute{
-						Description: "Include only resources visible to service providers",
-						Optional:    true,
-					},
-					"visible_to_username": schema.StringAttribute{
-						Description: "Visible to username",
-						Optional:    true,
-					},
-				},
-			},
+			"filters": (&MarketplaceResourceFiltersModel{}).GetSchema(),
 		},
 	}
 }
 
 func (l *MarketplaceResourceList) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
-	if req.ProviderData == nil {
-		return
-	}
-
-	client, ok := req.ProviderData.(*client.Client)
-	if !ok {
+	l.client = &Client{}
+	if err := l.client.Configure(ctx, req.ProviderData); err != nil {
 		resp.Diagnostics.AddError(
 			"Unexpected List Configure Type",
-			fmt.Sprintf("Expected *client.Client, got: %T", req.ProviderData),
+			err.Error(),
 		)
 		return
 	}
-
-	l.client = NewClient(client)
 }
 
 type MarketplaceResourceListModel struct {

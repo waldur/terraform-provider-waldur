@@ -1,7 +1,5 @@
 package volume_attachment
 
-// OpenstackVolumeAttachment Structs
-
 type OpenstackVolumeAttachmentCreateRequest struct {
 	Device   *string `json:"device,omitempty" tfsdk:"device"`
 	Instance *string `json:"instance" tfsdk:"instance"`

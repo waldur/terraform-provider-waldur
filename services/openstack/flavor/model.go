@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
@@ -27,6 +28,83 @@ type OpenstackFlavorFiltersModel struct {
 	TenantUuid   types.String `tfsdk:"tenant_uuid"`
 }
 
+func (m *OpenstackFlavorFiltersModel) GetSchema() schema.SingleNestedAttribute {
+	return schema.SingleNestedAttribute{
+		Optional:            true,
+		MarkdownDescription: "Filter parameters for querying Openstack Flavor",
+		Attributes: map[string]schema.Attribute{
+			"cores": schema.Int64Attribute{
+				Optional:            true,
+				MarkdownDescription: "Cores",
+			},
+			"cores__gte": schema.Int64Attribute{
+				Optional:            true,
+				MarkdownDescription: "Cores gte",
+			},
+			"cores__lte": schema.Int64Attribute{
+				Optional:            true,
+				MarkdownDescription: "Cores lte",
+			},
+			"disk": schema.Int64Attribute{
+				Optional:            true,
+				MarkdownDescription: "Disk",
+			},
+			"disk__gte": schema.Int64Attribute{
+				Optional:            true,
+				MarkdownDescription: "Disk gte",
+			},
+			"disk__lte": schema.Int64Attribute{
+				Optional:            true,
+				MarkdownDescription: "Disk lte",
+			},
+			"name": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Name",
+			},
+			"name_exact": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Name (exact)",
+			},
+			"name_iregex": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Name (regex)",
+			},
+			"offering_uuid": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Offering UUID",
+			},
+			"ram": schema.Int64Attribute{
+				Optional:            true,
+				MarkdownDescription: "Ram",
+			},
+			"ram__gte": schema.Int64Attribute{
+				Optional:            true,
+				MarkdownDescription: "Ram gte",
+			},
+			"ram__lte": schema.Int64Attribute{
+				Optional:            true,
+				MarkdownDescription: "Ram lte",
+			},
+			"settings": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Settings URL",
+			},
+			"settings_uuid": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Settings UUID",
+			},
+			"tenant": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Tenant URL",
+			},
+			"tenant_uuid": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Tenant UUID",
+			},
+		},
+	}
+}
+
 type OpenstackFlavorModel struct {
 	UUID        types.String `tfsdk:"id"`
 	BackendId   types.String `tfsdk:"backend_id"`
@@ -44,6 +122,14 @@ func (model *OpenstackFlavorModel) CopyFrom(ctx context.Context, apiResp Opensta
 	var diags diag.Diagnostics
 
 	model.UUID = types.StringPointerValue(apiResp.UUID)
+	model.BackendId = types.StringPointerValue(apiResp.BackendId)
+	model.Cores = types.Int64PointerValue(apiResp.Cores)
+	model.Disk = types.Int64PointerValue(apiResp.Disk)
+	model.DisplayName = types.StringPointerValue(apiResp.DisplayName)
+	model.Name = types.StringPointerValue(apiResp.Name)
+	model.Ram = types.Int64PointerValue(apiResp.Ram)
+	model.Settings = types.StringPointerValue(apiResp.Settings)
+	model.Url = types.StringPointerValue(apiResp.Url)
 
 	return diags
 }

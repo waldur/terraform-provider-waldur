@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
@@ -15,6 +16,43 @@ type OpenstackVolumeTypeFiltersModel struct {
 	SettingsUuid types.String `tfsdk:"settings_uuid"`
 	Tenant       types.String `tfsdk:"tenant"`
 	TenantUuid   types.String `tfsdk:"tenant_uuid"`
+}
+
+func (m *OpenstackVolumeTypeFiltersModel) GetSchema() schema.SingleNestedAttribute {
+	return schema.SingleNestedAttribute{
+		Optional:            true,
+		MarkdownDescription: "Filter parameters for querying Openstack Volume Type",
+		Attributes: map[string]schema.Attribute{
+			"name": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Name",
+			},
+			"name_exact": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Name (exact)",
+			},
+			"offering_uuid": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Offering UUID",
+			},
+			"settings": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Settings URL",
+			},
+			"settings_uuid": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Settings UUID",
+			},
+			"tenant": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Tenant URL",
+			},
+			"tenant_uuid": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Tenant UUID",
+			},
+		},
+	}
 }
 
 type OpenstackVolumeTypeModel struct {
@@ -30,6 +68,10 @@ func (model *OpenstackVolumeTypeModel) CopyFrom(ctx context.Context, apiResp Ope
 	var diags diag.Diagnostics
 
 	model.UUID = types.StringPointerValue(apiResp.UUID)
+	model.Description = types.StringPointerValue(apiResp.Description)
+	model.Name = types.StringPointerValue(apiResp.Name)
+	model.Settings = types.StringPointerValue(apiResp.Settings)
+	model.Url = types.StringPointerValue(apiResp.Url)
 
 	return diags
 }

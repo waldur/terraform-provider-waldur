@@ -35,8 +35,6 @@ Optional:
 - `external_ip` (String) External IP
 - `name` (String) Name
 - `name_exact` (String) Name (exact)
-- `page` (Number) A page number within the paginated result set.
-- `page_size` (Number) Number of results to return per page.
 - `project` (String) Project UUID
 - `project_name` (String) Project name
 - `project_uuid` (String) Project UUID

@@ -21,7 +21,7 @@ Marketplace Order data source - lookup by name or UUID
 - `backend_id` (String) ID of the backend
 - `callback_url` (String) Callback url
 - `filters` (Attributes) Filter parameters for querying Marketplace Order (see [below for nested schema](#nestedatt--filters))
-- `id` (String) Resource UUID
+- `id` (String) Marketplace Order UUID
 - `offering` (String) Offering
 - `plan` (String) Plan
 - `request_comment` (String) Request comment

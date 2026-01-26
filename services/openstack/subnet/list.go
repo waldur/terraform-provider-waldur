@@ -2,14 +2,12 @@ package subnet
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/list"
 	"github.com/hashicorp/terraform-plugin-framework/list/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 
-	"github.com/waldur/terraform-provider-waldur/internal/client"
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
@@ -30,139 +28,20 @@ func (l *OpenstackSubnetList) Metadata(ctx context.Context, req resource.Metadat
 func (l *OpenstackSubnetList) ListResourceConfigSchema(ctx context.Context, req list.ListResourceSchemaRequest, resp *list.ListResourceSchemaResponse) {
 	resp.Schema = schema.Schema{
 		Attributes: map[string]schema.Attribute{
-			"filters": schema.SingleNestedAttribute{
-				Optional:    true,
-				Description: "Filter parameters for querying Openstack Subnet",
-				Attributes: map[string]schema.Attribute{
-					"backend_id": schema.StringAttribute{
-						Description: "Backend ID",
-						Optional:    true,
-					},
-					"can_manage": schema.BoolAttribute{
-						Description: "Can manage",
-						Optional:    true,
-					},
-					"customer": schema.StringAttribute{
-						Description: "Customer UUID",
-						Optional:    true,
-					},
-					"customer_abbreviation": schema.StringAttribute{
-						Description: "Customer abbreviation",
-						Optional:    true,
-					},
-					"customer_name": schema.StringAttribute{
-						Description: "Customer name",
-						Optional:    true,
-					},
-					"customer_native_name": schema.StringAttribute{
-						Description: "Customer native name",
-						Optional:    true,
-					},
-					"customer_uuid": schema.StringAttribute{
-						Description: "Customer UUID",
-						Optional:    true,
-					},
-					"description": schema.StringAttribute{
-						Description: "Description",
-						Optional:    true,
-					},
-					"direct_only": schema.BoolAttribute{
-						Description: "Direct only",
-						Optional:    true,
-					},
-					"enable_dhcp": schema.BoolAttribute{
-						Description: "",
-						Optional:    true,
-					},
-					"external_ip": schema.StringAttribute{
-						Description: "External IP",
-						Optional:    true,
-					},
-					"ip_version": schema.Int64Attribute{
-						Description: "",
-						Optional:    true,
-					},
-					"name": schema.StringAttribute{
-						Description: "Name",
-						Optional:    true,
-					},
-					"name_exact": schema.StringAttribute{
-						Description: "Name (exact)",
-						Optional:    true,
-					},
-					"network": schema.StringAttribute{
-						Description: "Network URL",
-						Optional:    true,
-					},
-					"network_uuid": schema.StringAttribute{
-						Description: "Network UUID",
-						Optional:    true,
-					},
-					"page": schema.Int64Attribute{
-						Description: "A page number within the paginated result set.",
-						Optional:    true,
-					},
-					"page_size": schema.Int64Attribute{
-						Description: "Number of results to return per page.",
-						Optional:    true,
-					},
-					"project": schema.StringAttribute{
-						Description: "Project UUID",
-						Optional:    true,
-					},
-					"project_name": schema.StringAttribute{
-						Description: "Project name",
-						Optional:    true,
-					},
-					"project_uuid": schema.StringAttribute{
-						Description: "Project UUID",
-						Optional:    true,
-					},
-					"rbac_only": schema.BoolAttribute{
-						Description: "RBAC only",
-						Optional:    true,
-					},
-					"service_settings_name": schema.StringAttribute{
-						Description: "Service settings name",
-						Optional:    true,
-					},
-					"service_settings_uuid": schema.StringAttribute{
-						Description: "Service settings UUID",
-						Optional:    true,
-					},
-					"tenant": schema.StringAttribute{
-						Description: "Tenant URL",
-						Optional:    true,
-					},
-					"tenant_uuid": schema.StringAttribute{
-						Description: "Tenant UUID",
-						Optional:    true,
-					},
-					"uuid": schema.StringAttribute{
-						Description: "UUID",
-						Optional:    true,
-					},
-				},
-			},
+			"filters": (&OpenstackSubnetFiltersModel{}).GetSchema(),
 		},
 	}
 }
 
 func (l *OpenstackSubnetList) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
-	if req.ProviderData == nil {
-		return
-	}
-
-	client, ok := req.ProviderData.(*client.Client)
-	if !ok {
+	l.client = &Client{}
+	if err := l.client.Configure(ctx, req.ProviderData); err != nil {
 		resp.Diagnostics.AddError(
 			"Unexpected List Configure Type",
-			fmt.Sprintf("Expected *client.Client, got: %T", req.ProviderData),
+			err.Error(),
 		)
 		return
 	}
-
-	l.client = NewClient(client)
 }
 
 type OpenstackSubnetListModel struct {

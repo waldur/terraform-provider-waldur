@@ -28,7 +28,7 @@ Optional:
 - `allowed_customer_uuid` (String) Allowed customer UUID
 - `attributes` (String) Offering attributes (JSON)
 - `billable` (Boolean) Billable
-- `can_create_offering_user` (Boolean)
+- `can_create_offering_user` (Boolean) Can create offering user
 - `category_group_uuid` (String) Category group UUID
 - `category_uuid` (String) Category UUID
 - `created` (String) Created after
@@ -41,8 +41,6 @@ Optional:
 - `modified` (String) Modified after
 - `name` (String) Name
 - `name_exact` (String) Name (exact)
-- `page` (Number) A page number within the paginated result set.
-- `page_size` (Number) Number of results to return per page.
 - `parent_uuid` (String) Parent offering UUID
 - `project_uuid` (String) Project UUID
 - `query` (String) Search by offering name, slug or description

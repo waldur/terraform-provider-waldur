@@ -4,8 +4,6 @@ import (
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
-// MarketplaceOffering Structs
-
 type MarketplaceOfferingCreateRequest struct {
 	AccessUrl           *string                            `json:"access_url,omitempty" tfsdk:"access_url"`
 	BackendId           *string                            `json:"backend_id,omitempty" tfsdk:"backend_id"`

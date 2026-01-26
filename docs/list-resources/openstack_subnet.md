@@ -33,15 +33,13 @@ Optional:
 - `customer_uuid` (String) Customer UUID
 - `description` (String) Description
 - `direct_only` (Boolean) Direct only
-- `enable_dhcp` (Boolean)
+- `enable_dhcp` (Boolean) Enable dhcp
 - `external_ip` (String) External IP
-- `ip_version` (Number)
+- `ip_version` (Number) Ip version
 - `name` (String) Name
 - `name_exact` (String) Name (exact)
 - `network` (String) Network URL
 - `network_uuid` (String) Network UUID
-- `page` (Number) A page number within the paginated result set.
-- `page_size` (Number) Number of results to return per page.
 - `project` (String) Project UUID
 - `project_name` (String) Project name
 - `project_uuid` (String) Project UUID

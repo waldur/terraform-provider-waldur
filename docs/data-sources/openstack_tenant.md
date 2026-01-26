@@ -19,10 +19,10 @@ Openstack Tenant data source - lookup by name or UUID
 
 - `availability_zone` (String) Optional availability group. Will be used for all instances provisioned in this tenant
 - `default_volume_type_name` (String) Volume type name to use when creating volumes.
-- `description` (String) Description of the resource
+- `description` (String) Description of the Openstack Tenant
 - `filters` (Attributes) Filter parameters for querying Openstack Tenant (see [below for nested schema](#nestedatt--filters))
-- `id` (String) Resource UUID
-- `name` (String) Name of the resource
+- `id` (String) Openstack Tenant UUID
+- `name` (String) Name of the Openstack Tenant
 - `project` (String) Project
 - `service_settings` (String) Service settings
 - `skip_creation_of_default_router` (Boolean) Skip creation of default router
@@ -94,5 +94,5 @@ Optional:
 Optional:
 
 - `limit` (Number) Limit
-- `name` (String) Name of the resource
+- `name` (String) Name of the Openstack Tenant
 - `usage` (Number) Usage

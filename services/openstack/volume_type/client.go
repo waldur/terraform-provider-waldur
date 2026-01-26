@@ -2,8 +2,10 @@ package volume_type
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/waldur/terraform-provider-waldur/internal/client"
+	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
 type Client struct {
@@ -12,6 +14,24 @@ type Client struct {
 
 func NewClient(c *client.Client) *Client {
 	return &Client{Client: c}
+}
+
+func (c *Client) Configure(ctx context.Context, providerData interface{}) error {
+	if providerData == nil {
+		return nil
+	}
+
+	raw, ok := providerData.(*client.Client)
+	if !ok {
+		return fmt.Errorf("unexpected provider data type: %T", providerData)
+	}
+
+	c.Client = raw
+	return nil
+}
+
+func IsNotFoundError(err error) bool {
+	return common.IsNotFoundError(err)
 }
 
 func (c *Client) GetOpenstackVolumeType(ctx context.Context, id string) (*OpenstackVolumeTypeResponse, error) {

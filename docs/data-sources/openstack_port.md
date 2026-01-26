@@ -18,12 +18,12 @@ Openstack Port data source - lookup by name or UUID
 ### Optional
 
 - `allowed_address_pairs` (Attributes List) Allowed address pairs (see [below for nested schema](#nestedatt--allowed_address_pairs))
-- `description` (String) Description of the resource
+- `description` (String) Description of the Openstack Port
 - `filters` (Attributes) Filter parameters for querying Openstack Port (see [below for nested schema](#nestedatt--filters))
 - `fixed_ips` (Attributes List) Fixed ips (see [below for nested schema](#nestedatt--fixed_ips))
-- `id` (String) Resource UUID
+- `id` (String) Openstack Port UUID
 - `mac_address` (String) MAC address of the port
-- `name` (String) Name of the resource
+- `name` (String) Name of the Openstack Port
 - `network` (String) Network to which this port belongs
 - `port_security_enabled` (Boolean) If True, security groups and rules will be applied to this port
 - `security_groups` (Attributes Set) Security groups (see [below for nested schema](#nestedatt--security_groups))
@@ -95,7 +95,7 @@ Optional:
 
 Optional:
 
-- `name` (String) Name of the resource
+- `name` (String) Name of the Openstack Port
 
 Read-Only:
 

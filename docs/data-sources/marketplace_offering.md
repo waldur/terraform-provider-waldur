@@ -24,16 +24,16 @@ Marketplace Offering data source - lookup by name or UUID
 - `compliance_checklist` (String) Compliance checklist
 - `country` (String) Country code (ISO 3166-1 alpha-2)
 - `datacite_doi` (String) Datacite doi
-- `description` (String) Description of the resource
+- `description` (String) Description of the Marketplace Offering
 - `filters` (Attributes) Filter parameters for querying Marketplace Offering (see [below for nested schema](#nestedatt--filters))
 - `full_description` (String) Full description
 - `getting_started` (String) Getting started
-- `id` (String) Resource UUID
+- `id` (String) Marketplace Offering UUID
 - `image` (String) Image
 - `integration_guide` (String) Integration guide
 - `latitude` (Number) Latitude
 - `longitude` (Number) Longitude
-- `name` (String) Name of the resource
+- `name` (String) Name of the Marketplace Offering
 - `privacy_policy_link` (String) Privacy policy link
 - `shared` (Boolean) Accessible to all customers.
 - `slug` (String) URL-friendly identifier. Only editable by staff users.
@@ -122,7 +122,7 @@ Optional:
 - `article_code` (String) Article code
 - `billing_type` (String) Billing type
 - `default_limit` (Number) Default limit
-- `description` (String) Description of the resource
+- `description` (String) Description of the Marketplace Offering
 - `is_boolean` (Boolean) Is boolean
 - `is_prepaid` (Boolean) Is prepaid
 - `limit_amount` (Number) Limit amount
@@ -149,7 +149,7 @@ Read-Only:
 
 Optional:
 
-- `name` (String) Name of the resource
+- `name` (String) Name of the Marketplace Offering
 - `url` (String) URL of the access endpoint
 
 
@@ -159,7 +159,7 @@ Optional:
 Optional:
 
 - `file` (String) File
-- `name` (String) Name of the resource
+- `name` (String) Name of the Marketplace Offering
 
 Read-Only:
 
@@ -171,7 +171,7 @@ Read-Only:
 
 Optional:
 
-- `name` (String) Name of the resource
+- `name` (String) Name of the Marketplace Offering
 - `parent` (String) Parent
 
 Read-Only:
@@ -217,9 +217,9 @@ Optional:
 - `archived` (Boolean) Forbids creation of new resources.
 - `article_code` (String) Article code
 - `backend_id` (String) ID of the backend
-- `description` (String) Description of the resource
+- `description` (String) Description of the Marketplace Offering
 - `max_amount` (Number) Maximum number of plans that could be active. Plan is disabled when maximum amount is reached.
-- `name` (String) Name of the resource
+- `name` (String) Name of the Marketplace Offering
 - `unit` (String) Unit
 - `unit_price` (String) Unit price
 - `url` (String) Url
@@ -258,7 +258,7 @@ Read-Only:
 
 Optional:
 
-- `name` (String) Name of the resource
+- `name` (String) Name of the Marketplace Offering
 - `parent` (String) Parent
 
 Read-Only:
@@ -275,12 +275,12 @@ Read-Only:
 
 Optional:
 
-- `description` (String) Description of the resource
+- `description` (String) Description of the Marketplace Offering
 - `discount` (Number) Discount
 - `discount_type` (String) Discount type
 - `end_date` (String) The last day the campaign is active.
 - `months` (Number) How many months in a row should the related service (when activated) get special deal (0 for indefinitely until active)
-- `name` (String) Name of the resource
+- `name` (String) Name of the Marketplace Offering
 - `service_provider` (String) Service provider
 - `start_date` (String) Starting from this date, the campaign is active.
 - `stock` (Number) Stock
@@ -292,7 +292,7 @@ Optional:
 Optional:
 
 - `limit` (Number) Limit
-- `name` (String) Name of the resource
+- `name` (String) Name of the Marketplace Offering
 - `usage` (Number) Usage
 
 
@@ -301,7 +301,7 @@ Optional:
 
 Optional:
 
-- `name` (String) Name of the resource
+- `name` (String) Name of the Marketplace Offering
 
 Read-Only:
 
@@ -313,9 +313,9 @@ Read-Only:
 
 Optional:
 
-- `description` (String) Description of the resource
+- `description` (String) Description of the Marketplace Offering
 - `image` (String) Image
-- `name` (String) Name of the resource
+- `name` (String) Name of the Marketplace Offering
 
 Read-Only:
 
@@ -337,8 +337,8 @@ Read-Only:
 
 Optional:
 
-- `description` (String) Description of the resource
-- `name` (String) Name of the resource
+- `description` (String) Description of the Marketplace Offering
+- `name` (String) Name of the Marketplace Offering
 - `version` (String) Version
 
 

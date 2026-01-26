@@ -24,7 +24,7 @@ description: |-
 
 Optional:
 
-- `backend_id` (String)
+- `backend_id` (String) ID of the backend
 - `can_admin` (Boolean) Return a list of projects where current user is admin.
 - `can_manage` (Boolean) Return a list of projects where current user is manager or a customer owner.
 - `conceal_finished_projects` (Boolean) Conceal finished projects
@@ -38,7 +38,5 @@ Optional:
 - `modified` (String) Modified after
 - `name` (String) Name
 - `name_exact` (String) Name (exact)
-- `page` (Number) A page number within the paginated result set.
-- `page_size` (Number) Number of results to return per page.
 - `query` (String) Filter by name, slug, UUID, backend ID or resource effective ID
 - `slug` (String) Slug

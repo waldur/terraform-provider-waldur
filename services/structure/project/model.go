@@ -5,6 +5,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
@@ -25,6 +26,79 @@ type StructureProjectFiltersModel struct {
 	NameExact               types.String `tfsdk:"name_exact"`
 	Query                   types.String `tfsdk:"query"`
 	Slug                    types.String `tfsdk:"slug"`
+}
+
+func (m *StructureProjectFiltersModel) GetSchema() schema.SingleNestedAttribute {
+	return schema.SingleNestedAttribute{
+		Optional:            true,
+		MarkdownDescription: "Filter parameters for querying Structure Project",
+		Attributes: map[string]schema.Attribute{
+			"backend_id": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "ID of the backend",
+			},
+			"can_admin": schema.BoolAttribute{
+				Optional:            true,
+				MarkdownDescription: "Return a list of projects where current user is admin.",
+			},
+			"can_manage": schema.BoolAttribute{
+				Optional:            true,
+				MarkdownDescription: "Return a list of projects where current user is manager or a customer owner.",
+			},
+			"conceal_finished_projects": schema.BoolAttribute{
+				Optional:            true,
+				MarkdownDescription: "Conceal finished projects",
+			},
+			"created": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Created after",
+			},
+			"customer_abbreviation": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Customer abbreviation",
+			},
+			"customer_name": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Customer name",
+			},
+			"customer_native_name": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Customer native name",
+			},
+			"description": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Description",
+			},
+			"include_terminated": schema.BoolAttribute{
+				Optional:            true,
+				MarkdownDescription: "Include soft-deleted (terminated) projects. Only available to staff and support users, or users with organizational roles who can see their terminated projects.",
+			},
+			"is_removed": schema.BoolAttribute{
+				Optional:            true,
+				MarkdownDescription: "Is removed",
+			},
+			"modified": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Modified after",
+			},
+			"name": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Name",
+			},
+			"name_exact": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Name (exact)",
+			},
+			"query": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Filter by name, slug, UUID, backend ID or resource effective ID",
+			},
+			"slug": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Slug",
+			},
+		},
+	}
 }
 
 type StructureProjectModel struct {

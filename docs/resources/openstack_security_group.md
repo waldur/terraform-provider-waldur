@@ -17,13 +17,13 @@ Openstack Security Group resource
 
 ### Required
 
-- `name` (String) Name of the resource
+- `name` (String) Name of the Openstack Security Group
 - `rules` (Attributes List) Rules (see [below for nested schema](#nestedatt--rules))
 - `tenant` (String) Required path parameter for resource creation
 
 ### Optional
 
-- `description` (String) Description of the resource
+- `description` (String) Description of the Openstack Security Group
 - `timeouts` (Block, Optional) (see [below for nested schema](#nestedblock--timeouts))
 
 ### Read-Only
@@ -33,7 +33,7 @@ Openstack Security Group resource
 - `created` (String) Created
 - `error_message` (String) Error message
 - `error_traceback` (String) Error traceback
-- `id` (String) Resource UUID (used as Terraform ID)
+- `id` (String) Openstack Security Group UUID (used as Terraform ID)
 - `modified` (String) Modified
 - `resource_type` (String) Resource type
 - `state` (String) State
@@ -47,7 +47,7 @@ Openstack Security Group resource
 Optional:
 
 - `cidr` (String) CIDR notation for the source/destination network address range
-- `description` (String) Description of the resource
+- `description` (String) Description of the Openstack Security Group
 - `direction` (String) Traffic direction - either 'ingress' (incoming) or 'egress' (outgoing)
 - `ethertype` (String) IP protocol version - either 'IPv4' or 'IPv6'
 - `from_port` (Number) Starting port number in the range (1-65535)

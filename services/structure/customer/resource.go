@@ -21,7 +21,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
-	"github.com/waldur/terraform-provider-waldur/internal/client"
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
@@ -55,7 +54,7 @@ func (r *StructureCustomerResource) Schema(ctx context.Context, req resource.Sch
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Resource UUID (used as Terraform ID)",
+				MarkdownDescription: "Structure Customer UUID (used as Terraform ID)",
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
@@ -154,7 +153,7 @@ func (r *StructureCustomerResource) Schema(ctx context.Context, req resource.Sch
 			},
 			"description": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "Description of the resource",
+				MarkdownDescription: "Description of the Structure Customer",
 			},
 			"display_billing_info_in_projects": schema.BoolAttribute{
 				Optional:            true,
@@ -216,7 +215,7 @@ func (r *StructureCustomerResource) Schema(ctx context.Context, req resource.Sch
 			},
 			"name": schema.StringAttribute{
 				Required:            true,
-				MarkdownDescription: "Name of the resource",
+				MarkdownDescription: "Name of the Structure Customer",
 			},
 			"native_name": schema.StringAttribute{
 				Optional:            true,
@@ -235,7 +234,7 @@ func (r *StructureCustomerResource) Schema(ctx context.Context, req resource.Sch
 						},
 						"name": schema.StringAttribute{
 							Optional:            true,
-							MarkdownDescription: "Name of the resource",
+							MarkdownDescription: "Name of the Structure Customer",
 						},
 						"parent": schema.StringAttribute{
 							Optional:            true,
@@ -288,7 +287,7 @@ func (r *StructureCustomerResource) Schema(ctx context.Context, req resource.Sch
 						},
 						"name": schema.StringAttribute{
 							Optional:            true,
-							MarkdownDescription: "Name of the resource",
+							MarkdownDescription: "Name of the Structure Customer",
 						},
 						"organization": schema.StringAttribute{
 							Optional:            true,
@@ -409,16 +408,14 @@ func (r *StructureCustomerResource) Configure(ctx context.Context, req resource.
 		return
 	}
 
-	client, ok := req.ProviderData.(*client.Client)
-	if !ok {
+	r.client = &Client{}
+	if err := r.client.Configure(ctx, req.ProviderData); err != nil {
 		resp.Diagnostics.AddError(
 			"Unexpected Resource Configure Type",
-			"Expected *client.Client, got something else. Please report this issue to the provider developers.",
+			err.Error(),
 		)
 		return
 	}
-
-	r.client = NewClient(client)
 }
 
 func (r *StructureCustomerResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
@@ -508,7 +505,7 @@ func (r *StructureCustomerResource) Read(ctx context.Context, req resource.ReadR
 
 	apiResp, err := r.client.GetStructureCustomer(ctx, data.UUID.ValueString())
 	if err != nil {
-		if client.IsNotFoundError(err) {
+		if IsNotFoundError(err) {
 			resp.State.RemoveResource(ctx)
 			return
 		}
@@ -648,7 +645,7 @@ func (r *StructureCustomerResource) ImportState(ctx context.Context, req resourc
 
 	apiResp, err := r.client.GetStructureCustomer(ctx, uuid)
 	if err != nil {
-		if client.IsNotFoundError(err) {
+		if IsNotFoundError(err) {
 			resp.Diagnostics.AddError(
 				"Resource Not Found",
 				fmt.Sprintf("Structure Customer with UUID '%s' does not exist or is not accessible.", uuid),

@@ -19,11 +19,11 @@ Openstack Instance data source - lookup by name or UUID
 
 - `availability_zone` (String) Availability zone where this instance is located
 - `connect_directly_to_external_network` (Boolean) If True, instance will be connected directly to external network
-- `description` (String) Description of the resource
+- `description` (String) Description of the Openstack Instance
 - `filters` (Attributes) Filter parameters for querying Openstack Instance (see [below for nested schema](#nestedatt--filters))
 - `floating_ips` (Attributes Set) Floating ips (see [below for nested schema](#nestedatt--floating_ips))
-- `id` (String) Resource UUID
-- `name` (String) Name of the resource
+- `id` (String) Openstack Instance UUID
+- `name` (String) Name of the Openstack Instance
 - `ports` (Attributes List) Ports (see [below for nested schema](#nestedatt--ports))
 - `project` (String) Project
 - `security_groups` (Attributes Set) Security groups (see [below for nested schema](#nestedatt--security_groups))
@@ -187,8 +187,8 @@ Optional:
 
 Optional:
 
-- `description` (String) Description of the resource
-- `name` (String) Name of the resource
+- `description` (String) Description of the Openstack Instance
+- `name` (String) Name of the Openstack Instance
 - `rules` (Attributes List) Rules (see [below for nested schema](#nestedatt--ports--security_groups--rules))
 
 Read-Only:
@@ -234,7 +234,7 @@ Read-Only:
 Optional:
 
 - `cidr` (String) CIDR notation for the source/destination network address range
-- `description` (String) Description of the resource
+- `description` (String) Description of the Openstack Instance
 - `direction` (String) Traffic direction - either 'ingress' (incoming) or 'egress' (outgoing)
 - `ethertype` (String) IP protocol version - either 'IPv4' or 'IPv6'
 - `from_port` (Number) Starting port number in the range (1-65535)
@@ -256,8 +256,8 @@ Read-Only:
 
 Read-Only:
 
-- `description` (String) Description of the resource
-- `name` (String) Name of the resource
+- `description` (String) Description of the Openstack Instance
+- `name` (String) Name of the Openstack Instance
 - `rules` (Attributes List) Rules (see [below for nested schema](#nestedatt--security_groups--rules))
 - `state` (String) State
 - `url` (String) Url
@@ -268,7 +268,7 @@ Read-Only:
 Optional:
 
 - `cidr` (String) CIDR notation for the source/destination network address range
-- `description` (String) Description of the resource
+- `description` (String) Description of the Openstack Instance
 - `direction` (String) Traffic direction - either 'ingress' (incoming) or 'egress' (outgoing)
 - `ethertype` (String) IP protocol version - either 'IPv4' or 'IPv6'
 - `from_port` (Number) Starting port number in the range (1-65535)
@@ -288,7 +288,7 @@ Read-Only:
 
 Read-Only:
 
-- `name` (String) Name of the resource
+- `name` (String) Name of the Openstack Instance
 - `policy` (String) Server group policy determining the rules for scheduling servers in this group
 - `state` (String) State
 - `url` (String) Url
@@ -308,7 +308,7 @@ Optional:
 Read-Only:
 
 - `marketplace_resource_uuid` (String) UUID of the marketplace resource
-- `name` (String) Name of the resource
+- `name` (String) Name of the Openstack Instance
 - `resource_type` (String) Resource type
 - `state` (String) State
 - `type_name` (String) Name of the type

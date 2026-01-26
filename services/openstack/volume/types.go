@@ -1,7 +1,5 @@
 package volume
 
-// OpenstackVolume Structs
-
 type OpenstackVolumeCreateRequest struct {
 	Project    *string                         `json:"project" tfsdk:"project"`
 	Offering   *string                         `json:"offering" tfsdk:"offering"`

@@ -1,7 +1,5 @@
 package resource
 
-// MarketplaceResource Structs
-
 type MarketplaceResourceCreateRequest struct {
 }
 

@@ -54,7 +54,7 @@ Marketplace Order resource
 - `error_message` (String) Error message
 - `error_traceback` (String) Error traceback
 - `fixed_price` (Number) Fixed price
-- `id` (String) Resource UUID (used as Terraform ID)
+- `id` (String) Marketplace Order UUID (used as Terraform ID)
 - `modified` (String) Modified
 - `new_cost_estimate` (String) New cost estimate
 - `new_plan_name` (String) Name of the new plan

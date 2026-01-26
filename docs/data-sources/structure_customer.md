@@ -30,19 +30,19 @@ Structure Customer data source - lookup by name or UUID
 - `contact_details` (String) Contact details
 - `country` (String) Country code (ISO 3166-1 alpha-2)
 - `default_tax_percent` (String) Default tax percent
-- `description` (String) Description of the resource
+- `description` (String) Description of the Structure Customer
 - `display_billing_info_in_projects` (Boolean) Display billing info in projects
 - `domain` (String) Domain
 - `email` (String) Email
 - `filters` (Attributes) Filter parameters for querying Structure Customer (see [below for nested schema](#nestedatt--filters))
 - `grace_period_days` (Number) Number of extra days after project end date before resources are terminated
 - `homepage` (String) Homepage
-- `id` (String) Resource UUID
+- `id` (String) Structure Customer UUID
 - `image` (String) Image
 - `latitude` (Number) Latitude
 - `longitude` (Number) Longitude
 - `max_service_accounts` (Number) Maximum number of service accounts allowed
-- `name` (String) Name of the resource
+- `name` (String) Name of the Structure Customer
 - `native_name` (String) Name of the native
 - `notification_emails` (String) Comma-separated list of notification email addresses
 - `phone_number` (String) Phone number
@@ -94,7 +94,7 @@ Optional:
 
 Optional:
 
-- `name` (String) Name of the resource
+- `name` (String) Name of the Structure Customer
 - `parent` (String) Parent
 
 Read-Only:
@@ -112,7 +112,7 @@ Optional:
 
 - `attributes` (Attributes) Attributes (see [below for nested schema](#nestedatt--payment_profiles--attributes))
 - `is_active` (Boolean) Is active
-- `name` (String) Name of the resource
+- `name` (String) Name of the Structure Customer
 - `organization` (String) Organization
 - `payment_type` (String) Payment type
 

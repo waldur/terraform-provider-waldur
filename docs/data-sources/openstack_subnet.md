@@ -19,14 +19,14 @@ Openstack Subnet data source - lookup by name or UUID
 
 - `allocation_pools` (Attributes List) Allocation pools (see [below for nested schema](#nestedatt--allocation_pools))
 - `cidr` (String) Cidr
-- `description` (String) Description of the resource
+- `description` (String) Description of the Openstack Subnet
 - `disable_gateway` (Boolean) If True, no gateway IP address will be allocated
 - `dns_nameservers` (List of String) Dns nameservers
 - `filters` (Attributes) Filter parameters for querying Openstack Subnet (see [below for nested schema](#nestedatt--filters))
 - `gateway_ip` (String) IP address of the gateway for this subnet
 - `host_routes` (Attributes List) Host routes (see [below for nested schema](#nestedatt--host_routes))
-- `id` (String) Resource UUID
-- `name` (String) Name of the resource
+- `id` (String) Openstack Subnet UUID
+- `name` (String) Name of the Openstack Subnet
 
 ### Read-Only
 

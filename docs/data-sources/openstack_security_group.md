@@ -17,10 +17,10 @@ Openstack Security Group data source - lookup by name or UUID
 
 ### Optional
 
-- `description` (String) Description of the resource
+- `description` (String) Description of the Openstack Security Group
 - `filters` (Attributes) Filter parameters for querying Openstack Security Group (see [below for nested schema](#nestedatt--filters))
-- `id` (String) Resource UUID
-- `name` (String) Name of the resource
+- `id` (String) Openstack Security Group UUID
+- `name` (String) Name of the Openstack Security Group
 - `rules` (Attributes List) Rules (see [below for nested schema](#nestedatt--rules))
 
 ### Read-Only
@@ -71,7 +71,7 @@ Optional:
 Optional:
 
 - `cidr` (String) CIDR notation for the source/destination network address range
-- `description` (String) Description of the resource
+- `description` (String) Description of the Openstack Security Group
 - `direction` (String) Traffic direction - either 'ingress' (incoming) or 'egress' (outgoing)
 - `ethertype` (String) IP protocol version - either 'IPv4' or 'IPv6'
 - `from_port` (Number) Starting port number in the range (1-65535)

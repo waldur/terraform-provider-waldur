@@ -10,7 +10,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 
-	"github.com/waldur/terraform-provider-waldur/internal/client"
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
@@ -42,106 +41,9 @@ func (d *OpenstackNetworkDataSource) Schema(ctx context.Context, req datasource.
 			"id": schema.StringAttribute{
 				Optional:            true,
 				Computed:            true,
-				MarkdownDescription: "Resource UUID",
+				MarkdownDescription: "Openstack Network UUID",
 			},
-			"filters": schema.SingleNestedAttribute{
-				Optional:            true,
-				MarkdownDescription: "Filter parameters for querying Openstack Network",
-				Attributes: map[string]schema.Attribute{
-					"backend_id": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Backend ID",
-					},
-					"can_manage": schema.BoolAttribute{
-						Optional:            true,
-						MarkdownDescription: "Can manage",
-					},
-					"customer": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Customer UUID",
-					},
-					"customer_abbreviation": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Customer abbreviation",
-					},
-					"customer_name": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Customer name",
-					},
-					"customer_native_name": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Customer native name",
-					},
-					"customer_uuid": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Customer UUID",
-					},
-					"description": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Description",
-					},
-					"direct_only": schema.BoolAttribute{
-						Optional:            true,
-						MarkdownDescription: "Direct only",
-					},
-					"external_ip": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "External IP",
-					},
-					"is_external": schema.BoolAttribute{
-						Optional:            true,
-						MarkdownDescription: "Is external",
-					},
-					"name": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Name",
-					},
-					"name_exact": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Name (exact)",
-					},
-					"project": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Project UUID",
-					},
-					"project_name": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Project name",
-					},
-					"project_uuid": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Project UUID",
-					},
-					"rbac_only": schema.BoolAttribute{
-						Optional:            true,
-						MarkdownDescription: "RBAC only",
-					},
-					"service_settings_name": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Service settings name",
-					},
-					"service_settings_uuid": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Service settings UUID",
-					},
-					"tenant": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Tenant URL",
-					},
-					"tenant_uuid": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Tenant UUID",
-					},
-					"type": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Type",
-					},
-					"uuid": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "UUID",
-					},
-				},
-			},
+			"filters": (&OpenstackNetworkFiltersModel{}).GetSchema(),
 			"access_url": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Access url",
@@ -157,7 +59,7 @@ func (d *OpenstackNetworkDataSource) Schema(ctx context.Context, req datasource.
 			},
 			"description": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "Description of the resource",
+				MarkdownDescription: "Description of the Openstack Network",
 			},
 			"error_message": schema.StringAttribute{
 				Computed:            true,
@@ -182,7 +84,7 @@ func (d *OpenstackNetworkDataSource) Schema(ctx context.Context, req datasource.
 			},
 			"name": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "Name of the resource",
+				MarkdownDescription: "Name of the Openstack Network",
 			},
 			"rbac_policies": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
@@ -262,7 +164,7 @@ func (d *OpenstackNetworkDataSource) Schema(ctx context.Context, req datasource.
 						},
 						"description": schema.StringAttribute{
 							Optional:            true,
-							MarkdownDescription: "Description of the resource",
+							MarkdownDescription: "Description of the Openstack Network",
 						},
 						"enable_dhcp": schema.BoolAttribute{
 							Optional:            true,
@@ -282,7 +184,7 @@ func (d *OpenstackNetworkDataSource) Schema(ctx context.Context, req datasource.
 						},
 						"name": schema.StringAttribute{
 							Optional:            true,
-							MarkdownDescription: "Name of the resource",
+							MarkdownDescription: "Name of the Openstack Network",
 						},
 					},
 				},
@@ -319,16 +221,14 @@ func (d *OpenstackNetworkDataSource) Configure(ctx context.Context, req datasour
 		return
 	}
 
-	rawClient, ok := req.ProviderData.(*client.Client)
-	if !ok {
+	d.client = &Client{}
+	if err := d.client.Configure(ctx, req.ProviderData); err != nil {
 		resp.Diagnostics.AddError(
 			"Unexpected Data Source Configure Type",
-			"Expected *client.Client, got something else. Please report this issue to the provider developers.",
+			err.Error(),
 		)
 		return
 	}
-
-	d.client = NewClient(rawClient)
 }
 
 func (d *OpenstackNetworkDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {

@@ -1,7 +1,5 @@
 package floating_ip
 
-// OpenstackFloatingIp Structs
-
 type OpenstackFloatingIpCreateRequest struct {
 }
 

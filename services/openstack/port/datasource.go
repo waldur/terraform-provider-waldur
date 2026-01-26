@@ -9,7 +9,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
-	"github.com/waldur/terraform-provider-waldur/internal/client"
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
@@ -41,78 +40,9 @@ func (d *OpenstackPortDataSource) Schema(ctx context.Context, req datasource.Sch
 			"id": schema.StringAttribute{
 				Optional:            true,
 				Computed:            true,
-				MarkdownDescription: "Resource UUID",
+				MarkdownDescription: "Openstack Port UUID",
 			},
-			"filters": schema.SingleNestedAttribute{
-				Optional:            true,
-				MarkdownDescription: "Filter parameters for querying Openstack Port",
-				Attributes: map[string]schema.Attribute{
-					"admin_state_up": schema.BoolAttribute{
-						Optional:            true,
-						MarkdownDescription: "Admin state up",
-					},
-					"backend_id": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "ID of the backend",
-					},
-					"device_id": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "ID of the device",
-					},
-					"device_owner": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Device owner",
-					},
-					"exclude_subnet_uuids": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Exclude Subnet UUIDs (comma-separated)",
-					},
-					"fixed_ips": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Search by fixed IP",
-					},
-					"has_device_owner": schema.BoolAttribute{
-						Optional:            true,
-						MarkdownDescription: "Has device owner",
-					},
-					"mac_address": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Mac address",
-					},
-					"name": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Name",
-					},
-					"name_exact": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Name (exact)",
-					},
-					"network_name": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Search by network name",
-					},
-					"network_uuid": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Search by network UUID",
-					},
-					"query": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Search by name, MAC address or backend ID",
-					},
-					"status": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Status",
-					},
-					"tenant": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Tenant URL",
-					},
-					"tenant_uuid": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Tenant UUID",
-					},
-				},
-			},
+			"filters": (&OpenstackPortFiltersModel{}).GetSchema(),
 			"access_url": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Access url",
@@ -144,7 +74,7 @@ func (d *OpenstackPortDataSource) Schema(ctx context.Context, req datasource.Sch
 			},
 			"description": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "Description of the resource",
+				MarkdownDescription: "Description of the Openstack Port",
 			},
 			"device_id": schema.StringAttribute{
 				Computed:            true,
@@ -194,7 +124,7 @@ func (d *OpenstackPortDataSource) Schema(ctx context.Context, req datasource.Sch
 			},
 			"name": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "Name of the resource",
+				MarkdownDescription: "Name of the Openstack Port",
 			},
 			"network": schema.StringAttribute{
 				Optional:            true,
@@ -221,7 +151,7 @@ func (d *OpenstackPortDataSource) Schema(ctx context.Context, req datasource.Sch
 					Attributes: map[string]schema.Attribute{
 						"name": schema.StringAttribute{
 							Optional:            true,
-							MarkdownDescription: "Name of the resource",
+							MarkdownDescription: "Name of the Openstack Port",
 						},
 						"url": schema.StringAttribute{
 							Computed:            true,
@@ -266,16 +196,14 @@ func (d *OpenstackPortDataSource) Configure(ctx context.Context, req datasource.
 		return
 	}
 
-	rawClient, ok := req.ProviderData.(*client.Client)
-	if !ok {
+	d.client = &Client{}
+	if err := d.client.Configure(ctx, req.ProviderData); err != nil {
 		resp.Diagnostics.AddError(
 			"Unexpected Data Source Configure Type",
-			"Expected *client.Client, got something else. Please report this issue to the provider developers.",
+			err.Error(),
 		)
 		return
 	}
-
-	d.client = NewClient(rawClient)
 }
 
 func (d *OpenstackPortDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {

@@ -18,7 +18,7 @@ Structure Project resource
 ### Required
 
 - `customer` (String) Customer
-- `name` (String) Name of the resource
+- `name` (String) Name of the Structure Project
 
 ### Optional
 
@@ -42,7 +42,7 @@ Structure Project resource
 - `customer_display_billing_info_in_projects` (Boolean) Customer display billing info in projects
 - `customer_slug` (String) Customer slug
 - `end_date_requested_by` (String) End date requested by
-- `id` (String) Resource UUID (used as Terraform ID)
+- `id` (String) Structure Project UUID (used as Terraform ID)
 - `is_removed` (Boolean) Is removed
 - `max_service_accounts` (Number) Maximum number of service accounts allowed
 - `oecd_fos_2007_label` (String) Human-readable label for the OECD FOS 2007 classification code

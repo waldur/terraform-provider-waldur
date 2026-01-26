@@ -4,8 +4,6 @@ import (
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
-// OpenstackInstance Structs
-
 type OpenstackInstanceCreateRequest struct {
 	Project    *string                           `json:"project" tfsdk:"project"`
 	Offering   *string                           `json:"offering" tfsdk:"offering"`

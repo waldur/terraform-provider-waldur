@@ -17,10 +17,10 @@ Openstack Server Group data source - lookup by name or UUID
 
 ### Optional
 
-- `description` (String) Description of the resource
+- `description` (String) Description of the Openstack Server Group
 - `filters` (Attributes) Filter parameters for querying Openstack Server Group (see [below for nested schema](#nestedatt--filters))
-- `id` (String) Resource UUID
-- `name` (String) Name of the resource
+- `id` (String) Openstack Server Group UUID
+- `name` (String) Name of the Openstack Server Group
 - `policy` (String) Server group policy determining the rules for scheduling servers in this group
 
 ### Read-Only
@@ -72,4 +72,4 @@ Optional:
 Optional:
 
 - `backend_id` (String) Instance ID in the OpenStack backend
-- `name` (String) Name of the resource
+- `name` (String) Name of the Openstack Server Group

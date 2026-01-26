@@ -2,14 +2,12 @@ package port
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/list"
 	"github.com/hashicorp/terraform-plugin-framework/list/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 
-	"github.com/waldur/terraform-provider-waldur/internal/client"
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
@@ -30,103 +28,20 @@ func (l *OpenstackPortList) Metadata(ctx context.Context, req resource.MetadataR
 func (l *OpenstackPortList) ListResourceConfigSchema(ctx context.Context, req list.ListResourceSchemaRequest, resp *list.ListResourceSchemaResponse) {
 	resp.Schema = schema.Schema{
 		Attributes: map[string]schema.Attribute{
-			"filters": schema.SingleNestedAttribute{
-				Optional:    true,
-				Description: "Filter parameters for querying Openstack Port",
-				Attributes: map[string]schema.Attribute{
-					"admin_state_up": schema.BoolAttribute{
-						Description: "",
-						Optional:    true,
-					},
-					"backend_id": schema.StringAttribute{
-						Description: "",
-						Optional:    true,
-					},
-					"device_id": schema.StringAttribute{
-						Description: "",
-						Optional:    true,
-					},
-					"device_owner": schema.StringAttribute{
-						Description: "",
-						Optional:    true,
-					},
-					"exclude_subnet_uuids": schema.StringAttribute{
-						Description: "Exclude Subnet UUIDs (comma-separated)",
-						Optional:    true,
-					},
-					"fixed_ips": schema.StringAttribute{
-						Description: "Search by fixed IP",
-						Optional:    true,
-					},
-					"has_device_owner": schema.BoolAttribute{
-						Description: "Has device owner",
-						Optional:    true,
-					},
-					"mac_address": schema.StringAttribute{
-						Description: "",
-						Optional:    true,
-					},
-					"name": schema.StringAttribute{
-						Description: "Name",
-						Optional:    true,
-					},
-					"name_exact": schema.StringAttribute{
-						Description: "Name (exact)",
-						Optional:    true,
-					},
-					"network_name": schema.StringAttribute{
-						Description: "Search by network name",
-						Optional:    true,
-					},
-					"network_uuid": schema.StringAttribute{
-						Description: "Search by network UUID",
-						Optional:    true,
-					},
-					"page": schema.Int64Attribute{
-						Description: "A page number within the paginated result set.",
-						Optional:    true,
-					},
-					"page_size": schema.Int64Attribute{
-						Description: "Number of results to return per page.",
-						Optional:    true,
-					},
-					"query": schema.StringAttribute{
-						Description: "Search by name, MAC address or backend ID",
-						Optional:    true,
-					},
-					"status": schema.StringAttribute{
-						Description: "",
-						Optional:    true,
-					},
-					"tenant": schema.StringAttribute{
-						Description: "Tenant URL",
-						Optional:    true,
-					},
-					"tenant_uuid": schema.StringAttribute{
-						Description: "Tenant UUID",
-						Optional:    true,
-					},
-				},
-			},
+			"filters": (&OpenstackPortFiltersModel{}).GetSchema(),
 		},
 	}
 }
 
 func (l *OpenstackPortList) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
-	if req.ProviderData == nil {
-		return
-	}
-
-	client, ok := req.ProviderData.(*client.Client)
-	if !ok {
+	l.client = &Client{}
+	if err := l.client.Configure(ctx, req.ProviderData); err != nil {
 		resp.Diagnostics.AddError(
 			"Unexpected List Configure Type",
-			fmt.Sprintf("Expected *client.Client, got: %T", req.ProviderData),
+			err.Error(),
 		)
 		return
 	}
-
-	l.client = NewClient(client)
 }
 
 type OpenstackPortListModel struct {

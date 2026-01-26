@@ -30,16 +30,16 @@ Openstack Floating Ip resource
 - `backend_id` (String) ID of the backend
 - `backend_network_id` (String) ID of network in OpenStack where this floating IP is allocated
 - `created` (String) Created
-- `description` (String) Description of the resource
+- `description` (String) Description of the Openstack Floating Ip
 - `error_message` (String) Error message
 - `error_traceback` (String) Error traceback
 - `external_address` (String) Optional address that maps to floating IP's address in external networks
-- `id` (String) Resource UUID (used as Terraform ID)
+- `id` (String) Openstack Floating Ip UUID (used as Terraform ID)
 - `instance_name` (String) Name of the instance
 - `instance_url` (String) Instance url
 - `instance_uuid` (String) UUID of the instance
 - `modified` (String) Modified
-- `name` (String) Name of the resource
+- `name` (String) Name of the Openstack Floating Ip
 - `port` (String) Port
 - `port_fixed_ips` (Attributes List) Port fixed ips (see [below for nested schema](#nestedatt--port_fixed_ips))
 - `resource_type` (String) Resource type

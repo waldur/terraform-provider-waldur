@@ -17,12 +17,12 @@ Openstack Network resource
 
 ### Required
 
-- `name` (String) Name of the resource
+- `name` (String) Name of the Openstack Network
 - `tenant` (String) Required path parameter for resource creation
 
 ### Optional
 
-- `description` (String) Description of the resource
+- `description` (String) Description of the Openstack Network
 - `timeouts` (Block, Optional) (see [below for nested schema](#nestedblock--timeouts))
 
 ### Read-Only
@@ -32,7 +32,7 @@ Openstack Network resource
 - `created` (String) Created
 - `error_message` (String) Error message
 - `error_traceback` (String) Error traceback
-- `id` (String) Resource UUID (used as Terraform ID)
+- `id` (String) Openstack Network UUID (used as Terraform ID)
 - `is_external` (Boolean) Defines whether this network is external (public) or internal (private)
 - `modified` (String) Modified
 - `mtu` (Number) The maximum transmission unit (MTU) value to address fragmentation.
@@ -80,11 +80,11 @@ Read-Only:
 Optional:
 
 - `cidr` (String) IPv4 network address in CIDR format (e.g. 192.168.0.0/24)
-- `description` (String) Description of the resource
+- `description` (String) Description of the Openstack Network
 - `enable_dhcp` (Boolean) If True, DHCP service will be enabled on this subnet
 - `gateway_ip` (String) IP address of the gateway for this subnet
 - `ip_version` (Number) IP protocol version (4 or 6)
-- `name` (String) Name of the resource
+- `name` (String) Name of the Openstack Network
 
 Read-Only:
 

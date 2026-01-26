@@ -16,8 +16,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
-
-	"github.com/waldur/terraform-provider-waldur/internal/client"
 )
 
 // Ensure provider defined types fully satisfy framework interfaces.
@@ -51,7 +49,7 @@ func (r *OpenstackVolumeAttachmentResource) Schema(ctx context.Context, req reso
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Resource UUID (used as Terraform ID)",
+				MarkdownDescription: "Openstack Volume Attachment UUID (used as Terraform ID)",
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
@@ -114,7 +112,7 @@ func (r *OpenstackVolumeAttachmentResource) Schema(ctx context.Context, req reso
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Description of the resource",
+				MarkdownDescription: "Description of the Openstack Volume Attachment",
 			},
 			"device": schema.StringAttribute{
 				Computed: true,
@@ -201,7 +199,7 @@ func (r *OpenstackVolumeAttachmentResource) Schema(ctx context.Context, req reso
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Name of the resource",
+				MarkdownDescription: "Name of the Openstack Volume Attachment",
 			},
 			"resource_type": schema.StringAttribute{
 				Computed: true,
@@ -305,16 +303,14 @@ func (r *OpenstackVolumeAttachmentResource) Configure(ctx context.Context, req r
 		return
 	}
 
-	client, ok := req.ProviderData.(*client.Client)
-	if !ok {
+	r.client = &Client{}
+	if err := r.client.Configure(ctx, req.ProviderData); err != nil {
 		resp.Diagnostics.AddError(
 			"Unexpected Resource Configure Type",
-			"Expected *client.Client, got something else. Please report this issue to the provider developers.",
+			err.Error(),
 		)
 		return
 	}
-
-	r.client = NewClient(client)
 }
 
 func (r *OpenstackVolumeAttachmentResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
@@ -370,7 +366,7 @@ func (r *OpenstackVolumeAttachmentResource) Read(ctx context.Context, req resour
 	var result map[string]interface{}
 	err := r.client.Client.Get(ctx, "/api/openstack-volumes/{uuid}/", sourceUUID, &result)
 	if err != nil {
-		if client.IsNotFoundError(err) {
+		if IsNotFoundError(err) {
 			resp.State.RemoveResource(ctx)
 			return
 		}

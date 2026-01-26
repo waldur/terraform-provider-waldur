@@ -13,7 +13,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
-	"github.com/waldur/terraform-provider-waldur/internal/client"
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
@@ -45,106 +44,9 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 			"id": schema.StringAttribute{
 				Optional:            true,
 				Computed:            true,
-				MarkdownDescription: "Resource UUID",
+				MarkdownDescription: "Openstack Instance UUID",
 			},
-			"filters": schema.SingleNestedAttribute{
-				Optional:            true,
-				MarkdownDescription: "Filter parameters for querying Openstack Instance",
-				Attributes: map[string]schema.Attribute{
-					"attach_volume_uuid": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Filter for attachment to volume UUID",
-					},
-					"availability_zone_name": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Availability zone name",
-					},
-					"backend_id": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Backend ID",
-					},
-					"can_manage": schema.BoolAttribute{
-						Optional:            true,
-						MarkdownDescription: "Can manage",
-					},
-					"customer": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Customer UUID",
-					},
-					"customer_abbreviation": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Customer abbreviation",
-					},
-					"customer_name": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Customer name",
-					},
-					"customer_native_name": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Customer native name",
-					},
-					"customer_uuid": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Customer UUID",
-					},
-					"description": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Description",
-					},
-					"external_ip": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "External IP",
-					},
-					"name": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Name",
-					},
-					"name_exact": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Name (exact)",
-					},
-					"project": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Project UUID",
-					},
-					"project_name": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Project name",
-					},
-					"project_uuid": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Project UUID",
-					},
-					"query": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Search by name, internal IP, or external IP",
-					},
-					"runtime_state": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Runtime state",
-					},
-					"service_settings_name": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Service settings name",
-					},
-					"service_settings_uuid": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Service settings UUID",
-					},
-					"tenant": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Tenant URL",
-					},
-					"tenant_uuid": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Tenant UUID",
-					},
-					"uuid": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "UUID",
-					},
-				},
-			},
+			"filters": (&OpenstackInstanceFiltersModel{}).GetSchema(),
 			"access_url": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Access url",
@@ -200,7 +102,7 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 			},
 			"description": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "Description of the resource",
+				MarkdownDescription: "Description of the Openstack Instance",
 			},
 			"disk": schema.Int64Attribute{
 				Computed:            true,
@@ -368,7 +270,7 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 			},
 			"name": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "Name of the resource",
+				MarkdownDescription: "Name of the Openstack Instance",
 			},
 			"ports": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
@@ -451,7 +353,7 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 									},
 									"description": schema.StringAttribute{
 										Optional:            true,
-										MarkdownDescription: "Description of the resource",
+										MarkdownDescription: "Description of the Openstack Instance",
 									},
 									"error_message": schema.StringAttribute{
 										Computed:            true,
@@ -504,7 +406,7 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 									},
 									"name": schema.StringAttribute{
 										Optional:            true,
-										MarkdownDescription: "Name of the resource",
+										MarkdownDescription: "Name of the Openstack Instance",
 									},
 									"project": schema.StringAttribute{
 										Computed:            true,
@@ -531,7 +433,7 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 												},
 												"description": schema.StringAttribute{
 													Optional:            true,
-													MarkdownDescription: "Description of the resource",
+													MarkdownDescription: "Description of the Openstack Instance",
 												},
 												"direction": schema.StringAttribute{
 													Optional:            true,
@@ -685,11 +587,11 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 					Attributes: map[string]schema.Attribute{
 						"description": schema.StringAttribute{
 							Computed:            true,
-							MarkdownDescription: "Description of the resource",
+							MarkdownDescription: "Description of the Openstack Instance",
 						},
 						"name": schema.StringAttribute{
 							Computed:            true,
-							MarkdownDescription: "Name of the resource",
+							MarkdownDescription: "Name of the Openstack Instance",
 						},
 						"rules": schema.ListNestedAttribute{
 							NestedObject: schema.NestedAttributeObject{
@@ -700,7 +602,7 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 									},
 									"description": schema.StringAttribute{
 										Optional:            true,
-										MarkdownDescription: "Description of the resource",
+										MarkdownDescription: "Description of the Openstack Instance",
 									},
 									"direction": schema.StringAttribute{
 										Optional:            true,
@@ -764,7 +666,7 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 				Attributes: map[string]schema.Attribute{
 					"name": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "Name of the resource",
+						MarkdownDescription: "Name of the Openstack Instance",
 					},
 					"policy": schema.StringAttribute{
 						Computed:            true,
@@ -851,7 +753,7 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 						},
 						"name": schema.StringAttribute{
 							Computed:            true,
-							MarkdownDescription: "Name of the resource",
+							MarkdownDescription: "Name of the Openstack Instance",
 						},
 						"resource_type": schema.StringAttribute{
 							Computed:            true,
@@ -896,16 +798,14 @@ func (d *OpenstackInstanceDataSource) Configure(ctx context.Context, req datasou
 		return
 	}
 
-	rawClient, ok := req.ProviderData.(*client.Client)
-	if !ok {
+	d.client = &Client{}
+	if err := d.client.Configure(ctx, req.ProviderData); err != nil {
 		resp.Diagnostics.AddError(
 			"Unexpected Data Source Configure Type",
-			"Expected *client.Client, got something else. Please report this issue to the provider developers.",
+			err.Error(),
 		)
 		return
 	}
-
-	d.client = NewClient(rawClient)
 }
 
 func (d *OpenstackInstanceDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {

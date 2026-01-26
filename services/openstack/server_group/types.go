@@ -1,7 +1,5 @@
 package server_group
 
-// OpenstackServerGroup Structs
-
 type OpenstackServerGroupCreateRequest struct {
 	Description *string `json:"description,omitempty" tfsdk:"description"`
 	Name        *string `json:"name" tfsdk:"name"`

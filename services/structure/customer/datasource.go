@@ -12,7 +12,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 
-	"github.com/waldur/terraform-provider-waldur/internal/client"
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
@@ -44,62 +43,9 @@ func (d *StructureCustomerDataSource) Schema(ctx context.Context, req datasource
 			"id": schema.StringAttribute{
 				Optional:            true,
 				Computed:            true,
-				MarkdownDescription: "Resource UUID",
+				MarkdownDescription: "Structure Customer UUID",
 			},
-			"filters": schema.SingleNestedAttribute{
-				Optional:            true,
-				MarkdownDescription: "Filter parameters for querying Structure Customer",
-				Attributes: map[string]schema.Attribute{
-					"abbreviation": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Abbreviation",
-					},
-					"agreement_number": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Agreement number",
-					},
-					"archived": schema.BoolAttribute{
-						Optional:            true,
-						MarkdownDescription: "Archived",
-					},
-					"backend_id": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "ID of the backend",
-					},
-					"contact_details": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Contact details",
-					},
-					"name": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Name",
-					},
-					"name_exact": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Name (exact)",
-					},
-					"native_name": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Native name",
-					},
-					"organization_group_name": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Organization group name",
-					},
-					"owned_by_current_user": schema.BoolAttribute{
-						Optional:            true,
-						MarkdownDescription: "Return a list of customers where current user is owner.",
-					},
-					"query": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Filter by name, native name, abbreviation, domain, UUID, registration code or agreement number",
-					},
-					"registration_code": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Registration code",
-					},
-				},
-			},
+			"filters": (&StructureCustomerFiltersModel{}).GetSchema(),
 			"abbreviation": schema.StringAttribute{
 				Optional:            true,
 				MarkdownDescription: "Abbreviation",
@@ -179,7 +125,7 @@ func (d *StructureCustomerDataSource) Schema(ctx context.Context, req datasource
 			},
 			"description": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "Description of the resource",
+				MarkdownDescription: "Description of the Structure Customer",
 			},
 			"display_billing_info_in_projects": schema.BoolAttribute{
 				Optional:            true,
@@ -235,7 +181,7 @@ func (d *StructureCustomerDataSource) Schema(ctx context.Context, req datasource
 			},
 			"name": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "Name of the resource",
+				MarkdownDescription: "Name of the Structure Customer",
 			},
 			"native_name": schema.StringAttribute{
 				Optional:            true,
@@ -254,7 +200,7 @@ func (d *StructureCustomerDataSource) Schema(ctx context.Context, req datasource
 						},
 						"name": schema.StringAttribute{
 							Optional:            true,
-							MarkdownDescription: "Name of the resource",
+							MarkdownDescription: "Name of the Structure Customer",
 						},
 						"parent": schema.StringAttribute{
 							Optional:            true,
@@ -304,7 +250,7 @@ func (d *StructureCustomerDataSource) Schema(ctx context.Context, req datasource
 						},
 						"name": schema.StringAttribute{
 							Optional:            true,
-							MarkdownDescription: "Name of the resource",
+							MarkdownDescription: "Name of the Structure Customer",
 						},
 						"organization": schema.StringAttribute{
 							Optional:            true,
@@ -399,16 +345,14 @@ func (d *StructureCustomerDataSource) Configure(ctx context.Context, req datasou
 		return
 	}
 
-	rawClient, ok := req.ProviderData.(*client.Client)
-	if !ok {
+	d.client = &Client{}
+	if err := d.client.Configure(ctx, req.ProviderData); err != nil {
 		resp.Diagnostics.AddError(
 			"Unexpected Data Source Configure Type",
-			"Expected *client.Client, got something else. Please report this issue to the provider developers.",
+			err.Error(),
 		)
 		return
 	}
-
-	d.client = NewClient(rawClient)
 }
 
 func (d *StructureCustomerDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {

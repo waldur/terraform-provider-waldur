@@ -237,11 +237,3 @@ func (c *Client) ExecuteAction(ctx context.Context, pathTemplate string, uuid st
 	path := strings.Replace(pathTemplate, "{uuid}", uuid, 1)
 	return c.Post(ctx, path, body, result)
 }
-
-// IsNotFoundError checks if an error represents a 404 Not Found response
-func IsNotFoundError(err error) bool {
-	if err == nil {
-		return false
-	}
-	return strings.Contains(err.Error(), "HTTP 404")
-}

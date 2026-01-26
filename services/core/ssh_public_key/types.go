@@ -1,7 +1,5 @@
 package ssh_public_key
 
-// CoreSshPublicKey Structs
-
 type CoreSshPublicKeyCreateRequest struct {
 }
 

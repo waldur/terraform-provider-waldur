@@ -22,7 +22,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
-	"github.com/waldur/terraform-provider-waldur/internal/client"
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
@@ -67,7 +66,7 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Resource UUID (used as Terraform ID)",
+				MarkdownDescription: "Openstack Instance UUID (used as Terraform ID)",
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
@@ -210,7 +209,7 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 			},
 			"description": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "Description of the resource",
+				MarkdownDescription: "Description of the Openstack Instance",
 			},
 			"disk": schema.Int64Attribute{
 				Computed: true,
@@ -474,7 +473,7 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 			},
 			"name": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "Name of the resource",
+				MarkdownDescription: "Name of the Openstack Instance",
 			},
 			"offering": schema.StringAttribute{
 				Required: true,
@@ -572,7 +571,7 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 									},
 									"description": schema.StringAttribute{
 										Optional:            true,
-										MarkdownDescription: "Description of the resource",
+										MarkdownDescription: "Description of the Openstack Instance",
 									},
 									"error_message": schema.StringAttribute{
 										Computed:            true,
@@ -625,7 +624,7 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 									},
 									"name": schema.StringAttribute{
 										Optional:            true,
-										MarkdownDescription: "Name of the resource",
+										MarkdownDescription: "Name of the Openstack Instance",
 									},
 									"project": schema.StringAttribute{
 										Computed:            true,
@@ -652,7 +651,7 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 												},
 												"description": schema.StringAttribute{
 													Optional:            true,
-													MarkdownDescription: "Description of the resource",
+													MarkdownDescription: "Description of the Openstack Instance",
 												},
 												"direction": schema.StringAttribute{
 													Optional:            true,
@@ -832,11 +831,11 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 						},
 						"description": schema.StringAttribute{
 							Computed:            true,
-							MarkdownDescription: "Description of the resource",
+							MarkdownDescription: "Description of the Openstack Instance",
 						},
 						"name": schema.StringAttribute{
 							Computed:            true,
-							MarkdownDescription: "Name of the resource",
+							MarkdownDescription: "Name of the Openstack Instance",
 						},
 						"rules": schema.ListNestedAttribute{
 							NestedObject: schema.NestedAttributeObject{
@@ -847,7 +846,7 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 									},
 									"description": schema.StringAttribute{
 										Optional:            true,
-										MarkdownDescription: "Description of the resource",
+										MarkdownDescription: "Description of the Openstack Instance",
 									},
 									"direction": schema.StringAttribute{
 										Optional:            true,
@@ -907,7 +906,7 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 				Attributes: map[string]schema.Attribute{
 					"name": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "Name of the resource",
+						MarkdownDescription: "Name of the Openstack Instance",
 					},
 					"policy": schema.StringAttribute{
 						Computed:            true,
@@ -1054,7 +1053,7 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 						},
 						"name": schema.StringAttribute{
 							Computed:            true,
-							MarkdownDescription: "Name of the resource",
+							MarkdownDescription: "Name of the Openstack Instance",
 						},
 						"resource_type": schema.StringAttribute{
 							Computed:            true,
@@ -1110,16 +1109,14 @@ func (r *OpenstackInstanceResource) Configure(ctx context.Context, req resource.
 		return
 	}
 
-	client, ok := req.ProviderData.(*client.Client)
-	if !ok {
+	r.client = &Client{}
+	if err := r.client.Configure(ctx, req.ProviderData); err != nil {
 		resp.Diagnostics.AddError(
 			"Unexpected Resource Configure Type",
-			"Expected *client.Client, got something else. Please report this issue to the provider developers.",
+			err.Error(),
 		)
 		return
 	}
-
-	r.client = NewClient(client)
 }
 
 func (r *OpenstackInstanceResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
@@ -1248,7 +1245,7 @@ func (r *OpenstackInstanceResource) Read(ctx context.Context, req resource.ReadR
 
 	apiResp, err := r.client.GetOpenstackInstance(ctx, data.UUID.ValueString())
 	if err != nil {
-		if client.IsNotFoundError(err) {
+		if IsNotFoundError(err) {
 			resp.State.RemoveResource(ctx)
 			return
 		}
@@ -1299,7 +1296,7 @@ func (r *OpenstackInstanceResource) Update(ctx context.Context, req resource.Upd
 	if !data.FloatingIps.Equal(state.FloatingIps) {
 		// Convert Terraform value to API payload for the specific action
 		var req OpenstackInstanceUpdateFloatingIpsActionRequest
-		common.PopulateSetField(ctx, data.FloatingIps, &req.FloatingIps)
+		resp.Diagnostics.Append(common.PopulateSetField(ctx, data.FloatingIps, &req.FloatingIps)...)
 
 		// Execute the Action
 		if err := r.client.OpenstackInstanceUpdateFloatingIps(ctx, data.UUID.ValueString(), &req); err != nil {
@@ -1310,7 +1307,7 @@ func (r *OpenstackInstanceResource) Update(ctx context.Context, req resource.Upd
 	if !data.Ports.Equal(state.Ports) {
 		// Convert Terraform value to API payload for the specific action
 		var req OpenstackInstanceUpdatePortsActionRequest
-		common.PopulateSliceField(ctx, data.Ports, &req.Ports)
+		resp.Diagnostics.Append(common.PopulateSliceField(ctx, data.Ports, &req.Ports)...)
 
 		// Execute the Action
 		if err := r.client.OpenstackInstanceUpdatePorts(ctx, data.UUID.ValueString(), &req); err != nil {
@@ -1321,7 +1318,7 @@ func (r *OpenstackInstanceResource) Update(ctx context.Context, req resource.Upd
 	if !data.SecurityGroups.Equal(state.SecurityGroups) {
 		// Convert Terraform value to API payload for the specific action
 		var req OpenstackInstanceUpdateSecurityGroupsActionRequest
-		common.PopulateSetField(ctx, data.SecurityGroups, &req.SecurityGroups)
+		resp.Diagnostics.Append(common.PopulateSetField(ctx, data.SecurityGroups, &req.SecurityGroups)...)
 
 		// Execute the Action
 		if err := r.client.OpenstackInstanceUpdateSecurityGroups(ctx, data.UUID.ValueString(), &req); err != nil {
@@ -1333,7 +1330,7 @@ func (r *OpenstackInstanceResource) Update(ctx context.Context, req resource.Upd
 	// Fetch updated state after all changes
 	apiResp, err := r.client.GetOpenstackInstance(ctx, data.UUID.ValueString())
 	if err != nil {
-		if client.IsNotFoundError(err) {
+		if IsNotFoundError(err) {
 			resp.State.RemoveResource(ctx)
 			return
 		}
@@ -1401,7 +1398,7 @@ func (r *OpenstackInstanceResource) ImportState(ctx context.Context, req resourc
 
 	apiResp, err := r.client.GetOpenstackInstance(ctx, uuid)
 	if err != nil {
-		if client.IsNotFoundError(err) {
+		if IsNotFoundError(err) {
 			resp.Diagnostics.AddError(
 				"Resource Not Found",
 				fmt.Sprintf("Openstack Instance with UUID '%s' does not exist or is not accessible.", uuid),

@@ -8,7 +8,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
 
-	"github.com/waldur/terraform-provider-waldur/internal/client"
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
@@ -40,90 +39,9 @@ func (d *OpenstackServerGroupDataSource) Schema(ctx context.Context, req datasou
 			"id": schema.StringAttribute{
 				Optional:            true,
 				Computed:            true,
-				MarkdownDescription: "Resource UUID",
+				MarkdownDescription: "Openstack Server Group UUID",
 			},
-			"filters": schema.SingleNestedAttribute{
-				Optional:            true,
-				MarkdownDescription: "Filter parameters for querying Openstack Server Group",
-				Attributes: map[string]schema.Attribute{
-					"backend_id": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Backend ID",
-					},
-					"can_manage": schema.BoolAttribute{
-						Optional:            true,
-						MarkdownDescription: "Can manage",
-					},
-					"customer": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Customer UUID",
-					},
-					"customer_abbreviation": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Customer abbreviation",
-					},
-					"customer_name": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Customer name",
-					},
-					"customer_native_name": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Customer native name",
-					},
-					"customer_uuid": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Customer UUID",
-					},
-					"description": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Description",
-					},
-					"external_ip": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "External IP",
-					},
-					"name": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Name",
-					},
-					"name_exact": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Name (exact)",
-					},
-					"project": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Project UUID",
-					},
-					"project_name": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Project name",
-					},
-					"project_uuid": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Project UUID",
-					},
-					"service_settings_name": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Service settings name",
-					},
-					"service_settings_uuid": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Service settings UUID",
-					},
-					"tenant": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Tenant URL",
-					},
-					"tenant_uuid": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Tenant UUID",
-					},
-					"uuid": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "UUID",
-					},
-				},
-			},
+			"filters": (&OpenstackServerGroupFiltersModel{}).GetSchema(),
 			"access_url": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Access url",
@@ -139,7 +57,7 @@ func (d *OpenstackServerGroupDataSource) Schema(ctx context.Context, req datasou
 			},
 			"description": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "Description of the resource",
+				MarkdownDescription: "Description of the Openstack Server Group",
 			},
 			"display_name": schema.StringAttribute{
 				Computed:            true,
@@ -162,7 +80,7 @@ func (d *OpenstackServerGroupDataSource) Schema(ctx context.Context, req datasou
 						},
 						"name": schema.StringAttribute{
 							Optional:            true,
-							MarkdownDescription: "Name of the resource",
+							MarkdownDescription: "Name of the Openstack Server Group",
 						},
 					},
 				},
@@ -176,7 +94,7 @@ func (d *OpenstackServerGroupDataSource) Schema(ctx context.Context, req datasou
 			},
 			"name": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "Name of the resource",
+				MarkdownDescription: "Name of the Openstack Server Group",
 			},
 			"policy": schema.StringAttribute{
 				Optional:            true,
@@ -216,16 +134,14 @@ func (d *OpenstackServerGroupDataSource) Configure(ctx context.Context, req data
 		return
 	}
 
-	rawClient, ok := req.ProviderData.(*client.Client)
-	if !ok {
+	d.client = &Client{}
+	if err := d.client.Configure(ctx, req.ProviderData); err != nil {
 		resp.Diagnostics.AddError(
 			"Unexpected Data Source Configure Type",
-			"Expected *client.Client, got something else. Please report this issue to the provider developers.",
+			err.Error(),
 		)
 		return
 	}
-
-	d.client = NewClient(rawClient)
 }
 
 func (d *OpenstackServerGroupDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {

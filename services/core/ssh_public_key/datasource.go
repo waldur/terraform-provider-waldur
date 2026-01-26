@@ -7,7 +7,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
 
-	"github.com/waldur/terraform-provider-waldur/internal/client"
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
@@ -39,54 +38,9 @@ func (d *CoreSshPublicKeyDataSource) Schema(ctx context.Context, req datasource.
 			"id": schema.StringAttribute{
 				Optional:            true,
 				Computed:            true,
-				MarkdownDescription: "Resource UUID",
+				MarkdownDescription: "Core Ssh Public Key UUID",
 			},
-			"filters": schema.SingleNestedAttribute{
-				Optional:            true,
-				MarkdownDescription: "Filter parameters for querying Core Ssh Public Key",
-				Attributes: map[string]schema.Attribute{
-					"created": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Created after",
-					},
-					"fingerprint_md5": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Fingerprint md5",
-					},
-					"fingerprint_sha256": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Fingerprint sha256",
-					},
-					"fingerprint_sha512": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Fingerprint sha512",
-					},
-					"is_shared": schema.BoolAttribute{
-						Optional:            true,
-						MarkdownDescription: "Is shared",
-					},
-					"modified": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Modified after",
-					},
-					"name": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Name",
-					},
-					"name_exact": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Name (exact)",
-					},
-					"user_uuid": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "User UUID",
-					},
-					"uuid": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "UUID",
-					},
-				},
-			},
+			"filters": (&CoreSshPublicKeyFiltersModel{}).GetSchema(),
 			"fingerprint_md5": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Fingerprint md5",
@@ -105,7 +59,7 @@ func (d *CoreSshPublicKeyDataSource) Schema(ctx context.Context, req datasource.
 			},
 			"name": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "Name of the resource",
+				MarkdownDescription: "Name of the Core Ssh Public Key",
 			},
 			"public_key": schema.StringAttribute{
 				Optional:            true,
@@ -133,16 +87,14 @@ func (d *CoreSshPublicKeyDataSource) Configure(ctx context.Context, req datasour
 		return
 	}
 
-	rawClient, ok := req.ProviderData.(*client.Client)
-	if !ok {
+	d.client = &Client{}
+	if err := d.client.Configure(ctx, req.ProviderData); err != nil {
 		resp.Diagnostics.AddError(
 			"Unexpected Data Source Configure Type",
-			"Expected *client.Client, got something else. Please report this issue to the provider developers.",
+			err.Error(),
 		)
 		return
 	}
-
-	d.client = NewClient(rawClient)
 }
 
 func (d *CoreSshPublicKeyDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {

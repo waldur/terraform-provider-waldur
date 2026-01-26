@@ -28,11 +28,11 @@ Openstack Instance resource
 - `data_volume_type` (String) Volume type for the data volume
 - `data_volumes` (Attributes List) Additional data volumes to attach to the instance (see [below for nested schema](#nestedatt--data_volumes))
 - `delete_volumes` (Boolean) Termination attribute
-- `description` (String) Description of the resource
+- `description` (String) Description of the Openstack Instance
 - `flavor` (String) The flavor to use for the instance
 - `floating_ips` (Attributes Set) Floating IPs to assign to the instance (see [below for nested schema](#nestedatt--floating_ips))
 - `image` (String) The OS image to use for the instance
-- `name` (String) Name of the resource
+- `name` (String) Name of the Openstack Instance
 - `ports` (Attributes List) Network ports to attach to the instance (see [below for nested schema](#nestedatt--ports))
 - `release_floating_ips` (Boolean) Termination attribute
 - `security_groups` (Attributes Set) List of security groups to apply to the instance (see [below for nested schema](#nestedatt--security_groups))
@@ -63,7 +63,7 @@ Openstack Instance resource
 - `flavor_disk` (Number) Flavor disk size in MiB
 - `flavor_name` (String) Name of the flavor used by this instance
 - `hypervisor_hostname` (String) Name of the hypervisor hosting this instance
-- `id` (String) Resource UUID (used as Terraform ID)
+- `id` (String) Openstack Instance UUID (used as Terraform ID)
 - `image_name` (String) Name of the image
 - `internal_ips` (List of String) Internal ips
 - `is_limit_based` (Boolean) Is limit based
@@ -188,8 +188,8 @@ Optional:
 
 Optional:
 
-- `description` (String) Description of the resource
-- `name` (String) Name of the resource
+- `description` (String) Description of the Openstack Instance
+- `name` (String) Name of the Openstack Instance
 - `rules` (Attributes List) Rules (see [below for nested schema](#nestedatt--ports--security_groups--rules))
 
 Read-Only:
@@ -235,7 +235,7 @@ Read-Only:
 Optional:
 
 - `cidr` (String) CIDR notation for the source/destination network address range
-- `description` (String) Description of the resource
+- `description` (String) Description of the Openstack Instance
 - `direction` (String) Traffic direction - either 'ingress' (incoming) or 'egress' (outgoing)
 - `ethertype` (String) IP protocol version - either 'IPv4' or 'IPv6'
 - `from_port` (Number) Starting port number in the range (1-65535)
@@ -261,8 +261,8 @@ Required:
 
 Read-Only:
 
-- `description` (String) Description of the resource
-- `name` (String) Name of the resource
+- `description` (String) Description of the Openstack Instance
+- `name` (String) Name of the Openstack Instance
 - `rules` (Attributes List) Rules (see [below for nested schema](#nestedatt--security_groups--rules))
 - `state` (String) State
 
@@ -272,7 +272,7 @@ Read-Only:
 Optional:
 
 - `cidr` (String) CIDR notation for the source/destination network address range
-- `description` (String) Description of the resource
+- `description` (String) Description of the Openstack Instance
 - `direction` (String) Traffic direction - either 'ingress' (incoming) or 'egress' (outgoing)
 - `ethertype` (String) IP protocol version - either 'IPv4' or 'IPv6'
 - `from_port` (Number) Starting port number in the range (1-65535)
@@ -302,7 +302,7 @@ Optional:
 
 Read-Only:
 
-- `name` (String) Name of the resource
+- `name` (String) Name of the Openstack Instance
 - `policy` (String) Server group policy determining the rules for scheduling servers in this group
 - `state` (String) State
 - `url` (String) Url
@@ -322,7 +322,7 @@ Optional:
 Read-Only:
 
 - `marketplace_resource_uuid` (String) UUID of the marketplace resource
-- `name` (String) Name of the resource
+- `name` (String) Name of the Openstack Instance
 - `resource_type` (String) Resource type
 - `state` (String) State
 - `type_name` (String) Name of the type

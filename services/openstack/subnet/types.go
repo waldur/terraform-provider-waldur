@@ -4,8 +4,6 @@ import (
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
-// OpenstackSubnet Structs
-
 type OpenstackSubnetCreateRequest struct {
 	AllocationPools *[]common.OpenStackSubNetAllocationPoolRequest `json:"allocation_pools,omitempty" tfsdk:"allocation_pools"`
 	Cidr            *string                                        `json:"cidr,omitempty" tfsdk:"cidr"`

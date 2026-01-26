@@ -9,7 +9,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 
-	"github.com/waldur/terraform-provider-waldur/internal/client"
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
@@ -41,82 +40,9 @@ func (d *OpenstackFlavorDataSource) Schema(ctx context.Context, req datasource.S
 			"id": schema.StringAttribute{
 				Optional:            true,
 				Computed:            true,
-				MarkdownDescription: "Resource UUID",
+				MarkdownDescription: "Openstack Flavor UUID",
 			},
-			"filters": schema.SingleNestedAttribute{
-				Optional:            true,
-				MarkdownDescription: "Filter parameters for querying Openstack Flavor",
-				Attributes: map[string]schema.Attribute{
-					"cores": schema.Int64Attribute{
-						Optional:            true,
-						MarkdownDescription: "Cores",
-					},
-					"cores__gte": schema.Int64Attribute{
-						Optional:            true,
-						MarkdownDescription: "Cores gte",
-					},
-					"cores__lte": schema.Int64Attribute{
-						Optional:            true,
-						MarkdownDescription: "Cores lte",
-					},
-					"disk": schema.Int64Attribute{
-						Optional:            true,
-						MarkdownDescription: "Disk",
-					},
-					"disk__gte": schema.Int64Attribute{
-						Optional:            true,
-						MarkdownDescription: "Disk gte",
-					},
-					"disk__lte": schema.Int64Attribute{
-						Optional:            true,
-						MarkdownDescription: "Disk lte",
-					},
-					"name": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Name",
-					},
-					"name_exact": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Name (exact)",
-					},
-					"name_iregex": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Name (regex)",
-					},
-					"offering_uuid": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Offering UUID",
-					},
-					"ram": schema.Int64Attribute{
-						Optional:            true,
-						MarkdownDescription: "Ram",
-					},
-					"ram__gte": schema.Int64Attribute{
-						Optional:            true,
-						MarkdownDescription: "Ram gte",
-					},
-					"ram__lte": schema.Int64Attribute{
-						Optional:            true,
-						MarkdownDescription: "Ram lte",
-					},
-					"settings": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Settings URL",
-					},
-					"settings_uuid": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Settings UUID",
-					},
-					"tenant": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Tenant URL",
-					},
-					"tenant_uuid": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Tenant UUID",
-					},
-				},
-			},
+			"filters": (&OpenstackFlavorFiltersModel{}).GetSchema(),
 			"backend_id": schema.StringAttribute{
 				Optional:            true,
 				MarkdownDescription: "ID of the backend",
@@ -143,7 +69,7 @@ func (d *OpenstackFlavorDataSource) Schema(ctx context.Context, req datasource.S
 			},
 			"name": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "Name of the resource",
+				MarkdownDescription: "Name of the Openstack Flavor",
 			},
 			"ram": schema.Int64Attribute{
 				Optional:            true,
@@ -171,16 +97,14 @@ func (d *OpenstackFlavorDataSource) Configure(ctx context.Context, req datasourc
 		return
 	}
 
-	rawClient, ok := req.ProviderData.(*client.Client)
-	if !ok {
+	d.client = &Client{}
+	if err := d.client.Configure(ctx, req.ProviderData); err != nil {
 		resp.Diagnostics.AddError(
 			"Unexpected Data Source Configure Type",
-			"Expected *client.Client, got something else. Please report this issue to the provider developers.",
+			err.Error(),
 		)
 		return
 	}
-
-	d.client = NewClient(rawClient)
 }
 
 func (d *OpenstackFlavorDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {

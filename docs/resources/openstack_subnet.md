@@ -17,14 +17,14 @@ Openstack Subnet resource
 
 ### Required
 
-- `name` (String) Name of the resource
+- `name` (String) Name of the Openstack Subnet
 - `network` (String) Required path parameter for resource creation
 
 ### Optional
 
 - `allocation_pools` (Attributes List) Allocation pools (see [below for nested schema](#nestedatt--allocation_pools))
 - `cidr` (String) Cidr
-- `description` (String) Description of the resource
+- `description` (String) Description of the Openstack Subnet
 - `disable_gateway` (Boolean) If True, no gateway IP address will be allocated
 - `dns_nameservers` (List of String) Dns nameservers
 - `gateway_ip` (String) IP address of the gateway for this subnet
@@ -39,7 +39,7 @@ Openstack Subnet resource
 - `enable_dhcp` (Boolean) If True, DHCP service will be enabled on this subnet
 - `error_message` (String) Error message
 - `error_traceback` (String) Error traceback
-- `id` (String) Resource UUID (used as Terraform ID)
+- `id` (String) Openstack Subnet UUID (used as Terraform ID)
 - `ip_version` (Number) IP protocol version (4 or 6)
 - `is_connected` (Boolean) Is subnet connected to the default tenant router.
 - `modified` (String) Modified

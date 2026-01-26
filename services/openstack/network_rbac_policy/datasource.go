@@ -5,12 +5,9 @@ import (
 	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
-	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
-	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 
-	"github.com/waldur/terraform-provider-waldur/internal/client"
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
@@ -42,45 +39,9 @@ func (d *OpenstackNetworkRbacPolicyDataSource) Schema(ctx context.Context, req d
 			"id": schema.StringAttribute{
 				Optional:            true,
 				Computed:            true,
-				MarkdownDescription: "Resource UUID",
+				MarkdownDescription: "Openstack Network Rbac Policy UUID",
 			},
-			"filters": schema.SingleNestedAttribute{
-				Optional:            true,
-				MarkdownDescription: "Filter parameters for querying Openstack Network Rbac Policy",
-				Attributes: map[string]schema.Attribute{
-					"network": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Network URL",
-					},
-					"network_uuid": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Network UUID",
-					},
-					"policy_type": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Type of access granted - either shared access or external network access Allowed values: `access_as_external`, `access_as_shared`.",
-						Validators: []validator.String{
-							stringvalidator.OneOf("access_as_external", "access_as_shared"),
-						},
-					},
-					"target_tenant": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Target tenant URL",
-					},
-					"target_tenant_uuid": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Target tenant UUID",
-					},
-					"tenant": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Tenant URL",
-					},
-					"tenant_uuid": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Tenant UUID",
-					},
-				},
-			},
+			"filters": (&OpenstackNetworkRbacPolicyFiltersModel{}).GetSchema(),
 			"backend_id": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "ID of the backend",
@@ -124,16 +85,14 @@ func (d *OpenstackNetworkRbacPolicyDataSource) Configure(ctx context.Context, re
 		return
 	}
 
-	rawClient, ok := req.ProviderData.(*client.Client)
-	if !ok {
+	d.client = &Client{}
+	if err := d.client.Configure(ctx, req.ProviderData); err != nil {
 		resp.Diagnostics.AddError(
 			"Unexpected Data Source Configure Type",
-			"Expected *client.Client, got something else. Please report this issue to the provider developers.",
+			err.Error(),
 		)
 		return
 	}
-
-	d.client = NewClient(rawClient)
 }
 
 func (d *OpenstackNetworkRbacPolicyDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {

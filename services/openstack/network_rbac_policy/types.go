@@ -1,7 +1,5 @@
 package network_rbac_policy
 
-// OpenstackNetworkRbacPolicy Structs
-
 type OpenstackNetworkRbacPolicyCreateRequest struct {
 	Network      *string `json:"network" tfsdk:"network"`
 	PolicyType   *string `json:"policy_type,omitempty" tfsdk:"policy_type"`

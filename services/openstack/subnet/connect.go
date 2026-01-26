@@ -8,7 +8,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/action"
 	"github.com/hashicorp/terraform-plugin-framework/action/schema"
 	"github.com/hashicorp/terraform-plugin-framework/types"
-	"github.com/waldur/terraform-provider-waldur/internal/client"
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
@@ -54,16 +53,14 @@ func (a *OpenstackSubnetConnectAction) Configure(ctx context.Context, req action
 		return
 	}
 
-	clientRaw, ok := req.ProviderData.(*client.Client)
-	if !ok {
+	a.client = &Client{}
+	if err := a.client.Configure(ctx, req.ProviderData); err != nil {
 		resp.Diagnostics.AddError(
 			"Unexpected Action Configure Type",
-			fmt.Sprintf("Expected *client.Client, got: %T", req.ProviderData),
+			err.Error(),
 		)
 		return
 	}
-
-	a.client = NewClient(clientRaw)
 }
 
 func (a *OpenstackSubnetConnectAction) Invoke(ctx context.Context, req action.InvokeRequest, resp *action.InvokeResponse) {
@@ -86,7 +83,7 @@ func (a *OpenstackSubnetConnectAction) Invoke(ctx context.Context, req action.In
 	}
 
 	// Wait for resource to stabilize
-	timeout := 10 * time.Minute
+	timeout := common.DefaultActionTimeout
 	if !data.Timeout.IsNull() {
 		var err error
 		timeout, err = time.ParseDuration(data.Timeout.ValueString())

@@ -18,7 +18,7 @@ Openstack Network Rbac Policy data source - lookup by name or UUID
 ### Optional
 
 - `filters` (Attributes) Filter parameters for querying Openstack Network Rbac Policy (see [below for nested schema](#nestedatt--filters))
-- `id` (String) Resource UUID
+- `id` (String) Openstack Network Rbac Policy UUID
 - `network` (String) Network
 - `policy_type` (String) Type of access granted - either shared access or external network access
 - `target_tenant` (String) Target tenant

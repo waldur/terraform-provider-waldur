@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
@@ -18,6 +19,55 @@ type CoreSshPublicKeyFiltersModel struct {
 	NameExact         types.String `tfsdk:"name_exact"`
 	UserUuid          types.String `tfsdk:"user_uuid"`
 	Uuid              types.String `tfsdk:"uuid"`
+}
+
+func (m *CoreSshPublicKeyFiltersModel) GetSchema() schema.SingleNestedAttribute {
+	return schema.SingleNestedAttribute{
+		Optional:            true,
+		MarkdownDescription: "Filter parameters for querying Core Ssh Public Key",
+		Attributes: map[string]schema.Attribute{
+			"created": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Created after",
+			},
+			"fingerprint_md5": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Fingerprint md5",
+			},
+			"fingerprint_sha256": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Fingerprint sha256",
+			},
+			"fingerprint_sha512": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Fingerprint sha512",
+			},
+			"is_shared": schema.BoolAttribute{
+				Optional:            true,
+				MarkdownDescription: "Is shared",
+			},
+			"modified": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Modified after",
+			},
+			"name": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Name",
+			},
+			"name_exact": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Name (exact)",
+			},
+			"user_uuid": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "User UUID",
+			},
+			"uuid": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "UUID",
+			},
+		},
+	}
 }
 
 type CoreSshPublicKeyModel struct {
@@ -38,6 +88,15 @@ func (model *CoreSshPublicKeyModel) CopyFrom(ctx context.Context, apiResp CoreSs
 	var diags diag.Diagnostics
 
 	model.UUID = types.StringPointerValue(apiResp.UUID)
+	model.FingerprintMd5 = types.StringPointerValue(apiResp.FingerprintMd5)
+	model.FingerprintSha256 = types.StringPointerValue(apiResp.FingerprintSha256)
+	model.FingerprintSha512 = types.StringPointerValue(apiResp.FingerprintSha512)
+	model.IsShared = types.BoolPointerValue(apiResp.IsShared)
+	model.Name = types.StringPointerValue(apiResp.Name)
+	model.PublicKey = types.StringPointerValue(apiResp.PublicKey)
+	model.Type = types.StringPointerValue(apiResp.Type)
+	model.Url = types.StringPointerValue(apiResp.Url)
+	model.UserUuid = types.StringPointerValue(apiResp.UserUuid)
 
 	return diags
 }

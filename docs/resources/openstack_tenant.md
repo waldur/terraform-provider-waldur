@@ -23,8 +23,8 @@ Openstack Tenant resource
 ### Optional
 
 - `availability_zone` (String) Optional availability group. Will be used for all instances provisioned in this tenant
-- `description` (String) Description of the resource
-- `name` (String) Name of the resource
+- `description` (String) Description of the Openstack Tenant
+- `name` (String) Name of the Openstack Tenant
 - `security_groups` (Attributes Set) Security groups (see [below for nested schema](#nestedatt--security_groups))
 - `skip_connection_extnet` (Boolean) Skip connection extnet
 - `skip_creation_of_default_router` (Boolean) Skip creation of default router
@@ -46,7 +46,7 @@ Openstack Tenant resource
 - `error_message` (String) Error message
 - `error_traceback` (String) Error traceback
 - `external_network_id` (String) ID of external network connected to OpenStack tenant
-- `id` (String) Resource UUID (used as Terraform ID)
+- `id` (String) Openstack Tenant UUID (used as Terraform ID)
 - `internal_network_id` (String) ID of internal network in OpenStack tenant
 - `is_limit_based` (Boolean) Is limit based
 - `is_usage_based` (Boolean) Is usage based
@@ -77,11 +77,11 @@ Openstack Tenant resource
 
 Required:
 
-- `name` (String) Name of the resource
+- `name` (String) Name of the Openstack Tenant
 
 Optional:
 
-- `description` (String) Description of the resource
+- `description` (String) Description of the Openstack Tenant
 - `rules` (Attributes List) Rules (see [below for nested schema](#nestedatt--security_groups--rules))
 
 <a id="nestedatt--security_groups--rules"></a>
@@ -90,7 +90,7 @@ Optional:
 Optional:
 
 - `cidr` (String) CIDR notation for the source/destination network address range
-- `description` (String) Description of the resource
+- `description` (String) Description of the Openstack Tenant
 - `direction` (String) Traffic direction - either 'ingress' (incoming) or 'egress' (outgoing)
 - `ethertype` (String) IP protocol version - either 'IPv4' or 'IPv6'
 - `from_port` (Number) Starting port number in the range (1-65535)
@@ -116,5 +116,5 @@ Optional:
 Optional:
 
 - `limit` (Number) Limit
-- `name` (String) Name of the resource
+- `name` (String) Name of the Openstack Tenant
 - `usage` (Number) Usage

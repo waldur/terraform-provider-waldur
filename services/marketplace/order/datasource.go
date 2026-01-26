@@ -11,7 +11,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 
-	"github.com/waldur/terraform-provider-waldur/internal/client"
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
@@ -43,78 +42,9 @@ func (d *MarketplaceOrderDataSource) Schema(ctx context.Context, req datasource.
 			"id": schema.StringAttribute{
 				Optional:            true,
 				Computed:            true,
-				MarkdownDescription: "Resource UUID",
+				MarkdownDescription: "Marketplace Order UUID",
 			},
-			"filters": schema.SingleNestedAttribute{
-				Optional:            true,
-				MarkdownDescription: "Filter parameters for querying Marketplace Order",
-				Attributes: map[string]schema.Attribute{
-					"can_approve_as_consumer": schema.BoolAttribute{
-						Optional:            true,
-						MarkdownDescription: "Can approve as consumer",
-					},
-					"can_approve_as_provider": schema.BoolAttribute{
-						Optional:            true,
-						MarkdownDescription: "Can approve as provider",
-					},
-					"category_uuid": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Category UUID",
-					},
-					"created": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Created after",
-					},
-					"customer_uuid": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Customer UUID",
-					},
-					"modified": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Modified after",
-					},
-					"offering": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Offering",
-					},
-					"offering_uuid": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Offering UUID",
-					},
-					"parent_offering_uuid": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "UUID of the parent offering",
-					},
-					"project_uuid": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Project UUID",
-					},
-					"provider_uuid": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Provider UUID",
-					},
-					"query": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Search by order UUID, slug, project name or resource name",
-					},
-					"resource": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Resource URL",
-					},
-					"resource_name": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Resource name",
-					},
-					"resource_uuid": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Resource UUID",
-					},
-					"service_manager_uuid": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Service manager UUID",
-					},
-				},
-			},
+			"filters": (&MarketplaceOrderFiltersModel{}).GetSchema(),
 			"activation_price": schema.Float64Attribute{
 				Computed:            true,
 				MarkdownDescription: "Activation price",
@@ -395,16 +325,14 @@ func (d *MarketplaceOrderDataSource) Configure(ctx context.Context, req datasour
 		return
 	}
 
-	rawClient, ok := req.ProviderData.(*client.Client)
-	if !ok {
+	d.client = &Client{}
+	if err := d.client.Configure(ctx, req.ProviderData); err != nil {
 		resp.Diagnostics.AddError(
 			"Unexpected Data Source Configure Type",
-			"Expected *client.Client, got something else. Please report this issue to the provider developers.",
+			err.Error(),
 		)
 		return
 	}
-
-	d.client = NewClient(rawClient)
 }
 
 func (d *MarketplaceOrderDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {

@@ -12,7 +12,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 
-	"github.com/waldur/terraform-provider-waldur/internal/client"
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
@@ -44,78 +43,9 @@ func (d *StructureProjectDataSource) Schema(ctx context.Context, req datasource.
 			"id": schema.StringAttribute{
 				Optional:            true,
 				Computed:            true,
-				MarkdownDescription: "Resource UUID",
+				MarkdownDescription: "Structure Project UUID",
 			},
-			"filters": schema.SingleNestedAttribute{
-				Optional:            true,
-				MarkdownDescription: "Filter parameters for querying Structure Project",
-				Attributes: map[string]schema.Attribute{
-					"backend_id": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "ID of the backend",
-					},
-					"can_admin": schema.BoolAttribute{
-						Optional:            true,
-						MarkdownDescription: "Return a list of projects where current user is admin.",
-					},
-					"can_manage": schema.BoolAttribute{
-						Optional:            true,
-						MarkdownDescription: "Return a list of projects where current user is manager or a customer owner.",
-					},
-					"conceal_finished_projects": schema.BoolAttribute{
-						Optional:            true,
-						MarkdownDescription: "Conceal finished projects",
-					},
-					"created": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Created after",
-					},
-					"customer_abbreviation": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Customer abbreviation",
-					},
-					"customer_name": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Customer name",
-					},
-					"customer_native_name": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Customer native name",
-					},
-					"description": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Description",
-					},
-					"include_terminated": schema.BoolAttribute{
-						Optional:            true,
-						MarkdownDescription: "Include soft-deleted (terminated) projects. Only available to staff and support users, or users with organizational roles who can see their terminated projects.",
-					},
-					"is_removed": schema.BoolAttribute{
-						Optional:            true,
-						MarkdownDescription: "Is removed",
-					},
-					"modified": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Modified after",
-					},
-					"name": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Name",
-					},
-					"name_exact": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Name (exact)",
-					},
-					"query": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Filter by name, slug, UUID, backend ID or resource effective ID",
-					},
-					"slug": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Slug",
-					},
-				},
-			},
+			"filters": (&StructureProjectFiltersModel{}).GetSchema(),
 			"backend_id": schema.StringAttribute{
 				Optional:            true,
 				MarkdownDescription: "ID of the backend",
@@ -179,7 +109,7 @@ func (d *StructureProjectDataSource) Schema(ctx context.Context, req datasource.
 			},
 			"name": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "Name of the resource",
+				MarkdownDescription: "Name of the Structure Project",
 			},
 			"oecd_fos_2007_code": schema.StringAttribute{
 				Optional:            true,
@@ -238,16 +168,14 @@ func (d *StructureProjectDataSource) Configure(ctx context.Context, req datasour
 		return
 	}
 
-	rawClient, ok := req.ProviderData.(*client.Client)
-	if !ok {
+	d.client = &Client{}
+	if err := d.client.Configure(ctx, req.ProviderData); err != nil {
 		resp.Diagnostics.AddError(
 			"Unexpected Data Source Configure Type",
-			"Expected *client.Client, got something else. Please report this issue to the provider developers.",
+			err.Error(),
 		)
 		return
 	}
-
-	d.client = NewClient(rawClient)
 }
 
 func (d *StructureProjectDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {

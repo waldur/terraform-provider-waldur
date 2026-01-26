@@ -20,7 +20,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
-	"github.com/waldur/terraform-provider-waldur/internal/client"
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
@@ -54,7 +53,7 @@ func (r *StructureProjectResource) Schema(ctx context.Context, req resource.Sche
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Resource UUID (used as Terraform ID)",
+				MarkdownDescription: "Structure Project UUID (used as Terraform ID)",
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
@@ -144,7 +143,7 @@ func (r *StructureProjectResource) Schema(ctx context.Context, req resource.Sche
 			},
 			"name": schema.StringAttribute{
 				Required:            true,
-				MarkdownDescription: "Name of the resource",
+				MarkdownDescription: "Name of the Structure Project",
 			},
 			"oecd_fos_2007_code": schema.StringAttribute{
 				Optional:            true,
@@ -229,16 +228,14 @@ func (r *StructureProjectResource) Configure(ctx context.Context, req resource.C
 		return
 	}
 
-	client, ok := req.ProviderData.(*client.Client)
-	if !ok {
+	r.client = &Client{}
+	if err := r.client.Configure(ctx, req.ProviderData); err != nil {
 		resp.Diagnostics.AddError(
 			"Unexpected Resource Configure Type",
-			"Expected *client.Client, got something else. Please report this issue to the provider developers.",
+			err.Error(),
 		)
 		return
 	}
-
-	r.client = NewClient(client)
 }
 
 func (r *StructureProjectResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
@@ -309,7 +306,7 @@ func (r *StructureProjectResource) Read(ctx context.Context, req resource.ReadRe
 
 	apiResp, err := r.client.GetStructureProject(ctx, data.UUID.ValueString())
 	if err != nil {
-		if client.IsNotFoundError(err) {
+		if IsNotFoundError(err) {
 			resp.State.RemoveResource(ctx)
 			return
 		}
@@ -430,7 +427,7 @@ func (r *StructureProjectResource) ImportState(ctx context.Context, req resource
 
 	apiResp, err := r.client.GetStructureProject(ctx, uuid)
 	if err != nil {
-		if client.IsNotFoundError(err) {
+		if IsNotFoundError(err) {
 			resp.Diagnostics.AddError(
 				"Resource Not Found",
 				fmt.Sprintf("Structure Project with UUID '%s' does not exist or is not accessible.", uuid),

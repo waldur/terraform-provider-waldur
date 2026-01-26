@@ -18,7 +18,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
-	"github.com/waldur/terraform-provider-waldur/internal/client"
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
@@ -52,7 +51,7 @@ func (r *OpenstackNetworkResource) Schema(ctx context.Context, req resource.Sche
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Resource UUID (used as Terraform ID)",
+				MarkdownDescription: "Openstack Network UUID (used as Terraform ID)",
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
@@ -81,7 +80,7 @@ func (r *OpenstackNetworkResource) Schema(ctx context.Context, req resource.Sche
 			},
 			"description": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "Description of the resource",
+				MarkdownDescription: "Description of the Openstack Network",
 			},
 			"error_message": schema.StringAttribute{
 				Computed: true,
@@ -121,7 +120,7 @@ func (r *OpenstackNetworkResource) Schema(ctx context.Context, req resource.Sche
 			},
 			"name": schema.StringAttribute{
 				Required:            true,
-				MarkdownDescription: "Name of the resource",
+				MarkdownDescription: "Name of the Openstack Network",
 			},
 			"rbac_policies": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
@@ -213,7 +212,7 @@ func (r *OpenstackNetworkResource) Schema(ctx context.Context, req resource.Sche
 						},
 						"description": schema.StringAttribute{
 							Optional:            true,
-							MarkdownDescription: "Description of the resource",
+							MarkdownDescription: "Description of the Openstack Network",
 						},
 						"enable_dhcp": schema.BoolAttribute{
 							Optional:            true,
@@ -233,7 +232,7 @@ func (r *OpenstackNetworkResource) Schema(ctx context.Context, req resource.Sche
 						},
 						"name": schema.StringAttribute{
 							Optional:            true,
-							MarkdownDescription: "Name of the resource",
+							MarkdownDescription: "Name of the Openstack Network",
 						},
 					},
 				},
@@ -296,16 +295,14 @@ func (r *OpenstackNetworkResource) Configure(ctx context.Context, req resource.C
 		return
 	}
 
-	client, ok := req.ProviderData.(*client.Client)
-	if !ok {
+	r.client = &Client{}
+	if err := r.client.Configure(ctx, req.ProviderData); err != nil {
 		resp.Diagnostics.AddError(
 			"Unexpected Resource Configure Type",
-			"Expected *client.Client, got something else. Please report this issue to the provider developers.",
+			err.Error(),
 		)
 		return
 	}
-
-	r.client = NewClient(client)
 }
 
 func (r *OpenstackNetworkResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
@@ -364,7 +361,7 @@ func (r *OpenstackNetworkResource) Read(ctx context.Context, req resource.ReadRe
 
 	apiResp, err := r.client.GetOpenstackNetwork(ctx, data.UUID.ValueString())
 	if err != nil {
-		if client.IsNotFoundError(err) {
+		if IsNotFoundError(err) {
 			resp.State.RemoveResource(ctx)
 			return
 		}
@@ -473,7 +470,7 @@ func (r *OpenstackNetworkResource) ImportState(ctx context.Context, req resource
 
 	apiResp, err := r.client.GetOpenstackNetwork(ctx, uuid)
 	if err != nil {
-		if client.IsNotFoundError(err) {
+		if IsNotFoundError(err) {
 			resp.Diagnostics.AddError(
 				"Resource Not Found",
 				fmt.Sprintf("Openstack Network with UUID '%s' does not exist or is not accessible.", uuid),

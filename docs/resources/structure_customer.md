@@ -17,7 +17,7 @@ Structure Customer resource
 
 ### Required
 
-- `name` (String) Name of the resource
+- `name` (String) Name of the Structure Customer
 
 ### Optional
 
@@ -34,7 +34,7 @@ Structure Customer resource
 - `contact_details` (String) Contact details
 - `country` (String) Country code (ISO 3166-1 alpha-2)
 - `default_tax_percent` (String) Default tax percent
-- `description` (String) Description of the resource
+- `description` (String) Description of the Structure Customer
 - `display_billing_info_in_projects` (Boolean) Display billing info in projects
 - `domain` (String) Domain
 - `email` (String) Email
@@ -63,7 +63,7 @@ Structure Customer resource
 - `customer_credit` (Number) Customer credit
 - `customer_unallocated_credit` (Number) Customer unallocated credit
 - `display_name` (String) Display name of the organization (includes native name if available)
-- `id` (String) Resource UUID (used as Terraform ID)
+- `id` (String) Structure Customer UUID (used as Terraform ID)
 - `is_service_provider` (Boolean) Is service provider
 - `organization_groups` (Attributes List) Organization groups this customer belongs to (see [below for nested schema](#nestedatt--organization_groups))
 - `payment_profiles` (Attributes List) Payment profiles (see [below for nested schema](#nestedatt--payment_profiles))
@@ -88,7 +88,7 @@ Optional:
 
 Optional:
 
-- `name` (String) Name of the resource
+- `name` (String) Name of the Structure Customer
 - `parent` (String) Parent
 
 Read-Only:
@@ -106,7 +106,7 @@ Optional:
 
 - `attributes` (Attributes) Attributes (see [below for nested schema](#nestedatt--payment_profiles--attributes))
 - `is_active` (Boolean) Is active
-- `name` (String) Name of the resource
+- `name` (String) Name of the Structure Customer
 - `organization` (String) Organization
 - `payment_type` (String) Payment type
 

@@ -6,6 +6,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
@@ -33,6 +34,107 @@ type OpenstackNetworkFiltersModel struct {
 	TenantUuid           types.String `tfsdk:"tenant_uuid"`
 	Type                 types.String `tfsdk:"type"`
 	Uuid                 types.String `tfsdk:"uuid"`
+}
+
+func (m *OpenstackNetworkFiltersModel) GetSchema() schema.SingleNestedAttribute {
+	return schema.SingleNestedAttribute{
+		Optional:            true,
+		MarkdownDescription: "Filter parameters for querying Openstack Network",
+		Attributes: map[string]schema.Attribute{
+			"backend_id": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Backend ID",
+			},
+			"can_manage": schema.BoolAttribute{
+				Optional:            true,
+				MarkdownDescription: "Can manage",
+			},
+			"customer": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Customer UUID",
+			},
+			"customer_abbreviation": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Customer abbreviation",
+			},
+			"customer_name": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Customer name",
+			},
+			"customer_native_name": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Customer native name",
+			},
+			"customer_uuid": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Customer UUID",
+			},
+			"description": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Description",
+			},
+			"direct_only": schema.BoolAttribute{
+				Optional:            true,
+				MarkdownDescription: "Direct only",
+			},
+			"external_ip": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "External IP",
+			},
+			"is_external": schema.BoolAttribute{
+				Optional:            true,
+				MarkdownDescription: "Is external",
+			},
+			"name": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Name",
+			},
+			"name_exact": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Name (exact)",
+			},
+			"project": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Project UUID",
+			},
+			"project_name": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Project name",
+			},
+			"project_uuid": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Project UUID",
+			},
+			"rbac_only": schema.BoolAttribute{
+				Optional:            true,
+				MarkdownDescription: "RBAC only",
+			},
+			"service_settings_name": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Service settings name",
+			},
+			"service_settings_uuid": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Service settings UUID",
+			},
+			"tenant": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Tenant URL",
+			},
+			"tenant_uuid": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Tenant UUID",
+			},
+			"type": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Type",
+			},
+			"uuid": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "UUID",
+			},
+		},
+	}
 }
 
 type OpenstackNetworkModel struct {

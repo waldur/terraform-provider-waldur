@@ -6,6 +6,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
@@ -27,6 +28,83 @@ type OpenstackTenantFiltersModel struct {
 	ServiceSettingsName  types.String `tfsdk:"service_settings_name"`
 	ServiceSettingsUuid  types.String `tfsdk:"service_settings_uuid"`
 	Uuid                 types.String `tfsdk:"uuid"`
+}
+
+func (m *OpenstackTenantFiltersModel) GetSchema() schema.SingleNestedAttribute {
+	return schema.SingleNestedAttribute{
+		Optional:            true,
+		MarkdownDescription: "Filter parameters for querying Openstack Tenant",
+		Attributes: map[string]schema.Attribute{
+			"backend_id": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Backend ID",
+			},
+			"can_manage": schema.BoolAttribute{
+				Optional:            true,
+				MarkdownDescription: "Can manage",
+			},
+			"customer": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Customer UUID",
+			},
+			"customer_abbreviation": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Customer abbreviation",
+			},
+			"customer_name": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Customer name",
+			},
+			"customer_native_name": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Customer native name",
+			},
+			"customer_uuid": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Customer UUID",
+			},
+			"description": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Description",
+			},
+			"external_ip": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "External IP",
+			},
+			"name": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Name",
+			},
+			"name_exact": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Name (exact)",
+			},
+			"project": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Project UUID",
+			},
+			"project_name": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Project name",
+			},
+			"project_uuid": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Project UUID",
+			},
+			"service_settings_name": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Service settings name",
+			},
+			"service_settings_uuid": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Service settings UUID",
+			},
+			"uuid": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "UUID",
+			},
+		},
+	}
 }
 
 type OpenstackTenantModel struct {

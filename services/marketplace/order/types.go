@@ -1,7 +1,5 @@
 package order
 
-// MarketplaceOrder Structs
-
 type MarketplaceOrderCreateRequest struct {
 	AcceptingTermsOfService *bool                  `json:"accepting_terms_of_service,omitempty" tfsdk:"accepting_terms_of_service"`
 	Attributes              map[string]interface{} `json:"attributes" tfsdk:"attributes"`

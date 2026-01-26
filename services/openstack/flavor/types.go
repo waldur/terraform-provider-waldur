@@ -1,7 +1,5 @@
 package flavor
 
-// OpenstackFlavor Structs
-
 type OpenstackFlavorCreateRequest struct {
 }
 

@@ -39,15 +39,13 @@ Optional:
 - `modified` (String) Modified after
 - `name` (String) Name
 - `name_exact` (String) Name (exact)
-- `offering` (String)
+- `offering` (String) Offering
 - `offering_billable` (Boolean) Offering billable
 - `offering_shared` (Boolean) Offering shared
 - `offering_type` (String) Offering type
 - `only_limit_based` (Boolean) Filter resources with only limit-based components
 - `only_usage_based` (Boolean) Filter resources with only usage-based components
-- `page` (Number) A page number within the paginated result set.
-- `page_size` (Number) Number of results to return per page.
-- `parent_offering_uuid` (String)
+- `parent_offering_uuid` (String) UUID of the parent offering
 - `paused` (Boolean) Paused
 - `plan_uuid` (String) Plan UUID
 - `project_name` (String) Project name

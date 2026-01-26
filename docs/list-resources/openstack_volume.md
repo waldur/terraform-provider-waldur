@@ -39,12 +39,10 @@ Optional:
 - `instance_uuid` (String) Instance UUID
 - `name` (String) Name
 - `name_exact` (String) Name (exact)
-- `page` (Number) A page number within the paginated result set.
-- `page_size` (Number) Number of results to return per page.
 - `project` (String) Project UUID
 - `project_name` (String) Project name
 - `project_uuid` (String) Project UUID
-- `runtime_state` (String)
+- `runtime_state` (String) Runtime state
 - `service_settings_name` (String) Service settings name
 - `service_settings_uuid` (String) Service settings UUID
 - `snapshot` (String) Snapshot URL

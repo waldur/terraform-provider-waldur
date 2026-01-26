@@ -17,12 +17,12 @@ Openstack Server Group resource
 
 ### Required
 
-- `name` (String) Name of the resource
+- `name` (String) Name of the Openstack Server Group
 - `tenant` (String) Required path parameter for resource creation
 
 ### Optional
 
-- `description` (String) Description of the resource
+- `description` (String) Description of the Openstack Server Group
 - `policy` (String) Server group policy determining the rules for scheduling servers in this group
 - `timeouts` (Block, Optional) (see [below for nested schema](#nestedblock--timeouts))
 
@@ -34,7 +34,7 @@ Openstack Server Group resource
 - `display_name` (String) Name of the display
 - `error_message` (String) Error message
 - `error_traceback` (String) Error traceback
-- `id` (String) Resource UUID (used as Terraform ID)
+- `id` (String) Openstack Server Group UUID (used as Terraform ID)
 - `instances` (Attributes List) Instances (see [below for nested schema](#nestedatt--instances))
 - `modified` (String) Modified
 - `resource_type` (String) Resource type
@@ -59,4 +59,4 @@ Optional:
 Optional:
 
 - `backend_id` (String) Instance ID in the OpenStack backend
-- `name` (String) Name of the resource
+- `name` (String) Name of the Openstack Server Group

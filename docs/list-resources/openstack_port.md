@@ -24,21 +24,19 @@ description: |-
 
 Optional:
 
-- `admin_state_up` (Boolean)
-- `backend_id` (String)
-- `device_id` (String)
-- `device_owner` (String)
+- `admin_state_up` (Boolean) Admin state up
+- `backend_id` (String) ID of the backend
+- `device_id` (String) ID of the device
+- `device_owner` (String) Device owner
 - `exclude_subnet_uuids` (String) Exclude Subnet UUIDs (comma-separated)
 - `fixed_ips` (String) Search by fixed IP
 - `has_device_owner` (Boolean) Has device owner
-- `mac_address` (String)
+- `mac_address` (String) Mac address
 - `name` (String) Name
 - `name_exact` (String) Name (exact)
 - `network_name` (String) Search by network name
 - `network_uuid` (String) Search by network UUID
-- `page` (Number) A page number within the paginated result set.
-- `page_size` (Number) Number of results to return per page.
 - `query` (String) Search by name, MAC address or backend ID
-- `status` (String)
+- `status` (String) Status
 - `tenant` (String) Tenant URL
 - `tenant_uuid` (String) Tenant UUID

@@ -9,7 +9,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 
-	"github.com/waldur/terraform-provider-waldur/internal/client"
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
@@ -41,42 +40,9 @@ func (d *OpenstackImageDataSource) Schema(ctx context.Context, req datasource.Sc
 			"id": schema.StringAttribute{
 				Optional:            true,
 				Computed:            true,
-				MarkdownDescription: "Resource UUID",
+				MarkdownDescription: "Openstack Image UUID",
 			},
-			"filters": schema.SingleNestedAttribute{
-				Optional:            true,
-				MarkdownDescription: "Filter parameters for querying Openstack Image",
-				Attributes: map[string]schema.Attribute{
-					"name": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Name",
-					},
-					"name_exact": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Name (exact)",
-					},
-					"offering_uuid": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Offering UUID",
-					},
-					"settings": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Settings URL",
-					},
-					"settings_uuid": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Settings UUID",
-					},
-					"tenant": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Tenant URL",
-					},
-					"tenant_uuid": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Tenant UUID",
-					},
-				},
-			},
+			"filters": (&OpenstackImageFiltersModel{}).GetSchema(),
 			"backend_id": schema.StringAttribute{
 				Required:            true,
 				MarkdownDescription: "ID of the backend",
@@ -99,7 +65,7 @@ func (d *OpenstackImageDataSource) Schema(ctx context.Context, req datasource.Sc
 			},
 			"name": schema.StringAttribute{
 				Required:            true,
-				MarkdownDescription: "Name of the resource",
+				MarkdownDescription: "Name of the Openstack Image",
 			},
 			"settings": schema.StringAttribute{
 				Required:            true,
@@ -119,16 +85,14 @@ func (d *OpenstackImageDataSource) Configure(ctx context.Context, req datasource
 		return
 	}
 
-	rawClient, ok := req.ProviderData.(*client.Client)
-	if !ok {
+	d.client = &Client{}
+	if err := d.client.Configure(ctx, req.ProviderData); err != nil {
 		resp.Diagnostics.AddError(
 			"Unexpected Data Source Configure Type",
-			"Expected *client.Client, got something else. Please report this issue to the provider developers.",
+			err.Error(),
 		)
 		return
 	}
-
-	d.client = NewClient(rawClient)
 }
 
 func (d *OpenstackImageDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {

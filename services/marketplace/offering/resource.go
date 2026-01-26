@@ -23,7 +23,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
-	"github.com/waldur/terraform-provider-waldur/internal/client"
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
@@ -59,7 +58,7 @@ func (r *MarketplaceOfferingResource) Schema(ctx context.Context, req resource.S
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Resource UUID (used as Terraform ID)",
+				MarkdownDescription: "Marketplace Offering UUID (used as Terraform ID)",
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
@@ -151,7 +150,7 @@ func (r *MarketplaceOfferingResource) Schema(ctx context.Context, req resource.S
 						},
 						"description": schema.StringAttribute{
 							Optional:            true,
-							MarkdownDescription: "Description of the resource",
+							MarkdownDescription: "Description of the Marketplace Offering",
 						},
 						"is_boolean": schema.BoolAttribute{
 							Optional:            true,
@@ -282,14 +281,14 @@ func (r *MarketplaceOfferingResource) Schema(ctx context.Context, req resource.S
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
 				},
-				MarkdownDescription: "Description of the resource",
+				MarkdownDescription: "Description of the Marketplace Offering",
 			},
 			"endpoints": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"name": schema.StringAttribute{
 							Optional:            true,
-							MarkdownDescription: "Name of the resource",
+							MarkdownDescription: "Name of the Marketplace Offering",
 						},
 						"url": schema.StringAttribute{
 							Optional:            true,
@@ -317,7 +316,7 @@ func (r *MarketplaceOfferingResource) Schema(ctx context.Context, req resource.S
 						},
 						"name": schema.StringAttribute{
 							Optional:            true,
-							MarkdownDescription: "Name of the resource",
+							MarkdownDescription: "Name of the Marketplace Offering",
 						},
 					},
 				},
@@ -423,7 +422,7 @@ func (r *MarketplaceOfferingResource) Schema(ctx context.Context, req resource.S
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
 				},
-				MarkdownDescription: "Name of the resource",
+				MarkdownDescription: "Name of the Marketplace Offering",
 			},
 			"options": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
@@ -455,7 +454,7 @@ func (r *MarketplaceOfferingResource) Schema(ctx context.Context, req resource.S
 						},
 						"name": schema.StringAttribute{
 							Optional:            true,
-							MarkdownDescription: "Name of the resource",
+							MarkdownDescription: "Name of the Marketplace Offering",
 						},
 						"parent": schema.StringAttribute{
 							Optional:            true,
@@ -672,7 +671,7 @@ func (r *MarketplaceOfferingResource) Schema(ctx context.Context, req resource.S
 						},
 						"description": schema.StringAttribute{
 							Optional:            true,
-							MarkdownDescription: "Description of the resource",
+							MarkdownDescription: "Description of the Marketplace Offering",
 						},
 						"max_amount": schema.Int64Attribute{
 							Optional:            true,
@@ -684,7 +683,7 @@ func (r *MarketplaceOfferingResource) Schema(ctx context.Context, req resource.S
 						},
 						"name": schema.StringAttribute{
 							Required:            true,
-							MarkdownDescription: "Name of the resource",
+							MarkdownDescription: "Name of the Marketplace Offering",
 						},
 						"unit": schema.StringAttribute{
 							Optional:            true,
@@ -724,7 +723,7 @@ func (r *MarketplaceOfferingResource) Schema(ctx context.Context, req resource.S
 						},
 						"name": schema.StringAttribute{
 							Optional:            true,
-							MarkdownDescription: "Name of the resource",
+							MarkdownDescription: "Name of the Marketplace Offering",
 						},
 						"usage": schema.Int64Attribute{
 							Optional:            true,
@@ -757,7 +756,7 @@ func (r *MarketplaceOfferingResource) Schema(ctx context.Context, req resource.S
 					Attributes: map[string]schema.Attribute{
 						"name": schema.StringAttribute{
 							Optional:            true,
-							MarkdownDescription: "Name of the resource",
+							MarkdownDescription: "Name of the Marketplace Offering",
 						},
 						"url": schema.StringAttribute{
 							Computed:            true,
@@ -816,7 +815,7 @@ func (r *MarketplaceOfferingResource) Schema(ctx context.Context, req resource.S
 						},
 						"description": schema.StringAttribute{
 							Optional:            true,
-							MarkdownDescription: "Description of the resource",
+							MarkdownDescription: "Description of the Marketplace Offering",
 						},
 						"image": schema.StringAttribute{
 							Optional:            true,
@@ -824,7 +823,7 @@ func (r *MarketplaceOfferingResource) Schema(ctx context.Context, req resource.S
 						},
 						"name": schema.StringAttribute{
 							Optional:            true,
-							MarkdownDescription: "Name of the resource",
+							MarkdownDescription: "Name of the Marketplace Offering",
 						},
 						"thumbnail": schema.StringAttribute{
 							Computed:            true,
@@ -862,11 +861,11 @@ func (r *MarketplaceOfferingResource) Schema(ctx context.Context, req resource.S
 							Attributes: map[string]schema.Attribute{
 								"description": schema.StringAttribute{
 									Optional:            true,
-									MarkdownDescription: "Description of the resource",
+									MarkdownDescription: "Description of the Marketplace Offering",
 								},
 								"name": schema.StringAttribute{
 									Optional:            true,
-									MarkdownDescription: "Name of the resource",
+									MarkdownDescription: "Name of the Marketplace Offering",
 								},
 								"version": schema.StringAttribute{
 									Optional:            true,
@@ -980,16 +979,14 @@ func (r *MarketplaceOfferingResource) Configure(ctx context.Context, req resourc
 		return
 	}
 
-	client, ok := req.ProviderData.(*client.Client)
-	if !ok {
+	r.client = &Client{}
+	if err := r.client.Configure(ctx, req.ProviderData); err != nil {
 		resp.Diagnostics.AddError(
 			"Unexpected Resource Configure Type",
-			"Expected *client.Client, got something else. Please report this issue to the provider developers.",
+			err.Error(),
 		)
 		return
 	}
-
-	r.client = NewClient(client)
 }
 
 func (r *MarketplaceOfferingResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
@@ -1035,7 +1032,9 @@ func (r *MarketplaceOfferingResource) Create(ctx context.Context, req resource.C
 	}
 	{
 		var obj common.OfferingOptionsRequest
-		if diags := data.Options.As(ctx, &obj, basetypes.ObjectAsOptions{}); !diags.HasError() {
+		diags := data.Options.As(ctx, &obj, basetypes.ObjectAsOptions{})
+		resp.Diagnostics.Append(diags...)
+		if !diags.HasError() {
 			requestBody.Options = &obj
 		}
 	}
@@ -1051,7 +1050,9 @@ func (r *MarketplaceOfferingResource) Create(ctx context.Context, req resource.C
 	}
 	{
 		var obj common.OfferingOptionsRequest
-		if diags := data.ResourceOptions.As(ctx, &obj, basetypes.ObjectAsOptions{}); !diags.HasError() {
+		diags := data.ResourceOptions.As(ctx, &obj, basetypes.ObjectAsOptions{})
+		resp.Diagnostics.Append(diags...)
+		if !diags.HasError() {
 			requestBody.ResourceOptions = &obj
 		}
 	}
@@ -1100,7 +1101,7 @@ func (r *MarketplaceOfferingResource) Read(ctx context.Context, req resource.Rea
 
 	apiResp, err := r.client.GetMarketplaceOffering(ctx, data.UUID.ValueString())
 	if err != nil {
-		if client.IsNotFoundError(err) {
+		if IsNotFoundError(err) {
 			resp.State.RemoveResource(ctx)
 			return
 		}
@@ -1170,7 +1171,7 @@ func (r *MarketplaceOfferingResource) ImportState(ctx context.Context, req resou
 
 	apiResp, err := r.client.GetMarketplaceOffering(ctx, uuid)
 	if err != nil {
-		if client.IsNotFoundError(err) {
+		if IsNotFoundError(err) {
 			resp.Diagnostics.AddError(
 				"Resource Not Found",
 				fmt.Sprintf("Marketplace Offering with UUID '%s' does not exist or is not accessible.", uuid),

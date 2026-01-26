@@ -1,7 +1,5 @@
 package project
 
-// StructureProject Structs
-
 type StructureProjectCreateRequest struct {
 	BackendId       *string `json:"backend_id,omitempty" tfsdk:"backend_id"`
 	Customer        *string `json:"customer" tfsdk:"customer"`

@@ -4,8 +4,6 @@ import (
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
-// OpenstackPort Structs
-
 type OpenstackPortCreateRequest struct {
 	AllowedAddressPairs *[]common.OpenStackAllowedAddressPairRequest      `json:"allowed_address_pairs,omitempty" tfsdk:"allowed_address_pairs"`
 	Description         *string                                           `json:"description,omitempty" tfsdk:"description"`

@@ -6,6 +6,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
@@ -22,6 +23,63 @@ type StructureCustomerFiltersModel struct {
 	OwnedByCurrentUser    types.Bool   `tfsdk:"owned_by_current_user"`
 	Query                 types.String `tfsdk:"query"`
 	RegistrationCode      types.String `tfsdk:"registration_code"`
+}
+
+func (m *StructureCustomerFiltersModel) GetSchema() schema.SingleNestedAttribute {
+	return schema.SingleNestedAttribute{
+		Optional:            true,
+		MarkdownDescription: "Filter parameters for querying Structure Customer",
+		Attributes: map[string]schema.Attribute{
+			"abbreviation": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Abbreviation",
+			},
+			"agreement_number": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Agreement number",
+			},
+			"archived": schema.BoolAttribute{
+				Optional:            true,
+				MarkdownDescription: "Archived",
+			},
+			"backend_id": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "ID of the backend",
+			},
+			"contact_details": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Contact details",
+			},
+			"name": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Name",
+			},
+			"name_exact": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Name (exact)",
+			},
+			"native_name": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Native name",
+			},
+			"organization_group_name": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Organization group name",
+			},
+			"owned_by_current_user": schema.BoolAttribute{
+				Optional:            true,
+				MarkdownDescription: "Return a list of customers where current user is owner.",
+			},
+			"query": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Filter by name, native name, abbreviation, domain, UUID, registration code or agreement number",
+			},
+			"registration_code": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Registration code",
+			},
+		},
+	}
 }
 
 type StructureCustomerModel struct {

@@ -18,7 +18,7 @@ Openstack Floating Ip data source - lookup by name or UUID
 ### Optional
 
 - `filters` (Attributes) Filter parameters for querying Openstack Floating Ip (see [below for nested schema](#nestedatt--filters))
-- `id` (String) Resource UUID
+- `id` (String) Openstack Floating Ip UUID
 
 ### Read-Only
 
@@ -27,7 +27,7 @@ Openstack Floating Ip data source - lookup by name or UUID
 - `backend_id` (String) ID of the backend
 - `backend_network_id` (String) ID of network in OpenStack where this floating IP is allocated
 - `created` (String) Created
-- `description` (String) Description of the resource
+- `description` (String) Description of the Openstack Floating Ip
 - `error_message` (String) Error message
 - `error_traceback` (String) Error traceback
 - `external_address` (String) Optional address that maps to floating IP's address in external networks
@@ -35,7 +35,7 @@ Openstack Floating Ip data source - lookup by name or UUID
 - `instance_url` (String) Instance url
 - `instance_uuid` (String) UUID of the instance
 - `modified` (String) Modified
-- `name` (String) Name of the resource
+- `name` (String) Name of the Openstack Floating Ip
 - `port` (String) Port
 - `port_fixed_ips` (Attributes List) Port fixed ips (see [below for nested schema](#nestedatt--port_fixed_ips))
 - `resource_type` (String) Resource type

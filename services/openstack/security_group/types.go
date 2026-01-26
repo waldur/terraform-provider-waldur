@@ -4,8 +4,6 @@ import (
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
-// OpenstackSecurityGroup Structs
-
 type OpenstackSecurityGroupCreateRequest struct {
 	Description *string                                          `json:"description,omitempty" tfsdk:"description"`
 	Name        *string                                          `json:"name" tfsdk:"name"`

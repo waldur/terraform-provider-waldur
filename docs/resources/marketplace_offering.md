@@ -18,7 +18,7 @@ Marketplace Offering resource
 ### Required
 
 - `category` (String) Category
-- `name` (String) Name of the resource
+- `name` (String) Name of the Marketplace Offering
 - `type` (String) Type
 
 ### Optional
@@ -30,7 +30,7 @@ Marketplace Offering resource
 - `country` (String) Country code (ISO 3166-1 alpha-2)
 - `customer` (String) Customer
 - `datacite_doi` (String) Datacite doi
-- `description` (String) Description of the resource
+- `description` (String) Description of the Marketplace Offering
 - `full_description` (String) Full description
 - `getting_started` (String) Getting started
 - `image` (String) Image
@@ -59,7 +59,7 @@ Marketplace Offering resource
 - `google_calendar_is_public` (Boolean) Google calendar is public
 - `google_calendar_link` (String) Get the Google Calendar link for an offering.
 - `has_compliance_requirements` (Boolean) Has compliance requirements
-- `id` (String) Resource UUID (used as Terraform ID)
+- `id` (String) Marketplace Offering UUID (used as Terraform ID)
 - `integration_status` (Attributes List) Integration status (see [below for nested schema](#nestedatt--integration_status))
 - `order_count` (Number) Order count
 - `organization_groups` (Attributes List) Organization groups (see [below for nested schema](#nestedatt--organization_groups))
@@ -123,7 +123,7 @@ Optional:
 
 - `article_code` (String) Article code
 - `default_limit` (Number) Default limit
-- `description` (String) Description of the resource
+- `description` (String) Description of the Marketplace Offering
 - `is_boolean` (Boolean) Is boolean
 - `is_prepaid` (Boolean) Is prepaid
 - `limit_amount` (Number) Limit amount
@@ -143,7 +143,7 @@ Optional:
 
 Optional:
 
-- `name` (String) Name of the resource
+- `name` (String) Name of the Marketplace Offering
 - `url` (String) URL of the access endpoint
 
 
@@ -153,7 +153,7 @@ Optional:
 Optional:
 
 - `file` (String) File
-- `name` (String) Name of the resource
+- `name` (String) Name of the Marketplace Offering
 
 Read-Only:
 
@@ -179,7 +179,7 @@ Read-Only:
 
 Optional:
 
-- `name` (String) Name of the resource
+- `name` (String) Name of the Marketplace Offering
 - `parent` (String) Parent
 
 Read-Only:
@@ -222,14 +222,14 @@ Optional:
 
 Required:
 
-- `name` (String) Name of the resource
+- `name` (String) Name of the Marketplace Offering
 
 Optional:
 
 - `archived` (Boolean) Forbids creation of new resources.
 - `article_code` (String) Article code
 - `backend_id` (String) ID of the backend
-- `description` (String) Description of the resource
+- `description` (String) Description of the Marketplace Offering
 - `max_amount` (Number) Maximum number of plans that could be active. Plan is disabled when maximum amount is reached.
 - `unit` (String) Unit
 - `unit_price` (String) Unit price
@@ -241,7 +241,7 @@ Optional:
 Optional:
 
 - `limit` (Number) Limit
-- `name` (String) Name of the resource
+- `name` (String) Name of the Marketplace Offering
 - `usage` (Number) Usage
 
 
@@ -250,7 +250,7 @@ Optional:
 
 Optional:
 
-- `name` (String) Name of the resource
+- `name` (String) Name of the Marketplace Offering
 
 Read-Only:
 
@@ -262,9 +262,9 @@ Read-Only:
 
 Optional:
 
-- `description` (String) Description of the resource
+- `description` (String) Description of the Marketplace Offering
 - `image` (String) Image
-- `name` (String) Name of the resource
+- `name` (String) Name of the Marketplace Offering
 
 Read-Only:
 
@@ -286,8 +286,8 @@ Read-Only:
 
 Optional:
 
-- `description` (String) Description of the resource
-- `name` (String) Name of the resource
+- `description` (String) Description of the Marketplace Offering
+- `name` (String) Name of the Marketplace Offering
 - `version` (String) Version
 
 

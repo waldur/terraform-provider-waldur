@@ -30,11 +30,9 @@ Optional:
 - `created` (String) Created after
 - `customer_uuid` (String) Customer UUID
 - `modified` (String) Modified after
-- `offering` (String)
+- `offering` (String) Offering
 - `offering_uuid` (String) Offering UUID
-- `page` (Number) A page number within the paginated result set.
-- `page_size` (Number) Number of results to return per page.
-- `parent_offering_uuid` (String)
+- `parent_offering_uuid` (String) UUID of the parent offering
 - `project_uuid` (String) Project UUID
 - `provider_uuid` (String) Provider UUID
 - `query` (String) Search by order UUID, slug, project name or resource name

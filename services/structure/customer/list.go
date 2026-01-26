@@ -2,14 +2,12 @@ package customer
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/list"
 	"github.com/hashicorp/terraform-plugin-framework/list/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 
-	"github.com/waldur/terraform-provider-waldur/internal/client"
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
@@ -30,91 +28,20 @@ func (l *StructureCustomerList) Metadata(ctx context.Context, req resource.Metad
 func (l *StructureCustomerList) ListResourceConfigSchema(ctx context.Context, req list.ListResourceSchemaRequest, resp *list.ListResourceSchemaResponse) {
 	resp.Schema = schema.Schema{
 		Attributes: map[string]schema.Attribute{
-			"filters": schema.SingleNestedAttribute{
-				Optional:    true,
-				Description: "Filter parameters for querying Structure Customer",
-				Attributes: map[string]schema.Attribute{
-					"abbreviation": schema.StringAttribute{
-						Description: "Abbreviation",
-						Optional:    true,
-					},
-					"agreement_number": schema.StringAttribute{
-						Description: "",
-						Optional:    true,
-					},
-					"archived": schema.BoolAttribute{
-						Description: "",
-						Optional:    true,
-					},
-					"backend_id": schema.StringAttribute{
-						Description: "",
-						Optional:    true,
-					},
-					"contact_details": schema.StringAttribute{
-						Description: "Contact details",
-						Optional:    true,
-					},
-					"name": schema.StringAttribute{
-						Description: "Name",
-						Optional:    true,
-					},
-					"name_exact": schema.StringAttribute{
-						Description: "Name (exact)",
-						Optional:    true,
-					},
-					"native_name": schema.StringAttribute{
-						Description: "Native name",
-						Optional:    true,
-					},
-					"o": schema.StringAttribute{
-						Description: "Which field to use when ordering the results.",
-						Optional:    true,
-					},
-					"organization_group_name": schema.StringAttribute{
-						Description: "Organization group name",
-						Optional:    true,
-					},
-					"owned_by_current_user": schema.BoolAttribute{
-						Description: "Return a list of customers where current user is owner.",
-						Optional:    true,
-					},
-					"page": schema.Int64Attribute{
-						Description: "A page number within the paginated result set.",
-						Optional:    true,
-					},
-					"page_size": schema.Int64Attribute{
-						Description: "Number of results to return per page.",
-						Optional:    true,
-					},
-					"query": schema.StringAttribute{
-						Description: "Filter by name, native name, abbreviation, domain, UUID, registration code or agreement number",
-						Optional:    true,
-					},
-					"registration_code": schema.StringAttribute{
-						Description: "",
-						Optional:    true,
-					},
-				},
-			},
+			"filters": (&StructureCustomerFiltersModel{}).GetSchema(),
 		},
 	}
 }
 
 func (l *StructureCustomerList) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
-	if req.ProviderData == nil {
-		return
-	}
-
-	client, ok := req.ProviderData.(*client.Client)
-	if !ok {
+	l.client = &Client{}
+	if err := l.client.Configure(ctx, req.ProviderData); err != nil {
 		resp.Diagnostics.AddError(
 			"Unexpected List Configure Type",
-			fmt.Sprintf("Expected *client.Client, got: %T", req.ProviderData),
+			err.Error(),
 		)
 		return
 	}
-
-	l.client = NewClient(client)
 }
 
 type StructureCustomerListModel struct {

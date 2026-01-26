@@ -19,7 +19,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
-	"github.com/waldur/terraform-provider-waldur/internal/client"
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
@@ -56,7 +55,7 @@ func (r *MarketplaceOrderResource) Schema(ctx context.Context, req resource.Sche
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Resource UUID (used as Terraform ID)",
+				MarkdownDescription: "Marketplace Order UUID (used as Terraform ID)",
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
@@ -565,16 +564,14 @@ func (r *MarketplaceOrderResource) Configure(ctx context.Context, req resource.C
 		return
 	}
 
-	client, ok := req.ProviderData.(*client.Client)
-	if !ok {
+	r.client = &Client{}
+	if err := r.client.Configure(ctx, req.ProviderData); err != nil {
 		resp.Diagnostics.AddError(
 			"Unexpected Resource Configure Type",
-			"Expected *client.Client, got something else. Please report this issue to the provider developers.",
+			err.Error(),
 		)
 		return
 	}
-
-	r.client = NewClient(client)
 }
 
 func (r *MarketplaceOrderResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
@@ -597,7 +594,9 @@ func (r *MarketplaceOrderResource) Create(ctx context.Context, req resource.Crea
 	}
 	{
 		var mapItems map[string]interface{}
-		if diags := data.Attributes.ElementsAs(ctx, &mapItems, false); !diags.HasError() && len(mapItems) > 0 {
+		diags := data.Attributes.ElementsAs(ctx, &mapItems, false)
+		resp.Diagnostics.Append(diags...)
+		if !diags.HasError() && len(mapItems) > 0 {
 			requestBody.Attributes = mapItems
 		}
 	}
@@ -646,7 +645,7 @@ func (r *MarketplaceOrderResource) Read(ctx context.Context, req resource.ReadRe
 
 	apiResp, err := r.client.GetMarketplaceOrder(ctx, data.UUID.ValueString())
 	if err != nil {
-		if client.IsNotFoundError(err) {
+		if IsNotFoundError(err) {
 			resp.State.RemoveResource(ctx)
 			return
 		}
@@ -716,7 +715,7 @@ func (r *MarketplaceOrderResource) ImportState(ctx context.Context, req resource
 
 	apiResp, err := r.client.GetMarketplaceOrder(ctx, uuid)
 	if err != nil {
-		if client.IsNotFoundError(err) {
+		if IsNotFoundError(err) {
 			resp.Diagnostics.AddError(
 				"Resource Not Found",
 				fmt.Sprintf("Marketplace Order with UUID '%s' does not exist or is not accessible.", uuid),

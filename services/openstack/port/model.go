@@ -6,6 +6,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
@@ -26,6 +27,79 @@ type OpenstackPortFiltersModel struct {
 	Status             types.String `tfsdk:"status"`
 	Tenant             types.String `tfsdk:"tenant"`
 	TenantUuid         types.String `tfsdk:"tenant_uuid"`
+}
+
+func (m *OpenstackPortFiltersModel) GetSchema() schema.SingleNestedAttribute {
+	return schema.SingleNestedAttribute{
+		Optional:            true,
+		MarkdownDescription: "Filter parameters for querying Openstack Port",
+		Attributes: map[string]schema.Attribute{
+			"admin_state_up": schema.BoolAttribute{
+				Optional:            true,
+				MarkdownDescription: "Admin state up",
+			},
+			"backend_id": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "ID of the backend",
+			},
+			"device_id": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "ID of the device",
+			},
+			"device_owner": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Device owner",
+			},
+			"exclude_subnet_uuids": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Exclude Subnet UUIDs (comma-separated)",
+			},
+			"fixed_ips": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Search by fixed IP",
+			},
+			"has_device_owner": schema.BoolAttribute{
+				Optional:            true,
+				MarkdownDescription: "Has device owner",
+			},
+			"mac_address": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Mac address",
+			},
+			"name": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Name",
+			},
+			"name_exact": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Name (exact)",
+			},
+			"network_name": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Search by network name",
+			},
+			"network_uuid": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Search by network UUID",
+			},
+			"query": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Search by name, MAC address or backend ID",
+			},
+			"status": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Status",
+			},
+			"tenant": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Tenant URL",
+			},
+			"tenant_uuid": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Tenant UUID",
+			},
+		},
+	}
 }
 
 type OpenstackPortModel struct {

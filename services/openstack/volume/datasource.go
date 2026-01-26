@@ -10,7 +10,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 
-	"github.com/waldur/terraform-provider-waldur/internal/client"
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
@@ -42,118 +41,9 @@ func (d *OpenstackVolumeDataSource) Schema(ctx context.Context, req datasource.S
 			"id": schema.StringAttribute{
 				Optional:            true,
 				Computed:            true,
-				MarkdownDescription: "Resource UUID",
+				MarkdownDescription: "Openstack Volume UUID",
 			},
-			"filters": schema.SingleNestedAttribute{
-				Optional:            true,
-				MarkdownDescription: "Filter parameters for querying Openstack Volume",
-				Attributes: map[string]schema.Attribute{
-					"attach_instance_uuid": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Filter for attachment to instance UUID",
-					},
-					"availability_zone_name": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Availability zone name",
-					},
-					"backend_id": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Backend ID",
-					},
-					"can_manage": schema.BoolAttribute{
-						Optional:            true,
-						MarkdownDescription: "Can manage",
-					},
-					"customer": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Customer UUID",
-					},
-					"customer_abbreviation": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Customer abbreviation",
-					},
-					"customer_name": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Customer name",
-					},
-					"customer_native_name": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Customer native name",
-					},
-					"customer_uuid": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Customer UUID",
-					},
-					"description": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Description",
-					},
-					"external_ip": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "External IP",
-					},
-					"instance": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Instance URL",
-					},
-					"instance_uuid": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Instance UUID",
-					},
-					"name": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Name",
-					},
-					"name_exact": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Name (exact)",
-					},
-					"project": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Project UUID",
-					},
-					"project_name": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Project name",
-					},
-					"project_uuid": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Project UUID",
-					},
-					"runtime_state": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Runtime state",
-					},
-					"service_settings_name": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Service settings name",
-					},
-					"service_settings_uuid": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Service settings UUID",
-					},
-					"snapshot": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Snapshot URL",
-					},
-					"snapshot_uuid": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Snapshot UUID",
-					},
-					"tenant": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Tenant URL",
-					},
-					"tenant_uuid": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Tenant UUID",
-					},
-					"uuid": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "UUID",
-					},
-				},
-			},
+			"filters": (&OpenstackVolumeFiltersModel{}).GetSchema(),
 			"access_url": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Access url",
@@ -205,7 +95,7 @@ func (d *OpenstackVolumeDataSource) Schema(ctx context.Context, req datasource.S
 			},
 			"description": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "Description of the resource",
+				MarkdownDescription: "Description of the Openstack Volume",
 			},
 			"device": schema.StringAttribute{
 				Computed:            true,
@@ -290,7 +180,7 @@ func (d *OpenstackVolumeDataSource) Schema(ctx context.Context, req datasource.S
 			},
 			"name": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "Name of the resource",
+				MarkdownDescription: "Name of the Openstack Volume",
 			},
 			"project": schema.StringAttribute{
 				Optional:            true,
@@ -378,16 +268,14 @@ func (d *OpenstackVolumeDataSource) Configure(ctx context.Context, req datasourc
 		return
 	}
 
-	rawClient, ok := req.ProviderData.(*client.Client)
-	if !ok {
+	d.client = &Client{}
+	if err := d.client.Configure(ctx, req.ProviderData); err != nil {
 		resp.Diagnostics.AddError(
 			"Unexpected Data Source Configure Type",
-			"Expected *client.Client, got something else. Please report this issue to the provider developers.",
+			err.Error(),
 		)
 		return
 	}
-
-	d.client = NewClient(rawClient)
 }
 
 func (d *OpenstackVolumeDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {

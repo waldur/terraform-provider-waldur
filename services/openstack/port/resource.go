@@ -16,7 +16,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
-	"github.com/waldur/terraform-provider-waldur/internal/client"
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
@@ -51,7 +50,7 @@ func (r *OpenstackPortResource) Schema(ctx context.Context, req resource.SchemaR
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Resource UUID (used as Terraform ID)",
+				MarkdownDescription: "Openstack Port UUID (used as Terraform ID)",
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
@@ -106,7 +105,7 @@ func (r *OpenstackPortResource) Schema(ctx context.Context, req resource.SchemaR
 			},
 			"description": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "Description of the resource",
+				MarkdownDescription: "Description of the Openstack Port",
 			},
 			"device_id": schema.StringAttribute{
 				Computed: true,
@@ -180,7 +179,7 @@ func (r *OpenstackPortResource) Schema(ctx context.Context, req resource.SchemaR
 			},
 			"name": schema.StringAttribute{
 				Required:            true,
-				MarkdownDescription: "Name of the resource",
+				MarkdownDescription: "Name of the Openstack Port",
 			},
 			"network": schema.StringAttribute{
 				Optional: true,
@@ -222,7 +221,7 @@ func (r *OpenstackPortResource) Schema(ctx context.Context, req resource.SchemaR
 					Attributes: map[string]schema.Attribute{
 						"name": schema.StringAttribute{
 							Required:            true,
-							MarkdownDescription: "Name of the resource",
+							MarkdownDescription: "Name of the Openstack Port",
 						},
 					},
 				},
@@ -293,16 +292,14 @@ func (r *OpenstackPortResource) Configure(ctx context.Context, req resource.Conf
 		return
 	}
 
-	client, ok := req.ProviderData.(*client.Client)
-	if !ok {
+	r.client = &Client{}
+	if err := r.client.Configure(ctx, req.ProviderData); err != nil {
 		resp.Diagnostics.AddError(
 			"Unexpected Resource Configure Type",
-			"Expected *client.Client, got something else. Please report this issue to the provider developers.",
+			err.Error(),
 		)
 		return
 	}
-
-	r.client = NewClient(client)
 }
 
 func (r *OpenstackPortResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
@@ -395,7 +392,7 @@ func (r *OpenstackPortResource) Read(ctx context.Context, req resource.ReadReque
 
 	apiResp, err := r.client.GetOpenstackPort(ctx, data.UUID.ValueString())
 	if err != nil {
-		if client.IsNotFoundError(err) {
+		if IsNotFoundError(err) {
 			resp.State.RemoveResource(ctx)
 			return
 		}
@@ -515,7 +512,7 @@ func (r *OpenstackPortResource) ImportState(ctx context.Context, req resource.Im
 
 	apiResp, err := r.client.GetOpenstackPort(ctx, uuid)
 	if err != nil {
-		if client.IsNotFoundError(err) {
+		if IsNotFoundError(err) {
 			resp.Diagnostics.AddError(
 				"Resource Not Found",
 				fmt.Sprintf("Openstack Port with UUID '%s' does not exist or is not accessible.", uuid),

@@ -20,8 +20,8 @@ Marketplace Resource data source - lookup by name or UUID
 - `downscaled` (Boolean) Downscaled
 - `end_date` (String) The date is inclusive. Once reached, a resource will be scheduled for termination.
 - `filters` (Attributes) Filter parameters for querying Marketplace Resource (see [below for nested schema](#nestedatt--filters))
-- `id` (String) Resource UUID
-- `name` (String) Name of the resource
+- `id` (String) Marketplace Resource UUID
+- `name` (String) Name of the Marketplace Resource
 - `offering` (String) Offering
 - `paused` (Boolean) Paused
 - `plan` (String) Plan
@@ -37,7 +37,7 @@ Marketplace Resource data source - lookup by name or UUID
 - `category_uuid` (String) UUID of the category
 - `created` (String) Created
 - `customer_slug` (String) Customer slug
-- `description` (String) Description of the resource
+- `description` (String) Description of the Marketplace Resource
 - `effective_id` (String) ID of the effective
 - `end_date_requested_by` (String) End date requested by
 - `endpoints` (Attributes List) Endpoints (see [below for nested schema](#nestedatt--endpoints))
@@ -128,7 +128,7 @@ Optional:
 
 Optional:
 
-- `name` (String) Name of the resource
+- `name` (String) Name of the Marketplace Resource
 - `url` (String) URL of the access endpoint
 
 
@@ -140,7 +140,7 @@ Optional:
 - `article_code` (String) Article code
 - `billing_type` (String) Billing type
 - `default_limit` (Number) Default limit
-- `description` (String) Description of the resource
+- `description` (String) Description of the Marketplace Resource
 - `is_boolean` (Boolean) Is boolean
 - `is_prepaid` (Boolean) Is prepaid
 - `limit_amount` (Number) Limit amount

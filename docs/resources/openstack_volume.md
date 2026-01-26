@@ -23,9 +23,9 @@ Openstack Volume resource
 ### Optional
 
 - `availability_zone` (String) Availability zone where this volume is located
-- `description` (String) Description of the resource
+- `description` (String) Description of the Openstack Volume
 - `image` (String) Image that this volume was created from, if any
-- `name` (String) Name of the resource
+- `name` (String) Name of the Openstack Volume
 - `size` (Number) Size in MiB
 - `timeouts` (Block, Optional) (see [below for nested schema](#nestedblock--timeouts))
 - `type` (String) Type of the volume (e.g. SSD, HDD)
@@ -47,7 +47,7 @@ Openstack Volume resource
 - `error_message` (String) Error message
 - `error_traceback` (String) Error traceback
 - `extend_enabled` (Boolean) Extend enabled
-- `id` (String) Resource UUID (used as Terraform ID)
+- `id` (String) Openstack Volume UUID (used as Terraform ID)
 - `image_metadata` (String) Metadata of the image this volume was created from
 - `image_name` (String) Name of the image this volume was created from
 - `instance` (String) Instance that this volume is attached to, if any

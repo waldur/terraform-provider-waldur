@@ -15,7 +15,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
-	"github.com/waldur/terraform-provider-waldur/internal/client"
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
@@ -49,7 +48,7 @@ func (r *OpenstackSubnetResource) Schema(ctx context.Context, req resource.Schem
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Resource UUID (used as Terraform ID)",
+				MarkdownDescription: "Openstack Subnet UUID (used as Terraform ID)",
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
@@ -98,7 +97,7 @@ func (r *OpenstackSubnetResource) Schema(ctx context.Context, req resource.Schem
 			},
 			"description": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "Description of the resource",
+				MarkdownDescription: "Description of the Openstack Subnet",
 			},
 			"disable_gateway": schema.BoolAttribute{
 				Optional:            true,
@@ -174,7 +173,7 @@ func (r *OpenstackSubnetResource) Schema(ctx context.Context, req resource.Schem
 			},
 			"name": schema.StringAttribute{
 				Required:            true,
-				MarkdownDescription: "Name of the resource",
+				MarkdownDescription: "Name of the Openstack Subnet",
 			},
 			"network": schema.StringAttribute{
 				Required: true,
@@ -243,16 +242,14 @@ func (r *OpenstackSubnetResource) Configure(ctx context.Context, req resource.Co
 		return
 	}
 
-	client, ok := req.ProviderData.(*client.Client)
-	if !ok {
+	r.client = &Client{}
+	if err := r.client.Configure(ctx, req.ProviderData); err != nil {
 		resp.Diagnostics.AddError(
 			"Unexpected Resource Configure Type",
-			"Expected *client.Client, got something else. Please report this issue to the provider developers.",
+			err.Error(),
 		)
 		return
 	}
-
-	r.client = NewClient(client)
 }
 
 func (r *OpenstackSubnetResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
@@ -344,7 +341,7 @@ func (r *OpenstackSubnetResource) Read(ctx context.Context, req resource.ReadReq
 
 	apiResp, err := r.client.GetOpenstackSubnet(ctx, data.UUID.ValueString())
 	if err != nil {
-		if client.IsNotFoundError(err) {
+		if IsNotFoundError(err) {
 			resp.State.RemoveResource(ctx)
 			return
 		}
@@ -486,7 +483,7 @@ func (r *OpenstackSubnetResource) ImportState(ctx context.Context, req resource.
 
 	apiResp, err := r.client.GetOpenstackSubnet(ctx, uuid)
 	if err != nil {
-		if client.IsNotFoundError(err) {
+		if IsNotFoundError(err) {
 			resp.Diagnostics.AddError(
 				"Resource Not Found",
 				fmt.Sprintf("Openstack Subnet with UUID '%s' does not exist or is not accessible.", uuid),

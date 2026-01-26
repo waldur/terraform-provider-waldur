@@ -15,7 +15,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
-	"github.com/waldur/terraform-provider-waldur/internal/client"
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
@@ -49,7 +48,7 @@ func (r *OpenstackSecurityGroupResource) Schema(ctx context.Context, req resourc
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Resource UUID (used as Terraform ID)",
+				MarkdownDescription: "Openstack Security Group UUID (used as Terraform ID)",
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
@@ -78,7 +77,7 @@ func (r *OpenstackSecurityGroupResource) Schema(ctx context.Context, req resourc
 			},
 			"description": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "Description of the resource",
+				MarkdownDescription: "Description of the Openstack Security Group",
 			},
 			"error_message": schema.StringAttribute{
 				Computed: true,
@@ -104,7 +103,7 @@ func (r *OpenstackSecurityGroupResource) Schema(ctx context.Context, req resourc
 			},
 			"name": schema.StringAttribute{
 				Required:            true,
-				MarkdownDescription: "Name of the resource",
+				MarkdownDescription: "Name of the Openstack Security Group",
 			},
 			"resource_type": schema.StringAttribute{
 				Computed: true,
@@ -122,7 +121,7 @@ func (r *OpenstackSecurityGroupResource) Schema(ctx context.Context, req resourc
 						},
 						"description": schema.StringAttribute{
 							Optional:            true,
-							MarkdownDescription: "Description of the resource",
+							MarkdownDescription: "Description of the Openstack Security Group",
 						},
 						"direction": schema.StringAttribute{
 							Optional:            true,
@@ -214,16 +213,14 @@ func (r *OpenstackSecurityGroupResource) Configure(ctx context.Context, req reso
 		return
 	}
 
-	client, ok := req.ProviderData.(*client.Client)
-	if !ok {
+	r.client = &Client{}
+	if err := r.client.Configure(ctx, req.ProviderData); err != nil {
 		resp.Diagnostics.AddError(
 			"Unexpected Resource Configure Type",
-			"Expected *client.Client, got something else. Please report this issue to the provider developers.",
+			err.Error(),
 		)
 		return
 	}
-
-	r.client = NewClient(client)
 }
 
 func (r *OpenstackSecurityGroupResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
@@ -292,7 +289,7 @@ func (r *OpenstackSecurityGroupResource) Read(ctx context.Context, req resource.
 
 	apiResp, err := r.client.GetOpenstackSecurityGroup(ctx, data.UUID.ValueString())
 	if err != nil {
-		if client.IsNotFoundError(err) {
+		if IsNotFoundError(err) {
 			resp.State.RemoveResource(ctx)
 			return
 		}
@@ -401,7 +398,7 @@ func (r *OpenstackSecurityGroupResource) ImportState(ctx context.Context, req re
 
 	apiResp, err := r.client.GetOpenstackSecurityGroup(ctx, uuid)
 	if err != nil {
-		if client.IsNotFoundError(err) {
+		if IsNotFoundError(err) {
 			resp.Diagnostics.AddError(
 				"Resource Not Found",
 				fmt.Sprintf("Openstack Security Group with UUID '%s' does not exist or is not accessible.", uuid),

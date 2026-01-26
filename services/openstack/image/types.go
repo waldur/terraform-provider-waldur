@@ -1,7 +1,5 @@
 package image
 
-// OpenstackImage Structs
-
 type OpenstackImageCreateRequest struct {
 }
 

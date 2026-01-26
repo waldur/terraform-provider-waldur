@@ -12,7 +12,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 
-	"github.com/waldur/terraform-provider-waldur/internal/client"
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
@@ -44,126 +43,9 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 			"id": schema.StringAttribute{
 				Optional:            true,
 				Computed:            true,
-				MarkdownDescription: "Resource UUID",
+				MarkdownDescription: "Marketplace Offering UUID",
 			},
-			"filters": schema.SingleNestedAttribute{
-				Optional:            true,
-				MarkdownDescription: "Filter parameters for querying Marketplace Offering",
-				Attributes: map[string]schema.Attribute{
-					"accessible_via_calls": schema.BoolAttribute{
-						Optional:            true,
-						MarkdownDescription: "Accessible via calls",
-					},
-					"allowed_customer_uuid": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Allowed customer UUID",
-					},
-					"attributes": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Offering attributes (JSON)",
-					},
-					"billable": schema.BoolAttribute{
-						Optional:            true,
-						MarkdownDescription: "Billable",
-					},
-					"can_create_offering_user": schema.BoolAttribute{
-						Optional:            true,
-						MarkdownDescription: "Can create offering user",
-					},
-					"category_group_uuid": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Category group UUID",
-					},
-					"category_uuid": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Category UUID",
-					},
-					"created": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Created after",
-					},
-					"customer": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Customer URL",
-					},
-					"customer_uuid": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Customer UUID",
-					},
-					"description": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Description contains",
-					},
-					"has_active_terms_of_service": schema.BoolAttribute{
-						Optional:            true,
-						MarkdownDescription: "Has Active Terms of Service",
-					},
-					"has_terms_of_service": schema.BoolAttribute{
-						Optional:            true,
-						MarkdownDescription: "Has Terms of Service",
-					},
-					"keyword": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Keyword",
-					},
-					"modified": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Modified after",
-					},
-					"name": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Name",
-					},
-					"name_exact": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Name (exact)",
-					},
-					"parent_uuid": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Parent offering UUID",
-					},
-					"project_uuid": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Project UUID",
-					},
-					"query": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Search by offering name, slug or description",
-					},
-					"resource_customer_uuid": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Resource customer UUID",
-					},
-					"resource_project_uuid": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Resource project UUID",
-					},
-					"scope_uuid": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Scope UUID",
-					},
-					"service_manager_uuid": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Service manager UUID",
-					},
-					"shared": schema.BoolAttribute{
-						Optional:            true,
-						MarkdownDescription: "Shared",
-					},
-					"user_has_consent": schema.BoolAttribute{
-						Optional:            true,
-						MarkdownDescription: "User Has Consent",
-					},
-					"user_has_offering_user": schema.BoolAttribute{
-						Optional:            true,
-						MarkdownDescription: "User Has Offering User",
-					},
-					"uuid_list": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Comma-separated offering UUIDs",
-					},
-				},
-			},
+			"filters": (&MarketplaceOfferingFiltersModel{}).GetSchema(),
 			"access_url": schema.StringAttribute{
 				Optional:            true,
 				MarkdownDescription: "Publicly accessible offering access URL",
@@ -224,7 +106,7 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 						},
 						"description": schema.StringAttribute{
 							Optional:            true,
-							MarkdownDescription: "Description of the resource",
+							MarkdownDescription: "Description of the Marketplace Offering",
 						},
 						"factor": schema.Int64Attribute{
 							Computed:            true,
@@ -341,14 +223,14 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 			},
 			"description": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "Description of the resource",
+				MarkdownDescription: "Description of the Marketplace Offering",
 			},
 			"endpoints": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"name": schema.StringAttribute{
 							Optional:            true,
-							MarkdownDescription: "Name of the resource",
+							MarkdownDescription: "Name of the Marketplace Offering",
 						},
 						"url": schema.StringAttribute{
 							Optional:            true,
@@ -373,7 +255,7 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 						},
 						"name": schema.StringAttribute{
 							Optional:            true,
-							MarkdownDescription: "Name of the resource",
+							MarkdownDescription: "Name of the Marketplace Offering",
 						},
 					},
 				},
@@ -418,7 +300,7 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 			},
 			"name": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "Name of the resource",
+				MarkdownDescription: "Name of the Marketplace Offering",
 			},
 			"order_count": schema.Int64Attribute{
 				Computed:            true,
@@ -433,7 +315,7 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 						},
 						"name": schema.StringAttribute{
 							Optional:            true,
-							MarkdownDescription: "Name of the resource",
+							MarkdownDescription: "Name of the Marketplace Offering",
 						},
 						"parent": schema.StringAttribute{
 							Optional:            true,
@@ -690,7 +572,7 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 						},
 						"description": schema.StringAttribute{
 							Optional:            true,
-							MarkdownDescription: "Description of the resource",
+							MarkdownDescription: "Description of the Marketplace Offering",
 						},
 						"init_price": schema.Float64Attribute{
 							Computed:            true,
@@ -714,7 +596,7 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 						},
 						"name": schema.StringAttribute{
 							Optional:            true,
-							MarkdownDescription: "Name of the resource",
+							MarkdownDescription: "Name of the Marketplace Offering",
 						},
 						"organization_groups": schema.ListNestedAttribute{
 							NestedObject: schema.NestedAttributeObject{
@@ -725,7 +607,7 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 									},
 									"name": schema.StringAttribute{
 										Optional:            true,
-										MarkdownDescription: "Name of the resource",
+										MarkdownDescription: "Name of the Marketplace Offering",
 									},
 									"parent": schema.StringAttribute{
 										Optional:            true,
@@ -792,7 +674,7 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 					Attributes: map[string]schema.Attribute{
 						"description": schema.StringAttribute{
 							Optional:            true,
-							MarkdownDescription: "Description of the resource",
+							MarkdownDescription: "Description of the Marketplace Offering",
 						},
 						"discount": schema.Int64Attribute{
 							Optional:            true,
@@ -823,7 +705,7 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 						},
 						"name": schema.StringAttribute{
 							Optional:            true,
-							MarkdownDescription: "Name of the resource",
+							MarkdownDescription: "Name of the Marketplace Offering",
 						},
 						"service_provider": schema.StringAttribute{
 							Optional:            true,
@@ -855,7 +737,7 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 						},
 						"name": schema.StringAttribute{
 							Optional:            true,
-							MarkdownDescription: "Name of the resource",
+							MarkdownDescription: "Name of the Marketplace Offering",
 						},
 						"usage": schema.Int64Attribute{
 							Optional:            true,
@@ -871,7 +753,7 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 					Attributes: map[string]schema.Attribute{
 						"name": schema.StringAttribute{
 							Optional:            true,
-							MarkdownDescription: "Name of the resource",
+							MarkdownDescription: "Name of the Marketplace Offering",
 						},
 						"url": schema.StringAttribute{
 							Computed:            true,
@@ -912,7 +794,7 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 						},
 						"description": schema.StringAttribute{
 							Optional:            true,
-							MarkdownDescription: "Description of the resource",
+							MarkdownDescription: "Description of the Marketplace Offering",
 						},
 						"image": schema.StringAttribute{
 							Optional:            true,
@@ -920,7 +802,7 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 						},
 						"name": schema.StringAttribute{
 							Optional:            true,
-							MarkdownDescription: "Name of the resource",
+							MarkdownDescription: "Name of the Marketplace Offering",
 						},
 						"thumbnail": schema.StringAttribute{
 							Computed:            true,
@@ -949,11 +831,11 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 							Attributes: map[string]schema.Attribute{
 								"description": schema.StringAttribute{
 									Optional:            true,
-									MarkdownDescription: "Description of the resource",
+									MarkdownDescription: "Description of the Marketplace Offering",
 								},
 								"name": schema.StringAttribute{
 									Optional:            true,
-									MarkdownDescription: "Name of the resource",
+									MarkdownDescription: "Name of the Marketplace Offering",
 								},
 								"version": schema.StringAttribute{
 									Optional:            true,
@@ -1036,16 +918,14 @@ func (d *MarketplaceOfferingDataSource) Configure(ctx context.Context, req datas
 		return
 	}
 
-	rawClient, ok := req.ProviderData.(*client.Client)
-	if !ok {
+	d.client = &Client{}
+	if err := d.client.Configure(ctx, req.ProviderData); err != nil {
 		resp.Diagnostics.AddError(
 			"Unexpected Data Source Configure Type",
-			"Expected *client.Client, got something else. Please report this issue to the provider developers.",
+			err.Error(),
 		)
 		return
 	}
-
-	d.client = NewClient(rawClient)
 }
 
 func (d *MarketplaceOfferingDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {

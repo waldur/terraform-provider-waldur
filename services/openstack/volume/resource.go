@@ -16,7 +16,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
-	"github.com/waldur/terraform-provider-waldur/internal/client"
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
@@ -51,7 +50,7 @@ func (r *OpenstackVolumeResource) Schema(ctx context.Context, req resource.Schem
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Resource UUID (used as Terraform ID)",
+				MarkdownDescription: "Openstack Volume UUID (used as Terraform ID)",
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
@@ -143,7 +142,7 @@ func (r *OpenstackVolumeResource) Schema(ctx context.Context, req resource.Schem
 			},
 			"description": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "Description of the resource",
+				MarkdownDescription: "Description of the Openstack Volume",
 			},
 			"device": schema.StringAttribute{
 				Computed: true,
@@ -288,7 +287,7 @@ func (r *OpenstackVolumeResource) Schema(ctx context.Context, req resource.Schem
 			},
 			"name": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "Name of the resource",
+				MarkdownDescription: "Name of the Openstack Volume",
 			},
 			"offering": schema.StringAttribute{
 				Required: true,
@@ -439,16 +438,14 @@ func (r *OpenstackVolumeResource) Configure(ctx context.Context, req resource.Co
 		return
 	}
 
-	client, ok := req.ProviderData.(*client.Client)
-	if !ok {
+	r.client = &Client{}
+	if err := r.client.Configure(ctx, req.ProviderData); err != nil {
 		resp.Diagnostics.AddError(
 			"Unexpected Resource Configure Type",
-			"Expected *client.Client, got something else. Please report this issue to the provider developers.",
+			err.Error(),
 		)
 		return
 	}
-
-	r.client = NewClient(client)
 }
 
 func (r *OpenstackVolumeResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
@@ -531,7 +528,7 @@ func (r *OpenstackVolumeResource) Read(ctx context.Context, req resource.ReadReq
 
 	apiResp, err := r.client.GetOpenstackVolume(ctx, data.UUID.ValueString())
 	if err != nil {
-		if client.IsNotFoundError(err) {
+		if IsNotFoundError(err) {
 			resp.State.RemoveResource(ctx)
 			return
 		}
@@ -608,7 +605,7 @@ func (r *OpenstackVolumeResource) Update(ctx context.Context, req resource.Updat
 	// Fetch updated state after all changes
 	apiResp, err := r.client.GetOpenstackVolume(ctx, data.UUID.ValueString())
 	if err != nil {
-		if client.IsNotFoundError(err) {
+		if IsNotFoundError(err) {
 			resp.State.RemoveResource(ctx)
 			return
 		}
@@ -670,7 +667,7 @@ func (r *OpenstackVolumeResource) ImportState(ctx context.Context, req resource.
 
 	apiResp, err := r.client.GetOpenstackVolume(ctx, uuid)
 	if err != nil {
-		if client.IsNotFoundError(err) {
+		if IsNotFoundError(err) {
 			resp.Diagnostics.AddError(
 				"Resource Not Found",
 				fmt.Sprintf("Openstack Volume with UUID '%s' does not exist or is not accessible.", uuid),

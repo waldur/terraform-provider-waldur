@@ -14,7 +14,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
-	"github.com/waldur/terraform-provider-waldur/internal/client"
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
@@ -48,7 +47,7 @@ func (r *OpenstackFloatingIpResource) Schema(ctx context.Context, req resource.S
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Resource UUID (used as Terraform ID)",
+				MarkdownDescription: "Openstack Floating Ip UUID (used as Terraform ID)",
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
@@ -94,7 +93,7 @@ func (r *OpenstackFloatingIpResource) Schema(ctx context.Context, req resource.S
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Description of the resource",
+				MarkdownDescription: "Description of the Openstack Floating Ip",
 			},
 			"error_message": schema.StringAttribute{
 				Computed: true,
@@ -151,7 +150,7 @@ func (r *OpenstackFloatingIpResource) Schema(ctx context.Context, req resource.S
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Name of the resource",
+				MarkdownDescription: "Name of the Openstack Floating Ip",
 			},
 			"port": schema.StringAttribute{
 				Computed: true,
@@ -246,16 +245,14 @@ func (r *OpenstackFloatingIpResource) Configure(ctx context.Context, req resourc
 		return
 	}
 
-	client, ok := req.ProviderData.(*client.Client)
-	if !ok {
+	r.client = &Client{}
+	if err := r.client.Configure(ctx, req.ProviderData); err != nil {
 		resp.Diagnostics.AddError(
 			"Unexpected Resource Configure Type",
-			"Expected *client.Client, got something else. Please report this issue to the provider developers.",
+			err.Error(),
 		)
 		return
 	}
-
-	r.client = NewClient(client)
 }
 
 func (r *OpenstackFloatingIpResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
@@ -311,7 +308,7 @@ func (r *OpenstackFloatingIpResource) Read(ctx context.Context, req resource.Rea
 
 	apiResp, err := r.client.GetOpenstackFloatingIp(ctx, data.UUID.ValueString())
 	if err != nil {
-		if client.IsNotFoundError(err) {
+		if IsNotFoundError(err) {
 			resp.State.RemoveResource(ctx)
 			return
 		}
@@ -381,7 +378,7 @@ func (r *OpenstackFloatingIpResource) ImportState(ctx context.Context, req resou
 
 	apiResp, err := r.client.GetOpenstackFloatingIp(ctx, uuid)
 	if err != nil {
-		if client.IsNotFoundError(err) {
+		if IsNotFoundError(err) {
 			resp.Diagnostics.AddError(
 				"Resource Not Found",
 				fmt.Sprintf("Openstack Floating Ip with UUID '%s' does not exist or is not accessible.", uuid),

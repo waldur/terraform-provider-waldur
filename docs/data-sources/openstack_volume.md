@@ -19,11 +19,11 @@ Openstack Volume data source - lookup by name or UUID
 
 - `availability_zone` (String) Availability zone where this volume is located
 - `bootable` (Boolean) Indicates if this volume can be used to boot an instance
-- `description` (String) Description of the resource
+- `description` (String) Description of the Openstack Volume
 - `filters` (Attributes) Filter parameters for querying Openstack Volume (see [below for nested schema](#nestedatt--filters))
-- `id` (String) Resource UUID
+- `id` (String) Openstack Volume UUID
 - `image` (String) Image that this volume was created from, if any
-- `name` (String) Name of the resource
+- `name` (String) Name of the Openstack Volume
 - `project` (String) Project
 - `size` (Number) Size in MiB
 - `tenant` (String) Tenant

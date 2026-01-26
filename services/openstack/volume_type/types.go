@@ -1,7 +1,5 @@
 package volume_type
 
-// OpenstackVolumeType Structs
-
 type OpenstackVolumeTypeCreateRequest struct {
 }
 

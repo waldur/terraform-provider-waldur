@@ -13,7 +13,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
-	"github.com/waldur/terraform-provider-waldur/internal/client"
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
@@ -45,150 +44,9 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 			"id": schema.StringAttribute{
 				Optional:            true,
 				Computed:            true,
-				MarkdownDescription: "Resource UUID",
+				MarkdownDescription: "Marketplace Resource UUID",
 			},
-			"filters": schema.SingleNestedAttribute{
-				Optional:            true,
-				MarkdownDescription: "Filter parameters for querying Marketplace Resource",
-				Attributes: map[string]schema.Attribute{
-					"backend_id": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Backend ID",
-					},
-					"category_uuid": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Category UUID",
-					},
-					"component_count": schema.Float64Attribute{
-						Optional:            true,
-						MarkdownDescription: "Filter by exact number of components",
-					},
-					"created": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Created after",
-					},
-					"customer": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Customer URL",
-					},
-					"customer_uuid": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Customer UUID",
-					},
-					"downscaled": schema.BoolAttribute{
-						Optional:            true,
-						MarkdownDescription: "Downscaled",
-					},
-					"has_terminate_date": schema.BoolAttribute{
-						Optional:            true,
-						MarkdownDescription: "Has termination date",
-					},
-					"is_attached": schema.BoolAttribute{
-						Optional:            true,
-						MarkdownDescription: "Filter by attached state",
-					},
-					"lexis_links_supported": schema.BoolAttribute{
-						Optional:            true,
-						MarkdownDescription: "LEXIS links supported",
-					},
-					"limit_based": schema.BoolAttribute{
-						Optional:            true,
-						MarkdownDescription: "Filter by limit-based offerings",
-					},
-					"limit_component_count": schema.Float64Attribute{
-						Optional:            true,
-						MarkdownDescription: "Filter by exact number of limit-based components",
-					},
-					"modified": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Modified after",
-					},
-					"name": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Name",
-					},
-					"name_exact": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Name (exact)",
-					},
-					"offering": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Offering",
-					},
-					"offering_billable": schema.BoolAttribute{
-						Optional:            true,
-						MarkdownDescription: "Offering billable",
-					},
-					"offering_shared": schema.BoolAttribute{
-						Optional:            true,
-						MarkdownDescription: "Offering shared",
-					},
-					"offering_type": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Offering type",
-					},
-					"only_limit_based": schema.BoolAttribute{
-						Optional:            true,
-						MarkdownDescription: "Filter resources with only limit-based components",
-					},
-					"only_usage_based": schema.BoolAttribute{
-						Optional:            true,
-						MarkdownDescription: "Filter resources with only usage-based components",
-					},
-					"parent_offering_uuid": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "UUID of the parent offering",
-					},
-					"paused": schema.BoolAttribute{
-						Optional:            true,
-						MarkdownDescription: "Paused",
-					},
-					"plan_uuid": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Plan UUID",
-					},
-					"project_name": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Project name",
-					},
-					"project_uuid": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Project UUID",
-					},
-					"provider_uuid": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Provider UUID",
-					},
-					"query": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Search by resource UUID, name, slug, backend ID, effective ID, IPs or hypervisor",
-					},
-					"restrict_member_access": schema.BoolAttribute{
-						Optional:            true,
-						MarkdownDescription: "Restrict member access",
-					},
-					"runtime_state": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Runtime state",
-					},
-					"service_manager_uuid": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Service manager UUID",
-					},
-					"usage_based": schema.BoolAttribute{
-						Optional:            true,
-						MarkdownDescription: "Filter by usage-based offerings",
-					},
-					"visible_to_providers": schema.BoolAttribute{
-						Optional:            true,
-						MarkdownDescription: "Include only resources visible to service providers",
-					},
-					"visible_to_username": schema.StringAttribute{
-						Optional:            true,
-						MarkdownDescription: "Visible to username",
-					},
-				},
-			},
+			"filters": (&MarketplaceResourceFiltersModel{}).GetSchema(),
 			"available_actions": schema.ListAttribute{
 				ElementType:         types.StringType,
 				Computed:            true,
@@ -225,7 +83,7 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 			},
 			"description": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Description of the resource",
+				MarkdownDescription: "Description of the Marketplace Resource",
 			},
 			"downscaled": schema.BoolAttribute{
 				Optional:            true,
@@ -248,7 +106,7 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 					Attributes: map[string]schema.Attribute{
 						"name": schema.StringAttribute{
 							Optional:            true,
-							MarkdownDescription: "Name of the resource",
+							MarkdownDescription: "Name of the Marketplace Resource",
 						},
 						"url": schema.StringAttribute{
 							Optional:            true,
@@ -279,7 +137,7 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 			},
 			"name": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "Name of the resource",
+				MarkdownDescription: "Name of the Marketplace Resource",
 			},
 			"offering": schema.StringAttribute{
 				Optional:            true,
@@ -313,7 +171,7 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 						},
 						"description": schema.StringAttribute{
 							Optional:            true,
-							MarkdownDescription: "Description of the resource",
+							MarkdownDescription: "Description of the Marketplace Resource",
 						},
 						"factor": schema.Int64Attribute{
 							Computed:            true,
@@ -588,16 +446,14 @@ func (d *MarketplaceResourceDataSource) Configure(ctx context.Context, req datas
 		return
 	}
 
-	rawClient, ok := req.ProviderData.(*client.Client)
-	if !ok {
+	d.client = &Client{}
+	if err := d.client.Configure(ctx, req.ProviderData); err != nil {
 		resp.Diagnostics.AddError(
 			"Unexpected Data Source Configure Type",
-			"Expected *client.Client, got something else. Please report this issue to the provider developers.",
+			err.Error(),
 		)
 		return
 	}
-
-	d.client = NewClient(rawClient)
 }
 
 func (d *MarketplaceResourceDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
