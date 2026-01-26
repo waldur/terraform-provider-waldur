@@ -16,6 +16,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+
+	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
 // Ensure provider defined types fully satisfy framework interfaces.
@@ -439,8 +441,22 @@ func (r *OpenstackVolumeAttachmentResource) Delete(ctx context.Context, req reso
 	sourceUUID := parts[0]
 
 	err := r.client.UnlinkOpenstackVolumeAttachment(ctx, sourceUUID)
-	if err != nil {
+	if err != nil && !IsNotFoundError(err) {
 		resp.Diagnostics.AddError("Unlink Failed", err.Error())
+		return
+	}
+
+	deleteTimeout, diags := data.Timeouts.Delete(ctx, common.DefaultDeleteTimeout)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	err = common.WaitForDeletion(ctx, func(ctx context.Context) (*OpenstackVolumeAttachmentResponse, error) {
+		return r.client.GetOpenstackVolumeAttachment(ctx, data.UUID.ValueString())
+	}, deleteTimeout)
+	if err != nil {
+		resp.Diagnostics.AddError("Failed to wait for resource deletion", err.Error())
 		return
 	}
 }

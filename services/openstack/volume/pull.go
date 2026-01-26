@@ -92,7 +92,6 @@ func (a *OpenstackVolumePullAction) Invoke(ctx context.Context, req action.Invok
 			return
 		}
 	}
-
 	_, err = common.WaitForResource(ctx, func(ctx context.Context) (*OpenstackVolumeResponse, error) {
 		return a.client.GetOpenstackVolume(ctx, uuid)
 	}, timeout)

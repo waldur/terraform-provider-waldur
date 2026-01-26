@@ -75,11 +75,13 @@ func (a *OpenstackSubnetUnlinkAction) Invoke(ctx context.Context, req action.Inv
 	err := a.client.OpenstackSubnetUnlink(ctx, uuid)
 
 	if err != nil {
-		resp.Diagnostics.AddError(
-			"Action Failed",
-			fmt.Sprintf("Failed to perform unlink on %s: %s", uuid, err),
-		)
-		return
+		if !common.IsNotFoundError(err) {
+			resp.Diagnostics.AddError(
+				"Action Failed",
+				fmt.Sprintf("Failed to perform unlink on %s: %s", uuid, err),
+			)
+			return
+		}
 	}
 
 	// Wait for resource to stabilize
@@ -92,11 +94,10 @@ func (a *OpenstackSubnetUnlinkAction) Invoke(ctx context.Context, req action.Inv
 			return
 		}
 	}
-
-	_, err = common.WaitForResource(ctx, func(ctx context.Context) (*OpenstackSubnetResponse, error) {
+	err = common.WaitForDeletion(ctx, func(ctx context.Context) (*OpenstackSubnetResponse, error) {
 		return a.client.GetOpenstackSubnet(ctx, uuid)
 	}, timeout)
 	if err != nil {
-		resp.Diagnostics.AddWarning("Resource state check failed", err.Error())
+		resp.Diagnostics.AddWarning("Resource deletion check failed", err.Error())
 	}
 }

@@ -92,7 +92,6 @@ func (a *OpenstackSubnetConnectAction) Invoke(ctx context.Context, req action.In
 			return
 		}
 	}
-
 	_, err = common.WaitForResource(ctx, func(ctx context.Context) (*OpenstackSubnetResponse, error) {
 		return a.client.GetOpenstackSubnet(ctx, uuid)
 	}, timeout)

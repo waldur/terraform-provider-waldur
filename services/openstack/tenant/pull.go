@@ -92,7 +92,6 @@ func (a *OpenstackTenantPullAction) Invoke(ctx context.Context, req action.Invok
 			return
 		}
 	}
-
 	_, err = common.WaitForResource(ctx, func(ctx context.Context) (*OpenstackTenantResponse, error) {
 		return a.client.GetOpenstackTenant(ctx, uuid)
 	}, timeout)

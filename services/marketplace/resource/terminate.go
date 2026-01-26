@@ -92,7 +92,6 @@ func (a *MarketplaceResourceTerminateAction) Invoke(ctx context.Context, req act
 			return
 		}
 	}
-
 	_, err = common.WaitForResource(ctx, func(ctx context.Context) (*MarketplaceResourceResponse, error) {
 		return a.client.GetMarketplaceResource(ctx, uuid)
 	}, timeout)

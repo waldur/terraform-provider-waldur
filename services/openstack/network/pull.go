@@ -92,7 +92,6 @@ func (a *OpenstackNetworkPullAction) Invoke(ctx context.Context, req action.Invo
 			return
 		}
 	}
-
 	_, err = common.WaitForResource(ctx, func(ctx context.Context) (*OpenstackNetworkResponse, error) {
 		return a.client.GetOpenstackNetwork(ctx, uuid)
 	}, timeout)

@@ -92,7 +92,6 @@ func (a *OpenstackPortDisablePortSecurityAction) Invoke(ctx context.Context, req
 			return
 		}
 	}
-
 	_, err = common.WaitForResource(ctx, func(ctx context.Context) (*OpenstackPortResponse, error) {
 		return a.client.GetOpenstackPort(ctx, uuid)
 	}, timeout)
