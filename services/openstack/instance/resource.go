@@ -1142,46 +1142,10 @@ func (r *OpenstackInstanceResource) Create(ctx context.Context, req resource.Cre
 		SystemVolumeType:                 data.SystemVolumeType.ValueStringPointer(),
 		UserData:                         data.UserData.ValueStringPointer(),
 	}
-	{
-		var items []common.OpenStackDataVolumeRequest
-		diags := data.DataVolumes.ElementsAs(ctx, &items, false)
-		resp.Diagnostics.Append(diags...)
-		if !diags.HasError() {
-			if !data.DataVolumes.IsNull() && !data.DataVolumes.IsUnknown() {
-				attributes.DataVolumes = &items
-			}
-		}
-	}
-	{
-		var items []common.OpenStackCreateFloatingIPRequest
-		diags := data.FloatingIps.ElementsAs(ctx, &items, false)
-		resp.Diagnostics.Append(diags...)
-		if !diags.HasError() {
-			if !data.FloatingIps.IsNull() && !data.FloatingIps.IsUnknown() {
-				attributes.FloatingIps = &items
-			}
-		}
-	}
-	{
-		var items []common.OpenStackCreateInstancePortRequest
-		diags := data.Ports.ElementsAs(ctx, &items, false)
-		resp.Diagnostics.Append(diags...)
-		if !diags.HasError() {
-			if !data.Ports.IsNull() && !data.Ports.IsUnknown() {
-				attributes.Ports = &items
-			}
-		}
-	}
-	{
-		var items []common.OpenStackSecurityGroupHyperlinkRequest
-		diags := data.SecurityGroups.ElementsAs(ctx, &items, false)
-		resp.Diagnostics.Append(diags...)
-		if !diags.HasError() {
-			if !data.SecurityGroups.IsNull() && !data.SecurityGroups.IsUnknown() {
-				attributes.SecurityGroups = &items
-			}
-		}
-	}
+	resp.Diagnostics.Append(common.PopulateOptionalSliceField(ctx, data.DataVolumes, &attributes.DataVolumes)...)
+	resp.Diagnostics.Append(common.PopulateOptionalSetField(ctx, data.FloatingIps, &attributes.FloatingIps)...)
+	resp.Diagnostics.Append(common.PopulateOptionalSliceField(ctx, data.Ports, &attributes.Ports)...)
+	resp.Diagnostics.Append(common.PopulateOptionalSetField(ctx, data.SecurityGroups, &attributes.SecurityGroups)...)
 
 	// Construct the Create Order Request
 	payload := OpenstackInstanceCreateRequest{

@@ -266,36 +266,9 @@ func (r *OpenstackSubnetResource) Create(ctx context.Context, req resource.Creat
 		GatewayIp:      data.GatewayIp.ValueStringPointer(),
 		Name:           data.Name.ValueStringPointer(),
 	}
-	{
-		var items []common.OpenStackSubNetAllocationPoolRequest
-		diags := data.AllocationPools.ElementsAs(ctx, &items, false)
-		resp.Diagnostics.Append(diags...)
-		if !diags.HasError() {
-			if !data.AllocationPools.IsNull() && !data.AllocationPools.IsUnknown() {
-				requestBody.AllocationPools = &items
-			}
-		}
-	}
-	{
-		var items []string
-		diags := data.DnsNameservers.ElementsAs(ctx, &items, false)
-		resp.Diagnostics.Append(diags...)
-		if !diags.HasError() {
-			if !data.DnsNameservers.IsNull() && !data.DnsNameservers.IsUnknown() {
-				requestBody.DnsNameservers = &items
-			}
-		}
-	}
-	{
-		var items []common.OpenStackStaticRouteRequest
-		diags := data.HostRoutes.ElementsAs(ctx, &items, false)
-		resp.Diagnostics.Append(diags...)
-		if !diags.HasError() {
-			if !data.HostRoutes.IsNull() && !data.HostRoutes.IsUnknown() {
-				requestBody.HostRoutes = &items
-			}
-		}
-	}
+	resp.Diagnostics.Append(common.PopulateOptionalSliceField(ctx, data.AllocationPools, &requestBody.AllocationPools)...)
+	resp.Diagnostics.Append(common.PopulateOptionalSliceField(ctx, data.DnsNameservers, &requestBody.DnsNameservers)...)
+	resp.Diagnostics.Append(common.PopulateOptionalSliceField(ctx, data.HostRoutes, &requestBody.HostRoutes)...)
 
 	apiResp, err := r.client.CreateOpenstackSubnet(ctx, data.Network.ValueString(), &requestBody)
 	if err != nil {
@@ -375,36 +348,9 @@ func (r *OpenstackSubnetResource) Update(ctx context.Context, req resource.Updat
 		GatewayIp:      data.GatewayIp.ValueStringPointer(),
 		Name:           data.Name.ValueStringPointer(),
 	}
-	{
-		var items []common.OpenStackSubNetAllocationPoolRequest
-		diags := data.AllocationPools.ElementsAs(ctx, &items, false)
-		resp.Diagnostics.Append(diags...)
-		if !diags.HasError() {
-			if !data.AllocationPools.IsNull() && !data.AllocationPools.IsUnknown() {
-				requestBody.AllocationPools = &items
-			}
-		}
-	}
-	{
-		var items []string
-		diags := data.DnsNameservers.ElementsAs(ctx, &items, false)
-		resp.Diagnostics.Append(diags...)
-		if !diags.HasError() {
-			if !data.DnsNameservers.IsNull() && !data.DnsNameservers.IsUnknown() {
-				requestBody.DnsNameservers = &items
-			}
-		}
-	}
-	{
-		var items []common.OpenStackStaticRouteRequest
-		diags := data.HostRoutes.ElementsAs(ctx, &items, false)
-		resp.Diagnostics.Append(diags...)
-		if !diags.HasError() {
-			if !data.HostRoutes.IsNull() && !data.HostRoutes.IsUnknown() {
-				requestBody.HostRoutes = &items
-			}
-		}
-	}
+	resp.Diagnostics.Append(common.PopulateOptionalSliceField(ctx, data.AllocationPools, &requestBody.AllocationPools)...)
+	resp.Diagnostics.Append(common.PopulateOptionalSliceField(ctx, data.DnsNameservers, &requestBody.DnsNameservers)...)
+	resp.Diagnostics.Append(common.PopulateOptionalSliceField(ctx, data.HostRoutes, &requestBody.HostRoutes)...)
 
 	apiResp, err := r.client.UpdateOpenstackSubnet(ctx, data.UUID.ValueString(), &requestBody)
 	if err != nil {

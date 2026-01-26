@@ -10,6 +10,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/waldur/terraform-provider-waldur/internal/client"
 )
@@ -80,6 +81,45 @@ func PopulateSetField[T any](ctx context.Context, set types.Set, target *[]T) di
 	diags := set.ElementsAs(ctx, &items, false)
 	if !diags.HasError() && len(items) > 0 {
 		*target = items
+	}
+	return diags
+}
+
+// PopulateOptionalSliceField populates an optional slice field (**[]T) from a Terraform list.
+func PopulateOptionalSliceField[T any](ctx context.Context, list types.List, target **[]T) diag.Diagnostics {
+	if list.IsNull() || list.IsUnknown() {
+		return nil
+	}
+	var items []T
+	diags := list.ElementsAs(ctx, &items, false)
+	if !diags.HasError() {
+		*target = &items
+	}
+	return diags
+}
+
+// PopulateOptionalSetField populates an optional slice field (**[]T) from a Terraform set.
+func PopulateOptionalSetField[T any](ctx context.Context, set types.Set, target **[]T) diag.Diagnostics {
+	if set.IsNull() || set.IsUnknown() {
+		return nil
+	}
+	var items []T
+	diags := set.ElementsAs(ctx, &items, false)
+	if !diags.HasError() {
+		*target = &items
+	}
+	return diags
+}
+
+// PopulateOptionalObjectField populates an optional object field (**T) from a Terraform object.
+func PopulateOptionalObjectField[T any](ctx context.Context, obj types.Object, target **T) diag.Diagnostics {
+	if obj.IsNull() || obj.IsUnknown() {
+		return nil
+	}
+	var item T
+	diags := obj.As(ctx, &item, basetypes.ObjectAsOptions{})
+	if !diags.HasError() {
+		*target = &item
 	}
 	return diags
 }

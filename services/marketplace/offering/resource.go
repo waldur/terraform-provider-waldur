@@ -20,7 +20,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
-	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
@@ -1020,42 +1019,10 @@ func (r *MarketplaceOfferingResource) Create(ctx context.Context, req resource.C
 		Type:                data.Type.ValueStringPointer(),
 		VendorDetails:       data.VendorDetails.ValueStringPointer(),
 	}
-	{
-		var items []common.OfferingComponentRequest
-		diags := data.Components.ElementsAs(ctx, &items, false)
-		resp.Diagnostics.Append(diags...)
-		if !diags.HasError() {
-			if !data.Components.IsNull() && !data.Components.IsUnknown() {
-				requestBody.Components = &items
-			}
-		}
-	}
-	{
-		var obj common.OfferingOptionsRequest
-		diags := data.Options.As(ctx, &obj, basetypes.ObjectAsOptions{})
-		resp.Diagnostics.Append(diags...)
-		if !diags.HasError() {
-			requestBody.Options = &obj
-		}
-	}
-	{
-		var items []common.BaseProviderPlanRequest
-		diags := data.Plans.ElementsAs(ctx, &items, false)
-		resp.Diagnostics.Append(diags...)
-		if !diags.HasError() {
-			if !data.Plans.IsNull() && !data.Plans.IsUnknown() {
-				requestBody.Plans = &items
-			}
-		}
-	}
-	{
-		var obj common.OfferingOptionsRequest
-		diags := data.ResourceOptions.As(ctx, &obj, basetypes.ObjectAsOptions{})
-		resp.Diagnostics.Append(diags...)
-		if !diags.HasError() {
-			requestBody.ResourceOptions = &obj
-		}
-	}
+	resp.Diagnostics.Append(common.PopulateOptionalSliceField(ctx, data.Components, &requestBody.Components)...)
+	resp.Diagnostics.Append(common.PopulateOptionalObjectField(ctx, data.Options, &requestBody.Options)...)
+	resp.Diagnostics.Append(common.PopulateOptionalSliceField(ctx, data.Plans, &requestBody.Plans)...)
+	resp.Diagnostics.Append(common.PopulateOptionalObjectField(ctx, data.ResourceOptions, &requestBody.ResourceOptions)...)
 
 	apiResp, err := r.client.CreateMarketplaceOffering(ctx, &requestBody)
 	if err != nil {

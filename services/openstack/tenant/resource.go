@@ -489,16 +489,7 @@ func (r *OpenstackTenantResource) Create(ctx context.Context, req resource.Creat
 		SkipCreationOfDefaultSubnet: data.SkipCreationOfDefaultSubnet.ValueBoolPointer(),
 		SubnetCidr:                  data.SubnetCidr.ValueStringPointer(),
 	}
-	{
-		var items []common.OpenStackTenantSecurityGroupRequest
-		diags := data.SecurityGroups.ElementsAs(ctx, &items, false)
-		resp.Diagnostics.Append(diags...)
-		if !diags.HasError() {
-			if !data.SecurityGroups.IsNull() && !data.SecurityGroups.IsUnknown() {
-				attributes.SecurityGroups = &items
-			}
-		}
-	}
+	resp.Diagnostics.Append(common.PopulateOptionalSetField(ctx, data.SecurityGroups, &attributes.SecurityGroups)...)
 
 	// Construct the Create Order Request
 	payload := OpenstackTenantCreateRequest{

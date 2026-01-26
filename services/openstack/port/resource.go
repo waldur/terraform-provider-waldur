@@ -317,36 +317,9 @@ func (r *OpenstackPortResource) Create(ctx context.Context, req resource.CreateR
 		PortSecurityEnabled: data.PortSecurityEnabled.ValueBoolPointer(),
 		TargetTenant:        data.TargetTenant.ValueStringPointer(),
 	}
-	{
-		var items []common.OpenStackAllowedAddressPairRequest
-		diags := data.AllowedAddressPairs.ElementsAs(ctx, &items, false)
-		resp.Diagnostics.Append(diags...)
-		if !diags.HasError() {
-			if !data.AllowedAddressPairs.IsNull() && !data.AllowedAddressPairs.IsUnknown() {
-				requestBody.AllowedAddressPairs = &items
-			}
-		}
-	}
-	{
-		var items []common.OpenStackFixedIpRequest
-		diags := data.FixedIps.ElementsAs(ctx, &items, false)
-		resp.Diagnostics.Append(diags...)
-		if !diags.HasError() {
-			if !data.FixedIps.IsNull() && !data.FixedIps.IsUnknown() {
-				requestBody.FixedIps = &items
-			}
-		}
-	}
-	{
-		var items []common.OpenStackPortNestedSecurityGroupRequest
-		diags := data.SecurityGroups.ElementsAs(ctx, &items, false)
-		resp.Diagnostics.Append(diags...)
-		if !diags.HasError() {
-			if !data.SecurityGroups.IsNull() && !data.SecurityGroups.IsUnknown() {
-				requestBody.SecurityGroups = &items
-			}
-		}
-	}
+	resp.Diagnostics.Append(common.PopulateOptionalSliceField(ctx, data.AllowedAddressPairs, &requestBody.AllowedAddressPairs)...)
+	resp.Diagnostics.Append(common.PopulateOptionalSliceField(ctx, data.FixedIps, &requestBody.FixedIps)...)
+	resp.Diagnostics.Append(common.PopulateOptionalSetField(ctx, data.SecurityGroups, &requestBody.SecurityGroups)...)
 
 	apiResp, err := r.client.CreateOpenstackPort(ctx, &requestBody)
 	if err != nil {
@@ -424,16 +397,7 @@ func (r *OpenstackPortResource) Update(ctx context.Context, req resource.UpdateR
 		Name:         data.Name.ValueStringPointer(),
 		TargetTenant: data.TargetTenant.ValueStringPointer(),
 	}
-	{
-		var items []common.OpenStackPortNestedSecurityGroupRequest
-		diags := data.SecurityGroups.ElementsAs(ctx, &items, false)
-		resp.Diagnostics.Append(diags...)
-		if !diags.HasError() {
-			if !data.SecurityGroups.IsNull() && !data.SecurityGroups.IsUnknown() {
-				requestBody.SecurityGroups = &items
-			}
-		}
-	}
+	resp.Diagnostics.Append(common.PopulateOptionalSetField(ctx, data.SecurityGroups, &requestBody.SecurityGroups)...)
 
 	apiResp, err := r.client.UpdateOpenstackPort(ctx, data.UUID.ValueString(), &requestBody)
 	if err != nil {

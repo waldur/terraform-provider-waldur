@@ -234,16 +234,7 @@ func (r *OpenstackSecurityGroupResource) Create(ctx context.Context, req resourc
 		Description: data.Description.ValueStringPointer(),
 		Name:        data.Name.ValueStringPointer(),
 	}
-	{
-		var items []common.OpenStackSecurityGroupRuleCreateRequest
-		diags := data.Rules.ElementsAs(ctx, &items, false)
-		resp.Diagnostics.Append(diags...)
-		if !diags.HasError() {
-			if len(items) > 0 {
-				requestBody.Rules = items
-			}
-		}
-	}
+	resp.Diagnostics.Append(common.PopulateSliceField(ctx, data.Rules, &requestBody.Rules)...)
 
 	apiResp, err := r.client.CreateOpenstackSecurityGroup(ctx, data.Tenant.ValueString(), &requestBody)
 	if err != nil {
