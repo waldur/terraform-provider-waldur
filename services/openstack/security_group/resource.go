@@ -180,7 +180,7 @@ func (r *OpenstackSecurityGroupResource) Schema(ctx context.Context, req resourc
 				MarkdownDescription: "State",
 			},
 			"tenant": schema.StringAttribute{
-				Required: true,
+				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
 				},

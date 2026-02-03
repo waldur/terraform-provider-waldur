@@ -68,7 +68,7 @@ func (m *MarketplaceOfferingFiltersModel) GetSchema() schema.SingleNestedAttribu
 			},
 			"can_create_offering_user": schema.BoolAttribute{
 				Optional:            true,
-				MarkdownDescription: "Can create offering user",
+				MarkdownDescription: " ",
 			},
 			"category_group_uuid": schema.StringAttribute{
 				Optional:            true,

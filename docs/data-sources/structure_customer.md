@@ -17,6 +17,11 @@ Structure Customer data source - lookup by name or UUID
 
 ### Optional
 
+- `filters` (Attributes) Filter parameters for querying Structure Customer (see [below for nested schema](#nestedatt--filters))
+- `id` (String) Structure Customer UUID
+
+### Read-Only
+
 - `abbreviation` (String) Abbreviation
 - `access_subnets` (String) Enter a comma separated list of IPv4 or IPv6 CIDR addresses from where connection to self-service is allowed.
 - `accounting_start_date` (String) Accounting start date
@@ -27,48 +32,43 @@ Structure Customer data source - lookup by name or UUID
 - `bank_account` (String) Bank account
 - `bank_name` (String) Name of the bank
 - `blocked` (Boolean) Blocked
+- `call_managing_organization_uuid` (String) UUID of the call managing organization
 - `contact_details` (String) Contact details
 - `country` (String) Country code (ISO 3166-1 alpha-2)
+- `country_name` (String) Human-readable country name
+- `created` (String) Created
+- `customer_credit` (Number) Customer credit
+- `customer_unallocated_credit` (Number) Customer unallocated credit
 - `default_tax_percent` (String) Default tax percent
 - `description` (String) Description of the Structure Customer
 - `display_billing_info_in_projects` (Boolean) Display billing info in projects
+- `display_name` (String) Display name of the organization (includes native name if available)
 - `domain` (String) Domain
 - `email` (String) Email
-- `filters` (Attributes) Filter parameters for querying Structure Customer (see [below for nested schema](#nestedatt--filters))
 - `grace_period_days` (Number) Number of extra days after project end date before resources are terminated
 - `homepage` (String) Homepage
-- `id` (String) Structure Customer UUID
 - `image` (String) Image
+- `is_service_provider` (Boolean) Is service provider
 - `latitude` (Number) Latitude
 - `longitude` (Number) Longitude
 - `max_service_accounts` (Number) Maximum number of service accounts allowed
 - `name` (String) Name of the Structure Customer
 - `native_name` (String) Name of the native
 - `notification_emails` (String) Comma-separated list of notification email addresses
+- `organization_groups` (Attributes List) Organization groups this customer belongs to (see [below for nested schema](#nestedatt--organization_groups))
+- `payment_profiles` (Attributes List) Payment profiles (see [below for nested schema](#nestedatt--payment_profiles))
 - `phone_number` (String) Phone number
 - `postal` (String) Postal
 - `project_metadata_checklist` (String) Checklist to be used for project metadata validation in this organization
-- `registration_code` (String) Registration code
-- `slug` (String) URL-friendly identifier. Only editable by staff users.
-- `sponsor_number` (Number) External ID of the sponsor covering the costs
-- `vat_code` (String) VAT number
-
-### Read-Only
-
-- `call_managing_organization_uuid` (String) UUID of the call managing organization
-- `country_name` (String) Human-readable country name
-- `created` (String) Created
-- `customer_credit` (Number) Customer credit
-- `customer_unallocated_credit` (Number) Customer unallocated credit
-- `display_name` (String) Display name of the organization (includes native name if available)
-- `is_service_provider` (Boolean) Is service provider
-- `organization_groups` (Attributes List) Organization groups this customer belongs to (see [below for nested schema](#nestedatt--organization_groups))
-- `payment_profiles` (Attributes List) Payment profiles (see [below for nested schema](#nestedatt--payment_profiles))
 - `projects_count` (Number) Number of projects in this organization
+- `registration_code` (String) Registration code
 - `service_provider` (String) Service provider
 - `service_provider_uuid` (String) UUID of the service provider
+- `slug` (String) URL-friendly identifier. Only editable by staff users.
+- `sponsor_number` (Number) External ID of the sponsor covering the costs
 - `url` (String) Url
 - `users_count` (Number) Number of users with access to this organization
+- `vat_code` (String) VAT number
 
 <a id="nestedatt--filters"></a>
 ### Nested Schema for `filters`
@@ -92,14 +92,11 @@ Optional:
 <a id="nestedatt--organization_groups"></a>
 ### Nested Schema for `organization_groups`
 
-Optional:
-
-- `name` (String) Name of the Structure Customer
-- `parent` (String) Parent
-
 Read-Only:
 
 - `customers_count` (Number) Number of customers in this organization group
+- `name` (String) Name of the Structure Customer
+- `parent` (String) Parent
 - `parent_name` (String) Name of the parent organization group
 - `parent_uuid` (String) UUID of the parent organization group
 - `url` (String) Url
@@ -109,17 +106,14 @@ Read-Only:
 <a id="nestedatt--payment_profiles"></a>
 ### Nested Schema for `payment_profiles`
 
-Optional:
+Read-Only:
 
 - `attributes` (Attributes) Attributes (see [below for nested schema](#nestedatt--payment_profiles--attributes))
 - `is_active` (Boolean) Is active
 - `name` (String) Name of the Structure Customer
 - `organization` (String) Organization
-- `payment_type` (String) Payment type
-
-Read-Only:
-
 - `organization_uuid` (String) UUID of the organization
+- `payment_type` (String) Payment type
 - `payment_type_display` (String) Payment type display
 - `url` (String) Url
 - `uuid` (String) UUID of the Structure Customer
@@ -127,7 +121,7 @@ Read-Only:
 <a id="nestedatt--payment_profiles--attributes"></a>
 ### Nested Schema for `payment_profiles.attributes`
 
-Optional:
+Read-Only:
 
 - `agreement_number` (String) Agreement number
 - `contract_sum` (Number) Contract sum

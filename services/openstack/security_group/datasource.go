@@ -78,7 +78,7 @@ func (d *OpenstackSecurityGroupDataSource) Schema(ctx context.Context, req datas
 				MarkdownDescription: "UUID of the customer",
 			},
 			"description": schema.StringAttribute{
-				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Description of the Openstack Security Group",
 			},
 			"error_message": schema.StringAttribute{
@@ -131,7 +131,7 @@ func (d *OpenstackSecurityGroupDataSource) Schema(ctx context.Context, req datas
 				MarkdownDescription: "Modified",
 			},
 			"name": schema.StringAttribute{
-				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Name of the Openstack Security Group",
 			},
 			"project": schema.StringAttribute{
@@ -154,24 +154,40 @@ func (d *OpenstackSecurityGroupDataSource) Schema(ctx context.Context, req datas
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"cidr": schema.StringAttribute{
-							Optional:            true,
+							Computed:            true,
 							MarkdownDescription: "CIDR notation for the source/destination network address range",
 						},
 						"description": schema.StringAttribute{
-							Optional:            true,
+							Computed:            true,
 							MarkdownDescription: "Description of the Openstack Security Group",
 						},
 						"direction": schema.StringAttribute{
-							Optional:            true,
+							Computed:            true,
 							MarkdownDescription: "Traffic direction - either 'ingress' (incoming) or 'egress' (outgoing)",
 						},
 						"ethertype": schema.StringAttribute{
-							Optional:            true,
+							Computed:            true,
 							MarkdownDescription: "IP protocol version - either 'IPv4' or 'IPv6'",
 						},
 						"from_port": schema.Int64Attribute{
-							Optional:            true,
+							Computed:            true,
 							MarkdownDescription: "Starting port number in the range (1-65535)",
+							Validators: []validator.Int64{
+								int64validator.AtLeast(-2147483648),
+								int64validator.AtMost(65535),
+							},
+						},
+						"protocol": schema.StringAttribute{
+							Computed:            true,
+							MarkdownDescription: "The network protocol (TCP, UDP, ICMP, or empty for any protocol)",
+						},
+						"remote_group": schema.StringAttribute{
+							Computed:            true,
+							MarkdownDescription: "Remote security group that this rule references, if any",
+						},
+						"to_port": schema.Int64Attribute{
+							Computed:            true,
+							MarkdownDescription: "Ending port number in the range (1-65535)",
 							Validators: []validator.Int64{
 								int64validator.AtLeast(-2147483648),
 								int64validator.AtMost(65535),
@@ -181,14 +197,6 @@ func (d *OpenstackSecurityGroupDataSource) Schema(ctx context.Context, req datas
 							Computed:            true,
 							MarkdownDescription: "Id",
 						},
-						"protocol": schema.StringAttribute{
-							Optional:            true,
-							MarkdownDescription: "The network protocol (TCP, UDP, ICMP, or empty for any protocol)",
-						},
-						"remote_group": schema.StringAttribute{
-							Optional:            true,
-							MarkdownDescription: "Remote security group that this rule references, if any",
-						},
 						"remote_group_name": schema.StringAttribute{
 							Computed:            true,
 							MarkdownDescription: "Name of the remote group",
@@ -197,17 +205,9 @@ func (d *OpenstackSecurityGroupDataSource) Schema(ctx context.Context, req datas
 							Computed:            true,
 							MarkdownDescription: "UUID of the remote group",
 						},
-						"to_port": schema.Int64Attribute{
-							Optional:            true,
-							MarkdownDescription: "Ending port number in the range (1-65535)",
-							Validators: []validator.Int64{
-								int64validator.AtLeast(-2147483648),
-								int64validator.AtMost(65535),
-							},
-						},
 					},
 				},
-				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Rules",
 			},
 			"service_name": schema.StringAttribute{
@@ -236,7 +236,7 @@ func (d *OpenstackSecurityGroupDataSource) Schema(ctx context.Context, req datas
 			},
 			"tenant": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Tenant",
+				MarkdownDescription: "Required path parameter for resource creation",
 			},
 			"tenant_name": schema.StringAttribute{
 				Computed:            true,

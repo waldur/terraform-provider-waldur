@@ -207,6 +207,7 @@ type OpenstackVolumeAttachmentModel struct {
 	Type                        types.String      `tfsdk:"type"`
 	TypeName                    types.String      `tfsdk:"type_name"`
 	Url                         types.String      `tfsdk:"url"`
+	Volume                      types.String      `tfsdk:"volume"`
 }
 
 // CopyFrom maps the API response to the model fields.
@@ -223,6 +224,11 @@ func (model *OpenstackVolumeAttachmentModel) CopyFrom(ctx context.Context, apiRe
 	valCreated, diagsCreated := timetypes.NewRFC3339PointerValue(apiResp.Created)
 	diags.Append(diagsCreated...)
 	model.Created = valCreated
+	model.Customer = common.StringPointerValue(apiResp.Customer)
+	model.CustomerAbbreviation = common.StringPointerValue(apiResp.CustomerAbbreviation)
+	model.CustomerName = common.StringPointerValue(apiResp.CustomerName)
+	model.CustomerNativeName = common.StringPointerValue(apiResp.CustomerNativeName)
+	model.CustomerUuid = common.StringPointerValue(apiResp.CustomerUuid)
 	model.Description = common.StringPointerValue(apiResp.Description)
 	model.Device = common.StringPointerValue(apiResp.Device)
 	model.ErrorMessage = common.StringPointerValue(apiResp.ErrorMessage)
@@ -234,12 +240,29 @@ func (model *OpenstackVolumeAttachmentModel) CopyFrom(ctx context.Context, apiRe
 	model.Instance = common.StringPointerValue(apiResp.Instance)
 	model.InstanceMarketplaceUuid = common.StringPointerValue(apiResp.InstanceMarketplaceUuid)
 	model.InstanceName = common.StringPointerValue(apiResp.InstanceName)
+	model.IsLimitBased = types.BoolPointerValue(apiResp.IsLimitBased)
+	model.IsUsageBased = types.BoolPointerValue(apiResp.IsUsageBased)
+	model.MarketplaceCategoryName = common.StringPointerValue(apiResp.MarketplaceCategoryName)
+	model.MarketplaceCategoryUuid = common.StringPointerValue(apiResp.MarketplaceCategoryUuid)
+	model.MarketplaceOfferingName = common.StringPointerValue(apiResp.MarketplaceOfferingName)
+	model.MarketplaceOfferingUuid = common.StringPointerValue(apiResp.MarketplaceOfferingUuid)
+	model.MarketplacePlanUuid = common.StringPointerValue(apiResp.MarketplacePlanUuid)
+	model.MarketplaceResourceState = common.StringPointerValue(apiResp.MarketplaceResourceState)
+	model.MarketplaceResourceUuid = common.StringPointerValue(apiResp.MarketplaceResourceUuid)
 	valModified, diagsModified := timetypes.NewRFC3339PointerValue(apiResp.Modified)
 	diags.Append(diagsModified...)
 	model.Modified = valModified
 	model.Name = common.StringPointerValue(apiResp.Name)
+	model.Project = common.StringPointerValue(apiResp.Project)
+	model.ProjectName = common.StringPointerValue(apiResp.ProjectName)
+	model.ProjectUuid = common.StringPointerValue(apiResp.ProjectUuid)
 	model.ResourceType = common.StringPointerValue(apiResp.ResourceType)
 	model.RuntimeState = common.StringPointerValue(apiResp.RuntimeState)
+	model.ServiceName = common.StringPointerValue(apiResp.ServiceName)
+	model.ServiceSettings = common.StringPointerValue(apiResp.ServiceSettings)
+	model.ServiceSettingsErrorMessage = common.StringPointerValue(apiResp.ServiceSettingsErrorMessage)
+	model.ServiceSettingsState = common.StringPointerValue(apiResp.ServiceSettingsState)
+	model.ServiceSettingsUuid = common.StringPointerValue(apiResp.ServiceSettingsUuid)
 	model.Size = types.Int64PointerValue(apiResp.Size)
 	model.SourceSnapshot = common.StringPointerValue(apiResp.SourceSnapshot)
 	model.State = common.StringPointerValue(apiResp.State)

@@ -180,6 +180,7 @@ type OpenstackVolumeModel struct {
 	InstanceName                types.String      `tfsdk:"instance_name"`
 	IsLimitBased                types.Bool        `tfsdk:"is_limit_based"`
 	IsUsageBased                types.Bool        `tfsdk:"is_usage_based"`
+	Limits                      types.Map         `tfsdk:"limits"`
 	MarketplaceCategoryName     types.String      `tfsdk:"marketplace_category_name"`
 	MarketplaceCategoryUuid     types.String      `tfsdk:"marketplace_category_uuid"`
 	MarketplaceOfferingName     types.String      `tfsdk:"marketplace_offering_name"`
@@ -189,6 +190,8 @@ type OpenstackVolumeModel struct {
 	MarketplaceResourceUuid     types.String      `tfsdk:"marketplace_resource_uuid"`
 	Modified                    timetypes.RFC3339 `tfsdk:"modified"`
 	Name                        types.String      `tfsdk:"name"`
+	Offering                    types.String      `tfsdk:"offering"`
+	Plan                        types.String      `tfsdk:"plan"`
 	Project                     types.String      `tfsdk:"project"`
 	ProjectName                 types.String      `tfsdk:"project_name"`
 	ProjectUuid                 types.String      `tfsdk:"project_uuid"`

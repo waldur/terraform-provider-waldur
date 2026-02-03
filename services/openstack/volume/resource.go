@@ -632,17 +632,6 @@ func (r *OpenstackVolumeResource) Update(ctx context.Context, req resource.Updat
 
 	// Phase 2: RPC Actions
 	// These actions are triggered when their corresponding specific fields change.
-	if !data.Size.Equal(state.Size) {
-		// Convert Terraform value to API payload for the specific action
-		var req OpenstackVolumeExtendActionRequest
-		req.Size = data.Size.ValueInt64Pointer()
-
-		// Execute the Action
-		if err := r.client.OpenstackVolumeExtend(ctx, data.UUID.ValueString(), &req); err != nil {
-			resp.Diagnostics.AddError("RPC Action Failed: extend", err.Error())
-			return
-		}
-	}
 	if !data.Type.Equal(state.Type) {
 		// Convert Terraform value to API payload for the specific action
 		var req OpenstackVolumeRetypeActionRequest
@@ -651,6 +640,17 @@ func (r *OpenstackVolumeResource) Update(ctx context.Context, req resource.Updat
 		// Execute the Action
 		if err := r.client.OpenstackVolumeRetype(ctx, data.UUID.ValueString(), &req); err != nil {
 			resp.Diagnostics.AddError("RPC Action Failed: retype", err.Error())
+			return
+		}
+	}
+	if !data.Size.Equal(state.Size) {
+		// Convert Terraform value to API payload for the specific action
+		var req OpenstackVolumeExtendActionRequest
+		req.Size = data.Size.ValueInt64Pointer()
+
+		// Execute the Action
+		if err := r.client.OpenstackVolumeExtend(ctx, data.UUID.ValueString(), &req); err != nil {
+			resp.Diagnostics.AddError("RPC Action Failed: extend", err.Error())
 			return
 		}
 	}

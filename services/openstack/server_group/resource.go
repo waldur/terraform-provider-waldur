@@ -153,7 +153,7 @@ func (r *OpenstackServerGroupResource) Schema(ctx context.Context, req resource.
 				MarkdownDescription: "State",
 			},
 			"tenant": schema.StringAttribute{
-				Required: true,
+				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
 				},

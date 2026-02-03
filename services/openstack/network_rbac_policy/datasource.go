@@ -52,7 +52,7 @@ func (d *OpenstackNetworkRbacPolicyDataSource) Schema(ctx context.Context, req d
 				MarkdownDescription: "Created",
 			},
 			"network": schema.StringAttribute{
-				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Network",
 			},
 			"network_name": schema.StringAttribute{
@@ -60,11 +60,11 @@ func (d *OpenstackNetworkRbacPolicyDataSource) Schema(ctx context.Context, req d
 				MarkdownDescription: "Name of the network",
 			},
 			"policy_type": schema.StringAttribute{
-				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Type of access granted - either shared access or external network access",
 			},
 			"target_tenant": schema.StringAttribute{
-				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Target tenant",
 			},
 			"target_tenant_name": schema.StringAttribute{

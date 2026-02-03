@@ -84,13 +84,13 @@ func (c *Client) ListOpenstackVolume(ctx context.Context, filter map[string]stri
 	return listResult, nil
 }
 
-func (c *Client) OpenstackVolumeExtend(ctx context.Context, id string, req *OpenstackVolumeExtendActionRequest) error {
-	path := "/api/openstack-volumes/{uuid}/extend/"
+func (c *Client) OpenstackVolumeRetype(ctx context.Context, id string, req *OpenstackVolumeRetypeActionRequest) error {
+	path := "/api/openstack-volumes/{uuid}/retype/"
 	err := c.Client.ExecuteAction(ctx, path, id, req, nil)
 	return err
 }
-func (c *Client) OpenstackVolumeRetype(ctx context.Context, id string, req *OpenstackVolumeRetypeActionRequest) error {
-	path := "/api/openstack-volumes/{uuid}/retype/"
+func (c *Client) OpenstackVolumeExtend(ctx context.Context, id string, req *OpenstackVolumeExtendActionRequest) error {
+	path := "/api/openstack-volumes/{uuid}/extend/"
 	err := c.Client.ExecuteAction(ctx, path, id, req, nil)
 	return err
 }

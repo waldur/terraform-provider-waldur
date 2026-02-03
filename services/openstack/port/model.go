@@ -151,6 +151,7 @@ type OpenstackPortModel struct {
 	ServiceSettingsUuid         types.String      `tfsdk:"service_settings_uuid"`
 	State                       types.String      `tfsdk:"state"`
 	Status                      types.String      `tfsdk:"status"`
+	TargetTenant                types.String      `tfsdk:"target_tenant"`
 	Tenant                      types.String      `tfsdk:"tenant"`
 	TenantName                  types.String      `tfsdk:"tenant_name"`
 	TenantUuid                  types.String      `tfsdk:"tenant_uuid"`
@@ -177,6 +178,11 @@ func (model *OpenstackPortModel) CopyFrom(ctx context.Context, apiResp Openstack
 	valCreated, diagsCreated := timetypes.NewRFC3339PointerValue(apiResp.Created)
 	diags.Append(diagsCreated...)
 	model.Created = valCreated
+	model.Customer = common.StringPointerValue(apiResp.Customer)
+	model.CustomerAbbreviation = common.StringPointerValue(apiResp.CustomerAbbreviation)
+	model.CustomerName = common.StringPointerValue(apiResp.CustomerName)
+	model.CustomerNativeName = common.StringPointerValue(apiResp.CustomerNativeName)
+	model.CustomerUuid = common.StringPointerValue(apiResp.CustomerUuid)
 	model.Description = common.StringPointerValue(apiResp.Description)
 	model.DeviceId = common.StringPointerValue(apiResp.DeviceId)
 	model.DeviceOwner = common.StringPointerValue(apiResp.DeviceOwner)
@@ -194,7 +200,16 @@ func (model *OpenstackPortModel) CopyFrom(ctx context.Context, apiResp Openstack
 	setValFloatingIps, setDiagsFloatingIps := types.SetValueFrom(ctx, types.StringType, apiResp.FloatingIps)
 	model.FloatingIps = setValFloatingIps
 	diags.Append(setDiagsFloatingIps...)
+	model.IsLimitBased = types.BoolPointerValue(apiResp.IsLimitBased)
+	model.IsUsageBased = types.BoolPointerValue(apiResp.IsUsageBased)
 	model.MacAddress = common.StringPointerValue(apiResp.MacAddress)
+	model.MarketplaceCategoryName = common.StringPointerValue(apiResp.MarketplaceCategoryName)
+	model.MarketplaceCategoryUuid = common.StringPointerValue(apiResp.MarketplaceCategoryUuid)
+	model.MarketplaceOfferingName = common.StringPointerValue(apiResp.MarketplaceOfferingName)
+	model.MarketplaceOfferingUuid = common.StringPointerValue(apiResp.MarketplaceOfferingUuid)
+	model.MarketplacePlanUuid = common.StringPointerValue(apiResp.MarketplacePlanUuid)
+	model.MarketplaceResourceState = common.StringPointerValue(apiResp.MarketplaceResourceState)
+	model.MarketplaceResourceUuid = common.StringPointerValue(apiResp.MarketplaceResourceUuid)
 	valModified, diagsModified := timetypes.NewRFC3339PointerValue(apiResp.Modified)
 	diags.Append(diagsModified...)
 	model.Modified = valModified
@@ -203,6 +218,9 @@ func (model *OpenstackPortModel) CopyFrom(ctx context.Context, apiResp Openstack
 	model.NetworkName = common.StringPointerValue(apiResp.NetworkName)
 	model.NetworkUuid = common.StringPointerValue(apiResp.NetworkUuid)
 	model.PortSecurityEnabled = types.BoolPointerValue(apiResp.PortSecurityEnabled)
+	model.Project = common.StringPointerValue(apiResp.Project)
+	model.ProjectName = common.StringPointerValue(apiResp.ProjectName)
+	model.ProjectUuid = common.StringPointerValue(apiResp.ProjectUuid)
 	model.ResourceType = common.StringPointerValue(apiResp.ResourceType)
 	{
 		setValSecurityGroups, setDiagsSecurityGroups := types.SetValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
@@ -213,6 +231,11 @@ func (model *OpenstackPortModel) CopyFrom(ctx context.Context, apiResp Openstack
 		diags.Append(setDiagsSecurityGroups...)
 		model.SecurityGroups = setValSecurityGroups
 	}
+	model.ServiceName = common.StringPointerValue(apiResp.ServiceName)
+	model.ServiceSettings = common.StringPointerValue(apiResp.ServiceSettings)
+	model.ServiceSettingsErrorMessage = common.StringPointerValue(apiResp.ServiceSettingsErrorMessage)
+	model.ServiceSettingsState = common.StringPointerValue(apiResp.ServiceSettingsState)
+	model.ServiceSettingsUuid = common.StringPointerValue(apiResp.ServiceSettingsUuid)
 	model.State = common.StringPointerValue(apiResp.State)
 	model.Status = common.StringPointerValue(apiResp.Status)
 	model.Tenant = common.StringPointerValue(apiResp.Tenant)

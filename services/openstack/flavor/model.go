@@ -37,27 +37,27 @@ func (m *OpenstackFlavorFiltersModel) GetSchema() schema.SingleNestedAttribute {
 		Attributes: map[string]schema.Attribute{
 			"cores": schema.Int64Attribute{
 				Optional:            true,
-				MarkdownDescription: "Cores",
+				MarkdownDescription: " ",
 			},
 			"cores__gte": schema.Int64Attribute{
 				Optional:            true,
-				MarkdownDescription: "Cores gte",
+				MarkdownDescription: " ",
 			},
 			"cores__lte": schema.Int64Attribute{
 				Optional:            true,
-				MarkdownDescription: "Cores lte",
+				MarkdownDescription: " ",
 			},
 			"disk": schema.Int64Attribute{
 				Optional:            true,
-				MarkdownDescription: "Disk",
+				MarkdownDescription: " ",
 			},
 			"disk__gte": schema.Int64Attribute{
 				Optional:            true,
-				MarkdownDescription: "Disk gte",
+				MarkdownDescription: " ",
 			},
 			"disk__lte": schema.Int64Attribute{
 				Optional:            true,
-				MarkdownDescription: "Disk lte",
+				MarkdownDescription: " ",
 			},
 			"name": schema.StringAttribute{
 				Optional:            true,
@@ -77,15 +77,15 @@ func (m *OpenstackFlavorFiltersModel) GetSchema() schema.SingleNestedAttribute {
 			},
 			"ram": schema.Int64Attribute{
 				Optional:            true,
-				MarkdownDescription: "Ram",
+				MarkdownDescription: " ",
 			},
 			"ram__gte": schema.Int64Attribute{
 				Optional:            true,
-				MarkdownDescription: "Ram gte",
+				MarkdownDescription: " ",
 			},
 			"ram__lte": schema.Int64Attribute{
 				Optional:            true,
-				MarkdownDescription: "Ram lte",
+				MarkdownDescription: " ",
 			},
 			"settings": schema.StringAttribute{
 				Optional:            true,

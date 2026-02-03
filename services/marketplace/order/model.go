@@ -105,8 +105,10 @@ func (m *MarketplaceOrderFiltersModel) GetSchema() schema.SingleNestedAttribute 
 
 type MarketplaceOrderModel struct {
 	UUID                       types.String      `tfsdk:"id"`
+	AcceptingTermsOfService    types.Bool        `tfsdk:"accepting_terms_of_service"`
 	ActivationPrice            types.Float64     `tfsdk:"activation_price"`
 	Attachment                 types.String      `tfsdk:"attachment"`
+	Attributes                 types.Map         `tfsdk:"attributes"`
 	BackendId                  types.String      `tfsdk:"backend_id"`
 	CallbackUrl                types.String      `tfsdk:"callback_url"`
 	CanTerminate               types.Bool        `tfsdk:"can_terminate"`
@@ -153,6 +155,7 @@ type MarketplaceOrderModel struct {
 	PlanName                   types.String      `tfsdk:"plan_name"`
 	PlanUnit                   types.String      `tfsdk:"plan_unit"`
 	PlanUuid                   types.String      `tfsdk:"plan_uuid"`
+	Project                    types.String      `tfsdk:"project"`
 	ProjectDescription         types.String      `tfsdk:"project_description"`
 	ProjectName                types.String      `tfsdk:"project_name"`
 	ProjectSlug                types.String      `tfsdk:"project_slug"`
@@ -205,10 +208,13 @@ func (model *MarketplaceOrderModel) CopyFrom(ctx context.Context, apiResp Market
 	model.CreatedByCivilNumber = common.StringPointerValue(apiResp.CreatedByCivilNumber)
 	model.CreatedByFullName = common.StringPointerValue(apiResp.CreatedByFullName)
 	model.CreatedByUsername = common.StringPointerValue(apiResp.CreatedByUsername)
+	model.CustomerName = common.StringPointerValue(apiResp.CustomerName)
 	model.CustomerSlug = common.StringPointerValue(apiResp.CustomerSlug)
+	model.CustomerUuid = common.StringPointerValue(apiResp.CustomerUuid)
 	model.ErrorMessage = common.StringPointerValue(apiResp.ErrorMessage)
 	model.ErrorTraceback = common.StringPointerValue(apiResp.ErrorTraceback)
 	model.FixedPrice = types.Float64PointerValue(apiResp.FixedPrice.Float64Ptr())
+	model.MarketplaceResourceUuid = common.StringPointerValue(apiResp.MarketplaceResourceUuid)
 	valModified, diagsModified := timetypes.NewRFC3339PointerValue(apiResp.Modified)
 	diags.Append(diagsModified...)
 	model.Modified = valModified
@@ -235,7 +241,9 @@ func (model *MarketplaceOrderModel) CopyFrom(ctx context.Context, apiResp Market
 	model.PlanUnit = common.StringPointerValue(apiResp.PlanUnit)
 	model.PlanUuid = common.StringPointerValue(apiResp.PlanUuid)
 	model.ProjectDescription = common.StringPointerValue(apiResp.ProjectDescription)
+	model.ProjectName = common.StringPointerValue(apiResp.ProjectName)
 	model.ProjectSlug = common.StringPointerValue(apiResp.ProjectSlug)
+	model.ProjectUuid = common.StringPointerValue(apiResp.ProjectUuid)
 	model.ProviderName = common.StringPointerValue(apiResp.ProviderName)
 	valProviderReviewedAt, diagsProviderReviewedAt := timetypes.NewRFC3339PointerValue(apiResp.ProviderReviewedAt)
 	diags.Append(diagsProviderReviewedAt...)

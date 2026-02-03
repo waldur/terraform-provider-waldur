@@ -54,13 +54,17 @@ func (d *OpenstackPortDataSource) Schema(ctx context.Context, req datasource.Sch
 			"allowed_address_pairs": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
+						"ip_address": schema.StringAttribute{
+							Computed:            true,
+							MarkdownDescription: "Ip address",
+						},
 						"mac_address": schema.StringAttribute{
-							Optional:            true,
+							Computed:            true,
 							MarkdownDescription: "Mac address",
 						},
 					},
 				},
-				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Allowed address pairs",
 			},
 			"backend_id": schema.StringAttribute{
@@ -93,7 +97,7 @@ func (d *OpenstackPortDataSource) Schema(ctx context.Context, req datasource.Sch
 				MarkdownDescription: "UUID of the customer",
 			},
 			"description": schema.StringAttribute{
-				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Description of the Openstack Port",
 			},
 			"device_id": schema.StringAttribute{
@@ -116,16 +120,16 @@ func (d *OpenstackPortDataSource) Schema(ctx context.Context, req datasource.Sch
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"ip_address": schema.StringAttribute{
-							Optional:            true,
+							Computed:            true,
 							MarkdownDescription: "IP address to assign to the port",
 						},
 						"subnet_id": schema.StringAttribute{
-							Optional:            true,
+							Computed:            true,
 							MarkdownDescription: "ID of the subnet in which to assign the IP address",
 						},
 					},
 				},
-				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Fixed ips",
 			},
 			"floating_ips": schema.SetAttribute{
@@ -142,7 +146,7 @@ func (d *OpenstackPortDataSource) Schema(ctx context.Context, req datasource.Sch
 				MarkdownDescription: "Is usage based",
 			},
 			"mac_address": schema.StringAttribute{
-				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "MAC address of the port",
 			},
 			"marketplace_category_name": schema.StringAttribute{
@@ -179,11 +183,11 @@ func (d *OpenstackPortDataSource) Schema(ctx context.Context, req datasource.Sch
 				MarkdownDescription: "Modified",
 			},
 			"name": schema.StringAttribute{
-				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Name of the Openstack Port",
 			},
 			"network": schema.StringAttribute{
-				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Network to which this port belongs",
 			},
 			"network_name": schema.StringAttribute{
@@ -195,7 +199,7 @@ func (d *OpenstackPortDataSource) Schema(ctx context.Context, req datasource.Sch
 				MarkdownDescription: "UUID of the network",
 			},
 			"port_security_enabled": schema.BoolAttribute{
-				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "If True, security groups and rules will be applied to this port",
 			},
 			"project": schema.StringAttribute{
@@ -218,7 +222,7 @@ func (d *OpenstackPortDataSource) Schema(ctx context.Context, req datasource.Sch
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"name": schema.StringAttribute{
-							Optional:            true,
+							Computed:            true,
 							MarkdownDescription: "Name of the Openstack Port",
 						},
 						"url": schema.StringAttribute{
@@ -231,7 +235,7 @@ func (d *OpenstackPortDataSource) Schema(ctx context.Context, req datasource.Sch
 						},
 					},
 				},
-				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Security groups",
 			},
 			"service_name": schema.StringAttribute{
@@ -261,6 +265,10 @@ func (d *OpenstackPortDataSource) Schema(ctx context.Context, req datasource.Sch
 			"status": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Port status in OpenStack (e.g. ACTIVE, DOWN)",
+			},
+			"target_tenant": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "Target tenant for shared network port creation. If not specified, defaults to network's tenant.",
 			},
 			"tenant": schema.StringAttribute{
 				Computed:            true,

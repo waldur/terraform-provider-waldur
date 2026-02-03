@@ -128,6 +128,7 @@ type OpenstackTenantModel struct {
 	InternalNetworkId           types.String      `tfsdk:"internal_network_id"`
 	IsLimitBased                types.Bool        `tfsdk:"is_limit_based"`
 	IsUsageBased                types.Bool        `tfsdk:"is_usage_based"`
+	Limits                      types.Map         `tfsdk:"limits"`
 	MarketplaceCategoryName     types.String      `tfsdk:"marketplace_category_name"`
 	MarketplaceCategoryUuid     types.String      `tfsdk:"marketplace_category_uuid"`
 	MarketplaceOfferingName     types.String      `tfsdk:"marketplace_offering_name"`
@@ -137,18 +138,24 @@ type OpenstackTenantModel struct {
 	MarketplaceResourceUuid     types.String      `tfsdk:"marketplace_resource_uuid"`
 	Modified                    timetypes.RFC3339 `tfsdk:"modified"`
 	Name                        types.String      `tfsdk:"name"`
+	Offering                    types.String      `tfsdk:"offering"`
+	Plan                        types.String      `tfsdk:"plan"`
 	Project                     types.String      `tfsdk:"project"`
 	ProjectName                 types.String      `tfsdk:"project_name"`
 	ProjectUuid                 types.String      `tfsdk:"project_uuid"`
 	Quotas                      types.List        `tfsdk:"quotas"`
 	ResourceType                types.String      `tfsdk:"resource_type"`
+	SecurityGroups              types.Set         `tfsdk:"security_groups"`
 	ServiceName                 types.String      `tfsdk:"service_name"`
 	ServiceSettings             types.String      `tfsdk:"service_settings"`
 	ServiceSettingsErrorMessage types.String      `tfsdk:"service_settings_error_message"`
 	ServiceSettingsState        types.String      `tfsdk:"service_settings_state"`
 	ServiceSettingsUuid         types.String      `tfsdk:"service_settings_uuid"`
+	SkipConnectionExtnet        types.Bool        `tfsdk:"skip_connection_extnet"`
 	SkipCreationOfDefaultRouter types.Bool        `tfsdk:"skip_creation_of_default_router"`
+	SkipCreationOfDefaultSubnet types.Bool        `tfsdk:"skip_creation_of_default_subnet"`
 	State                       types.String      `tfsdk:"state"`
+	SubnetCidr                  types.String      `tfsdk:"subnet_cidr"`
 	Url                         types.String      `tfsdk:"url"`
 	UserPassword                types.String      `tfsdk:"user_password"`
 	UserUsername                types.String      `tfsdk:"user_username"`

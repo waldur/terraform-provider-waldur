@@ -18,7 +18,6 @@ Openstack Server Group resource
 ### Required
 
 - `name` (String) Name of the Openstack Server Group
-- `tenant` (String) Required path parameter for resource creation
 
 ### Optional
 
@@ -39,6 +38,7 @@ Openstack Server Group resource
 - `modified` (String) Modified
 - `resource_type` (String) Resource type
 - `state` (String) State
+- `tenant` (String) Required path parameter for resource creation
 - `tenant_name` (String) Name of the tenant
 - `tenant_uuid` (String) UUID of the tenant
 - `url` (String) Url

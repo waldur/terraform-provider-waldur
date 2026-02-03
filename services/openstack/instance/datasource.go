@@ -56,7 +56,7 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 				MarkdownDescription: "Action",
 			},
 			"availability_zone": schema.StringAttribute{
-				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Availability zone where this instance is located",
 			},
 			"availability_zone_name": schema.StringAttribute{
@@ -68,7 +68,7 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 				MarkdownDescription: "Instance ID in the OpenStack backend",
 			},
 			"connect_directly_to_external_network": schema.BoolAttribute{
-				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "If True, instance will be connected directly to external network",
 			},
 			"cores": schema.Int64Attribute{
@@ -100,8 +100,39 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 				Computed:            true,
 				MarkdownDescription: "UUID of the customer",
 			},
+			"data_volume_size": schema.Int64Attribute{
+				Computed:            true,
+				MarkdownDescription: "Size of the data volume in MiB. Minimum size is 1024 MiB (1 GiB)",
+				Validators: []validator.Int64{
+					int64validator.AtLeast(1024),
+				},
+			},
+			"data_volume_type": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "Volume type for the data volume",
+			},
+			"data_volumes": schema.ListNestedAttribute{
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: map[string]schema.Attribute{
+						"size": schema.Int64Attribute{
+							Computed:            true,
+							MarkdownDescription: "Size",
+						},
+						"volume_type": schema.StringAttribute{
+							Computed:            true,
+							MarkdownDescription: "Volume type",
+						},
+					},
+				},
+				Computed:            true,
+				MarkdownDescription: "Additional data volumes to attach to the instance",
+			},
+			"delete_volumes": schema.BoolAttribute{
+				Computed:            true,
+				MarkdownDescription: "Termination attribute",
+			},
 			"description": schema.StringAttribute{
-				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Description of the Openstack Instance",
 			},
 			"disk": schema.Int64Attribute{
@@ -126,6 +157,10 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 				Computed:            true,
 				MarkdownDescription: "External ips",
 			},
+			"flavor": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "The flavor to use for the instance",
+			},
 			"flavor_disk": schema.Int64Attribute{
 				Computed:            true,
 				MarkdownDescription: "Flavor disk size in MiB",
@@ -137,6 +172,18 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 			"floating_ips": schema.SetNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
+						"ip_address": schema.StringAttribute{
+							Computed:            true,
+							MarkdownDescription: "Existing floating IP address in selected OpenStack tenant to be assigned to new virtual machine",
+						},
+						"subnet": schema.StringAttribute{
+							Computed:            true,
+							MarkdownDescription: "Subnet",
+						},
+						"url": schema.StringAttribute{
+							Computed:            true,
+							MarkdownDescription: "Url",
+						},
 						"address": schema.StringAttribute{
 							Computed:            true,
 							MarkdownDescription: "The public IPv4 address of the floating IP",
@@ -145,11 +192,11 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 							NestedObject: schema.NestedAttributeObject{
 								Attributes: map[string]schema.Attribute{
 									"ip_address": schema.StringAttribute{
-										Optional:            true,
+										Computed:            true,
 										MarkdownDescription: "IP address to assign to the port",
 									},
 									"subnet_id": schema.StringAttribute{
-										Optional:            true,
+										Computed:            true,
 										MarkdownDescription: "ID of the subnet in which to assign the IP address",
 									},
 								},
@@ -160,10 +207,6 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 						"port_mac_address": schema.StringAttribute{
 							Computed:            true,
 							MarkdownDescription: "MAC address of the port",
-						},
-						"subnet": schema.StringAttribute{
-							Optional:            true,
-							MarkdownDescription: "Subnet",
 						},
 						"subnet_cidr": schema.StringAttribute{
 							Computed:            true,
@@ -181,22 +224,22 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 							Computed:            true,
 							MarkdownDescription: "UUID of the subnet",
 						},
-						"url": schema.StringAttribute{
-							Computed:            true,
-							MarkdownDescription: "Url",
-						},
 						"uuid": schema.StringAttribute{
 							Computed:            true,
 							MarkdownDescription: "UUID of the Openstack Instance",
 						},
 					},
 				},
-				Optional:            true,
-				MarkdownDescription: "Floating ips",
+				Computed:            true,
+				MarkdownDescription: "Floating IPs to assign to the instance",
 			},
 			"hypervisor_hostname": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Name of the hypervisor hosting this instance",
+			},
+			"image": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "The OS image to use for the instance",
 			},
 			"image_name": schema.StringAttribute{
 				Computed:            true,
@@ -226,6 +269,11 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 			"latitude": schema.Float64Attribute{
 				Computed:            true,
 				MarkdownDescription: "Latitude",
+			},
+			"limits": schema.MapAttribute{
+				ElementType:         types.Float64Type,
+				Computed:            true,
+				MarkdownDescription: "Resource limits",
 			},
 			"longitude": schema.Float64Attribute{
 				Computed:            true,
@@ -273,17 +321,49 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 				MarkdownDescription: "Modified",
 			},
 			"name": schema.StringAttribute{
-				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Name of the Openstack Instance",
+			},
+			"offering": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "Offering URL",
+			},
+			"plan": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "Plan URL",
 			},
 			"ports": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
+						"fixed_ips": schema.ListNestedAttribute{
+							NestedObject: schema.NestedAttributeObject{
+								Attributes: map[string]schema.Attribute{
+									"ip_address": schema.StringAttribute{
+										Computed:            true,
+										MarkdownDescription: "IP address to assign to the port",
+									},
+									"subnet_id": schema.StringAttribute{
+										Computed:            true,
+										MarkdownDescription: "ID of the subnet in which to assign the IP address",
+									},
+								},
+							},
+							Computed:            true,
+							MarkdownDescription: "Fixed ips",
+						},
+						"port": schema.StringAttribute{
+							Computed:            true,
+							MarkdownDescription: "Port",
+						},
+						"subnet": schema.StringAttribute{
+							Computed:            true,
+							MarkdownDescription: "Subnet to which this port belongs",
+						},
 						"allowed_address_pairs": schema.ListNestedAttribute{
 							NestedObject: schema.NestedAttributeObject{
 								Attributes: map[string]schema.Attribute{
 									"mac_address": schema.StringAttribute{
-										Optional:            true,
+										Computed:            true,
 										MarkdownDescription: "Mac address",
 									},
 								},
@@ -298,22 +378,6 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 						"device_owner": schema.StringAttribute{
 							Computed:            true,
 							MarkdownDescription: "Entity that uses this port (e.g. network:router_interface)",
-						},
-						"fixed_ips": schema.ListNestedAttribute{
-							NestedObject: schema.NestedAttributeObject{
-								Attributes: map[string]schema.Attribute{
-									"ip_address": schema.StringAttribute{
-										Optional:            true,
-										MarkdownDescription: "IP address to assign to the port",
-									},
-									"subnet_id": schema.StringAttribute{
-										Optional:            true,
-										MarkdownDescription: "ID of the subnet in which to assign the IP address",
-									},
-								},
-							},
-							Optional:            true,
-							MarkdownDescription: "Fixed ips",
 						},
 						"mac_address": schema.StringAttribute{
 							Computed:            true,
@@ -356,7 +420,7 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 										MarkdownDescription: "UUID of the customer",
 									},
 									"description": schema.StringAttribute{
-										Optional:            true,
+										Computed:            true,
 										MarkdownDescription: "Description of the Openstack Instance",
 									},
 									"error_message": schema.StringAttribute{
@@ -409,7 +473,7 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 										MarkdownDescription: "Modified",
 									},
 									"name": schema.StringAttribute{
-										Optional:            true,
+										Computed:            true,
 										MarkdownDescription: "Name of the Openstack Instance",
 									},
 									"project": schema.StringAttribute{
@@ -432,23 +496,23 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 										NestedObject: schema.NestedAttributeObject{
 											Attributes: map[string]schema.Attribute{
 												"cidr": schema.StringAttribute{
-													Optional:            true,
+													Computed:            true,
 													MarkdownDescription: "CIDR notation for the source/destination network address range",
 												},
 												"description": schema.StringAttribute{
-													Optional:            true,
+													Computed:            true,
 													MarkdownDescription: "Description of the Openstack Instance",
 												},
 												"direction": schema.StringAttribute{
-													Optional:            true,
+													Computed:            true,
 													MarkdownDescription: "Traffic direction - either 'ingress' (incoming) or 'egress' (outgoing)",
 												},
 												"ethertype": schema.StringAttribute{
-													Optional:            true,
+													Computed:            true,
 													MarkdownDescription: "IP protocol version - either 'IPv4' or 'IPv6'",
 												},
 												"from_port": schema.Int64Attribute{
-													Optional:            true,
+													Computed:            true,
 													MarkdownDescription: "Starting port number in the range (1-65535)",
 													Validators: []validator.Int64{
 														int64validator.AtLeast(-2147483648),
@@ -460,11 +524,11 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 													MarkdownDescription: "Id",
 												},
 												"protocol": schema.StringAttribute{
-													Optional:            true,
+													Computed:            true,
 													MarkdownDescription: "The network protocol (TCP, UDP, ICMP, or empty for any protocol)",
 												},
 												"remote_group": schema.StringAttribute{
-													Optional:            true,
+													Computed:            true,
 													MarkdownDescription: "Remote security group that this rule references, if any",
 												},
 												"remote_group_name": schema.StringAttribute{
@@ -476,7 +540,7 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 													MarkdownDescription: "UUID of the remote group",
 												},
 												"to_port": schema.Int64Attribute{
-													Optional:            true,
+													Computed:            true,
 													MarkdownDescription: "Ending port number in the range (1-65535)",
 													Validators: []validator.Int64{
 														int64validator.AtLeast(-2147483648),
@@ -485,7 +549,7 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 												},
 											},
 										},
-										Optional:            true,
+										Computed:            true,
 										MarkdownDescription: "Rules",
 									},
 									"service_name": schema.StringAttribute{
@@ -537,10 +601,6 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 							Computed:            true,
 							MarkdownDescription: "Security groups",
 						},
-						"subnet": schema.StringAttribute{
-							Optional:            true,
-							MarkdownDescription: "Subnet to which this port belongs",
-						},
 						"subnet_cidr": schema.StringAttribute{
 							Computed:            true,
 							MarkdownDescription: "IPv4 network address in CIDR format (e.g. 192.168.0.0/24)",
@@ -563,11 +623,11 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 						},
 					},
 				},
-				Optional:            true,
-				MarkdownDescription: "Ports",
+				Computed:            true,
+				MarkdownDescription: "Network ports to attach to the instance",
 			},
 			"project": schema.StringAttribute{
-				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Project",
 			},
 			"project_name": schema.StringAttribute{
@@ -582,6 +642,10 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 				Computed:            true,
 				MarkdownDescription: "Memory size in MiB",
 			},
+			"release_floating_ips": schema.BoolAttribute{
+				Computed:            true,
+				MarkdownDescription: "Termination attribute",
+			},
 			"resource_type": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Resource type",
@@ -593,6 +657,10 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 			"security_groups": schema.SetNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
+						"url": schema.StringAttribute{
+							Computed:            true,
+							MarkdownDescription: "Url",
+						},
 						"description": schema.StringAttribute{
 							Computed:            true,
 							MarkdownDescription: "Description of the Openstack Instance",
@@ -605,23 +673,23 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 							NestedObject: schema.NestedAttributeObject{
 								Attributes: map[string]schema.Attribute{
 									"cidr": schema.StringAttribute{
-										Optional:            true,
+										Computed:            true,
 										MarkdownDescription: "CIDR notation for the source/destination network address range",
 									},
 									"description": schema.StringAttribute{
-										Optional:            true,
+										Computed:            true,
 										MarkdownDescription: "Description of the Openstack Instance",
 									},
 									"direction": schema.StringAttribute{
-										Optional:            true,
+										Computed:            true,
 										MarkdownDescription: "Traffic direction - either 'ingress' (incoming) or 'egress' (outgoing)",
 									},
 									"ethertype": schema.StringAttribute{
-										Optional:            true,
+										Computed:            true,
 										MarkdownDescription: "IP protocol version - either 'IPv4' or 'IPv6'",
 									},
 									"from_port": schema.Int64Attribute{
-										Optional:            true,
+										Computed:            true,
 										MarkdownDescription: "Starting port number in the range (1-65535)",
 										Validators: []validator.Int64{
 											int64validator.AtLeast(-2147483648),
@@ -633,7 +701,7 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 										MarkdownDescription: "Id",
 									},
 									"protocol": schema.StringAttribute{
-										Optional:            true,
+										Computed:            true,
 										MarkdownDescription: "The network protocol (TCP, UDP, ICMP, or empty for any protocol)",
 									},
 									"remote_group_name": schema.StringAttribute{
@@ -645,7 +713,7 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 										MarkdownDescription: "UUID of the remote group",
 									},
 									"to_port": schema.Int64Attribute{
-										Optional:            true,
+										Computed:            true,
 										MarkdownDescription: "Ending port number in the range (1-65535)",
 										Validators: []validator.Int64{
 											int64validator.AtLeast(-2147483648),
@@ -661,14 +729,10 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 							Computed:            true,
 							MarkdownDescription: "State",
 						},
-						"url": schema.StringAttribute{
-							Computed:            true,
-							MarkdownDescription: "Url",
-						},
 					},
 				},
-				Optional:            true,
-				MarkdownDescription: "Security groups",
+				Computed:            true,
+				MarkdownDescription: "List of security groups to apply to the instance",
 			},
 			"server_group": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
@@ -689,7 +753,7 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 						MarkdownDescription: "Url",
 					},
 				},
-				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Server group",
 			},
 			"service_name": schema.StringAttribute{
@@ -712,6 +776,10 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 				Computed:            true,
 				MarkdownDescription: "UUID of the service settings",
 			},
+			"ssh_public_key": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "Ssh public key",
+			},
 			"start_time": schema.StringAttribute{
 				CustomType:          timetypes.RFC3339Type{},
 				Computed:            true,
@@ -721,8 +789,19 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 				Computed:            true,
 				MarkdownDescription: "State",
 			},
+			"system_volume_size": schema.Int64Attribute{
+				Computed:            true,
+				MarkdownDescription: "Size of the system volume in MiB. Minimum size is 1024 MiB (1 GiB)",
+				Validators: []validator.Int64{
+					int64validator.AtLeast(1024),
+				},
+			},
+			"system_volume_type": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "Volume type for the system volume",
+			},
 			"tenant": schema.StringAttribute{
-				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "The OpenStack tenant to create the instance in",
 			},
 			"tenant_uuid": schema.StringAttribute{
@@ -734,25 +813,25 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 				MarkdownDescription: "Url",
 			},
 			"user_data": schema.StringAttribute{
-				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Additional data that will be added to instance on provisioning",
 			},
 			"volumes": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"bootable": schema.BoolAttribute{
-							Optional:            true,
+							Computed:            true,
 							MarkdownDescription: "Indicates if this volume can be used to boot an instance",
 						},
 						"device": schema.StringAttribute{
-							Optional:            true,
+							Computed:            true,
 							MarkdownDescription: "Name of volume as instance device e.g. /dev/vdb.",
 							Validators: []validator.String{
 								stringvalidator.RegexMatches(regexp.MustCompile(`^/dev/[a-zA-Z0-9]+$`), ""),
 							},
 						},
 						"image_name": schema.StringAttribute{
-							Optional:            true,
+							Computed:            true,
 							MarkdownDescription: "Name of the image this volume was created from",
 						},
 						"marketplace_resource_uuid": schema.StringAttribute{
@@ -768,7 +847,7 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 							MarkdownDescription: "Resource type",
 						},
 						"size": schema.Int64Attribute{
-							Optional:            true,
+							Computed:            true,
 							MarkdownDescription: "Size in MiB",
 							Validators: []validator.Int64{
 								int64validator.AtLeast(0),
@@ -780,7 +859,7 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 							MarkdownDescription: "State",
 						},
 						"type": schema.StringAttribute{
-							Optional:            true,
+							Computed:            true,
 							MarkdownDescription: "Type of the volume (e.g. SSD, HDD)",
 						},
 						"type_name": schema.StringAttribute{

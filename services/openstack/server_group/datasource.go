@@ -76,7 +76,7 @@ func (d *OpenstackServerGroupDataSource) Schema(ctx context.Context, req datasou
 				MarkdownDescription: "UUID of the customer",
 			},
 			"description": schema.StringAttribute{
-				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Description of the Openstack Server Group",
 			},
 			"display_name": schema.StringAttribute{
@@ -95,11 +95,11 @@ func (d *OpenstackServerGroupDataSource) Schema(ctx context.Context, req datasou
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"backend_id": schema.StringAttribute{
-							Optional:            true,
+							Computed:            true,
 							MarkdownDescription: "Instance ID in the OpenStack backend",
 						},
 						"name": schema.StringAttribute{
-							Optional:            true,
+							Computed:            true,
 							MarkdownDescription: "Name of the Openstack Server Group",
 						},
 						"uuid": schema.StringAttribute{
@@ -153,11 +153,11 @@ func (d *OpenstackServerGroupDataSource) Schema(ctx context.Context, req datasou
 				MarkdownDescription: "Modified",
 			},
 			"name": schema.StringAttribute{
-				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Name of the Openstack Server Group",
 			},
 			"policy": schema.StringAttribute{
-				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Server group policy determining the rules for scheduling servers in this group",
 			},
 			"project": schema.StringAttribute{
@@ -202,7 +202,7 @@ func (d *OpenstackServerGroupDataSource) Schema(ctx context.Context, req datasou
 			},
 			"tenant": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Tenant",
+				MarkdownDescription: "Required path parameter for resource creation",
 			},
 			"tenant_name": schema.StringAttribute{
 				Computed:            true,

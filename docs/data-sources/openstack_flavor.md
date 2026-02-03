@@ -17,38 +17,38 @@ Openstack Flavor data source - lookup by name or UUID
 
 ### Optional
 
-- `backend_id` (String) ID of the backend
-- `cores` (Number) Number of cores in a VM
-- `disk` (Number) Root disk size in MiB
 - `filters` (Attributes) Filter parameters for querying Openstack Flavor (see [below for nested schema](#nestedatt--filters))
 - `id` (String) Openstack Flavor UUID
-- `name` (String) Name of the Openstack Flavor
-- `ram` (Number) Memory size in MiB
-- `settings` (String) Settings
 
 ### Read-Only
 
-- `display_name` (String) Name of the display
-- `url` (String) Url
+- `backend_id` (String)
+- `cores` (Number) Number of cores in a VM
+- `disk` (Number) Root disk size in MiB
+- `display_name` (String)
+- `name` (String)
+- `ram` (Number) Memory size in MiB
+- `settings` (String)
+- `url` (String)
 
 <a id="nestedatt--filters"></a>
 ### Nested Schema for `filters`
 
 Optional:
 
-- `cores` (Number) Cores
-- `cores__gte` (Number) Cores gte
-- `cores__lte` (Number) Cores lte
-- `disk` (Number) Disk
-- `disk__gte` (Number) Disk gte
-- `disk__lte` (Number) Disk lte
+- `cores` (Number)
+- `cores__gte` (Number)
+- `cores__lte` (Number)
+- `disk` (Number)
+- `disk__gte` (Number)
+- `disk__lte` (Number)
 - `name` (String) Name
 - `name_exact` (String) Name (exact)
 - `name_iregex` (String) Name (regex)
 - `offering_uuid` (String) Offering UUID
-- `ram` (Number) Ram
-- `ram__gte` (Number) Ram gte
-- `ram__lte` (Number) Ram lte
+- `ram` (Number)
+- `ram__gte` (Number)
+- `ram__lte` (Number)
 - `settings` (String) Settings URL
 - `settings_uuid` (String) Settings UUID
 - `tenant` (String) Tenant URL

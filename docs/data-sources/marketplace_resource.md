@@ -17,15 +17,8 @@ Marketplace Resource data source - lookup by name or UUID
 
 ### Optional
 
-- `downscaled` (Boolean) Downscaled
-- `end_date` (String) The date is inclusive. Once reached, a resource will be scheduled for termination.
 - `filters` (Attributes) Filter parameters for querying Marketplace Resource (see [below for nested schema](#nestedatt--filters))
 - `id` (String) Marketplace Resource UUID
-- `name` (String) Name of the Marketplace Resource
-- `offering` (String) Offering
-- `paused` (Boolean) Paused
-- `plan` (String) Plan
-- `slug` (String) URL-friendly identifier. Only editable by staff users.
 
 ### Read-Only
 
@@ -40,7 +33,9 @@ Marketplace Resource data source - lookup by name or UUID
 - `customer_slug` (String) Customer slug
 - `customer_uuid` (String) UUID of the customer
 - `description` (String) Description of the Marketplace Resource
+- `downscaled` (Boolean) Downscaled
 - `effective_id` (String) ID of the effective
+- `end_date` (String) The date is inclusive. Once reached, a resource will be scheduled for termination.
 - `end_date_requested_by` (String) End date requested by
 - `endpoints` (Attributes List) Endpoints (see [below for nested schema](#nestedatt--endpoints))
 - `error_message` (String) Error message
@@ -49,6 +44,8 @@ Marketplace Resource data source - lookup by name or UUID
 - `is_usage_based` (Boolean) Is usage based
 - `last_sync` (String) Last sync
 - `modified` (String) Modified
+- `name` (String) Name of the Marketplace Resource
+- `offering` (String) Offering
 - `offering_backend_id` (String) ID of the offering backend
 - `offering_billable` (Boolean) Purchase and usage is invoiced.
 - `offering_components` (Attributes List) Offering components (see [below for nested schema](#nestedatt--offering_components))
@@ -66,6 +63,8 @@ Marketplace Resource data source - lookup by name or UUID
 - `parent_offering_slug` (String) Parent offering slug
 - `parent_offering_uuid` (String) UUID of the parent offering
 - `parent_uuid` (String) UUID of the parent
+- `paused` (Boolean) Paused
+- `plan` (String) Plan
 - `plan_description` (String) Plan description
 - `plan_name` (String) Name of the plan
 - `plan_unit` (String) Plan unit
@@ -86,6 +85,7 @@ Marketplace Resource data source - lookup by name or UUID
 - `restrict_member_access` (Boolean) Restrict member access
 - `scope` (String) Scope
 - `service_settings_uuid` (String) UUID of the service settings
+- `slug` (String) URL-friendly identifier. Only editable by staff users.
 - `state` (String) State
 - `url` (String) Url
 - `user_requires_reconsent` (Boolean) Check if the current user needs to re-consent for this resource's offering.
@@ -135,26 +135,25 @@ Optional:
 <a id="nestedatt--endpoints"></a>
 ### Nested Schema for `endpoints`
 
-Optional:
+Read-Only:
 
 - `name` (String) Name of the Marketplace Resource
 - `url` (String) URL of the access endpoint
-
-Read-Only:
-
 - `uuid` (String) UUID of the Marketplace Resource
 
 
 <a id="nestedatt--offering_components"></a>
 ### Nested Schema for `offering_components`
 
-Optional:
+Read-Only:
 
 - `article_code` (String) Article code
 - `billing_type` (String) Billing type
 - `default_limit` (Number) Default limit
 - `description` (String) Description of the Marketplace Resource
+- `factor` (Number) Factor
 - `is_boolean` (Boolean) Is boolean
+- `is_builtin` (Boolean) Is builtin
 - `is_prepaid` (Boolean) Is prepaid
 - `limit_amount` (Number) Limit amount
 - `limit_period` (String) Limit period
@@ -168,18 +167,13 @@ Optional:
 - `overage_component` (String) Overage component
 - `type` (String) Unique internal name of the measured unit, for example floating_ip.
 - `unit_factor` (Number) The conversion factor from backend units to measured_unit
-
-Read-Only:
-
-- `factor` (Number) Factor
-- `is_builtin` (Boolean) Is builtin
 - `uuid` (String) UUID of the Marketplace Resource
 
 
 <a id="nestedatt--report"></a>
 ### Nested Schema for `report`
 
-Optional:
+Read-Only:
 
 - `body` (String) Section body content
 - `header` (String) Section header text

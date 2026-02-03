@@ -10,6 +10,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
+	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
@@ -45,20 +46,29 @@ func (d *MarketplaceOrderDataSource) Schema(ctx context.Context, req datasource.
 				MarkdownDescription: "Marketplace Order UUID",
 			},
 			"filters": (&MarketplaceOrderFiltersModel{}).GetSchema(),
+			"accepting_terms_of_service": schema.BoolAttribute{
+				Computed:            true,
+				MarkdownDescription: "Accepting terms of service",
+			},
 			"activation_price": schema.Float64Attribute{
 				Computed:            true,
 				MarkdownDescription: "Activation price",
 			},
 			"attachment": schema.StringAttribute{
-				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Attachment",
 			},
+			"attributes": schema.MapAttribute{
+				ElementType:         types.StringType,
+				Computed:            true,
+				MarkdownDescription: "Order attributes",
+			},
 			"backend_id": schema.StringAttribute{
-				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "ID of the backend",
 			},
 			"callback_url": schema.StringAttribute{
-				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Callback url",
 			},
 			"can_terminate": schema.BoolAttribute{
@@ -172,7 +182,7 @@ func (d *MarketplaceOrderDataSource) Schema(ctx context.Context, req datasource.
 				MarkdownDescription: "UUID of the new plan",
 			},
 			"offering": schema.StringAttribute{
-				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Offering",
 			},
 			"offering_billable": schema.BoolAttribute{
@@ -228,7 +238,7 @@ func (d *MarketplaceOrderDataSource) Schema(ctx context.Context, req datasource.
 				MarkdownDescription: "Output",
 			},
 			"plan": schema.StringAttribute{
-				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Plan",
 			},
 			"plan_description": schema.StringAttribute{
@@ -246,6 +256,10 @@ func (d *MarketplaceOrderDataSource) Schema(ctx context.Context, req datasource.
 			"plan_uuid": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "UUID of the plan",
+			},
+			"project": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "Project",
 			},
 			"project_description": schema.StringAttribute{
 				Computed:            true,
@@ -293,7 +307,7 @@ func (d *MarketplaceOrderDataSource) Schema(ctx context.Context, req datasource.
 				MarkdownDescription: "UUID of the provider",
 			},
 			"request_comment": schema.StringAttribute{
-				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Request comment",
 			},
 			"resource_name": schema.StringAttribute{
@@ -310,13 +324,13 @@ func (d *MarketplaceOrderDataSource) Schema(ctx context.Context, req datasource.
 			},
 			"slug": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Slug",
+				MarkdownDescription: "URL-friendly identifier. Only editable by staff users.",
 				Validators: []validator.String{
 					stringvalidator.RegexMatches(regexp.MustCompile(`^[-a-zA-Z0-9_]+$`), ""),
 				},
 			},
 			"start_date": schema.StringAttribute{
-				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Enables delayed processing of resource provisioning order.",
 			},
 			"state": schema.StringAttribute{
@@ -328,7 +342,7 @@ func (d *MarketplaceOrderDataSource) Schema(ctx context.Context, req datasource.
 				MarkdownDescription: "Termination comment",
 			},
 			"type": schema.StringAttribute{
-				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Type",
 			},
 			"url": schema.StringAttribute{

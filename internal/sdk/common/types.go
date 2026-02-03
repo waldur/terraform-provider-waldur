@@ -12,23 +12,23 @@ const (
 )
 
 type BasePublicPlan struct {
-	Archived           *bool                 `json:"archived,omitempty" tfsdk:"archived"`
-	ArticleCode        *string               `json:"article_code,omitempty" tfsdk:"article_code"`
-	BackendId          *string               `json:"backend_id,omitempty" tfsdk:"backend_id"`
-	Components         []NestedPlanComponent `json:"components,omitempty" tfsdk:"components"`
-	Description        *string               `json:"description,omitempty" tfsdk:"description"`
-	InitPrice          *float64              `json:"init_price,omitempty" tfsdk:"init_price"`
-	IsActive           *bool                 `json:"is_active,omitempty" tfsdk:"is_active"`
-	MaxAmount          *int64                `json:"max_amount,omitempty" tfsdk:"max_amount"`
-	MinimalPrice       *float64              `json:"minimal_price,omitempty" tfsdk:"minimal_price"`
-	Name               *string               `json:"name,omitempty" tfsdk:"name"`
-	OrganizationGroups []OrganizationGroup   `json:"organization_groups,omitempty" tfsdk:"organization_groups"`
-	PlanType           *string               `json:"plan_type,omitempty" tfsdk:"plan_type"`
-	ResourcesCount     *int64                `json:"resources_count,omitempty" tfsdk:"resources_count"`
-	SwitchPrice        *float64              `json:"switch_price,omitempty" tfsdk:"switch_price"`
-	Unit               *string               `json:"unit,omitempty" tfsdk:"unit"`
-	UnitPrice          *string               `json:"unit_price,omitempty" tfsdk:"unit_price"`
-	Url                *string               `json:"url,omitempty" tfsdk:"url"`
+	Archived           *bool                  `json:"archived,omitempty" tfsdk:"archived"`
+	ArticleCode        *string                `json:"article_code,omitempty" tfsdk:"article_code"`
+	BackendId          *string                `json:"backend_id,omitempty" tfsdk:"backend_id"`
+	Components         *[]NestedPlanComponent `json:"components,omitempty" tfsdk:"components"`
+	Description        *string                `json:"description,omitempty" tfsdk:"description"`
+	InitPrice          *float64               `json:"init_price,omitempty" tfsdk:"init_price"`
+	IsActive           *bool                  `json:"is_active,omitempty" tfsdk:"is_active"`
+	MaxAmount          *int64                 `json:"max_amount,omitempty" tfsdk:"max_amount"`
+	MinimalPrice       *float64               `json:"minimal_price,omitempty" tfsdk:"minimal_price"`
+	Name               *string                `json:"name,omitempty" tfsdk:"name"`
+	OrganizationGroups *[]OrganizationGroup   `json:"organization_groups,omitempty" tfsdk:"organization_groups"`
+	PlanType           *string                `json:"plan_type,omitempty" tfsdk:"plan_type"`
+	ResourcesCount     *int64                 `json:"resources_count,omitempty" tfsdk:"resources_count"`
+	SwitchPrice        *float64               `json:"switch_price,omitempty" tfsdk:"switch_price"`
+	Unit               *string                `json:"unit,omitempty" tfsdk:"unit"`
+	UnitPrice          *string                `json:"unit_price,omitempty" tfsdk:"unit_price"`
+	Url                *string                `json:"url,omitempty" tfsdk:"url"`
 }
 
 type BillingTypeEnum string
@@ -214,9 +214,9 @@ type OpenStackCreateFloatingIPRequest struct {
 }
 
 type OpenStackCreateInstancePortRequest struct {
-	FixedIps []OpenStackFixedIpRequest `json:"fixed_ips,omitempty" tfsdk:"fixed_ips"`
-	Port     *string                   `json:"port,omitempty" tfsdk:"port"`
-	Subnet   *string                   `json:"subnet,omitempty" tfsdk:"subnet"`
+	FixedIps *[]OpenStackFixedIpRequest `json:"fixed_ips,omitempty" tfsdk:"fixed_ips"`
+	Port     *string                    `json:"port,omitempty" tfsdk:"port"`
+	Subnet   *string                    `json:"subnet,omitempty" tfsdk:"subnet"`
 }
 
 type OpenStackDataVolumeRequest struct {
@@ -235,15 +235,15 @@ type OpenStackFixedIpRequest struct {
 }
 
 type OpenStackNestedFloatingIP struct {
-	Address           *string            `json:"address,omitempty" tfsdk:"address"`
-	PortFixedIps      []OpenStackFixedIp `json:"port_fixed_ips,omitempty" tfsdk:"port_fixed_ips"`
-	PortMacAddress    *string            `json:"port_mac_address,omitempty" tfsdk:"port_mac_address"`
-	Subnet            *string            `json:"subnet,omitempty" tfsdk:"subnet"`
-	SubnetCidr        *string            `json:"subnet_cidr,omitempty" tfsdk:"subnet_cidr"`
-	SubnetDescription *string            `json:"subnet_description,omitempty" tfsdk:"subnet_description"`
-	SubnetName        *string            `json:"subnet_name,omitempty" tfsdk:"subnet_name"`
-	SubnetUuid        *string            `json:"subnet_uuid,omitempty" tfsdk:"subnet_uuid"`
-	Url               *string            `json:"url,omitempty" tfsdk:"url"`
+	Address           *string             `json:"address,omitempty" tfsdk:"address"`
+	PortFixedIps      *[]OpenStackFixedIp `json:"port_fixed_ips,omitempty" tfsdk:"port_fixed_ips"`
+	PortMacAddress    *string             `json:"port_mac_address,omitempty" tfsdk:"port_mac_address"`
+	Subnet            *string             `json:"subnet,omitempty" tfsdk:"subnet"`
+	SubnetCidr        *string             `json:"subnet_cidr,omitempty" tfsdk:"subnet_cidr"`
+	SubnetDescription *string             `json:"subnet_description,omitempty" tfsdk:"subnet_description"`
+	SubnetName        *string             `json:"subnet_name,omitempty" tfsdk:"subnet_name"`
+	SubnetUuid        *string             `json:"subnet_uuid,omitempty" tfsdk:"subnet_uuid"`
+	Url               *string             `json:"url,omitempty" tfsdk:"url"`
 }
 
 type OpenStackNestedInstance struct {
@@ -252,26 +252,26 @@ type OpenStackNestedInstance struct {
 }
 
 type OpenStackNestedPort struct {
-	AllowedAddressPairs []OpenStackAllowedAddressPair `json:"allowed_address_pairs,omitempty" tfsdk:"allowed_address_pairs"`
-	DeviceId            *string                       `json:"device_id,omitempty" tfsdk:"device_id"`
-	DeviceOwner         *string                       `json:"device_owner,omitempty" tfsdk:"device_owner"`
-	FixedIps            []OpenStackFixedIp            `json:"fixed_ips,omitempty" tfsdk:"fixed_ips"`
-	MacAddress          *string                       `json:"mac_address,omitempty" tfsdk:"mac_address"`
-	SecurityGroups      []OpenStackSecurityGroup      `json:"security_groups,omitempty" tfsdk:"security_groups"`
-	Subnet              *string                       `json:"subnet,omitempty" tfsdk:"subnet"`
-	SubnetCidr          *string                       `json:"subnet_cidr,omitempty" tfsdk:"subnet_cidr"`
-	SubnetDescription   *string                       `json:"subnet_description,omitempty" tfsdk:"subnet_description"`
-	SubnetName          *string                       `json:"subnet_name,omitempty" tfsdk:"subnet_name"`
-	SubnetUuid          *string                       `json:"subnet_uuid,omitempty" tfsdk:"subnet_uuid"`
-	Url                 *string                       `json:"url,omitempty" tfsdk:"url"`
+	AllowedAddressPairs *[]OpenStackAllowedAddressPair `json:"allowed_address_pairs,omitempty" tfsdk:"allowed_address_pairs"`
+	DeviceId            *string                        `json:"device_id,omitempty" tfsdk:"device_id"`
+	DeviceOwner         *string                        `json:"device_owner,omitempty" tfsdk:"device_owner"`
+	FixedIps            *[]OpenStackFixedIp            `json:"fixed_ips,omitempty" tfsdk:"fixed_ips"`
+	MacAddress          *string                        `json:"mac_address,omitempty" tfsdk:"mac_address"`
+	SecurityGroups      *[]OpenStackSecurityGroup      `json:"security_groups,omitempty" tfsdk:"security_groups"`
+	Subnet              *string                        `json:"subnet,omitempty" tfsdk:"subnet"`
+	SubnetCidr          *string                        `json:"subnet_cidr,omitempty" tfsdk:"subnet_cidr"`
+	SubnetDescription   *string                        `json:"subnet_description,omitempty" tfsdk:"subnet_description"`
+	SubnetName          *string                        `json:"subnet_name,omitempty" tfsdk:"subnet_name"`
+	SubnetUuid          *string                        `json:"subnet_uuid,omitempty" tfsdk:"subnet_uuid"`
+	Url                 *string                        `json:"url,omitempty" tfsdk:"url"`
 }
 
 type OpenStackNestedSecurityGroup struct {
-	Description *string                   `json:"description,omitempty" tfsdk:"description"`
-	Name        *string                   `json:"name,omitempty" tfsdk:"name"`
-	Rules       []NestedSecurityGroupRule `json:"rules,omitempty" tfsdk:"rules"`
-	State       *string                   `json:"state,omitempty" tfsdk:"state"`
-	Url         *string                   `json:"url,omitempty" tfsdk:"url"`
+	Description *string                    `json:"description,omitempty" tfsdk:"description"`
+	Name        *string                    `json:"name,omitempty" tfsdk:"name"`
+	Rules       *[]NestedSecurityGroupRule `json:"rules,omitempty" tfsdk:"rules"`
+	State       *string                    `json:"state,omitempty" tfsdk:"state"`
+	Url         *string                    `json:"url,omitempty" tfsdk:"url"`
 }
 
 type OpenStackNestedServerGroup struct {
@@ -282,13 +282,13 @@ type OpenStackNestedServerGroup struct {
 }
 
 type OpenStackNestedSubNet struct {
-	AllocationPools []OpenStackSubNetAllocationPool `json:"allocation_pools,omitempty" tfsdk:"allocation_pools"`
-	Cidr            *string                         `json:"cidr,omitempty" tfsdk:"cidr"`
-	Description     *string                         `json:"description,omitempty" tfsdk:"description"`
-	EnableDhcp      *bool                           `json:"enable_dhcp,omitempty" tfsdk:"enable_dhcp"`
-	GatewayIp       *string                         `json:"gateway_ip,omitempty" tfsdk:"gateway_ip"`
-	IpVersion       *int64                          `json:"ip_version,omitempty" tfsdk:"ip_version"`
-	Name            *string                         `json:"name,omitempty" tfsdk:"name"`
+	AllocationPools *[]OpenStackSubNetAllocationPool `json:"allocation_pools,omitempty" tfsdk:"allocation_pools"`
+	Cidr            *string                          `json:"cidr,omitempty" tfsdk:"cidr"`
+	Description     *string                          `json:"description,omitempty" tfsdk:"description"`
+	EnableDhcp      *bool                            `json:"enable_dhcp,omitempty" tfsdk:"enable_dhcp"`
+	GatewayIp       *string                          `json:"gateway_ip,omitempty" tfsdk:"gateway_ip"`
+	IpVersion       *int64                           `json:"ip_version,omitempty" tfsdk:"ip_version"`
+	Name            *string                          `json:"name,omitempty" tfsdk:"name"`
 }
 
 type OpenStackNestedVolume struct {
@@ -315,43 +315,43 @@ type OpenStackPortNestedSecurityGroupRequest struct {
 }
 
 type OpenStackSecurityGroup struct {
-	AccessUrl                   *string                            `json:"access_url,omitempty" tfsdk:"access_url"`
-	BackendId                   *string                            `json:"backend_id,omitempty" tfsdk:"backend_id"`
-	Created                     *string                            `json:"created,omitempty" tfsdk:"created"`
-	Customer                    *string                            `json:"customer,omitempty" tfsdk:"customer"`
-	CustomerAbbreviation        *string                            `json:"customer_abbreviation,omitempty" tfsdk:"customer_abbreviation"`
-	CustomerName                *string                            `json:"customer_name,omitempty" tfsdk:"customer_name"`
-	CustomerNativeName          *string                            `json:"customer_native_name,omitempty" tfsdk:"customer_native_name"`
-	CustomerUuid                *string                            `json:"customer_uuid,omitempty" tfsdk:"customer_uuid"`
-	Description                 *string                            `json:"description,omitempty" tfsdk:"description"`
-	ErrorMessage                *string                            `json:"error_message,omitempty" tfsdk:"error_message"`
-	ErrorTraceback              *string                            `json:"error_traceback,omitempty" tfsdk:"error_traceback"`
-	IsLimitBased                *bool                              `json:"is_limit_based,omitempty" tfsdk:"is_limit_based"`
-	IsUsageBased                *bool                              `json:"is_usage_based,omitempty" tfsdk:"is_usage_based"`
-	MarketplaceCategoryName     *string                            `json:"marketplace_category_name,omitempty" tfsdk:"marketplace_category_name"`
-	MarketplaceCategoryUuid     *string                            `json:"marketplace_category_uuid,omitempty" tfsdk:"marketplace_category_uuid"`
-	MarketplaceOfferingName     *string                            `json:"marketplace_offering_name,omitempty" tfsdk:"marketplace_offering_name"`
-	MarketplaceOfferingUuid     *string                            `json:"marketplace_offering_uuid,omitempty" tfsdk:"marketplace_offering_uuid"`
-	MarketplacePlanUuid         *string                            `json:"marketplace_plan_uuid,omitempty" tfsdk:"marketplace_plan_uuid"`
-	MarketplaceResourceState    *string                            `json:"marketplace_resource_state,omitempty" tfsdk:"marketplace_resource_state"`
-	MarketplaceResourceUuid     *string                            `json:"marketplace_resource_uuid,omitempty" tfsdk:"marketplace_resource_uuid"`
-	Modified                    *string                            `json:"modified,omitempty" tfsdk:"modified"`
-	Name                        *string                            `json:"name,omitempty" tfsdk:"name"`
-	Project                     *string                            `json:"project,omitempty" tfsdk:"project"`
-	ProjectName                 *string                            `json:"project_name,omitempty" tfsdk:"project_name"`
-	ProjectUuid                 *string                            `json:"project_uuid,omitempty" tfsdk:"project_uuid"`
-	ResourceType                *string                            `json:"resource_type,omitempty" tfsdk:"resource_type"`
-	Rules                       []OpenStackSecurityGroupRuleCreate `json:"rules,omitempty" tfsdk:"rules"`
-	ServiceName                 *string                            `json:"service_name,omitempty" tfsdk:"service_name"`
-	ServiceSettings             *string                            `json:"service_settings,omitempty" tfsdk:"service_settings"`
-	ServiceSettingsErrorMessage *string                            `json:"service_settings_error_message,omitempty" tfsdk:"service_settings_error_message"`
-	ServiceSettingsState        *string                            `json:"service_settings_state,omitempty" tfsdk:"service_settings_state"`
-	ServiceSettingsUuid         *string                            `json:"service_settings_uuid,omitempty" tfsdk:"service_settings_uuid"`
-	State                       *string                            `json:"state,omitempty" tfsdk:"state"`
-	Tenant                      *string                            `json:"tenant,omitempty" tfsdk:"tenant"`
-	TenantName                  *string                            `json:"tenant_name,omitempty" tfsdk:"tenant_name"`
-	TenantUuid                  *string                            `json:"tenant_uuid,omitempty" tfsdk:"tenant_uuid"`
-	Url                         *string                            `json:"url,omitempty" tfsdk:"url"`
+	AccessUrl                   *string                             `json:"access_url,omitempty" tfsdk:"access_url"`
+	BackendId                   *string                             `json:"backend_id,omitempty" tfsdk:"backend_id"`
+	Created                     *string                             `json:"created,omitempty" tfsdk:"created"`
+	Customer                    *string                             `json:"customer,omitempty" tfsdk:"customer"`
+	CustomerAbbreviation        *string                             `json:"customer_abbreviation,omitempty" tfsdk:"customer_abbreviation"`
+	CustomerName                *string                             `json:"customer_name,omitempty" tfsdk:"customer_name"`
+	CustomerNativeName          *string                             `json:"customer_native_name,omitempty" tfsdk:"customer_native_name"`
+	CustomerUuid                *string                             `json:"customer_uuid,omitempty" tfsdk:"customer_uuid"`
+	Description                 *string                             `json:"description,omitempty" tfsdk:"description"`
+	ErrorMessage                *string                             `json:"error_message,omitempty" tfsdk:"error_message"`
+	ErrorTraceback              *string                             `json:"error_traceback,omitempty" tfsdk:"error_traceback"`
+	IsLimitBased                *bool                               `json:"is_limit_based,omitempty" tfsdk:"is_limit_based"`
+	IsUsageBased                *bool                               `json:"is_usage_based,omitempty" tfsdk:"is_usage_based"`
+	MarketplaceCategoryName     *string                             `json:"marketplace_category_name,omitempty" tfsdk:"marketplace_category_name"`
+	MarketplaceCategoryUuid     *string                             `json:"marketplace_category_uuid,omitempty" tfsdk:"marketplace_category_uuid"`
+	MarketplaceOfferingName     *string                             `json:"marketplace_offering_name,omitempty" tfsdk:"marketplace_offering_name"`
+	MarketplaceOfferingUuid     *string                             `json:"marketplace_offering_uuid,omitempty" tfsdk:"marketplace_offering_uuid"`
+	MarketplacePlanUuid         *string                             `json:"marketplace_plan_uuid,omitempty" tfsdk:"marketplace_plan_uuid"`
+	MarketplaceResourceState    *string                             `json:"marketplace_resource_state,omitempty" tfsdk:"marketplace_resource_state"`
+	MarketplaceResourceUuid     *string                             `json:"marketplace_resource_uuid,omitempty" tfsdk:"marketplace_resource_uuid"`
+	Modified                    *string                             `json:"modified,omitempty" tfsdk:"modified"`
+	Name                        *string                             `json:"name,omitempty" tfsdk:"name"`
+	Project                     *string                             `json:"project,omitempty" tfsdk:"project"`
+	ProjectName                 *string                             `json:"project_name,omitempty" tfsdk:"project_name"`
+	ProjectUuid                 *string                             `json:"project_uuid,omitempty" tfsdk:"project_uuid"`
+	ResourceType                *string                             `json:"resource_type,omitempty" tfsdk:"resource_type"`
+	Rules                       *[]OpenStackSecurityGroupRuleCreate `json:"rules,omitempty" tfsdk:"rules"`
+	ServiceName                 *string                             `json:"service_name,omitempty" tfsdk:"service_name"`
+	ServiceSettings             *string                             `json:"service_settings,omitempty" tfsdk:"service_settings"`
+	ServiceSettingsErrorMessage *string                             `json:"service_settings_error_message,omitempty" tfsdk:"service_settings_error_message"`
+	ServiceSettingsState        *string                             `json:"service_settings_state,omitempty" tfsdk:"service_settings_state"`
+	ServiceSettingsUuid         *string                             `json:"service_settings_uuid,omitempty" tfsdk:"service_settings_uuid"`
+	State                       *string                             `json:"state,omitempty" tfsdk:"state"`
+	Tenant                      *string                             `json:"tenant,omitempty" tfsdk:"tenant"`
+	TenantName                  *string                             `json:"tenant_name,omitempty" tfsdk:"tenant_name"`
+	TenantUuid                  *string                             `json:"tenant_uuid,omitempty" tfsdk:"tenant_uuid"`
+	Url                         *string                             `json:"url,omitempty" tfsdk:"url"`
 }
 
 type OpenStackSecurityGroupHyperlinkRequest struct {
@@ -404,9 +404,9 @@ type OpenStackSubNetAllocationPoolRequest struct {
 }
 
 type OpenStackTenantSecurityGroupRequest struct {
-	Description *string                                   `json:"description,omitempty" tfsdk:"description"`
-	Name        *string                                   `json:"name" tfsdk:"name"`
-	Rules       []OpenStackSecurityGroupRuleCreateRequest `json:"rules,omitempty" tfsdk:"rules"`
+	Description *string                                    `json:"description,omitempty" tfsdk:"description"`
+	Name        *string                                    `json:"name" tfsdk:"name"`
+	Rules       *[]OpenStackSecurityGroupRuleCreateRequest `json:"rules,omitempty" tfsdk:"rules"`
 }
 
 type OrderDetails struct {

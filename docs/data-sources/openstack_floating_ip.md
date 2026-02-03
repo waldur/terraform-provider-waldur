@@ -56,6 +56,7 @@ Openstack Floating Ip data source - lookup by name or UUID
 - `project_name` (String) Name of the project
 - `project_uuid` (String) UUID of the project
 - `resource_type` (String) Resource type
+- `router` (String) Optional router to use for external network detection
 - `runtime_state` (String) Runtime state
 - `service_name` (String) Name of the service
 - `service_settings` (String) Service settings
@@ -63,7 +64,7 @@ Openstack Floating Ip data source - lookup by name or UUID
 - `service_settings_state` (String) Service settings state
 - `service_settings_uuid` (String) UUID of the service settings
 - `state` (String) State
-- `tenant` (String) OpenStack tenant this floating IP belongs to
+- `tenant` (String) Required path parameter for resource creation
 - `tenant_name` (String) Name of the tenant
 - `tenant_uuid` (String) UUID of the tenant
 - `url` (String) Url
@@ -100,7 +101,7 @@ Optional:
 <a id="nestedatt--port_fixed_ips"></a>
 ### Nested Schema for `port_fixed_ips`
 
-Optional:
+Read-Only:
 
 - `ip_address` (String) IP address to assign to the port
 - `subnet_id` (String) ID of the subnet in which to assign the IP address

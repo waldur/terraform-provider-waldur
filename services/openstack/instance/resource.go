@@ -1322,17 +1322,6 @@ func (r *OpenstackInstanceResource) Update(ctx context.Context, req resource.Upd
 
 	// Phase 2: RPC Actions
 	// These actions are triggered when their corresponding specific fields change.
-	if !data.FloatingIps.Equal(state.FloatingIps) {
-		// Convert Terraform value to API payload for the specific action
-		var req OpenstackInstanceUpdateFloatingIpsActionRequest
-		resp.Diagnostics.Append(common.PopulateSetField(ctx, data.FloatingIps, &req.FloatingIps)...)
-
-		// Execute the Action
-		if err := r.client.OpenstackInstanceUpdateFloatingIps(ctx, data.UUID.ValueString(), &req); err != nil {
-			resp.Diagnostics.AddError("RPC Action Failed: update_floating_ips", err.Error())
-			return
-		}
-	}
 	if !data.Ports.Equal(state.Ports) {
 		// Convert Terraform value to API payload for the specific action
 		var req OpenstackInstanceUpdatePortsActionRequest
@@ -1352,6 +1341,17 @@ func (r *OpenstackInstanceResource) Update(ctx context.Context, req resource.Upd
 		// Execute the Action
 		if err := r.client.OpenstackInstanceUpdateSecurityGroups(ctx, data.UUID.ValueString(), &req); err != nil {
 			resp.Diagnostics.AddError("RPC Action Failed: update_security_groups", err.Error())
+			return
+		}
+	}
+	if !data.FloatingIps.Equal(state.FloatingIps) {
+		// Convert Terraform value to API payload for the specific action
+		var req OpenstackInstanceUpdateFloatingIpsActionRequest
+		resp.Diagnostics.Append(common.PopulateSetField(ctx, data.FloatingIps, &req.FloatingIps)...)
+
+		// Execute the Action
+		if err := r.client.OpenstackInstanceUpdateFloatingIps(ctx, data.UUID.ValueString(), &req); err != nil {
+			resp.Diagnostics.AddError("RPC Action Failed: update_floating_ips", err.Error())
 			return
 		}
 	}

@@ -164,11 +164,11 @@ func (d *OpenstackFloatingIpDataSource) Schema(ctx context.Context, req datasour
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"ip_address": schema.StringAttribute{
-							Optional:            true,
+							Computed:            true,
 							MarkdownDescription: "IP address to assign to the port",
 						},
 						"subnet_id": schema.StringAttribute{
-							Optional:            true,
+							Computed:            true,
 							MarkdownDescription: "ID of the subnet in which to assign the IP address",
 						},
 					},
@@ -191,6 +191,10 @@ func (d *OpenstackFloatingIpDataSource) Schema(ctx context.Context, req datasour
 			"resource_type": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Resource type",
+			},
+			"router": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "Optional router to use for external network detection",
 			},
 			"runtime_state": schema.StringAttribute{
 				Computed:            true,
@@ -222,7 +226,7 @@ func (d *OpenstackFloatingIpDataSource) Schema(ctx context.Context, req datasour
 			},
 			"tenant": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "OpenStack tenant this floating IP belongs to",
+				MarkdownDescription: "Required path parameter for resource creation",
 			},
 			"tenant_name": schema.StringAttribute{
 				Computed:            true,

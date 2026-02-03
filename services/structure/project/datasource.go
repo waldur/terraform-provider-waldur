@@ -47,7 +47,7 @@ func (d *StructureProjectDataSource) Schema(ctx context.Context, req datasource.
 			},
 			"filters": (&StructureProjectFiltersModel{}).GetSchema(),
 			"backend_id": schema.StringAttribute{
-				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "ID of the backend",
 			},
 			"created": schema.StringAttribute{
@@ -56,7 +56,7 @@ func (d *StructureProjectDataSource) Schema(ctx context.Context, req datasource.
 				MarkdownDescription: "Created",
 			},
 			"customer": schema.StringAttribute{
-				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Customer",
 			},
 			"customer_abbreviation": schema.StringAttribute{
@@ -84,11 +84,11 @@ func (d *StructureProjectDataSource) Schema(ctx context.Context, req datasource.
 				MarkdownDescription: "UUID of the customer",
 			},
 			"description": schema.StringAttribute{
-				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Project description (HTML content will be sanitized)",
 			},
 			"end_date": schema.StringAttribute{
-				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Project end date. Setting this field requires DELETE_PROJECT permission.",
 			},
 			"end_date_requested_by": schema.StringAttribute{
@@ -96,7 +96,7 @@ func (d *StructureProjectDataSource) Schema(ctx context.Context, req datasource.
 				MarkdownDescription: "End date requested by",
 			},
 			"grace_period_days": schema.Int64Attribute{
-				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Number of extra days after project end date before resources are terminated. Overrides customer-level setting.",
 				Validators: []validator.Int64{
 					int64validator.AtLeast(0),
@@ -104,11 +104,11 @@ func (d *StructureProjectDataSource) Schema(ctx context.Context, req datasource.
 				},
 			},
 			"image": schema.StringAttribute{
-				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Image",
 			},
 			"is_industry": schema.BoolAttribute{
-				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Is industry",
 			},
 			"is_removed": schema.BoolAttribute{
@@ -116,7 +116,7 @@ func (d *StructureProjectDataSource) Schema(ctx context.Context, req datasource.
 				MarkdownDescription: "Is removed",
 			},
 			"kind": schema.StringAttribute{
-				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Kind",
 			},
 			"max_service_accounts": schema.Int64Attribute{
@@ -128,11 +128,11 @@ func (d *StructureProjectDataSource) Schema(ctx context.Context, req datasource.
 				},
 			},
 			"name": schema.StringAttribute{
-				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Name of the Structure Project",
 			},
 			"oecd_fos_2007_code": schema.StringAttribute{
-				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Oecd fos 2007 code",
 			},
 			"oecd_fos_2007_label": schema.StringAttribute{
@@ -148,22 +148,22 @@ func (d *StructureProjectDataSource) Schema(ctx context.Context, req datasource.
 				MarkdownDescription: "Number of active resources in this project",
 			},
 			"slug": schema.StringAttribute{
-				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "URL-friendly identifier. Only editable by staff users.",
 				Validators: []validator.String{
 					stringvalidator.RegexMatches(regexp.MustCompile(`^[-a-zA-Z0-9_]+$`), ""),
 				},
 			},
 			"staff_notes": schema.StringAttribute{
-				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Internal notes visible only to staff and support users (HTML content will be sanitized)",
 			},
 			"start_date": schema.StringAttribute{
-				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Project start date. Cannot be edited after the start date has arrived.",
 			},
 			"type": schema.StringAttribute{
-				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Type",
 			},
 			"type_name": schema.StringAttribute{

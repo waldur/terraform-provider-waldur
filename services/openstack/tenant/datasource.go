@@ -5,8 +5,11 @@ import (
 	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
+	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
+	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
@@ -47,7 +50,7 @@ func (d *OpenstackTenantDataSource) Schema(ctx context.Context, req datasource.S
 				MarkdownDescription: "Access url",
 			},
 			"availability_zone": schema.StringAttribute{
-				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Optional availability group. Will be used for all instances provisioned in this tenant",
 			},
 			"backend_id": schema.StringAttribute{
@@ -80,11 +83,11 @@ func (d *OpenstackTenantDataSource) Schema(ctx context.Context, req datasource.S
 				MarkdownDescription: "UUID of the customer",
 			},
 			"default_volume_type_name": schema.StringAttribute{
-				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Volume type name to use when creating volumes.",
 			},
 			"description": schema.StringAttribute{
-				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Description of the Openstack Tenant",
 			},
 			"error_message": schema.StringAttribute{
@@ -110,6 +113,11 @@ func (d *OpenstackTenantDataSource) Schema(ctx context.Context, req datasource.S
 			"is_usage_based": schema.BoolAttribute{
 				Computed:            true,
 				MarkdownDescription: "Is usage based",
+			},
+			"limits": schema.MapAttribute{
+				ElementType:         types.Float64Type,
+				Computed:            true,
+				MarkdownDescription: "Resource limits",
 			},
 			"marketplace_category_name": schema.StringAttribute{
 				Computed:            true,
@@ -145,11 +153,19 @@ func (d *OpenstackTenantDataSource) Schema(ctx context.Context, req datasource.S
 				MarkdownDescription: "Modified",
 			},
 			"name": schema.StringAttribute{
-				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Name of the Openstack Tenant",
 			},
+			"offering": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "Offering URL",
+			},
+			"plan": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "Plan URL",
+			},
 			"project": schema.StringAttribute{
-				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Project",
 			},
 			"project_name": schema.StringAttribute{
@@ -164,15 +180,15 @@ func (d *OpenstackTenantDataSource) Schema(ctx context.Context, req datasource.S
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"limit": schema.Int64Attribute{
-							Optional:            true,
+							Computed:            true,
 							MarkdownDescription: "Limit",
 						},
 						"name": schema.StringAttribute{
-							Optional:            true,
+							Computed:            true,
 							MarkdownDescription: "Name of the Openstack Tenant",
 						},
 						"usage": schema.Int64Attribute{
-							Optional:            true,
+							Computed:            true,
 							MarkdownDescription: "Usage",
 						},
 					},
@@ -184,12 +200,76 @@ func (d *OpenstackTenantDataSource) Schema(ctx context.Context, req datasource.S
 				Computed:            true,
 				MarkdownDescription: "Resource type",
 			},
+			"security_groups": schema.SetNestedAttribute{
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: map[string]schema.Attribute{
+						"description": schema.StringAttribute{
+							Computed:            true,
+							MarkdownDescription: "Description of the Openstack Tenant",
+						},
+						"name": schema.StringAttribute{
+							Computed:            true,
+							MarkdownDescription: "Name of the Openstack Tenant",
+						},
+						"rules": schema.ListNestedAttribute{
+							NestedObject: schema.NestedAttributeObject{
+								Attributes: map[string]schema.Attribute{
+									"cidr": schema.StringAttribute{
+										Computed:            true,
+										MarkdownDescription: "CIDR notation for the source/destination network address range",
+									},
+									"description": schema.StringAttribute{
+										Computed:            true,
+										MarkdownDescription: "Description of the Openstack Tenant",
+									},
+									"direction": schema.StringAttribute{
+										Computed:            true,
+										MarkdownDescription: "Traffic direction - either 'ingress' (incoming) or 'egress' (outgoing)",
+									},
+									"ethertype": schema.StringAttribute{
+										Computed:            true,
+										MarkdownDescription: "IP protocol version - either 'IPv4' or 'IPv6'",
+									},
+									"from_port": schema.Int64Attribute{
+										Computed:            true,
+										MarkdownDescription: "Starting port number in the range (1-65535)",
+										Validators: []validator.Int64{
+											int64validator.AtLeast(-2147483648),
+											int64validator.AtMost(65535),
+										},
+									},
+									"protocol": schema.StringAttribute{
+										Computed:            true,
+										MarkdownDescription: "The network protocol (TCP, UDP, ICMP, or empty for any protocol)",
+									},
+									"remote_group": schema.StringAttribute{
+										Computed:            true,
+										MarkdownDescription: "Remote security group that this rule references, if any",
+									},
+									"to_port": schema.Int64Attribute{
+										Computed:            true,
+										MarkdownDescription: "Ending port number in the range (1-65535)",
+										Validators: []validator.Int64{
+											int64validator.AtLeast(-2147483648),
+											int64validator.AtMost(65535),
+										},
+									},
+								},
+							},
+							Computed:            true,
+							MarkdownDescription: "Rules",
+						},
+					},
+				},
+				Computed:            true,
+				MarkdownDescription: "Security groups",
+			},
 			"service_name": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Name of the service",
 			},
 			"service_settings": schema.StringAttribute{
-				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Service settings",
 			},
 			"service_settings_error_message": schema.StringAttribute{
@@ -204,25 +284,37 @@ func (d *OpenstackTenantDataSource) Schema(ctx context.Context, req datasource.S
 				Computed:            true,
 				MarkdownDescription: "UUID of the service settings",
 			},
+			"skip_connection_extnet": schema.BoolAttribute{
+				Computed:            true,
+				MarkdownDescription: "Skip connection extnet",
+			},
 			"skip_creation_of_default_router": schema.BoolAttribute{
-				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Skip creation of default router",
+			},
+			"skip_creation_of_default_subnet": schema.BoolAttribute{
+				Computed:            true,
+				MarkdownDescription: "Skip creation of default subnet",
 			},
 			"state": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "State",
+			},
+			"subnet_cidr": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "Subnet cidr",
 			},
 			"url": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Url",
 			},
 			"user_password": schema.StringAttribute{
-				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Password of the tenant user",
 				Sensitive:           true,
 			},
 			"user_username": schema.StringAttribute{
-				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Username of the tenant user",
 			},
 		},

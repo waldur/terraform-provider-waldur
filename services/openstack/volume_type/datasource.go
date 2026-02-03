@@ -42,20 +42,20 @@ func (d *OpenstackVolumeTypeDataSource) Schema(ctx context.Context, req datasour
 			},
 			"filters": (&OpenstackVolumeTypeFiltersModel{}).GetSchema(),
 			"description": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Description of the Openstack Volume Type",
+				Computed:            true,
+				MarkdownDescription: " ",
 			},
 			"name": schema.StringAttribute{
-				Required:            true,
-				MarkdownDescription: "Name of the Openstack Volume Type",
+				Computed:            true,
+				MarkdownDescription: " ",
 			},
 			"settings": schema.StringAttribute{
-				Required:            true,
-				MarkdownDescription: "Settings",
+				Computed:            true,
+				MarkdownDescription: " ",
 			},
 			"url": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Url",
+				MarkdownDescription: " ",
 			},
 		},
 	}

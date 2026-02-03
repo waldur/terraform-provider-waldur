@@ -154,16 +154,22 @@ type OpenstackInstanceModel struct {
 	CustomerName                     types.String      `tfsdk:"customer_name"`
 	CustomerNativeName               types.String      `tfsdk:"customer_native_name"`
 	CustomerUuid                     types.String      `tfsdk:"customer_uuid"`
+	DataVolumeSize                   types.Int64       `tfsdk:"data_volume_size"`
+	DataVolumeType                   types.String      `tfsdk:"data_volume_type"`
+	DataVolumes                      types.List        `tfsdk:"data_volumes"`
+	DeleteVolumes                    types.Bool        `tfsdk:"delete_volumes"`
 	Description                      types.String      `tfsdk:"description"`
 	Disk                             types.Int64       `tfsdk:"disk"`
 	ErrorMessage                     types.String      `tfsdk:"error_message"`
 	ErrorTraceback                   types.String      `tfsdk:"error_traceback"`
 	ExternalAddress                  types.List        `tfsdk:"external_address"`
 	ExternalIps                      types.List        `tfsdk:"external_ips"`
+	Flavor                           types.String      `tfsdk:"flavor"`
 	FlavorDisk                       types.Int64       `tfsdk:"flavor_disk"`
 	FlavorName                       types.String      `tfsdk:"flavor_name"`
 	FloatingIps                      types.Set         `tfsdk:"floating_ips"`
 	HypervisorHostname               types.String      `tfsdk:"hypervisor_hostname"`
+	Image                            types.String      `tfsdk:"image"`
 	ImageName                        types.String      `tfsdk:"image_name"`
 	InternalIps                      types.List        `tfsdk:"internal_ips"`
 	IsLimitBased                     types.Bool        `tfsdk:"is_limit_based"`
@@ -171,6 +177,7 @@ type OpenstackInstanceModel struct {
 	KeyFingerprint                   types.String      `tfsdk:"key_fingerprint"`
 	KeyName                          types.String      `tfsdk:"key_name"`
 	Latitude                         types.Float64     `tfsdk:"latitude"`
+	Limits                           types.Map         `tfsdk:"limits"`
 	Longitude                        types.Float64     `tfsdk:"longitude"`
 	MarketplaceCategoryName          types.String      `tfsdk:"marketplace_category_name"`
 	MarketplaceCategoryUuid          types.String      `tfsdk:"marketplace_category_uuid"`
@@ -183,11 +190,14 @@ type OpenstackInstanceModel struct {
 	MinRam                           types.Int64       `tfsdk:"min_ram"`
 	Modified                         timetypes.RFC3339 `tfsdk:"modified"`
 	Name                             types.String      `tfsdk:"name"`
+	Offering                         types.String      `tfsdk:"offering"`
+	Plan                             types.String      `tfsdk:"plan"`
 	Ports                            types.List        `tfsdk:"ports"`
 	Project                          types.String      `tfsdk:"project"`
 	ProjectName                      types.String      `tfsdk:"project_name"`
 	ProjectUuid                      types.String      `tfsdk:"project_uuid"`
 	Ram                              types.Int64       `tfsdk:"ram"`
+	ReleaseFloatingIps               types.Bool        `tfsdk:"release_floating_ips"`
 	ResourceType                     types.String      `tfsdk:"resource_type"`
 	RuntimeState                     types.String      `tfsdk:"runtime_state"`
 	SecurityGroups                   types.Set         `tfsdk:"security_groups"`
@@ -197,8 +207,11 @@ type OpenstackInstanceModel struct {
 	ServiceSettingsErrorMessage      types.String      `tfsdk:"service_settings_error_message"`
 	ServiceSettingsState             types.String      `tfsdk:"service_settings_state"`
 	ServiceSettingsUuid              types.String      `tfsdk:"service_settings_uuid"`
+	SshPublicKey                     types.String      `tfsdk:"ssh_public_key"`
 	StartTime                        timetypes.RFC3339 `tfsdk:"start_time"`
 	State                            types.String      `tfsdk:"state"`
+	SystemVolumeSize                 types.Int64       `tfsdk:"system_volume_size"`
+	SystemVolumeType                 types.String      `tfsdk:"system_volume_type"`
 	Tenant                           types.String      `tfsdk:"tenant"`
 	TenantUuid                       types.String      `tfsdk:"tenant_uuid"`
 	Url                              types.String      `tfsdk:"url"`

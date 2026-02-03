@@ -208,7 +208,7 @@ func (r *OpenstackFloatingIpResource) Schema(ctx context.Context, req resource.S
 				MarkdownDescription: "State",
 			},
 			"tenant": schema.StringAttribute{
-				Required: true,
+				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
 				},

@@ -78,7 +78,7 @@ func (d *OpenstackNetworkDataSource) Schema(ctx context.Context, req datasource.
 				MarkdownDescription: "UUID of the customer",
 			},
 			"description": schema.StringAttribute{
-				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Description of the Openstack Network",
 			},
 			"error_message": schema.StringAttribute{
@@ -139,7 +139,7 @@ func (d *OpenstackNetworkDataSource) Schema(ctx context.Context, req datasource.
 				MarkdownDescription: "The maximum transmission unit (MTU) value to address fragmentation.",
 			},
 			"name": schema.StringAttribute{
-				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Name of the Openstack Network",
 			},
 			"project": schema.StringAttribute{
@@ -167,7 +167,7 @@ func (d *OpenstackNetworkDataSource) Schema(ctx context.Context, req datasource.
 							MarkdownDescription: "Created",
 						},
 						"network": schema.StringAttribute{
-							Optional:            true,
+							Computed:            true,
 							MarkdownDescription: "Network",
 						},
 						"network_name": schema.StringAttribute{
@@ -175,11 +175,11 @@ func (d *OpenstackNetworkDataSource) Schema(ctx context.Context, req datasource.
 							MarkdownDescription: "Name of the network",
 						},
 						"policy_type": schema.StringAttribute{
-							Optional:            true,
+							Computed:            true,
 							MarkdownDescription: "Type of access granted - either shared access or external network access",
 						},
 						"target_tenant": schema.StringAttribute{
-							Optional:            true,
+							Computed:            true,
 							MarkdownDescription: "Target tenant",
 						},
 						"target_tenant_name": schema.StringAttribute{
@@ -238,11 +238,11 @@ func (d *OpenstackNetworkDataSource) Schema(ctx context.Context, req datasource.
 							NestedObject: schema.NestedAttributeObject{
 								Attributes: map[string]schema.Attribute{
 									"end": schema.StringAttribute{
-										Optional:            true,
+										Computed:            true,
 										MarkdownDescription: "An IPv4 or IPv6 address.",
 									},
 									"start": schema.StringAttribute{
-										Optional:            true,
+										Computed:            true,
 										MarkdownDescription: "An IPv4 or IPv6 address.",
 									},
 								},
@@ -251,23 +251,23 @@ func (d *OpenstackNetworkDataSource) Schema(ctx context.Context, req datasource.
 							MarkdownDescription: "Allocation pools",
 						},
 						"cidr": schema.StringAttribute{
-							Optional:            true,
+							Computed:            true,
 							MarkdownDescription: "IPv4 network address in CIDR format (e.g. 192.168.0.0/24)",
 						},
 						"description": schema.StringAttribute{
-							Optional:            true,
+							Computed:            true,
 							MarkdownDescription: "Description of the Openstack Network",
 						},
 						"enable_dhcp": schema.BoolAttribute{
-							Optional:            true,
+							Computed:            true,
 							MarkdownDescription: "If True, DHCP service will be enabled on this subnet",
 						},
 						"gateway_ip": schema.StringAttribute{
-							Optional:            true,
+							Computed:            true,
 							MarkdownDescription: "IP address of the gateway for this subnet",
 						},
 						"ip_version": schema.Int64Attribute{
-							Optional:            true,
+							Computed:            true,
 							MarkdownDescription: "IP protocol version (4 or 6)",
 							Validators: []validator.Int64{
 								int64validator.AtLeast(-32768),
@@ -275,7 +275,7 @@ func (d *OpenstackNetworkDataSource) Schema(ctx context.Context, req datasource.
 							},
 						},
 						"name": schema.StringAttribute{
-							Optional:            true,
+							Computed:            true,
 							MarkdownDescription: "Name of the Openstack Network",
 						},
 						"uuid": schema.StringAttribute{
@@ -289,7 +289,7 @@ func (d *OpenstackNetworkDataSource) Schema(ctx context.Context, req datasource.
 			},
 			"tenant": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "OpenStack tenant this network belongs to",
+				MarkdownDescription: "Required path parameter for resource creation",
 			},
 			"tenant_name": schema.StringAttribute{
 				Computed:            true,

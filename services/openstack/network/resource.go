@@ -251,7 +251,7 @@ func (r *OpenstackNetworkResource) Schema(ctx context.Context, req resource.Sche
 				MarkdownDescription: "Subnets",
 			},
 			"tenant": schema.StringAttribute{
-				Required: true,
+				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
 				},

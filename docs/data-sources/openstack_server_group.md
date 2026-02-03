@@ -17,11 +17,8 @@ Openstack Server Group data source - lookup by name or UUID
 
 ### Optional
 
-- `description` (String) Description of the Openstack Server Group
 - `filters` (Attributes) Filter parameters for querying Openstack Server Group (see [below for nested schema](#nestedatt--filters))
 - `id` (String) Openstack Server Group UUID
-- `name` (String) Name of the Openstack Server Group
-- `policy` (String) Server group policy determining the rules for scheduling servers in this group
 
 ### Read-Only
 
@@ -33,6 +30,7 @@ Openstack Server Group data source - lookup by name or UUID
 - `customer_name` (String) Name of the customer
 - `customer_native_name` (String) Name of the customer native
 - `customer_uuid` (String) UUID of the customer
+- `description` (String) Description of the Openstack Server Group
 - `display_name` (String) Name of the display
 - `error_message` (String) Error message
 - `error_traceback` (String) Error traceback
@@ -47,6 +45,8 @@ Openstack Server Group data source - lookup by name or UUID
 - `marketplace_resource_state` (String) Marketplace resource state
 - `marketplace_resource_uuid` (String) UUID of the marketplace resource
 - `modified` (String) Modified
+- `name` (String) Name of the Openstack Server Group
+- `policy` (String) Server group policy determining the rules for scheduling servers in this group
 - `project` (String) Project
 - `project_name` (String) Name of the project
 - `project_uuid` (String) UUID of the project
@@ -57,7 +57,7 @@ Openstack Server Group data source - lookup by name or UUID
 - `service_settings_state` (String) Service settings state
 - `service_settings_uuid` (String) UUID of the service settings
 - `state` (String) State
-- `tenant` (String) Tenant
+- `tenant` (String) Required path parameter for resource creation
 - `tenant_name` (String) Name of the tenant
 - `tenant_uuid` (String) UUID of the tenant
 - `url` (String) Url
@@ -91,11 +91,8 @@ Optional:
 <a id="nestedatt--instances"></a>
 ### Nested Schema for `instances`
 
-Optional:
+Read-Only:
 
 - `backend_id` (String) Instance ID in the OpenStack backend
 - `name` (String) Name of the Openstack Server Group
-
-Read-Only:
-
 - `uuid` (String) UUID of the Openstack Server Group

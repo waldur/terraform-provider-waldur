@@ -17,11 +17,8 @@ Openstack Security Group data source - lookup by name or UUID
 
 ### Optional
 
-- `description` (String) Description of the Openstack Security Group
 - `filters` (Attributes) Filter parameters for querying Openstack Security Group (see [below for nested schema](#nestedatt--filters))
 - `id` (String) Openstack Security Group UUID
-- `name` (String) Name of the Openstack Security Group
-- `rules` (Attributes List) Rules (see [below for nested schema](#nestedatt--rules))
 
 ### Read-Only
 
@@ -33,6 +30,7 @@ Openstack Security Group data source - lookup by name or UUID
 - `customer_name` (String) Name of the customer
 - `customer_native_name` (String) Name of the customer native
 - `customer_uuid` (String) UUID of the customer
+- `description` (String) Description of the Openstack Security Group
 - `error_message` (String) Error message
 - `error_traceback` (String) Error traceback
 - `is_limit_based` (Boolean) Is limit based
@@ -45,17 +43,19 @@ Openstack Security Group data source - lookup by name or UUID
 - `marketplace_resource_state` (String) Marketplace resource state
 - `marketplace_resource_uuid` (String) UUID of the marketplace resource
 - `modified` (String) Modified
+- `name` (String) Name of the Openstack Security Group
 - `project` (String) Project
 - `project_name` (String) Name of the project
 - `project_uuid` (String) UUID of the project
 - `resource_type` (String) Resource type
+- `rules` (Attributes List) Rules (see [below for nested schema](#nestedatt--rules))
 - `service_name` (String) Name of the service
 - `service_settings` (String) Service settings
 - `service_settings_error_message` (String) Service settings error message
 - `service_settings_state` (String) Service settings state
 - `service_settings_uuid` (String) UUID of the service settings
 - `state` (String) State
-- `tenant` (String) Tenant
+- `tenant` (String) Required path parameter for resource creation
 - `tenant_name` (String) Name of the tenant
 - `tenant_uuid` (String) UUID of the tenant
 - `url` (String) Url
@@ -90,19 +90,16 @@ Optional:
 <a id="nestedatt--rules"></a>
 ### Nested Schema for `rules`
 
-Optional:
+Read-Only:
 
 - `cidr` (String) CIDR notation for the source/destination network address range
 - `description` (String) Description of the Openstack Security Group
 - `direction` (String) Traffic direction - either 'ingress' (incoming) or 'egress' (outgoing)
 - `ethertype` (String) IP protocol version - either 'IPv4' or 'IPv6'
 - `from_port` (Number) Starting port number in the range (1-65535)
+- `id` (Number) Id
 - `protocol` (String) The network protocol (TCP, UDP, ICMP, or empty for any protocol)
 - `remote_group` (String) Remote security group that this rule references, if any
-- `to_port` (Number) Ending port number in the range (1-65535)
-
-Read-Only:
-
-- `id` (Number) Id
 - `remote_group_name` (String) Name of the remote group
 - `remote_group_uuid` (String) UUID of the remote group
+- `to_port` (Number) Ending port number in the range (1-65535)

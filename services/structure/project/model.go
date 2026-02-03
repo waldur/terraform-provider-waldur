@@ -147,8 +147,12 @@ func (model *StructureProjectModel) CopyFrom(ctx context.Context, apiResp Struct
 	diags.Append(diagsCreated...)
 	model.Created = valCreated
 	model.Customer = common.StringPointerValue(apiResp.Customer)
+	model.CustomerAbbreviation = common.StringPointerValue(apiResp.CustomerAbbreviation)
 	model.CustomerDisplayBillingInfoInProjects = types.BoolPointerValue(apiResp.CustomerDisplayBillingInfoInProjects)
+	model.CustomerName = common.StringPointerValue(apiResp.CustomerName)
+	model.CustomerNativeName = common.StringPointerValue(apiResp.CustomerNativeName)
 	model.CustomerSlug = common.StringPointerValue(apiResp.CustomerSlug)
+	model.CustomerUuid = common.StringPointerValue(apiResp.CustomerUuid)
 	model.Description = common.StringPointerValue(apiResp.Description)
 	model.EndDate = common.StringPointerValue(apiResp.EndDate)
 	model.EndDateRequestedBy = common.StringPointerValue(apiResp.EndDateRequestedBy)

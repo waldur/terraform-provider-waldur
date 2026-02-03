@@ -19,18 +19,18 @@ Core Ssh Public Key data source - lookup by name or UUID
 
 - `filters` (Attributes) Filter parameters for querying Core Ssh Public Key (see [below for nested schema](#nestedatt--filters))
 - `id` (String) Core Ssh Public Key UUID
-- `name` (String) Name of the Core Ssh Public Key
-- `public_key` (String) Public key
 
 ### Read-Only
 
-- `fingerprint_md5` (String) Fingerprint md5
-- `fingerprint_sha256` (String) Fingerprint sha256
-- `fingerprint_sha512` (String) Fingerprint sha512
-- `is_shared` (Boolean) Is shared
-- `type` (String) Type
-- `url` (String) Url
-- `user_uuid` (String) UUID of the user
+- `fingerprint_md5` (String)
+- `fingerprint_sha256` (String)
+- `fingerprint_sha512` (String)
+- `is_shared` (Boolean)
+- `name` (String)
+- `public_key` (String)
+- `type` (String)
+- `url` (String)
+- `user_uuid` (String)
 
 <a id="nestedatt--filters"></a>
 ### Nested Schema for `filters`
@@ -38,10 +38,10 @@ Core Ssh Public Key data source - lookup by name or UUID
 Optional:
 
 - `created` (String) Created after
-- `fingerprint_md5` (String) Fingerprint md5
-- `fingerprint_sha256` (String) Fingerprint sha256
-- `fingerprint_sha512` (String) Fingerprint sha512
-- `is_shared` (Boolean) Is shared
+- `fingerprint_md5` (String)
+- `fingerprint_sha256` (String)
+- `fingerprint_sha512` (String)
+- `is_shared` (Boolean)
 - `modified` (String) Modified after
 - `name` (String) Name
 - `name_exact` (String) Name (exact)

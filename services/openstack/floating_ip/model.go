@@ -170,6 +170,7 @@ type OpenstackFloatingIpModel struct {
 	ProjectName                 types.String      `tfsdk:"project_name"`
 	ProjectUuid                 types.String      `tfsdk:"project_uuid"`
 	ResourceType                types.String      `tfsdk:"resource_type"`
+	Router                      types.String      `tfsdk:"router"`
 	RuntimeState                types.String      `tfsdk:"runtime_state"`
 	ServiceName                 types.String      `tfsdk:"service_name"`
 	ServiceSettings             types.String      `tfsdk:"service_settings"`
@@ -195,6 +196,11 @@ func (model *OpenstackFloatingIpModel) CopyFrom(ctx context.Context, apiResp Ope
 	valCreated, diagsCreated := timetypes.NewRFC3339PointerValue(apiResp.Created)
 	diags.Append(diagsCreated...)
 	model.Created = valCreated
+	model.Customer = common.StringPointerValue(apiResp.Customer)
+	model.CustomerAbbreviation = common.StringPointerValue(apiResp.CustomerAbbreviation)
+	model.CustomerName = common.StringPointerValue(apiResp.CustomerName)
+	model.CustomerNativeName = common.StringPointerValue(apiResp.CustomerNativeName)
+	model.CustomerUuid = common.StringPointerValue(apiResp.CustomerUuid)
 	model.Description = common.StringPointerValue(apiResp.Description)
 	model.ErrorMessage = common.StringPointerValue(apiResp.ErrorMessage)
 	model.ErrorTraceback = common.StringPointerValue(apiResp.ErrorTraceback)
@@ -202,6 +208,15 @@ func (model *OpenstackFloatingIpModel) CopyFrom(ctx context.Context, apiResp Ope
 	model.InstanceName = common.StringPointerValue(apiResp.InstanceName)
 	model.InstanceUrl = common.StringPointerValue(apiResp.InstanceUrl)
 	model.InstanceUuid = common.StringPointerValue(apiResp.InstanceUuid)
+	model.IsLimitBased = types.BoolPointerValue(apiResp.IsLimitBased)
+	model.IsUsageBased = types.BoolPointerValue(apiResp.IsUsageBased)
+	model.MarketplaceCategoryName = common.StringPointerValue(apiResp.MarketplaceCategoryName)
+	model.MarketplaceCategoryUuid = common.StringPointerValue(apiResp.MarketplaceCategoryUuid)
+	model.MarketplaceOfferingName = common.StringPointerValue(apiResp.MarketplaceOfferingName)
+	model.MarketplaceOfferingUuid = common.StringPointerValue(apiResp.MarketplaceOfferingUuid)
+	model.MarketplacePlanUuid = common.StringPointerValue(apiResp.MarketplacePlanUuid)
+	model.MarketplaceResourceState = common.StringPointerValue(apiResp.MarketplaceResourceState)
+	model.MarketplaceResourceUuid = common.StringPointerValue(apiResp.MarketplaceResourceUuid)
 	valModified, diagsModified := timetypes.NewRFC3339PointerValue(apiResp.Modified)
 	diags.Append(diagsModified...)
 	model.Modified = valModified
@@ -216,8 +231,16 @@ func (model *OpenstackFloatingIpModel) CopyFrom(ctx context.Context, apiResp Ope
 		diags.Append(listDiagsPortFixedIps...)
 		model.PortFixedIps = listValPortFixedIps
 	}
+	model.Project = common.StringPointerValue(apiResp.Project)
+	model.ProjectName = common.StringPointerValue(apiResp.ProjectName)
+	model.ProjectUuid = common.StringPointerValue(apiResp.ProjectUuid)
 	model.ResourceType = common.StringPointerValue(apiResp.ResourceType)
 	model.RuntimeState = common.StringPointerValue(apiResp.RuntimeState)
+	model.ServiceName = common.StringPointerValue(apiResp.ServiceName)
+	model.ServiceSettings = common.StringPointerValue(apiResp.ServiceSettings)
+	model.ServiceSettingsErrorMessage = common.StringPointerValue(apiResp.ServiceSettingsErrorMessage)
+	model.ServiceSettingsState = common.StringPointerValue(apiResp.ServiceSettingsState)
+	model.ServiceSettingsUuid = common.StringPointerValue(apiResp.ServiceSettingsUuid)
 	model.State = common.StringPointerValue(apiResp.State)
 	model.Tenant = common.StringPointerValue(apiResp.Tenant)
 	model.TenantName = common.StringPointerValue(apiResp.TenantName)

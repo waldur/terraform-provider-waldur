@@ -9,6 +9,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
+	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
@@ -53,7 +54,7 @@ func (d *OpenstackVolumeDataSource) Schema(ctx context.Context, req datasource.S
 				MarkdownDescription: "Action",
 			},
 			"availability_zone": schema.StringAttribute{
-				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Availability zone where this volume is located",
 			},
 			"availability_zone_name": schema.StringAttribute{
@@ -65,7 +66,7 @@ func (d *OpenstackVolumeDataSource) Schema(ctx context.Context, req datasource.S
 				MarkdownDescription: "Volume ID in the OpenStack backend",
 			},
 			"bootable": schema.BoolAttribute{
-				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Indicates if this volume can be used to boot an instance",
 			},
 			"created": schema.StringAttribute{
@@ -94,7 +95,7 @@ func (d *OpenstackVolumeDataSource) Schema(ctx context.Context, req datasource.S
 				MarkdownDescription: "UUID of the customer",
 			},
 			"description": schema.StringAttribute{
-				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Description of the Openstack Volume",
 			},
 			"device": schema.StringAttribute{
@@ -114,7 +115,7 @@ func (d *OpenstackVolumeDataSource) Schema(ctx context.Context, req datasource.S
 				MarkdownDescription: "Extend enabled",
 			},
 			"image": schema.StringAttribute{
-				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Image that this volume was created from, if any",
 			},
 			"image_metadata": schema.StringAttribute{
@@ -144,6 +145,11 @@ func (d *OpenstackVolumeDataSource) Schema(ctx context.Context, req datasource.S
 			"is_usage_based": schema.BoolAttribute{
 				Computed:            true,
 				MarkdownDescription: "Is usage based",
+			},
+			"limits": schema.MapAttribute{
+				ElementType:         types.Float64Type,
+				Computed:            true,
+				MarkdownDescription: "Resource limits",
 			},
 			"marketplace_category_name": schema.StringAttribute{
 				Computed:            true,
@@ -179,11 +185,19 @@ func (d *OpenstackVolumeDataSource) Schema(ctx context.Context, req datasource.S
 				MarkdownDescription: "Modified",
 			},
 			"name": schema.StringAttribute{
-				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Name of the Openstack Volume",
 			},
+			"offering": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "Offering URL",
+			},
+			"plan": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "Plan URL",
+			},
 			"project": schema.StringAttribute{
-				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Project",
 			},
 			"project_name": schema.StringAttribute{
@@ -223,7 +237,7 @@ func (d *OpenstackVolumeDataSource) Schema(ctx context.Context, req datasource.S
 				MarkdownDescription: "UUID of the service settings",
 			},
 			"size": schema.Int64Attribute{
-				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Size in MiB",
 				Validators: []validator.Int64{
 					int64validator.AtLeast(0),
@@ -239,7 +253,7 @@ func (d *OpenstackVolumeDataSource) Schema(ctx context.Context, req datasource.S
 				MarkdownDescription: "State",
 			},
 			"tenant": schema.StringAttribute{
-				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Tenant",
 			},
 			"tenant_uuid": schema.StringAttribute{
@@ -247,7 +261,7 @@ func (d *OpenstackVolumeDataSource) Schema(ctx context.Context, req datasource.S
 				MarkdownDescription: "UUID of the tenant",
 			},
 			"type": schema.StringAttribute{
-				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Type of the volume (e.g. SSD, HDD)",
 			},
 			"type_name": schema.StringAttribute{

@@ -22,11 +22,11 @@ type OpenstackVolumeUpdateRequest struct {
 	Name        *string `json:"name,omitempty"`
 }
 
-type OpenstackVolumeExtendActionRequest struct {
-	Size *int64 `json:"size"`
-}
 type OpenstackVolumeRetypeActionRequest struct {
 	Type *string `json:"type"`
+}
+type OpenstackVolumeExtendActionRequest struct {
+	Size *int64 `json:"size"`
 }
 
 type OpenstackVolumeResponse struct {

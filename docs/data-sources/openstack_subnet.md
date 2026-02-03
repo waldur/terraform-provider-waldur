@@ -17,30 +17,29 @@ Openstack Subnet data source - lookup by name or UUID
 
 ### Optional
 
-- `allocation_pools` (Attributes List) Allocation pools (see [below for nested schema](#nestedatt--allocation_pools))
-- `cidr` (String) Cidr
-- `description` (String) Description of the Openstack Subnet
-- `disable_gateway` (Boolean) If True, no gateway IP address will be allocated
-- `dns_nameservers` (List of String) Dns nameservers
 - `filters` (Attributes) Filter parameters for querying Openstack Subnet (see [below for nested schema](#nestedatt--filters))
-- `gateway_ip` (String) IP address of the gateway for this subnet
-- `host_routes` (Attributes List) Host routes (see [below for nested schema](#nestedatt--host_routes))
 - `id` (String) Openstack Subnet UUID
-- `name` (String) Name of the Openstack Subnet
 
 ### Read-Only
 
 - `access_url` (String) Access url
+- `allocation_pools` (Attributes List) Allocation pools (see [below for nested schema](#nestedatt--allocation_pools))
 - `backend_id` (String) ID of the backend
+- `cidr` (String) Cidr
 - `created` (String) Created
 - `customer` (String) Customer
 - `customer_abbreviation` (String) Customer abbreviation
 - `customer_name` (String) Name of the customer
 - `customer_native_name` (String) Name of the customer native
 - `customer_uuid` (String) UUID of the customer
+- `description` (String) Description of the Openstack Subnet
+- `disable_gateway` (Boolean) If True, no gateway IP address will be allocated
+- `dns_nameservers` (List of String) Dns nameservers
 - `enable_dhcp` (Boolean) If True, DHCP service will be enabled on this subnet
 - `error_message` (String) Error message
 - `error_traceback` (String) Error traceback
+- `gateway_ip` (String) IP address of the gateway for this subnet
+- `host_routes` (Attributes List) Host routes (see [below for nested schema](#nestedatt--host_routes))
 - `ip_version` (Number) IP protocol version (4 or 6)
 - `is_connected` (Boolean) Is subnet connected to the default tenant router.
 - `is_limit_based` (Boolean) Is limit based
@@ -53,7 +52,8 @@ Openstack Subnet data source - lookup by name or UUID
 - `marketplace_resource_state` (String) Marketplace resource state
 - `marketplace_resource_uuid` (String) UUID of the marketplace resource
 - `modified` (String) Modified
-- `network` (String) Network to which this subnet belongs
+- `name` (String) Name of the Openstack Subnet
+- `network` (String) Required path parameter for resource creation
 - `network_name` (String) Name of the network
 - `project` (String) Project
 - `project_name` (String) Name of the project
@@ -68,15 +68,6 @@ Openstack Subnet data source - lookup by name or UUID
 - `tenant` (String) Tenant
 - `tenant_name` (String) Name of the tenant
 - `url` (String) Url
-
-<a id="nestedatt--allocation_pools"></a>
-### Nested Schema for `allocation_pools`
-
-Optional:
-
-- `end` (String) An IPv4 or IPv6 address.
-- `start` (String) An IPv4 or IPv6 address.
-
 
 <a id="nestedatt--filters"></a>
 ### Nested Schema for `filters`
@@ -110,10 +101,19 @@ Optional:
 - `uuid` (String) UUID
 
 
+<a id="nestedatt--allocation_pools"></a>
+### Nested Schema for `allocation_pools`
+
+Read-Only:
+
+- `end` (String) An IPv4 or IPv6 address.
+- `start` (String) An IPv4 or IPv6 address.
+
+
 <a id="nestedatt--host_routes"></a>
 ### Nested Schema for `host_routes`
 
-Optional:
+Read-Only:
 
 - `destination` (String) Destination
 - `nexthop` (String) An IPv4 or IPv6 address.

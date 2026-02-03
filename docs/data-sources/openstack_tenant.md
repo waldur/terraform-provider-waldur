@@ -17,21 +17,13 @@ Openstack Tenant data source - lookup by name or UUID
 
 ### Optional
 
-- `availability_zone` (String) Optional availability group. Will be used for all instances provisioned in this tenant
-- `default_volume_type_name` (String) Volume type name to use when creating volumes.
-- `description` (String) Description of the Openstack Tenant
 - `filters` (Attributes) Filter parameters for querying Openstack Tenant (see [below for nested schema](#nestedatt--filters))
 - `id` (String) Openstack Tenant UUID
-- `name` (String) Name of the Openstack Tenant
-- `project` (String) Project
-- `service_settings` (String) Service settings
-- `skip_creation_of_default_router` (Boolean) Skip creation of default router
-- `user_password` (String, Sensitive) Password of the tenant user
-- `user_username` (String) Username of the tenant user
 
 ### Read-Only
 
 - `access_url` (String) Access url
+- `availability_zone` (String) Optional availability group. Will be used for all instances provisioned in this tenant
 - `backend_id` (String) ID of tenant in the OpenStack backend
 - `created` (String) Created
 - `customer` (String) Customer
@@ -39,12 +31,15 @@ Openstack Tenant data source - lookup by name or UUID
 - `customer_name` (String) Name of the customer
 - `customer_native_name` (String) Name of the customer native
 - `customer_uuid` (String) UUID of the customer
+- `default_volume_type_name` (String) Volume type name to use when creating volumes.
+- `description` (String) Description of the Openstack Tenant
 - `error_message` (String) Error message
 - `error_traceback` (String) Error traceback
 - `external_network_id` (String) ID of external network connected to OpenStack tenant
 - `internal_network_id` (String) ID of internal network in OpenStack tenant
 - `is_limit_based` (Boolean) Is limit based
 - `is_usage_based` (Boolean) Is usage based
+- `limits` (Map of Number) Resource limits
 - `marketplace_category_name` (String) Name of the marketplace category
 - `marketplace_category_uuid` (String) UUID of the marketplace category
 - `marketplace_offering_name` (String) Name of the marketplace offering
@@ -53,16 +48,28 @@ Openstack Tenant data source - lookup by name or UUID
 - `marketplace_resource_state` (String) Marketplace resource state
 - `marketplace_resource_uuid` (String) UUID of the marketplace resource
 - `modified` (String) Modified
+- `name` (String) Name of the Openstack Tenant
+- `offering` (String) Offering URL
+- `plan` (String) Plan URL
+- `project` (String) Project
 - `project_name` (String) Name of the project
 - `project_uuid` (String) UUID of the project
 - `quotas` (Attributes List) Quotas (see [below for nested schema](#nestedatt--quotas))
 - `resource_type` (String) Resource type
+- `security_groups` (Attributes Set) Security groups (see [below for nested schema](#nestedatt--security_groups))
 - `service_name` (String) Name of the service
+- `service_settings` (String) Service settings
 - `service_settings_error_message` (String) Service settings error message
 - `service_settings_state` (String) Service settings state
 - `service_settings_uuid` (String) UUID of the service settings
+- `skip_connection_extnet` (Boolean) Skip connection extnet
+- `skip_creation_of_default_router` (Boolean) Skip creation of default router
+- `skip_creation_of_default_subnet` (Boolean) Skip creation of default subnet
 - `state` (String) State
+- `subnet_cidr` (String) Subnet cidr
 - `url` (String) Url
+- `user_password` (String, Sensitive) Password of the tenant user
+- `user_username` (String) Username of the tenant user
 
 <a id="nestedatt--filters"></a>
 ### Nested Schema for `filters`
@@ -91,8 +98,32 @@ Optional:
 <a id="nestedatt--quotas"></a>
 ### Nested Schema for `quotas`
 
-Optional:
+Read-Only:
 
 - `limit` (Number) Limit
 - `name` (String) Name of the Openstack Tenant
 - `usage` (Number) Usage
+
+
+<a id="nestedatt--security_groups"></a>
+### Nested Schema for `security_groups`
+
+Read-Only:
+
+- `description` (String) Description of the Openstack Tenant
+- `name` (String) Name of the Openstack Tenant
+- `rules` (Attributes List) Rules (see [below for nested schema](#nestedatt--security_groups--rules))
+
+<a id="nestedatt--security_groups--rules"></a>
+### Nested Schema for `security_groups.rules`
+
+Read-Only:
+
+- `cidr` (String) CIDR notation for the source/destination network address range
+- `description` (String) Description of the Openstack Tenant
+- `direction` (String) Traffic direction - either 'ingress' (incoming) or 'egress' (outgoing)
+- `ethertype` (String) IP protocol version - either 'IPv4' or 'IPv6'
+- `from_port` (Number) Starting port number in the range (1-65535)
+- `protocol` (String) The network protocol (TCP, UDP, ICMP, or empty for any protocol)
+- `remote_group` (String) Remote security group that this rule references, if any
+- `to_port` (Number) Ending port number in the range (1-65535)

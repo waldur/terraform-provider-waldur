@@ -51,16 +51,16 @@ func (d *OpenstackSubnetDataSource) Schema(ctx context.Context, req datasource.S
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"end": schema.StringAttribute{
-							Optional:            true,
+							Computed:            true,
 							MarkdownDescription: "An IPv4 or IPv6 address.",
 						},
 						"start": schema.StringAttribute{
-							Optional:            true,
+							Computed:            true,
 							MarkdownDescription: "An IPv4 or IPv6 address.",
 						},
 					},
 				},
-				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Allocation pools",
 			},
 			"backend_id": schema.StringAttribute{
@@ -68,7 +68,7 @@ func (d *OpenstackSubnetDataSource) Schema(ctx context.Context, req datasource.S
 				MarkdownDescription: "ID of the backend",
 			},
 			"cidr": schema.StringAttribute{
-				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Cidr",
 			},
 			"created": schema.StringAttribute{
@@ -97,16 +97,16 @@ func (d *OpenstackSubnetDataSource) Schema(ctx context.Context, req datasource.S
 				MarkdownDescription: "UUID of the customer",
 			},
 			"description": schema.StringAttribute{
-				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Description of the Openstack Subnet",
 			},
 			"disable_gateway": schema.BoolAttribute{
-				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "If True, no gateway IP address will be allocated",
 			},
 			"dns_nameservers": schema.ListAttribute{
 				ElementType:         types.StringType,
-				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Dns nameservers",
 			},
 			"enable_dhcp": schema.BoolAttribute{
@@ -122,23 +122,23 @@ func (d *OpenstackSubnetDataSource) Schema(ctx context.Context, req datasource.S
 				MarkdownDescription: "Error traceback",
 			},
 			"gateway_ip": schema.StringAttribute{
-				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "IP address of the gateway for this subnet",
 			},
 			"host_routes": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"destination": schema.StringAttribute{
-							Optional:            true,
+							Computed:            true,
 							MarkdownDescription: "Destination",
 						},
 						"nexthop": schema.StringAttribute{
-							Optional:            true,
+							Computed:            true,
 							MarkdownDescription: "An IPv4 or IPv6 address.",
 						},
 					},
 				},
-				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Host routes",
 			},
 			"ip_version": schema.Int64Attribute{
@@ -191,12 +191,12 @@ func (d *OpenstackSubnetDataSource) Schema(ctx context.Context, req datasource.S
 				MarkdownDescription: "Modified",
 			},
 			"name": schema.StringAttribute{
-				Optional:            true,
+				Computed:            true,
 				MarkdownDescription: "Name of the Openstack Subnet",
 			},
 			"network": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Network to which this subnet belongs",
+				MarkdownDescription: "Required path parameter for resource creation",
 			},
 			"network_name": schema.StringAttribute{
 				Computed:            true,

@@ -34,19 +34,19 @@ func (m *CoreSshPublicKeyFiltersModel) GetSchema() schema.SingleNestedAttribute 
 			},
 			"fingerprint_md5": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "Fingerprint md5",
+				MarkdownDescription: " ",
 			},
 			"fingerprint_sha256": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "Fingerprint sha256",
+				MarkdownDescription: " ",
 			},
 			"fingerprint_sha512": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "Fingerprint sha512",
+				MarkdownDescription: " ",
 			},
 			"is_shared": schema.BoolAttribute{
 				Optional:            true,
-				MarkdownDescription: "Is shared",
+				MarkdownDescription: " ",
 			},
 			"modified": schema.StringAttribute{
 				Optional:            true,
