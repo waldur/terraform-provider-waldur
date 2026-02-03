@@ -61,13 +61,13 @@ func (c *Client) ListMarketplaceResource(ctx context.Context, filter map[string]
 	return listResult, nil
 }
 
-func (c *Client) MarketplaceResourceUpdateOptions(ctx context.Context, id string, req *MarketplaceResourceUpdateOptionsActionRequest) error {
-	path := "/api/marketplace-resources/{uuid}/update_options/"
+func (c *Client) MarketplaceResourceUpdateLimits(ctx context.Context, id string, req *MarketplaceResourceUpdateLimitsActionRequest) error {
+	path := "/api/marketplace-resources/{uuid}/update_limits/"
 	err := c.Client.ExecuteAction(ctx, path, id, req, nil)
 	return err
 }
-func (c *Client) MarketplaceResourceUpdateLimits(ctx context.Context, id string, req *MarketplaceResourceUpdateLimitsActionRequest) error {
-	path := "/api/marketplace-resources/{uuid}/update_limits/"
+func (c *Client) MarketplaceResourceUpdateOptions(ctx context.Context, id string, req *MarketplaceResourceUpdateOptionsActionRequest) error {
+	path := "/api/marketplace-resources/{uuid}/update_options/"
 	err := c.Client.ExecuteAction(ctx, path, id, req, nil)
 	return err
 }

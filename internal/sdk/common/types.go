@@ -490,6 +490,7 @@ type OrganizationGroup struct {
 	ParentName     *string `json:"parent_name,omitempty" tfsdk:"parent_name"`
 	ParentUuid     *string `json:"parent_uuid,omitempty" tfsdk:"parent_uuid"`
 	Url            *string `json:"url,omitempty" tfsdk:"url"`
+	Uuid           *string `json:"uuid,omitempty" tfsdk:"uuid"`
 }
 
 type PaymentProfile struct {
