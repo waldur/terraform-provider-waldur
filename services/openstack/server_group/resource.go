@@ -110,6 +110,10 @@ func (r *OpenstackServerGroupResource) Schema(ctx context.Context, req resource.
 							Optional:            true,
 							MarkdownDescription: "Name of the Openstack Server Group",
 						},
+						"uuid": schema.StringAttribute{
+							Computed:            true,
+							MarkdownDescription: "UUID of the Openstack Server Group",
+						},
 					},
 				},
 				Computed: true,

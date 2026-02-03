@@ -252,6 +252,10 @@ func (r *StructureCustomerResource) Schema(ctx context.Context, req resource.Sch
 							Computed:            true,
 							MarkdownDescription: "Url",
 						},
+						"uuid": schema.StringAttribute{
+							Computed:            true,
+							MarkdownDescription: "UUID of the Structure Customer",
+						},
 					},
 				},
 				Computed: true,
@@ -311,6 +315,10 @@ func (r *StructureCustomerResource) Schema(ctx context.Context, req resource.Sch
 						"url": schema.StringAttribute{
 							Computed:            true,
 							MarkdownDescription: "Url",
+						},
+						"uuid": schema.StringAttribute{
+							Computed:            true,
+							MarkdownDescription: "UUID of the Structure Customer",
 						},
 					},
 				},

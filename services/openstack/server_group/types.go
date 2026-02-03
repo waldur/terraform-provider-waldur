@@ -1,15 +1,15 @@
 package server_group
 
 type OpenstackServerGroupCreateRequest struct {
-	Description *string `json:"description,omitempty" tfsdk:"description"`
-	Name        *string `json:"name" tfsdk:"name"`
-	Policy      *string `json:"policy,omitempty" tfsdk:"policy"`
+	Description *string `json:"description,omitempty"`
+	Name        *string `json:"name"`
+	Policy      *string `json:"policy,omitempty"`
 }
 
 type OpenstackServerGroupUpdateRequest struct {
-	Description *string `json:"description,omitempty" tfsdk:"description"`
-	Name        *string `json:"name,omitempty" tfsdk:"name"`
-	Policy      *string `json:"policy,omitempty" tfsdk:"policy"`
+	Description *string `json:"description,omitempty"`
+	Name        *string `json:"name,omitempty"`
+	Policy      *string `json:"policy,omitempty"`
 }
 
 type OpenstackServerGroupResponse struct {
@@ -59,6 +59,7 @@ type OpenstackServerGroupResponse struct {
 type OpenstackServerGroupInstancesResponse struct {
 	BackendId *string `json:"backend_id" tfsdk:"backend_id"`
 	Name      *string `json:"name" tfsdk:"name"`
+	Uuid      *string `json:"uuid" tfsdk:"uuid"`
 }
 
 func (r *OpenstackServerGroupResponse) GetState() string {

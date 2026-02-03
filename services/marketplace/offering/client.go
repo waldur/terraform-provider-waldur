@@ -34,33 +34,18 @@ func IsNotFoundError(err error) bool {
 	return common.IsNotFoundError(err)
 }
 
-func (c *Client) CreateMarketplaceOffering(ctx context.Context, req *MarketplaceOfferingCreateRequest) (*MarketplaceOfferingResponse, error) {
-	var apiResp MarketplaceOfferingResponse
-	path := "/api/marketplace-provider-offerings/"
-
-	err := c.Client.Post(ctx, path, req, &apiResp)
-	if err != nil {
-		return nil, err
-	}
-	return &apiResp, nil
-}
-
 func (c *Client) GetMarketplaceOffering(ctx context.Context, id string) (*MarketplaceOfferingResponse, error) {
 	var apiResp MarketplaceOfferingResponse
-	err := c.Client.Get(ctx, "/api/marketplace-provider-offerings/{uuid}/", id, &apiResp)
+	err := c.Client.Get(ctx, "/api/marketplace-public-offerings/{uuid}/", id, &apiResp)
 	if err != nil {
 		return nil, err
 	}
 	return &apiResp, nil
-}
-
-func (c *Client) DeleteMarketplaceOffering(ctx context.Context, id string) error {
-	return c.Client.Delete(ctx, "/api/marketplace-provider-offerings/{uuid}/", id)
 }
 
 func (c *Client) ListMarketplaceOffering(ctx context.Context, filter map[string]string) ([]MarketplaceOfferingResponse, error) {
 	var listResult []MarketplaceOfferingResponse
-	err := c.Client.List(ctx, "/api/marketplace-provider-offerings/", filter, &listResult)
+	err := c.Client.List(ctx, "/api/marketplace-public-offerings/", filter, &listResult)
 	if err != nil {
 		return nil, err
 	}

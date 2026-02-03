@@ -5,42 +5,44 @@ import (
 )
 
 type OpenstackInstanceCreateRequest struct {
-	Project    *string                           `json:"project" tfsdk:"project"`
-	Offering   *string                           `json:"offering" tfsdk:"offering"`
-	Attributes OpenstackInstanceCreateAttributes `json:"attributes" tfsdk:"attributes"`
+	Project    *string                           `json:"project"`
+	Offering   *string                           `json:"offering"`
+	Plan       *string                           `json:"plan,omitempty"`
+	Limits     map[string]float64                `json:"limits,omitempty"`
+	Attributes OpenstackInstanceCreateAttributes `json:"attributes"`
 }
 type OpenstackInstanceCreateAttributes struct {
-	AvailabilityZone                 *string                                          `json:"availability_zone,omitempty" tfsdk:"availability_zone"`
-	ConnectDirectlyToExternalNetwork *bool                                            `json:"connect_directly_to_external_network,omitempty" tfsdk:"connect_directly_to_external_network"`
-	DataVolumeSize                   *int64                                           `json:"data_volume_size,omitempty" tfsdk:"data_volume_size"`
-	DataVolumeType                   *string                                          `json:"data_volume_type,omitempty" tfsdk:"data_volume_type"`
-	DataVolumes                      *[]common.OpenStackDataVolumeRequest             `json:"data_volumes,omitempty" tfsdk:"data_volumes"`
-	Description                      *string                                          `json:"description,omitempty" tfsdk:"description"`
-	Flavor                           *string                                          `json:"flavor,omitempty" tfsdk:"flavor"`
-	FloatingIps                      *[]common.OpenStackCreateFloatingIPRequest       `json:"floating_ips,omitempty" tfsdk:"floating_ips"`
-	Image                            *string                                          `json:"image,omitempty" tfsdk:"image"`
-	Name                             *string                                          `json:"name,omitempty" tfsdk:"name"`
-	Ports                            *[]common.OpenStackCreateInstancePortRequest     `json:"ports,omitempty" tfsdk:"ports"`
-	SecurityGroups                   *[]common.OpenStackSecurityGroupHyperlinkRequest `json:"security_groups,omitempty" tfsdk:"security_groups"`
-	SshPublicKey                     *string                                          `json:"ssh_public_key,omitempty" tfsdk:"ssh_public_key"`
-	SystemVolumeSize                 *int64                                           `json:"system_volume_size,omitempty" tfsdk:"system_volume_size"`
-	SystemVolumeType                 *string                                          `json:"system_volume_type,omitempty" tfsdk:"system_volume_type"`
-	UserData                         *string                                          `json:"user_data,omitempty" tfsdk:"user_data"`
+	AvailabilityZone                 *string                                          `json:"availability_zone,omitempty"`
+	ConnectDirectlyToExternalNetwork *bool                                            `json:"connect_directly_to_external_network,omitempty"`
+	DataVolumeSize                   *int64                                           `json:"data_volume_size,omitempty"`
+	DataVolumeType                   *string                                          `json:"data_volume_type,omitempty"`
+	DataVolumes                      *[]common.OpenStackDataVolumeRequest             `json:"data_volumes,omitempty"`
+	Description                      *string                                          `json:"description,omitempty"`
+	Flavor                           *string                                          `json:"flavor,omitempty"`
+	FloatingIps                      *[]common.OpenStackCreateFloatingIPRequest       `json:"floating_ips,omitempty"`
+	Image                            *string                                          `json:"image,omitempty"`
+	Name                             *string                                          `json:"name,omitempty"`
+	Ports                            *[]common.OpenStackCreateInstancePortRequest     `json:"ports,omitempty"`
+	SecurityGroups                   *[]common.OpenStackSecurityGroupHyperlinkRequest `json:"security_groups,omitempty"`
+	SshPublicKey                     *string                                          `json:"ssh_public_key,omitempty"`
+	SystemVolumeSize                 *int64                                           `json:"system_volume_size,omitempty"`
+	SystemVolumeType                 *string                                          `json:"system_volume_type,omitempty"`
+	UserData                         *string                                          `json:"user_data,omitempty"`
 }
 
 type OpenstackInstanceUpdateRequest struct {
-	Description *string `json:"description,omitempty" tfsdk:"description"`
-	Name        *string `json:"name,omitempty" tfsdk:"name"`
+	Description *string `json:"description,omitempty"`
+	Name        *string `json:"name,omitempty"`
 }
 
 type OpenstackInstanceUpdateFloatingIpsActionRequest struct {
-	FloatingIps []common.OpenStackCreateFloatingIPRequest `json:"floating_ips" tfsdk:"floating_ips"`
+	FloatingIps []common.OpenStackCreateFloatingIPRequest `json:"floating_ips"`
 }
 type OpenstackInstanceUpdatePortsActionRequest struct {
-	Ports []common.OpenStackCreateInstancePortRequest `json:"ports" tfsdk:"ports"`
+	Ports []common.OpenStackCreateInstancePortRequest `json:"ports"`
 }
 type OpenstackInstanceUpdateSecurityGroupsActionRequest struct {
-	SecurityGroups []common.OpenStackSecurityGroupHyperlinkRequest `json:"security_groups" tfsdk:"security_groups"`
+	SecurityGroups []common.OpenStackSecurityGroupHyperlinkRequest `json:"security_groups"`
 }
 
 type OpenstackInstanceResponse struct {
@@ -75,8 +77,8 @@ type OpenstackInstanceResponse struct {
 	IsUsageBased                     *bool                                     `json:"is_usage_based" tfsdk:"is_usage_based"`
 	KeyFingerprint                   *string                                   `json:"key_fingerprint" tfsdk:"key_fingerprint"`
 	KeyName                          *string                                   `json:"key_name" tfsdk:"key_name"`
-	Latitude                         *float64                                  `json:"latitude" tfsdk:"latitude"`
-	Longitude                        *float64                                  `json:"longitude" tfsdk:"longitude"`
+	Latitude                         *common.FlexibleNumber                    `json:"latitude" tfsdk:"latitude"`
+	Longitude                        *common.FlexibleNumber                    `json:"longitude" tfsdk:"longitude"`
 	MarketplaceCategoryName          *string                                   `json:"marketplace_category_name" tfsdk:"marketplace_category_name"`
 	MarketplaceCategoryUuid          *string                                   `json:"marketplace_category_uuid" tfsdk:"marketplace_category_uuid"`
 	MarketplaceOfferingName          *string                                   `json:"marketplace_offering_name" tfsdk:"marketplace_offering_name"`
@@ -122,6 +124,7 @@ type OpenstackInstanceFloatingIpsResponse struct {
 	SubnetDescription *string                                            `json:"subnet_description" tfsdk:"subnet_description"`
 	SubnetName        *string                                            `json:"subnet_name" tfsdk:"subnet_name"`
 	SubnetUuid        *string                                            `json:"subnet_uuid" tfsdk:"subnet_uuid"`
+	Uuid              *string                                            `json:"uuid" tfsdk:"uuid"`
 }
 
 type OpenstackInstanceFloatingIpsPortFixedIpsResponse struct {
@@ -192,6 +195,7 @@ type OpenstackInstancePortsSecurityGroupsResponse struct {
 	TenantName                  *string                                             `json:"tenant_name" tfsdk:"tenant_name"`
 	TenantUuid                  *string                                             `json:"tenant_uuid" tfsdk:"tenant_uuid"`
 	Url                         *string                                             `json:"url" tfsdk:"url"`
+	Uuid                        *string                                             `json:"uuid" tfsdk:"uuid"`
 }
 
 type OpenstackInstancePortsSecurityGroupsRulesResponse struct {
@@ -248,6 +252,7 @@ type OpenstackInstanceVolumesResponse struct {
 	Type                    *string `json:"type" tfsdk:"type"`
 	TypeName                *string `json:"type_name" tfsdk:"type_name"`
 	Url                     *string `json:"url" tfsdk:"url"`
+	Uuid                    *string `json:"uuid" tfsdk:"uuid"`
 }
 
 func (r *OpenstackInstanceResponse) GetState() string {

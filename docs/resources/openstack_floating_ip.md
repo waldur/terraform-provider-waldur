@@ -21,6 +21,7 @@ Openstack Floating Ip resource
 
 ### Optional
 
+- `router` (String) Optional router to use for external network detection
 - `timeouts` (Block, Optional) (see [below for nested schema](#nestedblock--timeouts))
 
 ### Read-Only

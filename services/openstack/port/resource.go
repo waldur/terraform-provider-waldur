@@ -223,6 +223,14 @@ func (r *OpenstackPortResource) Schema(ctx context.Context, req resource.SchemaR
 							Required:            true,
 							MarkdownDescription: "Name of the Openstack Port",
 						},
+						"url": schema.StringAttribute{
+							Computed:            true,
+							MarkdownDescription: "Url",
+						},
+						"uuid": schema.StringAttribute{
+							Computed:            true,
+							MarkdownDescription: "UUID of the Openstack Port",
+						},
 					},
 				},
 				Optional:            true,

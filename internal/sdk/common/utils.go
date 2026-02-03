@@ -2,8 +2,10 @@ package common
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"reflect"
+	"strconv"
 	"strings"
 	"time"
 
@@ -264,4 +266,73 @@ func IsNotFoundError(err error) bool {
 		return false
 	}
 	return strings.Contains(err.Error(), "HTTP 404")
+}
+
+// StringToFloat64Ptr converts a string pointer to a types.Float64 value.
+// This is used because the API returns decimal values as quoted strings (e.g., "11.00000").
+func StringToFloat64Ptr(s *string) types.Float64 {
+	if s == nil || *s == "" {
+		return types.Float64Null()
+	}
+	f, err := strconv.ParseFloat(*s, 64)
+	if err != nil {
+		return types.Float64Null()
+	}
+	return types.Float64Value(f)
+}
+
+// StringPointerValue returns types.StringNull() if the pointer is nil or points to an empty string.
+// This is useful for optional fields where the Waldur API returns "" instead of null.
+func StringPointerValue(s *string) types.String {
+	if s == nil || *s == "" {
+		return types.StringNull()
+	}
+	return types.StringValue(*s)
+}
+
+// FlexibleNumber is a custom type that can unmarshal from both JSON numbers and strings.
+// This is needed because the Waldur API is inconsistent: some decimal fields are returned
+// as JSON numbers (e.g. 0) and others as quoted strings (e.g. "11.00000").
+type FlexibleNumber float64
+
+// UnmarshalJSON implements the json.Unmarshaler interface.
+func (f *FlexibleNumber) UnmarshalJSON(data []byte) error {
+	if len(data) == 0 {
+		return nil
+	}
+
+	// Try unmarshaling as a number first
+	var n float64
+	if err := json.Unmarshal(data, &n); err == nil {
+		*f = FlexibleNumber(n)
+		return nil
+	}
+
+	// If that fails, try unmarshaling as a string
+	var s string
+	if err := json.Unmarshal(data, &s); err != nil {
+		return err
+	}
+
+	if s == "" {
+		*f = 0
+		return nil
+	}
+
+	val, err := strconv.ParseFloat(s, 64)
+	if err != nil {
+		return err
+	}
+
+	*f = FlexibleNumber(val)
+	return nil
+}
+
+// Float64Ptr returns a pointer to the float64 value.
+func (f *FlexibleNumber) Float64Ptr() *float64 {
+	if f == nil {
+		return nil
+	}
+	v := float64(*f)
+	return &v
 }

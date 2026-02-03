@@ -72,6 +72,26 @@ func (d *OpenstackPortDataSource) Schema(ctx context.Context, req datasource.Sch
 				Computed:            true,
 				MarkdownDescription: "Created",
 			},
+			"customer": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "Customer",
+			},
+			"customer_abbreviation": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "Customer abbreviation",
+			},
+			"customer_name": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "Name of the customer",
+			},
+			"customer_native_name": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "Name of the customer native",
+			},
+			"customer_uuid": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "UUID of the customer",
+			},
 			"description": schema.StringAttribute{
 				Optional:            true,
 				MarkdownDescription: "Description of the Openstack Port",
@@ -113,9 +133,45 @@ func (d *OpenstackPortDataSource) Schema(ctx context.Context, req datasource.Sch
 				Computed:            true,
 				MarkdownDescription: "Floating ips",
 			},
+			"is_limit_based": schema.BoolAttribute{
+				Computed:            true,
+				MarkdownDescription: "Is limit based",
+			},
+			"is_usage_based": schema.BoolAttribute{
+				Computed:            true,
+				MarkdownDescription: "Is usage based",
+			},
 			"mac_address": schema.StringAttribute{
 				Optional:            true,
 				MarkdownDescription: "MAC address of the port",
+			},
+			"marketplace_category_name": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "Name of the marketplace category",
+			},
+			"marketplace_category_uuid": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "UUID of the marketplace category",
+			},
+			"marketplace_offering_name": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "Name of the marketplace offering",
+			},
+			"marketplace_offering_uuid": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "UUID of the marketplace offering",
+			},
+			"marketplace_plan_uuid": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "UUID of the marketplace plan",
+			},
+			"marketplace_resource_state": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "Marketplace resource state",
+			},
+			"marketplace_resource_uuid": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "UUID of the marketplace resource",
 			},
 			"modified": schema.StringAttribute{
 				CustomType:          timetypes.RFC3339Type{},
@@ -142,6 +198,18 @@ func (d *OpenstackPortDataSource) Schema(ctx context.Context, req datasource.Sch
 				Optional:            true,
 				MarkdownDescription: "If True, security groups and rules will be applied to this port",
 			},
+			"project": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "Project",
+			},
+			"project_name": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "Name of the project",
+			},
+			"project_uuid": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "UUID of the project",
+			},
 			"resource_type": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Resource type",
@@ -157,10 +225,34 @@ func (d *OpenstackPortDataSource) Schema(ctx context.Context, req datasource.Sch
 							Computed:            true,
 							MarkdownDescription: "Url",
 						},
+						"uuid": schema.StringAttribute{
+							Computed:            true,
+							MarkdownDescription: "UUID of the Openstack Port",
+						},
 					},
 				},
 				Optional:            true,
 				MarkdownDescription: "Security groups",
+			},
+			"service_name": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "Name of the service",
+			},
+			"service_settings": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "Service settings",
+			},
+			"service_settings_error_message": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "Service settings error message",
+			},
+			"service_settings_state": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "Service settings state",
+			},
+			"service_settings_uuid": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "UUID of the service settings",
 			},
 			"state": schema.StringAttribute{
 				Computed:            true,

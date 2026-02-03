@@ -45,10 +45,13 @@ Marketplace Order data source - lookup by name or UUID
 - `created_by_civil_number` (String) Created by civil number
 - `created_by_full_name` (String) Name of the created by full
 - `created_by_username` (String) Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters
+- `customer_name` (String) Name of the customer
 - `customer_slug` (String) Customer slug
+- `customer_uuid` (String) UUID of the customer
 - `error_message` (String) Error message
 - `error_traceback` (String) Error traceback
 - `fixed_price` (Number) Fixed price
+- `marketplace_resource_uuid` (String) UUID of the marketplace resource
 - `modified` (String) Modified
 - `new_cost_estimate` (String) New cost estimate
 - `new_plan_name` (String) Name of the new plan
@@ -71,7 +74,9 @@ Marketplace Order data source - lookup by name or UUID
 - `plan_unit` (String) Plan unit
 - `plan_uuid` (String) UUID of the plan
 - `project_description` (String) Project description
+- `project_name` (String) Name of the project
 - `project_slug` (String) Project slug
+- `project_uuid` (String) UUID of the project
 - `provider_name` (String) Name of the provider
 - `provider_reviewed_at` (String) Provider reviewed at
 - `provider_reviewed_by` (String) Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters

@@ -15,6 +15,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/float64planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listplanmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/mapplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
@@ -47,7 +48,9 @@ type OpenstackInstanceResourceModel struct {
 	DeleteVolumes      types.Bool     `tfsdk:"delete_volumes"`
 	Flavor             types.String   `tfsdk:"flavor"`
 	Image              types.String   `tfsdk:"image"`
+	Limits             types.Map      `tfsdk:"limits"`
 	Offering           types.String   `tfsdk:"offering"`
+	Plan               types.String   `tfsdk:"plan"`
 	ReleaseFloatingIps types.Bool     `tfsdk:"release_floating_ips"`
 	SshPublicKey       types.String   `tfsdk:"ssh_public_key"`
 	SystemVolumeSize   types.Int64    `tfsdk:"system_volume_size"`
@@ -281,7 +284,7 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 							MarkdownDescription: "Subnet",
 						},
 						"url": schema.StringAttribute{
-							Optional:            true,
+							Computed:            true,
 							MarkdownDescription: "Url",
 						},
 						"address": schema.StringAttribute{
@@ -323,6 +326,10 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 						"subnet_uuid": schema.StringAttribute{
 							Computed:            true,
 							MarkdownDescription: "UUID of the subnet",
+						},
+						"uuid": schema.StringAttribute{
+							Computed:            true,
+							MarkdownDescription: "UUID of the Openstack Instance",
 						},
 					},
 				},
@@ -392,6 +399,15 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 					float64planmodifier.UseStateForUnknown(),
 				},
 				MarkdownDescription: "Latitude",
+			},
+			"limits": schema.MapAttribute{
+				ElementType: types.Float64Type,
+				Optional:    true,
+				Computed:    true,
+				PlanModifiers: []planmodifier.Map{
+					mapplanmodifier.RequiresReplace(),
+				},
+				MarkdownDescription: "Resource limits",
 			},
 			"longitude": schema.Float64Attribute{
 				Computed: true,
@@ -481,6 +497,14 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 					stringplanmodifier.RequiresReplace(),
 				},
 				MarkdownDescription: "Offering URL",
+			},
+			"plan": schema.StringAttribute{
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.RequiresReplace(),
+				},
+				MarkdownDescription: "Plan URL",
 			},
 			"ports": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
@@ -742,6 +766,10 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 										Computed:            true,
 										MarkdownDescription: "Url",
 									},
+									"uuid": schema.StringAttribute{
+										Computed:            true,
+										MarkdownDescription: "UUID of the Openstack Instance",
+									},
 								},
 							},
 							Computed:            true,
@@ -826,7 +854,7 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"url": schema.StringAttribute{
-							Required:            true,
+							Computed:            true,
 							MarkdownDescription: "Url",
 						},
 						"description": schema.StringAttribute{
@@ -1083,6 +1111,10 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 							Computed:            true,
 							MarkdownDescription: "Url",
 						},
+						"uuid": schema.StringAttribute{
+							Computed:            true,
+							MarkdownDescription: "UUID of the Openstack Instance",
+						},
 					},
 				},
 				Computed: true,
@@ -1154,6 +1186,20 @@ func (r *OpenstackInstanceResource) Create(ctx context.Context, req resource.Cre
 		Attributes: attributes,
 	}
 
+	if !data.Plan.IsNull() && !data.Plan.IsUnknown() {
+		payload.Plan = data.Plan.ValueStringPointer()
+	}
+
+	if !data.Limits.IsNull() && !data.Limits.IsUnknown() {
+		limits := make(map[string]float64)
+		diags := data.Limits.ElementsAs(ctx, &limits, false)
+		resp.Diagnostics.Append(diags...)
+		if resp.Diagnostics.HasError() {
+			return
+		}
+		payload.Limits = limits
+	}
+
 	// Phase 2: Submit Order
 	orderRes, err := r.client.CreateOpenstackInstanceOrder(ctx, &payload)
 	if err != nil {
@@ -1192,6 +1238,14 @@ func (r *OpenstackInstanceResource) Create(ctx context.Context, req resource.Cre
 	}
 	resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
 
+	// Ensure computed fields that aren't in the technical resource are known
+	if data.Plan.IsUnknown() {
+		data.Plan = types.StringNull()
+	}
+	if data.Limits.IsUnknown() {
+		data.Limits = types.MapNull(types.Float64Type)
+	}
+
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
@@ -1222,6 +1276,17 @@ func (r *OpenstackInstanceResource) Read(ctx context.Context, req resource.ReadR
 	}
 
 	resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	// Ensure computed fields that aren't in the technical resource are known
+	if data.Plan.IsUnknown() {
+		data.Plan = types.StringNull()
+	}
+	if data.Limits.IsUnknown() {
+		data.Limits = types.MapNull(types.Float64Type)
+	}
 
 	// Save updated data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
@@ -1303,6 +1368,14 @@ func (r *OpenstackInstanceResource) Update(ctx context.Context, req resource.Upd
 	}
 	resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
 
+	// Ensure computed fields that aren't in the technical resource are known
+	if data.Plan.IsUnknown() {
+		data.Plan = types.StringNull()
+	}
+	if data.Limits.IsUnknown() {
+		data.Limits = types.MapNull(types.Float64Type)
+	}
+
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
@@ -1323,7 +1396,11 @@ func (r *OpenstackInstanceResource) Delete(ctx context.Context, req resource.Del
 	}
 
 	// Submit termination order
-	orderUUID, err := r.client.TerminateOpenstackInstance(ctx, data.UUID.ValueString(), payload)
+	resourceID := data.UUID.ValueString()
+	if !data.MarketplaceResourceUuid.IsNull() && !data.MarketplaceResourceUuid.IsUnknown() {
+		resourceID = data.MarketplaceResourceUuid.ValueString()
+	}
+	orderUUID, err := r.client.TerminateOpenstackInstance(ctx, resourceID, payload)
 	if err != nil {
 		resp.Diagnostics.AddError("Termination Failed", err.Error())
 		return

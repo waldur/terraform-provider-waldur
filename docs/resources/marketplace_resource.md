@@ -45,6 +45,7 @@ Marketplace Resource resource
 - `id` (String) Marketplace Resource UUID (used as Terraform ID)
 - `last_sync` (String) Last sync
 - `modified` (String) Modified
+- `offering_backend_id` (String) ID of the offering backend
 - `offering_billable` (Boolean) Purchase and usage is invoiced.
 - `offering_components` (Attributes List) Offering components (see [below for nested schema](#nestedatt--offering_components))
 - `offering_description` (String) Offering description
@@ -100,6 +101,10 @@ Optional:
 - `name` (String) Name of the Marketplace Resource
 - `url` (String) URL of the access endpoint
 
+Read-Only:
+
+- `uuid` (String) UUID of the Marketplace Resource
+
 
 <a id="nestedatt--offering_components"></a>
 ### Nested Schema for `offering_components`
@@ -129,6 +134,7 @@ Read-Only:
 
 - `factor` (Number) Factor
 - `is_builtin` (Boolean) Is builtin
+- `uuid` (String) UUID of the Marketplace Resource
 
 
 <a id="nestedatt--report"></a>

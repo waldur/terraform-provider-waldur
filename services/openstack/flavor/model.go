@@ -6,6 +6,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+
+	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
 type OpenstackFlavorFiltersModel struct {
@@ -122,14 +124,14 @@ func (model *OpenstackFlavorModel) CopyFrom(ctx context.Context, apiResp Opensta
 	var diags diag.Diagnostics
 
 	model.UUID = types.StringPointerValue(apiResp.UUID)
-	model.BackendId = types.StringPointerValue(apiResp.BackendId)
+	model.BackendId = common.StringPointerValue(apiResp.BackendId)
 	model.Cores = types.Int64PointerValue(apiResp.Cores)
 	model.Disk = types.Int64PointerValue(apiResp.Disk)
-	model.DisplayName = types.StringPointerValue(apiResp.DisplayName)
-	model.Name = types.StringPointerValue(apiResp.Name)
+	model.DisplayName = common.StringPointerValue(apiResp.DisplayName)
+	model.Name = common.StringPointerValue(apiResp.Name)
 	model.Ram = types.Int64PointerValue(apiResp.Ram)
-	model.Settings = types.StringPointerValue(apiResp.Settings)
-	model.Url = types.StringPointerValue(apiResp.Url)
+	model.Settings = common.StringPointerValue(apiResp.Settings)
+	model.Url = common.StringPointerValue(apiResp.Url)
 
 	return diags
 }

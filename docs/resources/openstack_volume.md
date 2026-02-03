@@ -25,7 +25,9 @@ Openstack Volume resource
 - `availability_zone` (String) Availability zone where this volume is located
 - `description` (String) Description of the Openstack Volume
 - `image` (String) Image that this volume was created from, if any
+- `limits` (Map of Number) Resource limits
 - `name` (String) Name of the Openstack Volume
+- `plan` (String) Plan URL
 - `size` (Number) Size in MiB
 - `timeouts` (Block, Optional) (see [below for nested schema](#nestedblock--timeouts))
 - `type` (String) Type of the volume (e.g. SSD, HDD)

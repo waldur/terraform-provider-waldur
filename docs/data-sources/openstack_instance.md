@@ -133,6 +133,7 @@ Read-Only:
 - `subnet_name` (String) Name of the subnet
 - `subnet_uuid` (String) UUID of the subnet
 - `url` (String) Url
+- `uuid` (String) UUID of the Openstack Instance
 
 <a id="nestedatt--floating_ips--port_fixed_ips"></a>
 ### Nested Schema for `floating_ips.port_fixed_ips`
@@ -227,6 +228,7 @@ Read-Only:
 - `tenant_name` (String) Name of the tenant
 - `tenant_uuid` (String) UUID of the tenant
 - `url` (String) Url
+- `uuid` (String) UUID of the Openstack Instance
 
 <a id="nestedatt--ports--security_groups--rules"></a>
 ### Nested Schema for `ports.security_groups.rules`
@@ -313,3 +315,4 @@ Read-Only:
 - `state` (String) State
 - `type_name` (String) Name of the type
 - `url` (String) Url
+- `uuid` (String) UUID of the Openstack Instance

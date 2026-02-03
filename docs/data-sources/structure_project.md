@@ -18,6 +18,7 @@ Structure Project data source - lookup by name or UUID
 ### Optional
 
 - `backend_id` (String) ID of the backend
+- `customer` (String) Customer
 - `description` (String) Project description (HTML content will be sanitized)
 - `end_date` (String) Project end date. Setting this field requires DELETE_PROJECT permission.
 - `filters` (Attributes) Filter parameters for querying Structure Project (see [below for nested schema](#nestedatt--filters))
@@ -36,8 +37,12 @@ Structure Project data source - lookup by name or UUID
 ### Read-Only
 
 - `created` (String) Created
+- `customer_abbreviation` (String) Customer abbreviation
 - `customer_display_billing_info_in_projects` (Boolean) Customer display billing info in projects
+- `customer_name` (String) Name of the customer
+- `customer_native_name` (String) Name of the customer native
 - `customer_slug` (String) Customer slug
+- `customer_uuid` (String) UUID of the customer
 - `end_date_requested_by` (String) End date requested by
 - `is_removed` (Boolean) Is removed
 - `max_service_accounts` (Number) Maximum number of service accounts allowed

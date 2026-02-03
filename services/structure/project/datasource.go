@@ -55,13 +55,33 @@ func (d *StructureProjectDataSource) Schema(ctx context.Context, req datasource.
 				Computed:            true,
 				MarkdownDescription: "Created",
 			},
+			"customer": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Customer",
+			},
+			"customer_abbreviation": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "Customer abbreviation",
+			},
 			"customer_display_billing_info_in_projects": schema.BoolAttribute{
 				Computed:            true,
 				MarkdownDescription: "Customer display billing info in projects",
 			},
+			"customer_name": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "Name of the customer",
+			},
+			"customer_native_name": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "Name of the customer native",
+			},
 			"customer_slug": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Customer slug",
+			},
+			"customer_uuid": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "UUID of the customer",
 			},
 			"description": schema.StringAttribute{
 				Optional:            true,

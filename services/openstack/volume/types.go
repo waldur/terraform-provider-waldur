@@ -1,30 +1,32 @@
 package volume
 
 type OpenstackVolumeCreateRequest struct {
-	Project    *string                         `json:"project" tfsdk:"project"`
-	Offering   *string                         `json:"offering" tfsdk:"offering"`
-	Attributes OpenstackVolumeCreateAttributes `json:"attributes" tfsdk:"attributes"`
+	Project    *string                         `json:"project"`
+	Offering   *string                         `json:"offering"`
+	Plan       *string                         `json:"plan,omitempty"`
+	Limits     map[string]float64              `json:"limits,omitempty"`
+	Attributes OpenstackVolumeCreateAttributes `json:"attributes"`
 }
 type OpenstackVolumeCreateAttributes struct {
-	AvailabilityZone *string `json:"availability_zone,omitempty" tfsdk:"availability_zone"`
-	Description      *string `json:"description,omitempty" tfsdk:"description"`
-	Image            *string `json:"image,omitempty" tfsdk:"image"`
-	Name             *string `json:"name,omitempty" tfsdk:"name"`
-	Size             *int64  `json:"size,omitempty" tfsdk:"size"`
-	Type             *string `json:"type,omitempty" tfsdk:"type"`
+	AvailabilityZone *string `json:"availability_zone,omitempty"`
+	Description      *string `json:"description,omitempty"`
+	Image            *string `json:"image,omitempty"`
+	Name             *string `json:"name,omitempty"`
+	Size             *int64  `json:"size,omitempty"`
+	Type             *string `json:"type,omitempty"`
 }
 
 type OpenstackVolumeUpdateRequest struct {
-	Bootable    *bool   `json:"bootable,omitempty" tfsdk:"bootable"`
-	Description *string `json:"description,omitempty" tfsdk:"description"`
-	Name        *string `json:"name,omitempty" tfsdk:"name"`
+	Bootable    *bool   `json:"bootable,omitempty"`
+	Description *string `json:"description,omitempty"`
+	Name        *string `json:"name,omitempty"`
 }
 
 type OpenstackVolumeExtendActionRequest struct {
-	Size *int64 `json:"size" tfsdk:"size"`
+	Size *int64 `json:"size"`
 }
 type OpenstackVolumeRetypeActionRequest struct {
-	Type *string `json:"type" tfsdk:"type"`
+	Type *string `json:"type"`
 }
 
 type OpenstackVolumeResponse struct {

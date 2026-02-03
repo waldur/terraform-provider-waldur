@@ -8,6 +8,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+
+	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
 type OpenstackPortFiltersModel struct {
@@ -160,7 +162,7 @@ func (model *OpenstackPortModel) CopyFrom(ctx context.Context, apiResp Openstack
 	var diags diag.Diagnostics
 
 	model.UUID = types.StringPointerValue(apiResp.UUID)
-	model.AccessUrl = types.StringPointerValue(apiResp.AccessUrl)
+	model.AccessUrl = common.StringPointerValue(apiResp.AccessUrl)
 	model.AdminStateUp = types.BoolPointerValue(apiResp.AdminStateUp)
 
 	{
@@ -171,15 +173,15 @@ func (model *OpenstackPortModel) CopyFrom(ctx context.Context, apiResp Openstack
 		diags.Append(listDiagsAllowedAddressPairs...)
 		model.AllowedAddressPairs = listValAllowedAddressPairs
 	}
-	model.BackendId = types.StringPointerValue(apiResp.BackendId)
+	model.BackendId = common.StringPointerValue(apiResp.BackendId)
 	valCreated, diagsCreated := timetypes.NewRFC3339PointerValue(apiResp.Created)
 	diags.Append(diagsCreated...)
 	model.Created = valCreated
-	model.Description = types.StringPointerValue(apiResp.Description)
-	model.DeviceId = types.StringPointerValue(apiResp.DeviceId)
-	model.DeviceOwner = types.StringPointerValue(apiResp.DeviceOwner)
-	model.ErrorMessage = types.StringPointerValue(apiResp.ErrorMessage)
-	model.ErrorTraceback = types.StringPointerValue(apiResp.ErrorTraceback)
+	model.Description = common.StringPointerValue(apiResp.Description)
+	model.DeviceId = common.StringPointerValue(apiResp.DeviceId)
+	model.DeviceOwner = common.StringPointerValue(apiResp.DeviceOwner)
+	model.ErrorMessage = common.StringPointerValue(apiResp.ErrorMessage)
+	model.ErrorTraceback = common.StringPointerValue(apiResp.ErrorTraceback)
 
 	{
 		listValFixedIps, listDiagsFixedIps := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
@@ -192,29 +194,31 @@ func (model *OpenstackPortModel) CopyFrom(ctx context.Context, apiResp Openstack
 	setValFloatingIps, setDiagsFloatingIps := types.SetValueFrom(ctx, types.StringType, apiResp.FloatingIps)
 	model.FloatingIps = setValFloatingIps
 	diags.Append(setDiagsFloatingIps...)
-	model.MacAddress = types.StringPointerValue(apiResp.MacAddress)
+	model.MacAddress = common.StringPointerValue(apiResp.MacAddress)
 	valModified, diagsModified := timetypes.NewRFC3339PointerValue(apiResp.Modified)
 	diags.Append(diagsModified...)
 	model.Modified = valModified
-	model.Name = types.StringPointerValue(apiResp.Name)
-	model.Network = types.StringPointerValue(apiResp.Network)
-	model.NetworkName = types.StringPointerValue(apiResp.NetworkName)
-	model.NetworkUuid = types.StringPointerValue(apiResp.NetworkUuid)
+	model.Name = common.StringPointerValue(apiResp.Name)
+	model.Network = common.StringPointerValue(apiResp.Network)
+	model.NetworkName = common.StringPointerValue(apiResp.NetworkName)
+	model.NetworkUuid = common.StringPointerValue(apiResp.NetworkUuid)
 	model.PortSecurityEnabled = types.BoolPointerValue(apiResp.PortSecurityEnabled)
-	model.ResourceType = types.StringPointerValue(apiResp.ResourceType)
+	model.ResourceType = common.StringPointerValue(apiResp.ResourceType)
 	{
 		setValSecurityGroups, setDiagsSecurityGroups := types.SetValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
 			"name": types.StringType,
+			"url":  types.StringType,
+			"uuid": types.StringType,
 		}}, apiResp.SecurityGroups)
 		diags.Append(setDiagsSecurityGroups...)
 		model.SecurityGroups = setValSecurityGroups
 	}
-	model.State = types.StringPointerValue(apiResp.State)
-	model.Status = types.StringPointerValue(apiResp.Status)
-	model.Tenant = types.StringPointerValue(apiResp.Tenant)
-	model.TenantName = types.StringPointerValue(apiResp.TenantName)
-	model.TenantUuid = types.StringPointerValue(apiResp.TenantUuid)
-	model.Url = types.StringPointerValue(apiResp.Url)
+	model.State = common.StringPointerValue(apiResp.State)
+	model.Status = common.StringPointerValue(apiResp.Status)
+	model.Tenant = common.StringPointerValue(apiResp.Tenant)
+	model.TenantName = common.StringPointerValue(apiResp.TenantName)
+	model.TenantUuid = common.StringPointerValue(apiResp.TenantUuid)
+	model.Url = common.StringPointerValue(apiResp.Url)
 
 	return diags
 }

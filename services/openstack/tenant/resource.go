@@ -11,6 +11,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listplanmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/mapplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
@@ -36,7 +37,9 @@ type OpenstackTenantResource struct {
 // OpenstackTenantResourceModel describes the resource data model.
 type OpenstackTenantResourceModel struct {
 	OpenstackTenantModel
+	Limits                      types.Map      `tfsdk:"limits"`
 	Offering                    types.String   `tfsdk:"offering"`
+	Plan                        types.String   `tfsdk:"plan"`
 	SecurityGroups              types.Set      `tfsdk:"security_groups"`
 	SkipConnectionExtnet        types.Bool     `tfsdk:"skip_connection_extnet"`
 	SkipCreationOfDefaultSubnet types.Bool     `tfsdk:"skip_creation_of_default_subnet"`
@@ -174,6 +177,15 @@ func (r *OpenstackTenantResource) Schema(ctx context.Context, req resource.Schem
 				},
 				MarkdownDescription: "Is usage based",
 			},
+			"limits": schema.MapAttribute{
+				ElementType: types.Float64Type,
+				Optional:    true,
+				Computed:    true,
+				PlanModifiers: []planmodifier.Map{
+					mapplanmodifier.RequiresReplace(),
+				},
+				MarkdownDescription: "Resource limits",
+			},
 			"marketplace_category_name": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
@@ -241,6 +253,14 @@ func (r *OpenstackTenantResource) Schema(ctx context.Context, req resource.Schem
 					stringplanmodifier.RequiresReplace(),
 				},
 				MarkdownDescription: "Offering URL",
+			},
+			"plan": schema.StringAttribute{
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.RequiresReplace(),
+				},
+				MarkdownDescription: "Plan URL",
 			},
 			"project": schema.StringAttribute{
 				Required: true,
@@ -498,6 +518,20 @@ func (r *OpenstackTenantResource) Create(ctx context.Context, req resource.Creat
 		Attributes: attributes,
 	}
 
+	if !data.Plan.IsNull() && !data.Plan.IsUnknown() {
+		payload.Plan = data.Plan.ValueStringPointer()
+	}
+
+	if !data.Limits.IsNull() && !data.Limits.IsUnknown() {
+		limits := make(map[string]float64)
+		diags := data.Limits.ElementsAs(ctx, &limits, false)
+		resp.Diagnostics.Append(diags...)
+		if resp.Diagnostics.HasError() {
+			return
+		}
+		payload.Limits = limits
+	}
+
 	// Phase 2: Submit Order
 	orderRes, err := r.client.CreateOpenstackTenantOrder(ctx, &payload)
 	if err != nil {
@@ -536,6 +570,14 @@ func (r *OpenstackTenantResource) Create(ctx context.Context, req resource.Creat
 	}
 	resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
 
+	// Ensure computed fields that aren't in the technical resource are known
+	if data.Plan.IsUnknown() {
+		data.Plan = types.StringNull()
+	}
+	if data.Limits.IsUnknown() {
+		data.Limits = types.MapNull(types.Float64Type)
+	}
+
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
@@ -566,6 +608,17 @@ func (r *OpenstackTenantResource) Read(ctx context.Context, req resource.ReadReq
 	}
 
 	resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	// Ensure computed fields that aren't in the technical resource are known
+	if data.Plan.IsUnknown() {
+		data.Plan = types.StringNull()
+	}
+	if data.Limits.IsUnknown() {
+		data.Limits = types.MapNull(types.Float64Type)
+	}
 
 	// Save updated data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
@@ -637,6 +690,14 @@ func (r *OpenstackTenantResource) Update(ctx context.Context, req resource.Updat
 	}
 	resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
 
+	// Ensure computed fields that aren't in the technical resource are known
+	if data.Plan.IsUnknown() {
+		data.Plan = types.StringNull()
+	}
+	if data.Limits.IsUnknown() {
+		data.Limits = types.MapNull(types.Float64Type)
+	}
+
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
@@ -651,7 +712,11 @@ func (r *OpenstackTenantResource) Delete(ctx context.Context, req resource.Delet
 	payload := map[string]interface{}{}
 
 	// Submit termination order
-	orderUUID, err := r.client.TerminateOpenstackTenant(ctx, data.UUID.ValueString(), payload)
+	resourceID := data.UUID.ValueString()
+	if !data.MarketplaceResourceUuid.IsNull() && !data.MarketplaceResourceUuid.IsUnknown() {
+		resourceID = data.MarketplaceResourceUuid.ValueString()
+	}
+	orderUUID, err := r.client.TerminateOpenstackTenant(ctx, resourceID, payload)
 	if err != nil {
 		resp.Diagnostics.AddError("Termination Failed", err.Error())
 		return

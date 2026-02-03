@@ -512,10 +512,7 @@ func (r *MarketplaceOrderResource) Schema(ctx context.Context, req resource.Sche
 				},
 			},
 			"start_date": schema.StringAttribute{
-				Optional: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.RequiresReplace(),
-				},
+				Optional:            true,
 				MarkdownDescription: "Enables delayed processing of resource provisioning order.",
 			},
 			"state": schema.StringAttribute{
@@ -664,7 +661,45 @@ func (r *MarketplaceOrderResource) Read(ctx context.Context, req resource.ReadRe
 }
 
 func (r *MarketplaceOrderResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
-	resp.Diagnostics.AddError("Update Not Supported", "This resource cannot be updated via the API.")
+	var data MarketplaceOrderResourceModel
+	var state MarketplaceOrderResourceModel
+	resp.Diagnostics.Append(req.Plan.Get(ctx, &data)...)
+	resp.Diagnostics.Append(req.State.Get(ctx, &state)...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	requestBody := MarketplaceOrderUpdateRequest{
+		StartDate: data.StartDate.ValueStringPointer(),
+	}
+
+	apiResp, err := r.client.UpdateMarketplaceOrder(ctx, data.UUID.ValueString(), &requestBody)
+	if err != nil {
+		resp.Diagnostics.AddError(
+			"Unable to Update Marketplace Order",
+			"An error occurred while updating the Marketplace Order: "+err.Error(),
+		)
+		return
+	}
+
+	updateTimeout, diags := data.Timeouts.Update(ctx, common.DefaultUpdateTimeout)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	newResp, err := common.WaitForResource(ctx, func(ctx context.Context) (*MarketplaceOrderResponse, error) {
+		return r.client.GetMarketplaceOrder(ctx, data.UUID.ValueString())
+	}, updateTimeout)
+	if err != nil {
+		resp.Diagnostics.AddError("Failed to wait for resource update", err.Error())
+		return
+	}
+	apiResp = newResp
+
+	resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
+
+	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
 func (r *MarketplaceOrderResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {

@@ -43,7 +43,6 @@ provider "waldur" {
 | `waldur_structure_project` | Manages a Project |
 | `waldur_structure_customer` | Manages a Customer |
 | `waldur_marketplace_order` | Manages a Order |
-| `waldur_marketplace_offering` | Manages a Offering |
 | `waldur_marketplace_resource` | Manages a Resource |
 | `waldur_openstack_tenant` | Manages a Tenant |
 | `waldur_openstack_volume` | Manages a Volume |

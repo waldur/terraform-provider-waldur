@@ -8,6 +8,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+
+	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
 type MarketplaceResourceFiltersModel struct {
@@ -218,6 +220,7 @@ type MarketplaceResourceModel struct {
 	Modified                  timetypes.RFC3339 `tfsdk:"modified"`
 	Name                      types.String      `tfsdk:"name"`
 	Offering                  types.String      `tfsdk:"offering"`
+	OfferingBackendId         types.String      `tfsdk:"offering_backend_id"`
 	OfferingBillable          types.Bool        `tfsdk:"offering_billable"`
 	OfferingComponents        types.List        `tfsdk:"offering_components"`
 	OfferingDescription       types.String      `tfsdk:"offering_description"`
@@ -271,39 +274,41 @@ func (model *MarketplaceResourceModel) CopyFrom(ctx context.Context, apiResp Mar
 	listValAvailableActions, listDiagsAvailableActions := types.ListValueFrom(ctx, types.StringType, apiResp.AvailableActions)
 	model.AvailableActions = listValAvailableActions
 	diags.Append(listDiagsAvailableActions...)
-	model.BackendId = types.StringPointerValue(apiResp.BackendId)
+	model.BackendId = common.StringPointerValue(apiResp.BackendId)
 	model.CanTerminate = types.BoolPointerValue(apiResp.CanTerminate)
-	model.CategoryIcon = types.StringPointerValue(apiResp.CategoryIcon)
-	model.CategoryTitle = types.StringPointerValue(apiResp.CategoryTitle)
-	model.CategoryUuid = types.StringPointerValue(apiResp.CategoryUuid)
+	model.CategoryIcon = common.StringPointerValue(apiResp.CategoryIcon)
+	model.CategoryTitle = common.StringPointerValue(apiResp.CategoryTitle)
+	model.CategoryUuid = common.StringPointerValue(apiResp.CategoryUuid)
 	valCreated, diagsCreated := timetypes.NewRFC3339PointerValue(apiResp.Created)
 	diags.Append(diagsCreated...)
 	model.Created = valCreated
-	model.CustomerSlug = types.StringPointerValue(apiResp.CustomerSlug)
-	model.Description = types.StringPointerValue(apiResp.Description)
+	model.CustomerSlug = common.StringPointerValue(apiResp.CustomerSlug)
+	model.Description = common.StringPointerValue(apiResp.Description)
 	model.Downscaled = types.BoolPointerValue(apiResp.Downscaled)
-	model.EffectiveId = types.StringPointerValue(apiResp.EffectiveId)
-	model.EndDate = types.StringPointerValue(apiResp.EndDate)
-	model.EndDateRequestedBy = types.StringPointerValue(apiResp.EndDateRequestedBy)
+	model.EffectiveId = common.StringPointerValue(apiResp.EffectiveId)
+	model.EndDate = common.StringPointerValue(apiResp.EndDate)
+	model.EndDateRequestedBy = common.StringPointerValue(apiResp.EndDateRequestedBy)
 
 	{
 		listValEndpoints, listDiagsEndpoints := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
 			"name": types.StringType,
 			"url":  types.StringType,
+			"uuid": types.StringType,
 		}}, apiResp.Endpoints)
 		diags.Append(listDiagsEndpoints...)
 		model.Endpoints = listValEndpoints
 	}
-	model.ErrorMessage = types.StringPointerValue(apiResp.ErrorMessage)
-	model.ErrorTraceback = types.StringPointerValue(apiResp.ErrorTraceback)
+	model.ErrorMessage = common.StringPointerValue(apiResp.ErrorMessage)
+	model.ErrorTraceback = common.StringPointerValue(apiResp.ErrorTraceback)
 	valLastSync, diagsLastSync := timetypes.NewRFC3339PointerValue(apiResp.LastSync)
 	diags.Append(diagsLastSync...)
 	model.LastSync = valLastSync
 	valModified, diagsModified := timetypes.NewRFC3339PointerValue(apiResp.Modified)
 	diags.Append(diagsModified...)
 	model.Modified = valModified
-	model.Name = types.StringPointerValue(apiResp.Name)
-	model.Offering = types.StringPointerValue(apiResp.Offering)
+	model.Name = common.StringPointerValue(apiResp.Name)
+	model.Offering = common.StringPointerValue(apiResp.Offering)
+	model.OfferingBackendId = common.StringPointerValue(apiResp.OfferingBackendId)
 	model.OfferingBillable = types.BoolPointerValue(apiResp.OfferingBillable)
 
 	{
@@ -328,37 +333,38 @@ func (model *MarketplaceResourceModel) CopyFrom(ctx context.Context, apiResp Mar
 			"overage_component":    types.StringType,
 			"type":                 types.StringType,
 			"unit_factor":          types.Int64Type,
+			"uuid":                 types.StringType,
 		}}, apiResp.OfferingComponents)
 		diags.Append(listDiagsOfferingComponents...)
 		model.OfferingComponents = listValOfferingComponents
 	}
-	model.OfferingDescription = types.StringPointerValue(apiResp.OfferingDescription)
-	model.OfferingImage = types.StringPointerValue(apiResp.OfferingImage)
-	model.OfferingName = types.StringPointerValue(apiResp.OfferingName)
+	model.OfferingDescription = common.StringPointerValue(apiResp.OfferingDescription)
+	model.OfferingImage = common.StringPointerValue(apiResp.OfferingImage)
+	model.OfferingName = common.StringPointerValue(apiResp.OfferingName)
 	model.OfferingShared = types.BoolPointerValue(apiResp.OfferingShared)
-	model.OfferingSlug = types.StringPointerValue(apiResp.OfferingSlug)
-	model.OfferingState = types.StringPointerValue(apiResp.OfferingState)
-	model.OfferingThumbnail = types.StringPointerValue(apiResp.OfferingThumbnail)
-	model.OfferingType = types.StringPointerValue(apiResp.OfferingType)
-	model.OfferingUuid = types.StringPointerValue(apiResp.OfferingUuid)
-	model.ParentName = types.StringPointerValue(apiResp.ParentName)
-	model.ParentOfferingName = types.StringPointerValue(apiResp.ParentOfferingName)
-	model.ParentOfferingSlug = types.StringPointerValue(apiResp.ParentOfferingSlug)
-	model.ParentOfferingUuid = types.StringPointerValue(apiResp.ParentOfferingUuid)
-	model.ParentUuid = types.StringPointerValue(apiResp.ParentUuid)
+	model.OfferingSlug = common.StringPointerValue(apiResp.OfferingSlug)
+	model.OfferingState = common.StringPointerValue(apiResp.OfferingState)
+	model.OfferingThumbnail = common.StringPointerValue(apiResp.OfferingThumbnail)
+	model.OfferingType = common.StringPointerValue(apiResp.OfferingType)
+	model.OfferingUuid = common.StringPointerValue(apiResp.OfferingUuid)
+	model.ParentName = common.StringPointerValue(apiResp.ParentName)
+	model.ParentOfferingName = common.StringPointerValue(apiResp.ParentOfferingName)
+	model.ParentOfferingSlug = common.StringPointerValue(apiResp.ParentOfferingSlug)
+	model.ParentOfferingUuid = common.StringPointerValue(apiResp.ParentOfferingUuid)
+	model.ParentUuid = common.StringPointerValue(apiResp.ParentUuid)
 	model.Paused = types.BoolPointerValue(apiResp.Paused)
-	model.Plan = types.StringPointerValue(apiResp.Plan)
-	model.PlanDescription = types.StringPointerValue(apiResp.PlanDescription)
-	model.PlanName = types.StringPointerValue(apiResp.PlanName)
-	model.PlanUnit = types.StringPointerValue(apiResp.PlanUnit)
-	model.PlanUuid = types.StringPointerValue(apiResp.PlanUuid)
-	model.ProjectDescription = types.StringPointerValue(apiResp.ProjectDescription)
-	model.ProjectEndDate = types.StringPointerValue(apiResp.ProjectEndDate)
-	model.ProjectEndDateRequestedBy = types.StringPointerValue(apiResp.ProjectEndDateRequestedBy)
-	model.ProjectSlug = types.StringPointerValue(apiResp.ProjectSlug)
-	model.ProviderName = types.StringPointerValue(apiResp.ProviderName)
-	model.ProviderSlug = types.StringPointerValue(apiResp.ProviderSlug)
-	model.ProviderUuid = types.StringPointerValue(apiResp.ProviderUuid)
+	model.Plan = common.StringPointerValue(apiResp.Plan)
+	model.PlanDescription = common.StringPointerValue(apiResp.PlanDescription)
+	model.PlanName = common.StringPointerValue(apiResp.PlanName)
+	model.PlanUnit = common.StringPointerValue(apiResp.PlanUnit)
+	model.PlanUuid = common.StringPointerValue(apiResp.PlanUuid)
+	model.ProjectDescription = common.StringPointerValue(apiResp.ProjectDescription)
+	model.ProjectEndDate = common.StringPointerValue(apiResp.ProjectEndDate)
+	model.ProjectEndDateRequestedBy = common.StringPointerValue(apiResp.ProjectEndDateRequestedBy)
+	model.ProjectSlug = common.StringPointerValue(apiResp.ProjectSlug)
+	model.ProviderName = common.StringPointerValue(apiResp.ProviderName)
+	model.ProviderSlug = common.StringPointerValue(apiResp.ProviderSlug)
+	model.ProviderUuid = common.StringPointerValue(apiResp.ProviderUuid)
 
 	{
 		listValReport, listDiagsReport := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
@@ -368,15 +374,15 @@ func (model *MarketplaceResourceModel) CopyFrom(ctx context.Context, apiResp Mar
 		diags.Append(listDiagsReport...)
 		model.Report = listValReport
 	}
-	model.ResourceType = types.StringPointerValue(apiResp.ResourceType)
-	model.ResourceUuid = types.StringPointerValue(apiResp.ResourceUuid)
+	model.ResourceType = common.StringPointerValue(apiResp.ResourceType)
+	model.ResourceUuid = common.StringPointerValue(apiResp.ResourceUuid)
 	model.RestrictMemberAccess = types.BoolPointerValue(apiResp.RestrictMemberAccess)
-	model.Scope = types.StringPointerValue(apiResp.Scope)
-	model.Slug = types.StringPointerValue(apiResp.Slug)
-	model.State = types.StringPointerValue(apiResp.State)
-	model.Url = types.StringPointerValue(apiResp.Url)
+	model.Scope = common.StringPointerValue(apiResp.Scope)
+	model.Slug = common.StringPointerValue(apiResp.Slug)
+	model.State = common.StringPointerValue(apiResp.State)
+	model.Url = common.StringPointerValue(apiResp.Url)
 	model.UserRequiresReconsent = types.BoolPointerValue(apiResp.UserRequiresReconsent)
-	model.Username = types.StringPointerValue(apiResp.Username)
+	model.Username = common.StringPointerValue(apiResp.Username)
 
 	return diags
 }

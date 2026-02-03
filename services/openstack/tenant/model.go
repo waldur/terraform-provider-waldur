@@ -8,6 +8,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+
+	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
 type OpenstackTenantFiltersModel struct {
@@ -157,39 +159,39 @@ func (model *OpenstackTenantModel) CopyFrom(ctx context.Context, apiResp Opensta
 	var diags diag.Diagnostics
 
 	model.UUID = types.StringPointerValue(apiResp.UUID)
-	model.AccessUrl = types.StringPointerValue(apiResp.AccessUrl)
-	model.AvailabilityZone = types.StringPointerValue(apiResp.AvailabilityZone)
-	model.BackendId = types.StringPointerValue(apiResp.BackendId)
+	model.AccessUrl = common.StringPointerValue(apiResp.AccessUrl)
+	model.AvailabilityZone = common.StringPointerValue(apiResp.AvailabilityZone)
+	model.BackendId = common.StringPointerValue(apiResp.BackendId)
 	valCreated, diagsCreated := timetypes.NewRFC3339PointerValue(apiResp.Created)
 	diags.Append(diagsCreated...)
 	model.Created = valCreated
-	model.Customer = types.StringPointerValue(apiResp.Customer)
-	model.CustomerAbbreviation = types.StringPointerValue(apiResp.CustomerAbbreviation)
-	model.CustomerName = types.StringPointerValue(apiResp.CustomerName)
-	model.CustomerNativeName = types.StringPointerValue(apiResp.CustomerNativeName)
-	model.CustomerUuid = types.StringPointerValue(apiResp.CustomerUuid)
-	model.DefaultVolumeTypeName = types.StringPointerValue(apiResp.DefaultVolumeTypeName)
-	model.Description = types.StringPointerValue(apiResp.Description)
-	model.ErrorMessage = types.StringPointerValue(apiResp.ErrorMessage)
-	model.ErrorTraceback = types.StringPointerValue(apiResp.ErrorTraceback)
-	model.ExternalNetworkId = types.StringPointerValue(apiResp.ExternalNetworkId)
-	model.InternalNetworkId = types.StringPointerValue(apiResp.InternalNetworkId)
+	model.Customer = common.StringPointerValue(apiResp.Customer)
+	model.CustomerAbbreviation = common.StringPointerValue(apiResp.CustomerAbbreviation)
+	model.CustomerName = common.StringPointerValue(apiResp.CustomerName)
+	model.CustomerNativeName = common.StringPointerValue(apiResp.CustomerNativeName)
+	model.CustomerUuid = common.StringPointerValue(apiResp.CustomerUuid)
+	model.DefaultVolumeTypeName = common.StringPointerValue(apiResp.DefaultVolumeTypeName)
+	model.Description = common.StringPointerValue(apiResp.Description)
+	model.ErrorMessage = common.StringPointerValue(apiResp.ErrorMessage)
+	model.ErrorTraceback = common.StringPointerValue(apiResp.ErrorTraceback)
+	model.ExternalNetworkId = common.StringPointerValue(apiResp.ExternalNetworkId)
+	model.InternalNetworkId = common.StringPointerValue(apiResp.InternalNetworkId)
 	model.IsLimitBased = types.BoolPointerValue(apiResp.IsLimitBased)
 	model.IsUsageBased = types.BoolPointerValue(apiResp.IsUsageBased)
-	model.MarketplaceCategoryName = types.StringPointerValue(apiResp.MarketplaceCategoryName)
-	model.MarketplaceCategoryUuid = types.StringPointerValue(apiResp.MarketplaceCategoryUuid)
-	model.MarketplaceOfferingName = types.StringPointerValue(apiResp.MarketplaceOfferingName)
-	model.MarketplaceOfferingUuid = types.StringPointerValue(apiResp.MarketplaceOfferingUuid)
-	model.MarketplacePlanUuid = types.StringPointerValue(apiResp.MarketplacePlanUuid)
-	model.MarketplaceResourceState = types.StringPointerValue(apiResp.MarketplaceResourceState)
-	model.MarketplaceResourceUuid = types.StringPointerValue(apiResp.MarketplaceResourceUuid)
+	model.MarketplaceCategoryName = common.StringPointerValue(apiResp.MarketplaceCategoryName)
+	model.MarketplaceCategoryUuid = common.StringPointerValue(apiResp.MarketplaceCategoryUuid)
+	model.MarketplaceOfferingName = common.StringPointerValue(apiResp.MarketplaceOfferingName)
+	model.MarketplaceOfferingUuid = common.StringPointerValue(apiResp.MarketplaceOfferingUuid)
+	model.MarketplacePlanUuid = common.StringPointerValue(apiResp.MarketplacePlanUuid)
+	model.MarketplaceResourceState = common.StringPointerValue(apiResp.MarketplaceResourceState)
+	model.MarketplaceResourceUuid = common.StringPointerValue(apiResp.MarketplaceResourceUuid)
 	valModified, diagsModified := timetypes.NewRFC3339PointerValue(apiResp.Modified)
 	diags.Append(diagsModified...)
 	model.Modified = valModified
-	model.Name = types.StringPointerValue(apiResp.Name)
-	model.Project = types.StringPointerValue(apiResp.Project)
-	model.ProjectName = types.StringPointerValue(apiResp.ProjectName)
-	model.ProjectUuid = types.StringPointerValue(apiResp.ProjectUuid)
+	model.Name = common.StringPointerValue(apiResp.Name)
+	model.Project = common.StringPointerValue(apiResp.Project)
+	model.ProjectName = common.StringPointerValue(apiResp.ProjectName)
+	model.ProjectUuid = common.StringPointerValue(apiResp.ProjectUuid)
 
 	{
 		listValQuotas, listDiagsQuotas := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
@@ -200,17 +202,17 @@ func (model *OpenstackTenantModel) CopyFrom(ctx context.Context, apiResp Opensta
 		diags.Append(listDiagsQuotas...)
 		model.Quotas = listValQuotas
 	}
-	model.ResourceType = types.StringPointerValue(apiResp.ResourceType)
-	model.ServiceName = types.StringPointerValue(apiResp.ServiceName)
-	model.ServiceSettings = types.StringPointerValue(apiResp.ServiceSettings)
-	model.ServiceSettingsErrorMessage = types.StringPointerValue(apiResp.ServiceSettingsErrorMessage)
-	model.ServiceSettingsState = types.StringPointerValue(apiResp.ServiceSettingsState)
-	model.ServiceSettingsUuid = types.StringPointerValue(apiResp.ServiceSettingsUuid)
+	model.ResourceType = common.StringPointerValue(apiResp.ResourceType)
+	model.ServiceName = common.StringPointerValue(apiResp.ServiceName)
+	model.ServiceSettings = common.StringPointerValue(apiResp.ServiceSettings)
+	model.ServiceSettingsErrorMessage = common.StringPointerValue(apiResp.ServiceSettingsErrorMessage)
+	model.ServiceSettingsState = common.StringPointerValue(apiResp.ServiceSettingsState)
+	model.ServiceSettingsUuid = common.StringPointerValue(apiResp.ServiceSettingsUuid)
 	model.SkipCreationOfDefaultRouter = types.BoolPointerValue(apiResp.SkipCreationOfDefaultRouter)
-	model.State = types.StringPointerValue(apiResp.State)
-	model.Url = types.StringPointerValue(apiResp.Url)
-	model.UserPassword = types.StringPointerValue(apiResp.UserPassword)
-	model.UserUsername = types.StringPointerValue(apiResp.UserUsername)
+	model.State = common.StringPointerValue(apiResp.State)
+	model.Url = common.StringPointerValue(apiResp.Url)
+	model.UserPassword = common.StringPointerValue(apiResp.UserPassword)
+	model.UserUsername = common.StringPointerValue(apiResp.UserUsername)
 
 	return diags
 }

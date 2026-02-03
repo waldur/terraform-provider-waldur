@@ -8,6 +8,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+
+	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
 type OpenstackSecurityGroupFiltersModel struct {
@@ -168,39 +170,42 @@ func (model *OpenstackSecurityGroupModel) CopyFrom(ctx context.Context, apiResp 
 	var diags diag.Diagnostics
 
 	model.UUID = types.StringPointerValue(apiResp.UUID)
-	model.AccessUrl = types.StringPointerValue(apiResp.AccessUrl)
-	model.BackendId = types.StringPointerValue(apiResp.BackendId)
+	model.AccessUrl = common.StringPointerValue(apiResp.AccessUrl)
+	model.BackendId = common.StringPointerValue(apiResp.BackendId)
 	valCreated, diagsCreated := timetypes.NewRFC3339PointerValue(apiResp.Created)
 	diags.Append(diagsCreated...)
 	model.Created = valCreated
-	model.Description = types.StringPointerValue(apiResp.Description)
-	model.ErrorMessage = types.StringPointerValue(apiResp.ErrorMessage)
-	model.ErrorTraceback = types.StringPointerValue(apiResp.ErrorTraceback)
+	model.Description = common.StringPointerValue(apiResp.Description)
+	model.ErrorMessage = common.StringPointerValue(apiResp.ErrorMessage)
+	model.ErrorTraceback = common.StringPointerValue(apiResp.ErrorTraceback)
 	valModified, diagsModified := timetypes.NewRFC3339PointerValue(apiResp.Modified)
 	diags.Append(diagsModified...)
 	model.Modified = valModified
-	model.Name = types.StringPointerValue(apiResp.Name)
-	model.ResourceType = types.StringPointerValue(apiResp.ResourceType)
+	model.Name = common.StringPointerValue(apiResp.Name)
+	model.ResourceType = common.StringPointerValue(apiResp.ResourceType)
 
 	{
 		listValRules, listDiagsRules := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
-			"cidr":         types.StringType,
-			"description":  types.StringType,
-			"direction":    types.StringType,
-			"ethertype":    types.StringType,
-			"from_port":    types.Int64Type,
-			"protocol":     types.StringType,
-			"remote_group": types.StringType,
-			"to_port":      types.Int64Type,
+			"cidr":              types.StringType,
+			"description":       types.StringType,
+			"direction":         types.StringType,
+			"ethertype":         types.StringType,
+			"from_port":         types.Int64Type,
+			"protocol":          types.StringType,
+			"remote_group":      types.StringType,
+			"to_port":           types.Int64Type,
+			"id":                types.Int64Type,
+			"remote_group_name": types.StringType,
+			"remote_group_uuid": types.StringType,
 		}}, apiResp.Rules)
 		diags.Append(listDiagsRules...)
 		model.Rules = listValRules
 	}
-	model.State = types.StringPointerValue(apiResp.State)
-	model.Tenant = types.StringPointerValue(apiResp.Tenant)
-	model.TenantName = types.StringPointerValue(apiResp.TenantName)
-	model.TenantUuid = types.StringPointerValue(apiResp.TenantUuid)
-	model.Url = types.StringPointerValue(apiResp.Url)
+	model.State = common.StringPointerValue(apiResp.State)
+	model.Tenant = common.StringPointerValue(apiResp.Tenant)
+	model.TenantName = common.StringPointerValue(apiResp.TenantName)
+	model.TenantUuid = common.StringPointerValue(apiResp.TenantUuid)
+	model.Url = common.StringPointerValue(apiResp.Url)
 
 	return diags
 }

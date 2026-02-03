@@ -103,6 +103,7 @@ Read-Only:
 - `parent_name` (String) Name of the parent organization group
 - `parent_uuid` (String) UUID of the parent organization group
 - `url` (String) Url
+- `uuid` (String) UUID of the Structure Customer
 
 
 <a id="nestedatt--payment_profiles"></a>
@@ -121,6 +122,7 @@ Read-Only:
 - `organization_uuid` (String) UUID of the organization
 - `payment_type_display` (String) Payment type display
 - `url` (String) Url
+- `uuid` (String) UUID of the Structure Customer
 
 <a id="nestedatt--payment_profiles--attributes"></a>
 ### Nested Schema for `payment_profiles.attributes`

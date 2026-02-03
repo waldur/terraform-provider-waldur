@@ -34,15 +34,37 @@ Openstack Port data source - lookup by name or UUID
 - `admin_state_up` (Boolean) Administrative state of the port. If down, port does not forward packets
 - `backend_id` (String) Port ID in OpenStack
 - `created` (String) Created
+- `customer` (String) Customer
+- `customer_abbreviation` (String) Customer abbreviation
+- `customer_name` (String) Name of the customer
+- `customer_native_name` (String) Name of the customer native
+- `customer_uuid` (String) UUID of the customer
 - `device_id` (String) ID of device (instance, router etc) to which this port is connected
 - `device_owner` (String) Entity that uses this port (e.g. network:router_interface)
 - `error_message` (String) Error message
 - `error_traceback` (String) Error traceback
 - `floating_ips` (Set of String) Floating ips
+- `is_limit_based` (Boolean) Is limit based
+- `is_usage_based` (Boolean) Is usage based
+- `marketplace_category_name` (String) Name of the marketplace category
+- `marketplace_category_uuid` (String) UUID of the marketplace category
+- `marketplace_offering_name` (String) Name of the marketplace offering
+- `marketplace_offering_uuid` (String) UUID of the marketplace offering
+- `marketplace_plan_uuid` (String) UUID of the marketplace plan
+- `marketplace_resource_state` (String) Marketplace resource state
+- `marketplace_resource_uuid` (String) UUID of the marketplace resource
 - `modified` (String) Modified
 - `network_name` (String) Name of the network
 - `network_uuid` (String) UUID of the network
+- `project` (String) Project
+- `project_name` (String) Name of the project
+- `project_uuid` (String) UUID of the project
 - `resource_type` (String) Resource type
+- `service_name` (String) Name of the service
+- `service_settings` (String) Service settings
+- `service_settings_error_message` (String) Service settings error message
+- `service_settings_state` (String) Service settings state
+- `service_settings_uuid` (String) UUID of the service settings
 - `state` (String) State
 - `status` (String) Port status in OpenStack (e.g. ACTIVE, DOWN)
 - `tenant` (String) OpenStack tenant this port belongs to
@@ -100,3 +122,4 @@ Optional:
 Read-Only:
 
 - `url` (String) Url
+- `uuid` (String) UUID of the Openstack Port

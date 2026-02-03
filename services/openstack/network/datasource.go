@@ -57,6 +57,26 @@ func (d *OpenstackNetworkDataSource) Schema(ctx context.Context, req datasource.
 				Computed:            true,
 				MarkdownDescription: "Created",
 			},
+			"customer": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "Customer",
+			},
+			"customer_abbreviation": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "Customer abbreviation",
+			},
+			"customer_name": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "Name of the customer",
+			},
+			"customer_native_name": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "Name of the customer native",
+			},
+			"customer_uuid": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "UUID of the customer",
+			},
 			"description": schema.StringAttribute{
 				Optional:            true,
 				MarkdownDescription: "Description of the Openstack Network",
@@ -73,6 +93,42 @@ func (d *OpenstackNetworkDataSource) Schema(ctx context.Context, req datasource.
 				Computed:            true,
 				MarkdownDescription: "Defines whether this network is external (public) or internal (private)",
 			},
+			"is_limit_based": schema.BoolAttribute{
+				Computed:            true,
+				MarkdownDescription: "Is limit based",
+			},
+			"is_usage_based": schema.BoolAttribute{
+				Computed:            true,
+				MarkdownDescription: "Is usage based",
+			},
+			"marketplace_category_name": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "Name of the marketplace category",
+			},
+			"marketplace_category_uuid": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "UUID of the marketplace category",
+			},
+			"marketplace_offering_name": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "Name of the marketplace offering",
+			},
+			"marketplace_offering_uuid": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "UUID of the marketplace offering",
+			},
+			"marketplace_plan_uuid": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "UUID of the marketplace plan",
+			},
+			"marketplace_resource_state": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "Marketplace resource state",
+			},
+			"marketplace_resource_uuid": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "UUID of the marketplace resource",
+			},
 			"modified": schema.StringAttribute{
 				CustomType:          timetypes.RFC3339Type{},
 				Computed:            true,
@@ -85,6 +141,18 @@ func (d *OpenstackNetworkDataSource) Schema(ctx context.Context, req datasource.
 			"name": schema.StringAttribute{
 				Optional:            true,
 				MarkdownDescription: "Name of the Openstack Network",
+			},
+			"project": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "Project",
+			},
+			"project_name": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "Name of the project",
+			},
+			"project_uuid": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "UUID of the project",
 			},
 			"rbac_policies": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
@@ -122,6 +190,10 @@ func (d *OpenstackNetworkDataSource) Schema(ctx context.Context, req datasource.
 							Computed:            true,
 							MarkdownDescription: "Url",
 						},
+						"uuid": schema.StringAttribute{
+							Computed:            true,
+							MarkdownDescription: "UUID of the Openstack Network",
+						},
 					},
 				},
 				Computed:            true,
@@ -134,6 +206,26 @@ func (d *OpenstackNetworkDataSource) Schema(ctx context.Context, req datasource.
 			"segmentation_id": schema.Int64Attribute{
 				Computed:            true,
 				MarkdownDescription: "VLAN ID for VLAN networks or tunnel ID for VXLAN/GRE networks",
+			},
+			"service_name": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "Name of the service",
+			},
+			"service_settings": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "Service settings",
+			},
+			"service_settings_error_message": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "Service settings error message",
+			},
+			"service_settings_state": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "Service settings state",
+			},
+			"service_settings_uuid": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "UUID of the service settings",
 			},
 			"state": schema.StringAttribute{
 				Computed:            true,
@@ -185,6 +277,10 @@ func (d *OpenstackNetworkDataSource) Schema(ctx context.Context, req datasource.
 						"name": schema.StringAttribute{
 							Optional:            true,
 							MarkdownDescription: "Name of the Openstack Network",
+						},
+						"uuid": schema.StringAttribute{
+							Computed:            true,
+							MarkdownDescription: "UUID of the Openstack Network",
 						},
 					},
 				},

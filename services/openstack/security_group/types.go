@@ -5,18 +5,18 @@ import (
 )
 
 type OpenstackSecurityGroupCreateRequest struct {
-	Description *string                                          `json:"description,omitempty" tfsdk:"description"`
-	Name        *string                                          `json:"name" tfsdk:"name"`
-	Rules       []common.OpenStackSecurityGroupRuleCreateRequest `json:"rules" tfsdk:"rules"`
+	Description *string                                          `json:"description,omitempty"`
+	Name        *string                                          `json:"name"`
+	Rules       []common.OpenStackSecurityGroupRuleCreateRequest `json:"rules"`
 }
 
 type OpenstackSecurityGroupUpdateRequest struct {
-	Description *string `json:"description,omitempty" tfsdk:"description"`
-	Name        *string `json:"name,omitempty" tfsdk:"name"`
+	Description *string `json:"description,omitempty"`
+	Name        *string `json:"name,omitempty"`
 }
 
 type OpenstackSecurityGroupSetRulesActionRequest struct {
-	Rules []common.OpenStackSecurityGroupRuleCreateRequest `json:"rules" tfsdk:"rules"`
+	Rules []common.OpenStackSecurityGroupRuleCreateRequest `json:"rules"`
 }
 
 type OpenstackSecurityGroupResponse struct {
@@ -62,14 +62,17 @@ type OpenstackSecurityGroupResponse struct {
 }
 
 type OpenstackSecurityGroupRulesResponse struct {
-	Cidr        *string `json:"cidr" tfsdk:"cidr"`
-	Description *string `json:"description" tfsdk:"description"`
-	Direction   *string `json:"direction" tfsdk:"direction"`
-	Ethertype   *string `json:"ethertype" tfsdk:"ethertype"`
-	FromPort    *int64  `json:"from_port" tfsdk:"from_port"`
-	Protocol    *string `json:"protocol" tfsdk:"protocol"`
-	RemoteGroup *string `json:"remote_group" tfsdk:"remote_group"`
-	ToPort      *int64  `json:"to_port" tfsdk:"to_port"`
+	Cidr            *string `json:"cidr" tfsdk:"cidr"`
+	Description     *string `json:"description" tfsdk:"description"`
+	Direction       *string `json:"direction" tfsdk:"direction"`
+	Ethertype       *string `json:"ethertype" tfsdk:"ethertype"`
+	FromPort        *int64  `json:"from_port" tfsdk:"from_port"`
+	Protocol        *string `json:"protocol" tfsdk:"protocol"`
+	RemoteGroup     *string `json:"remote_group" tfsdk:"remote_group"`
+	ToPort          *int64  `json:"to_port" tfsdk:"to_port"`
+	Id              *int64  `json:"id" tfsdk:"id"`
+	RemoteGroupName *string `json:"remote_group_name" tfsdk:"remote_group_name"`
+	RemoteGroupUuid *string `json:"remote_group_uuid" tfsdk:"remote_group_uuid"`
 }
 
 func (r *OpenstackSecurityGroupResponse) GetState() string {

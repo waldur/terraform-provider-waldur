@@ -203,6 +203,10 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 								int64validator.AtMost(2147483647),
 							},
 						},
+						"uuid": schema.StringAttribute{
+							Computed:            true,
+							MarkdownDescription: "UUID of the Marketplace Offering",
+						},
 					},
 				},
 				Computed:            true,
@@ -216,6 +220,18 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 				CustomType:          timetypes.RFC3339Type{},
 				Computed:            true,
 				MarkdownDescription: "Created",
+			},
+			"customer": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Customer",
+			},
+			"customer_name": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "Name of the customer",
+			},
+			"customer_uuid": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "UUID of the customer",
 			},
 			"datacite_doi": schema.StringAttribute{
 				Optional:            true,
@@ -235,6 +251,10 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 						"url": schema.StringAttribute{
 							Optional:            true,
 							MarkdownDescription: "URL of the access endpoint",
+						},
+						"uuid": schema.StringAttribute{
+							Computed:            true,
+							MarkdownDescription: "UUID of the Marketplace Offering",
 						},
 					},
 				},
@@ -290,6 +310,10 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 				Optional:            true,
 				MarkdownDescription: "Integration guide",
 			},
+			"is_accessible": schema.BoolAttribute{
+				Computed:            true,
+				MarkdownDescription: "Is accessible",
+			},
 			"latitude": schema.Float64Attribute{
 				Optional:            true,
 				MarkdownDescription: "Latitude",
@@ -332,6 +356,10 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 						"url": schema.StringAttribute{
 							Computed:            true,
 							MarkdownDescription: "Url",
+						},
+						"uuid": schema.StringAttribute{
+							Computed:            true,
+							MarkdownDescription: "UUID of the Marketplace Offering",
 						},
 					},
 				},
@@ -488,6 +516,10 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 							Optional:            true,
 							MarkdownDescription: "Require reservation for job allocation",
 						},
+						"uuid": schema.StringAttribute{
+							Computed:            true,
+							MarkdownDescription: "UUID of the Marketplace Offering",
+						},
 					},
 				},
 				Computed:            true,
@@ -625,6 +657,10 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 										Computed:            true,
 										MarkdownDescription: "Url",
 									},
+									"uuid": schema.StringAttribute{
+										Computed:            true,
+										MarkdownDescription: "UUID of the Marketplace Offering",
+									},
 								},
 							},
 							Computed:            true,
@@ -660,6 +696,10 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 							Optional:            true,
 							MarkdownDescription: "Url",
 						},
+						"uuid": schema.StringAttribute{
+							Computed:            true,
+							MarkdownDescription: "UUID of the Marketplace Offering",
+						},
 					},
 				},
 				Computed:            true,
@@ -668,6 +708,18 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 			"privacy_policy_link": schema.StringAttribute{
 				Optional:            true,
 				MarkdownDescription: "Privacy policy link",
+			},
+			"project": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "Project",
+			},
+			"project_name": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "Name of the project",
+			},
+			"project_uuid": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "UUID of the project",
 			},
 			"promotion_campaigns": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
@@ -723,6 +775,10 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 								int64validator.AtMost(2147483647),
 							},
 						},
+						"uuid": schema.StringAttribute{
+							Computed:            true,
+							MarkdownDescription: "UUID of the Marketplace Offering",
+						},
 					},
 				},
 				Computed:            true,
@@ -758,6 +814,10 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 						"url": schema.StringAttribute{
 							Computed:            true,
 							MarkdownDescription: "Url",
+						},
+						"uuid": schema.StringAttribute{
+							Computed:            true,
+							MarkdownDescription: "UUID of the Marketplace Offering",
 						},
 					},
 				},
@@ -808,6 +868,10 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 							Computed:            true,
 							MarkdownDescription: "Thumbnail",
 						},
+						"uuid": schema.StringAttribute{
+							Computed:            true,
+							MarkdownDescription: "UUID of the Marketplace Offering",
+						},
 					},
 				},
 				Computed:            true,
@@ -837,6 +901,10 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 									Optional:            true,
 									MarkdownDescription: "Name of the Marketplace Offering",
 								},
+								"uuid": schema.StringAttribute{
+									Optional:            true,
+									MarkdownDescription: "UUID of the Marketplace Offering",
+								},
 								"version": schema.StringAttribute{
 									Optional:            true,
 									MarkdownDescription: "Version",
@@ -863,9 +931,17 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 									Optional:            true,
 									MarkdownDescription: "Qos",
 								},
+								"uuid": schema.StringAttribute{
+									Optional:            true,
+									MarkdownDescription: "UUID of the Marketplace Offering",
+								},
 							},
 							Computed:            true,
 							MarkdownDescription: "Partition",
+						},
+						"uuid": schema.StringAttribute{
+							Computed:            true,
+							MarkdownDescription: "UUID of the Marketplace Offering",
 						},
 					},
 				},
@@ -875,6 +951,22 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 			"state": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "State",
+			},
+			"tags": schema.SetNestedAttribute{
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: map[string]schema.Attribute{
+						"name": schema.StringAttribute{
+							Optional:            true,
+							MarkdownDescription: "Name of the Marketplace Offering",
+						},
+						"uuid": schema.StringAttribute{
+							Computed:            true,
+							MarkdownDescription: "UUID of the Marketplace Offering",
+						},
+					},
+				},
+				Computed:            true,
+				MarkdownDescription: "Tags",
 			},
 			"thumbnail": schema.StringAttribute{
 				Optional:            true,

@@ -33,6 +33,7 @@ type OpenstackFloatingIpResource struct {
 // OpenstackFloatingIpResourceModel describes the resource data model.
 type OpenstackFloatingIpResourceModel struct {
 	OpenstackFloatingIpModel
+	Router   types.String   `tfsdk:"router"`
 	Timeouts timeouts.Value `tfsdk:"timeouts"`
 }
 
@@ -185,6 +186,13 @@ func (r *OpenstackFloatingIpResource) Schema(ctx context.Context, req resource.S
 				},
 				MarkdownDescription: "Resource type",
 			},
+			"router": schema.StringAttribute{
+				Optional: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.RequiresReplace(),
+				},
+				MarkdownDescription: "Optional router to use for external network detection",
+			},
 			"runtime_state": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
@@ -262,7 +270,9 @@ func (r *OpenstackFloatingIpResource) Create(ctx context.Context, req resource.C
 		return
 	}
 
-	requestBody := OpenstackFloatingIpCreateRequest{}
+	requestBody := OpenstackFloatingIpCreateRequest{
+		Router: data.Router.ValueStringPointer(),
+	}
 
 	apiResp, err := r.client.CreateOpenstackFloatingIp(ctx, data.Tenant.ValueString(), &requestBody)
 	if err != nil {

@@ -158,6 +158,10 @@ func (r *OpenstackNetworkResource) Schema(ctx context.Context, req resource.Sche
 							Computed:            true,
 							MarkdownDescription: "Url",
 						},
+						"uuid": schema.StringAttribute{
+							Computed:            true,
+							MarkdownDescription: "UUID of the Openstack Network",
+						},
 					},
 				},
 				Computed: true,
@@ -233,6 +237,10 @@ func (r *OpenstackNetworkResource) Schema(ctx context.Context, req resource.Sche
 						"name": schema.StringAttribute{
 							Optional:            true,
 							MarkdownDescription: "Name of the Openstack Network",
+						},
+						"uuid": schema.StringAttribute{
+							Computed:            true,
+							MarkdownDescription: "UUID of the Openstack Network",
 						},
 					},
 				},

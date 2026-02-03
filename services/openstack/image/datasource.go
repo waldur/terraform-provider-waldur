@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
 	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
@@ -43,6 +44,11 @@ func (d *OpenstackImageDataSource) Schema(ctx context.Context, req datasource.Sc
 				MarkdownDescription: "Openstack Image UUID",
 			},
 			"filters": (&OpenstackImageFiltersModel{}).GetSchema(),
+			"backend_created_at": schema.StringAttribute{
+				CustomType:          timetypes.RFC3339Type{},
+				Optional:            true,
+				MarkdownDescription: "Backend created at",
+			},
 			"backend_id": schema.StringAttribute{
 				Required:            true,
 				MarkdownDescription: "ID of the backend",

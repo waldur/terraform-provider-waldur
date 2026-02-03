@@ -79,6 +79,11 @@ Required:
 
 - `name` (String) Name of the Openstack Port
 
+Read-Only:
+
+- `url` (String) Url
+- `uuid` (String) UUID of the Openstack Port
+
 
 <a id="nestedblock--timeouts"></a>
 ### Nested Schema for `timeouts`

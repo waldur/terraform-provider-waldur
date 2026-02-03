@@ -1,17 +1,17 @@
 package network
 
 type OpenstackNetworkCreateRequest struct {
-	Description *string `json:"description,omitempty" tfsdk:"description"`
-	Name        *string `json:"name" tfsdk:"name"`
+	Description *string `json:"description,omitempty"`
+	Name        *string `json:"name"`
 }
 
 type OpenstackNetworkUpdateRequest struct {
-	Description *string `json:"description,omitempty" tfsdk:"description"`
-	Name        *string `json:"name,omitempty" tfsdk:"name"`
+	Description *string `json:"description,omitempty"`
+	Name        *string `json:"name,omitempty"`
 }
 
 type OpenstackNetworkSetMtuActionRequest struct {
-	Mtu *int64 `json:"mtu" tfsdk:"mtu"`
+	Mtu *int64 `json:"mtu"`
 }
 
 type OpenstackNetworkResponse struct {
@@ -70,6 +70,7 @@ type OpenstackNetworkRbacPoliciesResponse struct {
 	TargetTenant     *string `json:"target_tenant" tfsdk:"target_tenant"`
 	TargetTenantName *string `json:"target_tenant_name" tfsdk:"target_tenant_name"`
 	Url              *string `json:"url" tfsdk:"url"`
+	Uuid             *string `json:"uuid" tfsdk:"uuid"`
 }
 
 type OpenstackNetworkSubnetsResponse struct {
@@ -80,6 +81,7 @@ type OpenstackNetworkSubnetsResponse struct {
 	GatewayIp       *string                                          `json:"gateway_ip" tfsdk:"gateway_ip"`
 	IpVersion       *int64                                           `json:"ip_version" tfsdk:"ip_version"`
 	Name            *string                                          `json:"name" tfsdk:"name"`
+	Uuid            *string                                          `json:"uuid" tfsdk:"uuid"`
 }
 
 type OpenstackNetworkSubnetsAllocationPoolsResponse struct {

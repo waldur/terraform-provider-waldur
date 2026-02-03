@@ -1,10 +1,11 @@
 package floating_ip
 
 type OpenstackFloatingIpCreateRequest struct {
+	Router *string `json:"router,omitempty"`
 }
 
 type OpenstackFloatingIpUpdateDescriptionActionRequest struct {
-	Description *string `json:"description" tfsdk:"description"`
+	Description *string `json:"description"`
 }
 
 type OpenstackFloatingIpResponse struct {

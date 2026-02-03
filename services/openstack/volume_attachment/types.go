@@ -1,15 +1,15 @@
 package volume_attachment
 
 type OpenstackVolumeAttachmentCreateRequest struct {
-	Device   *string `json:"device,omitempty" tfsdk:"device"`
-	Instance *string `json:"instance" tfsdk:"instance"`
-	Volume   *string `json:"volume" tfsdk:"volume"`
+	Device   *string `json:"device,omitempty"`
+	Instance *string `json:"instance"`
+	Volume   *string `json:"volume"`
 }
 
 type OpenstackVolumeAttachmentUpdateRequest struct {
-	Bootable    *bool   `json:"bootable,omitempty" tfsdk:"bootable"`
-	Description *string `json:"description,omitempty" tfsdk:"description"`
-	Name        *string `json:"name,omitempty" tfsdk:"name"`
+	Bootable    *bool   `json:"bootable,omitempty"`
+	Description *string `json:"description,omitempty"`
+	Name        *string `json:"name,omitempty"`
 }
 
 type OpenstackVolumeAttachmentResponse struct {

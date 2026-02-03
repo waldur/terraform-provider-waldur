@@ -123,9 +123,17 @@ func (d *MarketplaceOrderDataSource) Schema(ctx context.Context, req datasource.
 				Computed:            true,
 				MarkdownDescription: "Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters",
 			},
+			"customer_name": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "Name of the customer",
+			},
 			"customer_slug": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Customer slug",
+			},
+			"customer_uuid": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "UUID of the customer",
 			},
 			"error_message": schema.StringAttribute{
 				Computed:            true,
@@ -138,6 +146,10 @@ func (d *MarketplaceOrderDataSource) Schema(ctx context.Context, req datasource.
 			"fixed_price": schema.Float64Attribute{
 				Computed:            true,
 				MarkdownDescription: "Fixed price",
+			},
+			"marketplace_resource_uuid": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "UUID of the marketplace resource",
 			},
 			"modified": schema.StringAttribute{
 				CustomType:          timetypes.RFC3339Type{},
@@ -239,9 +251,17 @@ func (d *MarketplaceOrderDataSource) Schema(ctx context.Context, req datasource.
 				Computed:            true,
 				MarkdownDescription: "Project description",
 			},
+			"project_name": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "Name of the project",
+			},
 			"project_slug": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Project slug",
+			},
+			"project_uuid": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "UUID of the project",
 			},
 			"provider_name": schema.StringAttribute{
 				Computed:            true,

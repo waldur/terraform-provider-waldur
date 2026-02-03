@@ -5,7 +5,9 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/list"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
+	pkg_flavor "github.com/waldur/terraform-provider-waldur/services/openstack/flavor"
 	pkg_floating_ip "github.com/waldur/terraform-provider-waldur/services/openstack/floating_ip"
+	pkg_image "github.com/waldur/terraform-provider-waldur/services/openstack/image"
 	pkg_instance "github.com/waldur/terraform-provider-waldur/services/openstack/instance"
 	pkg_network "github.com/waldur/terraform-provider-waldur/services/openstack/network"
 	pkg_network_rbac_policy "github.com/waldur/terraform-provider-waldur/services/openstack/network_rbac_policy"
@@ -16,6 +18,7 @@ import (
 	pkg_tenant "github.com/waldur/terraform-provider-waldur/services/openstack/tenant"
 	pkg_volume "github.com/waldur/terraform-provider-waldur/services/openstack/volume"
 	pkg_volume_attachment "github.com/waldur/terraform-provider-waldur/services/openstack/volume_attachment"
+	pkg_volume_type "github.com/waldur/terraform-provider-waldur/services/openstack/volume_type"
 )
 
 func GetResources() []func() resource.Resource {
@@ -46,6 +49,9 @@ func GetDataSources() []func() datasource.DataSource {
 		pkg_network_rbac_policy.NewOpenstackNetworkRbacPolicyDataSource,
 		pkg_floating_ip.NewOpenstackFloatingIpDataSource,
 		pkg_port.NewOpenstackPortDataSource,
+		pkg_flavor.NewOpenstackFlavorDataSource,
+		pkg_image.NewOpenstackImageDataSource,
+		pkg_volume_type.NewOpenstackVolumeTypeDataSource,
 	}
 }
 

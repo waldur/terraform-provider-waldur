@@ -11,17 +11,6 @@ const (
 	DefaultPollMinTimeout = 5 * time.Second
 )
 
-type BaseProviderPlanRequest struct {
-	Archived    *bool   `json:"archived,omitempty" tfsdk:"archived"`
-	ArticleCode *string `json:"article_code,omitempty" tfsdk:"article_code"`
-	BackendId   *string `json:"backend_id,omitempty" tfsdk:"backend_id"`
-	Description *string `json:"description,omitempty" tfsdk:"description"`
-	MaxAmount   *int64  `json:"max_amount,omitempty" tfsdk:"max_amount"`
-	Name        *string `json:"name" tfsdk:"name"`
-	Unit        *string `json:"unit,omitempty" tfsdk:"unit"`
-	UnitPrice   *string `json:"unit_price,omitempty" tfsdk:"unit_price"`
-}
-
 type BasePublicPlan struct {
 	Archived           *bool                 `json:"archived,omitempty" tfsdk:"archived"`
 	ArticleCode        *string               `json:"article_code,omitempty" tfsdk:"article_code"`
@@ -69,13 +58,6 @@ const (
 	DiscountTypeEnumDiscount     DiscountTypeEnum = "discount"
 	DiscountTypeEnumSpecialPrice DiscountTypeEnum = "special_price"
 )
-
-type IntegrationStatus struct {
-	AgentType            *string `json:"agent_type,omitempty" tfsdk:"agent_type"`
-	LastRequestTimestamp *string `json:"last_request_timestamp,omitempty" tfsdk:"last_request_timestamp"`
-	ServiceName          *string `json:"service_name,omitempty" tfsdk:"service_name"`
-	Status               *string `json:"status,omitempty" tfsdk:"status"`
-}
 
 type NestedCampaign struct {
 	Description     *string `json:"description,omitempty" tfsdk:"description"`
@@ -168,12 +150,18 @@ type NestedSoftwareCatalog struct {
 type NestedSoftwareCatalogCatalog struct {
 	Description *string `json:"description,omitempty" tfsdk:"description"`
 	Name        *string `json:"name,omitempty" tfsdk:"name"`
+	Uuid        *string `json:"uuid,omitempty" tfsdk:"uuid"`
 	Version     *string `json:"version,omitempty" tfsdk:"version"`
 }
 type NestedSoftwareCatalogPartition struct {
 	PartitionName *string `json:"partition_name,omitempty" tfsdk:"partition_name"`
 	PriorityTier  *int64  `json:"priority_tier,omitempty" tfsdk:"priority_tier"`
 	Qos           *string `json:"qos,omitempty" tfsdk:"qos"`
+	Uuid          *string `json:"uuid,omitempty" tfsdk:"uuid"`
+}
+
+type NestedTag struct {
+	Name *string `json:"name,omitempty" tfsdk:"name"`
 }
 
 type NetworkRBACPolicy struct {
@@ -208,31 +196,6 @@ type OfferingComponent struct {
 	OverageComponent   *string `json:"overage_component,omitempty" tfsdk:"overage_component"`
 	Type               *string `json:"type,omitempty" tfsdk:"type"`
 	UnitFactor         *int64  `json:"unit_factor,omitempty" tfsdk:"unit_factor"`
-}
-
-type OfferingComponentRequest struct {
-	ArticleCode        *string `json:"article_code,omitempty" tfsdk:"article_code"`
-	BillingType        *string `json:"billing_type" tfsdk:"billing_type"`
-	DefaultLimit       *int64  `json:"default_limit,omitempty" tfsdk:"default_limit"`
-	Description        *string `json:"description,omitempty" tfsdk:"description"`
-	IsBoolean          *bool   `json:"is_boolean,omitempty" tfsdk:"is_boolean"`
-	IsPrepaid          *bool   `json:"is_prepaid,omitempty" tfsdk:"is_prepaid"`
-	LimitAmount        *int64  `json:"limit_amount,omitempty" tfsdk:"limit_amount"`
-	LimitPeriod        *string `json:"limit_period,omitempty" tfsdk:"limit_period"`
-	MaxAvailableLimit  *int64  `json:"max_available_limit,omitempty" tfsdk:"max_available_limit"`
-	MaxPrepaidDuration *int64  `json:"max_prepaid_duration,omitempty" tfsdk:"max_prepaid_duration"`
-	MaxValue           *int64  `json:"max_value,omitempty" tfsdk:"max_value"`
-	MeasuredUnit       *string `json:"measured_unit,omitempty" tfsdk:"measured_unit"`
-	MinPrepaidDuration *int64  `json:"min_prepaid_duration,omitempty" tfsdk:"min_prepaid_duration"`
-	MinValue           *int64  `json:"min_value,omitempty" tfsdk:"min_value"`
-	Name               *string `json:"name" tfsdk:"name"`
-	OverageComponent   *string `json:"overage_component,omitempty" tfsdk:"overage_component"`
-	Type               *string `json:"type" tfsdk:"type"`
-	UnitFactor         *int64  `json:"unit_factor,omitempty" tfsdk:"unit_factor"`
-}
-
-type OfferingOptionsRequest struct {
-	Order []string `json:"order" tfsdk:"order"`
 }
 
 type OpenStackAllowedAddressPair struct {
@@ -527,6 +490,7 @@ type OrganizationGroup struct {
 	ParentName     *string `json:"parent_name,omitempty" tfsdk:"parent_name"`
 	ParentUuid     *string `json:"parent_uuid,omitempty" tfsdk:"parent_uuid"`
 	Url            *string `json:"url,omitempty" tfsdk:"url"`
+	Uuid           *string `json:"uuid,omitempty" tfsdk:"uuid"`
 }
 
 type PaymentProfile struct {

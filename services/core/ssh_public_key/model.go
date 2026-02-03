@@ -6,6 +6,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+
+	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
 type CoreSshPublicKeyFiltersModel struct {
@@ -88,15 +90,15 @@ func (model *CoreSshPublicKeyModel) CopyFrom(ctx context.Context, apiResp CoreSs
 	var diags diag.Diagnostics
 
 	model.UUID = types.StringPointerValue(apiResp.UUID)
-	model.FingerprintMd5 = types.StringPointerValue(apiResp.FingerprintMd5)
-	model.FingerprintSha256 = types.StringPointerValue(apiResp.FingerprintSha256)
-	model.FingerprintSha512 = types.StringPointerValue(apiResp.FingerprintSha512)
+	model.FingerprintMd5 = common.StringPointerValue(apiResp.FingerprintMd5)
+	model.FingerprintSha256 = common.StringPointerValue(apiResp.FingerprintSha256)
+	model.FingerprintSha512 = common.StringPointerValue(apiResp.FingerprintSha512)
 	model.IsShared = types.BoolPointerValue(apiResp.IsShared)
-	model.Name = types.StringPointerValue(apiResp.Name)
-	model.PublicKey = types.StringPointerValue(apiResp.PublicKey)
-	model.Type = types.StringPointerValue(apiResp.Type)
-	model.Url = types.StringPointerValue(apiResp.Url)
-	model.UserUuid = types.StringPointerValue(apiResp.UserUuid)
+	model.Name = common.StringPointerValue(apiResp.Name)
+	model.PublicKey = common.StringPointerValue(apiResp.PublicKey)
+	model.Type = common.StringPointerValue(apiResp.Type)
+	model.Url = common.StringPointerValue(apiResp.Url)
+	model.UserUuid = common.StringPointerValue(apiResp.UserUuid)
 
 	return diags
 }

@@ -6,6 +6,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+
+	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
 type OpenstackVolumeTypeFiltersModel struct {
@@ -68,10 +70,10 @@ func (model *OpenstackVolumeTypeModel) CopyFrom(ctx context.Context, apiResp Ope
 	var diags diag.Diagnostics
 
 	model.UUID = types.StringPointerValue(apiResp.UUID)
-	model.Description = types.StringPointerValue(apiResp.Description)
-	model.Name = types.StringPointerValue(apiResp.Name)
-	model.Settings = types.StringPointerValue(apiResp.Settings)
-	model.Url = types.StringPointerValue(apiResp.Url)
+	model.Description = common.StringPointerValue(apiResp.Description)
+	model.Name = common.StringPointerValue(apiResp.Name)
+	model.Settings = common.StringPointerValue(apiResp.Settings)
+	model.Url = common.StringPointerValue(apiResp.Url)
 
 	return diags
 }

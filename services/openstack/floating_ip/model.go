@@ -8,6 +8,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+
+	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
 type OpenstackFloatingIpFiltersModel struct {
@@ -186,25 +188,25 @@ func (model *OpenstackFloatingIpModel) CopyFrom(ctx context.Context, apiResp Ope
 	var diags diag.Diagnostics
 
 	model.UUID = types.StringPointerValue(apiResp.UUID)
-	model.AccessUrl = types.StringPointerValue(apiResp.AccessUrl)
-	model.Address = types.StringPointerValue(apiResp.Address)
-	model.BackendId = types.StringPointerValue(apiResp.BackendId)
-	model.BackendNetworkId = types.StringPointerValue(apiResp.BackendNetworkId)
+	model.AccessUrl = common.StringPointerValue(apiResp.AccessUrl)
+	model.Address = common.StringPointerValue(apiResp.Address)
+	model.BackendId = common.StringPointerValue(apiResp.BackendId)
+	model.BackendNetworkId = common.StringPointerValue(apiResp.BackendNetworkId)
 	valCreated, diagsCreated := timetypes.NewRFC3339PointerValue(apiResp.Created)
 	diags.Append(diagsCreated...)
 	model.Created = valCreated
-	model.Description = types.StringPointerValue(apiResp.Description)
-	model.ErrorMessage = types.StringPointerValue(apiResp.ErrorMessage)
-	model.ErrorTraceback = types.StringPointerValue(apiResp.ErrorTraceback)
-	model.ExternalAddress = types.StringPointerValue(apiResp.ExternalAddress)
-	model.InstanceName = types.StringPointerValue(apiResp.InstanceName)
-	model.InstanceUrl = types.StringPointerValue(apiResp.InstanceUrl)
-	model.InstanceUuid = types.StringPointerValue(apiResp.InstanceUuid)
+	model.Description = common.StringPointerValue(apiResp.Description)
+	model.ErrorMessage = common.StringPointerValue(apiResp.ErrorMessage)
+	model.ErrorTraceback = common.StringPointerValue(apiResp.ErrorTraceback)
+	model.ExternalAddress = common.StringPointerValue(apiResp.ExternalAddress)
+	model.InstanceName = common.StringPointerValue(apiResp.InstanceName)
+	model.InstanceUrl = common.StringPointerValue(apiResp.InstanceUrl)
+	model.InstanceUuid = common.StringPointerValue(apiResp.InstanceUuid)
 	valModified, diagsModified := timetypes.NewRFC3339PointerValue(apiResp.Modified)
 	diags.Append(diagsModified...)
 	model.Modified = valModified
-	model.Name = types.StringPointerValue(apiResp.Name)
-	model.Port = types.StringPointerValue(apiResp.Port)
+	model.Name = common.StringPointerValue(apiResp.Name)
+	model.Port = common.StringPointerValue(apiResp.Port)
 
 	{
 		listValPortFixedIps, listDiagsPortFixedIps := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
@@ -214,13 +216,13 @@ func (model *OpenstackFloatingIpModel) CopyFrom(ctx context.Context, apiResp Ope
 		diags.Append(listDiagsPortFixedIps...)
 		model.PortFixedIps = listValPortFixedIps
 	}
-	model.ResourceType = types.StringPointerValue(apiResp.ResourceType)
-	model.RuntimeState = types.StringPointerValue(apiResp.RuntimeState)
-	model.State = types.StringPointerValue(apiResp.State)
-	model.Tenant = types.StringPointerValue(apiResp.Tenant)
-	model.TenantName = types.StringPointerValue(apiResp.TenantName)
-	model.TenantUuid = types.StringPointerValue(apiResp.TenantUuid)
-	model.Url = types.StringPointerValue(apiResp.Url)
+	model.ResourceType = common.StringPointerValue(apiResp.ResourceType)
+	model.RuntimeState = common.StringPointerValue(apiResp.RuntimeState)
+	model.State = common.StringPointerValue(apiResp.State)
+	model.Tenant = common.StringPointerValue(apiResp.Tenant)
+	model.TenantName = common.StringPointerValue(apiResp.TenantName)
+	model.TenantUuid = common.StringPointerValue(apiResp.TenantUuid)
+	model.Url = common.StringPointerValue(apiResp.Url)
 
 	return diags
 }

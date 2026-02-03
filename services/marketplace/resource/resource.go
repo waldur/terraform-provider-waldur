@@ -163,6 +163,10 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 							Optional:            true,
 							MarkdownDescription: "URL of the access endpoint",
 						},
+						"uuid": schema.StringAttribute{
+							Computed:            true,
+							MarkdownDescription: "UUID of the Marketplace Resource",
+						},
 					},
 				},
 				Computed: true,
@@ -216,6 +220,13 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 					stringplanmodifier.RequiresReplace(),
 				},
 				MarkdownDescription: "Offering",
+			},
+			"offering_backend_id": schema.StringAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+				MarkdownDescription: "ID of the offering backend",
 			},
 			"offering_billable": schema.BoolAttribute{
 				Computed: true,
@@ -344,6 +355,10 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 								int64validator.AtLeast(-2147483648),
 								int64validator.AtMost(2147483647),
 							},
+						},
+						"uuid": schema.StringAttribute{
+							Computed:            true,
+							MarkdownDescription: "UUID of the Marketplace Resource",
 						},
 					},
 				},

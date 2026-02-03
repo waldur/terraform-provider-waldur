@@ -218,6 +218,10 @@ func (d *StructureCustomerDataSource) Schema(ctx context.Context, req datasource
 							Computed:            true,
 							MarkdownDescription: "Url",
 						},
+						"uuid": schema.StringAttribute{
+							Computed:            true,
+							MarkdownDescription: "UUID of the Structure Customer",
+						},
 					},
 				},
 				Computed:            true,
@@ -274,6 +278,10 @@ func (d *StructureCustomerDataSource) Schema(ctx context.Context, req datasource
 						"url": schema.StringAttribute{
 							Computed:            true,
 							MarkdownDescription: "Url",
+						},
+						"uuid": schema.StringAttribute{
+							Computed:            true,
+							MarkdownDescription: "UUID of the Structure Customer",
 						},
 					},
 				},

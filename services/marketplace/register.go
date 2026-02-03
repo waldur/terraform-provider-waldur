@@ -13,7 +13,6 @@ import (
 func GetResources() []func() resource.Resource {
 	return []func() resource.Resource{
 		pkg_order.NewMarketplaceOrderResource,
-		pkg_offering.NewMarketplaceOfferingResource,
 		pkg_resource.NewMarketplaceResourceResource,
 	}
 }
@@ -21,8 +20,8 @@ func GetResources() []func() resource.Resource {
 func GetDataSources() []func() datasource.DataSource {
 	return []func() datasource.DataSource{
 		pkg_order.NewMarketplaceOrderDataSource,
-		pkg_offering.NewMarketplaceOfferingDataSource,
 		pkg_resource.NewMarketplaceResourceDataSource,
+		pkg_offering.NewMarketplaceOfferingDataSource,
 	}
 }
 
@@ -37,7 +36,6 @@ func GetActions() []func() action.Action {
 func GetListResources() []func() list.ListResource {
 	return []func() list.ListResource{
 		pkg_order.NewMarketplaceOrderList,
-		pkg_offering.NewMarketplaceOfferingList,
 		pkg_resource.NewMarketplaceResourceList,
 	}
 }

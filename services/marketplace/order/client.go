@@ -54,6 +54,14 @@ func (c *Client) GetMarketplaceOrder(ctx context.Context, id string) (*Marketpla
 	return &apiResp, nil
 }
 
+func (c *Client) UpdateMarketplaceOrder(ctx context.Context, id string, req *MarketplaceOrderUpdateRequest) (*MarketplaceOrderResponse, error) {
+	var apiResp MarketplaceOrderResponse
+	err := c.Client.Update(ctx, "/api/marketplace-orders/{uuid}/", id, req, &apiResp)
+	if err != nil {
+		return nil, err
+	}
+	return &apiResp, nil
+}
 func (c *Client) DeleteMarketplaceOrder(ctx context.Context, id string) error {
 	return c.Client.Delete(ctx, "/api/marketplace-orders/{uuid}/", id)
 }

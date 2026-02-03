@@ -32,7 +32,9 @@ Openstack Instance resource
 - `flavor` (String) The flavor to use for the instance
 - `floating_ips` (Attributes Set) Floating IPs to assign to the instance (see [below for nested schema](#nestedatt--floating_ips))
 - `image` (String) The OS image to use for the instance
+- `limits` (Map of Number) Resource limits
 - `name` (String) Name of the Openstack Instance
+- `plan` (String) Plan URL
 - `ports` (Attributes List) Network ports to attach to the instance (see [below for nested schema](#nestedatt--ports))
 - `release_floating_ips` (Boolean) Termination attribute
 - `security_groups` (Attributes Set) List of security groups to apply to the instance (see [below for nested schema](#nestedatt--security_groups))
@@ -122,7 +124,6 @@ Required:
 Optional:
 
 - `ip_address` (String) Existing floating IP address in selected OpenStack tenant to be assigned to new virtual machine
-- `url` (String) Url
 
 Read-Only:
 
@@ -133,6 +134,8 @@ Read-Only:
 - `subnet_description` (String) Subnet description
 - `subnet_name` (String) Name of the subnet
 - `subnet_uuid` (String) UUID of the subnet
+- `url` (String) Url
+- `uuid` (String) UUID of the Openstack Instance
 
 <a id="nestedatt--floating_ips--port_fixed_ips"></a>
 ### Nested Schema for `floating_ips.port_fixed_ips`
@@ -228,6 +231,7 @@ Read-Only:
 - `tenant_name` (String) Name of the tenant
 - `tenant_uuid` (String) UUID of the tenant
 - `url` (String) Url
+- `uuid` (String) UUID of the Openstack Instance
 
 <a id="nestedatt--ports--security_groups--rules"></a>
 ### Nested Schema for `ports.security_groups.rules`
@@ -255,16 +259,13 @@ Read-Only:
 <a id="nestedatt--security_groups"></a>
 ### Nested Schema for `security_groups`
 
-Required:
-
-- `url` (String) Url
-
 Read-Only:
 
 - `description` (String) Description of the Openstack Instance
 - `name` (String) Name of the Openstack Instance
 - `rules` (Attributes List) Rules (see [below for nested schema](#nestedatt--security_groups--rules))
 - `state` (String) State
+- `url` (String) Url
 
 <a id="nestedatt--security_groups--rules"></a>
 ### Nested Schema for `security_groups.rules`
@@ -327,3 +328,4 @@ Read-Only:
 - `state` (String) State
 - `type_name` (String) Name of the type
 - `url` (String) Url
+- `uuid` (String) UUID of the Openstack Instance

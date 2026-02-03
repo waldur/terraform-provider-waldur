@@ -8,6 +8,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+
+	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
 type OpenstackInstanceFiltersModel struct {
@@ -209,25 +211,25 @@ func (model *OpenstackInstanceModel) CopyFrom(ctx context.Context, apiResp Opens
 	var diags diag.Diagnostics
 
 	model.UUID = types.StringPointerValue(apiResp.UUID)
-	model.AccessUrl = types.StringPointerValue(apiResp.AccessUrl)
-	model.Action = types.StringPointerValue(apiResp.Action)
-	model.AvailabilityZone = types.StringPointerValue(apiResp.AvailabilityZone)
-	model.AvailabilityZoneName = types.StringPointerValue(apiResp.AvailabilityZoneName)
-	model.BackendId = types.StringPointerValue(apiResp.BackendId)
+	model.AccessUrl = common.StringPointerValue(apiResp.AccessUrl)
+	model.Action = common.StringPointerValue(apiResp.Action)
+	model.AvailabilityZone = common.StringPointerValue(apiResp.AvailabilityZone)
+	model.AvailabilityZoneName = common.StringPointerValue(apiResp.AvailabilityZoneName)
+	model.BackendId = common.StringPointerValue(apiResp.BackendId)
 	model.ConnectDirectlyToExternalNetwork = types.BoolPointerValue(apiResp.ConnectDirectlyToExternalNetwork)
 	model.Cores = types.Int64PointerValue(apiResp.Cores)
 	valCreated, diagsCreated := timetypes.NewRFC3339PointerValue(apiResp.Created)
 	diags.Append(diagsCreated...)
 	model.Created = valCreated
-	model.Customer = types.StringPointerValue(apiResp.Customer)
-	model.CustomerAbbreviation = types.StringPointerValue(apiResp.CustomerAbbreviation)
-	model.CustomerName = types.StringPointerValue(apiResp.CustomerName)
-	model.CustomerNativeName = types.StringPointerValue(apiResp.CustomerNativeName)
-	model.CustomerUuid = types.StringPointerValue(apiResp.CustomerUuid)
-	model.Description = types.StringPointerValue(apiResp.Description)
+	model.Customer = common.StringPointerValue(apiResp.Customer)
+	model.CustomerAbbreviation = common.StringPointerValue(apiResp.CustomerAbbreviation)
+	model.CustomerName = common.StringPointerValue(apiResp.CustomerName)
+	model.CustomerNativeName = common.StringPointerValue(apiResp.CustomerNativeName)
+	model.CustomerUuid = common.StringPointerValue(apiResp.CustomerUuid)
+	model.Description = common.StringPointerValue(apiResp.Description)
 	model.Disk = types.Int64PointerValue(apiResp.Disk)
-	model.ErrorMessage = types.StringPointerValue(apiResp.ErrorMessage)
-	model.ErrorTraceback = types.StringPointerValue(apiResp.ErrorTraceback)
+	model.ErrorMessage = common.StringPointerValue(apiResp.ErrorMessage)
+	model.ErrorTraceback = common.StringPointerValue(apiResp.ErrorTraceback)
 	listValExternalAddress, listDiagsExternalAddress := types.ListValueFrom(ctx, types.StringType, apiResp.ExternalAddress)
 	model.ExternalAddress = listValExternalAddress
 	diags.Append(listDiagsExternalAddress...)
@@ -235,7 +237,7 @@ func (model *OpenstackInstanceModel) CopyFrom(ctx context.Context, apiResp Opens
 	model.ExternalIps = listValExternalIps
 	diags.Append(listDiagsExternalIps...)
 	model.FlavorDisk = types.Int64PointerValue(apiResp.FlavorDisk)
-	model.FlavorName = types.StringPointerValue(apiResp.FlavorName)
+	model.FlavorName = common.StringPointerValue(apiResp.FlavorName)
 	{
 		setValFloatingIps, setDiagsFloatingIps := types.SetValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
 			"ip_address": types.StringType,
@@ -251,34 +253,35 @@ func (model *OpenstackInstanceModel) CopyFrom(ctx context.Context, apiResp Opens
 			"subnet_description": types.StringType,
 			"subnet_name":        types.StringType,
 			"subnet_uuid":        types.StringType,
+			"uuid":               types.StringType,
 		}}, apiResp.FloatingIps)
 		diags.Append(setDiagsFloatingIps...)
 		model.FloatingIps = setValFloatingIps
 	}
-	model.HypervisorHostname = types.StringPointerValue(apiResp.HypervisorHostname)
-	model.ImageName = types.StringPointerValue(apiResp.ImageName)
+	model.HypervisorHostname = common.StringPointerValue(apiResp.HypervisorHostname)
+	model.ImageName = common.StringPointerValue(apiResp.ImageName)
 	listValInternalIps, listDiagsInternalIps := types.ListValueFrom(ctx, types.StringType, apiResp.InternalIps)
 	model.InternalIps = listValInternalIps
 	diags.Append(listDiagsInternalIps...)
 	model.IsLimitBased = types.BoolPointerValue(apiResp.IsLimitBased)
 	model.IsUsageBased = types.BoolPointerValue(apiResp.IsUsageBased)
-	model.KeyFingerprint = types.StringPointerValue(apiResp.KeyFingerprint)
-	model.KeyName = types.StringPointerValue(apiResp.KeyName)
-	model.Latitude = types.Float64PointerValue(apiResp.Latitude)
-	model.Longitude = types.Float64PointerValue(apiResp.Longitude)
-	model.MarketplaceCategoryName = types.StringPointerValue(apiResp.MarketplaceCategoryName)
-	model.MarketplaceCategoryUuid = types.StringPointerValue(apiResp.MarketplaceCategoryUuid)
-	model.MarketplaceOfferingName = types.StringPointerValue(apiResp.MarketplaceOfferingName)
-	model.MarketplaceOfferingUuid = types.StringPointerValue(apiResp.MarketplaceOfferingUuid)
-	model.MarketplacePlanUuid = types.StringPointerValue(apiResp.MarketplacePlanUuid)
-	model.MarketplaceResourceState = types.StringPointerValue(apiResp.MarketplaceResourceState)
-	model.MarketplaceResourceUuid = types.StringPointerValue(apiResp.MarketplaceResourceUuid)
+	model.KeyFingerprint = common.StringPointerValue(apiResp.KeyFingerprint)
+	model.KeyName = common.StringPointerValue(apiResp.KeyName)
+	model.Latitude = types.Float64PointerValue(apiResp.Latitude.Float64Ptr())
+	model.Longitude = types.Float64PointerValue(apiResp.Longitude.Float64Ptr())
+	model.MarketplaceCategoryName = common.StringPointerValue(apiResp.MarketplaceCategoryName)
+	model.MarketplaceCategoryUuid = common.StringPointerValue(apiResp.MarketplaceCategoryUuid)
+	model.MarketplaceOfferingName = common.StringPointerValue(apiResp.MarketplaceOfferingName)
+	model.MarketplaceOfferingUuid = common.StringPointerValue(apiResp.MarketplaceOfferingUuid)
+	model.MarketplacePlanUuid = common.StringPointerValue(apiResp.MarketplacePlanUuid)
+	model.MarketplaceResourceState = common.StringPointerValue(apiResp.MarketplaceResourceState)
+	model.MarketplaceResourceUuid = common.StringPointerValue(apiResp.MarketplaceResourceUuid)
 	model.MinDisk = types.Int64PointerValue(apiResp.MinDisk)
 	model.MinRam = types.Int64PointerValue(apiResp.MinRam)
 	valModified, diagsModified := timetypes.NewRFC3339PointerValue(apiResp.Modified)
 	diags.Append(diagsModified...)
 	model.Modified = valModified
-	model.Name = types.StringPointerValue(apiResp.Name)
+	model.Name = common.StringPointerValue(apiResp.Name)
 
 	{
 		listValPorts, listDiagsPorts := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
@@ -344,6 +347,7 @@ func (model *OpenstackInstanceModel) CopyFrom(ctx context.Context, apiResp Opens
 				"tenant_name":                    types.StringType,
 				"tenant_uuid":                    types.StringType,
 				"url":                            types.StringType,
+				"uuid":                           types.StringType,
 			}}},
 			"subnet_cidr":        types.StringType,
 			"subnet_description": types.StringType,
@@ -354,12 +358,12 @@ func (model *OpenstackInstanceModel) CopyFrom(ctx context.Context, apiResp Opens
 		diags.Append(listDiagsPorts...)
 		model.Ports = listValPorts
 	}
-	model.Project = types.StringPointerValue(apiResp.Project)
-	model.ProjectName = types.StringPointerValue(apiResp.ProjectName)
-	model.ProjectUuid = types.StringPointerValue(apiResp.ProjectUuid)
+	model.Project = common.StringPointerValue(apiResp.Project)
+	model.ProjectName = common.StringPointerValue(apiResp.ProjectName)
+	model.ProjectUuid = common.StringPointerValue(apiResp.ProjectUuid)
 	model.Ram = types.Int64PointerValue(apiResp.Ram)
-	model.ResourceType = types.StringPointerValue(apiResp.ResourceType)
-	model.RuntimeState = types.StringPointerValue(apiResp.RuntimeState)
+	model.ResourceType = common.StringPointerValue(apiResp.ResourceType)
+	model.RuntimeState = common.StringPointerValue(apiResp.RuntimeState)
 	{
 		setValSecurityGroups, setDiagsSecurityGroups := types.SetValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
 			"url":         types.StringType,
@@ -399,19 +403,19 @@ func (model *OpenstackInstanceModel) CopyFrom(ctx context.Context, apiResp Opens
 			"url":    types.StringType,
 		}}.AttrTypes)
 	}
-	model.ServiceName = types.StringPointerValue(apiResp.ServiceName)
-	model.ServiceSettings = types.StringPointerValue(apiResp.ServiceSettings)
-	model.ServiceSettingsErrorMessage = types.StringPointerValue(apiResp.ServiceSettingsErrorMessage)
-	model.ServiceSettingsState = types.StringPointerValue(apiResp.ServiceSettingsState)
-	model.ServiceSettingsUuid = types.StringPointerValue(apiResp.ServiceSettingsUuid)
+	model.ServiceName = common.StringPointerValue(apiResp.ServiceName)
+	model.ServiceSettings = common.StringPointerValue(apiResp.ServiceSettings)
+	model.ServiceSettingsErrorMessage = common.StringPointerValue(apiResp.ServiceSettingsErrorMessage)
+	model.ServiceSettingsState = common.StringPointerValue(apiResp.ServiceSettingsState)
+	model.ServiceSettingsUuid = common.StringPointerValue(apiResp.ServiceSettingsUuid)
 	valStartTime, diagsStartTime := timetypes.NewRFC3339PointerValue(apiResp.StartTime)
 	diags.Append(diagsStartTime...)
 	model.StartTime = valStartTime
-	model.State = types.StringPointerValue(apiResp.State)
-	model.Tenant = types.StringPointerValue(apiResp.Tenant)
-	model.TenantUuid = types.StringPointerValue(apiResp.TenantUuid)
-	model.Url = types.StringPointerValue(apiResp.Url)
-	model.UserData = types.StringPointerValue(apiResp.UserData)
+	model.State = common.StringPointerValue(apiResp.State)
+	model.Tenant = common.StringPointerValue(apiResp.Tenant)
+	model.TenantUuid = common.StringPointerValue(apiResp.TenantUuid)
+	model.Url = common.StringPointerValue(apiResp.Url)
+	model.UserData = common.StringPointerValue(apiResp.UserData)
 
 	{
 		listValVolumes, listDiagsVolumes := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
@@ -426,6 +430,7 @@ func (model *OpenstackInstanceModel) CopyFrom(ctx context.Context, apiResp Opens
 			"type":                      types.StringType,
 			"type_name":                 types.StringType,
 			"url":                       types.StringType,
+			"uuid":                      types.StringType,
 		}}, apiResp.Volumes)
 		diags.Append(listDiagsVolumes...)
 		model.Volumes = listValVolumes

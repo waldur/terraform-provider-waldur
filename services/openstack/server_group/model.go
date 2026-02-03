@@ -8,6 +8,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+
+	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
 type OpenstackServerGroupFiltersModel struct {
@@ -165,20 +167,21 @@ func (model *OpenstackServerGroupModel) CopyFrom(ctx context.Context, apiResp Op
 	var diags diag.Diagnostics
 
 	model.UUID = types.StringPointerValue(apiResp.UUID)
-	model.AccessUrl = types.StringPointerValue(apiResp.AccessUrl)
-	model.BackendId = types.StringPointerValue(apiResp.BackendId)
+	model.AccessUrl = common.StringPointerValue(apiResp.AccessUrl)
+	model.BackendId = common.StringPointerValue(apiResp.BackendId)
 	valCreated, diagsCreated := timetypes.NewRFC3339PointerValue(apiResp.Created)
 	diags.Append(diagsCreated...)
 	model.Created = valCreated
-	model.Description = types.StringPointerValue(apiResp.Description)
-	model.DisplayName = types.StringPointerValue(apiResp.DisplayName)
-	model.ErrorMessage = types.StringPointerValue(apiResp.ErrorMessage)
-	model.ErrorTraceback = types.StringPointerValue(apiResp.ErrorTraceback)
+	model.Description = common.StringPointerValue(apiResp.Description)
+	model.DisplayName = common.StringPointerValue(apiResp.DisplayName)
+	model.ErrorMessage = common.StringPointerValue(apiResp.ErrorMessage)
+	model.ErrorTraceback = common.StringPointerValue(apiResp.ErrorTraceback)
 
 	{
 		listValInstances, listDiagsInstances := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
 			"backend_id": types.StringType,
 			"name":       types.StringType,
+			"uuid":       types.StringType,
 		}}, apiResp.Instances)
 		diags.Append(listDiagsInstances...)
 		model.Instances = listValInstances
@@ -186,14 +189,14 @@ func (model *OpenstackServerGroupModel) CopyFrom(ctx context.Context, apiResp Op
 	valModified, diagsModified := timetypes.NewRFC3339PointerValue(apiResp.Modified)
 	diags.Append(diagsModified...)
 	model.Modified = valModified
-	model.Name = types.StringPointerValue(apiResp.Name)
-	model.Policy = types.StringPointerValue(apiResp.Policy)
-	model.ResourceType = types.StringPointerValue(apiResp.ResourceType)
-	model.State = types.StringPointerValue(apiResp.State)
-	model.Tenant = types.StringPointerValue(apiResp.Tenant)
-	model.TenantName = types.StringPointerValue(apiResp.TenantName)
-	model.TenantUuid = types.StringPointerValue(apiResp.TenantUuid)
-	model.Url = types.StringPointerValue(apiResp.Url)
+	model.Name = common.StringPointerValue(apiResp.Name)
+	model.Policy = common.StringPointerValue(apiResp.Policy)
+	model.ResourceType = common.StringPointerValue(apiResp.ResourceType)
+	model.State = common.StringPointerValue(apiResp.State)
+	model.Tenant = common.StringPointerValue(apiResp.Tenant)
+	model.TenantName = common.StringPointerValue(apiResp.TenantName)
+	model.TenantUuid = common.StringPointerValue(apiResp.TenantUuid)
+	model.Url = common.StringPointerValue(apiResp.Url)
 
 	return diags
 }

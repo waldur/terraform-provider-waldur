@@ -4,9 +4,9 @@ type MarketplaceResourceCreateRequest struct {
 }
 
 type MarketplaceResourceUpdateRequest struct {
-	Description *string `json:"description,omitempty" tfsdk:"description"`
-	EndDate     *string `json:"end_date,omitempty" tfsdk:"end_date"`
-	Name        *string `json:"name,omitempty" tfsdk:"name"`
+	Description *string `json:"description,omitempty"`
+	EndDate     *string `json:"end_date,omitempty"`
+	Name        *string `json:"name,omitempty"`
 }
 
 type MarketplaceResourceUpdateLimitsActionRequest struct {
@@ -41,6 +41,7 @@ type MarketplaceResourceResponse struct {
 	Modified                  *string                                         `json:"modified" tfsdk:"modified"`
 	Name                      *string                                         `json:"name" tfsdk:"name"`
 	Offering                  *string                                         `json:"offering" tfsdk:"offering"`
+	OfferingBackendId         *string                                         `json:"offering_backend_id" tfsdk:"offering_backend_id"`
 	OfferingBillable          *bool                                           `json:"offering_billable" tfsdk:"offering_billable"`
 	OfferingComponents        []MarketplaceResourceOfferingComponentsResponse `json:"offering_components" tfsdk:"offering_components"`
 	OfferingDescription       *string                                         `json:"offering_description" tfsdk:"offering_description"`
@@ -89,6 +90,7 @@ type MarketplaceResourceResponse struct {
 type MarketplaceResourceEndpointsResponse struct {
 	Name *string `json:"name" tfsdk:"name"`
 	Url  *string `json:"url" tfsdk:"url"`
+	Uuid *string `json:"uuid" tfsdk:"uuid"`
 }
 
 type MarketplaceResourceOfferingComponentsResponse struct {
@@ -112,6 +114,7 @@ type MarketplaceResourceOfferingComponentsResponse struct {
 	OverageComponent   *string `json:"overage_component" tfsdk:"overage_component"`
 	Type               *string `json:"type" tfsdk:"type"`
 	UnitFactor         *int64  `json:"unit_factor" tfsdk:"unit_factor"`
+	Uuid               *string `json:"uuid" tfsdk:"uuid"`
 }
 
 type MarketplaceResourceReportResponse struct {

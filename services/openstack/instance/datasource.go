@@ -185,6 +185,10 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 							Computed:            true,
 							MarkdownDescription: "Url",
 						},
+						"uuid": schema.StringAttribute{
+							Computed:            true,
+							MarkdownDescription: "UUID of the Openstack Instance",
+						},
 					},
 				},
 				Optional:            true,
@@ -524,6 +528,10 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 										Computed:            true,
 										MarkdownDescription: "Url",
 									},
+									"uuid": schema.StringAttribute{
+										Computed:            true,
+										MarkdownDescription: "UUID of the Openstack Instance",
+									},
 								},
 							},
 							Computed:            true,
@@ -782,6 +790,10 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 						"url": schema.StringAttribute{
 							Computed:            true,
 							MarkdownDescription: "Url",
+						},
+						"uuid": schema.StringAttribute{
+							Computed:            true,
+							MarkdownDescription: "UUID of the Openstack Instance",
 						},
 					},
 				},

@@ -60,3 +60,7 @@ Optional:
 
 - `backend_id` (String) Instance ID in the OpenStack backend
 - `name` (String) Name of the Openstack Server Group
+
+Read-Only:
+
+- `uuid` (String) UUID of the Openstack Server Group

@@ -155,6 +155,18 @@ func (r *OpenstackSecurityGroupResource) Schema(ctx context.Context, req resourc
 								int64validator.AtMost(65535),
 							},
 						},
+						"id": schema.Int64Attribute{
+							Computed:            true,
+							MarkdownDescription: "Id",
+						},
+						"remote_group_name": schema.StringAttribute{
+							Computed:            true,
+							MarkdownDescription: "Name of the remote group",
+						},
+						"remote_group_uuid": schema.StringAttribute{
+							Computed:            true,
+							MarkdownDescription: "UUID of the remote group",
+						},
 					},
 				},
 				Required:            true,

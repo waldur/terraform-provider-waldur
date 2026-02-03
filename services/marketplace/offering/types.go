@@ -5,32 +5,6 @@ import (
 )
 
 type MarketplaceOfferingCreateRequest struct {
-	AccessUrl           *string                            `json:"access_url,omitempty" tfsdk:"access_url"`
-	BackendId           *string                            `json:"backend_id,omitempty" tfsdk:"backend_id"`
-	Billable            *bool                              `json:"billable,omitempty" tfsdk:"billable"`
-	Category            *string                            `json:"category" tfsdk:"category"`
-	ComplianceChecklist *string                            `json:"compliance_checklist,omitempty" tfsdk:"compliance_checklist"`
-	Components          *[]common.OfferingComponentRequest `json:"components,omitempty" tfsdk:"components"`
-	Country             *string                            `json:"country,omitempty" tfsdk:"country"`
-	Customer            *string                            `json:"customer,omitempty" tfsdk:"customer"`
-	DataciteDoi         *string                            `json:"datacite_doi,omitempty" tfsdk:"datacite_doi"`
-	Description         *string                            `json:"description,omitempty" tfsdk:"description"`
-	FullDescription     *string                            `json:"full_description,omitempty" tfsdk:"full_description"`
-	GettingStarted      *string                            `json:"getting_started,omitempty" tfsdk:"getting_started"`
-	Image               *string                            `json:"image,omitempty" tfsdk:"image"`
-	IntegrationGuide    *string                            `json:"integration_guide,omitempty" tfsdk:"integration_guide"`
-	Latitude            *float64                           `json:"latitude,omitempty" tfsdk:"latitude"`
-	Longitude           *float64                           `json:"longitude,omitempty" tfsdk:"longitude"`
-	Name                *string                            `json:"name" tfsdk:"name"`
-	Options             *common.OfferingOptionsRequest     `json:"options,omitempty" tfsdk:"options"`
-	Plans               *[]common.BaseProviderPlanRequest  `json:"plans,omitempty" tfsdk:"plans"`
-	PrivacyPolicyLink   *string                            `json:"privacy_policy_link,omitempty" tfsdk:"privacy_policy_link"`
-	ResourceOptions     *common.OfferingOptionsRequest     `json:"resource_options,omitempty" tfsdk:"resource_options"`
-	Shared              *bool                              `json:"shared,omitempty" tfsdk:"shared"`
-	Slug                *string                            `json:"slug,omitempty" tfsdk:"slug"`
-	Thumbnail           *string                            `json:"thumbnail,omitempty" tfsdk:"thumbnail"`
-	Type                *string                            `json:"type" tfsdk:"type"`
-	VendorDetails       *string                            `json:"vendor_details,omitempty" tfsdk:"vendor_details"`
 }
 
 type MarketplaceOfferingResponse struct {
@@ -62,9 +36,9 @@ type MarketplaceOfferingResponse struct {
 	HasComplianceRequirements *bool                                           `json:"has_compliance_requirements" tfsdk:"has_compliance_requirements"`
 	Image                     *string                                         `json:"image" tfsdk:"image"`
 	IntegrationGuide          *string                                         `json:"integration_guide" tfsdk:"integration_guide"`
-	IntegrationStatus         []MarketplaceOfferingIntegrationStatusResponse  `json:"integration_status" tfsdk:"integration_status"`
-	Latitude                  *float64                                        `json:"latitude" tfsdk:"latitude"`
-	Longitude                 *float64                                        `json:"longitude" tfsdk:"longitude"`
+	IsAccessible              *bool                                           `json:"is_accessible" tfsdk:"is_accessible"`
+	Latitude                  *common.FlexibleNumber                          `json:"latitude" tfsdk:"latitude"`
+	Longitude                 *common.FlexibleNumber                          `json:"longitude" tfsdk:"longitude"`
 	Name                      *string                                         `json:"name" tfsdk:"name"`
 	OrderCount                *int64                                          `json:"order_count" tfsdk:"order_count"`
 	OrganizationGroups        []MarketplaceOfferingOrganizationGroupsResponse `json:"organization_groups" tfsdk:"organization_groups"`
@@ -91,6 +65,7 @@ type MarketplaceOfferingResponse struct {
 	Slug                      *string                                         `json:"slug" tfsdk:"slug"`
 	SoftwareCatalogs          []MarketplaceOfferingSoftwareCatalogsResponse   `json:"software_catalogs" tfsdk:"software_catalogs"`
 	State                     *string                                         `json:"state" tfsdk:"state"`
+	Tags                      []MarketplaceOfferingTagsResponse               `json:"tags" tfsdk:"tags"`
 	Thumbnail                 *string                                         `json:"thumbnail" tfsdk:"thumbnail"`
 	TotalCost                 *int64                                          `json:"total_cost" tfsdk:"total_cost"`
 	TotalCostEstimated        *int64                                          `json:"total_cost_estimated" tfsdk:"total_cost_estimated"`
@@ -106,7 +81,9 @@ type MarketplaceOfferingComponentsResponse struct {
 	BillingType        *string `json:"billing_type" tfsdk:"billing_type"`
 	DefaultLimit       *int64  `json:"default_limit" tfsdk:"default_limit"`
 	Description        *string `json:"description" tfsdk:"description"`
+	Factor             *int64  `json:"factor" tfsdk:"factor"`
 	IsBoolean          *bool   `json:"is_boolean" tfsdk:"is_boolean"`
+	IsBuiltin          *bool   `json:"is_builtin" tfsdk:"is_builtin"`
 	IsPrepaid          *bool   `json:"is_prepaid" tfsdk:"is_prepaid"`
 	LimitAmount        *int64  `json:"limit_amount" tfsdk:"limit_amount"`
 	LimitPeriod        *string `json:"limit_period" tfsdk:"limit_period"`
@@ -120,24 +97,19 @@ type MarketplaceOfferingComponentsResponse struct {
 	OverageComponent   *string `json:"overage_component" tfsdk:"overage_component"`
 	Type               *string `json:"type" tfsdk:"type"`
 	UnitFactor         *int64  `json:"unit_factor" tfsdk:"unit_factor"`
+	Uuid               *string `json:"uuid" tfsdk:"uuid"`
 }
 
 type MarketplaceOfferingEndpointsResponse struct {
 	Name *string `json:"name" tfsdk:"name"`
 	Url  *string `json:"url" tfsdk:"url"`
+	Uuid *string `json:"uuid" tfsdk:"uuid"`
 }
 
 type MarketplaceOfferingFilesResponse struct {
 	Created *string `json:"created" tfsdk:"created"`
 	File    *string `json:"file" tfsdk:"file"`
 	Name    *string `json:"name" tfsdk:"name"`
-}
-
-type MarketplaceOfferingIntegrationStatusResponse struct {
-	AgentType            *string `json:"agent_type" tfsdk:"agent_type"`
-	LastRequestTimestamp *string `json:"last_request_timestamp" tfsdk:"last_request_timestamp"`
-	ServiceName          *string `json:"service_name" tfsdk:"service_name"`
-	Status               *string `json:"status" tfsdk:"status"`
 }
 
 type MarketplaceOfferingOrganizationGroupsResponse struct {
@@ -147,6 +119,7 @@ type MarketplaceOfferingOrganizationGroupsResponse struct {
 	ParentName     *string `json:"parent_name" tfsdk:"parent_name"`
 	ParentUuid     *string `json:"parent_uuid" tfsdk:"parent_uuid"`
 	Url            *string `json:"url" tfsdk:"url"`
+	Uuid           *string `json:"uuid" tfsdk:"uuid"`
 }
 
 type MarketplaceOfferingPartitionsResponse struct {
@@ -170,17 +143,49 @@ type MarketplaceOfferingPartitionsResponse struct {
 	PriorityTier     *int64  `json:"priority_tier" tfsdk:"priority_tier"`
 	Qos              *string `json:"qos" tfsdk:"qos"`
 	ReqResv          *bool   `json:"req_resv" tfsdk:"req_resv"`
+	Uuid             *string `json:"uuid" tfsdk:"uuid"`
 }
 
 type MarketplaceOfferingPlansResponse struct {
-	Archived    *bool   `json:"archived" tfsdk:"archived"`
-	ArticleCode *string `json:"article_code" tfsdk:"article_code"`
-	BackendId   *string `json:"backend_id" tfsdk:"backend_id"`
-	Description *string `json:"description" tfsdk:"description"`
-	MaxAmount   *int64  `json:"max_amount" tfsdk:"max_amount"`
-	Name        *string `json:"name" tfsdk:"name"`
-	Unit        *string `json:"unit" tfsdk:"unit"`
-	UnitPrice   *string `json:"unit_price" tfsdk:"unit_price"`
+	Archived           *bool                                                `json:"archived" tfsdk:"archived"`
+	ArticleCode        *string                                              `json:"article_code" tfsdk:"article_code"`
+	BackendId          *string                                              `json:"backend_id" tfsdk:"backend_id"`
+	Components         []MarketplaceOfferingPlansComponentsResponse         `json:"components" tfsdk:"components"`
+	Description        *string                                              `json:"description" tfsdk:"description"`
+	InitPrice          *common.FlexibleNumber                               `json:"init_price" tfsdk:"init_price"`
+	IsActive           *bool                                                `json:"is_active" tfsdk:"is_active"`
+	MaxAmount          *int64                                               `json:"max_amount" tfsdk:"max_amount"`
+	MinimalPrice       *common.FlexibleNumber                               `json:"minimal_price" tfsdk:"minimal_price"`
+	Name               *string                                              `json:"name" tfsdk:"name"`
+	OrganizationGroups []MarketplaceOfferingPlansOrganizationGroupsResponse `json:"organization_groups" tfsdk:"organization_groups"`
+	PlanType           *string                                              `json:"plan_type" tfsdk:"plan_type"`
+	ResourcesCount     *int64                                               `json:"resources_count" tfsdk:"resources_count"`
+	SwitchPrice        *common.FlexibleNumber                               `json:"switch_price" tfsdk:"switch_price"`
+	Unit               *string                                              `json:"unit" tfsdk:"unit"`
+	UnitPrice          *string                                              `json:"unit_price" tfsdk:"unit_price"`
+	Url                *string                                              `json:"url" tfsdk:"url"`
+	Uuid               *string                                              `json:"uuid" tfsdk:"uuid"`
+}
+
+type MarketplaceOfferingPlansComponentsResponse struct {
+	Amount            *int64  `json:"amount" tfsdk:"amount"`
+	DiscountRate      *int64  `json:"discount_rate" tfsdk:"discount_rate"`
+	DiscountThreshold *int64  `json:"discount_threshold" tfsdk:"discount_threshold"`
+	FuturePrice       *string `json:"future_price" tfsdk:"future_price"`
+	MeasuredUnit      *string `json:"measured_unit" tfsdk:"measured_unit"`
+	Name              *string `json:"name" tfsdk:"name"`
+	Price             *string `json:"price" tfsdk:"price"`
+	Type              *string `json:"type" tfsdk:"type"`
+}
+
+type MarketplaceOfferingPlansOrganizationGroupsResponse struct {
+	CustomersCount *int64  `json:"customers_count" tfsdk:"customers_count"`
+	Name           *string `json:"name" tfsdk:"name"`
+	Parent         *string `json:"parent" tfsdk:"parent"`
+	ParentName     *string `json:"parent_name" tfsdk:"parent_name"`
+	ParentUuid     *string `json:"parent_uuid" tfsdk:"parent_uuid"`
+	Url            *string `json:"url" tfsdk:"url"`
+	Uuid           *string `json:"uuid" tfsdk:"uuid"`
 }
 
 type MarketplaceOfferingPromotionCampaignsResponse struct {
@@ -193,6 +198,7 @@ type MarketplaceOfferingPromotionCampaignsResponse struct {
 	ServiceProvider *string `json:"service_provider" tfsdk:"service_provider"`
 	StartDate       *string `json:"start_date" tfsdk:"start_date"`
 	Stock           *int64  `json:"stock" tfsdk:"stock"`
+	Uuid            *string `json:"uuid" tfsdk:"uuid"`
 }
 
 type MarketplaceOfferingQuotasResponse struct {
@@ -204,6 +210,7 @@ type MarketplaceOfferingQuotasResponse struct {
 type MarketplaceOfferingRolesResponse struct {
 	Name *string `json:"name" tfsdk:"name"`
 	Url  *string `json:"url" tfsdk:"url"`
+	Uuid *string `json:"uuid" tfsdk:"uuid"`
 }
 
 type MarketplaceOfferingScreenshotsResponse struct {
@@ -212,17 +219,20 @@ type MarketplaceOfferingScreenshotsResponse struct {
 	Image       *string `json:"image" tfsdk:"image"`
 	Name        *string `json:"name" tfsdk:"name"`
 	Thumbnail   *string `json:"thumbnail" tfsdk:"thumbnail"`
+	Uuid        *string `json:"uuid" tfsdk:"uuid"`
 }
 
 type MarketplaceOfferingSoftwareCatalogsResponse struct {
 	Catalog      *MarketplaceOfferingSoftwareCatalogsCatalogResponse   `json:"catalog" tfsdk:"catalog"`
 	PackageCount *int64                                                `json:"package_count" tfsdk:"package_count"`
 	Partition    *MarketplaceOfferingSoftwareCatalogsPartitionResponse `json:"partition" tfsdk:"partition"`
+	Uuid         *string                                               `json:"uuid" tfsdk:"uuid"`
 }
 
 type MarketplaceOfferingSoftwareCatalogsCatalogResponse struct {
 	Description *string `json:"description" tfsdk:"description"`
 	Name        *string `json:"name" tfsdk:"name"`
+	Uuid        *string `json:"uuid" tfsdk:"uuid"`
 	Version     *string `json:"version" tfsdk:"version"`
 }
 
@@ -230,6 +240,12 @@ type MarketplaceOfferingSoftwareCatalogsPartitionResponse struct {
 	PartitionName *string `json:"partition_name" tfsdk:"partition_name"`
 	PriorityTier  *int64  `json:"priority_tier" tfsdk:"priority_tier"`
 	Qos           *string `json:"qos" tfsdk:"qos"`
+	Uuid          *string `json:"uuid" tfsdk:"uuid"`
+}
+
+type MarketplaceOfferingTagsResponse struct {
+	Name *string `json:"name" tfsdk:"name"`
+	Uuid *string `json:"uuid" tfsdk:"uuid"`
 }
 
 func (r *MarketplaceOfferingResponse) GetState() string {

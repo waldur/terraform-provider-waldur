@@ -8,6 +8,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+
+	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
 type OpenstackNetworkFiltersModel struct {
@@ -188,20 +190,20 @@ func (model *OpenstackNetworkModel) CopyFrom(ctx context.Context, apiResp Openst
 	var diags diag.Diagnostics
 
 	model.UUID = types.StringPointerValue(apiResp.UUID)
-	model.AccessUrl = types.StringPointerValue(apiResp.AccessUrl)
-	model.BackendId = types.StringPointerValue(apiResp.BackendId)
+	model.AccessUrl = common.StringPointerValue(apiResp.AccessUrl)
+	model.BackendId = common.StringPointerValue(apiResp.BackendId)
 	valCreated, diagsCreated := timetypes.NewRFC3339PointerValue(apiResp.Created)
 	diags.Append(diagsCreated...)
 	model.Created = valCreated
-	model.Description = types.StringPointerValue(apiResp.Description)
-	model.ErrorMessage = types.StringPointerValue(apiResp.ErrorMessage)
-	model.ErrorTraceback = types.StringPointerValue(apiResp.ErrorTraceback)
+	model.Description = common.StringPointerValue(apiResp.Description)
+	model.ErrorMessage = common.StringPointerValue(apiResp.ErrorMessage)
+	model.ErrorTraceback = common.StringPointerValue(apiResp.ErrorTraceback)
 	model.IsExternal = types.BoolPointerValue(apiResp.IsExternal)
 	valModified, diagsModified := timetypes.NewRFC3339PointerValue(apiResp.Modified)
 	diags.Append(diagsModified...)
 	model.Modified = valModified
 	model.Mtu = types.Int64PointerValue(apiResp.Mtu)
-	model.Name = types.StringPointerValue(apiResp.Name)
+	model.Name = common.StringPointerValue(apiResp.Name)
 
 	{
 		listValRbacPolicies, listDiagsRbacPolicies := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
@@ -213,13 +215,14 @@ func (model *OpenstackNetworkModel) CopyFrom(ctx context.Context, apiResp Openst
 			"target_tenant":      types.StringType,
 			"target_tenant_name": types.StringType,
 			"url":                types.StringType,
+			"uuid":               types.StringType,
 		}}, apiResp.RbacPolicies)
 		diags.Append(listDiagsRbacPolicies...)
 		model.RbacPolicies = listValRbacPolicies
 	}
-	model.ResourceType = types.StringPointerValue(apiResp.ResourceType)
+	model.ResourceType = common.StringPointerValue(apiResp.ResourceType)
 	model.SegmentationId = types.Int64PointerValue(apiResp.SegmentationId)
-	model.State = types.StringPointerValue(apiResp.State)
+	model.State = common.StringPointerValue(apiResp.State)
 
 	{
 		listValSubnets, listDiagsSubnets := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
@@ -233,15 +236,16 @@ func (model *OpenstackNetworkModel) CopyFrom(ctx context.Context, apiResp Openst
 			"gateway_ip":  types.StringType,
 			"ip_version":  types.Int64Type,
 			"name":        types.StringType,
+			"uuid":        types.StringType,
 		}}, apiResp.Subnets)
 		diags.Append(listDiagsSubnets...)
 		model.Subnets = listValSubnets
 	}
-	model.Tenant = types.StringPointerValue(apiResp.Tenant)
-	model.TenantName = types.StringPointerValue(apiResp.TenantName)
-	model.TenantUuid = types.StringPointerValue(apiResp.TenantUuid)
-	model.Type = types.StringPointerValue(apiResp.Type)
-	model.Url = types.StringPointerValue(apiResp.Url)
+	model.Tenant = common.StringPointerValue(apiResp.Tenant)
+	model.TenantName = common.StringPointerValue(apiResp.TenantName)
+	model.TenantUuid = common.StringPointerValue(apiResp.TenantUuid)
+	model.Type = common.StringPointerValue(apiResp.Type)
+	model.Url = common.StringPointerValue(apiResp.Url)
 
 	return diags
 }

@@ -72,6 +72,7 @@ Read-Only:
 - `network_name` (String) Name of the network
 - `target_tenant_name` (String) Name of the target tenant
 - `url` (String) Url
+- `uuid` (String) UUID of the Openstack Network
 
 
 <a id="nestedatt--subnets"></a>
@@ -89,6 +90,7 @@ Optional:
 Read-Only:
 
 - `allocation_pools` (Attributes List) Allocation pools (see [below for nested schema](#nestedatt--subnets--allocation_pools))
+- `uuid` (String) UUID of the Openstack Network
 
 <a id="nestedatt--subnets--allocation_pools"></a>
 ### Nested Schema for `subnets.allocation_pools`

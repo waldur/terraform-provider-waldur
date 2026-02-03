@@ -55,6 +55,12 @@ Optional:
 - `remote_group` (String) Remote security group that this rule references, if any
 - `to_port` (Number) Ending port number in the range (1-65535)
 
+Read-Only:
+
+- `id` (Number) Id
+- `remote_group_name` (String) Name of the remote group
+- `remote_group_uuid` (String) UUID of the remote group
+
 
 <a id="nestedblock--timeouts"></a>
 ### Nested Schema for `timeouts`
