@@ -13,9 +13,9 @@ type MarketplaceResourceUpdateRequest struct {
 	Name        *string `json:"name,omitempty"`
 }
 
-type MarketplaceResourceUpdateLimitsActionRequest struct {
-}
 type MarketplaceResourceUpdateOptionsActionRequest struct {
+}
+type MarketplaceResourceUpdateLimitsActionRequest struct {
 }
 
 type MarketplaceResourceResponse struct {

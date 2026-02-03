@@ -635,33 +635,46 @@ func (r *OpenstackTenantResource) Update(ctx context.Context, req resource.Updat
 
 	// Phase 1: Standard PATCH (Simple fields)
 	// We compare the plan (data) with the state (state) to determine which fields changed.
+	anyChanges := false
 	var patchPayload OpenstackTenantUpdateRequest
 	if !data.AvailabilityZone.IsNull() && !data.AvailabilityZone.Equal(state.AvailabilityZone) {
+		anyChanges = true
 		patchPayload.AvailabilityZone = data.AvailabilityZone.ValueStringPointer()
 	}
 	if !data.DefaultVolumeTypeName.IsNull() && !data.DefaultVolumeTypeName.Equal(state.DefaultVolumeTypeName) {
+		anyChanges = true
 		patchPayload.DefaultVolumeTypeName = data.DefaultVolumeTypeName.ValueStringPointer()
 	}
 	if !data.Description.IsNull() && !data.Description.Equal(state.Description) {
+		anyChanges = true
 		patchPayload.Description = data.Description.ValueStringPointer()
 	}
 	if !data.Name.IsNull() && !data.Name.Equal(state.Name) {
+		anyChanges = true
 		patchPayload.Name = data.Name.ValueStringPointer()
 	}
 	if !data.SkipCreationOfDefaultRouter.IsNull() && !data.SkipCreationOfDefaultRouter.Equal(state.SkipCreationOfDefaultRouter) {
+		anyChanges = true
 		patchPayload.SkipCreationOfDefaultRouter = data.SkipCreationOfDefaultRouter.ValueBoolPointer()
 	}
 	if !data.SkipCreationOfDefaultSubnet.IsNull() && !data.SkipCreationOfDefaultSubnet.Equal(state.SkipCreationOfDefaultSubnet) {
+		anyChanges = true
 		patchPayload.SkipCreationOfDefaultSubnet = data.SkipCreationOfDefaultSubnet.ValueBoolPointer()
 	}
 
-	{
+	if anyChanges {
 		// Execute the PATCH request
 		_, err := r.client.UpdateOpenstackTenant(ctx, data.UUID.ValueString(), &patchPayload)
 		if err != nil {
 			resp.Diagnostics.AddError("Update Failed", err.Error())
 			return
 		}
+	}
+
+	updateTimeout, diags := data.Timeouts.Update(ctx, common.DefaultUpdateTimeout)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
 	}
 
 	// Phase 2: RPC Actions
@@ -676,6 +689,17 @@ func (r *OpenstackTenantResource) Update(ctx context.Context, req resource.Updat
 			resp.Diagnostics.AddError("RPC Action Failed: push_security_groups", err.Error())
 			return
 		}
+
+		// Wait for the resource to return to OK state
+		apiResp, err := common.WaitForResource(ctx, func(ctx context.Context) (*OpenstackTenantResponse, error) {
+			return r.client.GetOpenstackTenant(ctx, data.UUID.ValueString())
+		}, updateTimeout)
+		if err != nil {
+			resp.Diagnostics.AddError("Wait for RPC action failed", err.Error())
+			return
+		}
+		resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
+		state = data // Update local state to avoid repeated action calls if multiple fields changed (though actions are usually 1-to-1)
 	}
 
 	// Fetch updated state after all changes

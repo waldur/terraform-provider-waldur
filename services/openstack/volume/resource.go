@@ -610,24 +610,34 @@ func (r *OpenstackVolumeResource) Update(ctx context.Context, req resource.Updat
 
 	// Phase 1: Standard PATCH (Simple fields)
 	// We compare the plan (data) with the state (state) to determine which fields changed.
+	anyChanges := false
 	var patchPayload OpenstackVolumeUpdateRequest
 	if !data.Bootable.IsNull() && !data.Bootable.Equal(state.Bootable) {
+		anyChanges = true
 		patchPayload.Bootable = data.Bootable.ValueBoolPointer()
 	}
 	if !data.Description.IsNull() && !data.Description.Equal(state.Description) {
+		anyChanges = true
 		patchPayload.Description = data.Description.ValueStringPointer()
 	}
 	if !data.Name.IsNull() && !data.Name.Equal(state.Name) {
+		anyChanges = true
 		patchPayload.Name = data.Name.ValueStringPointer()
 	}
 
-	{
+	if anyChanges {
 		// Execute the PATCH request
 		_, err := r.client.UpdateOpenstackVolume(ctx, data.UUID.ValueString(), &patchPayload)
 		if err != nil {
 			resp.Diagnostics.AddError("Update Failed", err.Error())
 			return
 		}
+	}
+
+	updateTimeout, diags := data.Timeouts.Update(ctx, common.DefaultUpdateTimeout)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
 	}
 
 	// Phase 2: RPC Actions
@@ -642,6 +652,17 @@ func (r *OpenstackVolumeResource) Update(ctx context.Context, req resource.Updat
 			resp.Diagnostics.AddError("RPC Action Failed: retype", err.Error())
 			return
 		}
+
+		// Wait for the resource to return to OK state
+		apiResp, err := common.WaitForResource(ctx, func(ctx context.Context) (*OpenstackVolumeResponse, error) {
+			return r.client.GetOpenstackVolume(ctx, data.UUID.ValueString())
+		}, updateTimeout)
+		if err != nil {
+			resp.Diagnostics.AddError("Wait for RPC action failed", err.Error())
+			return
+		}
+		resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
+		state = data // Update local state to avoid repeated action calls if multiple fields changed (though actions are usually 1-to-1)
 	}
 	if !data.Size.Equal(state.Size) {
 		// Convert Terraform value to API payload for the specific action
@@ -653,6 +674,17 @@ func (r *OpenstackVolumeResource) Update(ctx context.Context, req resource.Updat
 			resp.Diagnostics.AddError("RPC Action Failed: extend", err.Error())
 			return
 		}
+
+		// Wait for the resource to return to OK state
+		apiResp, err := common.WaitForResource(ctx, func(ctx context.Context) (*OpenstackVolumeResponse, error) {
+			return r.client.GetOpenstackVolume(ctx, data.UUID.ValueString())
+		}, updateTimeout)
+		if err != nil {
+			resp.Diagnostics.AddError("Wait for RPC action failed", err.Error())
+			return
+		}
+		resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
+		state = data // Update local state to avoid repeated action calls if multiple fields changed (though actions are usually 1-to-1)
 	}
 
 	// Fetch updated state after all changes
