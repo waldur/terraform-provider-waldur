@@ -30,7 +30,7 @@ func NewOpenstackVolumeAttachmentResource() resource.Resource {
 
 // OpenstackVolumeAttachmentResource defines the resource implementation.
 type OpenstackVolumeAttachmentResource struct {
-	client *Client
+	client *OpenstackVolumeAttachmentClient
 }
 
 // OpenstackVolumeAttachmentResourceModel describes the resource data model.
@@ -56,13 +56,6 @@ func (r *OpenstackVolumeAttachmentResource) Schema(ctx context.Context, req reso
 					stringplanmodifier.UseStateForUnknown(),
 				},
 			},
-			"access_url": schema.StringAttribute{
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
-				MarkdownDescription: "Access url",
-			},
 			"action": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
@@ -75,6 +68,7 @@ func (r *OpenstackVolumeAttachmentResource) Schema(ctx context.Context, req reso
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
+					stringplanmodifier.UseStateForUnknown(),
 				},
 				MarkdownDescription: "Availability zone where this volume is located",
 			},
@@ -107,6 +101,13 @@ func (r *OpenstackVolumeAttachmentResource) Schema(ctx context.Context, req reso
 					stringplanmodifier.UseStateForUnknown(),
 				},
 				MarkdownDescription: "Created",
+			},
+			"customer": schema.StringAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+				MarkdownDescription: "Customer",
 			},
 			"description": schema.StringAttribute{
 				Optional: true,
@@ -149,6 +150,7 @@ func (r *OpenstackVolumeAttachmentResource) Schema(ctx context.Context, req reso
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
+					stringplanmodifier.UseStateForUnknown(),
 				},
 				MarkdownDescription: "Image that this volume was created from, if any",
 			},
@@ -187,6 +189,13 @@ func (r *OpenstackVolumeAttachmentResource) Schema(ctx context.Context, req reso
 				},
 				MarkdownDescription: "Name of the instance",
 			},
+			"marketplace_resource_uuid": schema.StringAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+				MarkdownDescription: "UUID of the marketplace resource",
+			},
 			"modified": schema.StringAttribute{
 				CustomType: timetypes.RFC3339Type{},
 				Computed:   true,
@@ -202,6 +211,15 @@ func (r *OpenstackVolumeAttachmentResource) Schema(ctx context.Context, req reso
 					stringplanmodifier.UseStateForUnknown(),
 				},
 				MarkdownDescription: "Name of the Openstack Volume Attachment",
+			},
+			"project": schema.StringAttribute{
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.RequiresReplace(),
+					stringplanmodifier.UseStateForUnknown(),
+				},
+				MarkdownDescription: "Project",
 			},
 			"resource_type": schema.StringAttribute{
 				Computed: true,
@@ -222,6 +240,7 @@ func (r *OpenstackVolumeAttachmentResource) Schema(ctx context.Context, req reso
 				Computed: true,
 				PlanModifiers: []planmodifier.Int64{
 					int64planmodifier.RequiresReplace(),
+					int64planmodifier.UseStateForUnknown(),
 				},
 				MarkdownDescription: "Size in MiB",
 				Validators: []validator.Int64{
@@ -248,6 +267,7 @@ func (r *OpenstackVolumeAttachmentResource) Schema(ctx context.Context, req reso
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
+					stringplanmodifier.UseStateForUnknown(),
 				},
 				MarkdownDescription: "Tenant",
 			},
@@ -263,6 +283,7 @@ func (r *OpenstackVolumeAttachmentResource) Schema(ctx context.Context, req reso
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
+					stringplanmodifier.UseStateForUnknown(),
 				},
 				MarkdownDescription: "Type of the volume (e.g. SSD, HDD)",
 			},
@@ -305,7 +326,7 @@ func (r *OpenstackVolumeAttachmentResource) Configure(ctx context.Context, req r
 		return
 	}
 
-	r.client = &Client{}
+	r.client = &OpenstackVolumeAttachmentClient{}
 	if err := r.client.Configure(ctx, req.ProviderData); err != nil {
 		resp.Diagnostics.AddError(
 			"Unexpected Resource Configure Type",
@@ -325,12 +346,13 @@ func (r *OpenstackVolumeAttachmentResource) Create(ctx context.Context, req reso
 	// Link Plugin Create Logic
 	sourceUUID := data.Volume.ValueString()
 
-	requestBody := OpenstackVolumeAttachmentCreateRequest{
-		Instance: data.Instance.ValueStringPointer(),
-		Device:   data.Device.ValueStringPointer(),
+	requestBody := OpenstackVolumeAttachmentCreateRequest{}
+	requestBody.Instance = data.Instance.ValueStringPointer()
+	if !data.Device.IsNull() && !data.Device.IsUnknown() {
+		requestBody.Device = data.Device.ValueStringPointer()
 	}
 
-	apiResp, err := r.client.LinkOpenstackVolumeAttachment(ctx, &requestBody)
+	apiResp, err := r.client.Link(ctx, &requestBody)
 	if err != nil {
 		resp.Diagnostics.AddError("Link Operation Failed", err.Error())
 		return
@@ -440,7 +462,7 @@ func (r *OpenstackVolumeAttachmentResource) Delete(ctx context.Context, req reso
 	}
 	sourceUUID := parts[0]
 
-	err := r.client.UnlinkOpenstackVolumeAttachment(ctx, sourceUUID)
+	err := r.client.Unlink(ctx, sourceUUID)
 	if err != nil && !IsNotFoundError(err) {
 		resp.Diagnostics.AddError("Unlink Failed", err.Error())
 		return
@@ -453,7 +475,7 @@ func (r *OpenstackVolumeAttachmentResource) Delete(ctx context.Context, req reso
 	}
 
 	err = common.WaitForDeletion(ctx, func(ctx context.Context) (*OpenstackVolumeAttachmentResponse, error) {
-		return r.client.GetOpenstackVolumeAttachment(ctx, data.UUID.ValueString())
+		return r.client.Get(ctx, data.UUID.ValueString())
 	}, deleteTimeout)
 	if err != nil {
 		resp.Diagnostics.AddError("Failed to wait for resource deletion", err.Error())

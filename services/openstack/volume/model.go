@@ -154,62 +154,39 @@ func (m *OpenstackVolumeFiltersModel) GetSchema() schema.SingleNestedAttribute {
 }
 
 type OpenstackVolumeModel struct {
-	UUID                        types.String      `tfsdk:"id"`
-	AccessUrl                   types.String      `tfsdk:"access_url"`
-	Action                      types.String      `tfsdk:"action"`
-	AvailabilityZone            types.String      `tfsdk:"availability_zone"`
-	AvailabilityZoneName        types.String      `tfsdk:"availability_zone_name"`
-	BackendId                   types.String      `tfsdk:"backend_id"`
-	Bootable                    types.Bool        `tfsdk:"bootable"`
-	Created                     timetypes.RFC3339 `tfsdk:"created"`
-	Customer                    types.String      `tfsdk:"customer"`
-	CustomerAbbreviation        types.String      `tfsdk:"customer_abbreviation"`
-	CustomerName                types.String      `tfsdk:"customer_name"`
-	CustomerNativeName          types.String      `tfsdk:"customer_native_name"`
-	CustomerUuid                types.String      `tfsdk:"customer_uuid"`
-	Description                 types.String      `tfsdk:"description"`
-	Device                      types.String      `tfsdk:"device"`
-	ErrorMessage                types.String      `tfsdk:"error_message"`
-	ErrorTraceback              types.String      `tfsdk:"error_traceback"`
-	ExtendEnabled               types.Bool        `tfsdk:"extend_enabled"`
-	Image                       types.String      `tfsdk:"image"`
-	ImageMetadata               types.String      `tfsdk:"image_metadata"`
-	ImageName                   types.String      `tfsdk:"image_name"`
-	Instance                    types.String      `tfsdk:"instance"`
-	InstanceMarketplaceUuid     types.String      `tfsdk:"instance_marketplace_uuid"`
-	InstanceName                types.String      `tfsdk:"instance_name"`
-	IsLimitBased                types.Bool        `tfsdk:"is_limit_based"`
-	IsUsageBased                types.Bool        `tfsdk:"is_usage_based"`
-	Limits                      types.Map         `tfsdk:"limits"`
-	MarketplaceCategoryName     types.String      `tfsdk:"marketplace_category_name"`
-	MarketplaceCategoryUuid     types.String      `tfsdk:"marketplace_category_uuid"`
-	MarketplaceOfferingName     types.String      `tfsdk:"marketplace_offering_name"`
-	MarketplaceOfferingUuid     types.String      `tfsdk:"marketplace_offering_uuid"`
-	MarketplacePlanUuid         types.String      `tfsdk:"marketplace_plan_uuid"`
-	MarketplaceResourceState    types.String      `tfsdk:"marketplace_resource_state"`
-	MarketplaceResourceUuid     types.String      `tfsdk:"marketplace_resource_uuid"`
-	Modified                    timetypes.RFC3339 `tfsdk:"modified"`
-	Name                        types.String      `tfsdk:"name"`
-	Offering                    types.String      `tfsdk:"offering"`
-	Plan                        types.String      `tfsdk:"plan"`
-	Project                     types.String      `tfsdk:"project"`
-	ProjectName                 types.String      `tfsdk:"project_name"`
-	ProjectUuid                 types.String      `tfsdk:"project_uuid"`
-	ResourceType                types.String      `tfsdk:"resource_type"`
-	RuntimeState                types.String      `tfsdk:"runtime_state"`
-	ServiceName                 types.String      `tfsdk:"service_name"`
-	ServiceSettings             types.String      `tfsdk:"service_settings"`
-	ServiceSettingsErrorMessage types.String      `tfsdk:"service_settings_error_message"`
-	ServiceSettingsState        types.String      `tfsdk:"service_settings_state"`
-	ServiceSettingsUuid         types.String      `tfsdk:"service_settings_uuid"`
-	Size                        types.Int64       `tfsdk:"size"`
-	SourceSnapshot              types.String      `tfsdk:"source_snapshot"`
-	State                       types.String      `tfsdk:"state"`
-	Tenant                      types.String      `tfsdk:"tenant"`
-	TenantUuid                  types.String      `tfsdk:"tenant_uuid"`
-	Type                        types.String      `tfsdk:"type"`
-	TypeName                    types.String      `tfsdk:"type_name"`
-	Url                         types.String      `tfsdk:"url"`
+	UUID                    types.String      `tfsdk:"id"`
+	Action                  types.String      `tfsdk:"action"`
+	AvailabilityZone        types.String      `tfsdk:"availability_zone"`
+	AvailabilityZoneName    types.String      `tfsdk:"availability_zone_name"`
+	BackendId               types.String      `tfsdk:"backend_id"`
+	Bootable                types.Bool        `tfsdk:"bootable"`
+	Created                 timetypes.RFC3339 `tfsdk:"created"`
+	Customer                types.String      `tfsdk:"customer"`
+	Description             types.String      `tfsdk:"description"`
+	Device                  types.String      `tfsdk:"device"`
+	ErrorMessage            types.String      `tfsdk:"error_message"`
+	ErrorTraceback          types.String      `tfsdk:"error_traceback"`
+	ExtendEnabled           types.Bool        `tfsdk:"extend_enabled"`
+	Image                   types.String      `tfsdk:"image"`
+	ImageMetadata           types.String      `tfsdk:"image_metadata"`
+	ImageName               types.String      `tfsdk:"image_name"`
+	Instance                types.String      `tfsdk:"instance"`
+	InstanceMarketplaceUuid types.String      `tfsdk:"instance_marketplace_uuid"`
+	InstanceName            types.String      `tfsdk:"instance_name"`
+	MarketplaceResourceUuid types.String      `tfsdk:"marketplace_resource_uuid"`
+	Modified                timetypes.RFC3339 `tfsdk:"modified"`
+	Name                    types.String      `tfsdk:"name"`
+	Project                 types.String      `tfsdk:"project"`
+	ResourceType            types.String      `tfsdk:"resource_type"`
+	RuntimeState            types.String      `tfsdk:"runtime_state"`
+	Size                    types.Int64       `tfsdk:"size"`
+	SourceSnapshot          types.String      `tfsdk:"source_snapshot"`
+	State                   types.String      `tfsdk:"state"`
+	Tenant                  types.String      `tfsdk:"tenant"`
+	TenantUuid              types.String      `tfsdk:"tenant_uuid"`
+	Type                    types.String      `tfsdk:"type"`
+	TypeName                types.String      `tfsdk:"type_name"`
+	Url                     types.String      `tfsdk:"url"`
 }
 
 // CopyFrom maps the API response to the model fields.
@@ -217,7 +194,6 @@ func (model *OpenstackVolumeModel) CopyFrom(ctx context.Context, apiResp Opensta
 	var diags diag.Diagnostics
 
 	model.UUID = types.StringPointerValue(apiResp.UUID)
-	model.AccessUrl = common.StringPointerValue(apiResp.AccessUrl)
 	model.Action = common.StringPointerValue(apiResp.Action)
 	model.AvailabilityZone = common.StringPointerValue(apiResp.AvailabilityZone)
 	model.AvailabilityZoneName = common.StringPointerValue(apiResp.AvailabilityZoneName)
@@ -227,10 +203,6 @@ func (model *OpenstackVolumeModel) CopyFrom(ctx context.Context, apiResp Opensta
 	diags.Append(diagsCreated...)
 	model.Created = valCreated
 	model.Customer = common.StringPointerValue(apiResp.Customer)
-	model.CustomerAbbreviation = common.StringPointerValue(apiResp.CustomerAbbreviation)
-	model.CustomerName = common.StringPointerValue(apiResp.CustomerName)
-	model.CustomerNativeName = common.StringPointerValue(apiResp.CustomerNativeName)
-	model.CustomerUuid = common.StringPointerValue(apiResp.CustomerUuid)
 	model.Description = common.StringPointerValue(apiResp.Description)
 	model.Device = common.StringPointerValue(apiResp.Device)
 	model.ErrorMessage = common.StringPointerValue(apiResp.ErrorMessage)
@@ -242,29 +214,14 @@ func (model *OpenstackVolumeModel) CopyFrom(ctx context.Context, apiResp Opensta
 	model.Instance = common.StringPointerValue(apiResp.Instance)
 	model.InstanceMarketplaceUuid = common.StringPointerValue(apiResp.InstanceMarketplaceUuid)
 	model.InstanceName = common.StringPointerValue(apiResp.InstanceName)
-	model.IsLimitBased = types.BoolPointerValue(apiResp.IsLimitBased)
-	model.IsUsageBased = types.BoolPointerValue(apiResp.IsUsageBased)
-	model.MarketplaceCategoryName = common.StringPointerValue(apiResp.MarketplaceCategoryName)
-	model.MarketplaceCategoryUuid = common.StringPointerValue(apiResp.MarketplaceCategoryUuid)
-	model.MarketplaceOfferingName = common.StringPointerValue(apiResp.MarketplaceOfferingName)
-	model.MarketplaceOfferingUuid = common.StringPointerValue(apiResp.MarketplaceOfferingUuid)
-	model.MarketplacePlanUuid = common.StringPointerValue(apiResp.MarketplacePlanUuid)
-	model.MarketplaceResourceState = common.StringPointerValue(apiResp.MarketplaceResourceState)
 	model.MarketplaceResourceUuid = common.StringPointerValue(apiResp.MarketplaceResourceUuid)
 	valModified, diagsModified := timetypes.NewRFC3339PointerValue(apiResp.Modified)
 	diags.Append(diagsModified...)
 	model.Modified = valModified
 	model.Name = common.StringPointerValue(apiResp.Name)
 	model.Project = common.StringPointerValue(apiResp.Project)
-	model.ProjectName = common.StringPointerValue(apiResp.ProjectName)
-	model.ProjectUuid = common.StringPointerValue(apiResp.ProjectUuid)
 	model.ResourceType = common.StringPointerValue(apiResp.ResourceType)
 	model.RuntimeState = common.StringPointerValue(apiResp.RuntimeState)
-	model.ServiceName = common.StringPointerValue(apiResp.ServiceName)
-	model.ServiceSettings = common.StringPointerValue(apiResp.ServiceSettings)
-	model.ServiceSettingsErrorMessage = common.StringPointerValue(apiResp.ServiceSettingsErrorMessage)
-	model.ServiceSettingsState = common.StringPointerValue(apiResp.ServiceSettingsState)
-	model.ServiceSettingsUuid = common.StringPointerValue(apiResp.ServiceSettingsUuid)
 	model.Size = types.Int64PointerValue(apiResp.Size)
 	model.SourceSnapshot = common.StringPointerValue(apiResp.SourceSnapshot)
 	model.State = common.StringPointerValue(apiResp.State)

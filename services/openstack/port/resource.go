@@ -29,14 +29,13 @@ func NewOpenstackPortResource() resource.Resource {
 
 // OpenstackPortResource defines the resource implementation.
 type OpenstackPortResource struct {
-	client *Client
+	client *OpenstackPortClient
 }
 
 // OpenstackPortResourceModel describes the resource data model.
 type OpenstackPortResourceModel struct {
 	OpenstackPortModel
-	TargetTenant types.String   `tfsdk:"target_tenant"`
-	Timeouts     timeouts.Value `tfsdk:"timeouts"`
+	Timeouts timeouts.Value `tfsdk:"timeouts"`
 }
 
 func (r *OpenstackPortResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
@@ -54,13 +53,6 @@ func (r *OpenstackPortResource) Schema(ctx context.Context, req resource.SchemaR
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-			},
-			"access_url": schema.StringAttribute{
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
-				MarkdownDescription: "Access url",
 			},
 			"admin_state_up": schema.BoolAttribute{
 				Computed: true,
@@ -83,8 +75,10 @@ func (r *OpenstackPortResource) Schema(ctx context.Context, req resource.SchemaR
 					},
 				},
 				Optional: true,
+				Computed: true,
 				PlanModifiers: []planmodifier.List{
 					listplanmodifier.RequiresReplace(),
+					listplanmodifier.UseStateForUnknown(),
 				},
 				MarkdownDescription: "Allowed address pairs",
 			},
@@ -103,8 +97,19 @@ func (r *OpenstackPortResource) Schema(ctx context.Context, req resource.SchemaR
 				},
 				MarkdownDescription: "Created",
 			},
+			"customer": schema.StringAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+				MarkdownDescription: "Customer",
+			},
 			"description": schema.StringAttribute{
-				Optional:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 				MarkdownDescription: "Description of the Openstack Port",
 			},
 			"device_id": schema.StringAttribute{
@@ -149,8 +154,10 @@ func (r *OpenstackPortResource) Schema(ctx context.Context, req resource.SchemaR
 					},
 				},
 				Optional: true,
+				Computed: true,
 				PlanModifiers: []planmodifier.List{
 					listplanmodifier.RequiresReplace(),
+					listplanmodifier.UseStateForUnknown(),
 				},
 				MarkdownDescription: "Fixed ips",
 			},
@@ -164,10 +171,19 @@ func (r *OpenstackPortResource) Schema(ctx context.Context, req resource.SchemaR
 			},
 			"mac_address": schema.StringAttribute{
 				Optional: true,
+				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
+					stringplanmodifier.UseStateForUnknown(),
 				},
 				MarkdownDescription: "MAC address of the port",
+			},
+			"marketplace_resource_uuid": schema.StringAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+				MarkdownDescription: "UUID of the marketplace resource",
 			},
 			"modified": schema.StringAttribute{
 				CustomType: timetypes.RFC3339Type{},
@@ -183,8 +199,10 @@ func (r *OpenstackPortResource) Schema(ctx context.Context, req resource.SchemaR
 			},
 			"network": schema.StringAttribute{
 				Optional: true,
+				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
+					stringplanmodifier.UseStateForUnknown(),
 				},
 				MarkdownDescription: "Network to which this port belongs",
 			},
@@ -204,10 +222,19 @@ func (r *OpenstackPortResource) Schema(ctx context.Context, req resource.SchemaR
 			},
 			"port_security_enabled": schema.BoolAttribute{
 				Optional: true,
+				Computed: true,
 				PlanModifiers: []planmodifier.Bool{
 					boolplanmodifier.RequiresReplace(),
+					boolplanmodifier.UseStateForUnknown(),
 				},
 				MarkdownDescription: "If True, security groups and rules will be applied to this port",
+			},
+			"project": schema.StringAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+				MarkdownDescription: "Project",
 			},
 			"resource_type": schema.StringAttribute{
 				Computed: true,
@@ -224,16 +251,26 @@ func (r *OpenstackPortResource) Schema(ctx context.Context, req resource.SchemaR
 							MarkdownDescription: "Name of the Openstack Port",
 						},
 						"url": schema.StringAttribute{
-							Computed:            true,
+							Computed: true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
 							MarkdownDescription: "Url",
 						},
 						"uuid": schema.StringAttribute{
-							Computed:            true,
+							Computed: true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
 							MarkdownDescription: "UUID of the Openstack Port",
 						},
 					},
 				},
-				Optional:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.Set{
+					setplanmodifier.UseStateForUnknown(),
+				},
 				MarkdownDescription: "Security groups",
 			},
 			"state": schema.StringAttribute{
@@ -300,7 +337,7 @@ func (r *OpenstackPortResource) Configure(ctx context.Context, req resource.Conf
 		return
 	}
 
-	r.client = &Client{}
+	r.client = &OpenstackPortClient{}
 	if err := r.client.Configure(ctx, req.ProviderData); err != nil {
 		resp.Diagnostics.AddError(
 			"Unexpected Resource Configure Type",
@@ -317,19 +354,34 @@ func (r *OpenstackPortResource) Create(ctx context.Context, req resource.CreateR
 		return
 	}
 
-	requestBody := OpenstackPortCreateRequest{
-		Description:         data.Description.ValueStringPointer(),
-		MacAddress:          data.MacAddress.ValueStringPointer(),
-		Name:                data.Name.ValueStringPointer(),
-		Network:             data.Network.ValueStringPointer(),
-		PortSecurityEnabled: data.PortSecurityEnabled.ValueBoolPointer(),
-		TargetTenant:        data.TargetTenant.ValueStringPointer(),
+	requestBody := OpenstackPortCreateRequest{}
+	if !data.Description.IsNull() && !data.Description.IsUnknown() {
+
+		requestBody.Description = data.Description.ValueStringPointer()
+	}
+	if !data.MacAddress.IsNull() && !data.MacAddress.IsUnknown() {
+
+		requestBody.MacAddress = data.MacAddress.ValueStringPointer()
+	}
+
+	requestBody.Name = data.Name.ValueStringPointer()
+	if !data.Network.IsNull() && !data.Network.IsUnknown() {
+
+		requestBody.Network = data.Network.ValueStringPointer()
+	}
+	if !data.PortSecurityEnabled.IsNull() && !data.PortSecurityEnabled.IsUnknown() {
+
+		requestBody.PortSecurityEnabled = data.PortSecurityEnabled.ValueBoolPointer()
+	}
+	if !data.TargetTenant.IsNull() && !data.TargetTenant.IsUnknown() {
+
+		requestBody.TargetTenant = data.TargetTenant.ValueStringPointer()
 	}
 	resp.Diagnostics.Append(common.PopulateOptionalSliceField(ctx, data.AllowedAddressPairs, &requestBody.AllowedAddressPairs)...)
 	resp.Diagnostics.Append(common.PopulateOptionalSliceField(ctx, data.FixedIps, &requestBody.FixedIps)...)
 	resp.Diagnostics.Append(common.PopulateOptionalSetField(ctx, data.SecurityGroups, &requestBody.SecurityGroups)...)
 
-	apiResp, err := r.client.CreateOpenstackPort(ctx, &requestBody)
+	apiResp, err := r.client.Create(ctx, &requestBody)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Unable to Create Openstack Port",
@@ -338,7 +390,6 @@ func (r *OpenstackPortResource) Create(ctx context.Context, req resource.CreateR
 		return
 	}
 	data.UUID = types.StringPointerValue(apiResp.UUID)
-
 	createTimeout, diags := data.Timeouts.Create(ctx, common.DefaultCreateTimeout)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
@@ -346,7 +397,7 @@ func (r *OpenstackPortResource) Create(ctx context.Context, req resource.CreateR
 	}
 
 	newResp, err := common.WaitForResource(ctx, func(ctx context.Context) (*OpenstackPortResponse, error) {
-		return r.client.GetOpenstackPort(ctx, data.UUID.ValueString())
+		return r.client.Get(ctx, data.UUID.ValueString())
 	}, createTimeout)
 	if err != nil {
 		resp.Diagnostics.AddError("Failed to wait for resource creation", err.Error())
@@ -371,7 +422,7 @@ func (r *OpenstackPortResource) Read(ctx context.Context, req resource.ReadReque
 
 	// Call Waldur API to read resource
 
-	apiResp, err := r.client.GetOpenstackPort(ctx, data.UUID.ValueString())
+	apiResp, err := r.client.Get(ctx, data.UUID.ValueString())
 	if err != nil {
 		if IsNotFoundError(err) {
 			resp.State.RemoveResource(ctx)
@@ -400,14 +451,22 @@ func (r *OpenstackPortResource) Update(ctx context.Context, req resource.UpdateR
 		return
 	}
 
-	requestBody := OpenstackPortUpdateRequest{
-		Description:  data.Description.ValueStringPointer(),
-		Name:         data.Name.ValueStringPointer(),
-		TargetTenant: data.TargetTenant.ValueStringPointer(),
+	requestBody := OpenstackPortUpdateRequest{}
+	if !data.Description.IsNull() && !data.Description.IsUnknown() {
+
+		requestBody.Description = data.Description.ValueStringPointer()
+	}
+	if !data.Name.IsNull() && !data.Name.IsUnknown() {
+
+		requestBody.Name = data.Name.ValueStringPointer()
+	}
+	if !data.TargetTenant.IsNull() && !data.TargetTenant.IsUnknown() {
+
+		requestBody.TargetTenant = data.TargetTenant.ValueStringPointer()
 	}
 	resp.Diagnostics.Append(common.PopulateOptionalSetField(ctx, data.SecurityGroups, &requestBody.SecurityGroups)...)
 
-	apiResp, err := r.client.UpdateOpenstackPort(ctx, data.UUID.ValueString(), &requestBody)
+	apiResp, err := r.client.Update(ctx, data.UUID.ValueString(), &requestBody)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Unable to Update Openstack Port",
@@ -415,7 +474,6 @@ func (r *OpenstackPortResource) Update(ctx context.Context, req resource.UpdateR
 		)
 		return
 	}
-
 	updateTimeout, diags := data.Timeouts.Update(ctx, common.DefaultUpdateTimeout)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
@@ -423,7 +481,7 @@ func (r *OpenstackPortResource) Update(ctx context.Context, req resource.UpdateR
 	}
 
 	newResp, err := common.WaitForResource(ctx, func(ctx context.Context) (*OpenstackPortResponse, error) {
-		return r.client.GetOpenstackPort(ctx, data.UUID.ValueString())
+		return r.client.Get(ctx, data.UUID.ValueString())
 	}, updateTimeout)
 	if err != nil {
 		resp.Diagnostics.AddError("Failed to wait for resource update", err.Error())
@@ -443,7 +501,7 @@ func (r *OpenstackPortResource) Delete(ctx context.Context, req resource.DeleteR
 		return
 	}
 
-	err := r.client.DeleteOpenstackPort(ctx, data.UUID.ValueString())
+	err := r.client.Delete(ctx, data.UUID.ValueString())
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Unable to Delete Openstack Port",
@@ -451,7 +509,6 @@ func (r *OpenstackPortResource) Delete(ctx context.Context, req resource.DeleteR
 		)
 		return
 	}
-
 	deleteTimeout, diags := data.Timeouts.Delete(ctx, common.DefaultDeleteTimeout)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
@@ -459,7 +516,7 @@ func (r *OpenstackPortResource) Delete(ctx context.Context, req resource.DeleteR
 	}
 
 	err = common.WaitForDeletion(ctx, func(ctx context.Context) (*OpenstackPortResponse, error) {
-		return r.client.GetOpenstackPort(ctx, data.UUID.ValueString())
+		return r.client.Get(ctx, data.UUID.ValueString())
 	}, deleteTimeout)
 	if err != nil {
 		resp.Diagnostics.AddError("Failed to wait for resource deletion", err.Error())
@@ -482,7 +539,7 @@ func (r *OpenstackPortResource) ImportState(ctx context.Context, req resource.Im
 		"uuid": uuid,
 	})
 
-	apiResp, err := r.client.GetOpenstackPort(ctx, uuid)
+	apiResp, err := r.client.Get(ctx, uuid)
 	if err != nil {
 		if IsNotFoundError(err) {
 			resp.Diagnostics.AddError(

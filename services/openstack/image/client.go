@@ -8,15 +8,15 @@ import (
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
-type Client struct {
+type OpenstackImageClient struct {
 	Client *client.Client
 }
 
-func NewClient(c *client.Client) *Client {
-	return &Client{Client: c}
+func NewOpenstackImageClient(c *client.Client) *OpenstackImageClient {
+	return &OpenstackImageClient{Client: c}
 }
 
-func (c *Client) Configure(ctx context.Context, providerData interface{}) error {
+func (c *OpenstackImageClient) Configure(ctx context.Context, providerData interface{}) error {
 	if providerData == nil {
 		return nil
 	}
@@ -34,7 +34,7 @@ func IsNotFoundError(err error) bool {
 	return common.IsNotFoundError(err)
 }
 
-func (c *Client) GetOpenstackImage(ctx context.Context, id string) (*OpenstackImageResponse, error) {
+func (c *OpenstackImageClient) Get(ctx context.Context, id string) (*OpenstackImageResponse, error) {
 	var apiResp OpenstackImageResponse
 	err := c.Client.Get(ctx, "/api/openstack-images/{uuid}/", id, &apiResp)
 	if err != nil {
@@ -43,7 +43,7 @@ func (c *Client) GetOpenstackImage(ctx context.Context, id string) (*OpenstackIm
 	return &apiResp, nil
 }
 
-func (c *Client) ListOpenstackImage(ctx context.Context, filter map[string]string) ([]OpenstackImageResponse, error) {
+func (c *OpenstackImageClient) List(ctx context.Context, filter map[string]string) ([]OpenstackImageResponse, error) {
 	var listResult []OpenstackImageResponse
 	err := c.Client.List(ctx, "/api/openstack-images/", filter, &listResult)
 	if err != nil {

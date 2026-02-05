@@ -21,7 +21,7 @@ type OpenstackInstanceRestartModel struct {
 }
 
 type OpenstackInstanceRestartAction struct {
-	client *Client
+	client *OpenstackInstanceClient
 }
 
 func NewOpenstackInstanceRestartAction() action.Action {
@@ -53,7 +53,7 @@ func (a *OpenstackInstanceRestartAction) Configure(ctx context.Context, req acti
 		return
 	}
 
-	a.client = &Client{}
+	a.client = &OpenstackInstanceClient{}
 	if err := a.client.Configure(ctx, req.ProviderData); err != nil {
 		resp.Diagnostics.AddError(
 			"Unexpected Action Configure Type",
@@ -72,7 +72,7 @@ func (a *OpenstackInstanceRestartAction) Invoke(ctx context.Context, req action.
 	}
 
 	uuid := data.Uuid.ValueString()
-	err := a.client.OpenstackInstanceRestart(ctx, uuid)
+	err := a.client.Restart(ctx, uuid)
 
 	if err != nil {
 		resp.Diagnostics.AddError(
@@ -93,7 +93,7 @@ func (a *OpenstackInstanceRestartAction) Invoke(ctx context.Context, req action.
 		}
 	}
 	_, err = common.WaitForResource(ctx, func(ctx context.Context) (*OpenstackInstanceResponse, error) {
-		return a.client.GetOpenstackInstance(ctx, uuid)
+		return a.client.Get(ctx, uuid)
 	}, timeout)
 	if err != nil {
 		resp.Diagnostics.AddWarning("Resource state check failed", err.Error())

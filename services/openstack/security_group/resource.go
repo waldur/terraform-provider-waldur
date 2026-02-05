@@ -9,6 +9,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
@@ -28,7 +29,7 @@ func NewOpenstackSecurityGroupResource() resource.Resource {
 
 // OpenstackSecurityGroupResource defines the resource implementation.
 type OpenstackSecurityGroupResource struct {
-	client *Client
+	client *OpenstackSecurityGroupClient
 }
 
 // OpenstackSecurityGroupResourceModel describes the resource data model.
@@ -53,13 +54,6 @@ func (r *OpenstackSecurityGroupResource) Schema(ctx context.Context, req resourc
 					stringplanmodifier.UseStateForUnknown(),
 				},
 			},
-			"access_url": schema.StringAttribute{
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
-				MarkdownDescription: "Access url",
-			},
 			"backend_id": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
@@ -75,8 +69,19 @@ func (r *OpenstackSecurityGroupResource) Schema(ctx context.Context, req resourc
 				},
 				MarkdownDescription: "Created",
 			},
+			"customer": schema.StringAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+				MarkdownDescription: "Customer",
+			},
 			"description": schema.StringAttribute{
-				Optional:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 				MarkdownDescription: "Description of the Openstack Security Group",
 			},
 			"error_message": schema.StringAttribute{
@@ -93,6 +98,13 @@ func (r *OpenstackSecurityGroupResource) Schema(ctx context.Context, req resourc
 				},
 				MarkdownDescription: "Error traceback",
 			},
+			"marketplace_resource_uuid": schema.StringAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+				MarkdownDescription: "UUID of the marketplace resource",
+			},
 			"modified": schema.StringAttribute{
 				CustomType: timetypes.RFC3339Type{},
 				Computed:   true,
@@ -104,6 +116,13 @@ func (r *OpenstackSecurityGroupResource) Schema(ctx context.Context, req resourc
 			"name": schema.StringAttribute{
 				Required:            true,
 				MarkdownDescription: "Name of the Openstack Security Group",
+			},
+			"project": schema.StringAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+				MarkdownDescription: "Project",
 			},
 			"resource_type": schema.StringAttribute{
 				Computed: true,
@@ -156,15 +175,24 @@ func (r *OpenstackSecurityGroupResource) Schema(ctx context.Context, req resourc
 							},
 						},
 						"id": schema.Int64Attribute{
-							Computed:            true,
+							Computed: true,
+							PlanModifiers: []planmodifier.Int64{
+								int64planmodifier.UseStateForUnknown(),
+							},
 							MarkdownDescription: "Id",
 						},
 						"remote_group_name": schema.StringAttribute{
-							Computed:            true,
+							Computed: true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
 							MarkdownDescription: "Name of the remote group",
 						},
 						"remote_group_uuid": schema.StringAttribute{
-							Computed:            true,
+							Computed: true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
 							MarkdownDescription: "UUID of the remote group",
 						},
 					},
@@ -183,6 +211,7 @@ func (r *OpenstackSecurityGroupResource) Schema(ctx context.Context, req resourc
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
+					stringplanmodifier.UseStateForUnknown(),
 				},
 				MarkdownDescription: "Required path parameter for resource creation",
 			},
@@ -225,7 +254,7 @@ func (r *OpenstackSecurityGroupResource) Configure(ctx context.Context, req reso
 		return
 	}
 
-	r.client = &Client{}
+	r.client = &OpenstackSecurityGroupClient{}
 	if err := r.client.Configure(ctx, req.ProviderData); err != nil {
 		resp.Diagnostics.AddError(
 			"Unexpected Resource Configure Type",
@@ -242,13 +271,16 @@ func (r *OpenstackSecurityGroupResource) Create(ctx context.Context, req resourc
 		return
 	}
 
-	requestBody := OpenstackSecurityGroupCreateRequest{
-		Description: data.Description.ValueStringPointer(),
-		Name:        data.Name.ValueStringPointer(),
+	requestBody := OpenstackSecurityGroupCreateRequest{}
+	if !data.Description.IsNull() && !data.Description.IsUnknown() {
+
+		requestBody.Description = data.Description.ValueStringPointer()
 	}
+
+	requestBody.Name = data.Name.ValueStringPointer()
 	resp.Diagnostics.Append(common.PopulateSliceField(ctx, data.Rules, &requestBody.Rules)...)
 
-	apiResp, err := r.client.CreateOpenstackSecurityGroup(ctx, data.Tenant.ValueString(), &requestBody)
+	apiResp, err := r.client.Create(ctx, data.Tenant.ValueString(), &requestBody)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Unable to Create Openstack Security Group",
@@ -257,7 +289,6 @@ func (r *OpenstackSecurityGroupResource) Create(ctx context.Context, req resourc
 		return
 	}
 	data.UUID = types.StringPointerValue(apiResp.UUID)
-
 	createTimeout, diags := data.Timeouts.Create(ctx, common.DefaultCreateTimeout)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
@@ -265,7 +296,7 @@ func (r *OpenstackSecurityGroupResource) Create(ctx context.Context, req resourc
 	}
 
 	newResp, err := common.WaitForResource(ctx, func(ctx context.Context) (*OpenstackSecurityGroupResponse, error) {
-		return r.client.GetOpenstackSecurityGroup(ctx, data.UUID.ValueString())
+		return r.client.Get(ctx, data.UUID.ValueString())
 	}, createTimeout)
 	if err != nil {
 		resp.Diagnostics.AddError("Failed to wait for resource creation", err.Error())
@@ -290,7 +321,7 @@ func (r *OpenstackSecurityGroupResource) Read(ctx context.Context, req resource.
 
 	// Call Waldur API to read resource
 
-	apiResp, err := r.client.GetOpenstackSecurityGroup(ctx, data.UUID.ValueString())
+	apiResp, err := r.client.Get(ctx, data.UUID.ValueString())
 	if err != nil {
 		if IsNotFoundError(err) {
 			resp.State.RemoveResource(ctx)
@@ -319,12 +350,17 @@ func (r *OpenstackSecurityGroupResource) Update(ctx context.Context, req resourc
 		return
 	}
 
-	requestBody := OpenstackSecurityGroupUpdateRequest{
-		Description: data.Description.ValueStringPointer(),
-		Name:        data.Name.ValueStringPointer(),
+	requestBody := OpenstackSecurityGroupUpdateRequest{}
+	if !data.Description.IsNull() && !data.Description.IsUnknown() {
+
+		requestBody.Description = data.Description.ValueStringPointer()
+	}
+	if !data.Name.IsNull() && !data.Name.IsUnknown() {
+
+		requestBody.Name = data.Name.ValueStringPointer()
 	}
 
-	apiResp, err := r.client.UpdateOpenstackSecurityGroup(ctx, data.UUID.ValueString(), &requestBody)
+	apiResp, err := r.client.Update(ctx, data.UUID.ValueString(), &requestBody)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Unable to Update Openstack Security Group",
@@ -332,7 +368,6 @@ func (r *OpenstackSecurityGroupResource) Update(ctx context.Context, req resourc
 		)
 		return
 	}
-
 	updateTimeout, diags := data.Timeouts.Update(ctx, common.DefaultUpdateTimeout)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
@@ -340,7 +375,7 @@ func (r *OpenstackSecurityGroupResource) Update(ctx context.Context, req resourc
 	}
 
 	newResp, err := common.WaitForResource(ctx, func(ctx context.Context) (*OpenstackSecurityGroupResponse, error) {
-		return r.client.GetOpenstackSecurityGroup(ctx, data.UUID.ValueString())
+		return r.client.Get(ctx, data.UUID.ValueString())
 	}, updateTimeout)
 	if err != nil {
 		resp.Diagnostics.AddError("Failed to wait for resource update", err.Error())
@@ -360,7 +395,7 @@ func (r *OpenstackSecurityGroupResource) Delete(ctx context.Context, req resourc
 		return
 	}
 
-	err := r.client.DeleteOpenstackSecurityGroup(ctx, data.UUID.ValueString())
+	err := r.client.Delete(ctx, data.UUID.ValueString())
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Unable to Delete Openstack Security Group",
@@ -368,7 +403,6 @@ func (r *OpenstackSecurityGroupResource) Delete(ctx context.Context, req resourc
 		)
 		return
 	}
-
 	deleteTimeout, diags := data.Timeouts.Delete(ctx, common.DefaultDeleteTimeout)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
@@ -376,7 +410,7 @@ func (r *OpenstackSecurityGroupResource) Delete(ctx context.Context, req resourc
 	}
 
 	err = common.WaitForDeletion(ctx, func(ctx context.Context) (*OpenstackSecurityGroupResponse, error) {
-		return r.client.GetOpenstackSecurityGroup(ctx, data.UUID.ValueString())
+		return r.client.Get(ctx, data.UUID.ValueString())
 	}, deleteTimeout)
 	if err != nil {
 		resp.Diagnostics.AddError("Failed to wait for resource deletion", err.Error())
@@ -399,7 +433,7 @@ func (r *OpenstackSecurityGroupResource) ImportState(ctx context.Context, req re
 		"uuid": uuid,
 	})
 
-	apiResp, err := r.client.GetOpenstackSecurityGroup(ctx, uuid)
+	apiResp, err := r.client.Get(ctx, uuid)
 	if err != nil {
 		if IsNotFoundError(err) {
 			resp.Diagnostics.AddError(

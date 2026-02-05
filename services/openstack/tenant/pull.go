@@ -21,7 +21,7 @@ type OpenstackTenantPullModel struct {
 }
 
 type OpenstackTenantPullAction struct {
-	client *Client
+	client *OpenstackTenantClient
 }
 
 func NewOpenstackTenantPullAction() action.Action {
@@ -53,7 +53,7 @@ func (a *OpenstackTenantPullAction) Configure(ctx context.Context, req action.Co
 		return
 	}
 
-	a.client = &Client{}
+	a.client = &OpenstackTenantClient{}
 	if err := a.client.Configure(ctx, req.ProviderData); err != nil {
 		resp.Diagnostics.AddError(
 			"Unexpected Action Configure Type",
@@ -72,7 +72,7 @@ func (a *OpenstackTenantPullAction) Invoke(ctx context.Context, req action.Invok
 	}
 
 	uuid := data.Uuid.ValueString()
-	err := a.client.OpenstackTenantPull(ctx, uuid)
+	err := a.client.Pull(ctx, uuid)
 
 	if err != nil {
 		resp.Diagnostics.AddError(
@@ -93,7 +93,7 @@ func (a *OpenstackTenantPullAction) Invoke(ctx context.Context, req action.Invok
 		}
 	}
 	_, err = common.WaitForResource(ctx, func(ctx context.Context) (*OpenstackTenantResponse, error) {
-		return a.client.GetOpenstackTenant(ctx, uuid)
+		return a.client.Get(ctx, uuid)
 	}, timeout)
 	if err != nil {
 		resp.Diagnostics.AddWarning("Resource state check failed", err.Error())

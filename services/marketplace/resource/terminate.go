@@ -21,7 +21,7 @@ type MarketplaceResourceTerminateModel struct {
 }
 
 type MarketplaceResourceTerminateAction struct {
-	client *Client
+	client *MarketplaceResourceClient
 }
 
 func NewMarketplaceResourceTerminateAction() action.Action {
@@ -53,7 +53,7 @@ func (a *MarketplaceResourceTerminateAction) Configure(ctx context.Context, req 
 		return
 	}
 
-	a.client = &Client{}
+	a.client = &MarketplaceResourceClient{}
 	if err := a.client.Configure(ctx, req.ProviderData); err != nil {
 		resp.Diagnostics.AddError(
 			"Unexpected Action Configure Type",
@@ -72,7 +72,7 @@ func (a *MarketplaceResourceTerminateAction) Invoke(ctx context.Context, req act
 	}
 
 	uuid := data.Uuid.ValueString()
-	err := a.client.MarketplaceResourceTerminate(ctx, uuid)
+	err := a.client.Terminate(ctx, uuid)
 
 	if err != nil {
 		resp.Diagnostics.AddError(
@@ -93,7 +93,7 @@ func (a *MarketplaceResourceTerminateAction) Invoke(ctx context.Context, req act
 		}
 	}
 	_, err = common.WaitForResource(ctx, func(ctx context.Context) (*MarketplaceResourceResponse, error) {
-		return a.client.GetMarketplaceResource(ctx, uuid)
+		return a.client.Get(ctx, uuid)
 	}, timeout)
 	if err != nil {
 		resp.Diagnostics.AddWarning("Resource state check failed", err.Error())

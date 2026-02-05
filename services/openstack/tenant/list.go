@@ -14,7 +14,7 @@ import (
 var _ list.ListResource = &OpenstackTenantList{}
 
 type OpenstackTenantList struct {
-	client *Client
+	client *OpenstackTenantClient
 }
 
 func NewOpenstackTenantList() list.ListResource {
@@ -34,7 +34,7 @@ func (l *OpenstackTenantList) ListResourceConfigSchema(ctx context.Context, req 
 }
 
 func (l *OpenstackTenantList) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
-	l.client = &Client{}
+	l.client = &OpenstackTenantClient{}
 	if err := l.client.Configure(ctx, req.ProviderData); err != nil {
 		resp.Diagnostics.AddError(
 			"Unexpected List Configure Type",
@@ -62,7 +62,7 @@ func (l *OpenstackTenantList) List(ctx context.Context, req list.ListRequest, st
 	filters := common.BuildQueryFilters(config.Filters)
 
 	// Call API
-	listResult, err := l.client.ListOpenstackTenant(ctx, filters)
+	listResult, err := l.client.List(ctx, filters)
 	if err != nil {
 		// Return error diagnostics
 		resp.AddError("Failed to list resources", err.Error())

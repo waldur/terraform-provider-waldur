@@ -14,7 +14,7 @@ import (
 var _ list.ListResource = &OpenstackPortList{}
 
 type OpenstackPortList struct {
-	client *Client
+	client *OpenstackPortClient
 }
 
 func NewOpenstackPortList() list.ListResource {
@@ -34,7 +34,7 @@ func (l *OpenstackPortList) ListResourceConfigSchema(ctx context.Context, req li
 }
 
 func (l *OpenstackPortList) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
-	l.client = &Client{}
+	l.client = &OpenstackPortClient{}
 	if err := l.client.Configure(ctx, req.ProviderData); err != nil {
 		resp.Diagnostics.AddError(
 			"Unexpected List Configure Type",
@@ -62,7 +62,7 @@ func (l *OpenstackPortList) List(ctx context.Context, req list.ListRequest, stre
 	filters := common.BuildQueryFilters(config.Filters)
 
 	// Call API
-	listResult, err := l.client.ListOpenstackPort(ctx, filters)
+	listResult, err := l.client.List(ctx, filters)
 	if err != nil {
 		// Return error diagnostics
 		resp.AddError("Failed to list resources", err.Error())

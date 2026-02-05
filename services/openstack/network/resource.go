@@ -31,7 +31,7 @@ func NewOpenstackNetworkResource() resource.Resource {
 
 // OpenstackNetworkResource defines the resource implementation.
 type OpenstackNetworkResource struct {
-	client *Client
+	client *OpenstackNetworkClient
 }
 
 // OpenstackNetworkResourceModel describes the resource data model.
@@ -56,13 +56,6 @@ func (r *OpenstackNetworkResource) Schema(ctx context.Context, req resource.Sche
 					stringplanmodifier.UseStateForUnknown(),
 				},
 			},
-			"access_url": schema.StringAttribute{
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
-				MarkdownDescription: "Access url",
-			},
 			"backend_id": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
@@ -78,8 +71,19 @@ func (r *OpenstackNetworkResource) Schema(ctx context.Context, req resource.Sche
 				},
 				MarkdownDescription: "Created",
 			},
+			"customer": schema.StringAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+				MarkdownDescription: "Customer",
+			},
 			"description": schema.StringAttribute{
-				Optional:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 				MarkdownDescription: "Description of the Openstack Network",
 			},
 			"error_message": schema.StringAttribute{
@@ -103,6 +107,13 @@ func (r *OpenstackNetworkResource) Schema(ctx context.Context, req resource.Sche
 				},
 				MarkdownDescription: "Defines whether this network is external (public) or internal (private)",
 			},
+			"marketplace_resource_uuid": schema.StringAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+				MarkdownDescription: "UUID of the marketplace resource",
+			},
 			"modified": schema.StringAttribute{
 				CustomType: timetypes.RFC3339Type{},
 				Computed:   true,
@@ -122,16 +133,29 @@ func (r *OpenstackNetworkResource) Schema(ctx context.Context, req resource.Sche
 				Required:            true,
 				MarkdownDescription: "Name of the Openstack Network",
 			},
+			"project": schema.StringAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+				MarkdownDescription: "Project",
+			},
 			"rbac_policies": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"backend_id": schema.StringAttribute{
-							Computed:            true,
+							Computed: true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
 							MarkdownDescription: "ID of the backend",
 						},
 						"created": schema.StringAttribute{
-							CustomType:          timetypes.RFC3339Type{},
-							Computed:            true,
+							CustomType: timetypes.RFC3339Type{},
+							Computed:   true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
 							MarkdownDescription: "Created",
 						},
 						"network": schema.StringAttribute{
@@ -139,7 +163,10 @@ func (r *OpenstackNetworkResource) Schema(ctx context.Context, req resource.Sche
 							MarkdownDescription: "Network",
 						},
 						"network_name": schema.StringAttribute{
-							Computed:            true,
+							Computed: true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
 							MarkdownDescription: "Name of the network",
 						},
 						"policy_type": schema.StringAttribute{
@@ -151,15 +178,24 @@ func (r *OpenstackNetworkResource) Schema(ctx context.Context, req resource.Sche
 							MarkdownDescription: "Target tenant",
 						},
 						"target_tenant_name": schema.StringAttribute{
-							Computed:            true,
+							Computed: true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
 							MarkdownDescription: "Name of the target tenant",
 						},
 						"url": schema.StringAttribute{
-							Computed:            true,
+							Computed: true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
 							MarkdownDescription: "Url",
 						},
 						"uuid": schema.StringAttribute{
-							Computed:            true,
+							Computed: true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
 							MarkdownDescription: "UUID of the Openstack Network",
 						},
 					},
@@ -207,7 +243,10 @@ func (r *OpenstackNetworkResource) Schema(ctx context.Context, req resource.Sche
 									},
 								},
 							},
-							Computed:            true,
+							Computed: true,
+							PlanModifiers: []planmodifier.List{
+								listplanmodifier.UseStateForUnknown(),
+							},
 							MarkdownDescription: "Allocation pools",
 						},
 						"cidr": schema.StringAttribute{
@@ -239,7 +278,10 @@ func (r *OpenstackNetworkResource) Schema(ctx context.Context, req resource.Sche
 							MarkdownDescription: "Name of the Openstack Network",
 						},
 						"uuid": schema.StringAttribute{
-							Computed:            true,
+							Computed: true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
 							MarkdownDescription: "UUID of the Openstack Network",
 						},
 					},
@@ -254,6 +296,7 @@ func (r *OpenstackNetworkResource) Schema(ctx context.Context, req resource.Sche
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
+					stringplanmodifier.UseStateForUnknown(),
 				},
 				MarkdownDescription: "Required path parameter for resource creation",
 			},
@@ -303,7 +346,7 @@ func (r *OpenstackNetworkResource) Configure(ctx context.Context, req resource.C
 		return
 	}
 
-	r.client = &Client{}
+	r.client = &OpenstackNetworkClient{}
 	if err := r.client.Configure(ctx, req.ProviderData); err != nil {
 		resp.Diagnostics.AddError(
 			"Unexpected Resource Configure Type",
@@ -320,12 +363,15 @@ func (r *OpenstackNetworkResource) Create(ctx context.Context, req resource.Crea
 		return
 	}
 
-	requestBody := OpenstackNetworkCreateRequest{
-		Description: data.Description.ValueStringPointer(),
-		Name:        data.Name.ValueStringPointer(),
+	requestBody := OpenstackNetworkCreateRequest{}
+	if !data.Description.IsNull() && !data.Description.IsUnknown() {
+
+		requestBody.Description = data.Description.ValueStringPointer()
 	}
 
-	apiResp, err := r.client.CreateOpenstackNetwork(ctx, data.Tenant.ValueString(), &requestBody)
+	requestBody.Name = data.Name.ValueStringPointer()
+
+	apiResp, err := r.client.Create(ctx, data.Tenant.ValueString(), &requestBody)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Unable to Create Openstack Network",
@@ -334,7 +380,6 @@ func (r *OpenstackNetworkResource) Create(ctx context.Context, req resource.Crea
 		return
 	}
 	data.UUID = types.StringPointerValue(apiResp.UUID)
-
 	createTimeout, diags := data.Timeouts.Create(ctx, common.DefaultCreateTimeout)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
@@ -342,7 +387,7 @@ func (r *OpenstackNetworkResource) Create(ctx context.Context, req resource.Crea
 	}
 
 	newResp, err := common.WaitForResource(ctx, func(ctx context.Context) (*OpenstackNetworkResponse, error) {
-		return r.client.GetOpenstackNetwork(ctx, data.UUID.ValueString())
+		return r.client.Get(ctx, data.UUID.ValueString())
 	}, createTimeout)
 	if err != nil {
 		resp.Diagnostics.AddError("Failed to wait for resource creation", err.Error())
@@ -367,7 +412,7 @@ func (r *OpenstackNetworkResource) Read(ctx context.Context, req resource.ReadRe
 
 	// Call Waldur API to read resource
 
-	apiResp, err := r.client.GetOpenstackNetwork(ctx, data.UUID.ValueString())
+	apiResp, err := r.client.Get(ctx, data.UUID.ValueString())
 	if err != nil {
 		if IsNotFoundError(err) {
 			resp.State.RemoveResource(ctx)
@@ -396,12 +441,17 @@ func (r *OpenstackNetworkResource) Update(ctx context.Context, req resource.Upda
 		return
 	}
 
-	requestBody := OpenstackNetworkUpdateRequest{
-		Description: data.Description.ValueStringPointer(),
-		Name:        data.Name.ValueStringPointer(),
+	requestBody := OpenstackNetworkUpdateRequest{}
+	if !data.Description.IsNull() && !data.Description.IsUnknown() {
+
+		requestBody.Description = data.Description.ValueStringPointer()
+	}
+	if !data.Name.IsNull() && !data.Name.IsUnknown() {
+
+		requestBody.Name = data.Name.ValueStringPointer()
 	}
 
-	apiResp, err := r.client.UpdateOpenstackNetwork(ctx, data.UUID.ValueString(), &requestBody)
+	apiResp, err := r.client.Update(ctx, data.UUID.ValueString(), &requestBody)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Unable to Update Openstack Network",
@@ -409,7 +459,6 @@ func (r *OpenstackNetworkResource) Update(ctx context.Context, req resource.Upda
 		)
 		return
 	}
-
 	updateTimeout, diags := data.Timeouts.Update(ctx, common.DefaultUpdateTimeout)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
@@ -417,7 +466,7 @@ func (r *OpenstackNetworkResource) Update(ctx context.Context, req resource.Upda
 	}
 
 	newResp, err := common.WaitForResource(ctx, func(ctx context.Context) (*OpenstackNetworkResponse, error) {
-		return r.client.GetOpenstackNetwork(ctx, data.UUID.ValueString())
+		return r.client.Get(ctx, data.UUID.ValueString())
 	}, updateTimeout)
 	if err != nil {
 		resp.Diagnostics.AddError("Failed to wait for resource update", err.Error())
@@ -437,7 +486,7 @@ func (r *OpenstackNetworkResource) Delete(ctx context.Context, req resource.Dele
 		return
 	}
 
-	err := r.client.DeleteOpenstackNetwork(ctx, data.UUID.ValueString())
+	err := r.client.Delete(ctx, data.UUID.ValueString())
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Unable to Delete Openstack Network",
@@ -445,7 +494,6 @@ func (r *OpenstackNetworkResource) Delete(ctx context.Context, req resource.Dele
 		)
 		return
 	}
-
 	deleteTimeout, diags := data.Timeouts.Delete(ctx, common.DefaultDeleteTimeout)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
@@ -453,7 +501,7 @@ func (r *OpenstackNetworkResource) Delete(ctx context.Context, req resource.Dele
 	}
 
 	err = common.WaitForDeletion(ctx, func(ctx context.Context) (*OpenstackNetworkResponse, error) {
-		return r.client.GetOpenstackNetwork(ctx, data.UUID.ValueString())
+		return r.client.Get(ctx, data.UUID.ValueString())
 	}, deleteTimeout)
 	if err != nil {
 		resp.Diagnostics.AddError("Failed to wait for resource deletion", err.Error())
@@ -476,7 +524,7 @@ func (r *OpenstackNetworkResource) ImportState(ctx context.Context, req resource
 		"uuid": uuid,
 	})
 
-	apiResp, err := r.client.GetOpenstackNetwork(ctx, uuid)
+	apiResp, err := r.client.Get(ctx, uuid)
 	if err != nil {
 		if IsNotFoundError(err) {
 			resp.Diagnostics.AddError(

@@ -18,7 +18,7 @@ func NewOpenstackVolumeTypeDataSource() datasource.DataSource {
 }
 
 type OpenstackVolumeTypeDataSource struct {
-	client *Client
+	client *OpenstackVolumeTypeClient
 }
 
 type OpenstackVolumeTypeDataSourceModel struct {
@@ -67,7 +67,7 @@ func (d *OpenstackVolumeTypeDataSource) Configure(ctx context.Context, req datas
 		return
 	}
 
-	d.client = &Client{}
+	d.client = &OpenstackVolumeTypeClient{}
 	if err := d.client.Configure(ctx, req.ProviderData); err != nil {
 		resp.Diagnostics.AddError(
 			"Unexpected Data Source Configure Type",
@@ -89,7 +89,7 @@ func (d *OpenstackVolumeTypeDataSource) Read(ctx context.Context, req datasource
 
 	// Check if UUID is provided for direct lookup
 	if !data.UUID.IsNull() && data.UUID.ValueString() != "" {
-		apiResp, err := d.client.GetOpenstackVolumeType(ctx, data.UUID.ValueString())
+		apiResp, err := d.client.Get(ctx, data.UUID.ValueString())
 		if err != nil {
 			resp.Diagnostics.AddError(
 				"Unable to Read Openstack Volume Type",
@@ -111,7 +111,7 @@ func (d *OpenstackVolumeTypeDataSource) Read(ctx context.Context, req datasource
 			return
 		}
 
-		results, err := d.client.ListOpenstackVolumeType(ctx, filters)
+		results, err := d.client.List(ctx, filters)
 		if err != nil {
 			resp.Diagnostics.AddError(
 				"Unable to List Openstack Volume Type",

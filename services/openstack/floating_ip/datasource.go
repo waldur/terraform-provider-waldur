@@ -19,7 +19,7 @@ func NewOpenstackFloatingIpDataSource() datasource.DataSource {
 }
 
 type OpenstackFloatingIpDataSource struct {
-	client *Client
+	client *OpenstackFloatingIpClient
 }
 
 type OpenstackFloatingIpDataSourceModel struct {
@@ -42,10 +42,6 @@ func (d *OpenstackFloatingIpDataSource) Schema(ctx context.Context, req datasour
 				MarkdownDescription: "Openstack Floating Ip UUID",
 			},
 			"filters": (&OpenstackFloatingIpFiltersModel{}).GetSchema(),
-			"access_url": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Access url",
-			},
 			"address": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "The public IPv4 address of the floating IP",
@@ -66,22 +62,6 @@ func (d *OpenstackFloatingIpDataSource) Schema(ctx context.Context, req datasour
 			"customer": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Customer",
-			},
-			"customer_abbreviation": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Customer abbreviation",
-			},
-			"customer_name": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Name of the customer",
-			},
-			"customer_native_name": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Name of the customer native",
-			},
-			"customer_uuid": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "UUID of the customer",
 			},
 			"description": schema.StringAttribute{
 				Computed:            true,
@@ -110,38 +90,6 @@ func (d *OpenstackFloatingIpDataSource) Schema(ctx context.Context, req datasour
 			"instance_uuid": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "UUID of the instance",
-			},
-			"is_limit_based": schema.BoolAttribute{
-				Computed:            true,
-				MarkdownDescription: "Is limit based",
-			},
-			"is_usage_based": schema.BoolAttribute{
-				Computed:            true,
-				MarkdownDescription: "Is usage based",
-			},
-			"marketplace_category_name": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Name of the marketplace category",
-			},
-			"marketplace_category_uuid": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "UUID of the marketplace category",
-			},
-			"marketplace_offering_name": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Name of the marketplace offering",
-			},
-			"marketplace_offering_uuid": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "UUID of the marketplace offering",
-			},
-			"marketplace_plan_uuid": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "UUID of the marketplace plan",
-			},
-			"marketplace_resource_state": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Marketplace resource state",
 			},
 			"marketplace_resource_uuid": schema.StringAttribute{
 				Computed:            true,
@@ -180,14 +128,6 @@ func (d *OpenstackFloatingIpDataSource) Schema(ctx context.Context, req datasour
 				Computed:            true,
 				MarkdownDescription: "Project",
 			},
-			"project_name": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Name of the project",
-			},
-			"project_uuid": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "UUID of the project",
-			},
 			"resource_type": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Resource type",
@@ -199,26 +139,6 @@ func (d *OpenstackFloatingIpDataSource) Schema(ctx context.Context, req datasour
 			"runtime_state": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Runtime state",
-			},
-			"service_name": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Name of the service",
-			},
-			"service_settings": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Service settings",
-			},
-			"service_settings_error_message": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Service settings error message",
-			},
-			"service_settings_state": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Service settings state",
-			},
-			"service_settings_uuid": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "UUID of the service settings",
 			},
 			"state": schema.StringAttribute{
 				Computed:            true,
@@ -250,7 +170,7 @@ func (d *OpenstackFloatingIpDataSource) Configure(ctx context.Context, req datas
 		return
 	}
 
-	d.client = &Client{}
+	d.client = &OpenstackFloatingIpClient{}
 	if err := d.client.Configure(ctx, req.ProviderData); err != nil {
 		resp.Diagnostics.AddError(
 			"Unexpected Data Source Configure Type",
@@ -272,7 +192,7 @@ func (d *OpenstackFloatingIpDataSource) Read(ctx context.Context, req datasource
 
 	// Check if UUID is provided for direct lookup
 	if !data.UUID.IsNull() && data.UUID.ValueString() != "" {
-		apiResp, err := d.client.GetOpenstackFloatingIp(ctx, data.UUID.ValueString())
+		apiResp, err := d.client.Get(ctx, data.UUID.ValueString())
 		if err != nil {
 			resp.Diagnostics.AddError(
 				"Unable to Read Openstack Floating Ip",
@@ -294,7 +214,7 @@ func (d *OpenstackFloatingIpDataSource) Read(ctx context.Context, req datasource
 			return
 		}
 
-		results, err := d.client.ListOpenstackFloatingIp(ctx, filters)
+		results, err := d.client.List(ctx, filters)
 		if err != nil {
 			resp.Diagnostics.AddError(
 				"Unable to List Openstack Floating Ip",

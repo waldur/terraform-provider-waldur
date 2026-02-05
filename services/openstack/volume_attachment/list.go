@@ -14,7 +14,7 @@ import (
 var _ list.ListResource = &OpenstackVolumeAttachmentList{}
 
 type OpenstackVolumeAttachmentList struct {
-	client *Client
+	client *OpenstackVolumeAttachmentClient
 }
 
 func NewOpenstackVolumeAttachmentList() list.ListResource {
@@ -34,7 +34,7 @@ func (l *OpenstackVolumeAttachmentList) ListResourceConfigSchema(ctx context.Con
 }
 
 func (l *OpenstackVolumeAttachmentList) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
-	l.client = &Client{}
+	l.client = &OpenstackVolumeAttachmentClient{}
 	if err := l.client.Configure(ctx, req.ProviderData); err != nil {
 		resp.Diagnostics.AddError(
 			"Unexpected List Configure Type",
@@ -62,7 +62,7 @@ func (l *OpenstackVolumeAttachmentList) List(ctx context.Context, req list.ListR
 	filters := common.BuildQueryFilters(config.Filters)
 
 	// Call API
-	listResult, err := l.client.ListOpenstackVolumeAttachment(ctx, filters)
+	listResult, err := l.client.List(ctx, filters)
 	if err != nil {
 		// Return error diagnostics
 		resp.AddError("Failed to list resources", err.Error())

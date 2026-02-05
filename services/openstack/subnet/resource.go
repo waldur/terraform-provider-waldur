@@ -10,6 +10,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64planmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -28,7 +29,7 @@ func NewOpenstackSubnetResource() resource.Resource {
 
 // OpenstackSubnetResource defines the resource implementation.
 type OpenstackSubnetResource struct {
-	client *Client
+	client *OpenstackSubnetClient
 }
 
 // OpenstackSubnetResourceModel describes the resource data model.
@@ -53,13 +54,6 @@ func (r *OpenstackSubnetResource) Schema(ctx context.Context, req resource.Schem
 					stringplanmodifier.UseStateForUnknown(),
 				},
 			},
-			"access_url": schema.StringAttribute{
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
-				MarkdownDescription: "Access url",
-			},
 			"allocation_pools": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
@@ -73,7 +67,11 @@ func (r *OpenstackSubnetResource) Schema(ctx context.Context, req resource.Schem
 						},
 					},
 				},
-				Optional:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.List{
+					listplanmodifier.UseStateForUnknown(),
+				},
 				MarkdownDescription: "Allocation pools",
 			},
 			"backend_id": schema.StringAttribute{
@@ -84,7 +82,11 @@ func (r *OpenstackSubnetResource) Schema(ctx context.Context, req resource.Schem
 				MarkdownDescription: "ID of the backend",
 			},
 			"cidr": schema.StringAttribute{
-				Optional:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 				MarkdownDescription: "Cidr",
 			},
 			"created": schema.StringAttribute{
@@ -95,17 +97,36 @@ func (r *OpenstackSubnetResource) Schema(ctx context.Context, req resource.Schem
 				},
 				MarkdownDescription: "Created",
 			},
+			"customer": schema.StringAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+				MarkdownDescription: "Customer",
+			},
 			"description": schema.StringAttribute{
-				Optional:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 				MarkdownDescription: "Description of the Openstack Subnet",
 			},
 			"disable_gateway": schema.BoolAttribute{
-				Optional:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.Bool{
+					boolplanmodifier.UseStateForUnknown(),
+				},
 				MarkdownDescription: "If True, no gateway IP address will be allocated",
 			},
 			"dns_nameservers": schema.ListAttribute{
-				ElementType:         types.StringType,
-				Optional:            true,
+				ElementType: types.StringType,
+				Optional:    true,
+				Computed:    true,
+				PlanModifiers: []planmodifier.List{
+					listplanmodifier.UseStateForUnknown(),
+				},
 				MarkdownDescription: "Dns nameservers",
 			},
 			"enable_dhcp": schema.BoolAttribute{
@@ -130,7 +151,11 @@ func (r *OpenstackSubnetResource) Schema(ctx context.Context, req resource.Schem
 				MarkdownDescription: "Error traceback",
 			},
 			"gateway_ip": schema.StringAttribute{
-				Optional:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 				MarkdownDescription: "IP address of the gateway for this subnet",
 			},
 			"host_routes": schema.ListNestedAttribute{
@@ -146,7 +171,11 @@ func (r *OpenstackSubnetResource) Schema(ctx context.Context, req resource.Schem
 						},
 					},
 				},
-				Optional:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.List{
+					listplanmodifier.UseStateForUnknown(),
+				},
 				MarkdownDescription: "Host routes",
 			},
 			"ip_version": schema.Int64Attribute{
@@ -162,6 +191,13 @@ func (r *OpenstackSubnetResource) Schema(ctx context.Context, req resource.Schem
 					boolplanmodifier.UseStateForUnknown(),
 				},
 				MarkdownDescription: "Is subnet connected to the default tenant router.",
+			},
+			"marketplace_resource_uuid": schema.StringAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+				MarkdownDescription: "UUID of the marketplace resource",
 			},
 			"modified": schema.StringAttribute{
 				CustomType: timetypes.RFC3339Type{},
@@ -179,6 +215,7 @@ func (r *OpenstackSubnetResource) Schema(ctx context.Context, req resource.Schem
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
+					stringplanmodifier.UseStateForUnknown(),
 				},
 				MarkdownDescription: "Required path parameter for resource creation",
 			},
@@ -188,6 +225,13 @@ func (r *OpenstackSubnetResource) Schema(ctx context.Context, req resource.Schem
 					stringplanmodifier.UseStateForUnknown(),
 				},
 				MarkdownDescription: "Name of the network",
+			},
+			"project": schema.StringAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+				MarkdownDescription: "Project",
 			},
 			"resource_type": schema.StringAttribute{
 				Computed: true,
@@ -242,7 +286,7 @@ func (r *OpenstackSubnetResource) Configure(ctx context.Context, req resource.Co
 		return
 	}
 
-	r.client = &Client{}
+	r.client = &OpenstackSubnetClient{}
 	if err := r.client.Configure(ctx, req.ProviderData); err != nil {
 		resp.Diagnostics.AddError(
 			"Unexpected Resource Configure Type",
@@ -259,18 +303,30 @@ func (r *OpenstackSubnetResource) Create(ctx context.Context, req resource.Creat
 		return
 	}
 
-	requestBody := OpenstackSubnetCreateRequest{
-		Cidr:           data.Cidr.ValueStringPointer(),
-		Description:    data.Description.ValueStringPointer(),
-		DisableGateway: data.DisableGateway.ValueBoolPointer(),
-		GatewayIp:      data.GatewayIp.ValueStringPointer(),
-		Name:           data.Name.ValueStringPointer(),
+	requestBody := OpenstackSubnetCreateRequest{}
+	if !data.Cidr.IsNull() && !data.Cidr.IsUnknown() {
+
+		requestBody.Cidr = data.Cidr.ValueStringPointer()
 	}
+	if !data.Description.IsNull() && !data.Description.IsUnknown() {
+
+		requestBody.Description = data.Description.ValueStringPointer()
+	}
+	if !data.DisableGateway.IsNull() && !data.DisableGateway.IsUnknown() {
+
+		requestBody.DisableGateway = data.DisableGateway.ValueBoolPointer()
+	}
+	if !data.GatewayIp.IsNull() && !data.GatewayIp.IsUnknown() {
+
+		requestBody.GatewayIp = data.GatewayIp.ValueStringPointer()
+	}
+
+	requestBody.Name = data.Name.ValueStringPointer()
 	resp.Diagnostics.Append(common.PopulateOptionalSliceField(ctx, data.AllocationPools, &requestBody.AllocationPools)...)
 	resp.Diagnostics.Append(common.PopulateOptionalSliceField(ctx, data.DnsNameservers, &requestBody.DnsNameservers)...)
 	resp.Diagnostics.Append(common.PopulateOptionalSliceField(ctx, data.HostRoutes, &requestBody.HostRoutes)...)
 
-	apiResp, err := r.client.CreateOpenstackSubnet(ctx, data.Network.ValueString(), &requestBody)
+	apiResp, err := r.client.Create(ctx, data.Network.ValueString(), &requestBody)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Unable to Create Openstack Subnet",
@@ -279,7 +335,6 @@ func (r *OpenstackSubnetResource) Create(ctx context.Context, req resource.Creat
 		return
 	}
 	data.UUID = types.StringPointerValue(apiResp.UUID)
-
 	createTimeout, diags := data.Timeouts.Create(ctx, common.DefaultCreateTimeout)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
@@ -287,7 +342,7 @@ func (r *OpenstackSubnetResource) Create(ctx context.Context, req resource.Creat
 	}
 
 	newResp, err := common.WaitForResource(ctx, func(ctx context.Context) (*OpenstackSubnetResponse, error) {
-		return r.client.GetOpenstackSubnet(ctx, data.UUID.ValueString())
+		return r.client.Get(ctx, data.UUID.ValueString())
 	}, createTimeout)
 	if err != nil {
 		resp.Diagnostics.AddError("Failed to wait for resource creation", err.Error())
@@ -312,7 +367,7 @@ func (r *OpenstackSubnetResource) Read(ctx context.Context, req resource.ReadReq
 
 	// Call Waldur API to read resource
 
-	apiResp, err := r.client.GetOpenstackSubnet(ctx, data.UUID.ValueString())
+	apiResp, err := r.client.Get(ctx, data.UUID.ValueString())
 	if err != nil {
 		if IsNotFoundError(err) {
 			resp.State.RemoveResource(ctx)
@@ -341,18 +396,32 @@ func (r *OpenstackSubnetResource) Update(ctx context.Context, req resource.Updat
 		return
 	}
 
-	requestBody := OpenstackSubnetUpdateRequest{
-		Cidr:           data.Cidr.ValueStringPointer(),
-		Description:    data.Description.ValueStringPointer(),
-		DisableGateway: data.DisableGateway.ValueBoolPointer(),
-		GatewayIp:      data.GatewayIp.ValueStringPointer(),
-		Name:           data.Name.ValueStringPointer(),
+	requestBody := OpenstackSubnetUpdateRequest{}
+	if !data.Cidr.IsNull() && !data.Cidr.IsUnknown() {
+
+		requestBody.Cidr = data.Cidr.ValueStringPointer()
+	}
+	if !data.Description.IsNull() && !data.Description.IsUnknown() {
+
+		requestBody.Description = data.Description.ValueStringPointer()
+	}
+	if !data.DisableGateway.IsNull() && !data.DisableGateway.IsUnknown() {
+
+		requestBody.DisableGateway = data.DisableGateway.ValueBoolPointer()
+	}
+	if !data.GatewayIp.IsNull() && !data.GatewayIp.IsUnknown() {
+
+		requestBody.GatewayIp = data.GatewayIp.ValueStringPointer()
+	}
+	if !data.Name.IsNull() && !data.Name.IsUnknown() {
+
+		requestBody.Name = data.Name.ValueStringPointer()
 	}
 	resp.Diagnostics.Append(common.PopulateOptionalSliceField(ctx, data.AllocationPools, &requestBody.AllocationPools)...)
 	resp.Diagnostics.Append(common.PopulateOptionalSliceField(ctx, data.DnsNameservers, &requestBody.DnsNameservers)...)
 	resp.Diagnostics.Append(common.PopulateOptionalSliceField(ctx, data.HostRoutes, &requestBody.HostRoutes)...)
 
-	apiResp, err := r.client.UpdateOpenstackSubnet(ctx, data.UUID.ValueString(), &requestBody)
+	apiResp, err := r.client.Update(ctx, data.UUID.ValueString(), &requestBody)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Unable to Update Openstack Subnet",
@@ -360,7 +429,6 @@ func (r *OpenstackSubnetResource) Update(ctx context.Context, req resource.Updat
 		)
 		return
 	}
-
 	updateTimeout, diags := data.Timeouts.Update(ctx, common.DefaultUpdateTimeout)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
@@ -368,7 +436,7 @@ func (r *OpenstackSubnetResource) Update(ctx context.Context, req resource.Updat
 	}
 
 	newResp, err := common.WaitForResource(ctx, func(ctx context.Context) (*OpenstackSubnetResponse, error) {
-		return r.client.GetOpenstackSubnet(ctx, data.UUID.ValueString())
+		return r.client.Get(ctx, data.UUID.ValueString())
 	}, updateTimeout)
 	if err != nil {
 		resp.Diagnostics.AddError("Failed to wait for resource update", err.Error())
@@ -388,7 +456,7 @@ func (r *OpenstackSubnetResource) Delete(ctx context.Context, req resource.Delet
 		return
 	}
 
-	err := r.client.DeleteOpenstackSubnet(ctx, data.UUID.ValueString())
+	err := r.client.Delete(ctx, data.UUID.ValueString())
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Unable to Delete Openstack Subnet",
@@ -396,7 +464,6 @@ func (r *OpenstackSubnetResource) Delete(ctx context.Context, req resource.Delet
 		)
 		return
 	}
-
 	deleteTimeout, diags := data.Timeouts.Delete(ctx, common.DefaultDeleteTimeout)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
@@ -404,7 +471,7 @@ func (r *OpenstackSubnetResource) Delete(ctx context.Context, req resource.Delet
 	}
 
 	err = common.WaitForDeletion(ctx, func(ctx context.Context) (*OpenstackSubnetResponse, error) {
-		return r.client.GetOpenstackSubnet(ctx, data.UUID.ValueString())
+		return r.client.Get(ctx, data.UUID.ValueString())
 	}, deleteTimeout)
 	if err != nil {
 		resp.Diagnostics.AddError("Failed to wait for resource deletion", err.Error())
@@ -427,7 +494,7 @@ func (r *OpenstackSubnetResource) ImportState(ctx context.Context, req resource.
 		"uuid": uuid,
 	})
 
-	apiResp, err := r.client.GetOpenstackSubnet(ctx, uuid)
+	apiResp, err := r.client.Get(ctx, uuid)
 	if err != nil {
 		if IsNotFoundError(err) {
 			resp.Diagnostics.AddError(

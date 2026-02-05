@@ -22,16 +22,11 @@ Openstack Port data source - lookup by name or UUID
 
 ### Read-Only
 
-- `access_url` (String) Access url
 - `admin_state_up` (Boolean) Administrative state of the port. If down, port does not forward packets
 - `allowed_address_pairs` (Attributes List) Allowed address pairs (see [below for nested schema](#nestedatt--allowed_address_pairs))
 - `backend_id` (String) Port ID in OpenStack
 - `created` (String) Created
 - `customer` (String) Customer
-- `customer_abbreviation` (String) Customer abbreviation
-- `customer_name` (String) Name of the customer
-- `customer_native_name` (String) Name of the customer native
-- `customer_uuid` (String) UUID of the customer
 - `description` (String) Description of the Openstack Port
 - `device_id` (String) ID of device (instance, router etc) to which this port is connected
 - `device_owner` (String) Entity that uses this port (e.g. network:router_interface)
@@ -39,15 +34,7 @@ Openstack Port data source - lookup by name or UUID
 - `error_traceback` (String) Error traceback
 - `fixed_ips` (Attributes List) Fixed ips (see [below for nested schema](#nestedatt--fixed_ips))
 - `floating_ips` (Set of String) Floating ips
-- `is_limit_based` (Boolean) Is limit based
-- `is_usage_based` (Boolean) Is usage based
 - `mac_address` (String) MAC address of the port
-- `marketplace_category_name` (String) Name of the marketplace category
-- `marketplace_category_uuid` (String) UUID of the marketplace category
-- `marketplace_offering_name` (String) Name of the marketplace offering
-- `marketplace_offering_uuid` (String) UUID of the marketplace offering
-- `marketplace_plan_uuid` (String) UUID of the marketplace plan
-- `marketplace_resource_state` (String) Marketplace resource state
 - `marketplace_resource_uuid` (String) UUID of the marketplace resource
 - `modified` (String) Modified
 - `name` (String) Name of the Openstack Port
@@ -56,15 +43,8 @@ Openstack Port data source - lookup by name or UUID
 - `network_uuid` (String) UUID of the network
 - `port_security_enabled` (Boolean) If True, security groups and rules will be applied to this port
 - `project` (String) Project
-- `project_name` (String) Name of the project
-- `project_uuid` (String) UUID of the project
 - `resource_type` (String) Resource type
 - `security_groups` (Attributes Set) Security groups (see [below for nested schema](#nestedatt--security_groups))
-- `service_name` (String) Name of the service
-- `service_settings` (String) Service settings
-- `service_settings_error_message` (String) Service settings error message
-- `service_settings_state` (String) Service settings state
-- `service_settings_uuid` (String) UUID of the service settings
 - `state` (String) State
 - `status` (String) Port status in OpenStack (e.g. ACTIVE, DOWN)
 - `target_tenant` (String) Target tenant for shared network port creation. If not specified, defaults to network's tenant.

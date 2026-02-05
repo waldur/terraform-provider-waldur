@@ -8,15 +8,15 @@ import (
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
-type Client struct {
+type OpenstackNetworkRbacPolicyClient struct {
 	Client *client.Client
 }
 
-func NewClient(c *client.Client) *Client {
-	return &Client{Client: c}
+func NewOpenstackNetworkRbacPolicyClient(c *client.Client) *OpenstackNetworkRbacPolicyClient {
+	return &OpenstackNetworkRbacPolicyClient{Client: c}
 }
 
-func (c *Client) Configure(ctx context.Context, providerData interface{}) error {
+func (c *OpenstackNetworkRbacPolicyClient) Configure(ctx context.Context, providerData interface{}) error {
 	if providerData == nil {
 		return nil
 	}
@@ -34,7 +34,7 @@ func IsNotFoundError(err error) bool {
 	return common.IsNotFoundError(err)
 }
 
-func (c *Client) CreateOpenstackNetworkRbacPolicy(ctx context.Context, req *OpenstackNetworkRbacPolicyCreateRequest) (*OpenstackNetworkRbacPolicyResponse, error) {
+func (c *OpenstackNetworkRbacPolicyClient) Create(ctx context.Context, req *OpenstackNetworkRbacPolicyCreateRequest) (*OpenstackNetworkRbacPolicyResponse, error) {
 	var apiResp OpenstackNetworkRbacPolicyResponse
 	path := "/api/openstack-network-rbac-policies/"
 
@@ -45,7 +45,7 @@ func (c *Client) CreateOpenstackNetworkRbacPolicy(ctx context.Context, req *Open
 	return &apiResp, nil
 }
 
-func (c *Client) GetOpenstackNetworkRbacPolicy(ctx context.Context, id string) (*OpenstackNetworkRbacPolicyResponse, error) {
+func (c *OpenstackNetworkRbacPolicyClient) Get(ctx context.Context, id string) (*OpenstackNetworkRbacPolicyResponse, error) {
 	var apiResp OpenstackNetworkRbacPolicyResponse
 	err := c.Client.Get(ctx, "/api/openstack-network-rbac-policies/{uuid}/", id, &apiResp)
 	if err != nil {
@@ -54,7 +54,7 @@ func (c *Client) GetOpenstackNetworkRbacPolicy(ctx context.Context, id string) (
 	return &apiResp, nil
 }
 
-func (c *Client) UpdateOpenstackNetworkRbacPolicy(ctx context.Context, id string, req *OpenstackNetworkRbacPolicyUpdateRequest) (*OpenstackNetworkRbacPolicyResponse, error) {
+func (c *OpenstackNetworkRbacPolicyClient) Update(ctx context.Context, id string, req *OpenstackNetworkRbacPolicyUpdateRequest) (*OpenstackNetworkRbacPolicyResponse, error) {
 	var apiResp OpenstackNetworkRbacPolicyResponse
 	err := c.Client.Update(ctx, "/api/openstack-network-rbac-policies/{uuid}/", id, req, &apiResp)
 	if err != nil {
@@ -62,11 +62,11 @@ func (c *Client) UpdateOpenstackNetworkRbacPolicy(ctx context.Context, id string
 	}
 	return &apiResp, nil
 }
-func (c *Client) DeleteOpenstackNetworkRbacPolicy(ctx context.Context, id string) error {
+func (c *OpenstackNetworkRbacPolicyClient) Delete(ctx context.Context, id string) error {
 	return c.Client.Delete(ctx, "/api/openstack-network-rbac-policies/{uuid}/", id)
 }
 
-func (c *Client) ListOpenstackNetworkRbacPolicy(ctx context.Context, filter map[string]string) ([]OpenstackNetworkRbacPolicyResponse, error) {
+func (c *OpenstackNetworkRbacPolicyClient) List(ctx context.Context, filter map[string]string) ([]OpenstackNetworkRbacPolicyResponse, error) {
 	var listResult []OpenstackNetworkRbacPolicyResponse
 	err := c.Client.List(ctx, "/api/openstack-network-rbac-policies/", filter, &listResult)
 	if err != nil {

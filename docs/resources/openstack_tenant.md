@@ -66,39 +66,19 @@ data "waldur_marketplace_offering" "offering" {
 
 ### Read-Only
 
-- `access_url` (String) Access url
 - `backend_id` (String) ID of tenant in the OpenStack backend
 - `created` (String) Created
 - `customer` (String) Customer
-- `customer_abbreviation` (String) Customer abbreviation
-- `customer_name` (String) Name of the customer
-- `customer_native_name` (String) Name of the customer native
-- `customer_uuid` (String) UUID of the customer
 - `default_volume_type_name` (String) Volume type name to use when creating volumes.
 - `error_message` (String) Error message
 - `error_traceback` (String) Error traceback
 - `external_network_id` (String) ID of external network connected to OpenStack tenant
 - `id` (String) Openstack Tenant UUID (used as Terraform ID)
 - `internal_network_id` (String) ID of internal network in OpenStack tenant
-- `is_limit_based` (Boolean) Is limit based
-- `is_usage_based` (Boolean) Is usage based
-- `marketplace_category_name` (String) Name of the marketplace category
-- `marketplace_category_uuid` (String) UUID of the marketplace category
-- `marketplace_offering_name` (String) Name of the marketplace offering
-- `marketplace_offering_uuid` (String) UUID of the marketplace offering
-- `marketplace_plan_uuid` (String) UUID of the marketplace plan
-- `marketplace_resource_state` (String) Marketplace resource state
 - `marketplace_resource_uuid` (String) UUID of the marketplace resource
 - `modified` (String) Modified
-- `project_name` (String) Name of the project
-- `project_uuid` (String) UUID of the project
 - `quotas` (Attributes List) Quotas (see [below for nested schema](#nestedatt--quotas))
 - `resource_type` (String) Resource type
-- `service_name` (String) Name of the service
-- `service_settings` (String) Service settings
-- `service_settings_error_message` (String) Service settings error message
-- `service_settings_state` (String) Service settings state
-- `service_settings_uuid` (String) UUID of the service settings
 - `state` (String) State
 - `url` (String) Url
 - `user_password` (String, Sensitive) Password of the tenant user

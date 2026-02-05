@@ -30,11 +30,13 @@ Marketplace Resource resource
 
 - `available_actions` (List of String) Available actions
 - `backend_id` (String) ID of the backend
+- `backend_metadata` (Attributes) Backend metadata (see [below for nested schema](#nestedatt--backend_metadata))
 - `can_terminate` (Boolean) Can terminate
 - `category_icon` (String) Category icon
 - `category_title` (String) Category title
 - `category_uuid` (String) UUID of the category
 - `created` (String) Created
+- `creation_order` (Attributes) Creation order (see [below for nested schema](#nestedatt--creation_order))
 - `customer_slug` (String) Customer slug
 - `description` (String) Description of the Marketplace Resource
 - `effective_id` (String) ID of the effective
@@ -57,6 +59,7 @@ Marketplace Resource resource
 - `offering_thumbnail` (String) Offering thumbnail
 - `offering_type` (String) Offering type
 - `offering_uuid` (String) UUID of the offering
+- `order_in_progress` (Attributes) Order in progress (see [below for nested schema](#nestedatt--order_in_progress))
 - `parent_name` (String) Name of the parent
 - `parent_offering_name` (String) Name of the parent offering
 - `parent_offering_slug` (String) Parent offering slug
@@ -66,6 +69,7 @@ Marketplace Resource resource
 - `plan_name` (String) Name of the plan
 - `plan_unit` (String) Plan unit
 - `plan_uuid` (String) UUID of the plan
+- `project` (String) Project
 - `project_description` (String) Project description
 - `project_end_date` (String) The date is inclusive. Once reached, all project resource will be scheduled for termination.
 - `project_end_date_requested_by` (String) Project end date requested by
@@ -91,6 +95,103 @@ Optional:
 - `create` (String) A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
 - `delete` (String) A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs.
 - `update` (String) A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
+
+
+<a id="nestedatt--backend_metadata"></a>
+### Nested Schema for `backend_metadata`
+
+Read-Only:
+
+- `action` (String) Current action being performed
+- `instance_name` (String) Name of the backend instance
+- `runtime_state` (String) Runtime state of the backend resource
+- `state` (String) Backend resource state
+
+
+<a id="nestedatt--creation_order"></a>
+### Nested Schema for `creation_order`
+
+Optional:
+
+- `attachment` (String) Attachment
+- `backend_id` (String) ID of the backend
+- `callback_url` (String) Callback url
+- `offering` (String) Offering
+- `plan` (String) Plan
+- `request_comment` (String) Request comment
+- `start_date` (String) Enables delayed processing of resource provisioning order.
+- `type` (String) Type
+
+Read-Only:
+
+- `activation_price` (Number) Activation price
+- `can_terminate` (Boolean) Can terminate
+- `category_icon` (String) Category icon
+- `category_title` (String) Category title
+- `category_uuid` (String) UUID of the category
+- `completed_at` (String) Completed at
+- `consumer_reviewed_at` (String) Consumer reviewed at
+- `consumer_reviewed_by` (String) Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters
+- `consumer_reviewed_by_full_name` (String) Name of the consumer reviewed by full
+- `consumer_reviewed_by_username` (String) Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters
+- `cost` (String) Cost
+- `created` (String) Created
+- `created_by_civil_number` (String) Created by civil number
+- `created_by_full_name` (String) Name of the created by full
+- `created_by_username` (String) Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters
+- `customer_slug` (String) Customer slug
+- `error_message` (String) Error message
+- `error_traceback` (String) Error traceback
+- `fixed_price` (Number) Fixed price
+- `issue` (Attributes) Issue (see [below for nested schema](#nestedatt--creation_order--issue))
+- `marketplace_resource_uuid` (String) UUID of the marketplace resource
+- `modified` (String) Modified
+- `new_cost_estimate` (String) New cost estimate
+- `new_plan_name` (String) Name of the new plan
+- `new_plan_uuid` (String) UUID of the new plan
+- `offering_billable` (Boolean) Purchase and usage is invoiced.
+- `offering_description` (String) Offering description
+- `offering_image` (String) Offering image
+- `offering_name` (String) Name of the offering
+- `offering_shared` (Boolean) Accessible to all customers.
+- `offering_thumbnail` (String) Offering thumbnail
+- `offering_type` (String) Offering type
+- `offering_uuid` (String) UUID of the offering
+- `old_cost_estimate` (Number) Old cost estimate
+- `old_plan_name` (String) Name of the old plan
+- `old_plan_uuid` (String) UUID of the old plan
+- `order_subtype` (String) Order subtype
+- `output` (String) Output
+- `plan_description` (String) Plan description
+- `plan_name` (String) Name of the plan
+- `plan_unit` (String) Plan unit
+- `plan_uuid` (String) UUID of the plan
+- `project_description` (String) Project description
+- `project_slug` (String) Project slug
+- `provider_name` (String) Name of the provider
+- `provider_reviewed_at` (String) Provider reviewed at
+- `provider_reviewed_by` (String) Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters
+- `provider_reviewed_by_full_name` (String) Name of the provider reviewed by full
+- `provider_reviewed_by_username` (String) Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters
+- `provider_slug` (String) Provider slug
+- `provider_uuid` (String) UUID of the provider
+- `resource_name` (String) Name of the resource
+- `resource_type` (String) Resource type
+- `resource_uuid` (String) UUID of the resource
+- `slug` (String) Slug
+- `state` (String) State
+- `termination_comment` (String) Termination comment
+- `url` (String) Url
+- `uuid` (String) UUID of the Marketplace Resource
+
+<a id="nestedatt--creation_order--issue"></a>
+### Nested Schema for `creation_order.issue`
+
+Read-Only:
+
+- `key` (String) Key
+- `uuid` (String) UUID of the Marketplace Resource
+
 
 
 <a id="nestedatt--endpoints"></a>
@@ -135,6 +236,92 @@ Read-Only:
 - `factor` (Number) Factor
 - `is_builtin` (Boolean) Is builtin
 - `uuid` (String) UUID of the Marketplace Resource
+
+
+<a id="nestedatt--order_in_progress"></a>
+### Nested Schema for `order_in_progress`
+
+Optional:
+
+- `attachment` (String) Attachment
+- `backend_id` (String) ID of the backend
+- `callback_url` (String) Callback url
+- `offering` (String) Offering
+- `plan` (String) Plan
+- `request_comment` (String) Request comment
+- `start_date` (String) Enables delayed processing of resource provisioning order.
+- `type` (String) Type
+
+Read-Only:
+
+- `activation_price` (Number) Activation price
+- `can_terminate` (Boolean) Can terminate
+- `category_icon` (String) Category icon
+- `category_title` (String) Category title
+- `category_uuid` (String) UUID of the category
+- `completed_at` (String) Completed at
+- `consumer_reviewed_at` (String) Consumer reviewed at
+- `consumer_reviewed_by` (String) Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters
+- `consumer_reviewed_by_full_name` (String) Name of the consumer reviewed by full
+- `consumer_reviewed_by_username` (String) Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters
+- `cost` (String) Cost
+- `created` (String) Created
+- `created_by_civil_number` (String) Created by civil number
+- `created_by_full_name` (String) Name of the created by full
+- `created_by_username` (String) Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters
+- `customer_slug` (String) Customer slug
+- `error_message` (String) Error message
+- `error_traceback` (String) Error traceback
+- `fixed_price` (Number) Fixed price
+- `issue` (Attributes) Issue (see [below for nested schema](#nestedatt--order_in_progress--issue))
+- `marketplace_resource_uuid` (String) UUID of the marketplace resource
+- `modified` (String) Modified
+- `new_cost_estimate` (String) New cost estimate
+- `new_plan_name` (String) Name of the new plan
+- `new_plan_uuid` (String) UUID of the new plan
+- `offering_billable` (Boolean) Purchase and usage is invoiced.
+- `offering_description` (String) Offering description
+- `offering_image` (String) Offering image
+- `offering_name` (String) Name of the offering
+- `offering_shared` (Boolean) Accessible to all customers.
+- `offering_thumbnail` (String) Offering thumbnail
+- `offering_type` (String) Offering type
+- `offering_uuid` (String) UUID of the offering
+- `old_cost_estimate` (Number) Old cost estimate
+- `old_plan_name` (String) Name of the old plan
+- `old_plan_uuid` (String) UUID of the old plan
+- `order_subtype` (String) Order subtype
+- `output` (String) Output
+- `plan_description` (String) Plan description
+- `plan_name` (String) Name of the plan
+- `plan_unit` (String) Plan unit
+- `plan_uuid` (String) UUID of the plan
+- `project_description` (String) Project description
+- `project_slug` (String) Project slug
+- `provider_name` (String) Name of the provider
+- `provider_reviewed_at` (String) Provider reviewed at
+- `provider_reviewed_by` (String) Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters
+- `provider_reviewed_by_full_name` (String) Name of the provider reviewed by full
+- `provider_reviewed_by_username` (String) Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters
+- `provider_slug` (String) Provider slug
+- `provider_uuid` (String) UUID of the provider
+- `resource_name` (String) Name of the resource
+- `resource_type` (String) Resource type
+- `resource_uuid` (String) UUID of the resource
+- `slug` (String) Slug
+- `state` (String) State
+- `termination_comment` (String) Termination comment
+- `url` (String) Url
+- `uuid` (String) UUID of the Marketplace Resource
+
+<a id="nestedatt--order_in_progress--issue"></a>
+### Nested Schema for `order_in_progress.issue`
+
+Read-Only:
+
+- `key` (String) Key
+- `uuid` (String) UUID of the Marketplace Resource
+
 
 
 <a id="nestedatt--report"></a>

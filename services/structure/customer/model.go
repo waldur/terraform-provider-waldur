@@ -12,6 +12,46 @@ import (
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
+func BillingPriceEstimateType() types.ObjectType {
+	return types.ObjectType{AttrTypes: map[string]attr.Type{
+		"current":     types.Float64Type,
+		"tax":         types.Float64Type,
+		"tax_current": types.Float64Type,
+		"total":       types.Float64Type,
+	}}
+}
+func OrganizationGroupType() types.ObjectType {
+	return types.ObjectType{AttrTypes: map[string]attr.Type{
+		"customers_count": types.Int64Type,
+		"name":            types.StringType,
+		"parent":          types.StringType,
+		"parent_name":     types.StringType,
+		"parent_uuid":     types.StringType,
+		"url":             types.StringType,
+		"uuid":            types.StringType,
+	}}
+}
+func PaymentProfileType() types.ObjectType {
+	return types.ObjectType{AttrTypes: map[string]attr.Type{
+		"attributes":           PaymentProfileAttributesType(),
+		"is_active":            types.BoolType,
+		"name":                 types.StringType,
+		"organization":         types.StringType,
+		"organization_uuid":    types.StringType,
+		"payment_type":         types.StringType,
+		"payment_type_display": types.StringType,
+		"url":                  types.StringType,
+		"uuid":                 types.StringType,
+	}}
+}
+func PaymentProfileAttributesType() types.ObjectType {
+	return types.ObjectType{AttrTypes: map[string]attr.Type{
+		"agreement_number": types.StringType,
+		"contract_sum":     types.Int64Type,
+		"end_date":         types.StringType,
+	}}
+}
+
 type StructureCustomerFiltersModel struct {
 	Abbreviation          types.String `tfsdk:"abbreviation"`
 	AgreementNumber       types.String `tfsdk:"agreement_number"`
@@ -95,6 +135,7 @@ type StructureCustomerModel struct {
 	BackendId                    types.String      `tfsdk:"backend_id"`
 	BankAccount                  types.String      `tfsdk:"bank_account"`
 	BankName                     types.String      `tfsdk:"bank_name"`
+	BillingPriceEstimate         types.Object      `tfsdk:"billing_price_estimate"`
 	Blocked                      types.Bool        `tfsdk:"blocked"`
 	CallManagingOrganizationUuid types.String      `tfsdk:"call_managing_organization_uuid"`
 	ContactDetails               types.String      `tfsdk:"contact_details"`
@@ -151,6 +192,13 @@ func (model *StructureCustomerModel) CopyFrom(ctx context.Context, apiResp Struc
 	model.BackendId = common.StringPointerValue(apiResp.BackendId)
 	model.BankAccount = common.StringPointerValue(apiResp.BankAccount)
 	model.BankName = common.StringPointerValue(apiResp.BankName)
+	if apiResp.BillingPriceEstimate != nil {
+		objValBillingPriceEstimate, objDiagsBillingPriceEstimate := types.ObjectValueFrom(ctx, BillingPriceEstimateType().AttrTypes, *apiResp.BillingPriceEstimate)
+		diags.Append(objDiagsBillingPriceEstimate...)
+		model.BillingPriceEstimate = objValBillingPriceEstimate
+	} else {
+		model.BillingPriceEstimate = types.ObjectNull(BillingPriceEstimateType().AttrTypes)
+	}
 	model.Blocked = types.BoolPointerValue(apiResp.Blocked)
 	model.CallManagingOrganizationUuid = common.StringPointerValue(apiResp.CallManagingOrganizationUuid)
 	model.ContactDetails = common.StringPointerValue(apiResp.ContactDetails)
@@ -178,38 +226,20 @@ func (model *StructureCustomerModel) CopyFrom(ctx context.Context, apiResp Struc
 	model.NativeName = common.StringPointerValue(apiResp.NativeName)
 	model.NotificationEmails = common.StringPointerValue(apiResp.NotificationEmails)
 
-	{
-		listValOrganizationGroups, listDiagsOrganizationGroups := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
-			"customers_count": types.Int64Type,
-			"name":            types.StringType,
-			"parent":          types.StringType,
-			"parent_name":     types.StringType,
-			"parent_uuid":     types.StringType,
-			"url":             types.StringType,
-			"uuid":            types.StringType,
-		}}, apiResp.OrganizationGroups)
+	if apiResp.OrganizationGroups != nil && len(*apiResp.OrganizationGroups) > 0 {
+		listValOrganizationGroups, listDiagsOrganizationGroups := types.ListValueFrom(ctx, OrganizationGroupType(), apiResp.OrganizationGroups)
 		diags.Append(listDiagsOrganizationGroups...)
 		model.OrganizationGroups = listValOrganizationGroups
+	} else {
+		model.OrganizationGroups = types.ListNull(OrganizationGroupType())
 	}
 
-	{
-		listValPaymentProfiles, listDiagsPaymentProfiles := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
-			"attributes": types.ObjectType{AttrTypes: map[string]attr.Type{
-				"agreement_number": types.StringType,
-				"contract_sum":     types.Int64Type,
-				"end_date":         types.StringType,
-			}},
-			"is_active":            types.BoolType,
-			"name":                 types.StringType,
-			"organization":         types.StringType,
-			"organization_uuid":    types.StringType,
-			"payment_type":         types.StringType,
-			"payment_type_display": types.StringType,
-			"url":                  types.StringType,
-			"uuid":                 types.StringType,
-		}}, apiResp.PaymentProfiles)
+	if apiResp.PaymentProfiles != nil && len(*apiResp.PaymentProfiles) > 0 {
+		listValPaymentProfiles, listDiagsPaymentProfiles := types.ListValueFrom(ctx, PaymentProfileType(), apiResp.PaymentProfiles)
 		diags.Append(listDiagsPaymentProfiles...)
 		model.PaymentProfiles = listValPaymentProfiles
+	} else {
+		model.PaymentProfiles = types.ListNull(PaymentProfileType())
 	}
 	model.PhoneNumber = common.StringPointerValue(apiResp.PhoneNumber)
 	model.Postal = common.StringPointerValue(apiResp.Postal)

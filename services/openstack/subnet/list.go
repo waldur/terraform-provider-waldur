@@ -14,7 +14,7 @@ import (
 var _ list.ListResource = &OpenstackSubnetList{}
 
 type OpenstackSubnetList struct {
-	client *Client
+	client *OpenstackSubnetClient
 }
 
 func NewOpenstackSubnetList() list.ListResource {
@@ -34,7 +34,7 @@ func (l *OpenstackSubnetList) ListResourceConfigSchema(ctx context.Context, req 
 }
 
 func (l *OpenstackSubnetList) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
-	l.client = &Client{}
+	l.client = &OpenstackSubnetClient{}
 	if err := l.client.Configure(ctx, req.ProviderData); err != nil {
 		resp.Diagnostics.AddError(
 			"Unexpected List Configure Type",
@@ -62,7 +62,7 @@ func (l *OpenstackSubnetList) List(ctx context.Context, req list.ListRequest, st
 	filters := common.BuildQueryFilters(config.Filters)
 
 	// Call API
-	listResult, err := l.client.ListOpenstackSubnet(ctx, filters)
+	listResult, err := l.client.List(ctx, filters)
 	if err != nil {
 		// Return error diagnostics
 		resp.AddError("Failed to list resources", err.Error())

@@ -8,15 +8,15 @@ import (
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
-type Client struct {
+type OpenstackFlavorClient struct {
 	Client *client.Client
 }
 
-func NewClient(c *client.Client) *Client {
-	return &Client{Client: c}
+func NewOpenstackFlavorClient(c *client.Client) *OpenstackFlavorClient {
+	return &OpenstackFlavorClient{Client: c}
 }
 
-func (c *Client) Configure(ctx context.Context, providerData interface{}) error {
+func (c *OpenstackFlavorClient) Configure(ctx context.Context, providerData interface{}) error {
 	if providerData == nil {
 		return nil
 	}
@@ -34,7 +34,7 @@ func IsNotFoundError(err error) bool {
 	return common.IsNotFoundError(err)
 }
 
-func (c *Client) GetOpenstackFlavor(ctx context.Context, id string) (*OpenstackFlavorResponse, error) {
+func (c *OpenstackFlavorClient) Get(ctx context.Context, id string) (*OpenstackFlavorResponse, error) {
 	var apiResp OpenstackFlavorResponse
 	err := c.Client.Get(ctx, "/api/openstack-flavors/{uuid}/", id, &apiResp)
 	if err != nil {
@@ -43,7 +43,7 @@ func (c *Client) GetOpenstackFlavor(ctx context.Context, id string) (*OpenstackF
 	return &apiResp, nil
 }
 
-func (c *Client) ListOpenstackFlavor(ctx context.Context, filter map[string]string) ([]OpenstackFlavorResponse, error) {
+func (c *OpenstackFlavorClient) List(ctx context.Context, filter map[string]string) ([]OpenstackFlavorResponse, error) {
 	var listResult []OpenstackFlavorResponse
 	err := c.Client.List(ctx, "/api/openstack-flavors/", filter, &listResult)
 	if err != nil {

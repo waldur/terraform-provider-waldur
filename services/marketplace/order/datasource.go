@@ -23,7 +23,7 @@ func NewMarketplaceOrderDataSource() datasource.DataSource {
 }
 
 type MarketplaceOrderDataSource struct {
-	client *Client
+	client *MarketplaceOrderClient
 }
 
 type MarketplaceOrderDataSourceModel struct {
@@ -133,17 +133,9 @@ func (d *MarketplaceOrderDataSource) Schema(ctx context.Context, req datasource.
 				Computed:            true,
 				MarkdownDescription: "Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters",
 			},
-			"customer_name": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Name of the customer",
-			},
 			"customer_slug": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Customer slug",
-			},
-			"customer_uuid": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "UUID of the customer",
 			},
 			"error_message": schema.StringAttribute{
 				Computed:            true,
@@ -156,6 +148,20 @@ func (d *MarketplaceOrderDataSource) Schema(ctx context.Context, req datasource.
 			"fixed_price": schema.Float64Attribute{
 				Computed:            true,
 				MarkdownDescription: "Fixed price",
+			},
+			"issue": schema.SingleNestedAttribute{
+				Attributes: map[string]schema.Attribute{
+					"key": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Key",
+					},
+					"uuid": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "UUID of the Marketplace Order",
+					},
+				},
+				Computed:            true,
+				MarkdownDescription: "Issue",
 			},
 			"marketplace_resource_uuid": schema.StringAttribute{
 				Computed:            true,
@@ -265,17 +271,9 @@ func (d *MarketplaceOrderDataSource) Schema(ctx context.Context, req datasource.
 				Computed:            true,
 				MarkdownDescription: "Project description",
 			},
-			"project_name": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Name of the project",
-			},
 			"project_slug": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Project slug",
-			},
-			"project_uuid": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "UUID of the project",
 			},
 			"provider_name": schema.StringAttribute{
 				Computed:            true,
@@ -359,7 +357,7 @@ func (d *MarketplaceOrderDataSource) Configure(ctx context.Context, req datasour
 		return
 	}
 
-	d.client = &Client{}
+	d.client = &MarketplaceOrderClient{}
 	if err := d.client.Configure(ctx, req.ProviderData); err != nil {
 		resp.Diagnostics.AddError(
 			"Unexpected Data Source Configure Type",
@@ -381,7 +379,7 @@ func (d *MarketplaceOrderDataSource) Read(ctx context.Context, req datasource.Re
 
 	// Check if UUID is provided for direct lookup
 	if !data.UUID.IsNull() && data.UUID.ValueString() != "" {
-		apiResp, err := d.client.GetMarketplaceOrder(ctx, data.UUID.ValueString())
+		apiResp, err := d.client.Get(ctx, data.UUID.ValueString())
 		if err != nil {
 			resp.Diagnostics.AddError(
 				"Unable to Read Marketplace Order",
@@ -403,7 +401,7 @@ func (d *MarketplaceOrderDataSource) Read(ctx context.Context, req datasource.Re
 			return
 		}
 
-		results, err := d.client.ListMarketplaceOrder(ctx, filters)
+		results, err := d.client.List(ctx, filters)
 		if err != nil {
 			resp.Diagnostics.AddError(
 				"Unable to List Marketplace Order",

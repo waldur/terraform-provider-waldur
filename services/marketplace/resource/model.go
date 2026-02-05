@@ -12,6 +12,130 @@ import (
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
+func BackendMetadataType() types.ObjectType {
+	return types.ObjectType{AttrTypes: map[string]attr.Type{
+		"action":        types.StringType,
+		"instance_name": types.StringType,
+		"runtime_state": types.StringType,
+		"state":         types.StringType,
+	}}
+}
+func CreationOrderType() types.ObjectType {
+	return types.ObjectType{AttrTypes: map[string]attr.Type{
+		"activation_price":               types.Float64Type,
+		"attachment":                     types.StringType,
+		"backend_id":                     types.StringType,
+		"callback_url":                   types.StringType,
+		"can_terminate":                  types.BoolType,
+		"category_icon":                  types.StringType,
+		"category_title":                 types.StringType,
+		"category_uuid":                  types.StringType,
+		"completed_at":                   types.StringType,
+		"consumer_reviewed_at":           types.StringType,
+		"consumer_reviewed_by":           types.StringType,
+		"consumer_reviewed_by_full_name": types.StringType,
+		"consumer_reviewed_by_username":  types.StringType,
+		"cost":                           types.StringType,
+		"created":                        types.StringType,
+		"created_by_civil_number":        types.StringType,
+		"created_by_full_name":           types.StringType,
+		"created_by_username":            types.StringType,
+		"customer_slug":                  types.StringType,
+		"error_message":                  types.StringType,
+		"error_traceback":                types.StringType,
+		"fixed_price":                    types.Float64Type,
+		"issue":                          CreationOrderIssueType(),
+		"marketplace_resource_uuid":      types.StringType,
+		"modified":                       types.StringType,
+		"new_cost_estimate":              types.StringType,
+		"new_plan_name":                  types.StringType,
+		"new_plan_uuid":                  types.StringType,
+		"offering":                       types.StringType,
+		"offering_billable":              types.BoolType,
+		"offering_description":           types.StringType,
+		"offering_image":                 types.StringType,
+		"offering_name":                  types.StringType,
+		"offering_shared":                types.BoolType,
+		"offering_thumbnail":             types.StringType,
+		"offering_type":                  types.StringType,
+		"offering_uuid":                  types.StringType,
+		"old_cost_estimate":              types.Float64Type,
+		"old_plan_name":                  types.StringType,
+		"old_plan_uuid":                  types.StringType,
+		"order_subtype":                  types.StringType,
+		"output":                         types.StringType,
+		"plan":                           types.StringType,
+		"plan_description":               types.StringType,
+		"plan_name":                      types.StringType,
+		"plan_unit":                      types.StringType,
+		"plan_uuid":                      types.StringType,
+		"project_description":            types.StringType,
+		"project_slug":                   types.StringType,
+		"provider_name":                  types.StringType,
+		"provider_reviewed_at":           types.StringType,
+		"provider_reviewed_by":           types.StringType,
+		"provider_reviewed_by_full_name": types.StringType,
+		"provider_reviewed_by_username":  types.StringType,
+		"provider_slug":                  types.StringType,
+		"provider_uuid":                  types.StringType,
+		"request_comment":                types.StringType,
+		"resource_name":                  types.StringType,
+		"resource_type":                  types.StringType,
+		"resource_uuid":                  types.StringType,
+		"slug":                           types.StringType,
+		"start_date":                     types.StringType,
+		"state":                          types.StringType,
+		"termination_comment":            types.StringType,
+		"type":                           types.StringType,
+		"url":                            types.StringType,
+		"uuid":                           types.StringType,
+	}}
+}
+func CreationOrderIssueType() types.ObjectType {
+	return types.ObjectType{AttrTypes: map[string]attr.Type{
+		"key":  types.StringType,
+		"uuid": types.StringType,
+	}}
+}
+func NestedEndpointType() types.ObjectType {
+	return types.ObjectType{AttrTypes: map[string]attr.Type{
+		"name": types.StringType,
+		"url":  types.StringType,
+		"uuid": types.StringType,
+	}}
+}
+func OfferingComponentType() types.ObjectType {
+	return types.ObjectType{AttrTypes: map[string]attr.Type{
+		"article_code":         types.StringType,
+		"billing_type":         types.StringType,
+		"default_limit":        types.Int64Type,
+		"description":          types.StringType,
+		"factor":               types.Int64Type,
+		"is_boolean":           types.BoolType,
+		"is_builtin":           types.BoolType,
+		"is_prepaid":           types.BoolType,
+		"limit_amount":         types.Int64Type,
+		"limit_period":         types.StringType,
+		"max_available_limit":  types.Int64Type,
+		"max_prepaid_duration": types.Int64Type,
+		"max_value":            types.Int64Type,
+		"measured_unit":        types.StringType,
+		"min_prepaid_duration": types.Int64Type,
+		"min_value":            types.Int64Type,
+		"name":                 types.StringType,
+		"overage_component":    types.StringType,
+		"type":                 types.StringType,
+		"unit_factor":          types.Int64Type,
+		"uuid":                 types.StringType,
+	}}
+}
+func ReportSectionType() types.ObjectType {
+	return types.ObjectType{AttrTypes: map[string]attr.Type{
+		"body":   types.StringType,
+		"header": types.StringType,
+	}}
+}
+
 type MarketplaceResourceFiltersModel struct {
 	BackendId            types.String  `tfsdk:"backend_id"`
 	CategoryUuid         types.String  `tfsdk:"category_uuid"`
@@ -198,14 +322,14 @@ type MarketplaceResourceModel struct {
 	UUID                      types.String      `tfsdk:"id"`
 	AvailableActions          types.List        `tfsdk:"available_actions"`
 	BackendId                 types.String      `tfsdk:"backend_id"`
+	BackendMetadata           types.Object      `tfsdk:"backend_metadata"`
 	CanTerminate              types.Bool        `tfsdk:"can_terminate"`
 	CategoryIcon              types.String      `tfsdk:"category_icon"`
 	CategoryTitle             types.String      `tfsdk:"category_title"`
 	CategoryUuid              types.String      `tfsdk:"category_uuid"`
 	Created                   timetypes.RFC3339 `tfsdk:"created"`
-	CustomerName              types.String      `tfsdk:"customer_name"`
+	CreationOrder             types.Object      `tfsdk:"creation_order"`
 	CustomerSlug              types.String      `tfsdk:"customer_slug"`
-	CustomerUuid              types.String      `tfsdk:"customer_uuid"`
 	Description               types.String      `tfsdk:"description"`
 	Downscaled                types.Bool        `tfsdk:"downscaled"`
 	EffectiveId               types.String      `tfsdk:"effective_id"`
@@ -214,8 +338,6 @@ type MarketplaceResourceModel struct {
 	Endpoints                 types.List        `tfsdk:"endpoints"`
 	ErrorMessage              types.String      `tfsdk:"error_message"`
 	ErrorTraceback            types.String      `tfsdk:"error_traceback"`
-	IsLimitBased              types.Bool        `tfsdk:"is_limit_based"`
-	IsUsageBased              types.Bool        `tfsdk:"is_usage_based"`
 	LastSync                  timetypes.RFC3339 `tfsdk:"last_sync"`
 	Modified                  timetypes.RFC3339 `tfsdk:"modified"`
 	Name                      types.String      `tfsdk:"name"`
@@ -232,6 +354,7 @@ type MarketplaceResourceModel struct {
 	OfferingThumbnail         types.String      `tfsdk:"offering_thumbnail"`
 	OfferingType              types.String      `tfsdk:"offering_type"`
 	OfferingUuid              types.String      `tfsdk:"offering_uuid"`
+	OrderInProgress           types.Object      `tfsdk:"order_in_progress"`
 	ParentName                types.String      `tfsdk:"parent_name"`
 	ParentOfferingName        types.String      `tfsdk:"parent_offering_name"`
 	ParentOfferingSlug        types.String      `tfsdk:"parent_offering_slug"`
@@ -247,9 +370,7 @@ type MarketplaceResourceModel struct {
 	ProjectDescription        types.String      `tfsdk:"project_description"`
 	ProjectEndDate            types.String      `tfsdk:"project_end_date"`
 	ProjectEndDateRequestedBy types.String      `tfsdk:"project_end_date_requested_by"`
-	ProjectName               types.String      `tfsdk:"project_name"`
 	ProjectSlug               types.String      `tfsdk:"project_slug"`
-	ProjectUuid               types.String      `tfsdk:"project_uuid"`
 	ProviderName              types.String      `tfsdk:"provider_name"`
 	ProviderSlug              types.String      `tfsdk:"provider_slug"`
 	ProviderUuid              types.String      `tfsdk:"provider_uuid"`
@@ -258,7 +379,6 @@ type MarketplaceResourceModel struct {
 	ResourceUuid              types.String      `tfsdk:"resource_uuid"`
 	RestrictMemberAccess      types.Bool        `tfsdk:"restrict_member_access"`
 	Scope                     types.String      `tfsdk:"scope"`
-	ServiceSettingsUuid       types.String      `tfsdk:"service_settings_uuid"`
 	Slug                      types.String      `tfsdk:"slug"`
 	State                     types.String      `tfsdk:"state"`
 	Url                       types.String      `tfsdk:"url"`
@@ -275,6 +395,13 @@ func (model *MarketplaceResourceModel) CopyFrom(ctx context.Context, apiResp Mar
 	model.AvailableActions = listValAvailableActions
 	diags.Append(listDiagsAvailableActions...)
 	model.BackendId = common.StringPointerValue(apiResp.BackendId)
+	if apiResp.BackendMetadata != nil {
+		objValBackendMetadata, objDiagsBackendMetadata := types.ObjectValueFrom(ctx, BackendMetadataType().AttrTypes, *apiResp.BackendMetadata)
+		diags.Append(objDiagsBackendMetadata...)
+		model.BackendMetadata = objValBackendMetadata
+	} else {
+		model.BackendMetadata = types.ObjectNull(BackendMetadataType().AttrTypes)
+	}
 	model.CanTerminate = types.BoolPointerValue(apiResp.CanTerminate)
 	model.CategoryIcon = common.StringPointerValue(apiResp.CategoryIcon)
 	model.CategoryTitle = common.StringPointerValue(apiResp.CategoryTitle)
@@ -282,28 +409,29 @@ func (model *MarketplaceResourceModel) CopyFrom(ctx context.Context, apiResp Mar
 	valCreated, diagsCreated := timetypes.NewRFC3339PointerValue(apiResp.Created)
 	diags.Append(diagsCreated...)
 	model.Created = valCreated
-	model.CustomerName = common.StringPointerValue(apiResp.CustomerName)
+	if apiResp.CreationOrder != nil {
+		objValCreationOrder, objDiagsCreationOrder := types.ObjectValueFrom(ctx, CreationOrderType().AttrTypes, *apiResp.CreationOrder)
+		diags.Append(objDiagsCreationOrder...)
+		model.CreationOrder = objValCreationOrder
+	} else {
+		model.CreationOrder = types.ObjectNull(CreationOrderType().AttrTypes)
+	}
 	model.CustomerSlug = common.StringPointerValue(apiResp.CustomerSlug)
-	model.CustomerUuid = common.StringPointerValue(apiResp.CustomerUuid)
 	model.Description = common.StringPointerValue(apiResp.Description)
 	model.Downscaled = types.BoolPointerValue(apiResp.Downscaled)
 	model.EffectiveId = common.StringPointerValue(apiResp.EffectiveId)
 	model.EndDate = common.StringPointerValue(apiResp.EndDate)
 	model.EndDateRequestedBy = common.StringPointerValue(apiResp.EndDateRequestedBy)
 
-	{
-		listValEndpoints, listDiagsEndpoints := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
-			"name": types.StringType,
-			"url":  types.StringType,
-			"uuid": types.StringType,
-		}}, apiResp.Endpoints)
+	if apiResp.Endpoints != nil && len(*apiResp.Endpoints) > 0 {
+		listValEndpoints, listDiagsEndpoints := types.ListValueFrom(ctx, NestedEndpointType(), apiResp.Endpoints)
 		diags.Append(listDiagsEndpoints...)
 		model.Endpoints = listValEndpoints
+	} else {
+		model.Endpoints = types.ListNull(NestedEndpointType())
 	}
 	model.ErrorMessage = common.StringPointerValue(apiResp.ErrorMessage)
 	model.ErrorTraceback = common.StringPointerValue(apiResp.ErrorTraceback)
-	model.IsLimitBased = types.BoolPointerValue(apiResp.IsLimitBased)
-	model.IsUsageBased = types.BoolPointerValue(apiResp.IsUsageBased)
 	valLastSync, diagsLastSync := timetypes.NewRFC3339PointerValue(apiResp.LastSync)
 	diags.Append(diagsLastSync...)
 	model.LastSync = valLastSync
@@ -315,32 +443,12 @@ func (model *MarketplaceResourceModel) CopyFrom(ctx context.Context, apiResp Mar
 	model.OfferingBackendId = common.StringPointerValue(apiResp.OfferingBackendId)
 	model.OfferingBillable = types.BoolPointerValue(apiResp.OfferingBillable)
 
-	{
-		listValOfferingComponents, listDiagsOfferingComponents := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
-			"article_code":         types.StringType,
-			"billing_type":         types.StringType,
-			"default_limit":        types.Int64Type,
-			"description":          types.StringType,
-			"factor":               types.Int64Type,
-			"is_boolean":           types.BoolType,
-			"is_builtin":           types.BoolType,
-			"is_prepaid":           types.BoolType,
-			"limit_amount":         types.Int64Type,
-			"limit_period":         types.StringType,
-			"max_available_limit":  types.Int64Type,
-			"max_prepaid_duration": types.Int64Type,
-			"max_value":            types.Int64Type,
-			"measured_unit":        types.StringType,
-			"min_prepaid_duration": types.Int64Type,
-			"min_value":            types.Int64Type,
-			"name":                 types.StringType,
-			"overage_component":    types.StringType,
-			"type":                 types.StringType,
-			"unit_factor":          types.Int64Type,
-			"uuid":                 types.StringType,
-		}}, apiResp.OfferingComponents)
+	if apiResp.OfferingComponents != nil && len(*apiResp.OfferingComponents) > 0 {
+		listValOfferingComponents, listDiagsOfferingComponents := types.ListValueFrom(ctx, OfferingComponentType(), apiResp.OfferingComponents)
 		diags.Append(listDiagsOfferingComponents...)
 		model.OfferingComponents = listValOfferingComponents
+	} else {
+		model.OfferingComponents = types.ListNull(OfferingComponentType())
 	}
 	model.OfferingDescription = common.StringPointerValue(apiResp.OfferingDescription)
 	model.OfferingImage = common.StringPointerValue(apiResp.OfferingImage)
@@ -351,6 +459,13 @@ func (model *MarketplaceResourceModel) CopyFrom(ctx context.Context, apiResp Mar
 	model.OfferingThumbnail = common.StringPointerValue(apiResp.OfferingThumbnail)
 	model.OfferingType = common.StringPointerValue(apiResp.OfferingType)
 	model.OfferingUuid = common.StringPointerValue(apiResp.OfferingUuid)
+	if apiResp.OrderInProgress != nil {
+		objValOrderInProgress, objDiagsOrderInProgress := types.ObjectValueFrom(ctx, CreationOrderType().AttrTypes, *apiResp.OrderInProgress)
+		diags.Append(objDiagsOrderInProgress...)
+		model.OrderInProgress = objValOrderInProgress
+	} else {
+		model.OrderInProgress = types.ObjectNull(CreationOrderType().AttrTypes)
+	}
 	model.ParentName = common.StringPointerValue(apiResp.ParentName)
 	model.ParentOfferingName = common.StringPointerValue(apiResp.ParentOfferingName)
 	model.ParentOfferingSlug = common.StringPointerValue(apiResp.ParentOfferingSlug)
@@ -366,26 +481,22 @@ func (model *MarketplaceResourceModel) CopyFrom(ctx context.Context, apiResp Mar
 	model.ProjectDescription = common.StringPointerValue(apiResp.ProjectDescription)
 	model.ProjectEndDate = common.StringPointerValue(apiResp.ProjectEndDate)
 	model.ProjectEndDateRequestedBy = common.StringPointerValue(apiResp.ProjectEndDateRequestedBy)
-	model.ProjectName = common.StringPointerValue(apiResp.ProjectName)
 	model.ProjectSlug = common.StringPointerValue(apiResp.ProjectSlug)
-	model.ProjectUuid = common.StringPointerValue(apiResp.ProjectUuid)
 	model.ProviderName = common.StringPointerValue(apiResp.ProviderName)
 	model.ProviderSlug = common.StringPointerValue(apiResp.ProviderSlug)
 	model.ProviderUuid = common.StringPointerValue(apiResp.ProviderUuid)
 
-	{
-		listValReport, listDiagsReport := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
-			"body":   types.StringType,
-			"header": types.StringType,
-		}}, apiResp.Report)
+	if apiResp.Report != nil && len(*apiResp.Report) > 0 {
+		listValReport, listDiagsReport := types.ListValueFrom(ctx, ReportSectionType(), apiResp.Report)
 		diags.Append(listDiagsReport...)
 		model.Report = listValReport
+	} else {
+		model.Report = types.ListNull(ReportSectionType())
 	}
 	model.ResourceType = common.StringPointerValue(apiResp.ResourceType)
 	model.ResourceUuid = common.StringPointerValue(apiResp.ResourceUuid)
 	model.RestrictMemberAccess = types.BoolPointerValue(apiResp.RestrictMemberAccess)
 	model.Scope = common.StringPointerValue(apiResp.Scope)
-	model.ServiceSettingsUuid = common.StringPointerValue(apiResp.ServiceSettingsUuid)
 	model.Slug = common.StringPointerValue(apiResp.Slug)
 	model.State = common.StringPointerValue(apiResp.State)
 	model.Url = common.StringPointerValue(apiResp.Url)

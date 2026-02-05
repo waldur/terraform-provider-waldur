@@ -15,13 +15,12 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/float64planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listplanmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
-
-	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
 // Ensure provider defined types fully satisfy framework interfaces.
@@ -34,7 +33,7 @@ func NewStructureCustomerResource() resource.Resource {
 
 // StructureCustomerResource defines the resource implementation.
 type StructureCustomerResource struct {
-	client *Client
+	client *StructureCustomerClient
 }
 
 // StructureCustomerResourceModel describes the resource data model.
@@ -60,44 +59,121 @@ func (r *StructureCustomerResource) Schema(ctx context.Context, req resource.Sch
 				},
 			},
 			"abbreviation": schema.StringAttribute{
-				Optional:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 				MarkdownDescription: "Abbreviation",
 			},
 			"access_subnets": schema.StringAttribute{
-				Optional:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 				MarkdownDescription: "Enter a comma separated list of IPv4 or IPv6 CIDR addresses from where connection to self-service is allowed.",
 			},
 			"accounting_start_date": schema.StringAttribute{
-				CustomType:          timetypes.RFC3339Type{},
-				Optional:            true,
+				CustomType: timetypes.RFC3339Type{},
+				Optional:   true,
+				Computed:   true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 				MarkdownDescription: "Accounting start date",
 			},
 			"address": schema.StringAttribute{
-				Optional:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 				MarkdownDescription: "Address",
 			},
 			"agreement_number": schema.StringAttribute{
-				Optional:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 				MarkdownDescription: "Agreement number",
 			},
 			"archived": schema.BoolAttribute{
-				Optional:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.Bool{
+					boolplanmodifier.UseStateForUnknown(),
+				},
 				MarkdownDescription: "Archived",
 			},
 			"backend_id": schema.StringAttribute{
-				Optional:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 				MarkdownDescription: "Organization identifier in another application.",
 			},
 			"bank_account": schema.StringAttribute{
-				Optional:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 				MarkdownDescription: "Bank account",
 			},
 			"bank_name": schema.StringAttribute{
-				Optional:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 				MarkdownDescription: "Name of the bank",
 			},
+			"billing_price_estimate": schema.SingleNestedAttribute{
+				Attributes: map[string]schema.Attribute{
+					"current": schema.Float64Attribute{
+						Computed: true,
+						PlanModifiers: []planmodifier.Float64{
+							float64planmodifier.UseStateForUnknown(),
+						},
+						MarkdownDescription: "Current",
+					},
+					"tax": schema.Float64Attribute{
+						Computed: true,
+						PlanModifiers: []planmodifier.Float64{
+							float64planmodifier.UseStateForUnknown(),
+						},
+						MarkdownDescription: "Tax",
+					},
+					"tax_current": schema.Float64Attribute{
+						Computed: true,
+						PlanModifiers: []planmodifier.Float64{
+							float64planmodifier.UseStateForUnknown(),
+						},
+						MarkdownDescription: "Tax current",
+					},
+					"total": schema.Float64Attribute{
+						Computed: true,
+						PlanModifiers: []planmodifier.Float64{
+							float64planmodifier.UseStateForUnknown(),
+						},
+						MarkdownDescription: "Total",
+					},
+				},
+				Computed: true,
+				PlanModifiers: []planmodifier.Object{
+					objectplanmodifier.UseStateForUnknown(),
+				},
+				MarkdownDescription: "Billing price estimate",
+			},
 			"blocked": schema.BoolAttribute{
-				Optional:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.Bool{
+					boolplanmodifier.UseStateForUnknown(),
+				},
 				MarkdownDescription: "Blocked",
 			},
 			"call_managing_organization_uuid": schema.StringAttribute{
@@ -108,11 +184,19 @@ func (r *StructureCustomerResource) Schema(ctx context.Context, req resource.Sch
 				MarkdownDescription: "UUID of the call managing organization",
 			},
 			"contact_details": schema.StringAttribute{
-				Optional:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 				MarkdownDescription: "Contact details",
 			},
 			"country": schema.StringAttribute{
-				Optional:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 				MarkdownDescription: "Country code (ISO 3166-1 alpha-2)",
 			},
 			"country_name": schema.StringAttribute{
@@ -145,18 +229,30 @@ func (r *StructureCustomerResource) Schema(ctx context.Context, req resource.Sch
 				MarkdownDescription: "Customer unallocated credit",
 			},
 			"default_tax_percent": schema.StringAttribute{
-				Optional:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 				MarkdownDescription: "Default tax percent",
 				Validators: []validator.String{
 					stringvalidator.RegexMatches(regexp.MustCompile(`^-?\d{0,3}(?:\.\d{0,2})?$`), ""),
 				},
 			},
 			"description": schema.StringAttribute{
-				Optional:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 				MarkdownDescription: "Description of the Structure Customer",
 			},
 			"display_billing_info_in_projects": schema.BoolAttribute{
-				Optional:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.Bool{
+					boolplanmodifier.UseStateForUnknown(),
+				},
 				MarkdownDescription: "Display billing info in projects",
 			},
 			"display_name": schema.StringAttribute{
@@ -167,15 +263,27 @@ func (r *StructureCustomerResource) Schema(ctx context.Context, req resource.Sch
 				MarkdownDescription: "Display name of the organization (includes native name if available)",
 			},
 			"domain": schema.StringAttribute{
-				Optional:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 				MarkdownDescription: "Domain",
 			},
 			"email": schema.StringAttribute{
-				Optional:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 				MarkdownDescription: "Email",
 			},
 			"grace_period_days": schema.Int64Attribute{
-				Optional:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.Int64{
+					int64planmodifier.UseStateForUnknown(),
+				},
 				MarkdownDescription: "Number of extra days after project end date before resources are terminated",
 				Validators: []validator.Int64{
 					int64validator.AtLeast(0),
@@ -183,11 +291,19 @@ func (r *StructureCustomerResource) Schema(ctx context.Context, req resource.Sch
 				},
 			},
 			"homepage": schema.StringAttribute{
-				Optional:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 				MarkdownDescription: "Homepage",
 			},
 			"image": schema.StringAttribute{
-				Optional:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 				MarkdownDescription: "Image",
 			},
 			"is_service_provider": schema.BoolAttribute{
@@ -198,15 +314,27 @@ func (r *StructureCustomerResource) Schema(ctx context.Context, req resource.Sch
 				MarkdownDescription: "Is service provider",
 			},
 			"latitude": schema.Float64Attribute{
-				Optional:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.Float64{
+					float64planmodifier.UseStateForUnknown(),
+				},
 				MarkdownDescription: "Latitude",
 			},
 			"longitude": schema.Float64Attribute{
-				Optional:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.Float64{
+					float64planmodifier.UseStateForUnknown(),
+				},
 				MarkdownDescription: "Longitude",
 			},
 			"max_service_accounts": schema.Int64Attribute{
-				Optional:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.Int64{
+					int64planmodifier.UseStateForUnknown(),
+				},
 				MarkdownDescription: "Maximum number of service accounts allowed",
 				Validators: []validator.Int64{
 					int64validator.AtLeast(0),
@@ -218,18 +346,29 @@ func (r *StructureCustomerResource) Schema(ctx context.Context, req resource.Sch
 				MarkdownDescription: "Name of the Structure Customer",
 			},
 			"native_name": schema.StringAttribute{
-				Optional:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 				MarkdownDescription: "Name of the native",
 			},
 			"notification_emails": schema.StringAttribute{
-				Optional:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 				MarkdownDescription: "Comma-separated list of notification email addresses",
 			},
 			"organization_groups": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"customers_count": schema.Int64Attribute{
-							Computed:            true,
+							Computed: true,
+							PlanModifiers: []planmodifier.Int64{
+								int64planmodifier.UseStateForUnknown(),
+							},
 							MarkdownDescription: "Number of customers in this organization group",
 						},
 						"name": schema.StringAttribute{
@@ -241,19 +380,31 @@ func (r *StructureCustomerResource) Schema(ctx context.Context, req resource.Sch
 							MarkdownDescription: "Parent",
 						},
 						"parent_name": schema.StringAttribute{
-							Computed:            true,
+							Computed: true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
 							MarkdownDescription: "Name of the parent organization group",
 						},
 						"parent_uuid": schema.StringAttribute{
-							Computed:            true,
+							Computed: true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
 							MarkdownDescription: "UUID of the parent organization group",
 						},
 						"url": schema.StringAttribute{
-							Computed:            true,
+							Computed: true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
 							MarkdownDescription: "Url",
 						},
 						"uuid": schema.StringAttribute{
-							Computed:            true,
+							Computed: true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
 							MarkdownDescription: "UUID of the Structure Customer",
 						},
 					},
@@ -298,7 +449,10 @@ func (r *StructureCustomerResource) Schema(ctx context.Context, req resource.Sch
 							MarkdownDescription: "Organization",
 						},
 						"organization_uuid": schema.StringAttribute{
-							Computed:            true,
+							Computed: true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
 							MarkdownDescription: "UUID of the organization",
 						},
 						"payment_type": schema.StringAttribute{
@@ -309,15 +463,24 @@ func (r *StructureCustomerResource) Schema(ctx context.Context, req resource.Sch
 							},
 						},
 						"payment_type_display": schema.StringAttribute{
-							Computed:            true,
+							Computed: true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
 							MarkdownDescription: "Payment type display",
 						},
 						"url": schema.StringAttribute{
-							Computed:            true,
+							Computed: true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
 							MarkdownDescription: "Url",
 						},
 						"uuid": schema.StringAttribute{
-							Computed:            true,
+							Computed: true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
 							MarkdownDescription: "UUID of the Structure Customer",
 						},
 					},
@@ -329,15 +492,27 @@ func (r *StructureCustomerResource) Schema(ctx context.Context, req resource.Sch
 				MarkdownDescription: "Payment profiles",
 			},
 			"phone_number": schema.StringAttribute{
-				Optional:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 				MarkdownDescription: "Phone number",
 			},
 			"postal": schema.StringAttribute{
-				Optional:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 				MarkdownDescription: "Postal",
 			},
 			"project_metadata_checklist": schema.StringAttribute{
-				Optional:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 				MarkdownDescription: "Checklist to be used for project metadata validation in this organization",
 			},
 			"projects_count": schema.Int64Attribute{
@@ -348,7 +523,11 @@ func (r *StructureCustomerResource) Schema(ctx context.Context, req resource.Sch
 				MarkdownDescription: "Number of projects in this organization",
 			},
 			"registration_code": schema.StringAttribute{
-				Optional:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 				MarkdownDescription: "Registration code",
 			},
 			"service_provider": schema.StringAttribute{
@@ -366,14 +545,22 @@ func (r *StructureCustomerResource) Schema(ctx context.Context, req resource.Sch
 				MarkdownDescription: "UUID of the service provider",
 			},
 			"slug": schema.StringAttribute{
-				Optional:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 				MarkdownDescription: "URL-friendly identifier. Only editable by staff users.",
 				Validators: []validator.String{
 					stringvalidator.RegexMatches(regexp.MustCompile(`^[-a-zA-Z0-9_]+$`), ""),
 				},
 			},
 			"sponsor_number": schema.Int64Attribute{
-				Optional:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.Int64{
+					int64planmodifier.UseStateForUnknown(),
+				},
 				MarkdownDescription: "External ID of the sponsor covering the costs",
 				Validators: []validator.Int64{
 					int64validator.AtLeast(0),
@@ -395,7 +582,11 @@ func (r *StructureCustomerResource) Schema(ctx context.Context, req resource.Sch
 				MarkdownDescription: "Number of users with access to this organization",
 			},
 			"vat_code": schema.StringAttribute{
-				Optional:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 				MarkdownDescription: "VAT number",
 			},
 		},
@@ -416,7 +607,7 @@ func (r *StructureCustomerResource) Configure(ctx context.Context, req resource.
 		return
 	}
 
-	r.client = &Client{}
+	r.client = &StructureCustomerClient{}
 	if err := r.client.Configure(ctx, req.ProviderData); err != nil {
 		resp.Diagnostics.AddError(
 			"Unexpected Resource Configure Type",
@@ -433,43 +624,139 @@ func (r *StructureCustomerResource) Create(ctx context.Context, req resource.Cre
 		return
 	}
 
-	requestBody := StructureCustomerCreateRequest{
-		Abbreviation:                 data.Abbreviation.ValueStringPointer(),
-		AccessSubnets:                data.AccessSubnets.ValueStringPointer(),
-		AccountingStartDate:          data.AccountingStartDate.ValueStringPointer(),
-		Address:                      data.Address.ValueStringPointer(),
-		AgreementNumber:              data.AgreementNumber.ValueStringPointer(),
-		Archived:                     data.Archived.ValueBoolPointer(),
-		BackendId:                    data.BackendId.ValueStringPointer(),
-		BankAccount:                  data.BankAccount.ValueStringPointer(),
-		BankName:                     data.BankName.ValueStringPointer(),
-		Blocked:                      data.Blocked.ValueBoolPointer(),
-		ContactDetails:               data.ContactDetails.ValueStringPointer(),
-		Country:                      data.Country.ValueStringPointer(),
-		DefaultTaxPercent:            data.DefaultTaxPercent.ValueStringPointer(),
-		Description:                  data.Description.ValueStringPointer(),
-		DisplayBillingInfoInProjects: data.DisplayBillingInfoInProjects.ValueBoolPointer(),
-		Domain:                       data.Domain.ValueStringPointer(),
-		Email:                        data.Email.ValueStringPointer(),
-		GracePeriodDays:              data.GracePeriodDays.ValueInt64Pointer(),
-		Homepage:                     data.Homepage.ValueStringPointer(),
-		Image:                        data.Image.ValueStringPointer(),
-		Latitude:                     data.Latitude.ValueFloat64Pointer(),
-		Longitude:                    data.Longitude.ValueFloat64Pointer(),
-		MaxServiceAccounts:           data.MaxServiceAccounts.ValueInt64Pointer(),
-		Name:                         data.Name.ValueStringPointer(),
-		NativeName:                   data.NativeName.ValueStringPointer(),
-		NotificationEmails:           data.NotificationEmails.ValueStringPointer(),
-		PhoneNumber:                  data.PhoneNumber.ValueStringPointer(),
-		Postal:                       data.Postal.ValueStringPointer(),
-		ProjectMetadataChecklist:     data.ProjectMetadataChecklist.ValueStringPointer(),
-		RegistrationCode:             data.RegistrationCode.ValueStringPointer(),
-		Slug:                         data.Slug.ValueStringPointer(),
-		SponsorNumber:                data.SponsorNumber.ValueInt64Pointer(),
-		VatCode:                      data.VatCode.ValueStringPointer(),
+	requestBody := StructureCustomerCreateRequest{}
+	if !data.Abbreviation.IsNull() && !data.Abbreviation.IsUnknown() {
+
+		requestBody.Abbreviation = data.Abbreviation.ValueStringPointer()
+	}
+	if !data.AccessSubnets.IsNull() && !data.AccessSubnets.IsUnknown() {
+
+		requestBody.AccessSubnets = data.AccessSubnets.ValueStringPointer()
+	}
+	if !data.AccountingStartDate.IsNull() && !data.AccountingStartDate.IsUnknown() {
+
+		requestBody.AccountingStartDate = data.AccountingStartDate.ValueStringPointer()
+	}
+	if !data.Address.IsNull() && !data.Address.IsUnknown() {
+
+		requestBody.Address = data.Address.ValueStringPointer()
+	}
+	if !data.AgreementNumber.IsNull() && !data.AgreementNumber.IsUnknown() {
+
+		requestBody.AgreementNumber = data.AgreementNumber.ValueStringPointer()
+	}
+	if !data.Archived.IsNull() && !data.Archived.IsUnknown() {
+
+		requestBody.Archived = data.Archived.ValueBoolPointer()
+	}
+	if !data.BackendId.IsNull() && !data.BackendId.IsUnknown() {
+
+		requestBody.BackendId = data.BackendId.ValueStringPointer()
+	}
+	if !data.BankAccount.IsNull() && !data.BankAccount.IsUnknown() {
+
+		requestBody.BankAccount = data.BankAccount.ValueStringPointer()
+	}
+	if !data.BankName.IsNull() && !data.BankName.IsUnknown() {
+
+		requestBody.BankName = data.BankName.ValueStringPointer()
+	}
+	if !data.Blocked.IsNull() && !data.Blocked.IsUnknown() {
+
+		requestBody.Blocked = data.Blocked.ValueBoolPointer()
+	}
+	if !data.ContactDetails.IsNull() && !data.ContactDetails.IsUnknown() {
+
+		requestBody.ContactDetails = data.ContactDetails.ValueStringPointer()
+	}
+	if !data.Country.IsNull() && !data.Country.IsUnknown() {
+
+		requestBody.Country = data.Country.ValueStringPointer()
+	}
+	if !data.DefaultTaxPercent.IsNull() && !data.DefaultTaxPercent.IsUnknown() {
+
+		requestBody.DefaultTaxPercent = data.DefaultTaxPercent.ValueStringPointer()
+	}
+	if !data.Description.IsNull() && !data.Description.IsUnknown() {
+
+		requestBody.Description = data.Description.ValueStringPointer()
+	}
+	if !data.DisplayBillingInfoInProjects.IsNull() && !data.DisplayBillingInfoInProjects.IsUnknown() {
+
+		requestBody.DisplayBillingInfoInProjects = data.DisplayBillingInfoInProjects.ValueBoolPointer()
+	}
+	if !data.Domain.IsNull() && !data.Domain.IsUnknown() {
+
+		requestBody.Domain = data.Domain.ValueStringPointer()
+	}
+	if !data.Email.IsNull() && !data.Email.IsUnknown() {
+
+		requestBody.Email = data.Email.ValueStringPointer()
+	}
+	if !data.GracePeriodDays.IsNull() && !data.GracePeriodDays.IsUnknown() {
+
+		requestBody.GracePeriodDays = data.GracePeriodDays.ValueInt64Pointer()
+	}
+	if !data.Homepage.IsNull() && !data.Homepage.IsUnknown() {
+
+		requestBody.Homepage = data.Homepage.ValueStringPointer()
+	}
+	if !data.Image.IsNull() && !data.Image.IsUnknown() {
+
+		requestBody.Image = data.Image.ValueStringPointer()
+	}
+	if !data.Latitude.IsNull() && !data.Latitude.IsUnknown() {
+
+		requestBody.Latitude = data.Latitude.ValueFloat64Pointer()
+	}
+	if !data.Longitude.IsNull() && !data.Longitude.IsUnknown() {
+
+		requestBody.Longitude = data.Longitude.ValueFloat64Pointer()
+	}
+	if !data.MaxServiceAccounts.IsNull() && !data.MaxServiceAccounts.IsUnknown() {
+
+		requestBody.MaxServiceAccounts = data.MaxServiceAccounts.ValueInt64Pointer()
 	}
 
-	apiResp, err := r.client.CreateStructureCustomer(ctx, &requestBody)
+	requestBody.Name = data.Name.ValueStringPointer()
+	if !data.NativeName.IsNull() && !data.NativeName.IsUnknown() {
+
+		requestBody.NativeName = data.NativeName.ValueStringPointer()
+	}
+	if !data.NotificationEmails.IsNull() && !data.NotificationEmails.IsUnknown() {
+
+		requestBody.NotificationEmails = data.NotificationEmails.ValueStringPointer()
+	}
+	if !data.PhoneNumber.IsNull() && !data.PhoneNumber.IsUnknown() {
+
+		requestBody.PhoneNumber = data.PhoneNumber.ValueStringPointer()
+	}
+	if !data.Postal.IsNull() && !data.Postal.IsUnknown() {
+
+		requestBody.Postal = data.Postal.ValueStringPointer()
+	}
+	if !data.ProjectMetadataChecklist.IsNull() && !data.ProjectMetadataChecklist.IsUnknown() {
+
+		requestBody.ProjectMetadataChecklist = data.ProjectMetadataChecklist.ValueStringPointer()
+	}
+	if !data.RegistrationCode.IsNull() && !data.RegistrationCode.IsUnknown() {
+
+		requestBody.RegistrationCode = data.RegistrationCode.ValueStringPointer()
+	}
+	if !data.Slug.IsNull() && !data.Slug.IsUnknown() {
+
+		requestBody.Slug = data.Slug.ValueStringPointer()
+	}
+	if !data.SponsorNumber.IsNull() && !data.SponsorNumber.IsUnknown() {
+
+		requestBody.SponsorNumber = data.SponsorNumber.ValueInt64Pointer()
+	}
+	if !data.VatCode.IsNull() && !data.VatCode.IsUnknown() {
+
+		requestBody.VatCode = data.VatCode.ValueStringPointer()
+	}
+
+	apiResp, err := r.client.Create(ctx, &requestBody)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Unable to Create Structure Customer",
@@ -478,21 +765,6 @@ func (r *StructureCustomerResource) Create(ctx context.Context, req resource.Cre
 		return
 	}
 	data.UUID = types.StringPointerValue(apiResp.UUID)
-
-	createTimeout, diags := data.Timeouts.Create(ctx, common.DefaultCreateTimeout)
-	resp.Diagnostics.Append(diags...)
-	if resp.Diagnostics.HasError() {
-		return
-	}
-
-	newResp, err := common.WaitForResource(ctx, func(ctx context.Context) (*StructureCustomerResponse, error) {
-		return r.client.GetStructureCustomer(ctx, data.UUID.ValueString())
-	}, createTimeout)
-	if err != nil {
-		resp.Diagnostics.AddError("Failed to wait for resource creation", err.Error())
-		return
-	}
-	apiResp = newResp
 
 	resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
 
@@ -511,7 +783,7 @@ func (r *StructureCustomerResource) Read(ctx context.Context, req resource.ReadR
 
 	// Call Waldur API to read resource
 
-	apiResp, err := r.client.GetStructureCustomer(ctx, data.UUID.ValueString())
+	apiResp, err := r.client.Get(ctx, data.UUID.ValueString())
 	if err != nil {
 		if IsNotFoundError(err) {
 			resp.State.RemoveResource(ctx)
@@ -540,43 +812,141 @@ func (r *StructureCustomerResource) Update(ctx context.Context, req resource.Upd
 		return
 	}
 
-	requestBody := StructureCustomerUpdateRequest{
-		Abbreviation:                 data.Abbreviation.ValueStringPointer(),
-		AccessSubnets:                data.AccessSubnets.ValueStringPointer(),
-		AccountingStartDate:          data.AccountingStartDate.ValueStringPointer(),
-		Address:                      data.Address.ValueStringPointer(),
-		AgreementNumber:              data.AgreementNumber.ValueStringPointer(),
-		Archived:                     data.Archived.ValueBoolPointer(),
-		BackendId:                    data.BackendId.ValueStringPointer(),
-		BankAccount:                  data.BankAccount.ValueStringPointer(),
-		BankName:                     data.BankName.ValueStringPointer(),
-		Blocked:                      data.Blocked.ValueBoolPointer(),
-		ContactDetails:               data.ContactDetails.ValueStringPointer(),
-		Country:                      data.Country.ValueStringPointer(),
-		DefaultTaxPercent:            data.DefaultTaxPercent.ValueStringPointer(),
-		Description:                  data.Description.ValueStringPointer(),
-		DisplayBillingInfoInProjects: data.DisplayBillingInfoInProjects.ValueBoolPointer(),
-		Domain:                       data.Domain.ValueStringPointer(),
-		Email:                        data.Email.ValueStringPointer(),
-		GracePeriodDays:              data.GracePeriodDays.ValueInt64Pointer(),
-		Homepage:                     data.Homepage.ValueStringPointer(),
-		Image:                        data.Image.ValueStringPointer(),
-		Latitude:                     data.Latitude.ValueFloat64Pointer(),
-		Longitude:                    data.Longitude.ValueFloat64Pointer(),
-		MaxServiceAccounts:           data.MaxServiceAccounts.ValueInt64Pointer(),
-		Name:                         data.Name.ValueStringPointer(),
-		NativeName:                   data.NativeName.ValueStringPointer(),
-		NotificationEmails:           data.NotificationEmails.ValueStringPointer(),
-		PhoneNumber:                  data.PhoneNumber.ValueStringPointer(),
-		Postal:                       data.Postal.ValueStringPointer(),
-		ProjectMetadataChecklist:     data.ProjectMetadataChecklist.ValueStringPointer(),
-		RegistrationCode:             data.RegistrationCode.ValueStringPointer(),
-		Slug:                         data.Slug.ValueStringPointer(),
-		SponsorNumber:                data.SponsorNumber.ValueInt64Pointer(),
-		VatCode:                      data.VatCode.ValueStringPointer(),
+	requestBody := StructureCustomerUpdateRequest{}
+	if !data.Abbreviation.IsNull() && !data.Abbreviation.IsUnknown() {
+
+		requestBody.Abbreviation = data.Abbreviation.ValueStringPointer()
+	}
+	if !data.AccessSubnets.IsNull() && !data.AccessSubnets.IsUnknown() {
+
+		requestBody.AccessSubnets = data.AccessSubnets.ValueStringPointer()
+	}
+	if !data.AccountingStartDate.IsNull() && !data.AccountingStartDate.IsUnknown() {
+
+		requestBody.AccountingStartDate = data.AccountingStartDate.ValueStringPointer()
+	}
+	if !data.Address.IsNull() && !data.Address.IsUnknown() {
+
+		requestBody.Address = data.Address.ValueStringPointer()
+	}
+	if !data.AgreementNumber.IsNull() && !data.AgreementNumber.IsUnknown() {
+
+		requestBody.AgreementNumber = data.AgreementNumber.ValueStringPointer()
+	}
+	if !data.Archived.IsNull() && !data.Archived.IsUnknown() {
+
+		requestBody.Archived = data.Archived.ValueBoolPointer()
+	}
+	if !data.BackendId.IsNull() && !data.BackendId.IsUnknown() {
+
+		requestBody.BackendId = data.BackendId.ValueStringPointer()
+	}
+	if !data.BankAccount.IsNull() && !data.BankAccount.IsUnknown() {
+
+		requestBody.BankAccount = data.BankAccount.ValueStringPointer()
+	}
+	if !data.BankName.IsNull() && !data.BankName.IsUnknown() {
+
+		requestBody.BankName = data.BankName.ValueStringPointer()
+	}
+	if !data.Blocked.IsNull() && !data.Blocked.IsUnknown() {
+
+		requestBody.Blocked = data.Blocked.ValueBoolPointer()
+	}
+	if !data.ContactDetails.IsNull() && !data.ContactDetails.IsUnknown() {
+
+		requestBody.ContactDetails = data.ContactDetails.ValueStringPointer()
+	}
+	if !data.Country.IsNull() && !data.Country.IsUnknown() {
+
+		requestBody.Country = data.Country.ValueStringPointer()
+	}
+	if !data.DefaultTaxPercent.IsNull() && !data.DefaultTaxPercent.IsUnknown() {
+
+		requestBody.DefaultTaxPercent = data.DefaultTaxPercent.ValueStringPointer()
+	}
+	if !data.Description.IsNull() && !data.Description.IsUnknown() {
+
+		requestBody.Description = data.Description.ValueStringPointer()
+	}
+	if !data.DisplayBillingInfoInProjects.IsNull() && !data.DisplayBillingInfoInProjects.IsUnknown() {
+
+		requestBody.DisplayBillingInfoInProjects = data.DisplayBillingInfoInProjects.ValueBoolPointer()
+	}
+	if !data.Domain.IsNull() && !data.Domain.IsUnknown() {
+
+		requestBody.Domain = data.Domain.ValueStringPointer()
+	}
+	if !data.Email.IsNull() && !data.Email.IsUnknown() {
+
+		requestBody.Email = data.Email.ValueStringPointer()
+	}
+	if !data.GracePeriodDays.IsNull() && !data.GracePeriodDays.IsUnknown() {
+
+		requestBody.GracePeriodDays = data.GracePeriodDays.ValueInt64Pointer()
+	}
+	if !data.Homepage.IsNull() && !data.Homepage.IsUnknown() {
+
+		requestBody.Homepage = data.Homepage.ValueStringPointer()
+	}
+	if !data.Image.IsNull() && !data.Image.IsUnknown() {
+
+		requestBody.Image = data.Image.ValueStringPointer()
+	}
+	if !data.Latitude.IsNull() && !data.Latitude.IsUnknown() {
+
+		requestBody.Latitude = data.Latitude.ValueFloat64Pointer()
+	}
+	if !data.Longitude.IsNull() && !data.Longitude.IsUnknown() {
+
+		requestBody.Longitude = data.Longitude.ValueFloat64Pointer()
+	}
+	if !data.MaxServiceAccounts.IsNull() && !data.MaxServiceAccounts.IsUnknown() {
+
+		requestBody.MaxServiceAccounts = data.MaxServiceAccounts.ValueInt64Pointer()
+	}
+	if !data.Name.IsNull() && !data.Name.IsUnknown() {
+
+		requestBody.Name = data.Name.ValueStringPointer()
+	}
+	if !data.NativeName.IsNull() && !data.NativeName.IsUnknown() {
+
+		requestBody.NativeName = data.NativeName.ValueStringPointer()
+	}
+	if !data.NotificationEmails.IsNull() && !data.NotificationEmails.IsUnknown() {
+
+		requestBody.NotificationEmails = data.NotificationEmails.ValueStringPointer()
+	}
+	if !data.PhoneNumber.IsNull() && !data.PhoneNumber.IsUnknown() {
+
+		requestBody.PhoneNumber = data.PhoneNumber.ValueStringPointer()
+	}
+	if !data.Postal.IsNull() && !data.Postal.IsUnknown() {
+
+		requestBody.Postal = data.Postal.ValueStringPointer()
+	}
+	if !data.ProjectMetadataChecklist.IsNull() && !data.ProjectMetadataChecklist.IsUnknown() {
+
+		requestBody.ProjectMetadataChecklist = data.ProjectMetadataChecklist.ValueStringPointer()
+	}
+	if !data.RegistrationCode.IsNull() && !data.RegistrationCode.IsUnknown() {
+
+		requestBody.RegistrationCode = data.RegistrationCode.ValueStringPointer()
+	}
+	if !data.Slug.IsNull() && !data.Slug.IsUnknown() {
+
+		requestBody.Slug = data.Slug.ValueStringPointer()
+	}
+	if !data.SponsorNumber.IsNull() && !data.SponsorNumber.IsUnknown() {
+
+		requestBody.SponsorNumber = data.SponsorNumber.ValueInt64Pointer()
+	}
+	if !data.VatCode.IsNull() && !data.VatCode.IsUnknown() {
+
+		requestBody.VatCode = data.VatCode.ValueStringPointer()
 	}
 
-	apiResp, err := r.client.UpdateStructureCustomer(ctx, data.UUID.ValueString(), &requestBody)
+	apiResp, err := r.client.Update(ctx, data.UUID.ValueString(), &requestBody)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Unable to Update Structure Customer",
@@ -584,21 +954,6 @@ func (r *StructureCustomerResource) Update(ctx context.Context, req resource.Upd
 		)
 		return
 	}
-
-	updateTimeout, diags := data.Timeouts.Update(ctx, common.DefaultUpdateTimeout)
-	resp.Diagnostics.Append(diags...)
-	if resp.Diagnostics.HasError() {
-		return
-	}
-
-	newResp, err := common.WaitForResource(ctx, func(ctx context.Context) (*StructureCustomerResponse, error) {
-		return r.client.GetStructureCustomer(ctx, data.UUID.ValueString())
-	}, updateTimeout)
-	if err != nil {
-		resp.Diagnostics.AddError("Failed to wait for resource update", err.Error())
-		return
-	}
-	apiResp = newResp
 
 	resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
 
@@ -612,26 +967,12 @@ func (r *StructureCustomerResource) Delete(ctx context.Context, req resource.Del
 		return
 	}
 
-	err := r.client.DeleteStructureCustomer(ctx, data.UUID.ValueString())
+	err := r.client.Delete(ctx, data.UUID.ValueString())
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Unable to Delete Structure Customer",
 			"An error occurred while deleting the Structure Customer: "+err.Error(),
 		)
-		return
-	}
-
-	deleteTimeout, diags := data.Timeouts.Delete(ctx, common.DefaultDeleteTimeout)
-	resp.Diagnostics.Append(diags...)
-	if resp.Diagnostics.HasError() {
-		return
-	}
-
-	err = common.WaitForDeletion(ctx, func(ctx context.Context) (*StructureCustomerResponse, error) {
-		return r.client.GetStructureCustomer(ctx, data.UUID.ValueString())
-	}, deleteTimeout)
-	if err != nil {
-		resp.Diagnostics.AddError("Failed to wait for resource deletion", err.Error())
 		return
 	}
 }
@@ -651,7 +992,7 @@ func (r *StructureCustomerResource) ImportState(ctx context.Context, req resourc
 		"uuid": uuid,
 	})
 
-	apiResp, err := r.client.GetStructureCustomer(ctx, uuid)
+	apiResp, err := r.client.Get(ctx, uuid)
 	if err != nil {
 		if IsNotFoundError(err) {
 			resp.Diagnostics.AddError(

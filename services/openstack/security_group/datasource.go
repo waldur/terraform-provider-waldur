@@ -21,7 +21,7 @@ func NewOpenstackSecurityGroupDataSource() datasource.DataSource {
 }
 
 type OpenstackSecurityGroupDataSource struct {
-	client *Client
+	client *OpenstackSecurityGroupClient
 }
 
 type OpenstackSecurityGroupDataSourceModel struct {
@@ -44,10 +44,6 @@ func (d *OpenstackSecurityGroupDataSource) Schema(ctx context.Context, req datas
 				MarkdownDescription: "Openstack Security Group UUID",
 			},
 			"filters": (&OpenstackSecurityGroupFiltersModel{}).GetSchema(),
-			"access_url": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Access url",
-			},
 			"backend_id": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "ID of the backend",
@@ -61,22 +57,6 @@ func (d *OpenstackSecurityGroupDataSource) Schema(ctx context.Context, req datas
 				Computed:            true,
 				MarkdownDescription: "Customer",
 			},
-			"customer_abbreviation": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Customer abbreviation",
-			},
-			"customer_name": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Name of the customer",
-			},
-			"customer_native_name": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Name of the customer native",
-			},
-			"customer_uuid": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "UUID of the customer",
-			},
 			"description": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Description of the Openstack Security Group",
@@ -88,38 +68,6 @@ func (d *OpenstackSecurityGroupDataSource) Schema(ctx context.Context, req datas
 			"error_traceback": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Error traceback",
-			},
-			"is_limit_based": schema.BoolAttribute{
-				Computed:            true,
-				MarkdownDescription: "Is limit based",
-			},
-			"is_usage_based": schema.BoolAttribute{
-				Computed:            true,
-				MarkdownDescription: "Is usage based",
-			},
-			"marketplace_category_name": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Name of the marketplace category",
-			},
-			"marketplace_category_uuid": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "UUID of the marketplace category",
-			},
-			"marketplace_offering_name": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Name of the marketplace offering",
-			},
-			"marketplace_offering_uuid": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "UUID of the marketplace offering",
-			},
-			"marketplace_plan_uuid": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "UUID of the marketplace plan",
-			},
-			"marketplace_resource_state": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Marketplace resource state",
 			},
 			"marketplace_resource_uuid": schema.StringAttribute{
 				Computed:            true,
@@ -137,14 +85,6 @@ func (d *OpenstackSecurityGroupDataSource) Schema(ctx context.Context, req datas
 			"project": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Project",
-			},
-			"project_name": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Name of the project",
-			},
-			"project_uuid": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "UUID of the project",
 			},
 			"resource_type": schema.StringAttribute{
 				Computed:            true,
@@ -210,26 +150,6 @@ func (d *OpenstackSecurityGroupDataSource) Schema(ctx context.Context, req datas
 				Computed:            true,
 				MarkdownDescription: "Rules",
 			},
-			"service_name": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Name of the service",
-			},
-			"service_settings": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Service settings",
-			},
-			"service_settings_error_message": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Service settings error message",
-			},
-			"service_settings_state": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Service settings state",
-			},
-			"service_settings_uuid": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "UUID of the service settings",
-			},
 			"state": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "State",
@@ -260,7 +180,7 @@ func (d *OpenstackSecurityGroupDataSource) Configure(ctx context.Context, req da
 		return
 	}
 
-	d.client = &Client{}
+	d.client = &OpenstackSecurityGroupClient{}
 	if err := d.client.Configure(ctx, req.ProviderData); err != nil {
 		resp.Diagnostics.AddError(
 			"Unexpected Data Source Configure Type",
@@ -282,7 +202,7 @@ func (d *OpenstackSecurityGroupDataSource) Read(ctx context.Context, req datasou
 
 	// Check if UUID is provided for direct lookup
 	if !data.UUID.IsNull() && data.UUID.ValueString() != "" {
-		apiResp, err := d.client.GetOpenstackSecurityGroup(ctx, data.UUID.ValueString())
+		apiResp, err := d.client.Get(ctx, data.UUID.ValueString())
 		if err != nil {
 			resp.Diagnostics.AddError(
 				"Unable to Read Openstack Security Group",
@@ -304,7 +224,7 @@ func (d *OpenstackSecurityGroupDataSource) Read(ctx context.Context, req datasou
 			return
 		}
 
-		results, err := d.client.ListOpenstackSecurityGroup(ctx, filters)
+		results, err := d.client.List(ctx, filters)
 		if err != nil {
 			resp.Diagnostics.AddError(
 				"Unable to List Openstack Security Group",

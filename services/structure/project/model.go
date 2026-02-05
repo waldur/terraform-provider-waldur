@@ -4,12 +4,22 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
+	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
+
+func BillingPriceEstimateType() types.ObjectType {
+	return types.ObjectType{AttrTypes: map[string]attr.Type{
+		"current":     types.Float64Type,
+		"tax":         types.Float64Type,
+		"tax_current": types.Float64Type,
+		"total":       types.Float64Type,
+	}}
+}
 
 type StructureProjectFiltersModel struct {
 	BackendId               types.String `tfsdk:"backend_id"`
@@ -106,14 +116,11 @@ func (m *StructureProjectFiltersModel) GetSchema() schema.SingleNestedAttribute 
 type StructureProjectModel struct {
 	UUID                                 types.String      `tfsdk:"id"`
 	BackendId                            types.String      `tfsdk:"backend_id"`
+	BillingPriceEstimate                 types.Object      `tfsdk:"billing_price_estimate"`
 	Created                              timetypes.RFC3339 `tfsdk:"created"`
 	Customer                             types.String      `tfsdk:"customer"`
-	CustomerAbbreviation                 types.String      `tfsdk:"customer_abbreviation"`
 	CustomerDisplayBillingInfoInProjects types.Bool        `tfsdk:"customer_display_billing_info_in_projects"`
-	CustomerName                         types.String      `tfsdk:"customer_name"`
-	CustomerNativeName                   types.String      `tfsdk:"customer_native_name"`
 	CustomerSlug                         types.String      `tfsdk:"customer_slug"`
-	CustomerUuid                         types.String      `tfsdk:"customer_uuid"`
 	Description                          types.String      `tfsdk:"description"`
 	EndDate                              types.String      `tfsdk:"end_date"`
 	EndDateRequestedBy                   types.String      `tfsdk:"end_date_requested_by"`
@@ -143,16 +150,19 @@ func (model *StructureProjectModel) CopyFrom(ctx context.Context, apiResp Struct
 
 	model.UUID = types.StringPointerValue(apiResp.UUID)
 	model.BackendId = common.StringPointerValue(apiResp.BackendId)
+	if apiResp.BillingPriceEstimate != nil {
+		objValBillingPriceEstimate, objDiagsBillingPriceEstimate := types.ObjectValueFrom(ctx, BillingPriceEstimateType().AttrTypes, *apiResp.BillingPriceEstimate)
+		diags.Append(objDiagsBillingPriceEstimate...)
+		model.BillingPriceEstimate = objValBillingPriceEstimate
+	} else {
+		model.BillingPriceEstimate = types.ObjectNull(BillingPriceEstimateType().AttrTypes)
+	}
 	valCreated, diagsCreated := timetypes.NewRFC3339PointerValue(apiResp.Created)
 	diags.Append(diagsCreated...)
 	model.Created = valCreated
 	model.Customer = common.StringPointerValue(apiResp.Customer)
-	model.CustomerAbbreviation = common.StringPointerValue(apiResp.CustomerAbbreviation)
 	model.CustomerDisplayBillingInfoInProjects = types.BoolPointerValue(apiResp.CustomerDisplayBillingInfoInProjects)
-	model.CustomerName = common.StringPointerValue(apiResp.CustomerName)
-	model.CustomerNativeName = common.StringPointerValue(apiResp.CustomerNativeName)
 	model.CustomerSlug = common.StringPointerValue(apiResp.CustomerSlug)
-	model.CustomerUuid = common.StringPointerValue(apiResp.CustomerUuid)
 	model.Description = common.StringPointerValue(apiResp.Description)
 	model.EndDate = common.StringPointerValue(apiResp.EndDate)
 	model.EndDateRequestedBy = common.StringPointerValue(apiResp.EndDateRequestedBy)

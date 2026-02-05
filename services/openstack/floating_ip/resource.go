@@ -27,7 +27,7 @@ func NewOpenstackFloatingIpResource() resource.Resource {
 
 // OpenstackFloatingIpResource defines the resource implementation.
 type OpenstackFloatingIpResource struct {
-	client *Client
+	client *OpenstackFloatingIpClient
 }
 
 // OpenstackFloatingIpResourceModel describes the resource data model.
@@ -52,13 +52,6 @@ func (r *OpenstackFloatingIpResource) Schema(ctx context.Context, req resource.S
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-			},
-			"access_url": schema.StringAttribute{
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
-				MarkdownDescription: "Access url",
 			},
 			"address": schema.StringAttribute{
 				Computed: true,
@@ -88,6 +81,13 @@ func (r *OpenstackFloatingIpResource) Schema(ctx context.Context, req resource.S
 					stringplanmodifier.UseStateForUnknown(),
 				},
 				MarkdownDescription: "Created",
+			},
+			"customer": schema.StringAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+				MarkdownDescription: "Customer",
 			},
 			"description": schema.StringAttribute{
 				Computed: true,
@@ -138,6 +138,13 @@ func (r *OpenstackFloatingIpResource) Schema(ctx context.Context, req resource.S
 				},
 				MarkdownDescription: "UUID of the instance",
 			},
+			"marketplace_resource_uuid": schema.StringAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+				MarkdownDescription: "UUID of the marketplace resource",
+			},
 			"modified": schema.StringAttribute{
 				CustomType: timetypes.RFC3339Type{},
 				Computed:   true,
@@ -179,6 +186,13 @@ func (r *OpenstackFloatingIpResource) Schema(ctx context.Context, req resource.S
 				},
 				MarkdownDescription: "Port fixed ips",
 			},
+			"project": schema.StringAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+				MarkdownDescription: "Project",
+			},
 			"resource_type": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
@@ -211,6 +225,7 @@ func (r *OpenstackFloatingIpResource) Schema(ctx context.Context, req resource.S
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
+					stringplanmodifier.UseStateForUnknown(),
 				},
 				MarkdownDescription: "Required path parameter for resource creation",
 			},
@@ -253,7 +268,7 @@ func (r *OpenstackFloatingIpResource) Configure(ctx context.Context, req resourc
 		return
 	}
 
-	r.client = &Client{}
+	r.client = &OpenstackFloatingIpClient{}
 	if err := r.client.Configure(ctx, req.ProviderData); err != nil {
 		resp.Diagnostics.AddError(
 			"Unexpected Resource Configure Type",
@@ -270,11 +285,13 @@ func (r *OpenstackFloatingIpResource) Create(ctx context.Context, req resource.C
 		return
 	}
 
-	requestBody := OpenstackFloatingIpCreateRequest{
-		Router: data.Router.ValueStringPointer(),
+	requestBody := OpenstackFloatingIpCreateRequest{}
+	if !data.Router.IsNull() && !data.Router.IsUnknown() {
+
+		requestBody.Router = data.Router.ValueStringPointer()
 	}
 
-	apiResp, err := r.client.CreateOpenstackFloatingIp(ctx, data.Tenant.ValueString(), &requestBody)
+	apiResp, err := r.client.Create(ctx, data.Tenant.ValueString(), &requestBody)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Unable to Create Openstack Floating Ip",
@@ -283,7 +300,6 @@ func (r *OpenstackFloatingIpResource) Create(ctx context.Context, req resource.C
 		return
 	}
 	data.UUID = types.StringPointerValue(apiResp.UUID)
-
 	createTimeout, diags := data.Timeouts.Create(ctx, common.DefaultCreateTimeout)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
@@ -291,7 +307,7 @@ func (r *OpenstackFloatingIpResource) Create(ctx context.Context, req resource.C
 	}
 
 	newResp, err := common.WaitForResource(ctx, func(ctx context.Context) (*OpenstackFloatingIpResponse, error) {
-		return r.client.GetOpenstackFloatingIp(ctx, data.UUID.ValueString())
+		return r.client.Get(ctx, data.UUID.ValueString())
 	}, createTimeout)
 	if err != nil {
 		resp.Diagnostics.AddError("Failed to wait for resource creation", err.Error())
@@ -316,7 +332,7 @@ func (r *OpenstackFloatingIpResource) Read(ctx context.Context, req resource.Rea
 
 	// Call Waldur API to read resource
 
-	apiResp, err := r.client.GetOpenstackFloatingIp(ctx, data.UUID.ValueString())
+	apiResp, err := r.client.Get(ctx, data.UUID.ValueString())
 	if err != nil {
 		if IsNotFoundError(err) {
 			resp.State.RemoveResource(ctx)
@@ -347,7 +363,7 @@ func (r *OpenstackFloatingIpResource) Delete(ctx context.Context, req resource.D
 		return
 	}
 
-	err := r.client.DeleteOpenstackFloatingIp(ctx, data.UUID.ValueString())
+	err := r.client.Delete(ctx, data.UUID.ValueString())
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Unable to Delete Openstack Floating Ip",
@@ -355,7 +371,6 @@ func (r *OpenstackFloatingIpResource) Delete(ctx context.Context, req resource.D
 		)
 		return
 	}
-
 	deleteTimeout, diags := data.Timeouts.Delete(ctx, common.DefaultDeleteTimeout)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
@@ -363,7 +378,7 @@ func (r *OpenstackFloatingIpResource) Delete(ctx context.Context, req resource.D
 	}
 
 	err = common.WaitForDeletion(ctx, func(ctx context.Context) (*OpenstackFloatingIpResponse, error) {
-		return r.client.GetOpenstackFloatingIp(ctx, data.UUID.ValueString())
+		return r.client.Get(ctx, data.UUID.ValueString())
 	}, deleteTimeout)
 	if err != nil {
 		resp.Diagnostics.AddError("Failed to wait for resource deletion", err.Error())
@@ -386,7 +401,7 @@ func (r *OpenstackFloatingIpResource) ImportState(ctx context.Context, req resou
 		"uuid": uuid,
 	})
 
-	apiResp, err := r.client.GetOpenstackFloatingIp(ctx, uuid)
+	apiResp, err := r.client.Get(ctx, uuid)
 	if err != nil {
 		if IsNotFoundError(err) {
 			resp.Diagnostics.AddError(

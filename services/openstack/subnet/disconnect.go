@@ -21,7 +21,7 @@ type OpenstackSubnetDisconnectModel struct {
 }
 
 type OpenstackSubnetDisconnectAction struct {
-	client *Client
+	client *OpenstackSubnetClient
 }
 
 func NewOpenstackSubnetDisconnectAction() action.Action {
@@ -53,7 +53,7 @@ func (a *OpenstackSubnetDisconnectAction) Configure(ctx context.Context, req act
 		return
 	}
 
-	a.client = &Client{}
+	a.client = &OpenstackSubnetClient{}
 	if err := a.client.Configure(ctx, req.ProviderData); err != nil {
 		resp.Diagnostics.AddError(
 			"Unexpected Action Configure Type",
@@ -72,7 +72,7 @@ func (a *OpenstackSubnetDisconnectAction) Invoke(ctx context.Context, req action
 	}
 
 	uuid := data.Uuid.ValueString()
-	err := a.client.OpenstackSubnetDisconnect(ctx, uuid)
+	err := a.client.Disconnect(ctx, uuid)
 
 	if err != nil {
 		resp.Diagnostics.AddError(
@@ -93,7 +93,7 @@ func (a *OpenstackSubnetDisconnectAction) Invoke(ctx context.Context, req action
 		}
 	}
 	_, err = common.WaitForResource(ctx, func(ctx context.Context) (*OpenstackSubnetResponse, error) {
-		return a.client.GetOpenstackSubnet(ctx, uuid)
+		return a.client.Get(ctx, uuid)
 	}, timeout)
 	if err != nil {
 		resp.Diagnostics.AddWarning("Resource state check failed", err.Error())

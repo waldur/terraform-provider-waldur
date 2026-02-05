@@ -12,6 +12,19 @@ import (
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
+func OpenStackStaticRouteRequestType() types.ObjectType {
+	return types.ObjectType{AttrTypes: map[string]attr.Type{
+		"destination": types.StringType,
+		"nexthop":     types.StringType,
+	}}
+}
+func OpenStackSubNetAllocationPoolRequestType() types.ObjectType {
+	return types.ObjectType{AttrTypes: map[string]attr.Type{
+		"end":   types.StringType,
+		"start": types.StringType,
+	}}
+}
+
 type OpenstackSubnetFiltersModel struct {
 	BackendId            types.String `tfsdk:"backend_id"`
 	CanManage            types.Bool   `tfsdk:"can_manage"`
@@ -150,53 +163,33 @@ func (m *OpenstackSubnetFiltersModel) GetSchema() schema.SingleNestedAttribute {
 }
 
 type OpenstackSubnetModel struct {
-	UUID                        types.String      `tfsdk:"id"`
-	AccessUrl                   types.String      `tfsdk:"access_url"`
-	AllocationPools             types.List        `tfsdk:"allocation_pools"`
-	BackendId                   types.String      `tfsdk:"backend_id"`
-	Cidr                        types.String      `tfsdk:"cidr"`
-	Created                     timetypes.RFC3339 `tfsdk:"created"`
-	Customer                    types.String      `tfsdk:"customer"`
-	CustomerAbbreviation        types.String      `tfsdk:"customer_abbreviation"`
-	CustomerName                types.String      `tfsdk:"customer_name"`
-	CustomerNativeName          types.String      `tfsdk:"customer_native_name"`
-	CustomerUuid                types.String      `tfsdk:"customer_uuid"`
-	Description                 types.String      `tfsdk:"description"`
-	DisableGateway              types.Bool        `tfsdk:"disable_gateway"`
-	DnsNameservers              types.List        `tfsdk:"dns_nameservers"`
-	EnableDhcp                  types.Bool        `tfsdk:"enable_dhcp"`
-	ErrorMessage                types.String      `tfsdk:"error_message"`
-	ErrorTraceback              types.String      `tfsdk:"error_traceback"`
-	GatewayIp                   types.String      `tfsdk:"gateway_ip"`
-	HostRoutes                  types.List        `tfsdk:"host_routes"`
-	IpVersion                   types.Int64       `tfsdk:"ip_version"`
-	IsConnected                 types.Bool        `tfsdk:"is_connected"`
-	IsLimitBased                types.Bool        `tfsdk:"is_limit_based"`
-	IsUsageBased                types.Bool        `tfsdk:"is_usage_based"`
-	MarketplaceCategoryName     types.String      `tfsdk:"marketplace_category_name"`
-	MarketplaceCategoryUuid     types.String      `tfsdk:"marketplace_category_uuid"`
-	MarketplaceOfferingName     types.String      `tfsdk:"marketplace_offering_name"`
-	MarketplaceOfferingUuid     types.String      `tfsdk:"marketplace_offering_uuid"`
-	MarketplacePlanUuid         types.String      `tfsdk:"marketplace_plan_uuid"`
-	MarketplaceResourceState    types.String      `tfsdk:"marketplace_resource_state"`
-	MarketplaceResourceUuid     types.String      `tfsdk:"marketplace_resource_uuid"`
-	Modified                    timetypes.RFC3339 `tfsdk:"modified"`
-	Name                        types.String      `tfsdk:"name"`
-	Network                     types.String      `tfsdk:"network"`
-	NetworkName                 types.String      `tfsdk:"network_name"`
-	Project                     types.String      `tfsdk:"project"`
-	ProjectName                 types.String      `tfsdk:"project_name"`
-	ProjectUuid                 types.String      `tfsdk:"project_uuid"`
-	ResourceType                types.String      `tfsdk:"resource_type"`
-	ServiceName                 types.String      `tfsdk:"service_name"`
-	ServiceSettings             types.String      `tfsdk:"service_settings"`
-	ServiceSettingsErrorMessage types.String      `tfsdk:"service_settings_error_message"`
-	ServiceSettingsState        types.String      `tfsdk:"service_settings_state"`
-	ServiceSettingsUuid         types.String      `tfsdk:"service_settings_uuid"`
-	State                       types.String      `tfsdk:"state"`
-	Tenant                      types.String      `tfsdk:"tenant"`
-	TenantName                  types.String      `tfsdk:"tenant_name"`
-	Url                         types.String      `tfsdk:"url"`
+	UUID                    types.String      `tfsdk:"id"`
+	AllocationPools         types.List        `tfsdk:"allocation_pools"`
+	BackendId               types.String      `tfsdk:"backend_id"`
+	Cidr                    types.String      `tfsdk:"cidr"`
+	Created                 timetypes.RFC3339 `tfsdk:"created"`
+	Customer                types.String      `tfsdk:"customer"`
+	Description             types.String      `tfsdk:"description"`
+	DisableGateway          types.Bool        `tfsdk:"disable_gateway"`
+	DnsNameservers          types.List        `tfsdk:"dns_nameservers"`
+	EnableDhcp              types.Bool        `tfsdk:"enable_dhcp"`
+	ErrorMessage            types.String      `tfsdk:"error_message"`
+	ErrorTraceback          types.String      `tfsdk:"error_traceback"`
+	GatewayIp               types.String      `tfsdk:"gateway_ip"`
+	HostRoutes              types.List        `tfsdk:"host_routes"`
+	IpVersion               types.Int64       `tfsdk:"ip_version"`
+	IsConnected             types.Bool        `tfsdk:"is_connected"`
+	MarketplaceResourceUuid types.String      `tfsdk:"marketplace_resource_uuid"`
+	Modified                timetypes.RFC3339 `tfsdk:"modified"`
+	Name                    types.String      `tfsdk:"name"`
+	Network                 types.String      `tfsdk:"network"`
+	NetworkName             types.String      `tfsdk:"network_name"`
+	Project                 types.String      `tfsdk:"project"`
+	ResourceType            types.String      `tfsdk:"resource_type"`
+	State                   types.String      `tfsdk:"state"`
+	Tenant                  types.String      `tfsdk:"tenant"`
+	TenantName              types.String      `tfsdk:"tenant_name"`
+	Url                     types.String      `tfsdk:"url"`
 }
 
 // CopyFrom maps the API response to the model fields.
@@ -204,15 +197,13 @@ func (model *OpenstackSubnetModel) CopyFrom(ctx context.Context, apiResp Opensta
 	var diags diag.Diagnostics
 
 	model.UUID = types.StringPointerValue(apiResp.UUID)
-	model.AccessUrl = common.StringPointerValue(apiResp.AccessUrl)
 
-	{
-		listValAllocationPools, listDiagsAllocationPools := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
-			"end":   types.StringType,
-			"start": types.StringType,
-		}}, apiResp.AllocationPools)
+	if apiResp.AllocationPools != nil && len(*apiResp.AllocationPools) > 0 {
+		listValAllocationPools, listDiagsAllocationPools := types.ListValueFrom(ctx, OpenStackSubNetAllocationPoolRequestType(), apiResp.AllocationPools)
 		diags.Append(listDiagsAllocationPools...)
 		model.AllocationPools = listValAllocationPools
+	} else {
+		model.AllocationPools = types.ListNull(OpenStackSubNetAllocationPoolRequestType())
 	}
 	model.BackendId = common.StringPointerValue(apiResp.BackendId)
 	model.Cidr = common.StringPointerValue(apiResp.Cidr)
@@ -220,10 +211,6 @@ func (model *OpenstackSubnetModel) CopyFrom(ctx context.Context, apiResp Opensta
 	diags.Append(diagsCreated...)
 	model.Created = valCreated
 	model.Customer = common.StringPointerValue(apiResp.Customer)
-	model.CustomerAbbreviation = common.StringPointerValue(apiResp.CustomerAbbreviation)
-	model.CustomerName = common.StringPointerValue(apiResp.CustomerName)
-	model.CustomerNativeName = common.StringPointerValue(apiResp.CustomerNativeName)
-	model.CustomerUuid = common.StringPointerValue(apiResp.CustomerUuid)
 	model.Description = common.StringPointerValue(apiResp.Description)
 	model.DisableGateway = types.BoolPointerValue(apiResp.DisableGateway)
 	listValDnsNameservers, listDiagsDnsNameservers := types.ListValueFrom(ctx, types.StringType, apiResp.DnsNameservers)
@@ -234,24 +221,15 @@ func (model *OpenstackSubnetModel) CopyFrom(ctx context.Context, apiResp Opensta
 	model.ErrorTraceback = common.StringPointerValue(apiResp.ErrorTraceback)
 	model.GatewayIp = common.StringPointerValue(apiResp.GatewayIp)
 
-	{
-		listValHostRoutes, listDiagsHostRoutes := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
-			"destination": types.StringType,
-			"nexthop":     types.StringType,
-		}}, apiResp.HostRoutes)
+	if apiResp.HostRoutes != nil && len(*apiResp.HostRoutes) > 0 {
+		listValHostRoutes, listDiagsHostRoutes := types.ListValueFrom(ctx, OpenStackStaticRouteRequestType(), apiResp.HostRoutes)
 		diags.Append(listDiagsHostRoutes...)
 		model.HostRoutes = listValHostRoutes
+	} else {
+		model.HostRoutes = types.ListNull(OpenStackStaticRouteRequestType())
 	}
 	model.IpVersion = types.Int64PointerValue(apiResp.IpVersion)
 	model.IsConnected = types.BoolPointerValue(apiResp.IsConnected)
-	model.IsLimitBased = types.BoolPointerValue(apiResp.IsLimitBased)
-	model.IsUsageBased = types.BoolPointerValue(apiResp.IsUsageBased)
-	model.MarketplaceCategoryName = common.StringPointerValue(apiResp.MarketplaceCategoryName)
-	model.MarketplaceCategoryUuid = common.StringPointerValue(apiResp.MarketplaceCategoryUuid)
-	model.MarketplaceOfferingName = common.StringPointerValue(apiResp.MarketplaceOfferingName)
-	model.MarketplaceOfferingUuid = common.StringPointerValue(apiResp.MarketplaceOfferingUuid)
-	model.MarketplacePlanUuid = common.StringPointerValue(apiResp.MarketplacePlanUuid)
-	model.MarketplaceResourceState = common.StringPointerValue(apiResp.MarketplaceResourceState)
 	model.MarketplaceResourceUuid = common.StringPointerValue(apiResp.MarketplaceResourceUuid)
 	valModified, diagsModified := timetypes.NewRFC3339PointerValue(apiResp.Modified)
 	diags.Append(diagsModified...)
@@ -260,14 +238,7 @@ func (model *OpenstackSubnetModel) CopyFrom(ctx context.Context, apiResp Opensta
 	model.Network = common.StringPointerValue(apiResp.Network)
 	model.NetworkName = common.StringPointerValue(apiResp.NetworkName)
 	model.Project = common.StringPointerValue(apiResp.Project)
-	model.ProjectName = common.StringPointerValue(apiResp.ProjectName)
-	model.ProjectUuid = common.StringPointerValue(apiResp.ProjectUuid)
 	model.ResourceType = common.StringPointerValue(apiResp.ResourceType)
-	model.ServiceName = common.StringPointerValue(apiResp.ServiceName)
-	model.ServiceSettings = common.StringPointerValue(apiResp.ServiceSettings)
-	model.ServiceSettingsErrorMessage = common.StringPointerValue(apiResp.ServiceSettingsErrorMessage)
-	model.ServiceSettingsState = common.StringPointerValue(apiResp.ServiceSettingsState)
-	model.ServiceSettingsUuid = common.StringPointerValue(apiResp.ServiceSettingsUuid)
 	model.State = common.StringPointerValue(apiResp.State)
 	model.Tenant = common.StringPointerValue(apiResp.Tenant)
 	model.TenantName = common.StringPointerValue(apiResp.TenantName)

@@ -13,6 +13,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/float64planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/mapplanmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
@@ -32,7 +33,7 @@ func NewMarketplaceOrderResource() resource.Resource {
 
 // MarketplaceOrderResource defines the resource implementation.
 type MarketplaceOrderResource struct {
-	client *Client
+	client *MarketplaceOrderClient
 }
 
 // MarketplaceOrderResourceModel describes the resource data model.
@@ -79,6 +80,7 @@ func (r *MarketplaceOrderResource) Schema(ctx context.Context, req resource.Sche
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
+					stringplanmodifier.UseStateForUnknown(),
 				},
 				MarkdownDescription: "Attachment",
 			},
@@ -95,13 +97,16 @@ func (r *MarketplaceOrderResource) Schema(ctx context.Context, req resource.Sche
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
+					stringplanmodifier.UseStateForUnknown(),
 				},
 				MarkdownDescription: "ID of the backend",
 			},
 			"callback_url": schema.StringAttribute{
 				Optional: true,
+				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
+					stringplanmodifier.UseStateForUnknown(),
 				},
 				MarkdownDescription: "Callback url",
 			},
@@ -237,6 +242,36 @@ func (r *MarketplaceOrderResource) Schema(ctx context.Context, req resource.Sche
 				},
 				MarkdownDescription: "Fixed price",
 			},
+			"issue": schema.SingleNestedAttribute{
+				Attributes: map[string]schema.Attribute{
+					"key": schema.StringAttribute{
+						Computed: true,
+						PlanModifiers: []planmodifier.String{
+							stringplanmodifier.UseStateForUnknown(),
+						},
+						MarkdownDescription: "Key",
+					},
+					"uuid": schema.StringAttribute{
+						Computed: true,
+						PlanModifiers: []planmodifier.String{
+							stringplanmodifier.UseStateForUnknown(),
+						},
+						MarkdownDescription: "UUID of the Marketplace Order",
+					},
+				},
+				Computed: true,
+				PlanModifiers: []planmodifier.Object{
+					objectplanmodifier.UseStateForUnknown(),
+				},
+				MarkdownDescription: "Issue",
+			},
+			"marketplace_resource_uuid": schema.StringAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+				MarkdownDescription: "UUID of the marketplace resource",
+			},
 			"modified": schema.StringAttribute{
 				CustomType: timetypes.RFC3339Type{},
 				Computed:   true,
@@ -369,8 +404,10 @@ func (r *MarketplaceOrderResource) Schema(ctx context.Context, req resource.Sche
 			},
 			"plan": schema.StringAttribute{
 				Optional: true,
+				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
+					stringplanmodifier.UseStateForUnknown(),
 				},
 				MarkdownDescription: "Plan",
 			},
@@ -475,8 +512,10 @@ func (r *MarketplaceOrderResource) Schema(ctx context.Context, req resource.Sche
 			},
 			"request_comment": schema.StringAttribute{
 				Optional: true,
+				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
+					stringplanmodifier.UseStateForUnknown(),
 				},
 				MarkdownDescription: "Request comment",
 			},
@@ -512,7 +551,11 @@ func (r *MarketplaceOrderResource) Schema(ctx context.Context, req resource.Sche
 				},
 			},
 			"start_date": schema.StringAttribute{
-				Optional:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 				MarkdownDescription: "Enables delayed processing of resource provisioning order.",
 			},
 			"state": schema.StringAttribute{
@@ -531,8 +574,10 @@ func (r *MarketplaceOrderResource) Schema(ctx context.Context, req resource.Sche
 			},
 			"type": schema.StringAttribute{
 				Optional: true,
+				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
+					stringplanmodifier.UseStateForUnknown(),
 				},
 				MarkdownDescription: "Type",
 			},
@@ -561,7 +606,7 @@ func (r *MarketplaceOrderResource) Configure(ctx context.Context, req resource.C
 		return
 	}
 
-	r.client = &Client{}
+	r.client = &MarketplaceOrderClient{}
 	if err := r.client.Configure(ctx, req.ProviderData); err != nil {
 		resp.Diagnostics.AddError(
 			"Unexpected Resource Configure Type",
@@ -578,16 +623,38 @@ func (r *MarketplaceOrderResource) Create(ctx context.Context, req resource.Crea
 		return
 	}
 
-	requestBody := MarketplaceOrderCreateRequest{
-		AcceptingTermsOfService: data.AcceptingTermsOfService.ValueBoolPointer(),
-		CallbackUrl:             data.CallbackUrl.ValueStringPointer(),
-		Offering:                data.Offering.ValueStringPointer(),
-		Plan:                    data.Plan.ValueStringPointer(),
-		Project:                 data.Project.ValueStringPointer(),
-		RequestComment:          data.RequestComment.ValueStringPointer(),
-		Slug:                    data.Slug.ValueStringPointer(),
-		StartDate:               data.StartDate.ValueStringPointer(),
-		Type:                    data.Type.ValueStringPointer(),
+	requestBody := MarketplaceOrderCreateRequest{}
+	if !data.AcceptingTermsOfService.IsNull() && !data.AcceptingTermsOfService.IsUnknown() {
+
+		requestBody.AcceptingTermsOfService = data.AcceptingTermsOfService.ValueBoolPointer()
+	}
+	if !data.CallbackUrl.IsNull() && !data.CallbackUrl.IsUnknown() {
+
+		requestBody.CallbackUrl = data.CallbackUrl.ValueStringPointer()
+	}
+
+	requestBody.Offering = data.Offering.ValueStringPointer()
+	if !data.Plan.IsNull() && !data.Plan.IsUnknown() {
+
+		requestBody.Plan = data.Plan.ValueStringPointer()
+	}
+
+	requestBody.Project = data.Project.ValueStringPointer()
+	if !data.RequestComment.IsNull() && !data.RequestComment.IsUnknown() {
+
+		requestBody.RequestComment = data.RequestComment.ValueStringPointer()
+	}
+	if !data.Slug.IsNull() && !data.Slug.IsUnknown() {
+
+		requestBody.Slug = data.Slug.ValueStringPointer()
+	}
+	if !data.StartDate.IsNull() && !data.StartDate.IsUnknown() {
+
+		requestBody.StartDate = data.StartDate.ValueStringPointer()
+	}
+	if !data.Type.IsNull() && !data.Type.IsUnknown() {
+
+		requestBody.Type = data.Type.ValueStringPointer()
 	}
 	{
 		var mapItems map[string]interface{}
@@ -598,7 +665,7 @@ func (r *MarketplaceOrderResource) Create(ctx context.Context, req resource.Crea
 		}
 	}
 
-	apiResp, err := r.client.CreateMarketplaceOrder(ctx, &requestBody)
+	apiResp, err := r.client.Create(ctx, &requestBody)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Unable to Create Marketplace Order",
@@ -607,7 +674,6 @@ func (r *MarketplaceOrderResource) Create(ctx context.Context, req resource.Crea
 		return
 	}
 	data.UUID = types.StringPointerValue(apiResp.UUID)
-
 	createTimeout, diags := data.Timeouts.Create(ctx, common.DefaultCreateTimeout)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
@@ -615,7 +681,7 @@ func (r *MarketplaceOrderResource) Create(ctx context.Context, req resource.Crea
 	}
 
 	newResp, err := common.WaitForResource(ctx, func(ctx context.Context) (*MarketplaceOrderResponse, error) {
-		return r.client.GetMarketplaceOrder(ctx, data.UUID.ValueString())
+		return r.client.Get(ctx, data.UUID.ValueString())
 	}, createTimeout)
 	if err != nil {
 		resp.Diagnostics.AddError("Failed to wait for resource creation", err.Error())
@@ -640,7 +706,7 @@ func (r *MarketplaceOrderResource) Read(ctx context.Context, req resource.ReadRe
 
 	// Call Waldur API to read resource
 
-	apiResp, err := r.client.GetMarketplaceOrder(ctx, data.UUID.ValueString())
+	apiResp, err := r.client.Get(ctx, data.UUID.ValueString())
 	if err != nil {
 		if IsNotFoundError(err) {
 			resp.State.RemoveResource(ctx)
@@ -669,11 +735,13 @@ func (r *MarketplaceOrderResource) Update(ctx context.Context, req resource.Upda
 		return
 	}
 
-	requestBody := MarketplaceOrderUpdateRequest{
-		StartDate: data.StartDate.ValueStringPointer(),
+	requestBody := MarketplaceOrderUpdateRequest{}
+	if !data.StartDate.IsNull() && !data.StartDate.IsUnknown() {
+
+		requestBody.StartDate = data.StartDate.ValueStringPointer()
 	}
 
-	apiResp, err := r.client.UpdateMarketplaceOrder(ctx, data.UUID.ValueString(), &requestBody)
+	apiResp, err := r.client.Update(ctx, data.UUID.ValueString(), &requestBody)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Unable to Update Marketplace Order",
@@ -681,7 +749,6 @@ func (r *MarketplaceOrderResource) Update(ctx context.Context, req resource.Upda
 		)
 		return
 	}
-
 	updateTimeout, diags := data.Timeouts.Update(ctx, common.DefaultUpdateTimeout)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
@@ -689,7 +756,7 @@ func (r *MarketplaceOrderResource) Update(ctx context.Context, req resource.Upda
 	}
 
 	newResp, err := common.WaitForResource(ctx, func(ctx context.Context) (*MarketplaceOrderResponse, error) {
-		return r.client.GetMarketplaceOrder(ctx, data.UUID.ValueString())
+		return r.client.Get(ctx, data.UUID.ValueString())
 	}, updateTimeout)
 	if err != nil {
 		resp.Diagnostics.AddError("Failed to wait for resource update", err.Error())
@@ -709,7 +776,7 @@ func (r *MarketplaceOrderResource) Delete(ctx context.Context, req resource.Dele
 		return
 	}
 
-	err := r.client.DeleteMarketplaceOrder(ctx, data.UUID.ValueString())
+	err := r.client.Delete(ctx, data.UUID.ValueString())
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Unable to Delete Marketplace Order",
@@ -717,7 +784,6 @@ func (r *MarketplaceOrderResource) Delete(ctx context.Context, req resource.Dele
 		)
 		return
 	}
-
 	deleteTimeout, diags := data.Timeouts.Delete(ctx, common.DefaultDeleteTimeout)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
@@ -725,7 +791,7 @@ func (r *MarketplaceOrderResource) Delete(ctx context.Context, req resource.Dele
 	}
 
 	err = common.WaitForDeletion(ctx, func(ctx context.Context) (*MarketplaceOrderResponse, error) {
-		return r.client.GetMarketplaceOrder(ctx, data.UUID.ValueString())
+		return r.client.Get(ctx, data.UUID.ValueString())
 	}, deleteTimeout)
 	if err != nil {
 		resp.Diagnostics.AddError("Failed to wait for resource deletion", err.Error())
@@ -748,7 +814,7 @@ func (r *MarketplaceOrderResource) ImportState(ctx context.Context, req resource
 		"uuid": uuid,
 	})
 
-	apiResp, err := r.client.GetMarketplaceOrder(ctx, uuid)
+	apiResp, err := r.client.Get(ctx, uuid)
 	if err != nil {
 		if IsNotFoundError(err) {
 			resp.Diagnostics.AddError(

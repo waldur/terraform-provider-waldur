@@ -23,14 +23,11 @@ Structure Project data source - lookup by name or UUID
 ### Read-Only
 
 - `backend_id` (String) ID of the backend
+- `billing_price_estimate` (Attributes) Billing price estimate (see [below for nested schema](#nestedatt--billing_price_estimate))
 - `created` (String) Created
 - `customer` (String) Customer
-- `customer_abbreviation` (String) Customer abbreviation
 - `customer_display_billing_info_in_projects` (Boolean) Customer display billing info in projects
-- `customer_name` (String) Name of the customer
-- `customer_native_name` (String) Name of the customer native
 - `customer_slug` (String) Customer slug
-- `customer_uuid` (String) UUID of the customer
 - `description` (String) Project description (HTML content will be sanitized)
 - `end_date` (String) Project end date. Setting this field requires DELETE_PROJECT permission.
 - `end_date_requested_by` (String) End date requested by
@@ -74,3 +71,14 @@ Optional:
 - `name_exact` (String) Name (exact)
 - `query` (String) Filter by name, slug, UUID, backend ID or resource effective ID
 - `slug` (String) Slug
+
+
+<a id="nestedatt--billing_price_estimate"></a>
+### Nested Schema for `billing_price_estimate`
+
+Read-Only:
+
+- `current` (Number) Current
+- `tax` (Number) Tax
+- `tax_current` (Number) Tax current
+- `total` (Number) Total

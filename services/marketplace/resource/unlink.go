@@ -21,7 +21,7 @@ type MarketplaceResourceUnlinkModel struct {
 }
 
 type MarketplaceResourceUnlinkAction struct {
-	client *Client
+	client *MarketplaceResourceClient
 }
 
 func NewMarketplaceResourceUnlinkAction() action.Action {
@@ -53,7 +53,7 @@ func (a *MarketplaceResourceUnlinkAction) Configure(ctx context.Context, req act
 		return
 	}
 
-	a.client = &Client{}
+	a.client = &MarketplaceResourceClient{}
 	if err := a.client.Configure(ctx, req.ProviderData); err != nil {
 		resp.Diagnostics.AddError(
 			"Unexpected Action Configure Type",
@@ -72,7 +72,7 @@ func (a *MarketplaceResourceUnlinkAction) Invoke(ctx context.Context, req action
 	}
 
 	uuid := data.Uuid.ValueString()
-	err := a.client.MarketplaceResourceUnlink(ctx, uuid)
+	err := a.client.Unlink(ctx, uuid)
 
 	if err != nil {
 		if !common.IsNotFoundError(err) {
@@ -95,7 +95,7 @@ func (a *MarketplaceResourceUnlinkAction) Invoke(ctx context.Context, req action
 		}
 	}
 	err = common.WaitForDeletion(ctx, func(ctx context.Context) (*MarketplaceResourceResponse, error) {
-		return a.client.GetMarketplaceResource(ctx, uuid)
+		return a.client.Get(ctx, uuid)
 	}, timeout)
 	if err != nil {
 		resp.Diagnostics.AddWarning("Resource deletion check failed", err.Error())

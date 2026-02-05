@@ -24,7 +24,7 @@ func NewMarketplaceResourceDataSource() datasource.DataSource {
 }
 
 type MarketplaceResourceDataSource struct {
-	client *Client
+	client *MarketplaceResourceClient
 }
 
 type MarketplaceResourceDataSourceModel struct {
@@ -56,6 +56,28 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 				Computed:            true,
 				MarkdownDescription: "ID of the backend",
 			},
+			"backend_metadata": schema.SingleNestedAttribute{
+				Attributes: map[string]schema.Attribute{
+					"action": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Current action being performed",
+					},
+					"instance_name": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Name of the backend instance",
+					},
+					"runtime_state": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Runtime state of the backend resource",
+					},
+					"state": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Backend resource state",
+					},
+				},
+				Computed:            true,
+				MarkdownDescription: "Backend metadata",
+			},
 			"can_terminate": schema.BoolAttribute{
 				Computed:            true,
 				MarkdownDescription: "Can terminate",
@@ -77,17 +99,307 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 				Computed:            true,
 				MarkdownDescription: "Created",
 			},
-			"customer_name": schema.StringAttribute{
+			"creation_order": schema.SingleNestedAttribute{
+				Attributes: map[string]schema.Attribute{
+					"activation_price": schema.Float64Attribute{
+						Computed:            true,
+						MarkdownDescription: "Activation price",
+					},
+					"attachment": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Attachment",
+					},
+					"backend_id": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "ID of the backend",
+					},
+					"callback_url": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Callback url",
+					},
+					"can_terminate": schema.BoolAttribute{
+						Computed:            true,
+						MarkdownDescription: "Can terminate",
+					},
+					"category_icon": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Category icon",
+					},
+					"category_title": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Category title",
+					},
+					"category_uuid": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "UUID of the category",
+					},
+					"completed_at": schema.StringAttribute{
+						CustomType:          timetypes.RFC3339Type{},
+						Computed:            true,
+						MarkdownDescription: "Completed at",
+					},
+					"consumer_reviewed_at": schema.StringAttribute{
+						CustomType:          timetypes.RFC3339Type{},
+						Computed:            true,
+						MarkdownDescription: "Consumer reviewed at",
+					},
+					"consumer_reviewed_by": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters",
+					},
+					"consumer_reviewed_by_full_name": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Name of the consumer reviewed by full",
+					},
+					"consumer_reviewed_by_username": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters",
+					},
+					"cost": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Cost",
+						Validators: []validator.String{
+							stringvalidator.RegexMatches(regexp.MustCompile(`^-?\d{0,12}(?:\.\d{0,10})?$`), ""),
+						},
+					},
+					"created": schema.StringAttribute{
+						CustomType:          timetypes.RFC3339Type{},
+						Computed:            true,
+						MarkdownDescription: "Created",
+					},
+					"created_by_civil_number": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Created by civil number",
+					},
+					"created_by_full_name": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Name of the created by full",
+					},
+					"created_by_username": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters",
+					},
+					"customer_slug": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Customer slug",
+					},
+					"error_message": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Error message",
+					},
+					"error_traceback": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Error traceback",
+					},
+					"fixed_price": schema.Float64Attribute{
+						Computed:            true,
+						MarkdownDescription: "Fixed price",
+					},
+					"issue": schema.SingleNestedAttribute{
+						Attributes: map[string]schema.Attribute{
+							"key": schema.StringAttribute{
+								Computed:            true,
+								MarkdownDescription: "Key",
+							},
+							"uuid": schema.StringAttribute{
+								Computed:            true,
+								MarkdownDescription: "UUID of the Marketplace Resource",
+							},
+						},
+						Computed:            true,
+						MarkdownDescription: "Issue",
+					},
+					"marketplace_resource_uuid": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "UUID of the marketplace resource",
+					},
+					"modified": schema.StringAttribute{
+						CustomType:          timetypes.RFC3339Type{},
+						Computed:            true,
+						MarkdownDescription: "Modified",
+					},
+					"new_cost_estimate": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "New cost estimate",
+						Validators: []validator.String{
+							stringvalidator.RegexMatches(regexp.MustCompile(`^-?\d{0,12}(?:\.\d{0,10})?$`), ""),
+						},
+					},
+					"new_plan_name": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Name of the new plan",
+					},
+					"new_plan_uuid": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "UUID of the new plan",
+					},
+					"offering": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Offering",
+					},
+					"offering_billable": schema.BoolAttribute{
+						Computed:            true,
+						MarkdownDescription: "Purchase and usage is invoiced.",
+					},
+					"offering_description": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Offering description",
+					},
+					"offering_image": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Offering image",
+					},
+					"offering_name": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Name of the offering",
+					},
+					"offering_shared": schema.BoolAttribute{
+						Computed:            true,
+						MarkdownDescription: "Accessible to all customers.",
+					},
+					"offering_thumbnail": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Offering thumbnail",
+					},
+					"offering_type": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Offering type",
+					},
+					"offering_uuid": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "UUID of the offering",
+					},
+					"old_cost_estimate": schema.Float64Attribute{
+						Computed:            true,
+						MarkdownDescription: "Old cost estimate",
+					},
+					"old_plan_name": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Name of the old plan",
+					},
+					"old_plan_uuid": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "UUID of the old plan",
+					},
+					"order_subtype": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Order subtype",
+					},
+					"output": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Output",
+					},
+					"plan": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Plan",
+					},
+					"plan_description": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Plan description",
+					},
+					"plan_name": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Name of the plan",
+					},
+					"plan_unit": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Plan unit",
+					},
+					"plan_uuid": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "UUID of the plan",
+					},
+					"project_description": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Project description",
+					},
+					"project_slug": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Project slug",
+					},
+					"provider_name": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Name of the provider",
+					},
+					"provider_reviewed_at": schema.StringAttribute{
+						CustomType:          timetypes.RFC3339Type{},
+						Computed:            true,
+						MarkdownDescription: "Provider reviewed at",
+					},
+					"provider_reviewed_by": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters",
+					},
+					"provider_reviewed_by_full_name": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Name of the provider reviewed by full",
+					},
+					"provider_reviewed_by_username": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters",
+					},
+					"provider_slug": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Provider slug",
+					},
+					"provider_uuid": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "UUID of the provider",
+					},
+					"request_comment": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Request comment",
+					},
+					"resource_name": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Name of the resource",
+					},
+					"resource_type": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Resource type",
+					},
+					"resource_uuid": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "UUID of the resource",
+					},
+					"slug": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Slug",
+						Validators: []validator.String{
+							stringvalidator.RegexMatches(regexp.MustCompile(`^[-a-zA-Z0-9_]+$`), ""),
+						},
+					},
+					"start_date": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Enables delayed processing of resource provisioning order.",
+					},
+					"state": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "State",
+					},
+					"termination_comment": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Termination comment",
+					},
+					"type": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Type",
+					},
+					"url": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Url",
+					},
+					"uuid": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "UUID of the Marketplace Resource",
+					},
+				},
 				Computed:            true,
-				MarkdownDescription: "Name of the customer",
+				MarkdownDescription: "Creation order",
 			},
 			"customer_slug": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Customer slug",
-			},
-			"customer_uuid": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "UUID of the customer",
 			},
 			"description": schema.StringAttribute{
 				Computed:            true,
@@ -136,14 +448,6 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 			"error_traceback": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Error traceback",
-			},
-			"is_limit_based": schema.BoolAttribute{
-				Computed:            true,
-				MarkdownDescription: "Is limit based",
-			},
-			"is_usage_based": schema.BoolAttribute{
-				Computed:            true,
-				MarkdownDescription: "Is usage based",
 			},
 			"last_sync": schema.StringAttribute{
 				CustomType:          timetypes.RFC3339Type{},
@@ -337,6 +641,304 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 				Computed:            true,
 				MarkdownDescription: "UUID of the offering",
 			},
+			"order_in_progress": schema.SingleNestedAttribute{
+				Attributes: map[string]schema.Attribute{
+					"activation_price": schema.Float64Attribute{
+						Computed:            true,
+						MarkdownDescription: "Activation price",
+					},
+					"attachment": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Attachment",
+					},
+					"backend_id": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "ID of the backend",
+					},
+					"callback_url": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Callback url",
+					},
+					"can_terminate": schema.BoolAttribute{
+						Computed:            true,
+						MarkdownDescription: "Can terminate",
+					},
+					"category_icon": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Category icon",
+					},
+					"category_title": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Category title",
+					},
+					"category_uuid": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "UUID of the category",
+					},
+					"completed_at": schema.StringAttribute{
+						CustomType:          timetypes.RFC3339Type{},
+						Computed:            true,
+						MarkdownDescription: "Completed at",
+					},
+					"consumer_reviewed_at": schema.StringAttribute{
+						CustomType:          timetypes.RFC3339Type{},
+						Computed:            true,
+						MarkdownDescription: "Consumer reviewed at",
+					},
+					"consumer_reviewed_by": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters",
+					},
+					"consumer_reviewed_by_full_name": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Name of the consumer reviewed by full",
+					},
+					"consumer_reviewed_by_username": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters",
+					},
+					"cost": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Cost",
+						Validators: []validator.String{
+							stringvalidator.RegexMatches(regexp.MustCompile(`^-?\d{0,12}(?:\.\d{0,10})?$`), ""),
+						},
+					},
+					"created": schema.StringAttribute{
+						CustomType:          timetypes.RFC3339Type{},
+						Computed:            true,
+						MarkdownDescription: "Created",
+					},
+					"created_by_civil_number": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Created by civil number",
+					},
+					"created_by_full_name": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Name of the created by full",
+					},
+					"created_by_username": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters",
+					},
+					"customer_slug": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Customer slug",
+					},
+					"error_message": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Error message",
+					},
+					"error_traceback": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Error traceback",
+					},
+					"fixed_price": schema.Float64Attribute{
+						Computed:            true,
+						MarkdownDescription: "Fixed price",
+					},
+					"issue": schema.SingleNestedAttribute{
+						Attributes: map[string]schema.Attribute{
+							"key": schema.StringAttribute{
+								Computed:            true,
+								MarkdownDescription: "Key",
+							},
+							"uuid": schema.StringAttribute{
+								Computed:            true,
+								MarkdownDescription: "UUID of the Marketplace Resource",
+							},
+						},
+						Computed:            true,
+						MarkdownDescription: "Issue",
+					},
+					"marketplace_resource_uuid": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "UUID of the marketplace resource",
+					},
+					"modified": schema.StringAttribute{
+						CustomType:          timetypes.RFC3339Type{},
+						Computed:            true,
+						MarkdownDescription: "Modified",
+					},
+					"new_cost_estimate": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "New cost estimate",
+						Validators: []validator.String{
+							stringvalidator.RegexMatches(regexp.MustCompile(`^-?\d{0,12}(?:\.\d{0,10})?$`), ""),
+						},
+					},
+					"new_plan_name": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Name of the new plan",
+					},
+					"new_plan_uuid": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "UUID of the new plan",
+					},
+					"offering": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Offering",
+					},
+					"offering_billable": schema.BoolAttribute{
+						Computed:            true,
+						MarkdownDescription: "Purchase and usage is invoiced.",
+					},
+					"offering_description": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Offering description",
+					},
+					"offering_image": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Offering image",
+					},
+					"offering_name": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Name of the offering",
+					},
+					"offering_shared": schema.BoolAttribute{
+						Computed:            true,
+						MarkdownDescription: "Accessible to all customers.",
+					},
+					"offering_thumbnail": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Offering thumbnail",
+					},
+					"offering_type": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Offering type",
+					},
+					"offering_uuid": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "UUID of the offering",
+					},
+					"old_cost_estimate": schema.Float64Attribute{
+						Computed:            true,
+						MarkdownDescription: "Old cost estimate",
+					},
+					"old_plan_name": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Name of the old plan",
+					},
+					"old_plan_uuid": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "UUID of the old plan",
+					},
+					"order_subtype": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Order subtype",
+					},
+					"output": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Output",
+					},
+					"plan": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Plan",
+					},
+					"plan_description": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Plan description",
+					},
+					"plan_name": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Name of the plan",
+					},
+					"plan_unit": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Plan unit",
+					},
+					"plan_uuid": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "UUID of the plan",
+					},
+					"project_description": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Project description",
+					},
+					"project_slug": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Project slug",
+					},
+					"provider_name": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Name of the provider",
+					},
+					"provider_reviewed_at": schema.StringAttribute{
+						CustomType:          timetypes.RFC3339Type{},
+						Computed:            true,
+						MarkdownDescription: "Provider reviewed at",
+					},
+					"provider_reviewed_by": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters",
+					},
+					"provider_reviewed_by_full_name": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Name of the provider reviewed by full",
+					},
+					"provider_reviewed_by_username": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters",
+					},
+					"provider_slug": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Provider slug",
+					},
+					"provider_uuid": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "UUID of the provider",
+					},
+					"request_comment": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Request comment",
+					},
+					"resource_name": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Name of the resource",
+					},
+					"resource_type": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Resource type",
+					},
+					"resource_uuid": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "UUID of the resource",
+					},
+					"slug": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Slug",
+						Validators: []validator.String{
+							stringvalidator.RegexMatches(regexp.MustCompile(`^[-a-zA-Z0-9_]+$`), ""),
+						},
+					},
+					"start_date": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Enables delayed processing of resource provisioning order.",
+					},
+					"state": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "State",
+					},
+					"termination_comment": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Termination comment",
+					},
+					"type": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Type",
+					},
+					"url": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Url",
+					},
+					"uuid": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "UUID of the Marketplace Resource",
+					},
+				},
+				Computed:            true,
+				MarkdownDescription: "Order in progress",
+			},
 			"parent_name": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Name of the parent",
@@ -397,17 +999,9 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 				Computed:            true,
 				MarkdownDescription: "Project end date requested by",
 			},
-			"project_name": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Name of the project",
-			},
 			"project_slug": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Project slug",
-			},
-			"project_uuid": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "UUID of the project",
 			},
 			"provider_name": schema.StringAttribute{
 				Computed:            true,
@@ -453,10 +1047,6 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 				Computed:            true,
 				MarkdownDescription: "Scope",
 			},
-			"service_settings_uuid": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "UUID of the service settings",
-			},
 			"slug": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "URL-friendly identifier. Only editable by staff users.",
@@ -490,7 +1080,7 @@ func (d *MarketplaceResourceDataSource) Configure(ctx context.Context, req datas
 		return
 	}
 
-	d.client = &Client{}
+	d.client = &MarketplaceResourceClient{}
 	if err := d.client.Configure(ctx, req.ProviderData); err != nil {
 		resp.Diagnostics.AddError(
 			"Unexpected Data Source Configure Type",
@@ -512,7 +1102,7 @@ func (d *MarketplaceResourceDataSource) Read(ctx context.Context, req datasource
 
 	// Check if UUID is provided for direct lookup
 	if !data.UUID.IsNull() && data.UUID.ValueString() != "" {
-		apiResp, err := d.client.GetMarketplaceResource(ctx, data.UUID.ValueString())
+		apiResp, err := d.client.Get(ctx, data.UUID.ValueString())
 		if err != nil {
 			resp.Diagnostics.AddError(
 				"Unable to Read Marketplace Resource",
@@ -534,7 +1124,7 @@ func (d *MarketplaceResourceDataSource) Read(ctx context.Context, req datasource
 			return
 		}
 
-		results, err := d.client.ListMarketplaceResource(ctx, filters)
+		results, err := d.client.List(ctx, filters)
 		if err != nil {
 			resp.Diagnostics.AddError(
 				"Unable to List Marketplace Resource",

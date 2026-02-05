@@ -18,7 +18,7 @@ func NewCoreSshPublicKeyDataSource() datasource.DataSource {
 }
 
 type CoreSshPublicKeyDataSource struct {
-	client *Client
+	client *CoreSshPublicKeyClient
 }
 
 type CoreSshPublicKeyDataSourceModel struct {
@@ -87,7 +87,7 @@ func (d *CoreSshPublicKeyDataSource) Configure(ctx context.Context, req datasour
 		return
 	}
 
-	d.client = &Client{}
+	d.client = &CoreSshPublicKeyClient{}
 	if err := d.client.Configure(ctx, req.ProviderData); err != nil {
 		resp.Diagnostics.AddError(
 			"Unexpected Data Source Configure Type",
@@ -109,7 +109,7 @@ func (d *CoreSshPublicKeyDataSource) Read(ctx context.Context, req datasource.Re
 
 	// Check if UUID is provided for direct lookup
 	if !data.UUID.IsNull() && data.UUID.ValueString() != "" {
-		apiResp, err := d.client.GetCoreSshPublicKey(ctx, data.UUID.ValueString())
+		apiResp, err := d.client.Get(ctx, data.UUID.ValueString())
 		if err != nil {
 			resp.Diagnostics.AddError(
 				"Unable to Read Core Ssh Public Key",
@@ -131,7 +131,7 @@ func (d *CoreSshPublicKeyDataSource) Read(ctx context.Context, req datasource.Re
 			return
 		}
 
-		results, err := d.client.ListCoreSshPublicKey(ctx, filters)
+		results, err := d.client.List(ctx, filters)
 		if err != nil {
 			resp.Diagnostics.AddError(
 				"Unable to List Core Ssh Public Key",

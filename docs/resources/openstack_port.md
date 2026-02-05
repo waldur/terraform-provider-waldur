@@ -33,19 +33,21 @@ Openstack Port resource
 
 ### Read-Only
 
-- `access_url` (String) Access url
 - `admin_state_up` (Boolean) Administrative state of the port. If down, port does not forward packets
 - `backend_id` (String) Port ID in OpenStack
 - `created` (String) Created
+- `customer` (String) Customer
 - `device_id` (String) ID of device (instance, router etc) to which this port is connected
 - `device_owner` (String) Entity that uses this port (e.g. network:router_interface)
 - `error_message` (String) Error message
 - `error_traceback` (String) Error traceback
 - `floating_ips` (Set of String) Floating ips
 - `id` (String) Openstack Port UUID (used as Terraform ID)
+- `marketplace_resource_uuid` (String) UUID of the marketplace resource
 - `modified` (String) Modified
 - `network_name` (String) Name of the network
 - `network_uuid` (String) UUID of the network
+- `project` (String) Project
 - `resource_type` (String) Resource type
 - `state` (String) State
 - `status` (String) Port status in OpenStack (e.g. ACTIVE, DOWN)

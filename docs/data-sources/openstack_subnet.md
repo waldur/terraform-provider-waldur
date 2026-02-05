@@ -22,16 +22,11 @@ Openstack Subnet data source - lookup by name or UUID
 
 ### Read-Only
 
-- `access_url` (String) Access url
 - `allocation_pools` (Attributes List) Allocation pools (see [below for nested schema](#nestedatt--allocation_pools))
 - `backend_id` (String) ID of the backend
 - `cidr` (String) Cidr
 - `created` (String) Created
 - `customer` (String) Customer
-- `customer_abbreviation` (String) Customer abbreviation
-- `customer_name` (String) Name of the customer
-- `customer_native_name` (String) Name of the customer native
-- `customer_uuid` (String) UUID of the customer
 - `description` (String) Description of the Openstack Subnet
 - `disable_gateway` (Boolean) If True, no gateway IP address will be allocated
 - `dns_nameservers` (List of String) Dns nameservers
@@ -42,28 +37,13 @@ Openstack Subnet data source - lookup by name or UUID
 - `host_routes` (Attributes List) Host routes (see [below for nested schema](#nestedatt--host_routes))
 - `ip_version` (Number) IP protocol version (4 or 6)
 - `is_connected` (Boolean) Is subnet connected to the default tenant router.
-- `is_limit_based` (Boolean) Is limit based
-- `is_usage_based` (Boolean) Is usage based
-- `marketplace_category_name` (String) Name of the marketplace category
-- `marketplace_category_uuid` (String) UUID of the marketplace category
-- `marketplace_offering_name` (String) Name of the marketplace offering
-- `marketplace_offering_uuid` (String) UUID of the marketplace offering
-- `marketplace_plan_uuid` (String) UUID of the marketplace plan
-- `marketplace_resource_state` (String) Marketplace resource state
 - `marketplace_resource_uuid` (String) UUID of the marketplace resource
 - `modified` (String) Modified
 - `name` (String) Name of the Openstack Subnet
 - `network` (String) Required path parameter for resource creation
 - `network_name` (String) Name of the network
 - `project` (String) Project
-- `project_name` (String) Name of the project
-- `project_uuid` (String) UUID of the project
 - `resource_type` (String) Resource type
-- `service_name` (String) Name of the service
-- `service_settings` (String) Service settings
-- `service_settings_error_message` (String) Service settings error message
-- `service_settings_state` (String) Service settings state
-- `service_settings_uuid` (String) UUID of the service settings
 - `state` (String) State
 - `tenant` (String) Tenant
 - `tenant_name` (String) Name of the tenant

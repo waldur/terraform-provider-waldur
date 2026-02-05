@@ -14,13 +14,12 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/float64planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64planmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
-
-	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
 // Ensure provider defined types fully satisfy framework interfaces.
@@ -33,7 +32,7 @@ func NewStructureProjectResource() resource.Resource {
 
 // StructureProjectResource defines the resource implementation.
 type StructureProjectResource struct {
-	client *Client
+	client *StructureProjectClient
 }
 
 // StructureProjectResourceModel describes the resource data model.
@@ -59,8 +58,49 @@ func (r *StructureProjectResource) Schema(ctx context.Context, req resource.Sche
 				},
 			},
 			"backend_id": schema.StringAttribute{
-				Optional:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 				MarkdownDescription: "ID of the backend",
+			},
+			"billing_price_estimate": schema.SingleNestedAttribute{
+				Attributes: map[string]schema.Attribute{
+					"current": schema.Float64Attribute{
+						Computed: true,
+						PlanModifiers: []planmodifier.Float64{
+							float64planmodifier.UseStateForUnknown(),
+						},
+						MarkdownDescription: "Current",
+					},
+					"tax": schema.Float64Attribute{
+						Computed: true,
+						PlanModifiers: []planmodifier.Float64{
+							float64planmodifier.UseStateForUnknown(),
+						},
+						MarkdownDescription: "Tax",
+					},
+					"tax_current": schema.Float64Attribute{
+						Computed: true,
+						PlanModifiers: []planmodifier.Float64{
+							float64planmodifier.UseStateForUnknown(),
+						},
+						MarkdownDescription: "Tax current",
+					},
+					"total": schema.Float64Attribute{
+						Computed: true,
+						PlanModifiers: []planmodifier.Float64{
+							float64planmodifier.UseStateForUnknown(),
+						},
+						MarkdownDescription: "Total",
+					},
+				},
+				Computed: true,
+				PlanModifiers: []planmodifier.Object{
+					objectplanmodifier.UseStateForUnknown(),
+				},
+				MarkdownDescription: "Billing price estimate",
 			},
 			"created": schema.StringAttribute{
 				CustomType: timetypes.RFC3339Type{},
@@ -89,11 +129,19 @@ func (r *StructureProjectResource) Schema(ctx context.Context, req resource.Sche
 				MarkdownDescription: "Customer slug",
 			},
 			"description": schema.StringAttribute{
-				Optional:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 				MarkdownDescription: "Project description (HTML content will be sanitized)",
 			},
 			"end_date": schema.StringAttribute{
-				Optional:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 				MarkdownDescription: "Project end date. Setting this field requires DELETE_PROJECT permission.",
 			},
 			"end_date_requested_by": schema.StringAttribute{
@@ -104,7 +152,11 @@ func (r *StructureProjectResource) Schema(ctx context.Context, req resource.Sche
 				MarkdownDescription: "End date requested by",
 			},
 			"grace_period_days": schema.Int64Attribute{
-				Optional:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.Int64{
+					int64planmodifier.UseStateForUnknown(),
+				},
 				MarkdownDescription: "Number of extra days after project end date before resources are terminated. Overrides customer-level setting.",
 				Validators: []validator.Int64{
 					int64validator.AtLeast(0),
@@ -112,11 +164,19 @@ func (r *StructureProjectResource) Schema(ctx context.Context, req resource.Sche
 				},
 			},
 			"image": schema.StringAttribute{
-				Optional:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 				MarkdownDescription: "Image",
 			},
 			"is_industry": schema.BoolAttribute{
-				Optional:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.Bool{
+					boolplanmodifier.UseStateForUnknown(),
+				},
 				MarkdownDescription: "Is industry",
 			},
 			"is_removed": schema.BoolAttribute{
@@ -127,7 +187,11 @@ func (r *StructureProjectResource) Schema(ctx context.Context, req resource.Sche
 				MarkdownDescription: "Is removed",
 			},
 			"kind": schema.StringAttribute{
-				Optional:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 				MarkdownDescription: "Kind",
 			},
 			"max_service_accounts": schema.Int64Attribute{
@@ -146,7 +210,11 @@ func (r *StructureProjectResource) Schema(ctx context.Context, req resource.Sche
 				MarkdownDescription: "Name of the Structure Project",
 			},
 			"oecd_fos_2007_code": schema.StringAttribute{
-				Optional:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 				MarkdownDescription: "Oecd fos 2007 code",
 			},
 			"oecd_fos_2007_label": schema.StringAttribute{
@@ -171,22 +239,38 @@ func (r *StructureProjectResource) Schema(ctx context.Context, req resource.Sche
 				MarkdownDescription: "Number of active resources in this project",
 			},
 			"slug": schema.StringAttribute{
-				Optional:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 				MarkdownDescription: "URL-friendly identifier. Only editable by staff users.",
 				Validators: []validator.String{
 					stringvalidator.RegexMatches(regexp.MustCompile(`^[-a-zA-Z0-9_]+$`), ""),
 				},
 			},
 			"staff_notes": schema.StringAttribute{
-				Optional:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 				MarkdownDescription: "Internal notes visible only to staff and support users (HTML content will be sanitized)",
 			},
 			"start_date": schema.StringAttribute{
-				Optional:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 				MarkdownDescription: "Project start date. Cannot be edited after the start date has arrived.",
 			},
 			"type": schema.StringAttribute{
-				Optional:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 				MarkdownDescription: "Type",
 			},
 			"type_name": schema.StringAttribute{
@@ -228,7 +312,7 @@ func (r *StructureProjectResource) Configure(ctx context.Context, req resource.C
 		return
 	}
 
-	r.client = &Client{}
+	r.client = &StructureProjectClient{}
 	if err := r.client.Configure(ctx, req.ProviderData); err != nil {
 		resp.Diagnostics.AddError(
 			"Unexpected Resource Configure Type",
@@ -245,24 +329,61 @@ func (r *StructureProjectResource) Create(ctx context.Context, req resource.Crea
 		return
 	}
 
-	requestBody := StructureProjectCreateRequest{
-		BackendId:       data.BackendId.ValueStringPointer(),
-		Customer:        data.Customer.ValueStringPointer(),
-		Description:     data.Description.ValueStringPointer(),
-		EndDate:         data.EndDate.ValueStringPointer(),
-		GracePeriodDays: data.GracePeriodDays.ValueInt64Pointer(),
-		Image:           data.Image.ValueStringPointer(),
-		IsIndustry:      data.IsIndustry.ValueBoolPointer(),
-		Kind:            data.Kind.ValueStringPointer(),
-		Name:            data.Name.ValueStringPointer(),
-		OecdFos2007Code: data.OecdFos2007Code.ValueStringPointer(),
-		Slug:            data.Slug.ValueStringPointer(),
-		StaffNotes:      data.StaffNotes.ValueStringPointer(),
-		StartDate:       data.StartDate.ValueStringPointer(),
-		Type:            data.Type.ValueStringPointer(),
+	requestBody := StructureProjectCreateRequest{}
+	if !data.BackendId.IsNull() && !data.BackendId.IsUnknown() {
+
+		requestBody.BackendId = data.BackendId.ValueStringPointer()
 	}
 
-	apiResp, err := r.client.CreateStructureProject(ctx, &requestBody)
+	requestBody.Customer = data.Customer.ValueStringPointer()
+	if !data.Description.IsNull() && !data.Description.IsUnknown() {
+
+		requestBody.Description = data.Description.ValueStringPointer()
+	}
+	if !data.EndDate.IsNull() && !data.EndDate.IsUnknown() {
+
+		requestBody.EndDate = data.EndDate.ValueStringPointer()
+	}
+	if !data.GracePeriodDays.IsNull() && !data.GracePeriodDays.IsUnknown() {
+
+		requestBody.GracePeriodDays = data.GracePeriodDays.ValueInt64Pointer()
+	}
+	if !data.Image.IsNull() && !data.Image.IsUnknown() {
+
+		requestBody.Image = data.Image.ValueStringPointer()
+	}
+	if !data.IsIndustry.IsNull() && !data.IsIndustry.IsUnknown() {
+
+		requestBody.IsIndustry = data.IsIndustry.ValueBoolPointer()
+	}
+	if !data.Kind.IsNull() && !data.Kind.IsUnknown() {
+
+		requestBody.Kind = data.Kind.ValueStringPointer()
+	}
+
+	requestBody.Name = data.Name.ValueStringPointer()
+	if !data.OecdFos2007Code.IsNull() && !data.OecdFos2007Code.IsUnknown() {
+
+		requestBody.OecdFos2007Code = data.OecdFos2007Code.ValueStringPointer()
+	}
+	if !data.Slug.IsNull() && !data.Slug.IsUnknown() {
+
+		requestBody.Slug = data.Slug.ValueStringPointer()
+	}
+	if !data.StaffNotes.IsNull() && !data.StaffNotes.IsUnknown() {
+
+		requestBody.StaffNotes = data.StaffNotes.ValueStringPointer()
+	}
+	if !data.StartDate.IsNull() && !data.StartDate.IsUnknown() {
+
+		requestBody.StartDate = data.StartDate.ValueStringPointer()
+	}
+	if !data.Type.IsNull() && !data.Type.IsUnknown() {
+
+		requestBody.Type = data.Type.ValueStringPointer()
+	}
+
+	apiResp, err := r.client.Create(ctx, &requestBody)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Unable to Create Structure Project",
@@ -271,21 +392,6 @@ func (r *StructureProjectResource) Create(ctx context.Context, req resource.Crea
 		return
 	}
 	data.UUID = types.StringPointerValue(apiResp.UUID)
-
-	createTimeout, diags := data.Timeouts.Create(ctx, common.DefaultCreateTimeout)
-	resp.Diagnostics.Append(diags...)
-	if resp.Diagnostics.HasError() {
-		return
-	}
-
-	newResp, err := common.WaitForResource(ctx, func(ctx context.Context) (*StructureProjectResponse, error) {
-		return r.client.GetStructureProject(ctx, data.UUID.ValueString())
-	}, createTimeout)
-	if err != nil {
-		resp.Diagnostics.AddError("Failed to wait for resource creation", err.Error())
-		return
-	}
-	apiResp = newResp
 
 	resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
 
@@ -304,7 +410,7 @@ func (r *StructureProjectResource) Read(ctx context.Context, req resource.ReadRe
 
 	// Call Waldur API to read resource
 
-	apiResp, err := r.client.GetStructureProject(ctx, data.UUID.ValueString())
+	apiResp, err := r.client.Get(ctx, data.UUID.ValueString())
 	if err != nil {
 		if IsNotFoundError(err) {
 			resp.State.RemoveResource(ctx)
@@ -333,24 +439,65 @@ func (r *StructureProjectResource) Update(ctx context.Context, req resource.Upda
 		return
 	}
 
-	requestBody := StructureProjectUpdateRequest{
-		BackendId:       data.BackendId.ValueStringPointer(),
-		Customer:        data.Customer.ValueStringPointer(),
-		Description:     data.Description.ValueStringPointer(),
-		EndDate:         data.EndDate.ValueStringPointer(),
-		GracePeriodDays: data.GracePeriodDays.ValueInt64Pointer(),
-		Image:           data.Image.ValueStringPointer(),
-		IsIndustry:      data.IsIndustry.ValueBoolPointer(),
-		Kind:            data.Kind.ValueStringPointer(),
-		Name:            data.Name.ValueStringPointer(),
-		OecdFos2007Code: data.OecdFos2007Code.ValueStringPointer(),
-		Slug:            data.Slug.ValueStringPointer(),
-		StaffNotes:      data.StaffNotes.ValueStringPointer(),
-		StartDate:       data.StartDate.ValueStringPointer(),
-		Type:            data.Type.ValueStringPointer(),
+	requestBody := StructureProjectUpdateRequest{}
+	if !data.BackendId.IsNull() && !data.BackendId.IsUnknown() {
+
+		requestBody.BackendId = data.BackendId.ValueStringPointer()
+	}
+	if !data.Customer.IsNull() && !data.Customer.IsUnknown() {
+
+		requestBody.Customer = data.Customer.ValueStringPointer()
+	}
+	if !data.Description.IsNull() && !data.Description.IsUnknown() {
+
+		requestBody.Description = data.Description.ValueStringPointer()
+	}
+	if !data.EndDate.IsNull() && !data.EndDate.IsUnknown() {
+
+		requestBody.EndDate = data.EndDate.ValueStringPointer()
+	}
+	if !data.GracePeriodDays.IsNull() && !data.GracePeriodDays.IsUnknown() {
+
+		requestBody.GracePeriodDays = data.GracePeriodDays.ValueInt64Pointer()
+	}
+	if !data.Image.IsNull() && !data.Image.IsUnknown() {
+
+		requestBody.Image = data.Image.ValueStringPointer()
+	}
+	if !data.IsIndustry.IsNull() && !data.IsIndustry.IsUnknown() {
+
+		requestBody.IsIndustry = data.IsIndustry.ValueBoolPointer()
+	}
+	if !data.Kind.IsNull() && !data.Kind.IsUnknown() {
+
+		requestBody.Kind = data.Kind.ValueStringPointer()
+	}
+	if !data.Name.IsNull() && !data.Name.IsUnknown() {
+
+		requestBody.Name = data.Name.ValueStringPointer()
+	}
+	if !data.OecdFos2007Code.IsNull() && !data.OecdFos2007Code.IsUnknown() {
+
+		requestBody.OecdFos2007Code = data.OecdFos2007Code.ValueStringPointer()
+	}
+	if !data.Slug.IsNull() && !data.Slug.IsUnknown() {
+
+		requestBody.Slug = data.Slug.ValueStringPointer()
+	}
+	if !data.StaffNotes.IsNull() && !data.StaffNotes.IsUnknown() {
+
+		requestBody.StaffNotes = data.StaffNotes.ValueStringPointer()
+	}
+	if !data.StartDate.IsNull() && !data.StartDate.IsUnknown() {
+
+		requestBody.StartDate = data.StartDate.ValueStringPointer()
+	}
+	if !data.Type.IsNull() && !data.Type.IsUnknown() {
+
+		requestBody.Type = data.Type.ValueStringPointer()
 	}
 
-	apiResp, err := r.client.UpdateStructureProject(ctx, data.UUID.ValueString(), &requestBody)
+	apiResp, err := r.client.Update(ctx, data.UUID.ValueString(), &requestBody)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Unable to Update Structure Project",
@@ -358,21 +505,6 @@ func (r *StructureProjectResource) Update(ctx context.Context, req resource.Upda
 		)
 		return
 	}
-
-	updateTimeout, diags := data.Timeouts.Update(ctx, common.DefaultUpdateTimeout)
-	resp.Diagnostics.Append(diags...)
-	if resp.Diagnostics.HasError() {
-		return
-	}
-
-	newResp, err := common.WaitForResource(ctx, func(ctx context.Context) (*StructureProjectResponse, error) {
-		return r.client.GetStructureProject(ctx, data.UUID.ValueString())
-	}, updateTimeout)
-	if err != nil {
-		resp.Diagnostics.AddError("Failed to wait for resource update", err.Error())
-		return
-	}
-	apiResp = newResp
 
 	resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
 
@@ -386,26 +518,12 @@ func (r *StructureProjectResource) Delete(ctx context.Context, req resource.Dele
 		return
 	}
 
-	err := r.client.DeleteStructureProject(ctx, data.UUID.ValueString())
+	err := r.client.Delete(ctx, data.UUID.ValueString())
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Unable to Delete Structure Project",
 			"An error occurred while deleting the Structure Project: "+err.Error(),
 		)
-		return
-	}
-
-	deleteTimeout, diags := data.Timeouts.Delete(ctx, common.DefaultDeleteTimeout)
-	resp.Diagnostics.Append(diags...)
-	if resp.Diagnostics.HasError() {
-		return
-	}
-
-	err = common.WaitForDeletion(ctx, func(ctx context.Context) (*StructureProjectResponse, error) {
-		return r.client.GetStructureProject(ctx, data.UUID.ValueString())
-	}, deleteTimeout)
-	if err != nil {
-		resp.Diagnostics.AddError("Failed to wait for resource deletion", err.Error())
 		return
 	}
 }
@@ -425,7 +543,7 @@ func (r *StructureProjectResource) ImportState(ctx context.Context, req resource
 		"uuid": uuid,
 	})
 
-	apiResp, err := r.client.GetStructureProject(ctx, uuid)
+	apiResp, err := r.client.Get(ctx, uuid)
 	if err != nil {
 		if IsNotFoundError(err) {
 			resp.Diagnostics.AddError(

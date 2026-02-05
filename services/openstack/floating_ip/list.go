@@ -14,7 +14,7 @@ import (
 var _ list.ListResource = &OpenstackFloatingIpList{}
 
 type OpenstackFloatingIpList struct {
-	client *Client
+	client *OpenstackFloatingIpClient
 }
 
 func NewOpenstackFloatingIpList() list.ListResource {
@@ -34,7 +34,7 @@ func (l *OpenstackFloatingIpList) ListResourceConfigSchema(ctx context.Context, 
 }
 
 func (l *OpenstackFloatingIpList) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
-	l.client = &Client{}
+	l.client = &OpenstackFloatingIpClient{}
 	if err := l.client.Configure(ctx, req.ProviderData); err != nil {
 		resp.Diagnostics.AddError(
 			"Unexpected List Configure Type",
@@ -62,7 +62,7 @@ func (l *OpenstackFloatingIpList) List(ctx context.Context, req list.ListRequest
 	filters := common.BuildQueryFilters(config.Filters)
 
 	// Call API
-	listResult, err := l.client.ListOpenstackFloatingIp(ctx, filters)
+	listResult, err := l.client.List(ctx, filters)
 	if err != nil {
 		// Return error diagnostics
 		resp.AddError("Failed to list resources", err.Error())

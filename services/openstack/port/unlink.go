@@ -21,7 +21,7 @@ type OpenstackPortUnlinkModel struct {
 }
 
 type OpenstackPortUnlinkAction struct {
-	client *Client
+	client *OpenstackPortClient
 }
 
 func NewOpenstackPortUnlinkAction() action.Action {
@@ -53,7 +53,7 @@ func (a *OpenstackPortUnlinkAction) Configure(ctx context.Context, req action.Co
 		return
 	}
 
-	a.client = &Client{}
+	a.client = &OpenstackPortClient{}
 	if err := a.client.Configure(ctx, req.ProviderData); err != nil {
 		resp.Diagnostics.AddError(
 			"Unexpected Action Configure Type",
@@ -72,7 +72,7 @@ func (a *OpenstackPortUnlinkAction) Invoke(ctx context.Context, req action.Invok
 	}
 
 	uuid := data.Uuid.ValueString()
-	err := a.client.OpenstackPortUnlink(ctx, uuid)
+	err := a.client.Unlink(ctx, uuid)
 
 	if err != nil {
 		if !common.IsNotFoundError(err) {
@@ -95,7 +95,7 @@ func (a *OpenstackPortUnlinkAction) Invoke(ctx context.Context, req action.Invok
 		}
 	}
 	err = common.WaitForDeletion(ctx, func(ctx context.Context) (*OpenstackPortResponse, error) {
-		return a.client.GetOpenstackPort(ctx, uuid)
+		return a.client.Get(ctx, uuid)
 	}, timeout)
 	if err != nil {
 		resp.Diagnostics.AddWarning("Resource deletion check failed", err.Error())

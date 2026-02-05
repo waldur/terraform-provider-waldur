@@ -22,7 +22,6 @@ Openstack Instance data source - lookup by name or UUID
 
 ### Read-Only
 
-- `access_url` (String) Access url
 - `action` (String) Action
 - `availability_zone` (String) Availability zone where this instance is located
 - `availability_zone_name` (String) Name of the availability zone where instance is located
@@ -31,10 +30,6 @@ Openstack Instance data source - lookup by name or UUID
 - `cores` (Number) Number of cores in a VM
 - `created` (String) Created
 - `customer` (String) Customer
-- `customer_abbreviation` (String) Customer abbreviation
-- `customer_name` (String) Name of the customer
-- `customer_native_name` (String) Name of the customer native
-- `customer_uuid` (String) UUID of the customer
 - `data_volume_size` (Number) Size of the data volume in MiB. Minimum size is 1024 MiB (1 GiB)
 - `data_volume_type` (String) Volume type for the data volume
 - `data_volumes` (Attributes List) Additional data volumes to attach to the instance (see [below for nested schema](#nestedatt--data_volumes))
@@ -53,19 +48,11 @@ Openstack Instance data source - lookup by name or UUID
 - `image` (String) The OS image to use for the instance
 - `image_name` (String) Name of the image
 - `internal_ips` (List of String) Internal ips
-- `is_limit_based` (Boolean) Is limit based
-- `is_usage_based` (Boolean) Is usage based
 - `key_fingerprint` (String) Key fingerprint
 - `key_name` (String) Name of the key
 - `latitude` (Number) Latitude
 - `limits` (Map of Number) Resource limits
 - `longitude` (Number) Longitude
-- `marketplace_category_name` (String) Name of the marketplace category
-- `marketplace_category_uuid` (String) UUID of the marketplace category
-- `marketplace_offering_name` (String) Name of the marketplace offering
-- `marketplace_offering_uuid` (String) UUID of the marketplace offering
-- `marketplace_plan_uuid` (String) UUID of the marketplace plan
-- `marketplace_resource_state` (String) Marketplace resource state
 - `marketplace_resource_uuid` (String) UUID of the marketplace resource
 - `min_disk` (Number) Minimum disk size in MiB
 - `min_ram` (Number) Minimum memory size in MiB
@@ -75,19 +62,13 @@ Openstack Instance data source - lookup by name or UUID
 - `plan` (String) Plan URL
 - `ports` (Attributes List) Network ports to attach to the instance (see [below for nested schema](#nestedatt--ports))
 - `project` (String) Project
-- `project_name` (String) Name of the project
-- `project_uuid` (String) UUID of the project
 - `ram` (Number) Memory size in MiB
+- `rancher_cluster` (Attributes) Rancher cluster (see [below for nested schema](#nestedatt--rancher_cluster))
 - `release_floating_ips` (Boolean) Termination attribute
 - `resource_type` (String) Resource type
 - `runtime_state` (String) Runtime state
 - `security_groups` (Attributes Set) List of security groups to apply to the instance (see [below for nested schema](#nestedatt--security_groups))
-- `server_group` (Attributes) Server group (see [below for nested schema](#nestedatt--server_group))
-- `service_name` (String) Name of the service
-- `service_settings` (String) OpenStack provider settings
-- `service_settings_error_message` (String) Service settings error message
-- `service_settings_state` (String) Service settings state
-- `service_settings_uuid` (String) UUID of the service settings
+- `server_group` (Attributes) Server group for instance scheduling policy (see [below for nested schema](#nestedatt--server_group))
 - `ssh_public_key` (String) Ssh public key
 - `start_time` (String) Start time
 - `state` (String) State
@@ -206,38 +187,18 @@ Read-Only:
 
 Read-Only:
 
-- `access_url` (String) Access url
 - `backend_id` (String) ID of the backend
 - `created` (String) Created
 - `customer` (String) Customer
-- `customer_abbreviation` (String) Customer abbreviation
-- `customer_name` (String) Name of the customer
-- `customer_native_name` (String) Name of the customer native
-- `customer_uuid` (String) UUID of the customer
 - `description` (String) Description of the Openstack Instance
 - `error_message` (String) Error message
 - `error_traceback` (String) Error traceback
-- `is_limit_based` (Boolean) Is limit based
-- `is_usage_based` (Boolean) Is usage based
-- `marketplace_category_name` (String) Name of the marketplace category
-- `marketplace_category_uuid` (String) UUID of the marketplace category
-- `marketplace_offering_name` (String) Name of the marketplace offering
-- `marketplace_offering_uuid` (String) UUID of the marketplace offering
-- `marketplace_plan_uuid` (String) UUID of the marketplace plan
-- `marketplace_resource_state` (String) Marketplace resource state
 - `marketplace_resource_uuid` (String) UUID of the marketplace resource
 - `modified` (String) Modified
 - `name` (String) Name of the Openstack Instance
 - `project` (String) Project
-- `project_name` (String) Name of the project
-- `project_uuid` (String) UUID of the project
 - `resource_type` (String) Resource type
 - `rules` (Attributes List) Rules (see [below for nested schema](#nestedatt--ports--security_groups--rules))
-- `service_name` (String) Name of the service
-- `service_settings` (String) Service settings
-- `service_settings_error_message` (String) Service settings error message
-- `service_settings_state` (String) Service settings state
-- `service_settings_uuid` (String) UUID of the service settings
 - `state` (String) State
 - `tenant` (String) Tenant
 - `tenant_name` (String) Name of the tenant
@@ -263,6 +224,16 @@ Read-Only:
 - `to_port` (Number) Ending port number in the range (1-65535)
 
 
+
+
+<a id="nestedatt--rancher_cluster"></a>
+### Nested Schema for `rancher_cluster`
+
+Read-Only:
+
+- `marketplace_uuid` (String) UUID of the marketplace
+- `name` (String) Name of the Openstack Instance
+- `uuid` (String) UUID of the Openstack Instance
 
 
 <a id="nestedatt--security_groups"></a>

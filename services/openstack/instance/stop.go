@@ -21,7 +21,7 @@ type OpenstackInstanceStopModel struct {
 }
 
 type OpenstackInstanceStopAction struct {
-	client *Client
+	client *OpenstackInstanceClient
 }
 
 func NewOpenstackInstanceStopAction() action.Action {
@@ -53,7 +53,7 @@ func (a *OpenstackInstanceStopAction) Configure(ctx context.Context, req action.
 		return
 	}
 
-	a.client = &Client{}
+	a.client = &OpenstackInstanceClient{}
 	if err := a.client.Configure(ctx, req.ProviderData); err != nil {
 		resp.Diagnostics.AddError(
 			"Unexpected Action Configure Type",
@@ -72,7 +72,7 @@ func (a *OpenstackInstanceStopAction) Invoke(ctx context.Context, req action.Inv
 	}
 
 	uuid := data.Uuid.ValueString()
-	err := a.client.OpenstackInstanceStop(ctx, uuid)
+	err := a.client.Stop(ctx, uuid)
 
 	if err != nil {
 		resp.Diagnostics.AddError(
@@ -93,7 +93,7 @@ func (a *OpenstackInstanceStopAction) Invoke(ctx context.Context, req action.Inv
 		}
 	}
 	_, err = common.WaitForResource(ctx, func(ctx context.Context) (*OpenstackInstanceResponse, error) {
-		return a.client.GetOpenstackInstance(ctx, uuid)
+		return a.client.Get(ctx, uuid)
 	}, timeout)
 	if err != nil {
 		resp.Diagnostics.AddWarning("Resource state check failed", err.Error())

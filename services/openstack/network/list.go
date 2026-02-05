@@ -14,7 +14,7 @@ import (
 var _ list.ListResource = &OpenstackNetworkList{}
 
 type OpenstackNetworkList struct {
-	client *Client
+	client *OpenstackNetworkClient
 }
 
 func NewOpenstackNetworkList() list.ListResource {
@@ -34,7 +34,7 @@ func (l *OpenstackNetworkList) ListResourceConfigSchema(ctx context.Context, req
 }
 
 func (l *OpenstackNetworkList) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
-	l.client = &Client{}
+	l.client = &OpenstackNetworkClient{}
 	if err := l.client.Configure(ctx, req.ProviderData); err != nil {
 		resp.Diagnostics.AddError(
 			"Unexpected List Configure Type",
@@ -62,7 +62,7 @@ func (l *OpenstackNetworkList) List(ctx context.Context, req list.ListRequest, s
 	filters := common.BuildQueryFilters(config.Filters)
 
 	// Call API
-	listResult, err := l.client.ListOpenstackNetwork(ctx, filters)
+	listResult, err := l.client.List(ctx, filters)
 	if err != nil {
 		// Return error diagnostics
 		resp.AddError("Failed to list resources", err.Error())

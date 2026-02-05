@@ -14,7 +14,7 @@ import (
 var _ list.ListResource = &MarketplaceResourceList{}
 
 type MarketplaceResourceList struct {
-	client *Client
+	client *MarketplaceResourceClient
 }
 
 func NewMarketplaceResourceList() list.ListResource {
@@ -34,7 +34,7 @@ func (l *MarketplaceResourceList) ListResourceConfigSchema(ctx context.Context, 
 }
 
 func (l *MarketplaceResourceList) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
-	l.client = &Client{}
+	l.client = &MarketplaceResourceClient{}
 	if err := l.client.Configure(ctx, req.ProviderData); err != nil {
 		resp.Diagnostics.AddError(
 			"Unexpected List Configure Type",
@@ -62,7 +62,7 @@ func (l *MarketplaceResourceList) List(ctx context.Context, req list.ListRequest
 	filters := common.BuildQueryFilters(config.Filters)
 
 	// Call API
-	listResult, err := l.client.ListMarketplaceResource(ctx, filters)
+	listResult, err := l.client.List(ctx, filters)
 	if err != nil {
 		// Return error diagnostics
 		resp.AddError("Failed to list resources", err.Error())

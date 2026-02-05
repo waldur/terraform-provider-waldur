@@ -21,7 +21,7 @@ type OpenstackInstanceUnlinkModel struct {
 }
 
 type OpenstackInstanceUnlinkAction struct {
-	client *Client
+	client *OpenstackInstanceClient
 }
 
 func NewOpenstackInstanceUnlinkAction() action.Action {
@@ -53,7 +53,7 @@ func (a *OpenstackInstanceUnlinkAction) Configure(ctx context.Context, req actio
 		return
 	}
 
-	a.client = &Client{}
+	a.client = &OpenstackInstanceClient{}
 	if err := a.client.Configure(ctx, req.ProviderData); err != nil {
 		resp.Diagnostics.AddError(
 			"Unexpected Action Configure Type",
@@ -72,7 +72,7 @@ func (a *OpenstackInstanceUnlinkAction) Invoke(ctx context.Context, req action.I
 	}
 
 	uuid := data.Uuid.ValueString()
-	err := a.client.OpenstackInstanceUnlink(ctx, uuid)
+	err := a.client.Unlink(ctx, uuid)
 
 	if err != nil {
 		if !common.IsNotFoundError(err) {
@@ -95,7 +95,7 @@ func (a *OpenstackInstanceUnlinkAction) Invoke(ctx context.Context, req action.I
 		}
 	}
 	err = common.WaitForDeletion(ctx, func(ctx context.Context) (*OpenstackInstanceResponse, error) {
-		return a.client.GetOpenstackInstance(ctx, uuid)
+		return a.client.Get(ctx, uuid)
 	}, timeout)
 	if err != nil {
 		resp.Diagnostics.AddWarning("Resource deletion check failed", err.Error())

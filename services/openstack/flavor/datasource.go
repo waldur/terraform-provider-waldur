@@ -20,7 +20,7 @@ func NewOpenstackFlavorDataSource() datasource.DataSource {
 }
 
 type OpenstackFlavorDataSource struct {
-	client *Client
+	client *OpenstackFlavorClient
 }
 
 type OpenstackFlavorDataSourceModel struct {
@@ -97,7 +97,7 @@ func (d *OpenstackFlavorDataSource) Configure(ctx context.Context, req datasourc
 		return
 	}
 
-	d.client = &Client{}
+	d.client = &OpenstackFlavorClient{}
 	if err := d.client.Configure(ctx, req.ProviderData); err != nil {
 		resp.Diagnostics.AddError(
 			"Unexpected Data Source Configure Type",
@@ -119,7 +119,7 @@ func (d *OpenstackFlavorDataSource) Read(ctx context.Context, req datasource.Rea
 
 	// Check if UUID is provided for direct lookup
 	if !data.UUID.IsNull() && data.UUID.ValueString() != "" {
-		apiResp, err := d.client.GetOpenstackFlavor(ctx, data.UUID.ValueString())
+		apiResp, err := d.client.Get(ctx, data.UUID.ValueString())
 		if err != nil {
 			resp.Diagnostics.AddError(
 				"Unable to Read Openstack Flavor",
@@ -141,7 +141,7 @@ func (d *OpenstackFlavorDataSource) Read(ctx context.Context, req datasource.Rea
 			return
 		}
 
-		results, err := d.client.ListOpenstackFlavor(ctx, filters)
+		results, err := d.client.List(ctx, filters)
 		if err != nil {
 			resp.Diagnostics.AddError(
 				"Unable to List Openstack Flavor",

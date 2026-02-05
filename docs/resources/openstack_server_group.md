@@ -27,15 +27,17 @@ Openstack Server Group resource
 
 ### Read-Only
 
-- `access_url` (String) Access url
 - `backend_id` (String) ID of the backend
 - `created` (String) Created
+- `customer` (String) Customer
 - `display_name` (String) Name of the display
 - `error_message` (String) Error message
 - `error_traceback` (String) Error traceback
 - `id` (String) Openstack Server Group UUID (used as Terraform ID)
 - `instances` (Attributes List) Instances (see [below for nested schema](#nestedatt--instances))
+- `marketplace_resource_uuid` (String) UUID of the marketplace resource
 - `modified` (String) Modified
+- `project` (String) Project
 - `resource_type` (String) Resource type
 - `state` (String) State
 - `tenant` (String) Required path parameter for resource creation

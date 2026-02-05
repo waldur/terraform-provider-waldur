@@ -24,31 +24,35 @@ type OpenstackInstanceCreateAttributes struct {
 	Name                             *string                                          `json:"name,omitempty"`
 	Ports                            *[]common.OpenStackCreateInstancePortRequest     `json:"ports,omitempty"`
 	SecurityGroups                   *[]common.OpenStackSecurityGroupHyperlinkRequest `json:"security_groups,omitempty"`
+	ServerGroup                      *OpenstackInstanceCreateServerGroupRequest       `json:"server_group,omitempty"`
 	SshPublicKey                     *string                                          `json:"ssh_public_key,omitempty"`
 	SystemVolumeSize                 *int64                                           `json:"system_volume_size,omitempty"`
 	SystemVolumeType                 *string                                          `json:"system_volume_type,omitempty"`
 	UserData                         *string                                          `json:"user_data,omitempty"`
 }
 
-type OpenstackInstanceUpdateRequest struct {
-	Description *string `json:"description,omitempty"`
-	Name        *string `json:"name,omitempty"`
+type OpenstackInstanceCreateServerGroupRequest struct {
+	Url *string `json:"url" tfsdk:"url"`
 }
 
-type OpenstackInstanceUpdatePortsActionRequest struct {
-	Ports []common.OpenStackCreateInstancePortRequest `json:"ports"`
+type OpenstackInstanceUpdateRequest struct {
+	Description *string `json:"description,omitempty" tfsdk:"description"`
+	Name        *string `json:"name,omitempty" tfsdk:"name"`
 }
+
 type OpenstackInstanceUpdateSecurityGroupsActionRequest struct {
 	SecurityGroups []common.OpenStackSecurityGroupHyperlinkRequest `json:"security_groups"`
 }
 type OpenstackInstanceUpdateFloatingIpsActionRequest struct {
 	FloatingIps []common.OpenStackCreateFloatingIPRequest `json:"floating_ips"`
 }
+type OpenstackInstanceUpdatePortsActionRequest struct {
+	Ports []common.OpenStackCreateInstancePortRequest `json:"ports"`
+}
 
 type OpenstackInstanceResponse struct {
 	UUID *string `json:"uuid"`
 
-	AccessUrl                        *string                                          `json:"access_url" tfsdk:"access_url"`
 	Action                           *string                                          `json:"action" tfsdk:"action"`
 	AvailabilityZone                 *string                                          `json:"availability_zone" tfsdk:"availability_zone"`
 	AvailabilityZoneName             *string                                          `json:"availability_zone_name" tfsdk:"availability_zone_name"`
@@ -57,10 +61,6 @@ type OpenstackInstanceResponse struct {
 	Cores                            *int64                                           `json:"cores" tfsdk:"cores"`
 	Created                          *string                                          `json:"created" tfsdk:"created"`
 	Customer                         *string                                          `json:"customer" tfsdk:"customer"`
-	CustomerAbbreviation             *string                                          `json:"customer_abbreviation" tfsdk:"customer_abbreviation"`
-	CustomerName                     *string                                          `json:"customer_name" tfsdk:"customer_name"`
-	CustomerNativeName               *string                                          `json:"customer_native_name" tfsdk:"customer_native_name"`
-	CustomerUuid                     *string                                          `json:"customer_uuid" tfsdk:"customer_uuid"`
 	Description                      *string                                          `json:"description" tfsdk:"description"`
 	Disk                             *int64                                           `json:"disk" tfsdk:"disk"`
 	ErrorMessage                     *string                                          `json:"error_message" tfsdk:"error_message"`
@@ -73,18 +73,10 @@ type OpenstackInstanceResponse struct {
 	HypervisorHostname               *string                                          `json:"hypervisor_hostname" tfsdk:"hypervisor_hostname"`
 	ImageName                        *string                                          `json:"image_name" tfsdk:"image_name"`
 	InternalIps                      *[]string                                        `json:"internal_ips" tfsdk:"internal_ips"`
-	IsLimitBased                     *bool                                            `json:"is_limit_based" tfsdk:"is_limit_based"`
-	IsUsageBased                     *bool                                            `json:"is_usage_based" tfsdk:"is_usage_based"`
 	KeyFingerprint                   *string                                          `json:"key_fingerprint" tfsdk:"key_fingerprint"`
 	KeyName                          *string                                          `json:"key_name" tfsdk:"key_name"`
 	Latitude                         *common.FlexibleNumber                           `json:"latitude" tfsdk:"latitude"`
 	Longitude                        *common.FlexibleNumber                           `json:"longitude" tfsdk:"longitude"`
-	MarketplaceCategoryName          *string                                          `json:"marketplace_category_name" tfsdk:"marketplace_category_name"`
-	MarketplaceCategoryUuid          *string                                          `json:"marketplace_category_uuid" tfsdk:"marketplace_category_uuid"`
-	MarketplaceOfferingName          *string                                          `json:"marketplace_offering_name" tfsdk:"marketplace_offering_name"`
-	MarketplaceOfferingUuid          *string                                          `json:"marketplace_offering_uuid" tfsdk:"marketplace_offering_uuid"`
-	MarketplacePlanUuid              *string                                          `json:"marketplace_plan_uuid" tfsdk:"marketplace_plan_uuid"`
-	MarketplaceResourceState         *string                                          `json:"marketplace_resource_state" tfsdk:"marketplace_resource_state"`
 	MarketplaceResourceUuid          *string                                          `json:"marketplace_resource_uuid" tfsdk:"marketplace_resource_uuid"`
 	MinDisk                          *int64                                           `json:"min_disk" tfsdk:"min_disk"`
 	MinRam                           *int64                                           `json:"min_ram" tfsdk:"min_ram"`
@@ -92,18 +84,12 @@ type OpenstackInstanceResponse struct {
 	Name                             *string                                          `json:"name" tfsdk:"name"`
 	Ports                            *[]common.OpenStackCreateInstancePortRequest     `json:"ports" tfsdk:"ports"`
 	Project                          *string                                          `json:"project" tfsdk:"project"`
-	ProjectName                      *string                                          `json:"project_name" tfsdk:"project_name"`
-	ProjectUuid                      *string                                          `json:"project_uuid" tfsdk:"project_uuid"`
 	Ram                              *int64                                           `json:"ram" tfsdk:"ram"`
+	RancherCluster                   *OpenstackInstanceRancherClusterResponse         `json:"rancher_cluster" tfsdk:"rancher_cluster"`
 	ResourceType                     *string                                          `json:"resource_type" tfsdk:"resource_type"`
 	RuntimeState                     *string                                          `json:"runtime_state" tfsdk:"runtime_state"`
 	SecurityGroups                   *[]common.OpenStackSecurityGroupHyperlinkRequest `json:"security_groups" tfsdk:"security_groups"`
-	ServerGroup                      *common.OpenStackNestedServerGroup               `json:"server_group" tfsdk:"server_group"`
-	ServiceName                      *string                                          `json:"service_name" tfsdk:"service_name"`
-	ServiceSettings                  *string                                          `json:"service_settings" tfsdk:"service_settings"`
-	ServiceSettingsErrorMessage      *string                                          `json:"service_settings_error_message" tfsdk:"service_settings_error_message"`
-	ServiceSettingsState             *string                                          `json:"service_settings_state" tfsdk:"service_settings_state"`
-	ServiceSettingsUuid              *string                                          `json:"service_settings_uuid" tfsdk:"service_settings_uuid"`
+	ServerGroup                      *OpenstackInstanceServerGroupResponse            `json:"server_group" tfsdk:"server_group"`
 	StartTime                        *string                                          `json:"start_time" tfsdk:"start_time"`
 	State                            *string                                          `json:"state" tfsdk:"state"`
 	Tenant                           *string                                          `json:"tenant" tfsdk:"tenant"`
@@ -158,44 +144,24 @@ type OpenstackInstancePortsAllowedAddressPairsResponse struct {
 }
 
 type OpenstackInstancePortsSecurityGroupsResponse struct {
-	AccessUrl                   *string                                    `json:"access_url" tfsdk:"access_url"`
-	BackendId                   *string                                    `json:"backend_id" tfsdk:"backend_id"`
-	Created                     *string                                    `json:"created" tfsdk:"created"`
-	Customer                    *string                                    `json:"customer" tfsdk:"customer"`
-	CustomerAbbreviation        *string                                    `json:"customer_abbreviation" tfsdk:"customer_abbreviation"`
-	CustomerName                *string                                    `json:"customer_name" tfsdk:"customer_name"`
-	CustomerNativeName          *string                                    `json:"customer_native_name" tfsdk:"customer_native_name"`
-	CustomerUuid                *string                                    `json:"customer_uuid" tfsdk:"customer_uuid"`
-	Description                 *string                                    `json:"description" tfsdk:"description"`
-	ErrorMessage                *string                                    `json:"error_message" tfsdk:"error_message"`
-	ErrorTraceback              *string                                    `json:"error_traceback" tfsdk:"error_traceback"`
-	IsLimitBased                *bool                                      `json:"is_limit_based" tfsdk:"is_limit_based"`
-	IsUsageBased                *bool                                      `json:"is_usage_based" tfsdk:"is_usage_based"`
-	MarketplaceCategoryName     *string                                    `json:"marketplace_category_name" tfsdk:"marketplace_category_name"`
-	MarketplaceCategoryUuid     *string                                    `json:"marketplace_category_uuid" tfsdk:"marketplace_category_uuid"`
-	MarketplaceOfferingName     *string                                    `json:"marketplace_offering_name" tfsdk:"marketplace_offering_name"`
-	MarketplaceOfferingUuid     *string                                    `json:"marketplace_offering_uuid" tfsdk:"marketplace_offering_uuid"`
-	MarketplacePlanUuid         *string                                    `json:"marketplace_plan_uuid" tfsdk:"marketplace_plan_uuid"`
-	MarketplaceResourceState    *string                                    `json:"marketplace_resource_state" tfsdk:"marketplace_resource_state"`
-	MarketplaceResourceUuid     *string                                    `json:"marketplace_resource_uuid" tfsdk:"marketplace_resource_uuid"`
-	Modified                    *string                                    `json:"modified" tfsdk:"modified"`
-	Name                        *string                                    `json:"name" tfsdk:"name"`
-	Project                     *string                                    `json:"project" tfsdk:"project"`
-	ProjectName                 *string                                    `json:"project_name" tfsdk:"project_name"`
-	ProjectUuid                 *string                                    `json:"project_uuid" tfsdk:"project_uuid"`
-	ResourceType                *string                                    `json:"resource_type" tfsdk:"resource_type"`
-	Rules                       *[]common.OpenStackSecurityGroupRuleCreate `json:"rules" tfsdk:"rules"`
-	ServiceName                 *string                                    `json:"service_name" tfsdk:"service_name"`
-	ServiceSettings             *string                                    `json:"service_settings" tfsdk:"service_settings"`
-	ServiceSettingsErrorMessage *string                                    `json:"service_settings_error_message" tfsdk:"service_settings_error_message"`
-	ServiceSettingsState        *string                                    `json:"service_settings_state" tfsdk:"service_settings_state"`
-	ServiceSettingsUuid         *string                                    `json:"service_settings_uuid" tfsdk:"service_settings_uuid"`
-	State                       *string                                    `json:"state" tfsdk:"state"`
-	Tenant                      *string                                    `json:"tenant" tfsdk:"tenant"`
-	TenantName                  *string                                    `json:"tenant_name" tfsdk:"tenant_name"`
-	TenantUuid                  *string                                    `json:"tenant_uuid" tfsdk:"tenant_uuid"`
-	Url                         *string                                    `json:"url" tfsdk:"url"`
-	Uuid                        *string                                    `json:"uuid" tfsdk:"uuid"`
+	BackendId               *string                                    `json:"backend_id" tfsdk:"backend_id"`
+	Created                 *string                                    `json:"created" tfsdk:"created"`
+	Customer                *string                                    `json:"customer" tfsdk:"customer"`
+	Description             *string                                    `json:"description" tfsdk:"description"`
+	ErrorMessage            *string                                    `json:"error_message" tfsdk:"error_message"`
+	ErrorTraceback          *string                                    `json:"error_traceback" tfsdk:"error_traceback"`
+	MarketplaceResourceUuid *string                                    `json:"marketplace_resource_uuid" tfsdk:"marketplace_resource_uuid"`
+	Modified                *string                                    `json:"modified" tfsdk:"modified"`
+	Name                    *string                                    `json:"name" tfsdk:"name"`
+	Project                 *string                                    `json:"project" tfsdk:"project"`
+	ResourceType            *string                                    `json:"resource_type" tfsdk:"resource_type"`
+	Rules                   *[]common.OpenStackSecurityGroupRuleCreate `json:"rules" tfsdk:"rules"`
+	State                   *string                                    `json:"state" tfsdk:"state"`
+	Tenant                  *string                                    `json:"tenant" tfsdk:"tenant"`
+	TenantName              *string                                    `json:"tenant_name" tfsdk:"tenant_name"`
+	TenantUuid              *string                                    `json:"tenant_uuid" tfsdk:"tenant_uuid"`
+	Url                     *string                                    `json:"url" tfsdk:"url"`
+	Uuid                    *string                                    `json:"uuid" tfsdk:"uuid"`
 }
 
 type OpenstackInstancePortsSecurityGroupsRulesResponse struct {
@@ -210,6 +176,12 @@ type OpenstackInstancePortsSecurityGroupsRulesResponse struct {
 	RemoteGroupName *string `json:"remote_group_name" tfsdk:"remote_group_name"`
 	RemoteGroupUuid *string `json:"remote_group_uuid" tfsdk:"remote_group_uuid"`
 	ToPort          *int64  `json:"to_port" tfsdk:"to_port"`
+}
+
+type OpenstackInstanceRancherClusterResponse struct {
+	MarketplaceUuid *string `json:"marketplace_uuid" tfsdk:"marketplace_uuid"`
+	Name            *string `json:"name" tfsdk:"name"`
+	Uuid            *string `json:"uuid" tfsdk:"uuid"`
 }
 
 type OpenstackInstanceSecurityGroupsResponse struct {
@@ -234,10 +206,10 @@ type OpenstackInstanceSecurityGroupsRulesResponse struct {
 }
 
 type OpenstackInstanceServerGroupResponse struct {
+	Url    *string `json:"url" tfsdk:"url"`
 	Name   *string `json:"name" tfsdk:"name"`
 	Policy *string `json:"policy" tfsdk:"policy"`
 	State  *string `json:"state" tfsdk:"state"`
-	Url    *string `json:"url" tfsdk:"url"`
 }
 
 type OpenstackInstanceVolumesResponse struct {

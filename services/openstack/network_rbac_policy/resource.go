@@ -13,8 +13,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
-
-	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
 // Ensure provider defined types fully satisfy framework interfaces.
@@ -27,7 +25,7 @@ func NewOpenstackNetworkRbacPolicyResource() resource.Resource {
 
 // OpenstackNetworkRbacPolicyResource defines the resource implementation.
 type OpenstackNetworkRbacPolicyResource struct {
-	client *Client
+	client *OpenstackNetworkRbacPolicyClient
 }
 
 // OpenstackNetworkRbacPolicyResourceModel describes the resource data model.
@@ -79,7 +77,11 @@ func (r *OpenstackNetworkRbacPolicyResource) Schema(ctx context.Context, req res
 				MarkdownDescription: "Name of the network",
 			},
 			"policy_type": schema.StringAttribute{
-				Optional:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 				MarkdownDescription: "Type of access granted - either shared access or external network access",
 			},
 			"target_tenant": schema.StringAttribute{
@@ -118,7 +120,7 @@ func (r *OpenstackNetworkRbacPolicyResource) Configure(ctx context.Context, req 
 		return
 	}
 
-	r.client = &Client{}
+	r.client = &OpenstackNetworkRbacPolicyClient{}
 	if err := r.client.Configure(ctx, req.ProviderData); err != nil {
 		resp.Diagnostics.AddError(
 			"Unexpected Resource Configure Type",
@@ -135,13 +137,17 @@ func (r *OpenstackNetworkRbacPolicyResource) Create(ctx context.Context, req res
 		return
 	}
 
-	requestBody := OpenstackNetworkRbacPolicyCreateRequest{
-		Network:      data.Network.ValueStringPointer(),
-		PolicyType:   data.PolicyType.ValueStringPointer(),
-		TargetTenant: data.TargetTenant.ValueStringPointer(),
+	requestBody := OpenstackNetworkRbacPolicyCreateRequest{}
+
+	requestBody.Network = data.Network.ValueStringPointer()
+	if !data.PolicyType.IsNull() && !data.PolicyType.IsUnknown() {
+
+		requestBody.PolicyType = data.PolicyType.ValueStringPointer()
 	}
 
-	apiResp, err := r.client.CreateOpenstackNetworkRbacPolicy(ctx, &requestBody)
+	requestBody.TargetTenant = data.TargetTenant.ValueStringPointer()
+
+	apiResp, err := r.client.Create(ctx, &requestBody)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Unable to Create Openstack Network Rbac Policy",
@@ -169,21 +175,6 @@ func (r *OpenstackNetworkRbacPolicyResource) Create(ctx context.Context, req res
 		compositeID += val
 	}
 	data.UUID = types.StringValue(compositeID)
-
-	createTimeout, diags := data.Timeouts.Create(ctx, common.DefaultCreateTimeout)
-	resp.Diagnostics.Append(diags...)
-	if resp.Diagnostics.HasError() {
-		return
-	}
-
-	newResp, err := common.WaitForResource(ctx, func(ctx context.Context) (*OpenstackNetworkRbacPolicyResponse, error) {
-		return r.client.GetOpenstackNetworkRbacPolicy(ctx, data.UUID.ValueString())
-	}, createTimeout)
-	if err != nil {
-		resp.Diagnostics.AddError("Failed to wait for resource creation", err.Error())
-		return
-	}
-	apiResp = newResp
 
 	resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
 
@@ -221,7 +212,7 @@ func (r *OpenstackNetworkRbacPolicyResource) Read(ctx context.Context, req resou
 		expectedCount++
 
 		if len(filters) == expectedCount {
-			listResult, err := r.client.ListOpenstackNetworkRbacPolicy(ctx, filters)
+			listResult, err := r.client.List(ctx, filters)
 			if err != nil {
 				resp.Diagnostics.AddError("Failed to lookup resource by composite keys", err.Error())
 				return
@@ -239,7 +230,7 @@ func (r *OpenstackNetworkRbacPolicyResource) Read(ctx context.Context, req resou
 		}
 	}
 
-	apiResp, err := r.client.GetOpenstackNetworkRbacPolicy(ctx, data.UUID.ValueString())
+	apiResp, err := r.client.Get(ctx, data.UUID.ValueString())
 	if err != nil {
 		if IsNotFoundError(err) {
 			resp.State.RemoveResource(ctx)
@@ -268,13 +259,21 @@ func (r *OpenstackNetworkRbacPolicyResource) Update(ctx context.Context, req res
 		return
 	}
 
-	requestBody := OpenstackNetworkRbacPolicyUpdateRequest{
-		Network:      data.Network.ValueStringPointer(),
-		PolicyType:   data.PolicyType.ValueStringPointer(),
-		TargetTenant: data.TargetTenant.ValueStringPointer(),
+	requestBody := OpenstackNetworkRbacPolicyUpdateRequest{}
+	if !data.Network.IsNull() && !data.Network.IsUnknown() {
+
+		requestBody.Network = data.Network.ValueStringPointer()
+	}
+	if !data.PolicyType.IsNull() && !data.PolicyType.IsUnknown() {
+
+		requestBody.PolicyType = data.PolicyType.ValueStringPointer()
+	}
+	if !data.TargetTenant.IsNull() && !data.TargetTenant.IsUnknown() {
+
+		requestBody.TargetTenant = data.TargetTenant.ValueStringPointer()
 	}
 
-	apiResp, err := r.client.UpdateOpenstackNetworkRbacPolicy(ctx, data.UUID.ValueString(), &requestBody)
+	apiResp, err := r.client.Update(ctx, data.UUID.ValueString(), &requestBody)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Unable to Update Openstack Network Rbac Policy",
@@ -282,21 +281,6 @@ func (r *OpenstackNetworkRbacPolicyResource) Update(ctx context.Context, req res
 		)
 		return
 	}
-
-	updateTimeout, diags := data.Timeouts.Update(ctx, common.DefaultUpdateTimeout)
-	resp.Diagnostics.Append(diags...)
-	if resp.Diagnostics.HasError() {
-		return
-	}
-
-	newResp, err := common.WaitForResource(ctx, func(ctx context.Context) (*OpenstackNetworkRbacPolicyResponse, error) {
-		return r.client.GetOpenstackNetworkRbacPolicy(ctx, data.UUID.ValueString())
-	}, updateTimeout)
-	if err != nil {
-		resp.Diagnostics.AddError("Failed to wait for resource update", err.Error())
-		return
-	}
-	apiResp = newResp
 
 	resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
 
@@ -310,26 +294,12 @@ func (r *OpenstackNetworkRbacPolicyResource) Delete(ctx context.Context, req res
 		return
 	}
 
-	err := r.client.DeleteOpenstackNetworkRbacPolicy(ctx, data.UUID.ValueString())
+	err := r.client.Delete(ctx, data.UUID.ValueString())
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Unable to Delete Openstack Network Rbac Policy",
 			"An error occurred while deleting the Openstack Network Rbac Policy: "+err.Error(),
 		)
-		return
-	}
-
-	deleteTimeout, diags := data.Timeouts.Delete(ctx, common.DefaultDeleteTimeout)
-	resp.Diagnostics.Append(diags...)
-	if resp.Diagnostics.HasError() {
-		return
-	}
-
-	err = common.WaitForDeletion(ctx, func(ctx context.Context) (*OpenstackNetworkRbacPolicyResponse, error) {
-		return r.client.GetOpenstackNetworkRbacPolicy(ctx, data.UUID.ValueString())
-	}, deleteTimeout)
-	if err != nil {
-		resp.Diagnostics.AddError("Failed to wait for resource deletion", err.Error())
 		return
 	}
 }

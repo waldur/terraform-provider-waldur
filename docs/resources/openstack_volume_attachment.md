@@ -26,6 +26,7 @@ Openstack Volume Attachment resource
 - `description` (String) Description of the Openstack Volume Attachment
 - `image` (String) Image that this volume was created from, if any
 - `name` (String) Name of the Openstack Volume Attachment
+- `project` (String) Project
 - `size` (Number) Size in MiB
 - `tenant` (String) Tenant
 - `timeouts` (Block, Optional) (see [below for nested schema](#nestedblock--timeouts))
@@ -33,11 +34,11 @@ Openstack Volume Attachment resource
 
 ### Read-Only
 
-- `access_url` (String) Access url
 - `action` (String) Action
 - `availability_zone_name` (String) Name of the availability zone
 - `backend_id` (String) Volume ID in the OpenStack backend
 - `created` (String) Created
+- `customer` (String) Customer
 - `device` (String) Link parameter
 - `error_message` (String) Error message
 - `error_traceback` (String) Error traceback
@@ -48,6 +49,7 @@ Openstack Volume Attachment resource
 - `instance` (String) Instance that this volume is attached to, if any
 - `instance_marketplace_uuid` (String) UUID of the instance marketplace
 - `instance_name` (String) Name of the instance
+- `marketplace_resource_uuid` (String) UUID of the marketplace resource
 - `modified` (String) Modified
 - `resource_type` (String) Resource type
 - `runtime_state` (String) Runtime state

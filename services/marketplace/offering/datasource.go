@@ -11,6 +11,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
+	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
@@ -23,7 +24,7 @@ func NewMarketplaceOfferingDataSource() datasource.DataSource {
 }
 
 type MarketplaceOfferingDataSource struct {
-	client *Client
+	client *MarketplaceOfferingClient
 }
 
 type MarketplaceOfferingDataSourceModel struct {
@@ -46,10 +47,6 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 				MarkdownDescription: "Marketplace Offering UUID",
 			},
 			"filters": (&MarketplaceOfferingFiltersModel{}).GetSchema(),
-			"access_url": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Publicly accessible offering access URL",
-			},
 			"backend_id": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: " ",
@@ -225,14 +222,6 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 				Computed:            true,
 				MarkdownDescription: " ",
 			},
-			"customer_name": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: " ",
-			},
-			"customer_uuid": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: " ",
-			},
 			"datacite_doi": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: " ",
@@ -323,6 +312,17 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 				MarkdownDescription: " ",
 			},
 			"name": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: " ",
+			},
+			"options": schema.SingleNestedAttribute{
+				Attributes: map[string]schema.Attribute{
+					"order": schema.ListAttribute{
+						ElementType:         types.StringType,
+						Computed:            true,
+						MarkdownDescription: " ",
+					},
+				},
 				Computed:            true,
 				MarkdownDescription: " ",
 			},
@@ -705,19 +705,300 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 				Computed:            true,
 				MarkdownDescription: " ",
 			},
+			"plugin_options": schema.SingleNestedAttribute{
+				Attributes: map[string]schema.Attribute{
+					"auto_approve_in_service_provider_projects": schema.BoolAttribute{
+						Computed:            true,
+						MarkdownDescription: "Skip approval of public offering belonging to the same organization under which the request is done",
+					},
+					"auto_approve_marketplace_script": schema.BoolAttribute{
+						Computed:            true,
+						MarkdownDescription: "If set to False, all orders require manual provider approval, including for service provider owners and staff",
+					},
+					"auto_approve_remote_orders": schema.BoolAttribute{
+						Computed:            true,
+						MarkdownDescription: "If set to True, an order can be processed without approval",
+					},
+					"backend_id_display_label": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Label used by UI for showing value of the backend_id",
+					},
+					"can_restore_resource": schema.BoolAttribute{
+						Computed:            true,
+						MarkdownDescription: "If set to True, resource can be restored.",
+					},
+					"conceal_billing_data": schema.BoolAttribute{
+						Computed:            true,
+						MarkdownDescription: "If set to True, pricing and components tab would be concealed.",
+					},
+					"create_orders_on_resource_option_change": schema.BoolAttribute{
+						Computed:            true,
+						MarkdownDescription: "If set to True, create orders when options of related resources are changed.",
+					},
+					"default_internal_network_mtu": schema.Int64Attribute{
+						Computed:            true,
+						MarkdownDescription: "If set, it will be used as a default MTU for the first network in a tenant",
+						Validators: []validator.Int64{
+							int64validator.AtLeast(68),
+							int64validator.AtMost(9000),
+						},
+					},
+					"default_resource_termination_offset_in_days": schema.Int64Attribute{
+						Computed:            true,
+						MarkdownDescription: "If set, it will be used as a default resource termination offset in days",
+						Validators: []validator.Int64{
+							int64validator.AtLeast(0),
+						},
+					},
+					"deployment_mode": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Rancher deployment mode",
+					},
+					"disable_autoapprove": schema.BoolAttribute{
+						Computed:            true,
+						MarkdownDescription: "If set to True, orders for this offering will always require manual approval, overriding auto_approve_in_service_provider_projects",
+					},
+					"enable_display_of_order_actions_for_service_provider": schema.BoolAttribute{
+						Computed:            true,
+						MarkdownDescription: "Enable display of order actions for service provider",
+					},
+					"enable_issues_for_membership_changes": schema.BoolAttribute{
+						Computed:            true,
+						MarkdownDescription: "Enable issues for membership changes",
+					},
+					"enable_purchase_order_upload": schema.BoolAttribute{
+						Computed:            true,
+						MarkdownDescription: "If set to True, users will be able to upload purchase orders.",
+					},
+					"flavors_regex": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Regular expression to limit flavors list",
+					},
+					"heappe_cluster_id": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "HEAppE cluster id",
+					},
+					"heappe_local_base_path": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "HEAppE local base path",
+					},
+					"heappe_url": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "HEAppE url",
+					},
+					"heappe_username": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "HEAppE username",
+					},
+					"highlight_backend_id_display": schema.BoolAttribute{
+						Computed:            true,
+						MarkdownDescription: "Defines if backend_id should be shown more prominently by the UI",
+					},
+					"homedir_prefix": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "GLAuth homedir prefix",
+					},
+					"initial_primarygroup_number": schema.Int64Attribute{
+						Computed:            true,
+						MarkdownDescription: "GLAuth initial primary group number",
+						Validators: []validator.Int64{
+							int64validator.AtLeast(0),
+						},
+					},
+					"initial_uidnumber": schema.Int64Attribute{
+						Computed:            true,
+						MarkdownDescription: "GLAuth initial uidnumber",
+						Validators: []validator.Int64{
+							int64validator.AtLeast(0),
+						},
+					},
+					"initial_usergroup_number": schema.Int64Attribute{
+						Computed:            true,
+						MarkdownDescription: "GLAuth initial usergroup number",
+						Validators: []validator.Int64{
+							int64validator.AtLeast(0),
+						},
+					},
+					"is_resource_termination_date_required": schema.BoolAttribute{
+						Computed:            true,
+						MarkdownDescription: "If set to True, resource termination date is required",
+					},
+					"latest_date_for_resource_termination": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "If set, it will be used as a latest date for resource termination",
+					},
+					"managed_rancher_load_balancer_data_volume_size_gb": schema.Int64Attribute{
+						Computed:            true,
+						MarkdownDescription: "Data volume size in GB for managed Rancher load balancer",
+					},
+					"managed_rancher_load_balancer_data_volume_type_name": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Data volume type name for managed Rancher load balancer",
+					},
+					"managed_rancher_load_balancer_flavor_name": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Flavor name for managed Rancher load balancer",
+					},
+					"managed_rancher_load_balancer_system_volume_size_gb": schema.Int64Attribute{
+						Computed:            true,
+						MarkdownDescription: "System volume size in GB for managed Rancher load balancer",
+					},
+					"managed_rancher_load_balancer_system_volume_type_name": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "System volume type name for managed Rancher load balancer",
+					},
+					"managed_rancher_server_data_volume_size_gb": schema.Int64Attribute{
+						Computed:            true,
+						MarkdownDescription: "Data volume size in GB for managed Rancher server",
+					},
+					"managed_rancher_server_data_volume_type_name": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Data volume type name for managed Rancher server",
+					},
+					"managed_rancher_server_flavor_name": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Flavor name for managed Rancher server instances",
+					},
+					"managed_rancher_server_system_volume_size_gb": schema.Int64Attribute{
+						Computed:            true,
+						MarkdownDescription: "System volume size in GB for managed Rancher server",
+					},
+					"managed_rancher_server_system_volume_type_name": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "System volume type name for managed Rancher server",
+					},
+					"managed_rancher_tenant_max_cpu": schema.Int64Attribute{
+						Computed:            true,
+						MarkdownDescription: "Max number of vCPUs for tenants",
+					},
+					"managed_rancher_tenant_max_disk": schema.Int64Attribute{
+						Computed:            true,
+						MarkdownDescription: "Max size of disk space for tenants (GB)",
+					},
+					"managed_rancher_tenant_max_ram": schema.Int64Attribute{
+						Computed:            true,
+						MarkdownDescription: "Max number of RAM for tenants (GB)",
+					},
+					"managed_rancher_worker_system_volume_size_gb": schema.Int64Attribute{
+						Computed:            true,
+						MarkdownDescription: "System volume size in GB for managed Rancher worker nodes",
+					},
+					"managed_rancher_worker_system_volume_type_name": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "System volume type name for managed Rancher worker nodes",
+					},
+					"max_instances": schema.Int64Attribute{
+						Computed:            true,
+						MarkdownDescription: "Default limit for number of instances in OpenStack tenant",
+						Validators: []validator.Int64{
+							int64validator.AtLeast(1),
+						},
+					},
+					"max_resource_termination_offset_in_days": schema.Int64Attribute{
+						Computed:            true,
+						MarkdownDescription: "Maximum resource termination offset in days",
+						Validators: []validator.Int64{
+							int64validator.AtLeast(0),
+						},
+					},
+					"max_security_groups": schema.Int64Attribute{
+						Computed:            true,
+						MarkdownDescription: "Default limit for number of security groups in OpenStack tenant",
+						Validators: []validator.Int64{
+							int64validator.AtLeast(1),
+						},
+					},
+					"max_volumes": schema.Int64Attribute{
+						Computed:            true,
+						MarkdownDescription: "Default limit for number of volumes in OpenStack tenant",
+						Validators: []validator.Int64{
+							int64validator.AtLeast(1),
+						},
+					},
+					"maximal_resource_count_per_project": schema.Int64Attribute{
+						Computed:            true,
+						MarkdownDescription: "Maximal number of offering resources allowed per project",
+					},
+					"minimal_team_count_for_provisioning": schema.Int64Attribute{
+						Computed:            true,
+						MarkdownDescription: "Minimal team count required for provisioning of resources",
+						Validators: []validator.Int64{
+							int64validator.AtLeast(1),
+						},
+					},
+					"openstack_offering_uuid_list": schema.ListAttribute{
+						ElementType:         types.StringType,
+						Computed:            true,
+						MarkdownDescription: "List of UUID of OpenStack offerings where tenant can be created",
+					},
+					"project_permanent_directory": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "HEAppE project permanent directory",
+					},
+					"require_purchase_order_upload": schema.BoolAttribute{
+						Computed:            true,
+						MarkdownDescription: "If set to True, users will be required to upload purchase orders.",
+					},
+					"required_team_role_for_provisioning": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Required user role in a project for provisioning of resources",
+					},
+					"resource_expiration_threshold": schema.Int64Attribute{
+						Computed:            true,
+						MarkdownDescription: "Resource expiration threshold in days.",
+					},
+					"scratch_project_directory": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "HEAppE scratch project directory",
+					},
+					"service_provider_can_create_offering_user": schema.BoolAttribute{
+						Computed:            true,
+						MarkdownDescription: "Service provider can create offering user",
+					},
+					"slurm_periodic_policy_enabled": schema.BoolAttribute{
+						Computed:            true,
+						MarkdownDescription: "Enable SLURM periodic usage policy configuration. When enabled, allows configuring QoS-based threshold enforcement, carryover logic, and fairshare decay for site-agent managed SLURM offerings.",
+					},
+					"snapshot_size_limit_gb": schema.Int64Attribute{
+						Computed:            true,
+						MarkdownDescription: "Default limit for snapshot size in GB",
+						Validators: []validator.Int64{
+							int64validator.AtLeast(1),
+						},
+					},
+					"storage_mode": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Storage mode for OpenStack offering",
+					},
+					"supports_downscaling": schema.BoolAttribute{
+						Computed:            true,
+						MarkdownDescription: "If set to True, it will be possible to downscale resources",
+					},
+					"supports_pausing": schema.BoolAttribute{
+						Computed:            true,
+						MarkdownDescription: "If set to True, it will be possible to pause resources",
+					},
+					"unique_resource_per_attribute": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "Attribute name to enforce uniqueness per value. E.g., 'storage_data_type' ensures only one resource per storage type per project.",
+					},
+					"username_anonymized_prefix": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "GLAuth prefix for anonymized usernames",
+					},
+					"username_generation_policy": schema.StringAttribute{
+						Computed:            true,
+						MarkdownDescription: "GLAuth username generation policy",
+					},
+				},
+				Computed:            true,
+				MarkdownDescription: " ",
+			},
 			"privacy_policy_link": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: " ",
 			},
 			"project": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: " ",
-			},
-			"project_name": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: " ",
-			},
-			"project_uuid": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: " ",
 			},
@@ -799,6 +1080,17 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 							Computed:            true,
 							MarkdownDescription: " ",
 						},
+					},
+				},
+				Computed:            true,
+				MarkdownDescription: " ",
+			},
+			"resource_options": schema.SingleNestedAttribute{
+				Attributes: map[string]schema.Attribute{
+					"order": schema.ListAttribute{
+						ElementType:         types.StringType,
+						Computed:            true,
+						MarkdownDescription: " ",
 					},
 				},
 				Computed:            true,
@@ -1010,7 +1302,7 @@ func (d *MarketplaceOfferingDataSource) Configure(ctx context.Context, req datas
 		return
 	}
 
-	d.client = &Client{}
+	d.client = &MarketplaceOfferingClient{}
 	if err := d.client.Configure(ctx, req.ProviderData); err != nil {
 		resp.Diagnostics.AddError(
 			"Unexpected Data Source Configure Type",
@@ -1032,7 +1324,7 @@ func (d *MarketplaceOfferingDataSource) Read(ctx context.Context, req datasource
 
 	// Check if UUID is provided for direct lookup
 	if !data.UUID.IsNull() && data.UUID.ValueString() != "" {
-		apiResp, err := d.client.GetMarketplaceOffering(ctx, data.UUID.ValueString())
+		apiResp, err := d.client.Get(ctx, data.UUID.ValueString())
 		if err != nil {
 			resp.Diagnostics.AddError(
 				"Unable to Read Marketplace Offering",
@@ -1054,7 +1346,7 @@ func (d *MarketplaceOfferingDataSource) Read(ctx context.Context, req datasource
 			return
 		}
 
-		results, err := d.client.ListMarketplaceOffering(ctx, filters)
+		results, err := d.client.List(ctx, filters)
 		if err != nil {
 			resp.Diagnostics.AddError(
 				"Unable to List Marketplace Offering",

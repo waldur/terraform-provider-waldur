@@ -22,7 +22,7 @@ func NewOpenstackVolumeDataSource() datasource.DataSource {
 }
 
 type OpenstackVolumeDataSource struct {
-	client *Client
+	client *OpenstackVolumeClient
 }
 
 type OpenstackVolumeDataSourceModel struct {
@@ -45,10 +45,6 @@ func (d *OpenstackVolumeDataSource) Schema(ctx context.Context, req datasource.S
 				MarkdownDescription: "Openstack Volume UUID",
 			},
 			"filters": (&OpenstackVolumeFiltersModel{}).GetSchema(),
-			"access_url": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Access url",
-			},
 			"action": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Action",
@@ -77,22 +73,6 @@ func (d *OpenstackVolumeDataSource) Schema(ctx context.Context, req datasource.S
 			"customer": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Customer",
-			},
-			"customer_abbreviation": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Customer abbreviation",
-			},
-			"customer_name": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Name of the customer",
-			},
-			"customer_native_name": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Name of the customer native",
-			},
-			"customer_uuid": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "UUID of the customer",
 			},
 			"description": schema.StringAttribute{
 				Computed:            true,
@@ -138,42 +118,10 @@ func (d *OpenstackVolumeDataSource) Schema(ctx context.Context, req datasource.S
 				Computed:            true,
 				MarkdownDescription: "Name of the instance",
 			},
-			"is_limit_based": schema.BoolAttribute{
-				Computed:            true,
-				MarkdownDescription: "Is limit based",
-			},
-			"is_usage_based": schema.BoolAttribute{
-				Computed:            true,
-				MarkdownDescription: "Is usage based",
-			},
 			"limits": schema.MapAttribute{
 				ElementType:         types.Float64Type,
 				Computed:            true,
 				MarkdownDescription: "Resource limits",
-			},
-			"marketplace_category_name": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Name of the marketplace category",
-			},
-			"marketplace_category_uuid": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "UUID of the marketplace category",
-			},
-			"marketplace_offering_name": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Name of the marketplace offering",
-			},
-			"marketplace_offering_uuid": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "UUID of the marketplace offering",
-			},
-			"marketplace_plan_uuid": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "UUID of the marketplace plan",
-			},
-			"marketplace_resource_state": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Marketplace resource state",
 			},
 			"marketplace_resource_uuid": schema.StringAttribute{
 				Computed:            true,
@@ -200,14 +148,6 @@ func (d *OpenstackVolumeDataSource) Schema(ctx context.Context, req datasource.S
 				Computed:            true,
 				MarkdownDescription: "Project",
 			},
-			"project_name": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Name of the project",
-			},
-			"project_uuid": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "UUID of the project",
-			},
 			"resource_type": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Resource type",
@@ -215,26 +155,6 @@ func (d *OpenstackVolumeDataSource) Schema(ctx context.Context, req datasource.S
 			"runtime_state": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Runtime state",
-			},
-			"service_name": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Name of the service",
-			},
-			"service_settings": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Service settings",
-			},
-			"service_settings_error_message": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Service settings error message",
-			},
-			"service_settings_state": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Service settings state",
-			},
-			"service_settings_uuid": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "UUID of the service settings",
 			},
 			"size": schema.Int64Attribute{
 				Computed:            true,
@@ -282,7 +202,7 @@ func (d *OpenstackVolumeDataSource) Configure(ctx context.Context, req datasourc
 		return
 	}
 
-	d.client = &Client{}
+	d.client = &OpenstackVolumeClient{}
 	if err := d.client.Configure(ctx, req.ProviderData); err != nil {
 		resp.Diagnostics.AddError(
 			"Unexpected Data Source Configure Type",
@@ -304,7 +224,7 @@ func (d *OpenstackVolumeDataSource) Read(ctx context.Context, req datasource.Rea
 
 	// Check if UUID is provided for direct lookup
 	if !data.UUID.IsNull() && data.UUID.ValueString() != "" {
-		apiResp, err := d.client.GetOpenstackVolume(ctx, data.UUID.ValueString())
+		apiResp, err := d.client.Get(ctx, data.UUID.ValueString())
 		if err != nil {
 			resp.Diagnostics.AddError(
 				"Unable to Read Openstack Volume",
@@ -326,7 +246,7 @@ func (d *OpenstackVolumeDataSource) Read(ctx context.Context, req datasource.Rea
 			return
 		}
 
-		results, err := d.client.ListOpenstackVolume(ctx, filters)
+		results, err := d.client.List(ctx, filters)
 		if err != nil {
 			resp.Diagnostics.AddError(
 				"Unable to List Openstack Volume",

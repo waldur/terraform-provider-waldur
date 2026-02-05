@@ -20,7 +20,7 @@ func NewOpenstackSubnetDataSource() datasource.DataSource {
 }
 
 type OpenstackSubnetDataSource struct {
-	client *Client
+	client *OpenstackSubnetClient
 }
 
 type OpenstackSubnetDataSourceModel struct {
@@ -43,10 +43,6 @@ func (d *OpenstackSubnetDataSource) Schema(ctx context.Context, req datasource.S
 				MarkdownDescription: "Openstack Subnet UUID",
 			},
 			"filters": (&OpenstackSubnetFiltersModel{}).GetSchema(),
-			"access_url": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Access url",
-			},
 			"allocation_pools": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
@@ -79,22 +75,6 @@ func (d *OpenstackSubnetDataSource) Schema(ctx context.Context, req datasource.S
 			"customer": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Customer",
-			},
-			"customer_abbreviation": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Customer abbreviation",
-			},
-			"customer_name": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Name of the customer",
-			},
-			"customer_native_name": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Name of the customer native",
-			},
-			"customer_uuid": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "UUID of the customer",
 			},
 			"description": schema.StringAttribute{
 				Computed:            true,
@@ -149,38 +129,6 @@ func (d *OpenstackSubnetDataSource) Schema(ctx context.Context, req datasource.S
 				Computed:            true,
 				MarkdownDescription: "Is subnet connected to the default tenant router.",
 			},
-			"is_limit_based": schema.BoolAttribute{
-				Computed:            true,
-				MarkdownDescription: "Is limit based",
-			},
-			"is_usage_based": schema.BoolAttribute{
-				Computed:            true,
-				MarkdownDescription: "Is usage based",
-			},
-			"marketplace_category_name": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Name of the marketplace category",
-			},
-			"marketplace_category_uuid": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "UUID of the marketplace category",
-			},
-			"marketplace_offering_name": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Name of the marketplace offering",
-			},
-			"marketplace_offering_uuid": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "UUID of the marketplace offering",
-			},
-			"marketplace_plan_uuid": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "UUID of the marketplace plan",
-			},
-			"marketplace_resource_state": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Marketplace resource state",
-			},
 			"marketplace_resource_uuid": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "UUID of the marketplace resource",
@@ -206,37 +154,9 @@ func (d *OpenstackSubnetDataSource) Schema(ctx context.Context, req datasource.S
 				Computed:            true,
 				MarkdownDescription: "Project",
 			},
-			"project_name": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Name of the project",
-			},
-			"project_uuid": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "UUID of the project",
-			},
 			"resource_type": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Resource type",
-			},
-			"service_name": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Name of the service",
-			},
-			"service_settings": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Service settings",
-			},
-			"service_settings_error_message": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Service settings error message",
-			},
-			"service_settings_state": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Service settings state",
-			},
-			"service_settings_uuid": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "UUID of the service settings",
 			},
 			"state": schema.StringAttribute{
 				Computed:            true,
@@ -264,7 +184,7 @@ func (d *OpenstackSubnetDataSource) Configure(ctx context.Context, req datasourc
 		return
 	}
 
-	d.client = &Client{}
+	d.client = &OpenstackSubnetClient{}
 	if err := d.client.Configure(ctx, req.ProviderData); err != nil {
 		resp.Diagnostics.AddError(
 			"Unexpected Data Source Configure Type",
@@ -286,7 +206,7 @@ func (d *OpenstackSubnetDataSource) Read(ctx context.Context, req datasource.Rea
 
 	// Check if UUID is provided for direct lookup
 	if !data.UUID.IsNull() && data.UUID.ValueString() != "" {
-		apiResp, err := d.client.GetOpenstackSubnet(ctx, data.UUID.ValueString())
+		apiResp, err := d.client.Get(ctx, data.UUID.ValueString())
 		if err != nil {
 			resp.Diagnostics.AddError(
 				"Unable to Read Openstack Subnet",
@@ -308,7 +228,7 @@ func (d *OpenstackSubnetDataSource) Read(ctx context.Context, req datasource.Rea
 			return
 		}
 
-		results, err := d.client.ListOpenstackSubnet(ctx, filters)
+		results, err := d.client.List(ctx, filters)
 		if err != nil {
 			resp.Diagnostics.AddError(
 				"Unable to List Openstack Subnet",

@@ -22,7 +22,6 @@ Marketplace Offering data source - lookup by name or UUID
 
 ### Read-Only
 
-- `access_url` (String) Publicly accessible offering access URL
 - `backend_id` (String)
 - `billable` (Boolean) Purchase and usage is invoiced.
 - `billing_type_classification` (String) Classify offering components by billing type. Returns 'limit_only', 'usage_only', or 'mixed'.
@@ -35,8 +34,6 @@ Marketplace Offering data source - lookup by name or UUID
 - `country` (String) Country code (ISO 3166-1 alpha-2)
 - `created` (String)
 - `customer` (String)
-- `customer_name` (String)
-- `customer_uuid` (String)
 - `datacite_doi` (String)
 - `description` (String)
 - `endpoints` (Attributes List) (see [below for nested schema](#nestedatt--endpoints))
@@ -52,6 +49,7 @@ Marketplace Offering data source - lookup by name or UUID
 - `latitude` (Number)
 - `longitude` (Number)
 - `name` (String)
+- `options` (Attributes) (see [below for nested schema](#nestedatt--options))
 - `order_count` (Number)
 - `organization_groups` (Attributes List) (see [below for nested schema](#nestedatt--organization_groups))
 - `parent_description` (String)
@@ -60,12 +58,12 @@ Marketplace Offering data source - lookup by name or UUID
 - `partitions` (Attributes List) (see [below for nested schema](#nestedatt--partitions))
 - `paused_reason` (String)
 - `plans` (Attributes List) (see [below for nested schema](#nestedatt--plans))
+- `plugin_options` (Attributes) (see [below for nested schema](#nestedatt--plugin_options))
 - `privacy_policy_link` (String)
 - `project` (String)
-- `project_name` (String)
-- `project_uuid` (String)
 - `promotion_campaigns` (Attributes List) (see [below for nested schema](#nestedatt--promotion_campaigns))
 - `quotas` (Attributes List) (see [below for nested schema](#nestedatt--quotas))
+- `resource_options` (Attributes) (see [below for nested schema](#nestedatt--resource_options))
 - `roles` (Attributes List) (see [below for nested schema](#nestedatt--roles))
 - `scope` (String)
 - `scope_error_message` (String)
@@ -172,6 +170,14 @@ Read-Only:
 - `name` (String)
 
 
+<a id="nestedatt--options"></a>
+### Nested Schema for `options`
+
+Read-Only:
+
+- `order` (List of String)
+
+
 <a id="nestedatt--organization_groups"></a>
 ### Nested Schema for `organization_groups`
 
@@ -268,6 +274,75 @@ Read-Only:
 
 
 
+<a id="nestedatt--plugin_options"></a>
+### Nested Schema for `plugin_options`
+
+Read-Only:
+
+- `auto_approve_in_service_provider_projects` (Boolean) Skip approval of public offering belonging to the same organization under which the request is done
+- `auto_approve_marketplace_script` (Boolean) If set to False, all orders require manual provider approval, including for service provider owners and staff
+- `auto_approve_remote_orders` (Boolean) If set to True, an order can be processed without approval
+- `backend_id_display_label` (String) Label used by UI for showing value of the backend_id
+- `can_restore_resource` (Boolean) If set to True, resource can be restored.
+- `conceal_billing_data` (Boolean) If set to True, pricing and components tab would be concealed.
+- `create_orders_on_resource_option_change` (Boolean) If set to True, create orders when options of related resources are changed.
+- `default_internal_network_mtu` (Number) If set, it will be used as a default MTU for the first network in a tenant
+- `default_resource_termination_offset_in_days` (Number) If set, it will be used as a default resource termination offset in days
+- `deployment_mode` (String) Rancher deployment mode
+- `disable_autoapprove` (Boolean) If set to True, orders for this offering will always require manual approval, overriding auto_approve_in_service_provider_projects
+- `enable_display_of_order_actions_for_service_provider` (Boolean) Enable display of order actions for service provider
+- `enable_issues_for_membership_changes` (Boolean) Enable issues for membership changes
+- `enable_purchase_order_upload` (Boolean) If set to True, users will be able to upload purchase orders.
+- `flavors_regex` (String) Regular expression to limit flavors list
+- `heappe_cluster_id` (String) HEAppE cluster id
+- `heappe_local_base_path` (String) HEAppE local base path
+- `heappe_url` (String) HEAppE url
+- `heappe_username` (String) HEAppE username
+- `highlight_backend_id_display` (Boolean) Defines if backend_id should be shown more prominently by the UI
+- `homedir_prefix` (String) GLAuth homedir prefix
+- `initial_primarygroup_number` (Number) GLAuth initial primary group number
+- `initial_uidnumber` (Number) GLAuth initial uidnumber
+- `initial_usergroup_number` (Number) GLAuth initial usergroup number
+- `is_resource_termination_date_required` (Boolean) If set to True, resource termination date is required
+- `latest_date_for_resource_termination` (String) If set, it will be used as a latest date for resource termination
+- `managed_rancher_load_balancer_data_volume_size_gb` (Number) Data volume size in GB for managed Rancher load balancer
+- `managed_rancher_load_balancer_data_volume_type_name` (String) Data volume type name for managed Rancher load balancer
+- `managed_rancher_load_balancer_flavor_name` (String) Flavor name for managed Rancher load balancer
+- `managed_rancher_load_balancer_system_volume_size_gb` (Number) System volume size in GB for managed Rancher load balancer
+- `managed_rancher_load_balancer_system_volume_type_name` (String) System volume type name for managed Rancher load balancer
+- `managed_rancher_server_data_volume_size_gb` (Number) Data volume size in GB for managed Rancher server
+- `managed_rancher_server_data_volume_type_name` (String) Data volume type name for managed Rancher server
+- `managed_rancher_server_flavor_name` (String) Flavor name for managed Rancher server instances
+- `managed_rancher_server_system_volume_size_gb` (Number) System volume size in GB for managed Rancher server
+- `managed_rancher_server_system_volume_type_name` (String) System volume type name for managed Rancher server
+- `managed_rancher_tenant_max_cpu` (Number) Max number of vCPUs for tenants
+- `managed_rancher_tenant_max_disk` (Number) Max size of disk space for tenants (GB)
+- `managed_rancher_tenant_max_ram` (Number) Max number of RAM for tenants (GB)
+- `managed_rancher_worker_system_volume_size_gb` (Number) System volume size in GB for managed Rancher worker nodes
+- `managed_rancher_worker_system_volume_type_name` (String) System volume type name for managed Rancher worker nodes
+- `max_instances` (Number) Default limit for number of instances in OpenStack tenant
+- `max_resource_termination_offset_in_days` (Number) Maximum resource termination offset in days
+- `max_security_groups` (Number) Default limit for number of security groups in OpenStack tenant
+- `max_volumes` (Number) Default limit for number of volumes in OpenStack tenant
+- `maximal_resource_count_per_project` (Number) Maximal number of offering resources allowed per project
+- `minimal_team_count_for_provisioning` (Number) Minimal team count required for provisioning of resources
+- `openstack_offering_uuid_list` (List of String) List of UUID of OpenStack offerings where tenant can be created
+- `project_permanent_directory` (String) HEAppE project permanent directory
+- `require_purchase_order_upload` (Boolean) If set to True, users will be required to upload purchase orders.
+- `required_team_role_for_provisioning` (String) Required user role in a project for provisioning of resources
+- `resource_expiration_threshold` (Number) Resource expiration threshold in days.
+- `scratch_project_directory` (String) HEAppE scratch project directory
+- `service_provider_can_create_offering_user` (Boolean) Service provider can create offering user
+- `slurm_periodic_policy_enabled` (Boolean) Enable SLURM periodic usage policy configuration. When enabled, allows configuring QoS-based threshold enforcement, carryover logic, and fairshare decay for site-agent managed SLURM offerings.
+- `snapshot_size_limit_gb` (Number) Default limit for snapshot size in GB
+- `storage_mode` (String) Storage mode for OpenStack offering
+- `supports_downscaling` (Boolean) If set to True, it will be possible to downscale resources
+- `supports_pausing` (Boolean) If set to True, it will be possible to pause resources
+- `unique_resource_per_attribute` (String) Attribute name to enforce uniqueness per value. E.g., 'storage_data_type' ensures only one resource per storage type per project.
+- `username_anonymized_prefix` (String) GLAuth prefix for anonymized usernames
+- `username_generation_policy` (String) GLAuth username generation policy
+
+
 <a id="nestedatt--promotion_campaigns"></a>
 ### Nested Schema for `promotion_campaigns`
 
@@ -293,6 +368,14 @@ Read-Only:
 - `limit` (Number)
 - `name` (String)
 - `usage` (Number)
+
+
+<a id="nestedatt--resource_options"></a>
+### Nested Schema for `resource_options`
+
+Read-Only:
+
+- `order` (List of String)
 
 
 <a id="nestedatt--roles"></a>

@@ -23,7 +23,7 @@ func NewStructureCustomerDataSource() datasource.DataSource {
 }
 
 type StructureCustomerDataSource struct {
-	client *Client
+	client *StructureCustomerClient
 }
 
 type StructureCustomerDataSourceModel struct {
@@ -82,6 +82,28 @@ func (d *StructureCustomerDataSource) Schema(ctx context.Context, req datasource
 			"bank_name": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Name of the bank",
+			},
+			"billing_price_estimate": schema.SingleNestedAttribute{
+				Attributes: map[string]schema.Attribute{
+					"current": schema.Float64Attribute{
+						Computed:            true,
+						MarkdownDescription: "Current",
+					},
+					"tax": schema.Float64Attribute{
+						Computed:            true,
+						MarkdownDescription: "Tax",
+					},
+					"tax_current": schema.Float64Attribute{
+						Computed:            true,
+						MarkdownDescription: "Tax current",
+					},
+					"total": schema.Float64Attribute{
+						Computed:            true,
+						MarkdownDescription: "Total",
+					},
+				},
+				Computed:            true,
+				MarkdownDescription: "Billing price estimate",
 			},
 			"blocked": schema.BoolAttribute{
 				Computed:            true,
@@ -353,7 +375,7 @@ func (d *StructureCustomerDataSource) Configure(ctx context.Context, req datasou
 		return
 	}
 
-	d.client = &Client{}
+	d.client = &StructureCustomerClient{}
 	if err := d.client.Configure(ctx, req.ProviderData); err != nil {
 		resp.Diagnostics.AddError(
 			"Unexpected Data Source Configure Type",
@@ -375,7 +397,7 @@ func (d *StructureCustomerDataSource) Read(ctx context.Context, req datasource.R
 
 	// Check if UUID is provided for direct lookup
 	if !data.UUID.IsNull() && data.UUID.ValueString() != "" {
-		apiResp, err := d.client.GetStructureCustomer(ctx, data.UUID.ValueString())
+		apiResp, err := d.client.Get(ctx, data.UUID.ValueString())
 		if err != nil {
 			resp.Diagnostics.AddError(
 				"Unable to Read Structure Customer",
@@ -397,7 +419,7 @@ func (d *StructureCustomerDataSource) Read(ctx context.Context, req datasource.R
 			return
 		}
 
-		results, err := d.client.ListStructureCustomer(ctx, filters)
+		results, err := d.client.List(ctx, filters)
 		if err != nil {
 			resp.Diagnostics.AddError(
 				"Unable to List Structure Customer",

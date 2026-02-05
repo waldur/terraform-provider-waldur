@@ -8,15 +8,15 @@ import (
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
-type Client struct {
+type OpenstackVolumeAttachmentClient struct {
 	Client *client.Client
 }
 
-func NewClient(c *client.Client) *Client {
-	return &Client{Client: c}
+func NewOpenstackVolumeAttachmentClient(c *client.Client) *OpenstackVolumeAttachmentClient {
+	return &OpenstackVolumeAttachmentClient{Client: c}
 }
 
-func (c *Client) Configure(ctx context.Context, providerData interface{}) error {
+func (c *OpenstackVolumeAttachmentClient) Configure(ctx context.Context, providerData interface{}) error {
 	if providerData == nil {
 		return nil
 	}
@@ -34,7 +34,7 @@ func IsNotFoundError(err error) bool {
 	return common.IsNotFoundError(err)
 }
 
-func (c *Client) GetOpenstackVolumeAttachment(ctx context.Context, id string) (*OpenstackVolumeAttachmentResponse, error) {
+func (c *OpenstackVolumeAttachmentClient) Get(ctx context.Context, id string) (*OpenstackVolumeAttachmentResponse, error) {
 	var apiResp OpenstackVolumeAttachmentResponse
 	err := c.Client.Get(ctx, "/api/openstack-volumes/{uuid}/", id, &apiResp)
 	if err != nil {
@@ -43,7 +43,7 @@ func (c *Client) GetOpenstackVolumeAttachment(ctx context.Context, id string) (*
 	return &apiResp, nil
 }
 
-func (c *Client) UpdateOpenstackVolumeAttachment(ctx context.Context, id string, req *OpenstackVolumeAttachmentUpdateRequest) (*OpenstackVolumeAttachmentResponse, error) {
+func (c *OpenstackVolumeAttachmentClient) Update(ctx context.Context, id string, req *OpenstackVolumeAttachmentUpdateRequest) (*OpenstackVolumeAttachmentResponse, error) {
 	var apiResp OpenstackVolumeAttachmentResponse
 	err := c.Client.Update(ctx, "/api/openstack-volumes/{uuid}/", id, req, &apiResp)
 	if err != nil {
@@ -52,7 +52,7 @@ func (c *Client) UpdateOpenstackVolumeAttachment(ctx context.Context, id string,
 	return &apiResp, nil
 }
 
-func (c *Client) ListOpenstackVolumeAttachment(ctx context.Context, filter map[string]string) ([]OpenstackVolumeAttachmentResponse, error) {
+func (c *OpenstackVolumeAttachmentClient) List(ctx context.Context, filter map[string]string) ([]OpenstackVolumeAttachmentResponse, error) {
 	var listResult []OpenstackVolumeAttachmentResponse
 	err := c.Client.List(ctx, "/api/openstack-volumes/", filter, &listResult)
 	if err != nil {
@@ -61,7 +61,7 @@ func (c *Client) ListOpenstackVolumeAttachment(ctx context.Context, filter map[s
 	return listResult, nil
 }
 
-func (c *Client) LinkOpenstackVolumeAttachment(ctx context.Context, req *OpenstackVolumeAttachmentCreateRequest) (*OpenstackVolumeAttachmentResponse, error) {
+func (c *OpenstackVolumeAttachmentClient) Link(ctx context.Context, req *OpenstackVolumeAttachmentCreateRequest) (*OpenstackVolumeAttachmentResponse, error) {
 	sourceUUID := *req.Volume
 
 	var apiResp OpenstackVolumeAttachmentResponse
@@ -71,7 +71,7 @@ func (c *Client) LinkOpenstackVolumeAttachment(ctx context.Context, req *Opensta
 	}
 	return &apiResp, nil
 }
-func (c *Client) UnlinkOpenstackVolumeAttachment(ctx context.Context, sourceUUID string) error {
+func (c *OpenstackVolumeAttachmentClient) Unlink(ctx context.Context, sourceUUID string) error {
 	err := c.Client.ExecuteAction(ctx, "/api/openstack-volumes/{uuid}/detach/", sourceUUID, nil, nil)
 	return err
 }

@@ -8,15 +8,15 @@ import (
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
-type Client struct {
+type MarketplaceOfferingClient struct {
 	Client *client.Client
 }
 
-func NewClient(c *client.Client) *Client {
-	return &Client{Client: c}
+func NewMarketplaceOfferingClient(c *client.Client) *MarketplaceOfferingClient {
+	return &MarketplaceOfferingClient{Client: c}
 }
 
-func (c *Client) Configure(ctx context.Context, providerData interface{}) error {
+func (c *MarketplaceOfferingClient) Configure(ctx context.Context, providerData interface{}) error {
 	if providerData == nil {
 		return nil
 	}
@@ -34,7 +34,7 @@ func IsNotFoundError(err error) bool {
 	return common.IsNotFoundError(err)
 }
 
-func (c *Client) GetMarketplaceOffering(ctx context.Context, id string) (*MarketplaceOfferingResponse, error) {
+func (c *MarketplaceOfferingClient) Get(ctx context.Context, id string) (*MarketplaceOfferingResponse, error) {
 	var apiResp MarketplaceOfferingResponse
 	err := c.Client.Get(ctx, "/api/marketplace-public-offerings/{uuid}/", id, &apiResp)
 	if err != nil {
@@ -43,7 +43,7 @@ func (c *Client) GetMarketplaceOffering(ctx context.Context, id string) (*Market
 	return &apiResp, nil
 }
 
-func (c *Client) ListMarketplaceOffering(ctx context.Context, filter map[string]string) ([]MarketplaceOfferingResponse, error) {
+func (c *MarketplaceOfferingClient) List(ctx context.Context, filter map[string]string) ([]MarketplaceOfferingResponse, error) {
 	var listResult []MarketplaceOfferingResponse
 	err := c.Client.List(ctx, "/api/marketplace-public-offerings/", filter, &listResult)
 	if err != nil {

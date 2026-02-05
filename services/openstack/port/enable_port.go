@@ -21,7 +21,7 @@ type OpenstackPortEnablePortModel struct {
 }
 
 type OpenstackPortEnablePortAction struct {
-	client *Client
+	client *OpenstackPortClient
 }
 
 func NewOpenstackPortEnablePortAction() action.Action {
@@ -53,7 +53,7 @@ func (a *OpenstackPortEnablePortAction) Configure(ctx context.Context, req actio
 		return
 	}
 
-	a.client = &Client{}
+	a.client = &OpenstackPortClient{}
 	if err := a.client.Configure(ctx, req.ProviderData); err != nil {
 		resp.Diagnostics.AddError(
 			"Unexpected Action Configure Type",
@@ -72,7 +72,7 @@ func (a *OpenstackPortEnablePortAction) Invoke(ctx context.Context, req action.I
 	}
 
 	uuid := data.Uuid.ValueString()
-	err := a.client.OpenstackPortEnablePort(ctx, uuid)
+	err := a.client.EnablePort(ctx, uuid)
 
 	if err != nil {
 		resp.Diagnostics.AddError(
@@ -93,7 +93,7 @@ func (a *OpenstackPortEnablePortAction) Invoke(ctx context.Context, req action.I
 		}
 	}
 	_, err = common.WaitForResource(ctx, func(ctx context.Context) (*OpenstackPortResponse, error) {
-		return a.client.GetOpenstackPort(ctx, uuid)
+		return a.client.Get(ctx, uuid)
 	}, timeout)
 	if err != nil {
 		resp.Diagnostics.AddWarning("Resource state check failed", err.Error())

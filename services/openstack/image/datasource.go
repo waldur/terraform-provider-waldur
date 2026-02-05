@@ -21,7 +21,7 @@ func NewOpenstackImageDataSource() datasource.DataSource {
 }
 
 type OpenstackImageDataSource struct {
-	client *Client
+	client *OpenstackImageClient
 }
 
 type OpenstackImageDataSourceModel struct {
@@ -91,7 +91,7 @@ func (d *OpenstackImageDataSource) Configure(ctx context.Context, req datasource
 		return
 	}
 
-	d.client = &Client{}
+	d.client = &OpenstackImageClient{}
 	if err := d.client.Configure(ctx, req.ProviderData); err != nil {
 		resp.Diagnostics.AddError(
 			"Unexpected Data Source Configure Type",
@@ -113,7 +113,7 @@ func (d *OpenstackImageDataSource) Read(ctx context.Context, req datasource.Read
 
 	// Check if UUID is provided for direct lookup
 	if !data.UUID.IsNull() && data.UUID.ValueString() != "" {
-		apiResp, err := d.client.GetOpenstackImage(ctx, data.UUID.ValueString())
+		apiResp, err := d.client.Get(ctx, data.UUID.ValueString())
 		if err != nil {
 			resp.Diagnostics.AddError(
 				"Unable to Read Openstack Image",
@@ -135,7 +135,7 @@ func (d *OpenstackImageDataSource) Read(ctx context.Context, req datasource.Read
 			return
 		}
 
-		results, err := d.client.ListOpenstackImage(ctx, filters)
+		results, err := d.client.List(ctx, filters)
 		if err != nil {
 			resp.Diagnostics.AddError(
 				"Unable to List Openstack Image",

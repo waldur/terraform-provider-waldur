@@ -8,15 +8,15 @@ import (
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
-type Client struct {
+type OpenstackVolumeTypeClient struct {
 	Client *client.Client
 }
 
-func NewClient(c *client.Client) *Client {
-	return &Client{Client: c}
+func NewOpenstackVolumeTypeClient(c *client.Client) *OpenstackVolumeTypeClient {
+	return &OpenstackVolumeTypeClient{Client: c}
 }
 
-func (c *Client) Configure(ctx context.Context, providerData interface{}) error {
+func (c *OpenstackVolumeTypeClient) Configure(ctx context.Context, providerData interface{}) error {
 	if providerData == nil {
 		return nil
 	}
@@ -34,7 +34,7 @@ func IsNotFoundError(err error) bool {
 	return common.IsNotFoundError(err)
 }
 
-func (c *Client) GetOpenstackVolumeType(ctx context.Context, id string) (*OpenstackVolumeTypeResponse, error) {
+func (c *OpenstackVolumeTypeClient) Get(ctx context.Context, id string) (*OpenstackVolumeTypeResponse, error) {
 	var apiResp OpenstackVolumeTypeResponse
 	err := c.Client.Get(ctx, "/api/openstack-volume-types/{uuid}/", id, &apiResp)
 	if err != nil {
@@ -43,7 +43,7 @@ func (c *Client) GetOpenstackVolumeType(ctx context.Context, id string) (*Openst
 	return &apiResp, nil
 }
 
-func (c *Client) ListOpenstackVolumeType(ctx context.Context, filter map[string]string) ([]OpenstackVolumeTypeResponse, error) {
+func (c *OpenstackVolumeTypeClient) List(ctx context.Context, filter map[string]string) ([]OpenstackVolumeTypeResponse, error) {
 	var listResult []OpenstackVolumeTypeResponse
 	err := c.Client.List(ctx, "/api/openstack-volume-types/", filter, &listResult)
 	if err != nil {

@@ -23,7 +23,7 @@ func NewStructureProjectDataSource() datasource.DataSource {
 }
 
 type StructureProjectDataSource struct {
-	client *Client
+	client *StructureProjectClient
 }
 
 type StructureProjectDataSourceModel struct {
@@ -50,6 +50,28 @@ func (d *StructureProjectDataSource) Schema(ctx context.Context, req datasource.
 				Computed:            true,
 				MarkdownDescription: "ID of the backend",
 			},
+			"billing_price_estimate": schema.SingleNestedAttribute{
+				Attributes: map[string]schema.Attribute{
+					"current": schema.Float64Attribute{
+						Computed:            true,
+						MarkdownDescription: "Current",
+					},
+					"tax": schema.Float64Attribute{
+						Computed:            true,
+						MarkdownDescription: "Tax",
+					},
+					"tax_current": schema.Float64Attribute{
+						Computed:            true,
+						MarkdownDescription: "Tax current",
+					},
+					"total": schema.Float64Attribute{
+						Computed:            true,
+						MarkdownDescription: "Total",
+					},
+				},
+				Computed:            true,
+				MarkdownDescription: "Billing price estimate",
+			},
 			"created": schema.StringAttribute{
 				CustomType:          timetypes.RFC3339Type{},
 				Computed:            true,
@@ -59,29 +81,13 @@ func (d *StructureProjectDataSource) Schema(ctx context.Context, req datasource.
 				Computed:            true,
 				MarkdownDescription: "Customer",
 			},
-			"customer_abbreviation": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Customer abbreviation",
-			},
 			"customer_display_billing_info_in_projects": schema.BoolAttribute{
 				Computed:            true,
 				MarkdownDescription: "Customer display billing info in projects",
 			},
-			"customer_name": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Name of the customer",
-			},
-			"customer_native_name": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Name of the customer native",
-			},
 			"customer_slug": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Customer slug",
-			},
-			"customer_uuid": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "UUID of the customer",
 			},
 			"description": schema.StringAttribute{
 				Computed:            true,
@@ -188,7 +194,7 @@ func (d *StructureProjectDataSource) Configure(ctx context.Context, req datasour
 		return
 	}
 
-	d.client = &Client{}
+	d.client = &StructureProjectClient{}
 	if err := d.client.Configure(ctx, req.ProviderData); err != nil {
 		resp.Diagnostics.AddError(
 			"Unexpected Data Source Configure Type",
@@ -210,7 +216,7 @@ func (d *StructureProjectDataSource) Read(ctx context.Context, req datasource.Re
 
 	// Check if UUID is provided for direct lookup
 	if !data.UUID.IsNull() && data.UUID.ValueString() != "" {
-		apiResp, err := d.client.GetStructureProject(ctx, data.UUID.ValueString())
+		apiResp, err := d.client.Get(ctx, data.UUID.ValueString())
 		if err != nil {
 			resp.Diagnostics.AddError(
 				"Unable to Read Structure Project",
@@ -232,7 +238,7 @@ func (d *StructureProjectDataSource) Read(ctx context.Context, req datasource.Re
 			return
 		}
 
-		results, err := d.client.ListStructureProject(ctx, filters)
+		results, err := d.client.List(ctx, filters)
 		if err != nil {
 			resp.Diagnostics.AddError(
 				"Unable to List Structure Project",

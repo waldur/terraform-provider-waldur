@@ -27,7 +27,7 @@ func NewOpenstackServerGroupResource() resource.Resource {
 
 // OpenstackServerGroupResource defines the resource implementation.
 type OpenstackServerGroupResource struct {
-	client *Client
+	client *OpenstackServerGroupClient
 }
 
 // OpenstackServerGroupResourceModel describes the resource data model.
@@ -52,13 +52,6 @@ func (r *OpenstackServerGroupResource) Schema(ctx context.Context, req resource.
 					stringplanmodifier.UseStateForUnknown(),
 				},
 			},
-			"access_url": schema.StringAttribute{
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
-				MarkdownDescription: "Access url",
-			},
 			"backend_id": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
@@ -74,8 +67,19 @@ func (r *OpenstackServerGroupResource) Schema(ctx context.Context, req resource.
 				},
 				MarkdownDescription: "Created",
 			},
+			"customer": schema.StringAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+				MarkdownDescription: "Customer",
+			},
 			"description": schema.StringAttribute{
-				Optional:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 				MarkdownDescription: "Description of the Openstack Server Group",
 			},
 			"display_name": schema.StringAttribute{
@@ -111,7 +115,10 @@ func (r *OpenstackServerGroupResource) Schema(ctx context.Context, req resource.
 							MarkdownDescription: "Name of the Openstack Server Group",
 						},
 						"uuid": schema.StringAttribute{
-							Computed:            true,
+							Computed: true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
 							MarkdownDescription: "UUID of the Openstack Server Group",
 						},
 					},
@@ -121,6 +128,13 @@ func (r *OpenstackServerGroupResource) Schema(ctx context.Context, req resource.
 					listplanmodifier.UseStateForUnknown(),
 				},
 				MarkdownDescription: "Instances",
+			},
+			"marketplace_resource_uuid": schema.StringAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+				MarkdownDescription: "UUID of the marketplace resource",
 			},
 			"modified": schema.StringAttribute{
 				CustomType: timetypes.RFC3339Type{},
@@ -135,8 +149,19 @@ func (r *OpenstackServerGroupResource) Schema(ctx context.Context, req resource.
 				MarkdownDescription: "Name of the Openstack Server Group",
 			},
 			"policy": schema.StringAttribute{
-				Optional:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 				MarkdownDescription: "Server group policy determining the rules for scheduling servers in this group",
+			},
+			"project": schema.StringAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+				MarkdownDescription: "Project",
 			},
 			"resource_type": schema.StringAttribute{
 				Computed: true,
@@ -156,6 +181,7 @@ func (r *OpenstackServerGroupResource) Schema(ctx context.Context, req resource.
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
+					stringplanmodifier.UseStateForUnknown(),
 				},
 				MarkdownDescription: "Required path parameter for resource creation",
 			},
@@ -198,7 +224,7 @@ func (r *OpenstackServerGroupResource) Configure(ctx context.Context, req resour
 		return
 	}
 
-	r.client = &Client{}
+	r.client = &OpenstackServerGroupClient{}
 	if err := r.client.Configure(ctx, req.ProviderData); err != nil {
 		resp.Diagnostics.AddError(
 			"Unexpected Resource Configure Type",
@@ -215,13 +241,19 @@ func (r *OpenstackServerGroupResource) Create(ctx context.Context, req resource.
 		return
 	}
 
-	requestBody := OpenstackServerGroupCreateRequest{
-		Description: data.Description.ValueStringPointer(),
-		Name:        data.Name.ValueStringPointer(),
-		Policy:      data.Policy.ValueStringPointer(),
+	requestBody := OpenstackServerGroupCreateRequest{}
+	if !data.Description.IsNull() && !data.Description.IsUnknown() {
+
+		requestBody.Description = data.Description.ValueStringPointer()
 	}
 
-	apiResp, err := r.client.CreateOpenstackServerGroup(ctx, data.Tenant.ValueString(), &requestBody)
+	requestBody.Name = data.Name.ValueStringPointer()
+	if !data.Policy.IsNull() && !data.Policy.IsUnknown() {
+
+		requestBody.Policy = data.Policy.ValueStringPointer()
+	}
+
+	apiResp, err := r.client.Create(ctx, data.Tenant.ValueString(), &requestBody)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Unable to Create Openstack Server Group",
@@ -230,7 +262,6 @@ func (r *OpenstackServerGroupResource) Create(ctx context.Context, req resource.
 		return
 	}
 	data.UUID = types.StringPointerValue(apiResp.UUID)
-
 	createTimeout, diags := data.Timeouts.Create(ctx, common.DefaultCreateTimeout)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
@@ -238,7 +269,7 @@ func (r *OpenstackServerGroupResource) Create(ctx context.Context, req resource.
 	}
 
 	newResp, err := common.WaitForResource(ctx, func(ctx context.Context) (*OpenstackServerGroupResponse, error) {
-		return r.client.GetOpenstackServerGroup(ctx, data.UUID.ValueString())
+		return r.client.Get(ctx, data.UUID.ValueString())
 	}, createTimeout)
 	if err != nil {
 		resp.Diagnostics.AddError("Failed to wait for resource creation", err.Error())
@@ -263,7 +294,7 @@ func (r *OpenstackServerGroupResource) Read(ctx context.Context, req resource.Re
 
 	// Call Waldur API to read resource
 
-	apiResp, err := r.client.GetOpenstackServerGroup(ctx, data.UUID.ValueString())
+	apiResp, err := r.client.Get(ctx, data.UUID.ValueString())
 	if err != nil {
 		if IsNotFoundError(err) {
 			resp.State.RemoveResource(ctx)
@@ -292,13 +323,21 @@ func (r *OpenstackServerGroupResource) Update(ctx context.Context, req resource.
 		return
 	}
 
-	requestBody := OpenstackServerGroupUpdateRequest{
-		Description: data.Description.ValueStringPointer(),
-		Name:        data.Name.ValueStringPointer(),
-		Policy:      data.Policy.ValueStringPointer(),
+	requestBody := OpenstackServerGroupUpdateRequest{}
+	if !data.Description.IsNull() && !data.Description.IsUnknown() {
+
+		requestBody.Description = data.Description.ValueStringPointer()
+	}
+	if !data.Name.IsNull() && !data.Name.IsUnknown() {
+
+		requestBody.Name = data.Name.ValueStringPointer()
+	}
+	if !data.Policy.IsNull() && !data.Policy.IsUnknown() {
+
+		requestBody.Policy = data.Policy.ValueStringPointer()
 	}
 
-	apiResp, err := r.client.UpdateOpenstackServerGroup(ctx, data.UUID.ValueString(), &requestBody)
+	apiResp, err := r.client.Update(ctx, data.UUID.ValueString(), &requestBody)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Unable to Update Openstack Server Group",
@@ -306,7 +345,6 @@ func (r *OpenstackServerGroupResource) Update(ctx context.Context, req resource.
 		)
 		return
 	}
-
 	updateTimeout, diags := data.Timeouts.Update(ctx, common.DefaultUpdateTimeout)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
@@ -314,7 +352,7 @@ func (r *OpenstackServerGroupResource) Update(ctx context.Context, req resource.
 	}
 
 	newResp, err := common.WaitForResource(ctx, func(ctx context.Context) (*OpenstackServerGroupResponse, error) {
-		return r.client.GetOpenstackServerGroup(ctx, data.UUID.ValueString())
+		return r.client.Get(ctx, data.UUID.ValueString())
 	}, updateTimeout)
 	if err != nil {
 		resp.Diagnostics.AddError("Failed to wait for resource update", err.Error())
@@ -334,7 +372,7 @@ func (r *OpenstackServerGroupResource) Delete(ctx context.Context, req resource.
 		return
 	}
 
-	err := r.client.DeleteOpenstackServerGroup(ctx, data.UUID.ValueString())
+	err := r.client.Delete(ctx, data.UUID.ValueString())
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Unable to Delete Openstack Server Group",
@@ -342,7 +380,6 @@ func (r *OpenstackServerGroupResource) Delete(ctx context.Context, req resource.
 		)
 		return
 	}
-
 	deleteTimeout, diags := data.Timeouts.Delete(ctx, common.DefaultDeleteTimeout)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
@@ -350,7 +387,7 @@ func (r *OpenstackServerGroupResource) Delete(ctx context.Context, req resource.
 	}
 
 	err = common.WaitForDeletion(ctx, func(ctx context.Context) (*OpenstackServerGroupResponse, error) {
-		return r.client.GetOpenstackServerGroup(ctx, data.UUID.ValueString())
+		return r.client.Get(ctx, data.UUID.ValueString())
 	}, deleteTimeout)
 	if err != nil {
 		resp.Diagnostics.AddError("Failed to wait for resource deletion", err.Error())
@@ -373,7 +410,7 @@ func (r *OpenstackServerGroupResource) ImportState(ctx context.Context, req reso
 		"uuid": uuid,
 	})
 
-	apiResp, err := r.client.GetOpenstackServerGroup(ctx, uuid)
+	apiResp, err := r.client.Get(ctx, uuid)
 	if err != nil {
 		if IsNotFoundError(err) {
 			resp.Diagnostics.AddError(

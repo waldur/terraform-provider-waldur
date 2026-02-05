@@ -12,6 +12,147 @@ import (
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
+func NestedSecurityGroupRuleType() types.ObjectType {
+	return types.ObjectType{AttrTypes: map[string]attr.Type{
+		"cidr":              types.StringType,
+		"description":       types.StringType,
+		"direction":         types.StringType,
+		"ethertype":         types.StringType,
+		"from_port":         types.Int64Type,
+		"id":                types.Int64Type,
+		"protocol":          types.StringType,
+		"remote_group_name": types.StringType,
+		"remote_group_uuid": types.StringType,
+		"to_port":           types.Int64Type,
+	}}
+}
+func OpenStackAllowedAddressPairType() types.ObjectType {
+	return types.ObjectType{AttrTypes: map[string]attr.Type{
+		"mac_address": types.StringType,
+	}}
+}
+func OpenStackCreateFloatingIPRequestType() types.ObjectType {
+	return types.ObjectType{AttrTypes: map[string]attr.Type{
+		"ip_address":         types.StringType,
+		"subnet":             types.StringType,
+		"url":                types.StringType,
+		"address":            types.StringType,
+		"port_fixed_ips":     types.ListType{ElemType: OpenStackFixedIpType()},
+		"port_mac_address":   types.StringType,
+		"subnet_cidr":        types.StringType,
+		"subnet_description": types.StringType,
+		"subnet_name":        types.StringType,
+		"subnet_uuid":        types.StringType,
+		"uuid":               types.StringType,
+	}}
+}
+func OpenStackCreateInstancePortRequestType() types.ObjectType {
+	return types.ObjectType{AttrTypes: map[string]attr.Type{
+		"fixed_ips":             types.ListType{ElemType: OpenStackFixedIpType()},
+		"port":                  types.StringType,
+		"subnet":                types.StringType,
+		"allowed_address_pairs": types.ListType{ElemType: OpenStackAllowedAddressPairType()},
+		"device_id":             types.StringType,
+		"device_owner":          types.StringType,
+		"mac_address":           types.StringType,
+		"security_groups":       types.SetType{ElemType: OpenStackSecurityGroupType()},
+		"subnet_cidr":           types.StringType,
+		"subnet_description":    types.StringType,
+		"subnet_name":           types.StringType,
+		"subnet_uuid":           types.StringType,
+		"url":                   types.StringType,
+	}}
+}
+func OpenStackDataVolumeRequestType() types.ObjectType {
+	return types.ObjectType{AttrTypes: map[string]attr.Type{
+		"size":        types.Int64Type,
+		"volume_type": types.StringType,
+	}}
+}
+func OpenStackFixedIpType() types.ObjectType {
+	return types.ObjectType{AttrTypes: map[string]attr.Type{
+		"ip_address": types.StringType,
+		"subnet_id":  types.StringType,
+	}}
+}
+func OpenStackNestedVolumeType() types.ObjectType {
+	return types.ObjectType{AttrTypes: map[string]attr.Type{
+		"bootable":                  types.BoolType,
+		"device":                    types.StringType,
+		"image_name":                types.StringType,
+		"marketplace_resource_uuid": types.StringType,
+		"name":                      types.StringType,
+		"resource_type":             types.StringType,
+		"size":                      types.Int64Type,
+		"state":                     types.StringType,
+		"type":                      types.StringType,
+		"type_name":                 types.StringType,
+		"url":                       types.StringType,
+		"uuid":                      types.StringType,
+	}}
+}
+func OpenStackSecurityGroupType() types.ObjectType {
+	return types.ObjectType{AttrTypes: map[string]attr.Type{
+		"backend_id":                types.StringType,
+		"created":                   types.StringType,
+		"customer":                  types.StringType,
+		"description":               types.StringType,
+		"error_message":             types.StringType,
+		"error_traceback":           types.StringType,
+		"marketplace_resource_uuid": types.StringType,
+		"modified":                  types.StringType,
+		"name":                      types.StringType,
+		"project":                   types.StringType,
+		"resource_type":             types.StringType,
+		"rules":                     types.ListType{ElemType: OpenStackSecurityGroupRuleCreateType()},
+		"state":                     types.StringType,
+		"tenant":                    types.StringType,
+		"tenant_name":               types.StringType,
+		"tenant_uuid":               types.StringType,
+		"url":                       types.StringType,
+		"uuid":                      types.StringType,
+	}}
+}
+func OpenStackSecurityGroupHyperlinkRequestType() types.ObjectType {
+	return types.ObjectType{AttrTypes: map[string]attr.Type{
+		"url":         types.StringType,
+		"description": types.StringType,
+		"name":        types.StringType,
+		"rules":       types.ListType{ElemType: NestedSecurityGroupRuleType()},
+		"state":       types.StringType,
+	}}
+}
+func OpenStackSecurityGroupRuleCreateType() types.ObjectType {
+	return types.ObjectType{AttrTypes: map[string]attr.Type{
+		"cidr":              types.StringType,
+		"description":       types.StringType,
+		"direction":         types.StringType,
+		"ethertype":         types.StringType,
+		"from_port":         types.Int64Type,
+		"id":                types.Int64Type,
+		"protocol":          types.StringType,
+		"remote_group":      types.StringType,
+		"remote_group_name": types.StringType,
+		"remote_group_uuid": types.StringType,
+		"to_port":           types.Int64Type,
+	}}
+}
+func RancherClusterType() types.ObjectType {
+	return types.ObjectType{AttrTypes: map[string]attr.Type{
+		"marketplace_uuid": types.StringType,
+		"name":             types.StringType,
+		"uuid":             types.StringType,
+	}}
+}
+func ServerGroupType() types.ObjectType {
+	return types.ObjectType{AttrTypes: map[string]attr.Type{
+		"url":    types.StringType,
+		"name":   types.StringType,
+		"policy": types.StringType,
+		"state":  types.StringType,
+	}}
+}
+
 type OpenstackInstanceFiltersModel struct {
 	AttachVolumeUuid     types.String `tfsdk:"attach_volume_uuid"`
 	AvailabilityZoneName types.String `tfsdk:"availability_zone_name"`
@@ -141,7 +282,6 @@ func (m *OpenstackInstanceFiltersModel) GetSchema() schema.SingleNestedAttribute
 
 type OpenstackInstanceModel struct {
 	UUID                             types.String      `tfsdk:"id"`
-	AccessUrl                        types.String      `tfsdk:"access_url"`
 	Action                           types.String      `tfsdk:"action"`
 	AvailabilityZone                 types.String      `tfsdk:"availability_zone"`
 	AvailabilityZoneName             types.String      `tfsdk:"availability_zone_name"`
@@ -150,68 +290,37 @@ type OpenstackInstanceModel struct {
 	Cores                            types.Int64       `tfsdk:"cores"`
 	Created                          timetypes.RFC3339 `tfsdk:"created"`
 	Customer                         types.String      `tfsdk:"customer"`
-	CustomerAbbreviation             types.String      `tfsdk:"customer_abbreviation"`
-	CustomerName                     types.String      `tfsdk:"customer_name"`
-	CustomerNativeName               types.String      `tfsdk:"customer_native_name"`
-	CustomerUuid                     types.String      `tfsdk:"customer_uuid"`
-	DataVolumeSize                   types.Int64       `tfsdk:"data_volume_size"`
-	DataVolumeType                   types.String      `tfsdk:"data_volume_type"`
-	DataVolumes                      types.List        `tfsdk:"data_volumes"`
-	DeleteVolumes                    types.Bool        `tfsdk:"delete_volumes"`
 	Description                      types.String      `tfsdk:"description"`
 	Disk                             types.Int64       `tfsdk:"disk"`
 	ErrorMessage                     types.String      `tfsdk:"error_message"`
 	ErrorTraceback                   types.String      `tfsdk:"error_traceback"`
 	ExternalAddress                  types.List        `tfsdk:"external_address"`
 	ExternalIps                      types.List        `tfsdk:"external_ips"`
-	Flavor                           types.String      `tfsdk:"flavor"`
 	FlavorDisk                       types.Int64       `tfsdk:"flavor_disk"`
 	FlavorName                       types.String      `tfsdk:"flavor_name"`
 	FloatingIps                      types.Set         `tfsdk:"floating_ips"`
 	HypervisorHostname               types.String      `tfsdk:"hypervisor_hostname"`
-	Image                            types.String      `tfsdk:"image"`
 	ImageName                        types.String      `tfsdk:"image_name"`
 	InternalIps                      types.List        `tfsdk:"internal_ips"`
-	IsLimitBased                     types.Bool        `tfsdk:"is_limit_based"`
-	IsUsageBased                     types.Bool        `tfsdk:"is_usage_based"`
 	KeyFingerprint                   types.String      `tfsdk:"key_fingerprint"`
 	KeyName                          types.String      `tfsdk:"key_name"`
 	Latitude                         types.Float64     `tfsdk:"latitude"`
-	Limits                           types.Map         `tfsdk:"limits"`
 	Longitude                        types.Float64     `tfsdk:"longitude"`
-	MarketplaceCategoryName          types.String      `tfsdk:"marketplace_category_name"`
-	MarketplaceCategoryUuid          types.String      `tfsdk:"marketplace_category_uuid"`
-	MarketplaceOfferingName          types.String      `tfsdk:"marketplace_offering_name"`
-	MarketplaceOfferingUuid          types.String      `tfsdk:"marketplace_offering_uuid"`
-	MarketplacePlanUuid              types.String      `tfsdk:"marketplace_plan_uuid"`
-	MarketplaceResourceState         types.String      `tfsdk:"marketplace_resource_state"`
 	MarketplaceResourceUuid          types.String      `tfsdk:"marketplace_resource_uuid"`
 	MinDisk                          types.Int64       `tfsdk:"min_disk"`
 	MinRam                           types.Int64       `tfsdk:"min_ram"`
 	Modified                         timetypes.RFC3339 `tfsdk:"modified"`
 	Name                             types.String      `tfsdk:"name"`
-	Offering                         types.String      `tfsdk:"offering"`
-	Plan                             types.String      `tfsdk:"plan"`
 	Ports                            types.List        `tfsdk:"ports"`
 	Project                          types.String      `tfsdk:"project"`
-	ProjectName                      types.String      `tfsdk:"project_name"`
-	ProjectUuid                      types.String      `tfsdk:"project_uuid"`
 	Ram                              types.Int64       `tfsdk:"ram"`
-	ReleaseFloatingIps               types.Bool        `tfsdk:"release_floating_ips"`
+	RancherCluster                   types.Object      `tfsdk:"rancher_cluster"`
 	ResourceType                     types.String      `tfsdk:"resource_type"`
 	RuntimeState                     types.String      `tfsdk:"runtime_state"`
 	SecurityGroups                   types.Set         `tfsdk:"security_groups"`
 	ServerGroup                      types.Object      `tfsdk:"server_group"`
-	ServiceName                      types.String      `tfsdk:"service_name"`
-	ServiceSettings                  types.String      `tfsdk:"service_settings"`
-	ServiceSettingsErrorMessage      types.String      `tfsdk:"service_settings_error_message"`
-	ServiceSettingsState             types.String      `tfsdk:"service_settings_state"`
-	ServiceSettingsUuid              types.String      `tfsdk:"service_settings_uuid"`
-	SshPublicKey                     types.String      `tfsdk:"ssh_public_key"`
 	StartTime                        timetypes.RFC3339 `tfsdk:"start_time"`
 	State                            types.String      `tfsdk:"state"`
-	SystemVolumeSize                 types.Int64       `tfsdk:"system_volume_size"`
-	SystemVolumeType                 types.String      `tfsdk:"system_volume_type"`
 	Tenant                           types.String      `tfsdk:"tenant"`
 	TenantUuid                       types.String      `tfsdk:"tenant_uuid"`
 	Url                              types.String      `tfsdk:"url"`
@@ -224,7 +333,6 @@ func (model *OpenstackInstanceModel) CopyFrom(ctx context.Context, apiResp Opens
 	var diags diag.Diagnostics
 
 	model.UUID = types.StringPointerValue(apiResp.UUID)
-	model.AccessUrl = common.StringPointerValue(apiResp.AccessUrl)
 	model.Action = common.StringPointerValue(apiResp.Action)
 	model.AvailabilityZone = common.StringPointerValue(apiResp.AvailabilityZone)
 	model.AvailabilityZoneName = common.StringPointerValue(apiResp.AvailabilityZoneName)
@@ -235,10 +343,6 @@ func (model *OpenstackInstanceModel) CopyFrom(ctx context.Context, apiResp Opens
 	diags.Append(diagsCreated...)
 	model.Created = valCreated
 	model.Customer = common.StringPointerValue(apiResp.Customer)
-	model.CustomerAbbreviation = common.StringPointerValue(apiResp.CustomerAbbreviation)
-	model.CustomerName = common.StringPointerValue(apiResp.CustomerName)
-	model.CustomerNativeName = common.StringPointerValue(apiResp.CustomerNativeName)
-	model.CustomerUuid = common.StringPointerValue(apiResp.CustomerUuid)
 	model.Description = common.StringPointerValue(apiResp.Description)
 	model.Disk = types.Int64PointerValue(apiResp.Disk)
 	model.ErrorMessage = common.StringPointerValue(apiResp.ErrorMessage)
@@ -251,43 +355,22 @@ func (model *OpenstackInstanceModel) CopyFrom(ctx context.Context, apiResp Opens
 	diags.Append(listDiagsExternalIps...)
 	model.FlavorDisk = types.Int64PointerValue(apiResp.FlavorDisk)
 	model.FlavorName = common.StringPointerValue(apiResp.FlavorName)
-	{
-		setValFloatingIps, setDiagsFloatingIps := types.SetValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
-			"ip_address": types.StringType,
-			"subnet":     types.StringType,
-			"url":        types.StringType,
-			"address":    types.StringType,
-			"port_fixed_ips": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
-				"ip_address": types.StringType,
-				"subnet_id":  types.StringType,
-			}}},
-			"port_mac_address":   types.StringType,
-			"subnet_cidr":        types.StringType,
-			"subnet_description": types.StringType,
-			"subnet_name":        types.StringType,
-			"subnet_uuid":        types.StringType,
-			"uuid":               types.StringType,
-		}}, apiResp.FloatingIps)
+	if apiResp.FloatingIps != nil && len(*apiResp.FloatingIps) > 0 {
+		setValFloatingIps, setDiagsFloatingIps := types.SetValueFrom(ctx, OpenStackCreateFloatingIPRequestType(), apiResp.FloatingIps)
 		diags.Append(setDiagsFloatingIps...)
 		model.FloatingIps = setValFloatingIps
+	} else {
+		model.FloatingIps = types.SetNull(OpenStackCreateFloatingIPRequestType())
 	}
 	model.HypervisorHostname = common.StringPointerValue(apiResp.HypervisorHostname)
 	model.ImageName = common.StringPointerValue(apiResp.ImageName)
 	listValInternalIps, listDiagsInternalIps := types.ListValueFrom(ctx, types.StringType, apiResp.InternalIps)
 	model.InternalIps = listValInternalIps
 	diags.Append(listDiagsInternalIps...)
-	model.IsLimitBased = types.BoolPointerValue(apiResp.IsLimitBased)
-	model.IsUsageBased = types.BoolPointerValue(apiResp.IsUsageBased)
 	model.KeyFingerprint = common.StringPointerValue(apiResp.KeyFingerprint)
 	model.KeyName = common.StringPointerValue(apiResp.KeyName)
 	model.Latitude = types.Float64PointerValue(apiResp.Latitude.Float64Ptr())
 	model.Longitude = types.Float64PointerValue(apiResp.Longitude.Float64Ptr())
-	model.MarketplaceCategoryName = common.StringPointerValue(apiResp.MarketplaceCategoryName)
-	model.MarketplaceCategoryUuid = common.StringPointerValue(apiResp.MarketplaceCategoryUuid)
-	model.MarketplaceOfferingName = common.StringPointerValue(apiResp.MarketplaceOfferingName)
-	model.MarketplaceOfferingUuid = common.StringPointerValue(apiResp.MarketplaceOfferingUuid)
-	model.MarketplacePlanUuid = common.StringPointerValue(apiResp.MarketplacePlanUuid)
-	model.MarketplaceResourceState = common.StringPointerValue(apiResp.MarketplaceResourceState)
 	model.MarketplaceResourceUuid = common.StringPointerValue(apiResp.MarketplaceResourceUuid)
 	model.MinDisk = types.Int64PointerValue(apiResp.MinDisk)
 	model.MinRam = types.Int64PointerValue(apiResp.MinRam)
@@ -296,131 +379,38 @@ func (model *OpenstackInstanceModel) CopyFrom(ctx context.Context, apiResp Opens
 	model.Modified = valModified
 	model.Name = common.StringPointerValue(apiResp.Name)
 
-	{
-		listValPorts, listDiagsPorts := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
-			"fixed_ips": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
-				"ip_address": types.StringType,
-				"subnet_id":  types.StringType,
-			}}},
-			"port":   types.StringType,
-			"subnet": types.StringType,
-			"allowed_address_pairs": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
-				"mac_address": types.StringType,
-			}}},
-			"device_id":    types.StringType,
-			"device_owner": types.StringType,
-			"mac_address":  types.StringType,
-			"security_groups": types.SetType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
-				"access_url":                 types.StringType,
-				"backend_id":                 types.StringType,
-				"created":                    types.StringType,
-				"customer":                   types.StringType,
-				"customer_abbreviation":      types.StringType,
-				"customer_name":              types.StringType,
-				"customer_native_name":       types.StringType,
-				"customer_uuid":              types.StringType,
-				"description":                types.StringType,
-				"error_message":              types.StringType,
-				"error_traceback":            types.StringType,
-				"is_limit_based":             types.BoolType,
-				"is_usage_based":             types.BoolType,
-				"marketplace_category_name":  types.StringType,
-				"marketplace_category_uuid":  types.StringType,
-				"marketplace_offering_name":  types.StringType,
-				"marketplace_offering_uuid":  types.StringType,
-				"marketplace_plan_uuid":      types.StringType,
-				"marketplace_resource_state": types.StringType,
-				"marketplace_resource_uuid":  types.StringType,
-				"modified":                   types.StringType,
-				"name":                       types.StringType,
-				"project":                    types.StringType,
-				"project_name":               types.StringType,
-				"project_uuid":               types.StringType,
-				"resource_type":              types.StringType,
-				"rules": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
-					"cidr":              types.StringType,
-					"description":       types.StringType,
-					"direction":         types.StringType,
-					"ethertype":         types.StringType,
-					"from_port":         types.Int64Type,
-					"id":                types.Int64Type,
-					"protocol":          types.StringType,
-					"remote_group":      types.StringType,
-					"remote_group_name": types.StringType,
-					"remote_group_uuid": types.StringType,
-					"to_port":           types.Int64Type,
-				}}},
-				"service_name":                   types.StringType,
-				"service_settings":               types.StringType,
-				"service_settings_error_message": types.StringType,
-				"service_settings_state":         types.StringType,
-				"service_settings_uuid":          types.StringType,
-				"state":                          types.StringType,
-				"tenant":                         types.StringType,
-				"tenant_name":                    types.StringType,
-				"tenant_uuid":                    types.StringType,
-				"url":                            types.StringType,
-				"uuid":                           types.StringType,
-			}}},
-			"subnet_cidr":        types.StringType,
-			"subnet_description": types.StringType,
-			"subnet_name":        types.StringType,
-			"subnet_uuid":        types.StringType,
-			"url":                types.StringType,
-		}}, apiResp.Ports)
+	if apiResp.Ports != nil && len(*apiResp.Ports) > 0 {
+		listValPorts, listDiagsPorts := types.ListValueFrom(ctx, OpenStackCreateInstancePortRequestType(), apiResp.Ports)
 		diags.Append(listDiagsPorts...)
 		model.Ports = listValPorts
+	} else {
+		model.Ports = types.ListNull(OpenStackCreateInstancePortRequestType())
 	}
 	model.Project = common.StringPointerValue(apiResp.Project)
-	model.ProjectName = common.StringPointerValue(apiResp.ProjectName)
-	model.ProjectUuid = common.StringPointerValue(apiResp.ProjectUuid)
 	model.Ram = types.Int64PointerValue(apiResp.Ram)
+	if apiResp.RancherCluster != nil {
+		objValRancherCluster, objDiagsRancherCluster := types.ObjectValueFrom(ctx, RancherClusterType().AttrTypes, *apiResp.RancherCluster)
+		diags.Append(objDiagsRancherCluster...)
+		model.RancherCluster = objValRancherCluster
+	} else {
+		model.RancherCluster = types.ObjectNull(RancherClusterType().AttrTypes)
+	}
 	model.ResourceType = common.StringPointerValue(apiResp.ResourceType)
 	model.RuntimeState = common.StringPointerValue(apiResp.RuntimeState)
-	{
-		setValSecurityGroups, setDiagsSecurityGroups := types.SetValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
-			"url":         types.StringType,
-			"description": types.StringType,
-			"name":        types.StringType,
-			"rules": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
-				"cidr":              types.StringType,
-				"description":       types.StringType,
-				"direction":         types.StringType,
-				"ethertype":         types.StringType,
-				"from_port":         types.Int64Type,
-				"id":                types.Int64Type,
-				"protocol":          types.StringType,
-				"remote_group_name": types.StringType,
-				"remote_group_uuid": types.StringType,
-				"to_port":           types.Int64Type,
-			}}},
-			"state": types.StringType,
-		}}, apiResp.SecurityGroups)
+	if apiResp.SecurityGroups != nil && len(*apiResp.SecurityGroups) > 0 {
+		setValSecurityGroups, setDiagsSecurityGroups := types.SetValueFrom(ctx, OpenStackSecurityGroupHyperlinkRequestType(), apiResp.SecurityGroups)
 		diags.Append(setDiagsSecurityGroups...)
 		model.SecurityGroups = setValSecurityGroups
+	} else {
+		model.SecurityGroups = types.SetNull(OpenStackSecurityGroupHyperlinkRequestType())
 	}
 	if apiResp.ServerGroup != nil {
-		objValServerGroup, objDiagsServerGroup := types.ObjectValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
-			"name":   types.StringType,
-			"policy": types.StringType,
-			"state":  types.StringType,
-			"url":    types.StringType,
-		}}.AttrTypes, *apiResp.ServerGroup)
+		objValServerGroup, objDiagsServerGroup := types.ObjectValueFrom(ctx, ServerGroupType().AttrTypes, *apiResp.ServerGroup)
 		diags.Append(objDiagsServerGroup...)
 		model.ServerGroup = objValServerGroup
 	} else {
-		model.ServerGroup = types.ObjectNull(types.ObjectType{AttrTypes: map[string]attr.Type{
-			"name":   types.StringType,
-			"policy": types.StringType,
-			"state":  types.StringType,
-			"url":    types.StringType,
-		}}.AttrTypes)
+		model.ServerGroup = types.ObjectNull(ServerGroupType().AttrTypes)
 	}
-	model.ServiceName = common.StringPointerValue(apiResp.ServiceName)
-	model.ServiceSettings = common.StringPointerValue(apiResp.ServiceSettings)
-	model.ServiceSettingsErrorMessage = common.StringPointerValue(apiResp.ServiceSettingsErrorMessage)
-	model.ServiceSettingsState = common.StringPointerValue(apiResp.ServiceSettingsState)
-	model.ServiceSettingsUuid = common.StringPointerValue(apiResp.ServiceSettingsUuid)
 	valStartTime, diagsStartTime := timetypes.NewRFC3339PointerValue(apiResp.StartTime)
 	diags.Append(diagsStartTime...)
 	model.StartTime = valStartTime
@@ -430,23 +420,12 @@ func (model *OpenstackInstanceModel) CopyFrom(ctx context.Context, apiResp Opens
 	model.Url = common.StringPointerValue(apiResp.Url)
 	model.UserData = common.StringPointerValue(apiResp.UserData)
 
-	{
-		listValVolumes, listDiagsVolumes := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
-			"bootable":                  types.BoolType,
-			"device":                    types.StringType,
-			"image_name":                types.StringType,
-			"marketplace_resource_uuid": types.StringType,
-			"name":                      types.StringType,
-			"resource_type":             types.StringType,
-			"size":                      types.Int64Type,
-			"state":                     types.StringType,
-			"type":                      types.StringType,
-			"type_name":                 types.StringType,
-			"url":                       types.StringType,
-			"uuid":                      types.StringType,
-		}}, apiResp.Volumes)
+	if apiResp.Volumes != nil && len(*apiResp.Volumes) > 0 {
+		listValVolumes, listDiagsVolumes := types.ListValueFrom(ctx, OpenStackNestedVolumeType(), apiResp.Volumes)
 		diags.Append(listDiagsVolumes...)
 		model.Volumes = listValVolumes
+	} else {
+		model.Volumes = types.ListNull(OpenStackNestedVolumeType())
 	}
 
 	return diags

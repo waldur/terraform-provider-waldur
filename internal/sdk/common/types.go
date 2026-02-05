@@ -1,13 +1,15 @@
 package common
 
-import "time"
+import (
+	"time"
+)
 
 const (
 	DefaultCreateTimeout  = 15 * time.Minute
 	DefaultUpdateTimeout  = 15 * time.Minute
 	DefaultDeleteTimeout  = 15 * time.Minute
 	DefaultActionTimeout  = 15 * time.Minute
-	DefaultPollDelay      = 10 * time.Second
+	DefaultPollDelay      = 1 * time.Second
 	DefaultPollMinTimeout = 5 * time.Second
 )
 
@@ -29,35 +31,8 @@ type BasePublicPlan struct {
 	Unit               *string                `json:"unit,omitempty" tfsdk:"unit"`
 	UnitPrice          *string                `json:"unit_price,omitempty" tfsdk:"unit_price"`
 	Url                *string                `json:"url,omitempty" tfsdk:"url"`
+	Uuid               *string                `json:"uuid,omitempty" tfsdk:"uuid"`
 }
-
-type BillingTypeEnum string
-
-const (
-	BillingTypeEnumFixed BillingTypeEnum = "fixed"
-	BillingTypeEnumUsage BillingTypeEnum = "usage"
-	BillingTypeEnumLimit BillingTypeEnum = "limit"
-	BillingTypeEnumOne   BillingTypeEnum = "one"
-	BillingTypeEnumFew   BillingTypeEnum = "few"
-)
-
-type BillingUnit string
-
-const (
-	BillingUnitMonth     BillingUnit = "month"
-	BillingUnitQuarter   BillingUnit = "quarter"
-	BillingUnitHalfMonth BillingUnit = "half_month"
-	BillingUnitDay       BillingUnit = "day"
-	BillingUnitHour      BillingUnit = "hour"
-	BillingUnitQuantity  BillingUnit = "quantity"
-)
-
-type DiscountTypeEnum string
-
-const (
-	DiscountTypeEnumDiscount     DiscountTypeEnum = "discount"
-	DiscountTypeEnumSpecialPrice DiscountTypeEnum = "special_price"
-)
 
 type NestedCampaign struct {
 	Description     *string `json:"description,omitempty" tfsdk:"description"`
@@ -69,11 +44,13 @@ type NestedCampaign struct {
 	ServiceProvider *string `json:"service_provider,omitempty" tfsdk:"service_provider"`
 	StartDate       *string `json:"start_date,omitempty" tfsdk:"start_date"`
 	Stock           *int64  `json:"stock,omitempty" tfsdk:"stock"`
+	Uuid            *string `json:"uuid,omitempty" tfsdk:"uuid"`
 }
 
 type NestedEndpoint struct {
 	Name *string `json:"name,omitempty" tfsdk:"name"`
 	Url  *string `json:"url,omitempty" tfsdk:"url"`
+	Uuid *string `json:"uuid,omitempty" tfsdk:"uuid"`
 }
 
 type NestedOfferingFile struct {
@@ -103,6 +80,7 @@ type NestedPartition struct {
 	PriorityTier     *int64  `json:"priority_tier,omitempty" tfsdk:"priority_tier"`
 	Qos              *string `json:"qos,omitempty" tfsdk:"qos"`
 	ReqResv          *bool   `json:"req_resv,omitempty" tfsdk:"req_resv"`
+	Uuid             *string `json:"uuid,omitempty" tfsdk:"uuid"`
 }
 
 type NestedPlanComponent struct {
@@ -119,6 +97,7 @@ type NestedPlanComponent struct {
 type NestedRole struct {
 	Name *string `json:"name,omitempty" tfsdk:"name"`
 	Url  *string `json:"url,omitempty" tfsdk:"url"`
+	Uuid *string `json:"uuid,omitempty" tfsdk:"uuid"`
 }
 
 type NestedScreenshot struct {
@@ -127,6 +106,7 @@ type NestedScreenshot struct {
 	Image       *string `json:"image,omitempty" tfsdk:"image"`
 	Name        *string `json:"name,omitempty" tfsdk:"name"`
 	Thumbnail   *string `json:"thumbnail,omitempty" tfsdk:"thumbnail"`
+	Uuid        *string `json:"uuid,omitempty" tfsdk:"uuid"`
 }
 
 type NestedSecurityGroupRule struct {
@@ -146,6 +126,7 @@ type NestedSoftwareCatalog struct {
 	Catalog      *NestedSoftwareCatalogCatalog   `json:"catalog,omitempty" tfsdk:"catalog"`
 	PackageCount *int64                          `json:"package_count,omitempty" tfsdk:"package_count"`
 	Partition    *NestedSoftwareCatalogPartition `json:"partition,omitempty" tfsdk:"partition"`
+	Uuid         *string                         `json:"uuid,omitempty" tfsdk:"uuid"`
 }
 type NestedSoftwareCatalogCatalog struct {
 	Description *string `json:"description,omitempty" tfsdk:"description"`
@@ -162,6 +143,7 @@ type NestedSoftwareCatalogPartition struct {
 
 type NestedTag struct {
 	Name *string `json:"name,omitempty" tfsdk:"name"`
+	Uuid *string `json:"uuid,omitempty" tfsdk:"uuid"`
 }
 
 type NetworkRBACPolicy struct {
@@ -173,6 +155,7 @@ type NetworkRBACPolicy struct {
 	TargetTenant     *string `json:"target_tenant,omitempty" tfsdk:"target_tenant"`
 	TargetTenantName *string `json:"target_tenant_name,omitempty" tfsdk:"target_tenant_name"`
 	Url              *string `json:"url,omitempty" tfsdk:"url"`
+	Uuid             *string `json:"uuid,omitempty" tfsdk:"uuid"`
 }
 
 type OfferingComponent struct {
@@ -196,6 +179,7 @@ type OfferingComponent struct {
 	OverageComponent   *string `json:"overage_component,omitempty" tfsdk:"overage_component"`
 	Type               *string `json:"type,omitempty" tfsdk:"type"`
 	UnitFactor         *int64  `json:"unit_factor,omitempty" tfsdk:"unit_factor"`
+	Uuid               *string `json:"uuid,omitempty" tfsdk:"uuid"`
 }
 
 type OpenStackAllowedAddressPair struct {
@@ -208,15 +192,33 @@ type OpenStackAllowedAddressPairRequest struct {
 }
 
 type OpenStackCreateFloatingIPRequest struct {
-	IpAddress *string `json:"ip_address,omitempty" tfsdk:"ip_address"`
-	Subnet    *string `json:"subnet" tfsdk:"subnet"`
-	Url       *string `json:"url,omitempty" tfsdk:"url"`
+	Address           *string             `json:"address,omitempty" tfsdk:"address"`
+	IpAddress         *string             `json:"ip_address,omitempty" tfsdk:"ip_address"`
+	PortFixedIps      *[]OpenStackFixedIp `json:"port_fixed_ips,omitempty" tfsdk:"port_fixed_ips"`
+	PortMacAddress    *string             `json:"port_mac_address,omitempty" tfsdk:"port_mac_address"`
+	Subnet            *string             `json:"subnet" tfsdk:"subnet"`
+	SubnetCidr        *string             `json:"subnet_cidr,omitempty" tfsdk:"subnet_cidr"`
+	SubnetDescription *string             `json:"subnet_description,omitempty" tfsdk:"subnet_description"`
+	SubnetName        *string             `json:"subnet_name,omitempty" tfsdk:"subnet_name"`
+	SubnetUuid        *string             `json:"subnet_uuid,omitempty" tfsdk:"subnet_uuid"`
+	Url               *string             `json:"url,omitempty" tfsdk:"url"`
+	Uuid              *string             `json:"uuid,omitempty" tfsdk:"uuid"`
 }
 
 type OpenStackCreateInstancePortRequest struct {
-	FixedIps *[]OpenStackFixedIpRequest `json:"fixed_ips,omitempty" tfsdk:"fixed_ips"`
-	Port     *string                    `json:"port,omitempty" tfsdk:"port"`
-	Subnet   *string                    `json:"subnet,omitempty" tfsdk:"subnet"`
+	AllowedAddressPairs *[]OpenStackAllowedAddressPair `json:"allowed_address_pairs,omitempty" tfsdk:"allowed_address_pairs"`
+	DeviceId            *string                        `json:"device_id,omitempty" tfsdk:"device_id"`
+	DeviceOwner         *string                        `json:"device_owner,omitempty" tfsdk:"device_owner"`
+	FixedIps            *[]OpenStackFixedIpRequest     `json:"fixed_ips,omitempty" tfsdk:"fixed_ips"`
+	MacAddress          *string                        `json:"mac_address,omitempty" tfsdk:"mac_address"`
+	Port                *string                        `json:"port,omitempty" tfsdk:"port"`
+	SecurityGroups      *[]OpenStackSecurityGroup      `json:"security_groups,omitempty" tfsdk:"security_groups"`
+	Subnet              *string                        `json:"subnet,omitempty" tfsdk:"subnet"`
+	SubnetCidr          *string                        `json:"subnet_cidr,omitempty" tfsdk:"subnet_cidr"`
+	SubnetDescription   *string                        `json:"subnet_description,omitempty" tfsdk:"subnet_description"`
+	SubnetName          *string                        `json:"subnet_name,omitempty" tfsdk:"subnet_name"`
+	SubnetUuid          *string                        `json:"subnet_uuid,omitempty" tfsdk:"subnet_uuid"`
+	Url                 *string                        `json:"url,omitempty" tfsdk:"url"`
 }
 
 type OpenStackDataVolumeRequest struct {
@@ -244,11 +246,13 @@ type OpenStackNestedFloatingIP struct {
 	SubnetName        *string             `json:"subnet_name,omitempty" tfsdk:"subnet_name"`
 	SubnetUuid        *string             `json:"subnet_uuid,omitempty" tfsdk:"subnet_uuid"`
 	Url               *string             `json:"url,omitempty" tfsdk:"url"`
+	Uuid              *string             `json:"uuid,omitempty" tfsdk:"uuid"`
 }
 
 type OpenStackNestedInstance struct {
 	BackendId *string `json:"backend_id,omitempty" tfsdk:"backend_id"`
 	Name      *string `json:"name,omitempty" tfsdk:"name"`
+	Uuid      *string `json:"uuid,omitempty" tfsdk:"uuid"`
 }
 
 type OpenStackNestedPort struct {
@@ -289,6 +293,7 @@ type OpenStackNestedSubNet struct {
 	GatewayIp       *string                          `json:"gateway_ip,omitempty" tfsdk:"gateway_ip"`
 	IpVersion       *int64                           `json:"ip_version,omitempty" tfsdk:"ip_version"`
 	Name            *string                          `json:"name,omitempty" tfsdk:"name"`
+	Uuid            *string                          `json:"uuid,omitempty" tfsdk:"uuid"`
 }
 
 type OpenStackNestedVolume struct {
@@ -303,59 +308,48 @@ type OpenStackNestedVolume struct {
 	Type                    *string `json:"type,omitempty" tfsdk:"type"`
 	TypeName                *string `json:"type_name,omitempty" tfsdk:"type_name"`
 	Url                     *string `json:"url,omitempty" tfsdk:"url"`
+	Uuid                    *string `json:"uuid,omitempty" tfsdk:"uuid"`
 }
 
 type OpenStackPortNestedSecurityGroup struct {
 	Name *string `json:"name,omitempty" tfsdk:"name"`
 	Url  *string `json:"url,omitempty" tfsdk:"url"`
+	Uuid *string `json:"uuid,omitempty" tfsdk:"uuid"`
 }
 
 type OpenStackPortNestedSecurityGroupRequest struct {
 	Name *string `json:"name" tfsdk:"name"`
+	Url  *string `json:"url,omitempty" tfsdk:"url"`
+	Uuid *string `json:"uuid,omitempty" tfsdk:"uuid"`
 }
 
 type OpenStackSecurityGroup struct {
-	AccessUrl                   *string                             `json:"access_url,omitempty" tfsdk:"access_url"`
-	BackendId                   *string                             `json:"backend_id,omitempty" tfsdk:"backend_id"`
-	Created                     *string                             `json:"created,omitempty" tfsdk:"created"`
-	Customer                    *string                             `json:"customer,omitempty" tfsdk:"customer"`
-	CustomerAbbreviation        *string                             `json:"customer_abbreviation,omitempty" tfsdk:"customer_abbreviation"`
-	CustomerName                *string                             `json:"customer_name,omitempty" tfsdk:"customer_name"`
-	CustomerNativeName          *string                             `json:"customer_native_name,omitempty" tfsdk:"customer_native_name"`
-	CustomerUuid                *string                             `json:"customer_uuid,omitempty" tfsdk:"customer_uuid"`
-	Description                 *string                             `json:"description,omitempty" tfsdk:"description"`
-	ErrorMessage                *string                             `json:"error_message,omitempty" tfsdk:"error_message"`
-	ErrorTraceback              *string                             `json:"error_traceback,omitempty" tfsdk:"error_traceback"`
-	IsLimitBased                *bool                               `json:"is_limit_based,omitempty" tfsdk:"is_limit_based"`
-	IsUsageBased                *bool                               `json:"is_usage_based,omitempty" tfsdk:"is_usage_based"`
-	MarketplaceCategoryName     *string                             `json:"marketplace_category_name,omitempty" tfsdk:"marketplace_category_name"`
-	MarketplaceCategoryUuid     *string                             `json:"marketplace_category_uuid,omitempty" tfsdk:"marketplace_category_uuid"`
-	MarketplaceOfferingName     *string                             `json:"marketplace_offering_name,omitempty" tfsdk:"marketplace_offering_name"`
-	MarketplaceOfferingUuid     *string                             `json:"marketplace_offering_uuid,omitempty" tfsdk:"marketplace_offering_uuid"`
-	MarketplacePlanUuid         *string                             `json:"marketplace_plan_uuid,omitempty" tfsdk:"marketplace_plan_uuid"`
-	MarketplaceResourceState    *string                             `json:"marketplace_resource_state,omitempty" tfsdk:"marketplace_resource_state"`
-	MarketplaceResourceUuid     *string                             `json:"marketplace_resource_uuid,omitempty" tfsdk:"marketplace_resource_uuid"`
-	Modified                    *string                             `json:"modified,omitempty" tfsdk:"modified"`
-	Name                        *string                             `json:"name,omitempty" tfsdk:"name"`
-	Project                     *string                             `json:"project,omitempty" tfsdk:"project"`
-	ProjectName                 *string                             `json:"project_name,omitempty" tfsdk:"project_name"`
-	ProjectUuid                 *string                             `json:"project_uuid,omitempty" tfsdk:"project_uuid"`
-	ResourceType                *string                             `json:"resource_type,omitempty" tfsdk:"resource_type"`
-	Rules                       *[]OpenStackSecurityGroupRuleCreate `json:"rules,omitempty" tfsdk:"rules"`
-	ServiceName                 *string                             `json:"service_name,omitempty" tfsdk:"service_name"`
-	ServiceSettings             *string                             `json:"service_settings,omitempty" tfsdk:"service_settings"`
-	ServiceSettingsErrorMessage *string                             `json:"service_settings_error_message,omitempty" tfsdk:"service_settings_error_message"`
-	ServiceSettingsState        *string                             `json:"service_settings_state,omitempty" tfsdk:"service_settings_state"`
-	ServiceSettingsUuid         *string                             `json:"service_settings_uuid,omitempty" tfsdk:"service_settings_uuid"`
-	State                       *string                             `json:"state,omitempty" tfsdk:"state"`
-	Tenant                      *string                             `json:"tenant,omitempty" tfsdk:"tenant"`
-	TenantName                  *string                             `json:"tenant_name,omitempty" tfsdk:"tenant_name"`
-	TenantUuid                  *string                             `json:"tenant_uuid,omitempty" tfsdk:"tenant_uuid"`
-	Url                         *string                             `json:"url,omitempty" tfsdk:"url"`
+	BackendId               *string                             `json:"backend_id,omitempty" tfsdk:"backend_id"`
+	Created                 *string                             `json:"created,omitempty" tfsdk:"created"`
+	Customer                *string                             `json:"customer,omitempty" tfsdk:"customer"`
+	Description             *string                             `json:"description,omitempty" tfsdk:"description"`
+	ErrorMessage            *string                             `json:"error_message,omitempty" tfsdk:"error_message"`
+	ErrorTraceback          *string                             `json:"error_traceback,omitempty" tfsdk:"error_traceback"`
+	MarketplaceResourceUuid *string                             `json:"marketplace_resource_uuid,omitempty" tfsdk:"marketplace_resource_uuid"`
+	Modified                *string                             `json:"modified,omitempty" tfsdk:"modified"`
+	Name                    *string                             `json:"name,omitempty" tfsdk:"name"`
+	Project                 *string                             `json:"project,omitempty" tfsdk:"project"`
+	ResourceType            *string                             `json:"resource_type,omitempty" tfsdk:"resource_type"`
+	Rules                   *[]OpenStackSecurityGroupRuleCreate `json:"rules,omitempty" tfsdk:"rules"`
+	State                   *string                             `json:"state,omitempty" tfsdk:"state"`
+	Tenant                  *string                             `json:"tenant,omitempty" tfsdk:"tenant"`
+	TenantName              *string                             `json:"tenant_name,omitempty" tfsdk:"tenant_name"`
+	TenantUuid              *string                             `json:"tenant_uuid,omitempty" tfsdk:"tenant_uuid"`
+	Url                     *string                             `json:"url,omitempty" tfsdk:"url"`
+	Uuid                    *string                             `json:"uuid,omitempty" tfsdk:"uuid"`
 }
 
 type OpenStackSecurityGroupHyperlinkRequest struct {
-	Url *string `json:"url" tfsdk:"url"`
+	Description *string                    `json:"description,omitempty" tfsdk:"description"`
+	Name        *string                    `json:"name,omitempty" tfsdk:"name"`
+	Rules       *[]NestedSecurityGroupRule `json:"rules,omitempty" tfsdk:"rules"`
+	State       *string                    `json:"state,omitempty" tfsdk:"state"`
+	Url         *string                    `json:"url" tfsdk:"url"`
 }
 
 type OpenStackSecurityGroupRuleCreate struct {
@@ -373,14 +367,17 @@ type OpenStackSecurityGroupRuleCreate struct {
 }
 
 type OpenStackSecurityGroupRuleCreateRequest struct {
-	Cidr        *string `json:"cidr,omitempty" tfsdk:"cidr"`
-	Description *string `json:"description,omitempty" tfsdk:"description"`
-	Direction   *string `json:"direction,omitempty" tfsdk:"direction"`
-	Ethertype   *string `json:"ethertype,omitempty" tfsdk:"ethertype"`
-	FromPort    *int64  `json:"from_port,omitempty" tfsdk:"from_port"`
-	Protocol    *string `json:"protocol,omitempty" tfsdk:"protocol"`
-	RemoteGroup *string `json:"remote_group,omitempty" tfsdk:"remote_group"`
-	ToPort      *int64  `json:"to_port,omitempty" tfsdk:"to_port"`
+	Cidr            *string `json:"cidr,omitempty" tfsdk:"cidr"`
+	Description     *string `json:"description,omitempty" tfsdk:"description"`
+	Direction       *string `json:"direction,omitempty" tfsdk:"direction"`
+	Ethertype       *string `json:"ethertype,omitempty" tfsdk:"ethertype"`
+	FromPort        *int64  `json:"from_port,omitempty" tfsdk:"from_port"`
+	Id              *int64  `json:"id,omitempty" tfsdk:"id"`
+	Protocol        *string `json:"protocol,omitempty" tfsdk:"protocol"`
+	RemoteGroup     *string `json:"remote_group,omitempty" tfsdk:"remote_group"`
+	RemoteGroupName *string `json:"remote_group_name,omitempty" tfsdk:"remote_group_name"`
+	RemoteGroupUuid *string `json:"remote_group_uuid,omitempty" tfsdk:"remote_group_uuid"`
+	ToPort          *int64  `json:"to_port,omitempty" tfsdk:"to_port"`
 }
 
 type OpenStackStaticRoute struct {
@@ -410,77 +407,77 @@ type OpenStackTenantSecurityGroupRequest struct {
 }
 
 type OrderDetails struct {
-	ActivationPrice            *float64 `json:"activation_price,omitempty" tfsdk:"activation_price"`
-	Attachment                 *string  `json:"attachment,omitempty" tfsdk:"attachment"`
-	BackendId                  *string  `json:"backend_id,omitempty" tfsdk:"backend_id"`
-	CallbackUrl                *string  `json:"callback_url,omitempty" tfsdk:"callback_url"`
-	CanTerminate               *bool    `json:"can_terminate,omitempty" tfsdk:"can_terminate"`
-	CategoryIcon               *string  `json:"category_icon,omitempty" tfsdk:"category_icon"`
-	CategoryTitle              *string  `json:"category_title,omitempty" tfsdk:"category_title"`
-	CategoryUuid               *string  `json:"category_uuid,omitempty" tfsdk:"category_uuid"`
-	CompletedAt                *string  `json:"completed_at,omitempty" tfsdk:"completed_at"`
-	ConsumerReviewedAt         *string  `json:"consumer_reviewed_at,omitempty" tfsdk:"consumer_reviewed_at"`
-	ConsumerReviewedBy         *string  `json:"consumer_reviewed_by,omitempty" tfsdk:"consumer_reviewed_by"`
-	ConsumerReviewedByFullName *string  `json:"consumer_reviewed_by_full_name,omitempty" tfsdk:"consumer_reviewed_by_full_name"`
-	ConsumerReviewedByUsername *string  `json:"consumer_reviewed_by_username,omitempty" tfsdk:"consumer_reviewed_by_username"`
-	Cost                       *string  `json:"cost,omitempty" tfsdk:"cost"`
-	Created                    *string  `json:"created,omitempty" tfsdk:"created"`
-	CreatedByCivilNumber       *string  `json:"created_by_civil_number,omitempty" tfsdk:"created_by_civil_number"`
-	CreatedByFullName          *string  `json:"created_by_full_name,omitempty" tfsdk:"created_by_full_name"`
-	CreatedByUsername          *string  `json:"created_by_username,omitempty" tfsdk:"created_by_username"`
-	CustomerName               *string  `json:"customer_name,omitempty" tfsdk:"customer_name"`
-	CustomerSlug               *string  `json:"customer_slug,omitempty" tfsdk:"customer_slug"`
-	CustomerUuid               *string  `json:"customer_uuid,omitempty" tfsdk:"customer_uuid"`
-	ErrorMessage               *string  `json:"error_message,omitempty" tfsdk:"error_message"`
-	ErrorTraceback             *string  `json:"error_traceback,omitempty" tfsdk:"error_traceback"`
-	FixedPrice                 *float64 `json:"fixed_price,omitempty" tfsdk:"fixed_price"`
-	MarketplaceResourceUuid    *string  `json:"marketplace_resource_uuid,omitempty" tfsdk:"marketplace_resource_uuid"`
-	Modified                   *string  `json:"modified,omitempty" tfsdk:"modified"`
-	NewCostEstimate            *string  `json:"new_cost_estimate,omitempty" tfsdk:"new_cost_estimate"`
-	NewPlanName                *string  `json:"new_plan_name,omitempty" tfsdk:"new_plan_name"`
-	NewPlanUuid                *string  `json:"new_plan_uuid,omitempty" tfsdk:"new_plan_uuid"`
-	Offering                   *string  `json:"offering,omitempty" tfsdk:"offering"`
-	OfferingBillable           *bool    `json:"offering_billable,omitempty" tfsdk:"offering_billable"`
-	OfferingDescription        *string  `json:"offering_description,omitempty" tfsdk:"offering_description"`
-	OfferingImage              *string  `json:"offering_image,omitempty" tfsdk:"offering_image"`
-	OfferingName               *string  `json:"offering_name,omitempty" tfsdk:"offering_name"`
-	OfferingShared             *bool    `json:"offering_shared,omitempty" tfsdk:"offering_shared"`
-	OfferingThumbnail          *string  `json:"offering_thumbnail,omitempty" tfsdk:"offering_thumbnail"`
-	OfferingType               *string  `json:"offering_type,omitempty" tfsdk:"offering_type"`
-	OfferingUuid               *string  `json:"offering_uuid,omitempty" tfsdk:"offering_uuid"`
-	OldCostEstimate            *float64 `json:"old_cost_estimate,omitempty" tfsdk:"old_cost_estimate"`
-	OldPlanName                *string  `json:"old_plan_name,omitempty" tfsdk:"old_plan_name"`
-	OldPlanUuid                *string  `json:"old_plan_uuid,omitempty" tfsdk:"old_plan_uuid"`
-	OrderSubtype               *string  `json:"order_subtype,omitempty" tfsdk:"order_subtype"`
-	Output                     *string  `json:"output,omitempty" tfsdk:"output"`
-	Plan                       *string  `json:"plan,omitempty" tfsdk:"plan"`
-	PlanDescription            *string  `json:"plan_description,omitempty" tfsdk:"plan_description"`
-	PlanName                   *string  `json:"plan_name,omitempty" tfsdk:"plan_name"`
-	PlanUnit                   *string  `json:"plan_unit,omitempty" tfsdk:"plan_unit"`
-	PlanUuid                   *string  `json:"plan_uuid,omitempty" tfsdk:"plan_uuid"`
-	ProjectDescription         *string  `json:"project_description,omitempty" tfsdk:"project_description"`
-	ProjectName                *string  `json:"project_name,omitempty" tfsdk:"project_name"`
-	ProjectSlug                *string  `json:"project_slug,omitempty" tfsdk:"project_slug"`
-	ProjectUuid                *string  `json:"project_uuid,omitempty" tfsdk:"project_uuid"`
-	ProviderName               *string  `json:"provider_name,omitempty" tfsdk:"provider_name"`
-	ProviderReviewedAt         *string  `json:"provider_reviewed_at,omitempty" tfsdk:"provider_reviewed_at"`
-	ProviderReviewedBy         *string  `json:"provider_reviewed_by,omitempty" tfsdk:"provider_reviewed_by"`
-	ProviderReviewedByFullName *string  `json:"provider_reviewed_by_full_name,omitempty" tfsdk:"provider_reviewed_by_full_name"`
-	ProviderReviewedByUsername *string  `json:"provider_reviewed_by_username,omitempty" tfsdk:"provider_reviewed_by_username"`
-	ProviderSlug               *string  `json:"provider_slug,omitempty" tfsdk:"provider_slug"`
-	ProviderUuid               *string  `json:"provider_uuid,omitempty" tfsdk:"provider_uuid"`
-	RequestComment             *string  `json:"request_comment,omitempty" tfsdk:"request_comment"`
-	ResourceName               *string  `json:"resource_name,omitempty" tfsdk:"resource_name"`
-	ResourceType               *string  `json:"resource_type,omitempty" tfsdk:"resource_type"`
-	ResourceUuid               *string  `json:"resource_uuid,omitempty" tfsdk:"resource_uuid"`
-	Slug                       *string  `json:"slug,omitempty" tfsdk:"slug"`
-	StartDate                  *string  `json:"start_date,omitempty" tfsdk:"start_date"`
-	State                      *string  `json:"state,omitempty" tfsdk:"state"`
-	TerminationComment         *string  `json:"termination_comment,omitempty" tfsdk:"termination_comment"`
-	Type                       *string  `json:"type,omitempty" tfsdk:"type"`
-	Url                        *string  `json:"url,omitempty" tfsdk:"url"`
-
-	Uuid *string `json:"uuid" tfsdk:"uuid"`
+	ActivationPrice            *float64           `json:"activation_price,omitempty" tfsdk:"activation_price"`
+	Attachment                 *string            `json:"attachment,omitempty" tfsdk:"attachment"`
+	BackendId                  *string            `json:"backend_id,omitempty" tfsdk:"backend_id"`
+	CallbackUrl                *string            `json:"callback_url,omitempty" tfsdk:"callback_url"`
+	CanTerminate               *bool              `json:"can_terminate,omitempty" tfsdk:"can_terminate"`
+	CategoryIcon               *string            `json:"category_icon,omitempty" tfsdk:"category_icon"`
+	CategoryTitle              *string            `json:"category_title,omitempty" tfsdk:"category_title"`
+	CategoryUuid               *string            `json:"category_uuid,omitempty" tfsdk:"category_uuid"`
+	CompletedAt                *string            `json:"completed_at,omitempty" tfsdk:"completed_at"`
+	ConsumerReviewedAt         *string            `json:"consumer_reviewed_at,omitempty" tfsdk:"consumer_reviewed_at"`
+	ConsumerReviewedBy         *string            `json:"consumer_reviewed_by,omitempty" tfsdk:"consumer_reviewed_by"`
+	ConsumerReviewedByFullName *string            `json:"consumer_reviewed_by_full_name,omitempty" tfsdk:"consumer_reviewed_by_full_name"`
+	ConsumerReviewedByUsername *string            `json:"consumer_reviewed_by_username,omitempty" tfsdk:"consumer_reviewed_by_username"`
+	Cost                       *string            `json:"cost,omitempty" tfsdk:"cost"`
+	Created                    *string            `json:"created,omitempty" tfsdk:"created"`
+	CreatedByCivilNumber       *string            `json:"created_by_civil_number,omitempty" tfsdk:"created_by_civil_number"`
+	CreatedByFullName          *string            `json:"created_by_full_name,omitempty" tfsdk:"created_by_full_name"`
+	CreatedByUsername          *string            `json:"created_by_username,omitempty" tfsdk:"created_by_username"`
+	CustomerSlug               *string            `json:"customer_slug,omitempty" tfsdk:"customer_slug"`
+	ErrorMessage               *string            `json:"error_message,omitempty" tfsdk:"error_message"`
+	ErrorTraceback             *string            `json:"error_traceback,omitempty" tfsdk:"error_traceback"`
+	FixedPrice                 *float64           `json:"fixed_price,omitempty" tfsdk:"fixed_price"`
+	Issue                      *OrderDetailsIssue `json:"issue,omitempty" tfsdk:"issue"`
+	MarketplaceResourceUuid    *string            `json:"marketplace_resource_uuid,omitempty" tfsdk:"marketplace_resource_uuid"`
+	Modified                   *string            `json:"modified,omitempty" tfsdk:"modified"`
+	NewCostEstimate            *string            `json:"new_cost_estimate,omitempty" tfsdk:"new_cost_estimate"`
+	NewPlanName                *string            `json:"new_plan_name,omitempty" tfsdk:"new_plan_name"`
+	NewPlanUuid                *string            `json:"new_plan_uuid,omitempty" tfsdk:"new_plan_uuid"`
+	Offering                   *string            `json:"offering,omitempty" tfsdk:"offering"`
+	OfferingBillable           *bool              `json:"offering_billable,omitempty" tfsdk:"offering_billable"`
+	OfferingDescription        *string            `json:"offering_description,omitempty" tfsdk:"offering_description"`
+	OfferingImage              *string            `json:"offering_image,omitempty" tfsdk:"offering_image"`
+	OfferingName               *string            `json:"offering_name,omitempty" tfsdk:"offering_name"`
+	OfferingShared             *bool              `json:"offering_shared,omitempty" tfsdk:"offering_shared"`
+	OfferingThumbnail          *string            `json:"offering_thumbnail,omitempty" tfsdk:"offering_thumbnail"`
+	OfferingType               *string            `json:"offering_type,omitempty" tfsdk:"offering_type"`
+	OfferingUuid               *string            `json:"offering_uuid,omitempty" tfsdk:"offering_uuid"`
+	OldCostEstimate            *float64           `json:"old_cost_estimate,omitempty" tfsdk:"old_cost_estimate"`
+	OldPlanName                *string            `json:"old_plan_name,omitempty" tfsdk:"old_plan_name"`
+	OldPlanUuid                *string            `json:"old_plan_uuid,omitempty" tfsdk:"old_plan_uuid"`
+	OrderSubtype               *string            `json:"order_subtype,omitempty" tfsdk:"order_subtype"`
+	Output                     *string            `json:"output,omitempty" tfsdk:"output"`
+	Plan                       *string            `json:"plan,omitempty" tfsdk:"plan"`
+	PlanDescription            *string            `json:"plan_description,omitempty" tfsdk:"plan_description"`
+	PlanName                   *string            `json:"plan_name,omitempty" tfsdk:"plan_name"`
+	PlanUnit                   *string            `json:"plan_unit,omitempty" tfsdk:"plan_unit"`
+	PlanUuid                   *string            `json:"plan_uuid,omitempty" tfsdk:"plan_uuid"`
+	ProjectDescription         *string            `json:"project_description,omitempty" tfsdk:"project_description"`
+	ProjectSlug                *string            `json:"project_slug,omitempty" tfsdk:"project_slug"`
+	ProviderName               *string            `json:"provider_name,omitempty" tfsdk:"provider_name"`
+	ProviderReviewedAt         *string            `json:"provider_reviewed_at,omitempty" tfsdk:"provider_reviewed_at"`
+	ProviderReviewedBy         *string            `json:"provider_reviewed_by,omitempty" tfsdk:"provider_reviewed_by"`
+	ProviderReviewedByFullName *string            `json:"provider_reviewed_by_full_name,omitempty" tfsdk:"provider_reviewed_by_full_name"`
+	ProviderReviewedByUsername *string            `json:"provider_reviewed_by_username,omitempty" tfsdk:"provider_reviewed_by_username"`
+	ProviderSlug               *string            `json:"provider_slug,omitempty" tfsdk:"provider_slug"`
+	ProviderUuid               *string            `json:"provider_uuid,omitempty" tfsdk:"provider_uuid"`
+	RequestComment             *string            `json:"request_comment,omitempty" tfsdk:"request_comment"`
+	ResourceName               *string            `json:"resource_name,omitempty" tfsdk:"resource_name"`
+	ResourceType               *string            `json:"resource_type,omitempty" tfsdk:"resource_type"`
+	ResourceUuid               *string            `json:"resource_uuid,omitempty" tfsdk:"resource_uuid"`
+	Slug                       *string            `json:"slug,omitempty" tfsdk:"slug"`
+	StartDate                  *string            `json:"start_date,omitempty" tfsdk:"start_date"`
+	State                      *string            `json:"state,omitempty" tfsdk:"state"`
+	TerminationComment         *string            `json:"termination_comment,omitempty" tfsdk:"termination_comment"`
+	Type                       *string            `json:"type,omitempty" tfsdk:"type"`
+	Url                        *string            `json:"url,omitempty" tfsdk:"url"`
+	Uuid                       *string            `json:"uuid,omitempty" tfsdk:"uuid"`
+}
+type OrderDetailsIssue struct {
+	Key  *string `json:"key,omitempty" tfsdk:"key"`
+	Uuid *string `json:"uuid,omitempty" tfsdk:"uuid"`
 }
 
 type OrganizationGroup struct {
@@ -490,6 +487,7 @@ type OrganizationGroup struct {
 	ParentName     *string `json:"parent_name,omitempty" tfsdk:"parent_name"`
 	ParentUuid     *string `json:"parent_uuid,omitempty" tfsdk:"parent_uuid"`
 	Url            *string `json:"url,omitempty" tfsdk:"url"`
+	Uuid           *string `json:"uuid,omitempty" tfsdk:"uuid"`
 }
 
 type PaymentProfile struct {
@@ -501,6 +499,7 @@ type PaymentProfile struct {
 	PaymentType        *string                   `json:"payment_type,omitempty" tfsdk:"payment_type"`
 	PaymentTypeDisplay *string                   `json:"payment_type_display,omitempty" tfsdk:"payment_type_display"`
 	Url                *string                   `json:"url,omitempty" tfsdk:"url"`
+	Uuid               *string                   `json:"uuid,omitempty" tfsdk:"uuid"`
 }
 
 type PaymentProfileAttributes struct {
@@ -508,14 +507,6 @@ type PaymentProfileAttributes struct {
 	ContractSum     *int64  `json:"contract_sum,omitempty" tfsdk:"contract_sum"`
 	EndDate         *string `json:"end_date,omitempty" tfsdk:"end_date"`
 }
-
-type PaymentTypeEnum string
-
-const (
-	PaymentTypeEnumFixedPrice       PaymentTypeEnum = "fixed_price"
-	PaymentTypeEnumInvoices         PaymentTypeEnum = "invoices"
-	PaymentTypeEnumPaymentGwMonthly PaymentTypeEnum = "payment_gw_monthly"
-)
 
 type Quota struct {
 	Limit *int64  `json:"limit,omitempty" tfsdk:"limit"`

@@ -31,6 +31,7 @@ Structure Customer data source - lookup by name or UUID
 - `backend_id` (String) Organization identifier in another application.
 - `bank_account` (String) Bank account
 - `bank_name` (String) Name of the bank
+- `billing_price_estimate` (Attributes) Billing price estimate (see [below for nested schema](#nestedatt--billing_price_estimate))
 - `blocked` (Boolean) Blocked
 - `call_managing_organization_uuid` (String) UUID of the call managing organization
 - `contact_details` (String) Contact details
@@ -87,6 +88,17 @@ Optional:
 - `owned_by_current_user` (Boolean) Return a list of customers where current user is owner.
 - `query` (String) Filter by name, native name, abbreviation, domain, UUID, registration code or agreement number
 - `registration_code` (String) Registration code
+
+
+<a id="nestedatt--billing_price_estimate"></a>
+### Nested Schema for `billing_price_estimate`
+
+Read-Only:
+
+- `current` (Number) Current
+- `tax` (Number) Tax
+- `tax_current` (Number) Tax current
+- `total` (Number) Total
 
 
 <a id="nestedatt--organization_groups"></a>

@@ -12,6 +12,26 @@ import (
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
+func OpenStackAllowedAddressPairRequestType() types.ObjectType {
+	return types.ObjectType{AttrTypes: map[string]attr.Type{
+		"ip_address":  types.StringType,
+		"mac_address": types.StringType,
+	}}
+}
+func OpenStackFixedIpRequestType() types.ObjectType {
+	return types.ObjectType{AttrTypes: map[string]attr.Type{
+		"ip_address": types.StringType,
+		"subnet_id":  types.StringType,
+	}}
+}
+func OpenStackPortNestedSecurityGroupRequestType() types.ObjectType {
+	return types.ObjectType{AttrTypes: map[string]attr.Type{
+		"name": types.StringType,
+		"url":  types.StringType,
+		"uuid": types.StringType,
+	}}
+}
+
 type OpenstackPortFiltersModel struct {
 	AdminStateUp       types.Bool   `tfsdk:"admin_state_up"`
 	BackendId          types.String `tfsdk:"backend_id"`
@@ -105,57 +125,37 @@ func (m *OpenstackPortFiltersModel) GetSchema() schema.SingleNestedAttribute {
 }
 
 type OpenstackPortModel struct {
-	UUID                        types.String      `tfsdk:"id"`
-	AccessUrl                   types.String      `tfsdk:"access_url"`
-	AdminStateUp                types.Bool        `tfsdk:"admin_state_up"`
-	AllowedAddressPairs         types.List        `tfsdk:"allowed_address_pairs"`
-	BackendId                   types.String      `tfsdk:"backend_id"`
-	Created                     timetypes.RFC3339 `tfsdk:"created"`
-	Customer                    types.String      `tfsdk:"customer"`
-	CustomerAbbreviation        types.String      `tfsdk:"customer_abbreviation"`
-	CustomerName                types.String      `tfsdk:"customer_name"`
-	CustomerNativeName          types.String      `tfsdk:"customer_native_name"`
-	CustomerUuid                types.String      `tfsdk:"customer_uuid"`
-	Description                 types.String      `tfsdk:"description"`
-	DeviceId                    types.String      `tfsdk:"device_id"`
-	DeviceOwner                 types.String      `tfsdk:"device_owner"`
-	ErrorMessage                types.String      `tfsdk:"error_message"`
-	ErrorTraceback              types.String      `tfsdk:"error_traceback"`
-	FixedIps                    types.List        `tfsdk:"fixed_ips"`
-	FloatingIps                 types.Set         `tfsdk:"floating_ips"`
-	IsLimitBased                types.Bool        `tfsdk:"is_limit_based"`
-	IsUsageBased                types.Bool        `tfsdk:"is_usage_based"`
-	MacAddress                  types.String      `tfsdk:"mac_address"`
-	MarketplaceCategoryName     types.String      `tfsdk:"marketplace_category_name"`
-	MarketplaceCategoryUuid     types.String      `tfsdk:"marketplace_category_uuid"`
-	MarketplaceOfferingName     types.String      `tfsdk:"marketplace_offering_name"`
-	MarketplaceOfferingUuid     types.String      `tfsdk:"marketplace_offering_uuid"`
-	MarketplacePlanUuid         types.String      `tfsdk:"marketplace_plan_uuid"`
-	MarketplaceResourceState    types.String      `tfsdk:"marketplace_resource_state"`
-	MarketplaceResourceUuid     types.String      `tfsdk:"marketplace_resource_uuid"`
-	Modified                    timetypes.RFC3339 `tfsdk:"modified"`
-	Name                        types.String      `tfsdk:"name"`
-	Network                     types.String      `tfsdk:"network"`
-	NetworkName                 types.String      `tfsdk:"network_name"`
-	NetworkUuid                 types.String      `tfsdk:"network_uuid"`
-	PortSecurityEnabled         types.Bool        `tfsdk:"port_security_enabled"`
-	Project                     types.String      `tfsdk:"project"`
-	ProjectName                 types.String      `tfsdk:"project_name"`
-	ProjectUuid                 types.String      `tfsdk:"project_uuid"`
-	ResourceType                types.String      `tfsdk:"resource_type"`
-	SecurityGroups              types.Set         `tfsdk:"security_groups"`
-	ServiceName                 types.String      `tfsdk:"service_name"`
-	ServiceSettings             types.String      `tfsdk:"service_settings"`
-	ServiceSettingsErrorMessage types.String      `tfsdk:"service_settings_error_message"`
-	ServiceSettingsState        types.String      `tfsdk:"service_settings_state"`
-	ServiceSettingsUuid         types.String      `tfsdk:"service_settings_uuid"`
-	State                       types.String      `tfsdk:"state"`
-	Status                      types.String      `tfsdk:"status"`
-	TargetTenant                types.String      `tfsdk:"target_tenant"`
-	Tenant                      types.String      `tfsdk:"tenant"`
-	TenantName                  types.String      `tfsdk:"tenant_name"`
-	TenantUuid                  types.String      `tfsdk:"tenant_uuid"`
-	Url                         types.String      `tfsdk:"url"`
+	UUID                    types.String      `tfsdk:"id"`
+	AdminStateUp            types.Bool        `tfsdk:"admin_state_up"`
+	AllowedAddressPairs     types.List        `tfsdk:"allowed_address_pairs"`
+	BackendId               types.String      `tfsdk:"backend_id"`
+	Created                 timetypes.RFC3339 `tfsdk:"created"`
+	Customer                types.String      `tfsdk:"customer"`
+	Description             types.String      `tfsdk:"description"`
+	DeviceId                types.String      `tfsdk:"device_id"`
+	DeviceOwner             types.String      `tfsdk:"device_owner"`
+	ErrorMessage            types.String      `tfsdk:"error_message"`
+	ErrorTraceback          types.String      `tfsdk:"error_traceback"`
+	FixedIps                types.List        `tfsdk:"fixed_ips"`
+	FloatingIps             types.Set         `tfsdk:"floating_ips"`
+	MacAddress              types.String      `tfsdk:"mac_address"`
+	MarketplaceResourceUuid types.String      `tfsdk:"marketplace_resource_uuid"`
+	Modified                timetypes.RFC3339 `tfsdk:"modified"`
+	Name                    types.String      `tfsdk:"name"`
+	Network                 types.String      `tfsdk:"network"`
+	NetworkName             types.String      `tfsdk:"network_name"`
+	NetworkUuid             types.String      `tfsdk:"network_uuid"`
+	PortSecurityEnabled     types.Bool        `tfsdk:"port_security_enabled"`
+	Project                 types.String      `tfsdk:"project"`
+	ResourceType            types.String      `tfsdk:"resource_type"`
+	SecurityGroups          types.Set         `tfsdk:"security_groups"`
+	State                   types.String      `tfsdk:"state"`
+	Status                  types.String      `tfsdk:"status"`
+	Tenant                  types.String      `tfsdk:"tenant"`
+	TenantName              types.String      `tfsdk:"tenant_name"`
+	TenantUuid              types.String      `tfsdk:"tenant_uuid"`
+	Url                     types.String      `tfsdk:"url"`
+	TargetTenant            types.String      `tfsdk:"target_tenant"`
 }
 
 // CopyFrom maps the API response to the model fields.
@@ -163,52 +163,37 @@ func (model *OpenstackPortModel) CopyFrom(ctx context.Context, apiResp Openstack
 	var diags diag.Diagnostics
 
 	model.UUID = types.StringPointerValue(apiResp.UUID)
-	model.AccessUrl = common.StringPointerValue(apiResp.AccessUrl)
 	model.AdminStateUp = types.BoolPointerValue(apiResp.AdminStateUp)
 
-	{
-		listValAllowedAddressPairs, listDiagsAllowedAddressPairs := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
-			"ip_address":  types.StringType,
-			"mac_address": types.StringType,
-		}}, apiResp.AllowedAddressPairs)
+	if apiResp.AllowedAddressPairs != nil && len(*apiResp.AllowedAddressPairs) > 0 {
+		listValAllowedAddressPairs, listDiagsAllowedAddressPairs := types.ListValueFrom(ctx, OpenStackAllowedAddressPairRequestType(), apiResp.AllowedAddressPairs)
 		diags.Append(listDiagsAllowedAddressPairs...)
 		model.AllowedAddressPairs = listValAllowedAddressPairs
+	} else {
+		model.AllowedAddressPairs = types.ListNull(OpenStackAllowedAddressPairRequestType())
 	}
 	model.BackendId = common.StringPointerValue(apiResp.BackendId)
 	valCreated, diagsCreated := timetypes.NewRFC3339PointerValue(apiResp.Created)
 	diags.Append(diagsCreated...)
 	model.Created = valCreated
 	model.Customer = common.StringPointerValue(apiResp.Customer)
-	model.CustomerAbbreviation = common.StringPointerValue(apiResp.CustomerAbbreviation)
-	model.CustomerName = common.StringPointerValue(apiResp.CustomerName)
-	model.CustomerNativeName = common.StringPointerValue(apiResp.CustomerNativeName)
-	model.CustomerUuid = common.StringPointerValue(apiResp.CustomerUuid)
 	model.Description = common.StringPointerValue(apiResp.Description)
 	model.DeviceId = common.StringPointerValue(apiResp.DeviceId)
 	model.DeviceOwner = common.StringPointerValue(apiResp.DeviceOwner)
 	model.ErrorMessage = common.StringPointerValue(apiResp.ErrorMessage)
 	model.ErrorTraceback = common.StringPointerValue(apiResp.ErrorTraceback)
 
-	{
-		listValFixedIps, listDiagsFixedIps := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
-			"ip_address": types.StringType,
-			"subnet_id":  types.StringType,
-		}}, apiResp.FixedIps)
+	if apiResp.FixedIps != nil && len(*apiResp.FixedIps) > 0 {
+		listValFixedIps, listDiagsFixedIps := types.ListValueFrom(ctx, OpenStackFixedIpRequestType(), apiResp.FixedIps)
 		diags.Append(listDiagsFixedIps...)
 		model.FixedIps = listValFixedIps
+	} else {
+		model.FixedIps = types.ListNull(OpenStackFixedIpRequestType())
 	}
 	setValFloatingIps, setDiagsFloatingIps := types.SetValueFrom(ctx, types.StringType, apiResp.FloatingIps)
 	model.FloatingIps = setValFloatingIps
 	diags.Append(setDiagsFloatingIps...)
-	model.IsLimitBased = types.BoolPointerValue(apiResp.IsLimitBased)
-	model.IsUsageBased = types.BoolPointerValue(apiResp.IsUsageBased)
 	model.MacAddress = common.StringPointerValue(apiResp.MacAddress)
-	model.MarketplaceCategoryName = common.StringPointerValue(apiResp.MarketplaceCategoryName)
-	model.MarketplaceCategoryUuid = common.StringPointerValue(apiResp.MarketplaceCategoryUuid)
-	model.MarketplaceOfferingName = common.StringPointerValue(apiResp.MarketplaceOfferingName)
-	model.MarketplaceOfferingUuid = common.StringPointerValue(apiResp.MarketplaceOfferingUuid)
-	model.MarketplacePlanUuid = common.StringPointerValue(apiResp.MarketplacePlanUuid)
-	model.MarketplaceResourceState = common.StringPointerValue(apiResp.MarketplaceResourceState)
 	model.MarketplaceResourceUuid = common.StringPointerValue(apiResp.MarketplaceResourceUuid)
 	valModified, diagsModified := timetypes.NewRFC3339PointerValue(apiResp.Modified)
 	diags.Append(diagsModified...)
@@ -219,29 +204,21 @@ func (model *OpenstackPortModel) CopyFrom(ctx context.Context, apiResp Openstack
 	model.NetworkUuid = common.StringPointerValue(apiResp.NetworkUuid)
 	model.PortSecurityEnabled = types.BoolPointerValue(apiResp.PortSecurityEnabled)
 	model.Project = common.StringPointerValue(apiResp.Project)
-	model.ProjectName = common.StringPointerValue(apiResp.ProjectName)
-	model.ProjectUuid = common.StringPointerValue(apiResp.ProjectUuid)
 	model.ResourceType = common.StringPointerValue(apiResp.ResourceType)
-	{
-		setValSecurityGroups, setDiagsSecurityGroups := types.SetValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
-			"name": types.StringType,
-			"url":  types.StringType,
-			"uuid": types.StringType,
-		}}, apiResp.SecurityGroups)
+	if apiResp.SecurityGroups != nil && len(*apiResp.SecurityGroups) > 0 {
+		setValSecurityGroups, setDiagsSecurityGroups := types.SetValueFrom(ctx, OpenStackPortNestedSecurityGroupRequestType(), apiResp.SecurityGroups)
 		diags.Append(setDiagsSecurityGroups...)
 		model.SecurityGroups = setValSecurityGroups
+	} else {
+		model.SecurityGroups = types.SetNull(OpenStackPortNestedSecurityGroupRequestType())
 	}
-	model.ServiceName = common.StringPointerValue(apiResp.ServiceName)
-	model.ServiceSettings = common.StringPointerValue(apiResp.ServiceSettings)
-	model.ServiceSettingsErrorMessage = common.StringPointerValue(apiResp.ServiceSettingsErrorMessage)
-	model.ServiceSettingsState = common.StringPointerValue(apiResp.ServiceSettingsState)
-	model.ServiceSettingsUuid = common.StringPointerValue(apiResp.ServiceSettingsUuid)
 	model.State = common.StringPointerValue(apiResp.State)
 	model.Status = common.StringPointerValue(apiResp.Status)
 	model.Tenant = common.StringPointerValue(apiResp.Tenant)
 	model.TenantName = common.StringPointerValue(apiResp.TenantName)
 	model.TenantUuid = common.StringPointerValue(apiResp.TenantUuid)
 	model.Url = common.StringPointerValue(apiResp.Url)
+	model.TargetTenant = common.StringPointerValue(apiResp.TargetTenant)
 
 	return diags
 }

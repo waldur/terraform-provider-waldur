@@ -31,7 +31,7 @@ func NewOpenstackTenantResource() resource.Resource {
 
 // OpenstackTenantResource defines the resource implementation.
 type OpenstackTenantResource struct {
-	client *Client
+	client *OpenstackTenantClient
 }
 
 // OpenstackTenantResourceModel describes the resource data model.
@@ -63,15 +63,12 @@ func (r *OpenstackTenantResource) Schema(ctx context.Context, req resource.Schem
 					stringplanmodifier.UseStateForUnknown(),
 				},
 			},
-			"access_url": schema.StringAttribute{
+			"availability_zone": schema.StringAttribute{
+				Optional: true,
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Access url",
-			},
-			"availability_zone": schema.StringAttribute{
-				Optional:            true,
 				MarkdownDescription: "Optional availability group. Will be used for all instances provisioned in this tenant",
 			},
 			"backend_id": schema.StringAttribute{
@@ -96,34 +93,6 @@ func (r *OpenstackTenantResource) Schema(ctx context.Context, req resource.Schem
 				},
 				MarkdownDescription: "Customer",
 			},
-			"customer_abbreviation": schema.StringAttribute{
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
-				MarkdownDescription: "Customer abbreviation",
-			},
-			"customer_name": schema.StringAttribute{
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
-				MarkdownDescription: "Name of the customer",
-			},
-			"customer_native_name": schema.StringAttribute{
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
-				MarkdownDescription: "Name of the customer native",
-			},
-			"customer_uuid": schema.StringAttribute{
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
-				MarkdownDescription: "UUID of the customer",
-			},
 			"default_volume_type_name": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
@@ -132,7 +101,11 @@ func (r *OpenstackTenantResource) Schema(ctx context.Context, req resource.Schem
 				MarkdownDescription: "Volume type name to use when creating volumes.",
 			},
 			"description": schema.StringAttribute{
-				Optional:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 				MarkdownDescription: "Description of the Openstack Tenant",
 			},
 			"error_message": schema.StringAttribute{
@@ -163,70 +136,15 @@ func (r *OpenstackTenantResource) Schema(ctx context.Context, req resource.Schem
 				},
 				MarkdownDescription: "ID of internal network in OpenStack tenant",
 			},
-			"is_limit_based": schema.BoolAttribute{
-				Computed: true,
-				PlanModifiers: []planmodifier.Bool{
-					boolplanmodifier.UseStateForUnknown(),
-				},
-				MarkdownDescription: "Is limit based",
-			},
-			"is_usage_based": schema.BoolAttribute{
-				Computed: true,
-				PlanModifiers: []planmodifier.Bool{
-					boolplanmodifier.UseStateForUnknown(),
-				},
-				MarkdownDescription: "Is usage based",
-			},
 			"limits": schema.MapAttribute{
 				ElementType: types.Float64Type,
 				Optional:    true,
 				Computed:    true,
 				PlanModifiers: []planmodifier.Map{
 					mapplanmodifier.RequiresReplace(),
+					mapplanmodifier.UseStateForUnknown(),
 				},
 				MarkdownDescription: "Resource limits",
-			},
-			"marketplace_category_name": schema.StringAttribute{
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
-				MarkdownDescription: "Name of the marketplace category",
-			},
-			"marketplace_category_uuid": schema.StringAttribute{
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
-				MarkdownDescription: "UUID of the marketplace category",
-			},
-			"marketplace_offering_name": schema.StringAttribute{
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
-				MarkdownDescription: "Name of the marketplace offering",
-			},
-			"marketplace_offering_uuid": schema.StringAttribute{
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
-				MarkdownDescription: "UUID of the marketplace offering",
-			},
-			"marketplace_plan_uuid": schema.StringAttribute{
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
-				MarkdownDescription: "UUID of the marketplace plan",
-			},
-			"marketplace_resource_state": schema.StringAttribute{
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
-				MarkdownDescription: "Marketplace resource state",
 			},
 			"marketplace_resource_uuid": schema.StringAttribute{
 				Computed: true,
@@ -244,7 +162,11 @@ func (r *OpenstackTenantResource) Schema(ctx context.Context, req resource.Schem
 				MarkdownDescription: "Modified",
 			},
 			"name": schema.StringAttribute{
-				Optional:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
 				MarkdownDescription: "Name of the Openstack Tenant",
 			},
 			"offering": schema.StringAttribute{
@@ -259,6 +181,7 @@ func (r *OpenstackTenantResource) Schema(ctx context.Context, req resource.Schem
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
+					stringplanmodifier.UseStateForUnknown(),
 				},
 				MarkdownDescription: "Plan URL",
 			},
@@ -268,20 +191,6 @@ func (r *OpenstackTenantResource) Schema(ctx context.Context, req resource.Schem
 					stringplanmodifier.RequiresReplace(),
 				},
 				MarkdownDescription: "Project",
-			},
-			"project_name": schema.StringAttribute{
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
-				MarkdownDescription: "Name of the project",
-			},
-			"project_uuid": schema.StringAttribute{
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
-				MarkdownDescription: "UUID of the project",
 			},
 			"quotas": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
@@ -377,41 +286,6 @@ func (r *OpenstackTenantResource) Schema(ctx context.Context, req resource.Schem
 				Optional:            true,
 				MarkdownDescription: "Security groups",
 			},
-			"service_name": schema.StringAttribute{
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
-				MarkdownDescription: "Name of the service",
-			},
-			"service_settings": schema.StringAttribute{
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
-				MarkdownDescription: "Service settings",
-			},
-			"service_settings_error_message": schema.StringAttribute{
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
-				MarkdownDescription: "Service settings error message",
-			},
-			"service_settings_state": schema.StringAttribute{
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
-				MarkdownDescription: "Service settings state",
-			},
-			"service_settings_uuid": schema.StringAttribute{
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
-				MarkdownDescription: "UUID of the service settings",
-			},
 			"skip_connection_extnet": schema.BoolAttribute{
 				Optional: true,
 				PlanModifiers: []planmodifier.Bool{
@@ -420,7 +294,11 @@ func (r *OpenstackTenantResource) Schema(ctx context.Context, req resource.Schem
 				MarkdownDescription: "Skip connection extnet",
 			},
 			"skip_creation_of_default_router": schema.BoolAttribute{
-				Optional:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.Bool{
+					boolplanmodifier.UseStateForUnknown(),
+				},
 				MarkdownDescription: "Skip creation of default router",
 			},
 			"skip_creation_of_default_subnet": schema.BoolAttribute{
@@ -481,13 +359,103 @@ func (r *OpenstackTenantResource) Configure(ctx context.Context, req resource.Co
 		return
 	}
 
-	r.client = &Client{}
+	r.client = &OpenstackTenantClient{}
 	if err := r.client.Configure(ctx, req.ProviderData); err != nil {
 		resp.Diagnostics.AddError(
 			"Unexpected Resource Configure Type",
 			err.Error(),
 		)
 		return
+	}
+}
+
+// resolveUnknownAttributes ensures that fields not returned by the Waldur GET API
+// are set to explicit null values instead of remaining "Unknown".
+func (r *OpenstackTenantResource) resolveUnknownAttributes(data *OpenstackTenantResourceModel) {
+	// Iterate over all model fields to handle Unknown values
+	if data.AvailabilityZone.IsUnknown() {
+		data.AvailabilityZone = types.StringNull()
+	}
+	if data.BackendId.IsUnknown() {
+		data.BackendId = types.StringNull()
+	}
+	if data.Created.IsUnknown() {
+		data.Created = timetypes.NewRFC3339Null()
+	}
+	if data.Customer.IsUnknown() {
+		data.Customer = types.StringNull()
+	}
+	if data.DefaultVolumeTypeName.IsUnknown() {
+		data.DefaultVolumeTypeName = types.StringNull()
+	}
+	if data.Description.IsUnknown() {
+		data.Description = types.StringNull()
+	}
+	if data.ErrorMessage.IsUnknown() {
+		data.ErrorMessage = types.StringNull()
+	}
+	if data.ErrorTraceback.IsUnknown() {
+		data.ErrorTraceback = types.StringNull()
+	}
+	if data.ExternalNetworkId.IsUnknown() {
+		data.ExternalNetworkId = types.StringNull()
+	}
+	if data.InternalNetworkId.IsUnknown() {
+		data.InternalNetworkId = types.StringNull()
+	}
+	if data.Limits.IsUnknown() {
+		data.Limits = types.MapNull(types.Float64Type)
+	}
+	if data.MarketplaceResourceUuid.IsUnknown() {
+		data.MarketplaceResourceUuid = types.StringNull()
+	}
+	if data.Modified.IsUnknown() {
+		data.Modified = timetypes.NewRFC3339Null()
+	}
+	if data.Name.IsUnknown() {
+		data.Name = types.StringNull()
+	}
+	if data.Offering.IsUnknown() {
+		data.Offering = types.StringNull()
+	}
+	if data.Plan.IsUnknown() {
+		data.Plan = types.StringNull()
+	}
+	if data.Project.IsUnknown() {
+		data.Project = types.StringNull()
+	}
+	if data.Quotas.IsUnknown() {
+		data.Quotas = types.ListNull(QuotaType())
+	}
+	if data.ResourceType.IsUnknown() {
+		data.ResourceType = types.StringNull()
+	}
+	if data.SecurityGroups.IsUnknown() {
+		data.SecurityGroups = types.SetNull(OpenStackTenantSecurityGroupRequestType())
+	}
+	if data.SkipConnectionExtnet.IsUnknown() {
+		data.SkipConnectionExtnet = types.BoolNull()
+	}
+	if data.SkipCreationOfDefaultRouter.IsUnknown() {
+		data.SkipCreationOfDefaultRouter = types.BoolNull()
+	}
+	if data.SkipCreationOfDefaultSubnet.IsUnknown() {
+		data.SkipCreationOfDefaultSubnet = types.BoolNull()
+	}
+	if data.State.IsUnknown() {
+		data.State = types.StringNull()
+	}
+	if data.SubnetCidr.IsUnknown() {
+		data.SubnetCidr = types.StringNull()
+	}
+	if data.Url.IsUnknown() {
+		data.Url = types.StringNull()
+	}
+	if data.UserPassword.IsUnknown() {
+		data.UserPassword = types.StringNull()
+	}
+	if data.UserUsername.IsUnknown() {
+		data.UserUsername = types.StringNull()
 	}
 }
 
@@ -500,14 +468,27 @@ func (r *OpenstackTenantResource) Create(ctx context.Context, req resource.Creat
 
 	// Phase 1: Payload Construction
 	// We map the Terraform schema fields to the 'attributes' map required by the Marketplace Order API.
-	attributes := OpenstackTenantCreateAttributes{
-		AvailabilityZone:            data.AvailabilityZone.ValueStringPointer(),
-		Description:                 data.Description.ValueStringPointer(),
-		Name:                        data.Name.ValueStringPointer(),
-		SkipConnectionExtnet:        data.SkipConnectionExtnet.ValueBoolPointer(),
-		SkipCreationOfDefaultRouter: data.SkipCreationOfDefaultRouter.ValueBoolPointer(),
-		SkipCreationOfDefaultSubnet: data.SkipCreationOfDefaultSubnet.ValueBoolPointer(),
-		SubnetCidr:                  data.SubnetCidr.ValueStringPointer(),
+	attributes := OpenstackTenantCreateAttributes{}
+	if !data.AvailabilityZone.IsNull() && !data.AvailabilityZone.IsUnknown() {
+		attributes.AvailabilityZone = data.AvailabilityZone.ValueStringPointer()
+	}
+	if !data.Description.IsNull() && !data.Description.IsUnknown() {
+		attributes.Description = data.Description.ValueStringPointer()
+	}
+	if !data.Name.IsNull() && !data.Name.IsUnknown() {
+		attributes.Name = data.Name.ValueStringPointer()
+	}
+	if !data.SkipConnectionExtnet.IsNull() && !data.SkipConnectionExtnet.IsUnknown() {
+		attributes.SkipConnectionExtnet = data.SkipConnectionExtnet.ValueBoolPointer()
+	}
+	if !data.SkipCreationOfDefaultRouter.IsNull() && !data.SkipCreationOfDefaultRouter.IsUnknown() {
+		attributes.SkipCreationOfDefaultRouter = data.SkipCreationOfDefaultRouter.ValueBoolPointer()
+	}
+	if !data.SkipCreationOfDefaultSubnet.IsNull() && !data.SkipCreationOfDefaultSubnet.IsUnknown() {
+		attributes.SkipCreationOfDefaultSubnet = data.SkipCreationOfDefaultSubnet.ValueBoolPointer()
+	}
+	if !data.SubnetCidr.IsNull() && !data.SubnetCidr.IsUnknown() {
+		attributes.SubnetCidr = data.SubnetCidr.ValueStringPointer()
 	}
 	resp.Diagnostics.Append(common.PopulateOptionalSetField(ctx, data.SecurityGroups, &attributes.SecurityGroups)...)
 
@@ -533,7 +514,7 @@ func (r *OpenstackTenantResource) Create(ctx context.Context, req resource.Creat
 	}
 
 	// Phase 2: Submit Order
-	orderRes, err := r.client.CreateOpenstackTenantOrder(ctx, &payload)
+	orderRes, err := r.client.CreateOrder(ctx, &payload)
 	if err != nil {
 		resp.Diagnostics.AddError("Order Submission Failed", err.Error())
 		return
@@ -563,20 +544,15 @@ func (r *OpenstackTenantResource) Create(ctx context.Context, req resource.Creat
 	}
 
 	// Fetch final resource state to ensure Terraform state matches reality
-	apiResp, err := r.client.GetOpenstackTenant(ctx, data.UUID.ValueString())
+	apiResp, err := r.client.Get(ctx, data.UUID.ValueString())
 	if err != nil {
 		resp.Diagnostics.AddError("Failed to Read Resource", err.Error())
 		return
 	}
 	resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
 
-	// Ensure computed fields that aren't in the technical resource are known
-	if data.Plan.IsUnknown() {
-		data.Plan = types.StringNull()
-	}
-	if data.Limits.IsUnknown() {
-		data.Limits = types.MapNull(types.Float64Type)
-	}
+	// Resolve unknown attributes to explicit null values
+	r.resolveUnknownAttributes(&data)
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
@@ -593,7 +569,7 @@ func (r *OpenstackTenantResource) Read(ctx context.Context, req resource.ReadReq
 
 	// Call Waldur API to read resource
 
-	apiResp, err := r.client.GetOpenstackTenant(ctx, data.UUID.ValueString())
+	apiResp, err := r.client.Get(ctx, data.UUID.ValueString())
 	if err != nil {
 		if IsNotFoundError(err) {
 			resp.State.RemoveResource(ctx)
@@ -612,13 +588,8 @@ func (r *OpenstackTenantResource) Read(ctx context.Context, req resource.ReadReq
 		return
 	}
 
-	// Ensure computed fields that aren't in the technical resource are known
-	if data.Plan.IsUnknown() {
-		data.Plan = types.StringNull()
-	}
-	if data.Limits.IsUnknown() {
-		data.Limits = types.MapNull(types.Float64Type)
-	}
+	// Resolve unknown attributes to explicit null values
+	r.resolveUnknownAttributes(&data)
 
 	// Save updated data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
@@ -664,7 +635,7 @@ func (r *OpenstackTenantResource) Update(ctx context.Context, req resource.Updat
 
 	if anyChanges {
 		// Execute the PATCH request
-		_, err := r.client.UpdateOpenstackTenant(ctx, data.UUID.ValueString(), &patchPayload)
+		_, err := r.client.Update(ctx, data.UUID.ValueString(), &patchPayload)
 		if err != nil {
 			resp.Diagnostics.AddError("Update Failed", err.Error())
 			return
@@ -685,14 +656,14 @@ func (r *OpenstackTenantResource) Update(ctx context.Context, req resource.Updat
 		resp.Diagnostics.Append(common.PopulateSetField(ctx, data.SecurityGroups, &req.SecurityGroups)...)
 
 		// Execute the Action
-		if err := r.client.OpenstackTenantPushSecurityGroups(ctx, data.UUID.ValueString(), &req); err != nil {
+		if err := r.client.PushSecurityGroups(ctx, data.UUID.ValueString(), &req); err != nil {
 			resp.Diagnostics.AddError("RPC Action Failed: push_security_groups", err.Error())
 			return
 		}
 
 		// Wait for the resource to return to OK state
 		apiResp, err := common.WaitForResource(ctx, func(ctx context.Context) (*OpenstackTenantResponse, error) {
-			return r.client.GetOpenstackTenant(ctx, data.UUID.ValueString())
+			return r.client.Get(ctx, data.UUID.ValueString())
 		}, updateTimeout)
 		if err != nil {
 			resp.Diagnostics.AddError("Wait for RPC action failed", err.Error())
@@ -703,7 +674,7 @@ func (r *OpenstackTenantResource) Update(ctx context.Context, req resource.Updat
 	}
 
 	// Fetch updated state after all changes
-	apiResp, err := r.client.GetOpenstackTenant(ctx, data.UUID.ValueString())
+	apiResp, err := r.client.Get(ctx, data.UUID.ValueString())
 	if err != nil {
 		if IsNotFoundError(err) {
 			resp.State.RemoveResource(ctx)
@@ -714,13 +685,8 @@ func (r *OpenstackTenantResource) Update(ctx context.Context, req resource.Updat
 	}
 	resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
 
-	// Ensure computed fields that aren't in the technical resource are known
-	if data.Plan.IsUnknown() {
-		data.Plan = types.StringNull()
-	}
-	if data.Limits.IsUnknown() {
-		data.Limits = types.MapNull(types.Float64Type)
-	}
+	// Resolve unknown attributes to explicit null values
+	r.resolveUnknownAttributes(&data)
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
@@ -733,6 +699,7 @@ func (r *OpenstackTenantResource) Delete(ctx context.Context, req resource.Delet
 	}
 
 	// Order-based Delete
+
 	payload := map[string]interface{}{}
 
 	// Submit termination order
@@ -740,7 +707,7 @@ func (r *OpenstackTenantResource) Delete(ctx context.Context, req resource.Delet
 	if !data.MarketplaceResourceUuid.IsNull() && !data.MarketplaceResourceUuid.IsUnknown() {
 		resourceID = data.MarketplaceResourceUuid.ValueString()
 	}
-	orderUUID, err := r.client.TerminateOpenstackTenant(ctx, resourceID, payload)
+	orderUUID, err := r.client.Terminate(ctx, resourceID, payload)
 	if err != nil {
 		resp.Diagnostics.AddError("Termination Failed", err.Error())
 		return
@@ -777,7 +744,7 @@ func (r *OpenstackTenantResource) ImportState(ctx context.Context, req resource.
 		"uuid": uuid,
 	})
 
-	apiResp, err := r.client.GetOpenstackTenant(ctx, uuid)
+	apiResp, err := r.client.Get(ctx, uuid)
 	if err != nil {
 		if IsNotFoundError(err) {
 			resp.Diagnostics.AddError(

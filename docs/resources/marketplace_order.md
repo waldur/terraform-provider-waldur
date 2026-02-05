@@ -55,6 +55,8 @@ Marketplace Order resource
 - `error_traceback` (String) Error traceback
 - `fixed_price` (Number) Fixed price
 - `id` (String) Marketplace Order UUID (used as Terraform ID)
+- `issue` (Attributes) Issue (see [below for nested schema](#nestedatt--issue))
+- `marketplace_resource_uuid` (String) UUID of the marketplace resource
 - `modified` (String) Modified
 - `new_cost_estimate` (String) New cost estimate
 - `new_plan_name` (String) Name of the new plan
@@ -101,3 +103,12 @@ Optional:
 - `create` (String) A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
 - `delete` (String) A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs.
 - `update` (String) A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
+
+
+<a id="nestedatt--issue"></a>
+### Nested Schema for `issue`
+
+Read-Only:
+
+- `key` (String) Key
+- `uuid` (String) UUID of the Marketplace Order

@@ -32,18 +32,20 @@ Openstack Subnet resource
 
 ### Read-Only
 
-- `access_url` (String) Access url
 - `backend_id` (String) ID of the backend
 - `created` (String) Created
+- `customer` (String) Customer
 - `enable_dhcp` (Boolean) If True, DHCP service will be enabled on this subnet
 - `error_message` (String) Error message
 - `error_traceback` (String) Error traceback
 - `id` (String) Openstack Subnet UUID (used as Terraform ID)
 - `ip_version` (Number) IP protocol version (4 or 6)
 - `is_connected` (Boolean) Is subnet connected to the default tenant router.
+- `marketplace_resource_uuid` (String) UUID of the marketplace resource
 - `modified` (String) Modified
 - `network` (String) Required path parameter for resource creation
 - `network_name` (String) Name of the network
+- `project` (String) Project
 - `resource_type` (String) Resource type
 - `state` (String) State
 - `tenant` (String) Tenant

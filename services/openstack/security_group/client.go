@@ -8,15 +8,15 @@ import (
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
-type Client struct {
+type OpenstackSecurityGroupClient struct {
 	Client *client.Client
 }
 
-func NewClient(c *client.Client) *Client {
-	return &Client{Client: c}
+func NewOpenstackSecurityGroupClient(c *client.Client) *OpenstackSecurityGroupClient {
+	return &OpenstackSecurityGroupClient{Client: c}
 }
 
-func (c *Client) Configure(ctx context.Context, providerData interface{}) error {
+func (c *OpenstackSecurityGroupClient) Configure(ctx context.Context, providerData interface{}) error {
 	if providerData == nil {
 		return nil
 	}
@@ -34,7 +34,7 @@ func IsNotFoundError(err error) bool {
 	return common.IsNotFoundError(err)
 }
 
-func (c *Client) CreateOpenstackSecurityGroup(ctx context.Context, tenant string, req *OpenstackSecurityGroupCreateRequest) (*OpenstackSecurityGroupResponse, error) {
+func (c *OpenstackSecurityGroupClient) Create(ctx context.Context, tenant string, req *OpenstackSecurityGroupCreateRequest) (*OpenstackSecurityGroupResponse, error) {
 	var apiResp OpenstackSecurityGroupResponse
 	err := c.Client.ExecuteAction(ctx, "/api/openstack-tenants/{uuid}/create_security_group/", tenant, req, &apiResp)
 	if err != nil {
@@ -43,7 +43,7 @@ func (c *Client) CreateOpenstackSecurityGroup(ctx context.Context, tenant string
 	return &apiResp, nil
 }
 
-func (c *Client) GetOpenstackSecurityGroup(ctx context.Context, id string) (*OpenstackSecurityGroupResponse, error) {
+func (c *OpenstackSecurityGroupClient) Get(ctx context.Context, id string) (*OpenstackSecurityGroupResponse, error) {
 	var apiResp OpenstackSecurityGroupResponse
 	err := c.Client.Get(ctx, "/api/openstack-security-groups/{uuid}/", id, &apiResp)
 	if err != nil {
@@ -52,7 +52,7 @@ func (c *Client) GetOpenstackSecurityGroup(ctx context.Context, id string) (*Ope
 	return &apiResp, nil
 }
 
-func (c *Client) UpdateOpenstackSecurityGroup(ctx context.Context, id string, req *OpenstackSecurityGroupUpdateRequest) (*OpenstackSecurityGroupResponse, error) {
+func (c *OpenstackSecurityGroupClient) Update(ctx context.Context, id string, req *OpenstackSecurityGroupUpdateRequest) (*OpenstackSecurityGroupResponse, error) {
 	var apiResp OpenstackSecurityGroupResponse
 	err := c.Client.Update(ctx, "/api/openstack-security-groups/{uuid}/", id, req, &apiResp)
 	if err != nil {
@@ -60,11 +60,11 @@ func (c *Client) UpdateOpenstackSecurityGroup(ctx context.Context, id string, re
 	}
 	return &apiResp, nil
 }
-func (c *Client) DeleteOpenstackSecurityGroup(ctx context.Context, id string) error {
+func (c *OpenstackSecurityGroupClient) Delete(ctx context.Context, id string) error {
 	return c.Client.Delete(ctx, "/api/openstack-security-groups/{uuid}/", id)
 }
 
-func (c *Client) ListOpenstackSecurityGroup(ctx context.Context, filter map[string]string) ([]OpenstackSecurityGroupResponse, error) {
+func (c *OpenstackSecurityGroupClient) List(ctx context.Context, filter map[string]string) ([]OpenstackSecurityGroupResponse, error) {
 	var listResult []OpenstackSecurityGroupResponse
 	err := c.Client.List(ctx, "/api/openstack-security-groups/", filter, &listResult)
 	if err != nil {
@@ -73,7 +73,7 @@ func (c *Client) ListOpenstackSecurityGroup(ctx context.Context, filter map[stri
 	return listResult, nil
 }
 
-func (c *Client) OpenstackSecurityGroupSetRules(ctx context.Context, id string, req *OpenstackSecurityGroupSetRulesActionRequest) error {
+func (c *OpenstackSecurityGroupClient) SetRules(ctx context.Context, id string, req *OpenstackSecurityGroupSetRulesActionRequest) error {
 	path := "/api/openstack-security-groups/{uuid}/set_rules/"
 	err := c.Client.ExecuteAction(ctx, path, id, req, nil)
 	return err

@@ -14,7 +14,7 @@ import (
 var _ list.ListResource = &OpenstackServerGroupList{}
 
 type OpenstackServerGroupList struct {
-	client *Client
+	client *OpenstackServerGroupClient
 }
 
 func NewOpenstackServerGroupList() list.ListResource {
@@ -34,7 +34,7 @@ func (l *OpenstackServerGroupList) ListResourceConfigSchema(ctx context.Context,
 }
 
 func (l *OpenstackServerGroupList) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
-	l.client = &Client{}
+	l.client = &OpenstackServerGroupClient{}
 	if err := l.client.Configure(ctx, req.ProviderData); err != nil {
 		resp.Diagnostics.AddError(
 			"Unexpected List Configure Type",
@@ -62,7 +62,7 @@ func (l *OpenstackServerGroupList) List(ctx context.Context, req list.ListReques
 	filters := common.BuildQueryFilters(config.Filters)
 
 	// Call API
-	listResult, err := l.client.ListOpenstackServerGroup(ctx, filters)
+	listResult, err := l.client.List(ctx, filters)
 	if err != nil {
 		// Return error diagnostics
 		resp.AddError("Failed to list resources", err.Error())

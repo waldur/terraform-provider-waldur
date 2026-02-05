@@ -21,7 +21,7 @@ type OpenstackVolumeUnlinkModel struct {
 }
 
 type OpenstackVolumeUnlinkAction struct {
-	client *Client
+	client *OpenstackVolumeClient
 }
 
 func NewOpenstackVolumeUnlinkAction() action.Action {
@@ -53,7 +53,7 @@ func (a *OpenstackVolumeUnlinkAction) Configure(ctx context.Context, req action.
 		return
 	}
 
-	a.client = &Client{}
+	a.client = &OpenstackVolumeClient{}
 	if err := a.client.Configure(ctx, req.ProviderData); err != nil {
 		resp.Diagnostics.AddError(
 			"Unexpected Action Configure Type",
@@ -72,7 +72,7 @@ func (a *OpenstackVolumeUnlinkAction) Invoke(ctx context.Context, req action.Inv
 	}
 
 	uuid := data.Uuid.ValueString()
-	err := a.client.OpenstackVolumeUnlink(ctx, uuid)
+	err := a.client.Unlink(ctx, uuid)
 
 	if err != nil {
 		if !common.IsNotFoundError(err) {
@@ -95,7 +95,7 @@ func (a *OpenstackVolumeUnlinkAction) Invoke(ctx context.Context, req action.Inv
 		}
 	}
 	err = common.WaitForDeletion(ctx, func(ctx context.Context) (*OpenstackVolumeResponse, error) {
-		return a.client.GetOpenstackVolume(ctx, uuid)
+		return a.client.Get(ctx, uuid)
 	}, timeout)
 	if err != nil {
 		resp.Diagnostics.AddWarning("Resource deletion check failed", err.Error())

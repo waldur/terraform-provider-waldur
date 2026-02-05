@@ -22,16 +22,11 @@ Openstack Floating Ip data source - lookup by name or UUID
 
 ### Read-Only
 
-- `access_url` (String) Access url
 - `address` (String) The public IPv4 address of the floating IP
 - `backend_id` (String) ID of the backend
 - `backend_network_id` (String) ID of network in OpenStack where this floating IP is allocated
 - `created` (String) Created
 - `customer` (String) Customer
-- `customer_abbreviation` (String) Customer abbreviation
-- `customer_name` (String) Name of the customer
-- `customer_native_name` (String) Name of the customer native
-- `customer_uuid` (String) UUID of the customer
 - `description` (String) Description of the Openstack Floating Ip
 - `error_message` (String) Error message
 - `error_traceback` (String) Error traceback
@@ -39,30 +34,15 @@ Openstack Floating Ip data source - lookup by name or UUID
 - `instance_name` (String) Name of the instance
 - `instance_url` (String) Instance url
 - `instance_uuid` (String) UUID of the instance
-- `is_limit_based` (Boolean) Is limit based
-- `is_usage_based` (Boolean) Is usage based
-- `marketplace_category_name` (String) Name of the marketplace category
-- `marketplace_category_uuid` (String) UUID of the marketplace category
-- `marketplace_offering_name` (String) Name of the marketplace offering
-- `marketplace_offering_uuid` (String) UUID of the marketplace offering
-- `marketplace_plan_uuid` (String) UUID of the marketplace plan
-- `marketplace_resource_state` (String) Marketplace resource state
 - `marketplace_resource_uuid` (String) UUID of the marketplace resource
 - `modified` (String) Modified
 - `name` (String) Name of the Openstack Floating Ip
 - `port` (String) Port
 - `port_fixed_ips` (Attributes List) Port fixed ips (see [below for nested schema](#nestedatt--port_fixed_ips))
 - `project` (String) Project
-- `project_name` (String) Name of the project
-- `project_uuid` (String) UUID of the project
 - `resource_type` (String) Resource type
 - `router` (String) Optional router to use for external network detection
 - `runtime_state` (String) Runtime state
-- `service_name` (String) Name of the service
-- `service_settings` (String) Service settings
-- `service_settings_error_message` (String) Service settings error message
-- `service_settings_state` (String) Service settings state
-- `service_settings_uuid` (String) UUID of the service settings
 - `state` (String) State
 - `tenant` (String) Required path parameter for resource creation
 - `tenant_name` (String) Name of the tenant
