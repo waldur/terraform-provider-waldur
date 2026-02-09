@@ -24,7 +24,6 @@ Openstack Tenant data source - lookup by name or UUID
 
 - `availability_zone` (String) Optional availability group. Will be used for all instances provisioned in this tenant
 - `backend_id` (String) ID of tenant in the OpenStack backend
-- `created` (String) Created
 - `customer` (String) Customer
 - `default_volume_type_name` (String) Volume type name to use when creating volumes.
 - `description` (String) Description of the Openstack Tenant
@@ -33,7 +32,6 @@ Openstack Tenant data source - lookup by name or UUID
 - `external_network_id` (String) ID of external network connected to OpenStack tenant
 - `internal_network_id` (String) ID of internal network in OpenStack tenant
 - `marketplace_resource_uuid` (String) UUID of the marketplace resource
-- `modified` (String) Modified
 - `name` (String) Name of the Openstack Tenant
 - `project` (String) Project
 - `quotas` (Attributes List) Quotas (see [below for nested schema](#nestedatt--quotas))

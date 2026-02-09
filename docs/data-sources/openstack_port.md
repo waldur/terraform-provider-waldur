@@ -25,7 +25,6 @@ Openstack Port data source - lookup by name or UUID
 - `admin_state_up` (Boolean) Administrative state of the port. If down, port does not forward packets
 - `allowed_address_pairs` (Attributes List) Allowed address pairs (see [below for nested schema](#nestedatt--allowed_address_pairs))
 - `backend_id` (String) Port ID in OpenStack
-- `created` (String) Created
 - `customer` (String) Customer
 - `description` (String) Description of the Openstack Port
 - `device_id` (String) ID of device (instance, router etc) to which this port is connected
@@ -36,7 +35,6 @@ Openstack Port data source - lookup by name or UUID
 - `floating_ips` (Set of String) Floating ips
 - `mac_address` (String) MAC address of the port
 - `marketplace_resource_uuid` (String) UUID of the marketplace resource
-- `modified` (String) Modified
 - `name` (String) Name of the Openstack Port
 - `network` (String) Network to which this port belongs
 - `network_name` (String) Name of the network

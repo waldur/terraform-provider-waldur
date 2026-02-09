@@ -5,7 +5,6 @@ import (
 	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
-	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listplanmodifier"
@@ -59,14 +58,6 @@ func (r *OpenstackServerGroupResource) Schema(ctx context.Context, req resource.
 				},
 				MarkdownDescription: "ID of the backend",
 			},
-			"created": schema.StringAttribute{
-				CustomType: timetypes.RFC3339Type{},
-				Computed:   true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
-				MarkdownDescription: "Created",
-			},
 			"customer": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
@@ -107,11 +98,19 @@ func (r *OpenstackServerGroupResource) Schema(ctx context.Context, req resource.
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"backend_id": schema.StringAttribute{
-							Optional:            true,
+							Optional: true,
+							Computed: true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
 							MarkdownDescription: "Instance ID in the OpenStack backend",
 						},
 						"name": schema.StringAttribute{
-							Optional:            true,
+							Optional: true,
+							Computed: true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
 							MarkdownDescription: "Name of the Openstack Server Group",
 						},
 						"uuid": schema.StringAttribute{
@@ -135,14 +134,6 @@ func (r *OpenstackServerGroupResource) Schema(ctx context.Context, req resource.
 					stringplanmodifier.UseStateForUnknown(),
 				},
 				MarkdownDescription: "UUID of the marketplace resource",
-			},
-			"modified": schema.StringAttribute{
-				CustomType: timetypes.RFC3339Type{},
-				Computed:   true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
-				MarkdownDescription: "Modified",
 			},
 			"name": schema.StringAttribute{
 				Required:            true,

@@ -67,7 +67,6 @@ data "waldur_marketplace_offering" "offering" {
 ### Read-Only
 
 - `backend_id` (String) ID of tenant in the OpenStack backend
-- `created` (String) Created
 - `customer` (String) Customer
 - `default_volume_type_name` (String) Volume type name to use when creating volumes.
 - `error_message` (String) Error message
@@ -76,7 +75,6 @@ data "waldur_marketplace_offering" "offering" {
 - `id` (String) Openstack Tenant UUID (used as Terraform ID)
 - `internal_network_id` (String) ID of internal network in OpenStack tenant
 - `marketplace_resource_uuid` (String) UUID of the marketplace resource
-- `modified` (String) Modified
 - `quotas` (Attributes List) Quotas (see [below for nested schema](#nestedatt--quotas))
 - `resource_type` (String) Resource type
 - `state` (String) State

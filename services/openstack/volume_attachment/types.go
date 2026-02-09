@@ -20,7 +20,6 @@ type OpenstackVolumeAttachmentResponse struct {
 	AvailabilityZoneName    *string `json:"availability_zone_name" tfsdk:"availability_zone_name"`
 	BackendId               *string `json:"backend_id" tfsdk:"backend_id"`
 	Bootable                *bool   `json:"bootable" tfsdk:"bootable"`
-	Created                 *string `json:"created" tfsdk:"created"`
 	Customer                *string `json:"customer" tfsdk:"customer"`
 	Description             *string `json:"description" tfsdk:"description"`
 	Device                  *string `json:"device" tfsdk:"device"`
@@ -34,7 +33,6 @@ type OpenstackVolumeAttachmentResponse struct {
 	InstanceMarketplaceUuid *string `json:"instance_marketplace_uuid" tfsdk:"instance_marketplace_uuid"`
 	InstanceName            *string `json:"instance_name" tfsdk:"instance_name"`
 	MarketplaceResourceUuid *string `json:"marketplace_resource_uuid" tfsdk:"marketplace_resource_uuid"`
-	Modified                *string `json:"modified" tfsdk:"modified"`
 	Name                    *string `json:"name" tfsdk:"name"`
 	Project                 *string `json:"project" tfsdk:"project"`
 	ResourceType            *string `json:"resource_type" tfsdk:"resource_type"`

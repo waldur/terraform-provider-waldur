@@ -109,7 +109,6 @@ resource "waldur_openstack_instance" "example" {
 - `availability_zone_name` (String) Name of the availability zone where instance is located
 - `backend_id` (String) Instance ID in the OpenStack backend
 - `cores` (Number) Number of cores in a VM
-- `created` (String) Created
 - `customer` (String) Customer
 - `disk` (Number) Disk size in MiB
 - `error_message` (String) Error message
@@ -129,7 +128,6 @@ resource "waldur_openstack_instance" "example" {
 - `marketplace_resource_uuid` (String) UUID of the marketplace resource
 - `min_disk` (Number) Minimum disk size in MiB
 - `min_ram` (Number) Minimum memory size in MiB
-- `modified` (String) Modified
 - `ram` (Number) Memory size in MiB
 - `rancher_cluster` (Attributes) Rancher cluster (see [below for nested schema](#nestedatt--rancher_cluster))
 - `resource_type` (String) Resource type
@@ -156,13 +154,10 @@ Optional:
 <a id="nestedatt--floating_ips"></a>
 ### Nested Schema for `floating_ips`
 
-Required:
-
-- `subnet` (String) Subnet
-
 Optional:
 
 - `ip_address` (String) Existing floating IP address in selected OpenStack tenant to be assigned to new virtual machine
+- `subnet` (String) Subnet
 
 Read-Only:
 
@@ -211,7 +206,7 @@ Read-Only:
 <a id="nestedatt--ports--fixed_ips"></a>
 ### Nested Schema for `ports.fixed_ips`
 
-Required:
+Optional:
 
 - `ip_address` (String) IP address to assign to the port
 - `subnet_id` (String) ID of the subnet in which to assign the IP address
@@ -237,12 +232,10 @@ Optional:
 Read-Only:
 
 - `backend_id` (String) ID of the backend
-- `created` (String) Created
 - `customer` (String) Customer
 - `error_message` (String) Error message
 - `error_traceback` (String) Error traceback
 - `marketplace_resource_uuid` (String) UUID of the marketplace resource
-- `modified` (String) Modified
 - `project` (String) Project
 - `resource_type` (String) Resource type
 - `state` (String) State

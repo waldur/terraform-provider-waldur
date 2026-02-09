@@ -185,14 +185,6 @@ func (r *MarketplaceOrderResource) Schema(ctx context.Context, req resource.Sche
 					stringvalidator.RegexMatches(regexp.MustCompile(`^-?\d{0,12}(?:\.\d{0,10})?$`), ""),
 				},
 			},
-			"created": schema.StringAttribute{
-				CustomType: timetypes.RFC3339Type{},
-				Computed:   true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
-				MarkdownDescription: "Created",
-			},
 			"created_by_civil_number": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
@@ -271,14 +263,6 @@ func (r *MarketplaceOrderResource) Schema(ctx context.Context, req resource.Sche
 					stringplanmodifier.UseStateForUnknown(),
 				},
 				MarkdownDescription: "UUID of the marketplace resource",
-			},
-			"modified": schema.StringAttribute{
-				CustomType: timetypes.RFC3339Type{},
-				Computed:   true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
-				MarkdownDescription: "Modified",
 			},
 			"new_cost_estimate": schema.StringAttribute{
 				Computed: true,

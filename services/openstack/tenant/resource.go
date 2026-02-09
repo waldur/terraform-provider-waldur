@@ -5,11 +5,11 @@ import (
 	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
-	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
 	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/mapplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
@@ -78,14 +78,6 @@ func (r *OpenstackTenantResource) Schema(ctx context.Context, req resource.Schem
 				},
 				MarkdownDescription: "ID of tenant in the OpenStack backend",
 			},
-			"created": schema.StringAttribute{
-				CustomType: timetypes.RFC3339Type{},
-				Computed:   true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
-				MarkdownDescription: "Created",
-			},
 			"customer": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
@@ -153,14 +145,6 @@ func (r *OpenstackTenantResource) Schema(ctx context.Context, req resource.Schem
 				},
 				MarkdownDescription: "UUID of the marketplace resource",
 			},
-			"modified": schema.StringAttribute{
-				CustomType: timetypes.RFC3339Type{},
-				Computed:   true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
-				MarkdownDescription: "Modified",
-			},
 			"name": schema.StringAttribute{
 				Optional: true,
 				Computed: true,
@@ -196,15 +180,27 @@ func (r *OpenstackTenantResource) Schema(ctx context.Context, req resource.Schem
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"limit": schema.Int64Attribute{
-							Optional:            true,
+							Optional: true,
+							Computed: true,
+							PlanModifiers: []planmodifier.Int64{
+								int64planmodifier.UseStateForUnknown(),
+							},
 							MarkdownDescription: "Limit",
 						},
 						"name": schema.StringAttribute{
-							Optional:            true,
+							Optional: true,
+							Computed: true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
 							MarkdownDescription: "Name of the Openstack Tenant",
 						},
 						"usage": schema.Int64Attribute{
-							Optional:            true,
+							Optional: true,
+							Computed: true,
+							PlanModifiers: []planmodifier.Int64{
+								int64planmodifier.UseStateForUnknown(),
+							},
 							MarkdownDescription: "Usage",
 						},
 					},
@@ -379,9 +375,6 @@ func (r *OpenstackTenantResource) resolveUnknownAttributes(data *OpenstackTenant
 	if data.BackendId.IsUnknown() {
 		data.BackendId = types.StringNull()
 	}
-	if data.Created.IsUnknown() {
-		data.Created = timetypes.NewRFC3339Null()
-	}
 	if data.Customer.IsUnknown() {
 		data.Customer = types.StringNull()
 	}
@@ -408,9 +401,6 @@ func (r *OpenstackTenantResource) resolveUnknownAttributes(data *OpenstackTenant
 	}
 	if data.MarketplaceResourceUuid.IsUnknown() {
 		data.MarketplaceResourceUuid = types.StringNull()
-	}
-	if data.Modified.IsUnknown() {
-		data.Modified = timetypes.NewRFC3339Null()
 	}
 	if data.Name.IsUnknown() {
 		data.Name = types.StringNull()

@@ -50,7 +50,6 @@ resource "waldur_structure_project" "example" {
 ### Read-Only
 
 - `billing_price_estimate` (Attributes) Billing price estimate (see [below for nested schema](#nestedatt--billing_price_estimate))
-- `created` (String) Created
 - `customer_display_billing_info_in_projects` (Boolean) Customer display billing info in projects
 - `customer_slug` (String) Customer slug
 - `end_date_requested_by` (String) End date requested by

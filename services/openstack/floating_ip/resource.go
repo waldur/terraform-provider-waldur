@@ -5,7 +5,6 @@ import (
 	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
-	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listplanmodifier"
@@ -74,14 +73,6 @@ func (r *OpenstackFloatingIpResource) Schema(ctx context.Context, req resource.S
 				},
 				MarkdownDescription: "ID of network in OpenStack where this floating IP is allocated",
 			},
-			"created": schema.StringAttribute{
-				CustomType: timetypes.RFC3339Type{},
-				Computed:   true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
-				MarkdownDescription: "Created",
-			},
 			"customer": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
@@ -145,14 +136,6 @@ func (r *OpenstackFloatingIpResource) Schema(ctx context.Context, req resource.S
 				},
 				MarkdownDescription: "UUID of the marketplace resource",
 			},
-			"modified": schema.StringAttribute{
-				CustomType: timetypes.RFC3339Type{},
-				Computed:   true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
-				MarkdownDescription: "Modified",
-			},
 			"name": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
@@ -171,11 +154,19 @@ func (r *OpenstackFloatingIpResource) Schema(ctx context.Context, req resource.S
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"ip_address": schema.StringAttribute{
-							Optional:            true,
+							Optional: true,
+							Computed: true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
 							MarkdownDescription: "IP address to assign to the port",
 						},
 						"subnet_id": schema.StringAttribute{
-							Optional:            true,
+							Optional: true,
+							Computed: true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
 							MarkdownDescription: "ID of the subnet in which to assign the IP address",
 						},
 					},

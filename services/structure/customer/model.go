@@ -141,7 +141,6 @@ type StructureCustomerModel struct {
 	ContactDetails               types.String      `tfsdk:"contact_details"`
 	Country                      types.String      `tfsdk:"country"`
 	CountryName                  types.String      `tfsdk:"country_name"`
-	Created                      timetypes.RFC3339 `tfsdk:"created"`
 	CustomerCredit               types.Float64     `tfsdk:"customer_credit"`
 	CustomerUnallocatedCredit    types.Float64     `tfsdk:"customer_unallocated_credit"`
 	DefaultTaxPercent            types.String      `tfsdk:"default_tax_percent"`
@@ -204,9 +203,6 @@ func (model *StructureCustomerModel) CopyFrom(ctx context.Context, apiResp Struc
 	model.ContactDetails = common.StringPointerValue(apiResp.ContactDetails)
 	model.Country = common.StringPointerValue(apiResp.Country)
 	model.CountryName = common.StringPointerValue(apiResp.CountryName)
-	valCreated, diagsCreated := timetypes.NewRFC3339PointerValue(apiResp.Created)
-	diags.Append(diagsCreated...)
-	model.Created = valCreated
 	model.CustomerCredit = types.Float64PointerValue(apiResp.CustomerCredit.Float64Ptr())
 	model.CustomerUnallocatedCredit = types.Float64PointerValue(apiResp.CustomerUnallocatedCredit.Float64Ptr())
 	model.DefaultTaxPercent = common.StringPointerValue(apiResp.DefaultTaxPercent)

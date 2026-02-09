@@ -6,7 +6,6 @@ import (
 	"strings"
 
 	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
-	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -58,14 +57,6 @@ func (r *OpenstackNetworkRbacPolicyResource) Schema(ctx context.Context, req res
 					stringplanmodifier.UseStateForUnknown(),
 				},
 				MarkdownDescription: "ID of the backend",
-			},
-			"created": schema.StringAttribute{
-				CustomType: timetypes.RFC3339Type{},
-				Computed:   true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
-				MarkdownDescription: "Created",
 			},
 			"network": schema.StringAttribute{
 				Required:            true,

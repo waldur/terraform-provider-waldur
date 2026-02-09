@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"regexp"
 
-	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
 	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
@@ -213,11 +212,6 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 				Computed:            true,
 				MarkdownDescription: "Country code (ISO 3166-1 alpha-2)",
 			},
-			"created": schema.StringAttribute{
-				CustomType:          timetypes.RFC3339Type{},
-				Computed:            true,
-				MarkdownDescription: " ",
-			},
 			"customer": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: " ",
@@ -253,11 +247,6 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 			"files": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
-						"created": schema.StringAttribute{
-							CustomType:          timetypes.RFC3339Type{},
-							Computed:            true,
-							MarkdownDescription: " ",
-						},
 						"file": schema.StringAttribute{
 							Computed:            true,
 							MarkdownDescription: " ",
@@ -1139,11 +1128,6 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 			"screenshots": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
-						"created": schema.StringAttribute{
-							CustomType:          timetypes.RFC3339Type{},
-							Computed:            true,
-							MarkdownDescription: " ",
-						},
 						"description": schema.StringAttribute{
 							Computed:            true,
 							MarkdownDescription: " ",

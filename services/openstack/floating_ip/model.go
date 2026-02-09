@@ -3,7 +3,6 @@ package floating_ip
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -142,32 +141,30 @@ func (m *OpenstackFloatingIpFiltersModel) GetSchema() schema.SingleNestedAttribu
 }
 
 type OpenstackFloatingIpModel struct {
-	UUID                    types.String      `tfsdk:"id"`
-	Address                 types.String      `tfsdk:"address"`
-	BackendId               types.String      `tfsdk:"backend_id"`
-	BackendNetworkId        types.String      `tfsdk:"backend_network_id"`
-	Created                 timetypes.RFC3339 `tfsdk:"created"`
-	Customer                types.String      `tfsdk:"customer"`
-	Description             types.String      `tfsdk:"description"`
-	ErrorMessage            types.String      `tfsdk:"error_message"`
-	ErrorTraceback          types.String      `tfsdk:"error_traceback"`
-	ExternalAddress         types.String      `tfsdk:"external_address"`
-	InstanceName            types.String      `tfsdk:"instance_name"`
-	InstanceUrl             types.String      `tfsdk:"instance_url"`
-	InstanceUuid            types.String      `tfsdk:"instance_uuid"`
-	MarketplaceResourceUuid types.String      `tfsdk:"marketplace_resource_uuid"`
-	Modified                timetypes.RFC3339 `tfsdk:"modified"`
-	Name                    types.String      `tfsdk:"name"`
-	Port                    types.String      `tfsdk:"port"`
-	PortFixedIps            types.List        `tfsdk:"port_fixed_ips"`
-	Project                 types.String      `tfsdk:"project"`
-	ResourceType            types.String      `tfsdk:"resource_type"`
-	RuntimeState            types.String      `tfsdk:"runtime_state"`
-	State                   types.String      `tfsdk:"state"`
-	Tenant                  types.String      `tfsdk:"tenant"`
-	TenantName              types.String      `tfsdk:"tenant_name"`
-	TenantUuid              types.String      `tfsdk:"tenant_uuid"`
-	Url                     types.String      `tfsdk:"url"`
+	UUID                    types.String `tfsdk:"id"`
+	Address                 types.String `tfsdk:"address"`
+	BackendId               types.String `tfsdk:"backend_id"`
+	BackendNetworkId        types.String `tfsdk:"backend_network_id"`
+	Customer                types.String `tfsdk:"customer"`
+	Description             types.String `tfsdk:"description"`
+	ErrorMessage            types.String `tfsdk:"error_message"`
+	ErrorTraceback          types.String `tfsdk:"error_traceback"`
+	ExternalAddress         types.String `tfsdk:"external_address"`
+	InstanceName            types.String `tfsdk:"instance_name"`
+	InstanceUrl             types.String `tfsdk:"instance_url"`
+	InstanceUuid            types.String `tfsdk:"instance_uuid"`
+	MarketplaceResourceUuid types.String `tfsdk:"marketplace_resource_uuid"`
+	Name                    types.String `tfsdk:"name"`
+	Port                    types.String `tfsdk:"port"`
+	PortFixedIps            types.List   `tfsdk:"port_fixed_ips"`
+	Project                 types.String `tfsdk:"project"`
+	ResourceType            types.String `tfsdk:"resource_type"`
+	RuntimeState            types.String `tfsdk:"runtime_state"`
+	State                   types.String `tfsdk:"state"`
+	Tenant                  types.String `tfsdk:"tenant"`
+	TenantName              types.String `tfsdk:"tenant_name"`
+	TenantUuid              types.String `tfsdk:"tenant_uuid"`
+	Url                     types.String `tfsdk:"url"`
 }
 
 // CopyFrom maps the API response to the model fields.
@@ -178,9 +175,6 @@ func (model *OpenstackFloatingIpModel) CopyFrom(ctx context.Context, apiResp Ope
 	model.Address = common.StringPointerValue(apiResp.Address)
 	model.BackendId = common.StringPointerValue(apiResp.BackendId)
 	model.BackendNetworkId = common.StringPointerValue(apiResp.BackendNetworkId)
-	valCreated, diagsCreated := timetypes.NewRFC3339PointerValue(apiResp.Created)
-	diags.Append(diagsCreated...)
-	model.Created = valCreated
 	model.Customer = common.StringPointerValue(apiResp.Customer)
 	model.Description = common.StringPointerValue(apiResp.Description)
 	model.ErrorMessage = common.StringPointerValue(apiResp.ErrorMessage)
@@ -190,9 +184,6 @@ func (model *OpenstackFloatingIpModel) CopyFrom(ctx context.Context, apiResp Ope
 	model.InstanceUrl = common.StringPointerValue(apiResp.InstanceUrl)
 	model.InstanceUuid = common.StringPointerValue(apiResp.InstanceUuid)
 	model.MarketplaceResourceUuid = common.StringPointerValue(apiResp.MarketplaceResourceUuid)
-	valModified, diagsModified := timetypes.NewRFC3339PointerValue(apiResp.Modified)
-	diags.Append(diagsModified...)
-	model.Modified = valModified
 	model.Name = common.StringPointerValue(apiResp.Name)
 	model.Port = common.StringPointerValue(apiResp.Port)
 

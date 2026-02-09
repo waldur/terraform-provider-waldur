@@ -3,7 +3,6 @@ package network
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -15,7 +14,6 @@ import (
 func NetworkRBACPolicyType() types.ObjectType {
 	return types.ObjectType{AttrTypes: map[string]attr.Type{
 		"backend_id":         types.StringType,
-		"created":            types.StringType,
 		"network":            types.StringType,
 		"network_name":       types.StringType,
 		"policy_type":        types.StringType,
@@ -172,29 +170,27 @@ func (m *OpenstackNetworkFiltersModel) GetSchema() schema.SingleNestedAttribute 
 }
 
 type OpenstackNetworkModel struct {
-	UUID                    types.String      `tfsdk:"id"`
-	BackendId               types.String      `tfsdk:"backend_id"`
-	Created                 timetypes.RFC3339 `tfsdk:"created"`
-	Customer                types.String      `tfsdk:"customer"`
-	Description             types.String      `tfsdk:"description"`
-	ErrorMessage            types.String      `tfsdk:"error_message"`
-	ErrorTraceback          types.String      `tfsdk:"error_traceback"`
-	IsExternal              types.Bool        `tfsdk:"is_external"`
-	MarketplaceResourceUuid types.String      `tfsdk:"marketplace_resource_uuid"`
-	Modified                timetypes.RFC3339 `tfsdk:"modified"`
-	Mtu                     types.Int64       `tfsdk:"mtu"`
-	Name                    types.String      `tfsdk:"name"`
-	Project                 types.String      `tfsdk:"project"`
-	RbacPolicies            types.List        `tfsdk:"rbac_policies"`
-	ResourceType            types.String      `tfsdk:"resource_type"`
-	SegmentationId          types.Int64       `tfsdk:"segmentation_id"`
-	State                   types.String      `tfsdk:"state"`
-	Subnets                 types.List        `tfsdk:"subnets"`
-	Tenant                  types.String      `tfsdk:"tenant"`
-	TenantName              types.String      `tfsdk:"tenant_name"`
-	TenantUuid              types.String      `tfsdk:"tenant_uuid"`
-	Type                    types.String      `tfsdk:"type"`
-	Url                     types.String      `tfsdk:"url"`
+	UUID                    types.String `tfsdk:"id"`
+	BackendId               types.String `tfsdk:"backend_id"`
+	Customer                types.String `tfsdk:"customer"`
+	Description             types.String `tfsdk:"description"`
+	ErrorMessage            types.String `tfsdk:"error_message"`
+	ErrorTraceback          types.String `tfsdk:"error_traceback"`
+	IsExternal              types.Bool   `tfsdk:"is_external"`
+	MarketplaceResourceUuid types.String `tfsdk:"marketplace_resource_uuid"`
+	Mtu                     types.Int64  `tfsdk:"mtu"`
+	Name                    types.String `tfsdk:"name"`
+	Project                 types.String `tfsdk:"project"`
+	RbacPolicies            types.List   `tfsdk:"rbac_policies"`
+	ResourceType            types.String `tfsdk:"resource_type"`
+	SegmentationId          types.Int64  `tfsdk:"segmentation_id"`
+	State                   types.String `tfsdk:"state"`
+	Subnets                 types.List   `tfsdk:"subnets"`
+	Tenant                  types.String `tfsdk:"tenant"`
+	TenantName              types.String `tfsdk:"tenant_name"`
+	TenantUuid              types.String `tfsdk:"tenant_uuid"`
+	Type                    types.String `tfsdk:"type"`
+	Url                     types.String `tfsdk:"url"`
 }
 
 // CopyFrom maps the API response to the model fields.
@@ -203,18 +199,12 @@ func (model *OpenstackNetworkModel) CopyFrom(ctx context.Context, apiResp Openst
 
 	model.UUID = types.StringPointerValue(apiResp.UUID)
 	model.BackendId = common.StringPointerValue(apiResp.BackendId)
-	valCreated, diagsCreated := timetypes.NewRFC3339PointerValue(apiResp.Created)
-	diags.Append(diagsCreated...)
-	model.Created = valCreated
 	model.Customer = common.StringPointerValue(apiResp.Customer)
 	model.Description = common.StringPointerValue(apiResp.Description)
 	model.ErrorMessage = common.StringPointerValue(apiResp.ErrorMessage)
 	model.ErrorTraceback = common.StringPointerValue(apiResp.ErrorTraceback)
 	model.IsExternal = types.BoolPointerValue(apiResp.IsExternal)
 	model.MarketplaceResourceUuid = common.StringPointerValue(apiResp.MarketplaceResourceUuid)
-	valModified, diagsModified := timetypes.NewRFC3339PointerValue(apiResp.Modified)
-	diags.Append(diagsModified...)
-	model.Modified = valModified
 	model.Mtu = types.Int64PointerValue(apiResp.Mtu)
 	model.Name = common.StringPointerValue(apiResp.Name)
 	model.Project = common.StringPointerValue(apiResp.Project)

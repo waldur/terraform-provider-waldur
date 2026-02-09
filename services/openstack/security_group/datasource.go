@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
 	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
@@ -48,11 +47,6 @@ func (d *OpenstackSecurityGroupDataSource) Schema(ctx context.Context, req datas
 				Computed:            true,
 				MarkdownDescription: "ID of the backend",
 			},
-			"created": schema.StringAttribute{
-				CustomType:          timetypes.RFC3339Type{},
-				Computed:            true,
-				MarkdownDescription: "Created",
-			},
 			"customer": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Customer",
@@ -72,11 +66,6 @@ func (d *OpenstackSecurityGroupDataSource) Schema(ctx context.Context, req datas
 			"marketplace_resource_uuid": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "UUID of the marketplace resource",
-			},
-			"modified": schema.StringAttribute{
-				CustomType:          timetypes.RFC3339Type{},
-				Computed:            true,
-				MarkdownDescription: "Modified",
 			},
 			"name": schema.StringAttribute{
 				Computed:            true,

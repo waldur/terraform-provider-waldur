@@ -23,13 +23,11 @@ Openstack Security Group data source - lookup by name or UUID
 ### Read-Only
 
 - `backend_id` (String) ID of the backend
-- `created` (String) Created
 - `customer` (String) Customer
 - `description` (String) Description of the Openstack Security Group
 - `error_message` (String) Error message
 - `error_traceback` (String) Error traceback
 - `marketplace_resource_uuid` (String) UUID of the marketplace resource
-- `modified` (String) Modified
 - `name` (String) Name of the Openstack Security Group
 - `project` (String) Project
 - `resource_type` (String) Resource type

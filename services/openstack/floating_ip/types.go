@@ -18,7 +18,6 @@ type OpenstackFloatingIpResponse struct {
 	Address                 *string                    `json:"address" tfsdk:"address"`
 	BackendId               *string                    `json:"backend_id" tfsdk:"backend_id"`
 	BackendNetworkId        *string                    `json:"backend_network_id" tfsdk:"backend_network_id"`
-	Created                 *string                    `json:"created" tfsdk:"created"`
 	Customer                *string                    `json:"customer" tfsdk:"customer"`
 	Description             *string                    `json:"description" tfsdk:"description"`
 	ErrorMessage            *string                    `json:"error_message" tfsdk:"error_message"`
@@ -28,7 +27,6 @@ type OpenstackFloatingIpResponse struct {
 	InstanceUrl             *string                    `json:"instance_url" tfsdk:"instance_url"`
 	InstanceUuid            *string                    `json:"instance_uuid" tfsdk:"instance_uuid"`
 	MarketplaceResourceUuid *string                    `json:"marketplace_resource_uuid" tfsdk:"marketplace_resource_uuid"`
-	Modified                *string                    `json:"modified" tfsdk:"modified"`
 	Name                    *string                    `json:"name" tfsdk:"name"`
 	Port                    *string                    `json:"port" tfsdk:"port"`
 	PortFixedIps            *[]common.OpenStackFixedIp `json:"port_fixed_ips" tfsdk:"port_fixed_ips"`

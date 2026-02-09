@@ -3,7 +3,6 @@ package network_rbac_policy
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -64,15 +63,14 @@ func (m *OpenstackNetworkRbacPolicyFiltersModel) GetSchema() schema.SingleNested
 }
 
 type OpenstackNetworkRbacPolicyModel struct {
-	UUID             types.String      `tfsdk:"id"`
-	BackendId        types.String      `tfsdk:"backend_id"`
-	Created          timetypes.RFC3339 `tfsdk:"created"`
-	Network          types.String      `tfsdk:"network"`
-	NetworkName      types.String      `tfsdk:"network_name"`
-	PolicyType       types.String      `tfsdk:"policy_type"`
-	TargetTenant     types.String      `tfsdk:"target_tenant"`
-	TargetTenantName types.String      `tfsdk:"target_tenant_name"`
-	Url              types.String      `tfsdk:"url"`
+	UUID             types.String `tfsdk:"id"`
+	BackendId        types.String `tfsdk:"backend_id"`
+	Network          types.String `tfsdk:"network"`
+	NetworkName      types.String `tfsdk:"network_name"`
+	PolicyType       types.String `tfsdk:"policy_type"`
+	TargetTenant     types.String `tfsdk:"target_tenant"`
+	TargetTenantName types.String `tfsdk:"target_tenant_name"`
+	Url              types.String `tfsdk:"url"`
 }
 
 // CopyFrom maps the API response to the model fields.
@@ -81,9 +79,6 @@ func (model *OpenstackNetworkRbacPolicyModel) CopyFrom(ctx context.Context, apiR
 
 	model.UUID = types.StringPointerValue(apiResp.UUID)
 	model.BackendId = common.StringPointerValue(apiResp.BackendId)
-	valCreated, diagsCreated := timetypes.NewRFC3339PointerValue(apiResp.Created)
-	diags.Append(diagsCreated...)
-	model.Created = valCreated
 	model.Network = common.StringPointerValue(apiResp.Network)
 	model.NetworkName = common.StringPointerValue(apiResp.NetworkName)
 	model.PolicyType = common.StringPointerValue(apiResp.PolicyType)

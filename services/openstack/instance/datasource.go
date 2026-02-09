@@ -71,11 +71,6 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 				Computed:            true,
 				MarkdownDescription: "Number of cores in a VM",
 			},
-			"created": schema.StringAttribute{
-				CustomType:          timetypes.RFC3339Type{},
-				Computed:            true,
-				MarkdownDescription: "Created",
-			},
 			"customer": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Customer",
@@ -219,11 +214,6 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 				Computed:            true,
 				MarkdownDescription: "Minimum memory size in MiB",
 			},
-			"modified": schema.StringAttribute{
-				CustomType:          timetypes.RFC3339Type{},
-				Computed:            true,
-				MarkdownDescription: "Modified",
-			},
 			"name": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Name of the Openstack Instance",
@@ -286,11 +276,6 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 										Computed:            true,
 										MarkdownDescription: "ID of the backend",
 									},
-									"created": schema.StringAttribute{
-										CustomType:          timetypes.RFC3339Type{},
-										Computed:            true,
-										MarkdownDescription: "Created",
-									},
 									"customer": schema.StringAttribute{
 										Computed:            true,
 										MarkdownDescription: "Customer",
@@ -310,11 +295,6 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 									"marketplace_resource_uuid": schema.StringAttribute{
 										Computed:            true,
 										MarkdownDescription: "UUID of the marketplace resource",
-									},
-									"modified": schema.StringAttribute{
-										CustomType:          timetypes.RFC3339Type{},
-										Computed:            true,
-										MarkdownDescription: "Modified",
 									},
 									"name": schema.StringAttribute{
 										Computed:            true,

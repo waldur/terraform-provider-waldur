@@ -23,7 +23,6 @@ Openstack Server Group data source - lookup by name or UUID
 ### Read-Only
 
 - `backend_id` (String) ID of the backend
-- `created` (String) Created
 - `customer` (String) Customer
 - `description` (String) Description of the Openstack Server Group
 - `display_name` (String) Name of the display
@@ -31,7 +30,6 @@ Openstack Server Group data source - lookup by name or UUID
 - `error_traceback` (String) Error traceback
 - `instances` (Attributes List) Instances (see [below for nested schema](#nestedatt--instances))
 - `marketplace_resource_uuid` (String) UUID of the marketplace resource
-- `modified` (String) Modified
 - `name` (String) Name of the Openstack Server Group
 - `policy` (String) Server group policy determining the rules for scheduling servers in this group
 - `project` (String) Project

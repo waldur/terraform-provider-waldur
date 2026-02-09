@@ -37,7 +37,6 @@ Structure Customer data source - lookup by name or UUID
 - `contact_details` (String) Contact details
 - `country` (String) Country code (ISO 3166-1 alpha-2)
 - `country_name` (String) Human-readable country name
-- `created` (String) Created
 - `customer_credit` (Number) Customer credit
 - `customer_unallocated_credit` (Number) Customer unallocated credit
 - `default_tax_percent` (String) Default tax percent

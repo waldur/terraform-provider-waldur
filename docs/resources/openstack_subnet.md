@@ -34,7 +34,6 @@ Openstack Subnet resource
 ### Read-Only
 
 - `backend_id` (String) ID of the backend
-- `created` (String) Created
 - `customer` (String) Customer
 - `enable_dhcp` (Boolean) If True, DHCP service will be enabled on this subnet
 - `error_message` (String) Error message
@@ -43,7 +42,6 @@ Openstack Subnet resource
 - `ip_version` (Number) IP protocol version (4 or 6)
 - `is_connected` (Boolean) Is subnet connected to the default tenant router.
 - `marketplace_resource_uuid` (String) UUID of the marketplace resource
-- `modified` (String) Modified
 - `network_name` (String) Name of the network
 - `project` (String) Project
 - `resource_type` (String) Resource type

@@ -41,7 +41,6 @@ type MarketplaceOrderResponse struct {
 	ConsumerReviewedByFullName *string                        `json:"consumer_reviewed_by_full_name" tfsdk:"consumer_reviewed_by_full_name"`
 	ConsumerReviewedByUsername *string                        `json:"consumer_reviewed_by_username" tfsdk:"consumer_reviewed_by_username"`
 	Cost                       *string                        `json:"cost" tfsdk:"cost"`
-	Created                    *string                        `json:"created" tfsdk:"created"`
 	CreatedByCivilNumber       *string                        `json:"created_by_civil_number" tfsdk:"created_by_civil_number"`
 	CreatedByFullName          *string                        `json:"created_by_full_name" tfsdk:"created_by_full_name"`
 	CreatedByUsername          *string                        `json:"created_by_username" tfsdk:"created_by_username"`
@@ -51,7 +50,6 @@ type MarketplaceOrderResponse struct {
 	FixedPrice                 *common.FlexibleNumber         `json:"fixed_price" tfsdk:"fixed_price"`
 	Issue                      *MarketplaceOrderIssueResponse `json:"issue" tfsdk:"issue"`
 	MarketplaceResourceUuid    *string                        `json:"marketplace_resource_uuid" tfsdk:"marketplace_resource_uuid"`
-	Modified                   *string                        `json:"modified" tfsdk:"modified"`
 	NewCostEstimate            *string                        `json:"new_cost_estimate" tfsdk:"new_cost_estimate"`
 	NewPlanName                *string                        `json:"new_plan_name" tfsdk:"new_plan_name"`
 	NewPlanUuid                *string                        `json:"new_plan_uuid" tfsdk:"new_plan_uuid"`

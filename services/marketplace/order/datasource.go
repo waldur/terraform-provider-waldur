@@ -106,11 +106,6 @@ func (d *MarketplaceOrderDataSource) Schema(ctx context.Context, req datasource.
 					stringvalidator.RegexMatches(regexp.MustCompile(`^-?\d{0,12}(?:\.\d{0,10})?$`), ""),
 				},
 			},
-			"created": schema.StringAttribute{
-				CustomType:          timetypes.RFC3339Type{},
-				Computed:            true,
-				MarkdownDescription: "Created",
-			},
 			"created_by_civil_number": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Created by civil number",
@@ -156,11 +151,6 @@ func (d *MarketplaceOrderDataSource) Schema(ctx context.Context, req datasource.
 			"marketplace_resource_uuid": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "UUID of the marketplace resource",
-			},
-			"modified": schema.StringAttribute{
-				CustomType:          timetypes.RFC3339Type{},
-				Computed:            true,
-				MarkdownDescription: "Modified",
 			},
 			"new_cost_estimate": schema.StringAttribute{
 				Computed:            true,

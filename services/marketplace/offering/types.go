@@ -20,7 +20,6 @@ type MarketplaceOfferingResponse struct {
 	ComplianceChecklist       *string                                     `json:"compliance_checklist" tfsdk:"compliance_checklist"`
 	Components                *[]common.OfferingComponent                 `json:"components" tfsdk:"components"`
 	Country                   *string                                     `json:"country" tfsdk:"country"`
-	Created                   *string                                     `json:"created" tfsdk:"created"`
 	Customer                  *string                                     `json:"customer" tfsdk:"customer"`
 	DataciteDoi               *string                                     `json:"datacite_doi" tfsdk:"datacite_doi"`
 	Description               *string                                     `json:"description" tfsdk:"description"`
@@ -105,9 +104,8 @@ type MarketplaceOfferingEndpointsResponse struct {
 }
 
 type MarketplaceOfferingFilesResponse struct {
-	Created *string `json:"created" tfsdk:"created"`
-	File    *string `json:"file" tfsdk:"file"`
-	Name    *string `json:"name" tfsdk:"name"`
+	File *string `json:"file" tfsdk:"file"`
+	Name *string `json:"name" tfsdk:"name"`
 }
 
 type MarketplaceOfferingOptionsResponse struct {
@@ -285,7 +283,6 @@ type MarketplaceOfferingRolesResponse struct {
 }
 
 type MarketplaceOfferingScreenshotsResponse struct {
-	Created     *string `json:"created" tfsdk:"created"`
 	Description *string `json:"description" tfsdk:"description"`
 	Image       *string `json:"image" tfsdk:"image"`
 	Name        *string `json:"name" tfsdk:"name"`

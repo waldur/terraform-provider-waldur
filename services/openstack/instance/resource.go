@@ -121,14 +121,6 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 				},
 				MarkdownDescription: "Number of cores in a VM",
 			},
-			"created": schema.StringAttribute{
-				CustomType: timetypes.RFC3339Type{},
-				Computed:   true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
-				MarkdownDescription: "Created",
-			},
 			"customer": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
@@ -255,7 +247,8 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 							MarkdownDescription: "Existing floating IP address in selected OpenStack tenant to be assigned to new virtual machine",
 						},
 						"subnet": schema.StringAttribute{
-							Required: true,
+							Optional: true,
+							Computed: true,
 							PlanModifiers: []planmodifier.String{
 								stringplanmodifier.UseStateForUnknown(),
 							},
@@ -279,11 +272,19 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 							NestedObject: schema.NestedAttributeObject{
 								Attributes: map[string]schema.Attribute{
 									"ip_address": schema.StringAttribute{
-										Optional:            true,
+										Optional: true,
+										Computed: true,
+										PlanModifiers: []planmodifier.String{
+											stringplanmodifier.UseStateForUnknown(),
+										},
 										MarkdownDescription: "IP address to assign to the port",
 									},
 									"subnet_id": schema.StringAttribute{
-										Optional:            true,
+										Optional: true,
+										Computed: true,
+										PlanModifiers: []planmodifier.String{
+											stringplanmodifier.UseStateForUnknown(),
+										},
 										MarkdownDescription: "ID of the subnet in which to assign the IP address",
 									},
 								},
@@ -433,14 +434,6 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 				},
 				MarkdownDescription: "Minimum memory size in MiB",
 			},
-			"modified": schema.StringAttribute{
-				CustomType: timetypes.RFC3339Type{},
-				Computed:   true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
-				MarkdownDescription: "Modified",
-			},
 			"name": schema.StringAttribute{
 				Optional: true,
 				Computed: true,
@@ -472,14 +465,16 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 							NestedObject: schema.NestedAttributeObject{
 								Attributes: map[string]schema.Attribute{
 									"ip_address": schema.StringAttribute{
-										Required: true,
+										Optional: true,
+										Computed: true,
 										PlanModifiers: []planmodifier.String{
 											stringplanmodifier.UseStateForUnknown(),
 										},
 										MarkdownDescription: "IP address to assign to the port",
 									},
 									"subnet_id": schema.StringAttribute{
-										Required: true,
+										Optional: true,
+										Computed: true,
 										PlanModifiers: []planmodifier.String{
 											stringplanmodifier.UseStateForUnknown(),
 										},
@@ -510,7 +505,11 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 							NestedObject: schema.NestedAttributeObject{
 								Attributes: map[string]schema.Attribute{
 									"mac_address": schema.StringAttribute{
-										Optional:            true,
+										Optional: true,
+										Computed: true,
+										PlanModifiers: []planmodifier.String{
+											stringplanmodifier.UseStateForUnknown(),
+										},
 										MarkdownDescription: "Mac address",
 									},
 								},
@@ -552,14 +551,6 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 										},
 										MarkdownDescription: "ID of the backend",
 									},
-									"created": schema.StringAttribute{
-										CustomType: timetypes.RFC3339Type{},
-										Computed:   true,
-										PlanModifiers: []planmodifier.String{
-											stringplanmodifier.UseStateForUnknown(),
-										},
-										MarkdownDescription: "Created",
-									},
 									"customer": schema.StringAttribute{
 										Computed: true,
 										PlanModifiers: []planmodifier.String{
@@ -568,7 +559,11 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 										MarkdownDescription: "Customer",
 									},
 									"description": schema.StringAttribute{
-										Optional:            true,
+										Optional: true,
+										Computed: true,
+										PlanModifiers: []planmodifier.String{
+											stringplanmodifier.UseStateForUnknown(),
+										},
 										MarkdownDescription: "Description of the Openstack Instance",
 									},
 									"error_message": schema.StringAttribute{
@@ -592,16 +587,12 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 										},
 										MarkdownDescription: "UUID of the marketplace resource",
 									},
-									"modified": schema.StringAttribute{
-										CustomType: timetypes.RFC3339Type{},
-										Computed:   true,
+									"name": schema.StringAttribute{
+										Optional: true,
+										Computed: true,
 										PlanModifiers: []planmodifier.String{
 											stringplanmodifier.UseStateForUnknown(),
 										},
-										MarkdownDescription: "Modified",
-									},
-									"name": schema.StringAttribute{
-										Optional:            true,
 										MarkdownDescription: "Name of the Openstack Instance",
 									},
 									"project": schema.StringAttribute{
@@ -622,23 +613,43 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 										NestedObject: schema.NestedAttributeObject{
 											Attributes: map[string]schema.Attribute{
 												"cidr": schema.StringAttribute{
-													Optional:            true,
+													Optional: true,
+													Computed: true,
+													PlanModifiers: []planmodifier.String{
+														stringplanmodifier.UseStateForUnknown(),
+													},
 													MarkdownDescription: "CIDR notation for the source/destination network address range",
 												},
 												"description": schema.StringAttribute{
-													Optional:            true,
+													Optional: true,
+													Computed: true,
+													PlanModifiers: []planmodifier.String{
+														stringplanmodifier.UseStateForUnknown(),
+													},
 													MarkdownDescription: "Description of the Openstack Instance",
 												},
 												"direction": schema.StringAttribute{
-													Optional:            true,
+													Optional: true,
+													Computed: true,
+													PlanModifiers: []planmodifier.String{
+														stringplanmodifier.UseStateForUnknown(),
+													},
 													MarkdownDescription: "Traffic direction - either 'ingress' (incoming) or 'egress' (outgoing)",
 												},
 												"ethertype": schema.StringAttribute{
-													Optional:            true,
+													Optional: true,
+													Computed: true,
+													PlanModifiers: []planmodifier.String{
+														stringplanmodifier.UseStateForUnknown(),
+													},
 													MarkdownDescription: "IP protocol version - either 'IPv4' or 'IPv6'",
 												},
 												"from_port": schema.Int64Attribute{
-													Optional:            true,
+													Optional: true,
+													Computed: true,
+													PlanModifiers: []planmodifier.Int64{
+														int64planmodifier.UseStateForUnknown(),
+													},
 													MarkdownDescription: "Starting port number in the range (1-65535)",
 													Validators: []validator.Int64{
 														int64validator.AtLeast(-2147483648),
@@ -653,11 +664,19 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 													MarkdownDescription: "Id",
 												},
 												"protocol": schema.StringAttribute{
-													Optional:            true,
+													Optional: true,
+													Computed: true,
+													PlanModifiers: []planmodifier.String{
+														stringplanmodifier.UseStateForUnknown(),
+													},
 													MarkdownDescription: "The network protocol (TCP, UDP, ICMP, or empty for any protocol)",
 												},
 												"remote_group": schema.StringAttribute{
-													Optional:            true,
+													Optional: true,
+													Computed: true,
+													PlanModifiers: []planmodifier.String{
+														stringplanmodifier.UseStateForUnknown(),
+													},
 													MarkdownDescription: "Remote security group that this rule references, if any",
 												},
 												"remote_group_name": schema.StringAttribute{
@@ -675,7 +694,11 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 													MarkdownDescription: "UUID of the remote group",
 												},
 												"to_port": schema.Int64Attribute{
-													Optional:            true,
+													Optional: true,
+													Computed: true,
+													PlanModifiers: []planmodifier.Int64{
+														int64planmodifier.UseStateForUnknown(),
+													},
 													MarkdownDescription: "Ending port number in the range (1-65535)",
 													Validators: []validator.Int64{
 														int64validator.AtLeast(-2147483648),
@@ -684,7 +707,11 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 												},
 											},
 										},
-										Optional:            true,
+										Optional: true,
+										Computed: true,
+										PlanModifiers: []planmodifier.List{
+											listplanmodifier.UseStateForUnknown(),
+										},
 										MarkdownDescription: "Rules",
 									},
 									"state": schema.StringAttribute{
@@ -805,7 +832,11 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 						MarkdownDescription: "UUID of the marketplace",
 					},
 					"name": schema.StringAttribute{
-						Optional:            true,
+						Optional: true,
+						Computed: true,
+						PlanModifiers: []planmodifier.String{
+							stringplanmodifier.UseStateForUnknown(),
+						},
 						MarkdownDescription: "Name of the Openstack Instance",
 					},
 					"uuid": schema.StringAttribute{
@@ -873,23 +904,43 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 							NestedObject: schema.NestedAttributeObject{
 								Attributes: map[string]schema.Attribute{
 									"cidr": schema.StringAttribute{
-										Optional:            true,
+										Optional: true,
+										Computed: true,
+										PlanModifiers: []planmodifier.String{
+											stringplanmodifier.UseStateForUnknown(),
+										},
 										MarkdownDescription: "CIDR notation for the source/destination network address range",
 									},
 									"description": schema.StringAttribute{
-										Optional:            true,
+										Optional: true,
+										Computed: true,
+										PlanModifiers: []planmodifier.String{
+											stringplanmodifier.UseStateForUnknown(),
+										},
 										MarkdownDescription: "Description of the Openstack Instance",
 									},
 									"direction": schema.StringAttribute{
-										Optional:            true,
+										Optional: true,
+										Computed: true,
+										PlanModifiers: []planmodifier.String{
+											stringplanmodifier.UseStateForUnknown(),
+										},
 										MarkdownDescription: "Traffic direction - either 'ingress' (incoming) or 'egress' (outgoing)",
 									},
 									"ethertype": schema.StringAttribute{
-										Optional:            true,
+										Optional: true,
+										Computed: true,
+										PlanModifiers: []planmodifier.String{
+											stringplanmodifier.UseStateForUnknown(),
+										},
 										MarkdownDescription: "IP protocol version - either 'IPv4' or 'IPv6'",
 									},
 									"from_port": schema.Int64Attribute{
-										Optional:            true,
+										Optional: true,
+										Computed: true,
+										PlanModifiers: []planmodifier.Int64{
+											int64planmodifier.UseStateForUnknown(),
+										},
 										MarkdownDescription: "Starting port number in the range (1-65535)",
 										Validators: []validator.Int64{
 											int64validator.AtLeast(-2147483648),
@@ -904,7 +955,11 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 										MarkdownDescription: "Id",
 									},
 									"protocol": schema.StringAttribute{
-										Optional:            true,
+										Optional: true,
+										Computed: true,
+										PlanModifiers: []planmodifier.String{
+											stringplanmodifier.UseStateForUnknown(),
+										},
 										MarkdownDescription: "The network protocol (TCP, UDP, ICMP, or empty for any protocol)",
 									},
 									"remote_group_name": schema.StringAttribute{
@@ -922,7 +977,11 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 										MarkdownDescription: "UUID of the remote group",
 									},
 									"to_port": schema.Int64Attribute{
-										Optional:            true,
+										Optional: true,
+										Computed: true,
+										PlanModifiers: []planmodifier.Int64{
+											int64planmodifier.UseStateForUnknown(),
+										},
 										MarkdownDescription: "Ending port number in the range (1-65535)",
 										Validators: []validator.Int64{
 											int64validator.AtLeast(-2147483648),
@@ -1065,18 +1124,30 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"bootable": schema.BoolAttribute{
-							Optional:            true,
+							Optional: true,
+							Computed: true,
+							PlanModifiers: []planmodifier.Bool{
+								boolplanmodifier.UseStateForUnknown(),
+							},
 							MarkdownDescription: "Indicates if this volume can be used to boot an instance",
 						},
 						"device": schema.StringAttribute{
-							Optional:            true,
+							Optional: true,
+							Computed: true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
 							MarkdownDescription: "Name of volume as instance device e.g. /dev/vdb.",
 							Validators: []validator.String{
 								stringvalidator.RegexMatches(regexp.MustCompile(`^/dev/[a-zA-Z0-9]+$`), ""),
 							},
 						},
 						"image_name": schema.StringAttribute{
-							Optional:            true,
+							Optional: true,
+							Computed: true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
 							MarkdownDescription: "Name of the image this volume was created from",
 						},
 						"marketplace_resource_uuid": schema.StringAttribute{
@@ -1101,7 +1172,11 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 							MarkdownDescription: "Resource type",
 						},
 						"size": schema.Int64Attribute{
-							Optional:            true,
+							Optional: true,
+							Computed: true,
+							PlanModifiers: []planmodifier.Int64{
+								int64planmodifier.UseStateForUnknown(),
+							},
 							MarkdownDescription: "Size in MiB",
 							Validators: []validator.Int64{
 								int64validator.AtLeast(0),
@@ -1116,7 +1191,11 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 							MarkdownDescription: "State",
 						},
 						"type": schema.StringAttribute{
-							Optional:            true,
+							Optional: true,
+							Computed: true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
 							MarkdownDescription: "Type of the volume (e.g. SSD, HDD)",
 						},
 						"type_name": schema.StringAttribute{
@@ -1198,9 +1277,6 @@ func (r *OpenstackInstanceResource) resolveUnknownAttributes(data *OpenstackInst
 	if data.Cores.IsUnknown() {
 		data.Cores = types.Int64Null()
 	}
-	if data.Created.IsUnknown() {
-		data.Created = timetypes.NewRFC3339Null()
-	}
 	if data.Customer.IsUnknown() {
 		data.Customer = types.StringNull()
 	}
@@ -1281,9 +1357,6 @@ func (r *OpenstackInstanceResource) resolveUnknownAttributes(data *OpenstackInst
 	}
 	if data.MinRam.IsUnknown() {
 		data.MinRam = types.Int64Null()
-	}
-	if data.Modified.IsUnknown() {
-		data.Modified = timetypes.NewRFC3339Null()
 	}
 	if data.Name.IsUnknown() {
 		data.Name = types.StringNull()

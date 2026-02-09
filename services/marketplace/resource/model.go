@@ -36,7 +36,6 @@ func CreationOrderType() types.ObjectType {
 		"consumer_reviewed_by_full_name": types.StringType,
 		"consumer_reviewed_by_username":  types.StringType,
 		"cost":                           types.StringType,
-		"created":                        types.StringType,
 		"created_by_civil_number":        types.StringType,
 		"created_by_full_name":           types.StringType,
 		"created_by_username":            types.StringType,
@@ -46,7 +45,6 @@ func CreationOrderType() types.ObjectType {
 		"fixed_price":                    types.Float64Type,
 		"issue":                          CreationOrderIssueType(),
 		"marketplace_resource_uuid":      types.StringType,
-		"modified":                       types.StringType,
 		"new_cost_estimate":              types.StringType,
 		"new_plan_name":                  types.StringType,
 		"new_plan_uuid":                  types.StringType,
@@ -327,7 +325,6 @@ type MarketplaceResourceModel struct {
 	CategoryIcon              types.String      `tfsdk:"category_icon"`
 	CategoryTitle             types.String      `tfsdk:"category_title"`
 	CategoryUuid              types.String      `tfsdk:"category_uuid"`
-	Created                   timetypes.RFC3339 `tfsdk:"created"`
 	CreationOrder             types.Object      `tfsdk:"creation_order"`
 	CustomerSlug              types.String      `tfsdk:"customer_slug"`
 	Description               types.String      `tfsdk:"description"`
@@ -339,7 +336,6 @@ type MarketplaceResourceModel struct {
 	ErrorMessage              types.String      `tfsdk:"error_message"`
 	ErrorTraceback            types.String      `tfsdk:"error_traceback"`
 	LastSync                  timetypes.RFC3339 `tfsdk:"last_sync"`
-	Modified                  timetypes.RFC3339 `tfsdk:"modified"`
 	Name                      types.String      `tfsdk:"name"`
 	Offering                  types.String      `tfsdk:"offering"`
 	OfferingBackendId         types.String      `tfsdk:"offering_backend_id"`
@@ -406,9 +402,6 @@ func (model *MarketplaceResourceModel) CopyFrom(ctx context.Context, apiResp Mar
 	model.CategoryIcon = common.StringPointerValue(apiResp.CategoryIcon)
 	model.CategoryTitle = common.StringPointerValue(apiResp.CategoryTitle)
 	model.CategoryUuid = common.StringPointerValue(apiResp.CategoryUuid)
-	valCreated, diagsCreated := timetypes.NewRFC3339PointerValue(apiResp.Created)
-	diags.Append(diagsCreated...)
-	model.Created = valCreated
 	if apiResp.CreationOrder != nil {
 		objValCreationOrder, objDiagsCreationOrder := types.ObjectValueFrom(ctx, CreationOrderType().AttrTypes, *apiResp.CreationOrder)
 		diags.Append(objDiagsCreationOrder...)
@@ -435,9 +428,6 @@ func (model *MarketplaceResourceModel) CopyFrom(ctx context.Context, apiResp Mar
 	valLastSync, diagsLastSync := timetypes.NewRFC3339PointerValue(apiResp.LastSync)
 	diags.Append(diagsLastSync...)
 	model.LastSync = valLastSync
-	valModified, diagsModified := timetypes.NewRFC3339PointerValue(apiResp.Modified)
-	diags.Append(diagsModified...)
-	model.Modified = valModified
 	model.Name = common.StringPointerValue(apiResp.Name)
 	model.Offering = common.StringPointerValue(apiResp.Offering)
 	model.OfferingBackendId = common.StringPointerValue(apiResp.OfferingBackendId)

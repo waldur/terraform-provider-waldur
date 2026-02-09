@@ -3,7 +3,6 @@ package tenant
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -137,28 +136,26 @@ func (m *OpenstackTenantFiltersModel) GetSchema() schema.SingleNestedAttribute {
 }
 
 type OpenstackTenantModel struct {
-	UUID                        types.String      `tfsdk:"id"`
-	AvailabilityZone            types.String      `tfsdk:"availability_zone"`
-	BackendId                   types.String      `tfsdk:"backend_id"`
-	Created                     timetypes.RFC3339 `tfsdk:"created"`
-	Customer                    types.String      `tfsdk:"customer"`
-	DefaultVolumeTypeName       types.String      `tfsdk:"default_volume_type_name"`
-	Description                 types.String      `tfsdk:"description"`
-	ErrorMessage                types.String      `tfsdk:"error_message"`
-	ErrorTraceback              types.String      `tfsdk:"error_traceback"`
-	ExternalNetworkId           types.String      `tfsdk:"external_network_id"`
-	InternalNetworkId           types.String      `tfsdk:"internal_network_id"`
-	MarketplaceResourceUuid     types.String      `tfsdk:"marketplace_resource_uuid"`
-	Modified                    timetypes.RFC3339 `tfsdk:"modified"`
-	Name                        types.String      `tfsdk:"name"`
-	Project                     types.String      `tfsdk:"project"`
-	Quotas                      types.List        `tfsdk:"quotas"`
-	ResourceType                types.String      `tfsdk:"resource_type"`
-	SkipCreationOfDefaultRouter types.Bool        `tfsdk:"skip_creation_of_default_router"`
-	State                       types.String      `tfsdk:"state"`
-	Url                         types.String      `tfsdk:"url"`
-	UserPassword                types.String      `tfsdk:"user_password"`
-	UserUsername                types.String      `tfsdk:"user_username"`
+	UUID                        types.String `tfsdk:"id"`
+	AvailabilityZone            types.String `tfsdk:"availability_zone"`
+	BackendId                   types.String `tfsdk:"backend_id"`
+	Customer                    types.String `tfsdk:"customer"`
+	DefaultVolumeTypeName       types.String `tfsdk:"default_volume_type_name"`
+	Description                 types.String `tfsdk:"description"`
+	ErrorMessage                types.String `tfsdk:"error_message"`
+	ErrorTraceback              types.String `tfsdk:"error_traceback"`
+	ExternalNetworkId           types.String `tfsdk:"external_network_id"`
+	InternalNetworkId           types.String `tfsdk:"internal_network_id"`
+	MarketplaceResourceUuid     types.String `tfsdk:"marketplace_resource_uuid"`
+	Name                        types.String `tfsdk:"name"`
+	Project                     types.String `tfsdk:"project"`
+	Quotas                      types.List   `tfsdk:"quotas"`
+	ResourceType                types.String `tfsdk:"resource_type"`
+	SkipCreationOfDefaultRouter types.Bool   `tfsdk:"skip_creation_of_default_router"`
+	State                       types.String `tfsdk:"state"`
+	Url                         types.String `tfsdk:"url"`
+	UserPassword                types.String `tfsdk:"user_password"`
+	UserUsername                types.String `tfsdk:"user_username"`
 }
 
 // CopyFrom maps the API response to the model fields.
@@ -168,9 +165,6 @@ func (model *OpenstackTenantModel) CopyFrom(ctx context.Context, apiResp Opensta
 	model.UUID = types.StringPointerValue(apiResp.UUID)
 	model.AvailabilityZone = common.StringPointerValue(apiResp.AvailabilityZone)
 	model.BackendId = common.StringPointerValue(apiResp.BackendId)
-	valCreated, diagsCreated := timetypes.NewRFC3339PointerValue(apiResp.Created)
-	diags.Append(diagsCreated...)
-	model.Created = valCreated
 	model.Customer = common.StringPointerValue(apiResp.Customer)
 	model.DefaultVolumeTypeName = common.StringPointerValue(apiResp.DefaultVolumeTypeName)
 	model.Description = common.StringPointerValue(apiResp.Description)
@@ -179,9 +173,6 @@ func (model *OpenstackTenantModel) CopyFrom(ctx context.Context, apiResp Opensta
 	model.ExternalNetworkId = common.StringPointerValue(apiResp.ExternalNetworkId)
 	model.InternalNetworkId = common.StringPointerValue(apiResp.InternalNetworkId)
 	model.MarketplaceResourceUuid = common.StringPointerValue(apiResp.MarketplaceResourceUuid)
-	valModified, diagsModified := timetypes.NewRFC3339PointerValue(apiResp.Modified)
-	diags.Append(diagsModified...)
-	model.Modified = valModified
 	model.Name = common.StringPointerValue(apiResp.Name)
 	model.Project = common.StringPointerValue(apiResp.Project)
 

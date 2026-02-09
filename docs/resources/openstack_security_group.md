@@ -29,13 +29,11 @@ Openstack Security Group resource
 ### Read-Only
 
 - `backend_id` (String) ID of the backend
-- `created` (String) Created
 - `customer` (String) Customer
 - `error_message` (String) Error message
 - `error_traceback` (String) Error traceback
 - `id` (String) Openstack Security Group UUID (used as Terraform ID)
 - `marketplace_resource_uuid` (String) UUID of the marketplace resource
-- `modified` (String) Modified
 - `project` (String) Project
 - `resource_type` (String) Resource type
 - `state` (String) State

@@ -25,7 +25,6 @@ Openstack Floating Ip data source - lookup by name or UUID
 - `address` (String) The public IPv4 address of the floating IP
 - `backend_id` (String) ID of the backend
 - `backend_network_id` (String) ID of network in OpenStack where this floating IP is allocated
-- `created` (String) Created
 - `customer` (String) Customer
 - `description` (String) Description of the Openstack Floating Ip
 - `error_message` (String) Error message
@@ -35,7 +34,6 @@ Openstack Floating Ip data source - lookup by name or UUID
 - `instance_url` (String) Instance url
 - `instance_uuid` (String) UUID of the instance
 - `marketplace_resource_uuid` (String) UUID of the marketplace resource
-- `modified` (String) Modified
 - `name` (String) Name of the Openstack Floating Ip
 - `port` (String) Port
 - `port_fixed_ips` (Attributes List) Port fixed ips (see [below for nested schema](#nestedatt--port_fixed_ips))

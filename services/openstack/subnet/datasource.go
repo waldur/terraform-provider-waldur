@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -67,11 +66,6 @@ func (d *OpenstackSubnetDataSource) Schema(ctx context.Context, req datasource.S
 				Computed:            true,
 				MarkdownDescription: "Cidr",
 			},
-			"created": schema.StringAttribute{
-				CustomType:          timetypes.RFC3339Type{},
-				Computed:            true,
-				MarkdownDescription: "Created",
-			},
 			"customer": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Customer",
@@ -132,11 +126,6 @@ func (d *OpenstackSubnetDataSource) Schema(ctx context.Context, req datasource.S
 			"marketplace_resource_uuid": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "UUID of the marketplace resource",
-			},
-			"modified": schema.StringAttribute{
-				CustomType:          timetypes.RFC3339Type{},
-				Computed:            true,
-				MarkdownDescription: "Modified",
 			},
 			"name": schema.StringAttribute{
 				Computed:            true,

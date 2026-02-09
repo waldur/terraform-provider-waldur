@@ -3,7 +3,6 @@ package server_group
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -128,26 +127,24 @@ func (m *OpenstackServerGroupFiltersModel) GetSchema() schema.SingleNestedAttrib
 }
 
 type OpenstackServerGroupModel struct {
-	UUID                    types.String      `tfsdk:"id"`
-	BackendId               types.String      `tfsdk:"backend_id"`
-	Created                 timetypes.RFC3339 `tfsdk:"created"`
-	Customer                types.String      `tfsdk:"customer"`
-	Description             types.String      `tfsdk:"description"`
-	DisplayName             types.String      `tfsdk:"display_name"`
-	ErrorMessage            types.String      `tfsdk:"error_message"`
-	ErrorTraceback          types.String      `tfsdk:"error_traceback"`
-	Instances               types.List        `tfsdk:"instances"`
-	MarketplaceResourceUuid types.String      `tfsdk:"marketplace_resource_uuid"`
-	Modified                timetypes.RFC3339 `tfsdk:"modified"`
-	Name                    types.String      `tfsdk:"name"`
-	Policy                  types.String      `tfsdk:"policy"`
-	Project                 types.String      `tfsdk:"project"`
-	ResourceType            types.String      `tfsdk:"resource_type"`
-	State                   types.String      `tfsdk:"state"`
-	Tenant                  types.String      `tfsdk:"tenant"`
-	TenantName              types.String      `tfsdk:"tenant_name"`
-	TenantUuid              types.String      `tfsdk:"tenant_uuid"`
-	Url                     types.String      `tfsdk:"url"`
+	UUID                    types.String `tfsdk:"id"`
+	BackendId               types.String `tfsdk:"backend_id"`
+	Customer                types.String `tfsdk:"customer"`
+	Description             types.String `tfsdk:"description"`
+	DisplayName             types.String `tfsdk:"display_name"`
+	ErrorMessage            types.String `tfsdk:"error_message"`
+	ErrorTraceback          types.String `tfsdk:"error_traceback"`
+	Instances               types.List   `tfsdk:"instances"`
+	MarketplaceResourceUuid types.String `tfsdk:"marketplace_resource_uuid"`
+	Name                    types.String `tfsdk:"name"`
+	Policy                  types.String `tfsdk:"policy"`
+	Project                 types.String `tfsdk:"project"`
+	ResourceType            types.String `tfsdk:"resource_type"`
+	State                   types.String `tfsdk:"state"`
+	Tenant                  types.String `tfsdk:"tenant"`
+	TenantName              types.String `tfsdk:"tenant_name"`
+	TenantUuid              types.String `tfsdk:"tenant_uuid"`
+	Url                     types.String `tfsdk:"url"`
 }
 
 // CopyFrom maps the API response to the model fields.
@@ -156,9 +153,6 @@ func (model *OpenstackServerGroupModel) CopyFrom(ctx context.Context, apiResp Op
 
 	model.UUID = types.StringPointerValue(apiResp.UUID)
 	model.BackendId = common.StringPointerValue(apiResp.BackendId)
-	valCreated, diagsCreated := timetypes.NewRFC3339PointerValue(apiResp.Created)
-	diags.Append(diagsCreated...)
-	model.Created = valCreated
 	model.Customer = common.StringPointerValue(apiResp.Customer)
 	model.Description = common.StringPointerValue(apiResp.Description)
 	model.DisplayName = common.StringPointerValue(apiResp.DisplayName)
@@ -173,9 +167,6 @@ func (model *OpenstackServerGroupModel) CopyFrom(ctx context.Context, apiResp Op
 		model.Instances = types.ListNull(OpenStackNestedInstanceType())
 	}
 	model.MarketplaceResourceUuid = common.StringPointerValue(apiResp.MarketplaceResourceUuid)
-	valModified, diagsModified := timetypes.NewRFC3339PointerValue(apiResp.Modified)
-	diags.Append(diagsModified...)
-	model.Modified = valModified
 	model.Name = common.StringPointerValue(apiResp.Name)
 	model.Policy = common.StringPointerValue(apiResp.Policy)
 	model.Project = common.StringPointerValue(apiResp.Project)

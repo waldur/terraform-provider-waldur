@@ -41,7 +41,6 @@ type OpenstackTenantResponse struct {
 
 	AvailabilityZone            *string         `json:"availability_zone" tfsdk:"availability_zone"`
 	BackendId                   *string         `json:"backend_id" tfsdk:"backend_id"`
-	Created                     *string         `json:"created" tfsdk:"created"`
 	Customer                    *string         `json:"customer" tfsdk:"customer"`
 	DefaultVolumeTypeName       *string         `json:"default_volume_type_name" tfsdk:"default_volume_type_name"`
 	Description                 *string         `json:"description" tfsdk:"description"`
@@ -50,7 +49,6 @@ type OpenstackTenantResponse struct {
 	ExternalNetworkId           *string         `json:"external_network_id" tfsdk:"external_network_id"`
 	InternalNetworkId           *string         `json:"internal_network_id" tfsdk:"internal_network_id"`
 	MarketplaceResourceUuid     *string         `json:"marketplace_resource_uuid" tfsdk:"marketplace_resource_uuid"`
-	Modified                    *string         `json:"modified" tfsdk:"modified"`
 	Name                        *string         `json:"name" tfsdk:"name"`
 	Project                     *string         `json:"project" tfsdk:"project"`
 	Quotas                      *[]common.Quota `json:"quotas" tfsdk:"quotas"`

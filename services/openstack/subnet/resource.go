@@ -5,7 +5,6 @@ import (
 	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
-	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
@@ -88,14 +87,6 @@ func (r *OpenstackSubnetResource) Schema(ctx context.Context, req resource.Schem
 					stringplanmodifier.UseStateForUnknown(),
 				},
 				MarkdownDescription: "Cidr",
-			},
-			"created": schema.StringAttribute{
-				CustomType: timetypes.RFC3339Type{},
-				Computed:   true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
-				MarkdownDescription: "Created",
 			},
 			"customer": schema.StringAttribute{
 				Computed: true,
@@ -198,14 +189,6 @@ func (r *OpenstackSubnetResource) Schema(ctx context.Context, req resource.Schem
 					stringplanmodifier.UseStateForUnknown(),
 				},
 				MarkdownDescription: "UUID of the marketplace resource",
-			},
-			"modified": schema.StringAttribute{
-				CustomType: timetypes.RFC3339Type{},
-				Computed:   true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
-				MarkdownDescription: "Modified",
 			},
 			"name": schema.StringAttribute{
 				Required:            true,

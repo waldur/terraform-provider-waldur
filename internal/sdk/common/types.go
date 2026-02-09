@@ -68,9 +68,8 @@ type NestedEndpoint struct {
 }
 
 type NestedOfferingFile struct {
-	Created *string `json:"created,omitempty" tfsdk:"created"`
-	File    *string `json:"file,omitempty" tfsdk:"file"`
-	Name    *string `json:"name,omitempty" tfsdk:"name"`
+	File *string `json:"file,omitempty" tfsdk:"file"`
+	Name *string `json:"name,omitempty" tfsdk:"name"`
 }
 
 type NestedPartition struct {
@@ -115,7 +114,6 @@ type NestedRole struct {
 }
 
 type NestedScreenshot struct {
-	Created     *string `json:"created,omitempty" tfsdk:"created"`
 	Description *string `json:"description,omitempty" tfsdk:"description"`
 	Image       *string `json:"image,omitempty" tfsdk:"image"`
 	Name        *string `json:"name,omitempty" tfsdk:"name"`
@@ -162,7 +160,6 @@ type NestedTag struct {
 
 type NetworkRBACPolicy struct {
 	BackendId        *string `json:"backend_id,omitempty" tfsdk:"backend_id"`
-	Created          *string `json:"created,omitempty" tfsdk:"created"`
 	Network          *string `json:"network,omitempty" tfsdk:"network"`
 	NetworkName      *string `json:"network_name,omitempty" tfsdk:"network_name"`
 	PolicyType       *string `json:"policy_type,omitempty" tfsdk:"policy_type"`
@@ -339,13 +336,11 @@ type OpenStackPortNestedSecurityGroupRequest struct {
 
 type OpenStackSecurityGroup struct {
 	BackendId               *string                             `json:"backend_id,omitempty" tfsdk:"backend_id"`
-	Created                 *string                             `json:"created,omitempty" tfsdk:"created"`
 	Customer                *string                             `json:"customer,omitempty" tfsdk:"customer"`
 	Description             *string                             `json:"description,omitempty" tfsdk:"description"`
 	ErrorMessage            *string                             `json:"error_message,omitempty" tfsdk:"error_message"`
 	ErrorTraceback          *string                             `json:"error_traceback,omitempty" tfsdk:"error_traceback"`
 	MarketplaceResourceUuid *string                             `json:"marketplace_resource_uuid,omitempty" tfsdk:"marketplace_resource_uuid"`
-	Modified                *string                             `json:"modified,omitempty" tfsdk:"modified"`
 	Name                    *string                             `json:"name,omitempty" tfsdk:"name"`
 	Project                 *string                             `json:"project,omitempty" tfsdk:"project"`
 	ResourceType            *string                             `json:"resource_type,omitempty" tfsdk:"resource_type"`
@@ -435,7 +430,6 @@ type OrderDetails struct {
 	ConsumerReviewedByFullName *string            `json:"consumer_reviewed_by_full_name,omitempty" tfsdk:"consumer_reviewed_by_full_name"`
 	ConsumerReviewedByUsername *string            `json:"consumer_reviewed_by_username,omitempty" tfsdk:"consumer_reviewed_by_username"`
 	Cost                       *string            `json:"cost,omitempty" tfsdk:"cost"`
-	Created                    *string            `json:"created,omitempty" tfsdk:"created"`
 	CreatedByCivilNumber       *string            `json:"created_by_civil_number,omitempty" tfsdk:"created_by_civil_number"`
 	CreatedByFullName          *string            `json:"created_by_full_name,omitempty" tfsdk:"created_by_full_name"`
 	CreatedByUsername          *string            `json:"created_by_username,omitempty" tfsdk:"created_by_username"`
@@ -445,7 +439,6 @@ type OrderDetails struct {
 	FixedPrice                 *float64           `json:"fixed_price,omitempty" tfsdk:"fixed_price"`
 	Issue                      *OrderDetailsIssue `json:"issue,omitempty" tfsdk:"issue"`
 	MarketplaceResourceUuid    *string            `json:"marketplace_resource_uuid,omitempty" tfsdk:"marketplace_resource_uuid"`
-	Modified                   *string            `json:"modified,omitempty" tfsdk:"modified"`
 	NewCostEstimate            *string            `json:"new_cost_estimate,omitempty" tfsdk:"new_cost_estimate"`
 	NewPlanName                *string            `json:"new_plan_name,omitempty" tfsdk:"new_plan_name"`
 	NewPlanUuid                *string            `json:"new_plan_uuid,omitempty" tfsdk:"new_plan_uuid"`

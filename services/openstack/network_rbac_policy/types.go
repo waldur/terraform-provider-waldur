@@ -16,7 +16,6 @@ type OpenstackNetworkRbacPolicyResponse struct {
 	UUID *string `json:"uuid"`
 
 	BackendId        *string `json:"backend_id" tfsdk:"backend_id"`
-	Created          *string `json:"created" tfsdk:"created"`
 	Network          *string `json:"network" tfsdk:"network"`
 	NetworkName      *string `json:"network_name" tfsdk:"network_name"`
 	PolicyType       *string `json:"policy_type" tfsdk:"policy_type"`

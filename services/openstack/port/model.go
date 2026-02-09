@@ -3,7 +3,6 @@ package port
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -125,37 +124,35 @@ func (m *OpenstackPortFiltersModel) GetSchema() schema.SingleNestedAttribute {
 }
 
 type OpenstackPortModel struct {
-	UUID                    types.String      `tfsdk:"id"`
-	AdminStateUp            types.Bool        `tfsdk:"admin_state_up"`
-	AllowedAddressPairs     types.List        `tfsdk:"allowed_address_pairs"`
-	BackendId               types.String      `tfsdk:"backend_id"`
-	Created                 timetypes.RFC3339 `tfsdk:"created"`
-	Customer                types.String      `tfsdk:"customer"`
-	Description             types.String      `tfsdk:"description"`
-	DeviceId                types.String      `tfsdk:"device_id"`
-	DeviceOwner             types.String      `tfsdk:"device_owner"`
-	ErrorMessage            types.String      `tfsdk:"error_message"`
-	ErrorTraceback          types.String      `tfsdk:"error_traceback"`
-	FixedIps                types.List        `tfsdk:"fixed_ips"`
-	FloatingIps             types.Set         `tfsdk:"floating_ips"`
-	MacAddress              types.String      `tfsdk:"mac_address"`
-	MarketplaceResourceUuid types.String      `tfsdk:"marketplace_resource_uuid"`
-	Modified                timetypes.RFC3339 `tfsdk:"modified"`
-	Name                    types.String      `tfsdk:"name"`
-	Network                 types.String      `tfsdk:"network"`
-	NetworkName             types.String      `tfsdk:"network_name"`
-	NetworkUuid             types.String      `tfsdk:"network_uuid"`
-	PortSecurityEnabled     types.Bool        `tfsdk:"port_security_enabled"`
-	Project                 types.String      `tfsdk:"project"`
-	ResourceType            types.String      `tfsdk:"resource_type"`
-	SecurityGroups          types.Set         `tfsdk:"security_groups"`
-	State                   types.String      `tfsdk:"state"`
-	Status                  types.String      `tfsdk:"status"`
-	Tenant                  types.String      `tfsdk:"tenant"`
-	TenantName              types.String      `tfsdk:"tenant_name"`
-	TenantUuid              types.String      `tfsdk:"tenant_uuid"`
-	Url                     types.String      `tfsdk:"url"`
-	TargetTenant            types.String      `tfsdk:"target_tenant"`
+	UUID                    types.String `tfsdk:"id"`
+	AdminStateUp            types.Bool   `tfsdk:"admin_state_up"`
+	AllowedAddressPairs     types.List   `tfsdk:"allowed_address_pairs"`
+	BackendId               types.String `tfsdk:"backend_id"`
+	Customer                types.String `tfsdk:"customer"`
+	Description             types.String `tfsdk:"description"`
+	DeviceId                types.String `tfsdk:"device_id"`
+	DeviceOwner             types.String `tfsdk:"device_owner"`
+	ErrorMessage            types.String `tfsdk:"error_message"`
+	ErrorTraceback          types.String `tfsdk:"error_traceback"`
+	FixedIps                types.List   `tfsdk:"fixed_ips"`
+	FloatingIps             types.Set    `tfsdk:"floating_ips"`
+	MacAddress              types.String `tfsdk:"mac_address"`
+	MarketplaceResourceUuid types.String `tfsdk:"marketplace_resource_uuid"`
+	Name                    types.String `tfsdk:"name"`
+	Network                 types.String `tfsdk:"network"`
+	NetworkName             types.String `tfsdk:"network_name"`
+	NetworkUuid             types.String `tfsdk:"network_uuid"`
+	PortSecurityEnabled     types.Bool   `tfsdk:"port_security_enabled"`
+	Project                 types.String `tfsdk:"project"`
+	ResourceType            types.String `tfsdk:"resource_type"`
+	SecurityGroups          types.Set    `tfsdk:"security_groups"`
+	State                   types.String `tfsdk:"state"`
+	Status                  types.String `tfsdk:"status"`
+	Tenant                  types.String `tfsdk:"tenant"`
+	TenantName              types.String `tfsdk:"tenant_name"`
+	TenantUuid              types.String `tfsdk:"tenant_uuid"`
+	Url                     types.String `tfsdk:"url"`
+	TargetTenant            types.String `tfsdk:"target_tenant"`
 }
 
 // CopyFrom maps the API response to the model fields.
@@ -173,9 +170,6 @@ func (model *OpenstackPortModel) CopyFrom(ctx context.Context, apiResp Openstack
 		model.AllowedAddressPairs = types.ListNull(OpenStackAllowedAddressPairRequestType())
 	}
 	model.BackendId = common.StringPointerValue(apiResp.BackendId)
-	valCreated, diagsCreated := timetypes.NewRFC3339PointerValue(apiResp.Created)
-	diags.Append(diagsCreated...)
-	model.Created = valCreated
 	model.Customer = common.StringPointerValue(apiResp.Customer)
 	model.Description = common.StringPointerValue(apiResp.Description)
 	model.DeviceId = common.StringPointerValue(apiResp.DeviceId)
@@ -195,9 +189,6 @@ func (model *OpenstackPortModel) CopyFrom(ctx context.Context, apiResp Openstack
 	diags.Append(setDiagsFloatingIps...)
 	model.MacAddress = common.StringPointerValue(apiResp.MacAddress)
 	model.MarketplaceResourceUuid = common.StringPointerValue(apiResp.MarketplaceResourceUuid)
-	valModified, diagsModified := timetypes.NewRFC3339PointerValue(apiResp.Modified)
-	diags.Append(diagsModified...)
-	model.Modified = valModified
 	model.Name = common.StringPointerValue(apiResp.Name)
 	model.Network = common.StringPointerValue(apiResp.Network)
 	model.NetworkName = common.StringPointerValue(apiResp.NetworkName)

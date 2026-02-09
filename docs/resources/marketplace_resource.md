@@ -35,7 +35,6 @@ Marketplace Resource resource
 - `category_icon` (String) Category icon
 - `category_title` (String) Category title
 - `category_uuid` (String) UUID of the category
-- `created` (String) Created
 - `creation_order` (Attributes) Creation order (see [below for nested schema](#nestedatt--creation_order))
 - `customer_slug` (String) Customer slug
 - `description` (String) Description of the Marketplace Resource
@@ -46,7 +45,6 @@ Marketplace Resource resource
 - `error_traceback` (String) Error traceback
 - `id` (String) Marketplace Resource UUID (used as Terraform ID)
 - `last_sync` (String) Last sync
-- `modified` (String) Modified
 - `offering_backend_id` (String) ID of the offering backend
 - `offering_billable` (Boolean) Purchase and usage is invoiced.
 - `offering_components` (Attributes List) Offering components (see [below for nested schema](#nestedatt--offering_components))
@@ -135,7 +133,6 @@ Read-Only:
 - `consumer_reviewed_by_full_name` (String) Name of the consumer reviewed by full
 - `consumer_reviewed_by_username` (String) Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters
 - `cost` (String) Cost
-- `created` (String) Created
 - `created_by_civil_number` (String) Created by civil number
 - `created_by_full_name` (String) Name of the created by full
 - `created_by_username` (String) Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters
@@ -145,7 +142,6 @@ Read-Only:
 - `fixed_price` (Number) Fixed price
 - `issue` (Attributes) Issue (see [below for nested schema](#nestedatt--creation_order--issue))
 - `marketplace_resource_uuid` (String) UUID of the marketplace resource
-- `modified` (String) Modified
 - `new_cost_estimate` (String) New cost estimate
 - `new_plan_name` (String) Name of the new plan
 - `new_plan_uuid` (String) UUID of the new plan
@@ -265,7 +261,6 @@ Read-Only:
 - `consumer_reviewed_by_full_name` (String) Name of the consumer reviewed by full
 - `consumer_reviewed_by_username` (String) Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters
 - `cost` (String) Cost
-- `created` (String) Created
 - `created_by_civil_number` (String) Created by civil number
 - `created_by_full_name` (String) Name of the created by full
 - `created_by_username` (String) Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters
@@ -275,7 +270,6 @@ Read-Only:
 - `fixed_price` (Number) Fixed price
 - `issue` (Attributes) Issue (see [below for nested schema](#nestedatt--order_in_progress--issue))
 - `marketplace_resource_uuid` (String) UUID of the marketplace resource
-- `modified` (String) Modified
 - `new_cost_estimate` (String) New cost estimate
 - `new_plan_name` (String) Name of the new plan
 - `new_plan_uuid` (String) UUID of the new plan

@@ -43,7 +43,6 @@ type StructureProjectResponse struct {
 
 	BackendId                            *string                                       `json:"backend_id" tfsdk:"backend_id"`
 	BillingPriceEstimate                 *StructureProjectBillingPriceEstimateResponse `json:"billing_price_estimate" tfsdk:"billing_price_estimate"`
-	Created                              *string                                       `json:"created" tfsdk:"created"`
 	Customer                             *string                                       `json:"customer" tfsdk:"customer"`
 	CustomerDisplayBillingInfoInProjects *bool                                         `json:"customer_display_billing_info_in_projects" tfsdk:"customer_display_billing_info_in_projects"`
 	CustomerSlug                         *string                                       `json:"customer_slug" tfsdk:"customer_slug"`

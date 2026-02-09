@@ -23,13 +23,11 @@ type OpenstackSecurityGroupResponse struct {
 	UUID *string `json:"uuid"`
 
 	BackendId               *string                                          `json:"backend_id" tfsdk:"backend_id"`
-	Created                 *string                                          `json:"created" tfsdk:"created"`
 	Customer                *string                                          `json:"customer" tfsdk:"customer"`
 	Description             *string                                          `json:"description" tfsdk:"description"`
 	ErrorMessage            *string                                          `json:"error_message" tfsdk:"error_message"`
 	ErrorTraceback          *string                                          `json:"error_traceback" tfsdk:"error_traceback"`
 	MarketplaceResourceUuid *string                                          `json:"marketplace_resource_uuid" tfsdk:"marketplace_resource_uuid"`
-	Modified                *string                                          `json:"modified" tfsdk:"modified"`
 	Name                    *string                                          `json:"name" tfsdk:"name"`
 	Project                 *string                                          `json:"project" tfsdk:"project"`
 	ResourceType            *string                                          `json:"resource_type" tfsdk:"resource_type"`

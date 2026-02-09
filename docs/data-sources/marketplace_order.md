@@ -36,7 +36,6 @@ Marketplace Order data source - lookup by name or UUID
 - `consumer_reviewed_by_full_name` (String) Name of the consumer reviewed by full
 - `consumer_reviewed_by_username` (String) Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters
 - `cost` (String) Cost
-- `created` (String) Created
 - `created_by_civil_number` (String) Created by civil number
 - `created_by_full_name` (String) Name of the created by full
 - `created_by_username` (String) Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters
@@ -46,7 +45,6 @@ Marketplace Order data source - lookup by name or UUID
 - `fixed_price` (Number) Fixed price
 - `issue` (Attributes) Issue (see [below for nested schema](#nestedatt--issue))
 - `marketplace_resource_uuid` (String) UUID of the marketplace resource
-- `modified` (String) Modified
 - `new_cost_estimate` (String) New cost estimate
 - `new_plan_name` (String) Name of the new plan
 - `new_plan_uuid` (String) UUID of the new plan

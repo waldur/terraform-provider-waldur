@@ -32,7 +32,6 @@ type OpenstackSubnetResponse struct {
 	AllocationPools         *[]common.OpenStackSubNetAllocationPoolRequest `json:"allocation_pools" tfsdk:"allocation_pools"`
 	BackendId               *string                                        `json:"backend_id" tfsdk:"backend_id"`
 	Cidr                    *string                                        `json:"cidr" tfsdk:"cidr"`
-	Created                 *string                                        `json:"created" tfsdk:"created"`
 	Customer                *string                                        `json:"customer" tfsdk:"customer"`
 	Description             *string                                        `json:"description" tfsdk:"description"`
 	DisableGateway          *bool                                          `json:"disable_gateway" tfsdk:"disable_gateway"`
@@ -45,7 +44,6 @@ type OpenstackSubnetResponse struct {
 	IpVersion               *int64                                         `json:"ip_version" tfsdk:"ip_version"`
 	IsConnected             *bool                                          `json:"is_connected" tfsdk:"is_connected"`
 	MarketplaceResourceUuid *string                                        `json:"marketplace_resource_uuid" tfsdk:"marketplace_resource_uuid"`
-	Modified                *string                                        `json:"modified" tfsdk:"modified"`
 	Name                    *string                                        `json:"name" tfsdk:"name"`
 	Network                 *string                                        `json:"network" tfsdk:"network"`
 	NetworkName             *string                                        `json:"network_name" tfsdk:"network_name"`

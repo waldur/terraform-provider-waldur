@@ -59,7 +59,6 @@ type OpenstackInstanceResponse struct {
 	BackendId                        *string                                          `json:"backend_id" tfsdk:"backend_id"`
 	ConnectDirectlyToExternalNetwork *bool                                            `json:"connect_directly_to_external_network" tfsdk:"connect_directly_to_external_network"`
 	Cores                            *int64                                           `json:"cores" tfsdk:"cores"`
-	Created                          *string                                          `json:"created" tfsdk:"created"`
 	Customer                         *string                                          `json:"customer" tfsdk:"customer"`
 	Description                      *string                                          `json:"description" tfsdk:"description"`
 	Disk                             *int64                                           `json:"disk" tfsdk:"disk"`
@@ -80,7 +79,6 @@ type OpenstackInstanceResponse struct {
 	MarketplaceResourceUuid          *string                                          `json:"marketplace_resource_uuid" tfsdk:"marketplace_resource_uuid"`
 	MinDisk                          *int64                                           `json:"min_disk" tfsdk:"min_disk"`
 	MinRam                           *int64                                           `json:"min_ram" tfsdk:"min_ram"`
-	Modified                         *string                                          `json:"modified" tfsdk:"modified"`
 	Name                             *string                                          `json:"name" tfsdk:"name"`
 	Ports                            *[]common.OpenStackCreateInstancePortRequest     `json:"ports" tfsdk:"ports"`
 	Project                          *string                                          `json:"project" tfsdk:"project"`
@@ -145,13 +143,11 @@ type OpenstackInstancePortsAllowedAddressPairsResponse struct {
 
 type OpenstackInstancePortsSecurityGroupsResponse struct {
 	BackendId               *string                                    `json:"backend_id" tfsdk:"backend_id"`
-	Created                 *string                                    `json:"created" tfsdk:"created"`
 	Customer                *string                                    `json:"customer" tfsdk:"customer"`
 	Description             *string                                    `json:"description" tfsdk:"description"`
 	ErrorMessage            *string                                    `json:"error_message" tfsdk:"error_message"`
 	ErrorTraceback          *string                                    `json:"error_traceback" tfsdk:"error_traceback"`
 	MarketplaceResourceUuid *string                                    `json:"marketplace_resource_uuid" tfsdk:"marketplace_resource_uuid"`
-	Modified                *string                                    `json:"modified" tfsdk:"modified"`
 	Name                    *string                                    `json:"name" tfsdk:"name"`
 	Project                 *string                                    `json:"project" tfsdk:"project"`
 	ResourceType            *string                                    `json:"resource_type" tfsdk:"resource_type"`

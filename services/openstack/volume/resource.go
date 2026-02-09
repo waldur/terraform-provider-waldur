@@ -5,7 +5,6 @@ import (
 	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
-	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
 	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -95,14 +94,6 @@ func (r *OpenstackVolumeResource) Schema(ctx context.Context, req resource.Schem
 					boolplanmodifier.UseStateForUnknown(),
 				},
 				MarkdownDescription: "Indicates if this volume can be used to boot an instance",
-			},
-			"created": schema.StringAttribute{
-				CustomType: timetypes.RFC3339Type{},
-				Computed:   true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
-				MarkdownDescription: "Created",
 			},
 			"customer": schema.StringAttribute{
 				Computed: true,
@@ -207,14 +198,6 @@ func (r *OpenstackVolumeResource) Schema(ctx context.Context, req resource.Schem
 					stringplanmodifier.UseStateForUnknown(),
 				},
 				MarkdownDescription: "UUID of the marketplace resource",
-			},
-			"modified": schema.StringAttribute{
-				CustomType: timetypes.RFC3339Type{},
-				Computed:   true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
-				MarkdownDescription: "Modified",
 			},
 			"name": schema.StringAttribute{
 				Optional: true,
@@ -370,9 +353,6 @@ func (r *OpenstackVolumeResource) resolveUnknownAttributes(data *OpenstackVolume
 	if data.Bootable.IsUnknown() {
 		data.Bootable = types.BoolNull()
 	}
-	if data.Created.IsUnknown() {
-		data.Created = timetypes.NewRFC3339Null()
-	}
 	if data.Customer.IsUnknown() {
 		data.Customer = types.StringNull()
 	}
@@ -414,9 +394,6 @@ func (r *OpenstackVolumeResource) resolveUnknownAttributes(data *OpenstackVolume
 	}
 	if data.MarketplaceResourceUuid.IsUnknown() {
 		data.MarketplaceResourceUuid = types.StringNull()
-	}
-	if data.Modified.IsUnknown() {
-		data.Modified = timetypes.NewRFC3339Null()
 	}
 	if data.Name.IsUnknown() {
 		data.Name = types.StringNull()
@@ -637,14 +614,14 @@ func (r *OpenstackVolumeResource) Update(ctx context.Context, req resource.Updat
 
 	// Phase 2: RPC Actions
 	// These actions are triggered when their corresponding specific fields change.
-	if !data.Size.Equal(state.Size) {
+	if !data.Type.Equal(state.Type) {
 		// Convert Terraform value to API payload for the specific action
-		var req OpenstackVolumeExtendActionRequest
-		req.Size = data.Size.ValueInt64Pointer()
+		var req OpenstackVolumeRetypeActionRequest
+		req.Type = data.Type.ValueStringPointer()
 
 		// Execute the Action
-		if err := r.client.Extend(ctx, data.UUID.ValueString(), &req); err != nil {
-			resp.Diagnostics.AddError("RPC Action Failed: extend", err.Error())
+		if err := r.client.Retype(ctx, data.UUID.ValueString(), &req); err != nil {
+			resp.Diagnostics.AddError("RPC Action Failed: retype", err.Error())
 			return
 		}
 
@@ -659,14 +636,14 @@ func (r *OpenstackVolumeResource) Update(ctx context.Context, req resource.Updat
 		resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
 		state = data // Update local state to avoid repeated action calls if multiple fields changed (though actions are usually 1-to-1)
 	}
-	if !data.Type.Equal(state.Type) {
+	if !data.Size.Equal(state.Size) {
 		// Convert Terraform value to API payload for the specific action
-		var req OpenstackVolumeRetypeActionRequest
-		req.Type = data.Type.ValueStringPointer()
+		var req OpenstackVolumeExtendActionRequest
+		req.Size = data.Size.ValueInt64Pointer()
 
 		// Execute the Action
-		if err := r.client.Retype(ctx, data.UUID.ValueString(), &req); err != nil {
-			resp.Diagnostics.AddError("RPC Action Failed: retype", err.Error())
+		if err := r.client.Extend(ctx, data.UUID.ValueString(), &req); err != nil {
+			resp.Diagnostics.AddError("RPC Action Failed: extend", err.Error())
 			return
 		}
 

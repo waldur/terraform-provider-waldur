@@ -125,11 +125,6 @@ func (d *StructureCustomerDataSource) Schema(ctx context.Context, req datasource
 				Computed:            true,
 				MarkdownDescription: "Human-readable country name",
 			},
-			"created": schema.StringAttribute{
-				CustomType:          timetypes.RFC3339Type{},
-				Computed:            true,
-				MarkdownDescription: "Created",
-			},
 			"customer_credit": schema.Float64Attribute{
 				Computed:            true,
 				MarkdownDescription: "Customer credit",

@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"regexp"
 
-	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
 	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
@@ -71,11 +70,6 @@ func (d *StructureProjectDataSource) Schema(ctx context.Context, req datasource.
 				},
 				Computed:            true,
 				MarkdownDescription: "Billing price estimate",
-			},
-			"created": schema.StringAttribute{
-				CustomType:          timetypes.RFC3339Type{},
-				Computed:            true,
-				MarkdownDescription: "Created",
 			},
 			"customer": schema.StringAttribute{
 				Computed:            true,

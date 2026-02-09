@@ -94,7 +94,6 @@ type StructureCustomerResponse struct {
 	ContactDetails               *string                                        `json:"contact_details" tfsdk:"contact_details"`
 	Country                      *string                                        `json:"country" tfsdk:"country"`
 	CountryName                  *string                                        `json:"country_name" tfsdk:"country_name"`
-	Created                      *string                                        `json:"created" tfsdk:"created"`
 	CustomerCredit               *common.FlexibleNumber                         `json:"customer_credit" tfsdk:"customer_credit"`
 	CustomerUnallocatedCredit    *common.FlexibleNumber                         `json:"customer_unallocated_credit" tfsdk:"customer_unallocated_credit"`
 	DefaultTaxPercent            *string                                        `json:"default_tax_percent" tfsdk:"default_tax_percent"`

@@ -23,14 +23,12 @@ Openstack Network data source - lookup by name or UUID
 ### Read-Only
 
 - `backend_id` (String) ID of the backend
-- `created` (String) Created
 - `customer` (String) Customer
 - `description` (String) Description of the Openstack Network
 - `error_message` (String) Error message
 - `error_traceback` (String) Error traceback
 - `is_external` (Boolean) Defines whether this network is external (public) or internal (private)
 - `marketplace_resource_uuid` (String) UUID of the marketplace resource
-- `modified` (String) Modified
 - `mtu` (Number) The maximum transmission unit (MTU) value to address fragmentation.
 - `name` (String) Name of the Openstack Network
 - `project` (String) Project
@@ -81,7 +79,6 @@ Optional:
 Read-Only:
 
 - `backend_id` (String) ID of the backend
-- `created` (String) Created
 - `network` (String) Network
 - `network_name` (String) Name of the network
 - `policy_type` (String) Type of access granted - either shared access or external network access

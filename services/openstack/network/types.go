@@ -22,14 +22,12 @@ type OpenstackNetworkResponse struct {
 	UUID *string `json:"uuid"`
 
 	BackendId               *string                         `json:"backend_id" tfsdk:"backend_id"`
-	Created                 *string                         `json:"created" tfsdk:"created"`
 	Customer                *string                         `json:"customer" tfsdk:"customer"`
 	Description             *string                         `json:"description" tfsdk:"description"`
 	ErrorMessage            *string                         `json:"error_message" tfsdk:"error_message"`
 	ErrorTraceback          *string                         `json:"error_traceback" tfsdk:"error_traceback"`
 	IsExternal              *bool                           `json:"is_external" tfsdk:"is_external"`
 	MarketplaceResourceUuid *string                         `json:"marketplace_resource_uuid" tfsdk:"marketplace_resource_uuid"`
-	Modified                *string                         `json:"modified" tfsdk:"modified"`
 	Mtu                     *int64                          `json:"mtu" tfsdk:"mtu"`
 	Name                    *string                         `json:"name" tfsdk:"name"`
 	Project                 *string                         `json:"project" tfsdk:"project"`
@@ -47,7 +45,6 @@ type OpenstackNetworkResponse struct {
 
 type OpenstackNetworkRbacPoliciesResponse struct {
 	BackendId        *string `json:"backend_id" tfsdk:"backend_id"`
-	Created          *string `json:"created" tfsdk:"created"`
 	Network          *string `json:"network" tfsdk:"network"`
 	NetworkName      *string `json:"network_name" tfsdk:"network_name"`
 	PolicyType       *string `json:"policy_type" tfsdk:"policy_type"`

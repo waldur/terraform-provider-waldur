@@ -33,7 +33,6 @@ type OpenstackPortResponse struct {
 	AdminStateUp            *bool                                             `json:"admin_state_up" tfsdk:"admin_state_up"`
 	AllowedAddressPairs     *[]common.OpenStackAllowedAddressPairRequest      `json:"allowed_address_pairs" tfsdk:"allowed_address_pairs"`
 	BackendId               *string                                           `json:"backend_id" tfsdk:"backend_id"`
-	Created                 *string                                           `json:"created" tfsdk:"created"`
 	Customer                *string                                           `json:"customer" tfsdk:"customer"`
 	Description             *string                                           `json:"description" tfsdk:"description"`
 	DeviceId                *string                                           `json:"device_id" tfsdk:"device_id"`
@@ -44,7 +43,6 @@ type OpenstackPortResponse struct {
 	FloatingIps             *[]string                                         `json:"floating_ips" tfsdk:"floating_ips"`
 	MacAddress              *string                                           `json:"mac_address" tfsdk:"mac_address"`
 	MarketplaceResourceUuid *string                                           `json:"marketplace_resource_uuid" tfsdk:"marketplace_resource_uuid"`
-	Modified                *string                                           `json:"modified" tfsdk:"modified"`
 	Name                    *string                                           `json:"name" tfsdk:"name"`
 	Network                 *string                                           `json:"network" tfsdk:"network"`
 	NetworkName             *string                                           `json:"network_name" tfsdk:"network_name"`

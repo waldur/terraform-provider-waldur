@@ -3,7 +3,6 @@ package subnet
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -163,33 +162,31 @@ func (m *OpenstackSubnetFiltersModel) GetSchema() schema.SingleNestedAttribute {
 }
 
 type OpenstackSubnetModel struct {
-	UUID                    types.String      `tfsdk:"id"`
-	AllocationPools         types.List        `tfsdk:"allocation_pools"`
-	BackendId               types.String      `tfsdk:"backend_id"`
-	Cidr                    types.String      `tfsdk:"cidr"`
-	Created                 timetypes.RFC3339 `tfsdk:"created"`
-	Customer                types.String      `tfsdk:"customer"`
-	Description             types.String      `tfsdk:"description"`
-	DisableGateway          types.Bool        `tfsdk:"disable_gateway"`
-	DnsNameservers          types.List        `tfsdk:"dns_nameservers"`
-	EnableDhcp              types.Bool        `tfsdk:"enable_dhcp"`
-	ErrorMessage            types.String      `tfsdk:"error_message"`
-	ErrorTraceback          types.String      `tfsdk:"error_traceback"`
-	GatewayIp               types.String      `tfsdk:"gateway_ip"`
-	HostRoutes              types.List        `tfsdk:"host_routes"`
-	IpVersion               types.Int64       `tfsdk:"ip_version"`
-	IsConnected             types.Bool        `tfsdk:"is_connected"`
-	MarketplaceResourceUuid types.String      `tfsdk:"marketplace_resource_uuid"`
-	Modified                timetypes.RFC3339 `tfsdk:"modified"`
-	Name                    types.String      `tfsdk:"name"`
-	Network                 types.String      `tfsdk:"network"`
-	NetworkName             types.String      `tfsdk:"network_name"`
-	Project                 types.String      `tfsdk:"project"`
-	ResourceType            types.String      `tfsdk:"resource_type"`
-	State                   types.String      `tfsdk:"state"`
-	Tenant                  types.String      `tfsdk:"tenant"`
-	TenantName              types.String      `tfsdk:"tenant_name"`
-	Url                     types.String      `tfsdk:"url"`
+	UUID                    types.String `tfsdk:"id"`
+	AllocationPools         types.List   `tfsdk:"allocation_pools"`
+	BackendId               types.String `tfsdk:"backend_id"`
+	Cidr                    types.String `tfsdk:"cidr"`
+	Customer                types.String `tfsdk:"customer"`
+	Description             types.String `tfsdk:"description"`
+	DisableGateway          types.Bool   `tfsdk:"disable_gateway"`
+	DnsNameservers          types.List   `tfsdk:"dns_nameservers"`
+	EnableDhcp              types.Bool   `tfsdk:"enable_dhcp"`
+	ErrorMessage            types.String `tfsdk:"error_message"`
+	ErrorTraceback          types.String `tfsdk:"error_traceback"`
+	GatewayIp               types.String `tfsdk:"gateway_ip"`
+	HostRoutes              types.List   `tfsdk:"host_routes"`
+	IpVersion               types.Int64  `tfsdk:"ip_version"`
+	IsConnected             types.Bool   `tfsdk:"is_connected"`
+	MarketplaceResourceUuid types.String `tfsdk:"marketplace_resource_uuid"`
+	Name                    types.String `tfsdk:"name"`
+	Network                 types.String `tfsdk:"network"`
+	NetworkName             types.String `tfsdk:"network_name"`
+	Project                 types.String `tfsdk:"project"`
+	ResourceType            types.String `tfsdk:"resource_type"`
+	State                   types.String `tfsdk:"state"`
+	Tenant                  types.String `tfsdk:"tenant"`
+	TenantName              types.String `tfsdk:"tenant_name"`
+	Url                     types.String `tfsdk:"url"`
 }
 
 // CopyFrom maps the API response to the model fields.
@@ -207,9 +204,6 @@ func (model *OpenstackSubnetModel) CopyFrom(ctx context.Context, apiResp Opensta
 	}
 	model.BackendId = common.StringPointerValue(apiResp.BackendId)
 	model.Cidr = common.StringPointerValue(apiResp.Cidr)
-	valCreated, diagsCreated := timetypes.NewRFC3339PointerValue(apiResp.Created)
-	diags.Append(diagsCreated...)
-	model.Created = valCreated
 	model.Customer = common.StringPointerValue(apiResp.Customer)
 	model.Description = common.StringPointerValue(apiResp.Description)
 	model.DisableGateway = types.BoolPointerValue(apiResp.DisableGateway)
@@ -231,9 +225,6 @@ func (model *OpenstackSubnetModel) CopyFrom(ctx context.Context, apiResp Opensta
 	model.IpVersion = types.Int64PointerValue(apiResp.IpVersion)
 	model.IsConnected = types.BoolPointerValue(apiResp.IsConnected)
 	model.MarketplaceResourceUuid = common.StringPointerValue(apiResp.MarketplaceResourceUuid)
-	valModified, diagsModified := timetypes.NewRFC3339PointerValue(apiResp.Modified)
-	diags.Append(diagsModified...)
-	model.Modified = valModified
 	model.Name = common.StringPointerValue(apiResp.Name)
 	model.Network = common.StringPointerValue(apiResp.Network)
 	model.NetworkName = common.StringPointerValue(apiResp.NetworkName)

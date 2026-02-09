@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
 	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
@@ -48,11 +47,6 @@ func (d *OpenstackNetworkDataSource) Schema(ctx context.Context, req datasource.
 				Computed:            true,
 				MarkdownDescription: "ID of the backend",
 			},
-			"created": schema.StringAttribute{
-				CustomType:          timetypes.RFC3339Type{},
-				Computed:            true,
-				MarkdownDescription: "Created",
-			},
 			"customer": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Customer",
@@ -77,11 +71,6 @@ func (d *OpenstackNetworkDataSource) Schema(ctx context.Context, req datasource.
 				Computed:            true,
 				MarkdownDescription: "UUID of the marketplace resource",
 			},
-			"modified": schema.StringAttribute{
-				CustomType:          timetypes.RFC3339Type{},
-				Computed:            true,
-				MarkdownDescription: "Modified",
-			},
 			"mtu": schema.Int64Attribute{
 				Computed:            true,
 				MarkdownDescription: "The maximum transmission unit (MTU) value to address fragmentation.",
@@ -100,11 +89,6 @@ func (d *OpenstackNetworkDataSource) Schema(ctx context.Context, req datasource.
 						"backend_id": schema.StringAttribute{
 							Computed:            true,
 							MarkdownDescription: "ID of the backend",
-						},
-						"created": schema.StringAttribute{
-							CustomType:          timetypes.RFC3339Type{},
-							Computed:            true,
-							MarkdownDescription: "Created",
 						},
 						"network": schema.StringAttribute{
 							Computed:            true,

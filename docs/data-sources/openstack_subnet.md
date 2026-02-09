@@ -25,7 +25,6 @@ Openstack Subnet data source - lookup by name or UUID
 - `allocation_pools` (Attributes List) Allocation pools (see [below for nested schema](#nestedatt--allocation_pools))
 - `backend_id` (String) ID of the backend
 - `cidr` (String) Cidr
-- `created` (String) Created
 - `customer` (String) Customer
 - `description` (String) Description of the Openstack Subnet
 - `disable_gateway` (Boolean) If True, no gateway IP address will be allocated
@@ -38,7 +37,6 @@ Openstack Subnet data source - lookup by name or UUID
 - `ip_version` (Number) IP protocol version (4 or 6)
 - `is_connected` (Boolean) Is subnet connected to the default tenant router.
 - `marketplace_resource_uuid` (String) UUID of the marketplace resource
-- `modified` (String) Modified
 - `name` (String) Name of the Openstack Subnet
 - `network` (String) Required path parameter for resource creation
 - `network_name` (String) Name of the network

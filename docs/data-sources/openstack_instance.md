@@ -28,7 +28,6 @@ Openstack Instance data source - lookup by name or UUID
 - `backend_id` (String) Instance ID in the OpenStack backend
 - `connect_directly_to_external_network` (Boolean) If True, instance will be connected directly to external network
 - `cores` (Number) Number of cores in a VM
-- `created` (String) Created
 - `customer` (String) Customer
 - `description` (String) Description of the Openstack Instance
 - `disk` (Number) Disk size in MiB
@@ -49,7 +48,6 @@ Openstack Instance data source - lookup by name or UUID
 - `marketplace_resource_uuid` (String) UUID of the marketplace resource
 - `min_disk` (Number) Minimum disk size in MiB
 - `min_ram` (Number) Minimum memory size in MiB
-- `modified` (String) Modified
 - `name` (String) Name of the Openstack Instance
 - `ports` (Attributes List) Network ports to attach to the instance (see [below for nested schema](#nestedatt--ports))
 - `project` (String) Project
@@ -166,13 +164,11 @@ Read-Only:
 Read-Only:
 
 - `backend_id` (String) ID of the backend
-- `created` (String) Created
 - `customer` (String) Customer
 - `description` (String) Description of the Openstack Instance
 - `error_message` (String) Error message
 - `error_traceback` (String) Error traceback
 - `marketplace_resource_uuid` (String) UUID of the marketplace resource
-- `modified` (String) Modified
 - `name` (String) Name of the Openstack Instance
 - `project` (String) Project
 - `resource_type` (String) Resource type

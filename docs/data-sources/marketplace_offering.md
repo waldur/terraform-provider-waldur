@@ -32,7 +32,6 @@ Marketplace Offering data source - lookup by name or UUID
 - `compliance_checklist` (String)
 - `components` (Attributes List) (see [below for nested schema](#nestedatt--components))
 - `country` (String) Country code (ISO 3166-1 alpha-2)
-- `created` (String)
 - `customer` (String)
 - `datacite_doi` (String)
 - `description` (String)
@@ -165,7 +164,6 @@ Read-Only:
 
 Read-Only:
 
-- `created` (String)
 - `file` (String)
 - `name` (String)
 
@@ -393,7 +391,6 @@ Read-Only:
 
 Read-Only:
 
-- `created` (String)
 - `description` (String)
 - `image` (String)
 - `name` (String)

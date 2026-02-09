@@ -5,7 +5,6 @@ import (
 	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
-	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
 	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -63,14 +62,6 @@ func (r *OpenstackNetworkResource) Schema(ctx context.Context, req resource.Sche
 				},
 				MarkdownDescription: "ID of the backend",
 			},
-			"created": schema.StringAttribute{
-				CustomType: timetypes.RFC3339Type{},
-				Computed:   true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
-				MarkdownDescription: "Created",
-			},
 			"customer": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
@@ -114,14 +105,6 @@ func (r *OpenstackNetworkResource) Schema(ctx context.Context, req resource.Sche
 				},
 				MarkdownDescription: "UUID of the marketplace resource",
 			},
-			"modified": schema.StringAttribute{
-				CustomType: timetypes.RFC3339Type{},
-				Computed:   true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
-				MarkdownDescription: "Modified",
-			},
 			"mtu": schema.Int64Attribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.Int64{
@@ -150,16 +133,12 @@ func (r *OpenstackNetworkResource) Schema(ctx context.Context, req resource.Sche
 							},
 							MarkdownDescription: "ID of the backend",
 						},
-						"created": schema.StringAttribute{
-							CustomType: timetypes.RFC3339Type{},
-							Computed:   true,
+						"network": schema.StringAttribute{
+							Optional: true,
+							Computed: true,
 							PlanModifiers: []planmodifier.String{
 								stringplanmodifier.UseStateForUnknown(),
 							},
-							MarkdownDescription: "Created",
-						},
-						"network": schema.StringAttribute{
-							Optional:            true,
 							MarkdownDescription: "Network",
 						},
 						"network_name": schema.StringAttribute{
@@ -170,11 +149,19 @@ func (r *OpenstackNetworkResource) Schema(ctx context.Context, req resource.Sche
 							MarkdownDescription: "Name of the network",
 						},
 						"policy_type": schema.StringAttribute{
-							Optional:            true,
+							Optional: true,
+							Computed: true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
 							MarkdownDescription: "Type of access granted - either shared access or external network access",
 						},
 						"target_tenant": schema.StringAttribute{
-							Optional:            true,
+							Optional: true,
+							Computed: true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
 							MarkdownDescription: "Target tenant",
 						},
 						"target_tenant_name": schema.StringAttribute{
@@ -234,11 +221,19 @@ func (r *OpenstackNetworkResource) Schema(ctx context.Context, req resource.Sche
 							NestedObject: schema.NestedAttributeObject{
 								Attributes: map[string]schema.Attribute{
 									"end": schema.StringAttribute{
-										Optional:            true,
+										Optional: true,
+										Computed: true,
+										PlanModifiers: []planmodifier.String{
+											stringplanmodifier.UseStateForUnknown(),
+										},
 										MarkdownDescription: "An IPv4 or IPv6 address.",
 									},
 									"start": schema.StringAttribute{
-										Optional:            true,
+										Optional: true,
+										Computed: true,
+										PlanModifiers: []planmodifier.String{
+											stringplanmodifier.UseStateForUnknown(),
+										},
 										MarkdownDescription: "An IPv4 or IPv6 address.",
 									},
 								},
@@ -250,23 +245,43 @@ func (r *OpenstackNetworkResource) Schema(ctx context.Context, req resource.Sche
 							MarkdownDescription: "Allocation pools",
 						},
 						"cidr": schema.StringAttribute{
-							Optional:            true,
+							Optional: true,
+							Computed: true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
 							MarkdownDescription: "IPv4 network address in CIDR format (e.g. 192.168.0.0/24)",
 						},
 						"description": schema.StringAttribute{
-							Optional:            true,
+							Optional: true,
+							Computed: true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
 							MarkdownDescription: "Description of the Openstack Network",
 						},
 						"enable_dhcp": schema.BoolAttribute{
-							Optional:            true,
+							Optional: true,
+							Computed: true,
+							PlanModifiers: []planmodifier.Bool{
+								boolplanmodifier.UseStateForUnknown(),
+							},
 							MarkdownDescription: "If True, DHCP service will be enabled on this subnet",
 						},
 						"gateway_ip": schema.StringAttribute{
-							Optional:            true,
+							Optional: true,
+							Computed: true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
 							MarkdownDescription: "IP address of the gateway for this subnet",
 						},
 						"ip_version": schema.Int64Attribute{
-							Optional:            true,
+							Optional: true,
+							Computed: true,
+							PlanModifiers: []planmodifier.Int64{
+								int64planmodifier.UseStateForUnknown(),
+							},
 							MarkdownDescription: "IP protocol version (4 or 6)",
 							Validators: []validator.Int64{
 								int64validator.AtLeast(-32768),
@@ -274,7 +289,11 @@ func (r *OpenstackNetworkResource) Schema(ctx context.Context, req resource.Sche
 							},
 						},
 						"name": schema.StringAttribute{
-							Optional:            true,
+							Optional: true,
+							Computed: true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
 							MarkdownDescription: "Name of the Openstack Network",
 						},
 						"uuid": schema.StringAttribute{

@@ -3,7 +3,6 @@ package project
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -114,34 +113,33 @@ func (m *StructureProjectFiltersModel) GetSchema() schema.SingleNestedAttribute 
 }
 
 type StructureProjectModel struct {
-	UUID                                 types.String      `tfsdk:"id"`
-	BackendId                            types.String      `tfsdk:"backend_id"`
-	BillingPriceEstimate                 types.Object      `tfsdk:"billing_price_estimate"`
-	Created                              timetypes.RFC3339 `tfsdk:"created"`
-	Customer                             types.String      `tfsdk:"customer"`
-	CustomerDisplayBillingInfoInProjects types.Bool        `tfsdk:"customer_display_billing_info_in_projects"`
-	CustomerSlug                         types.String      `tfsdk:"customer_slug"`
-	Description                          types.String      `tfsdk:"description"`
-	EndDate                              types.String      `tfsdk:"end_date"`
-	EndDateRequestedBy                   types.String      `tfsdk:"end_date_requested_by"`
-	GracePeriodDays                      types.Int64       `tfsdk:"grace_period_days"`
-	Image                                types.String      `tfsdk:"image"`
-	IsIndustry                           types.Bool        `tfsdk:"is_industry"`
-	IsRemoved                            types.Bool        `tfsdk:"is_removed"`
-	Kind                                 types.String      `tfsdk:"kind"`
-	MaxServiceAccounts                   types.Int64       `tfsdk:"max_service_accounts"`
-	Name                                 types.String      `tfsdk:"name"`
-	OecdFos2007Code                      types.String      `tfsdk:"oecd_fos_2007_code"`
-	OecdFos2007Label                     types.String      `tfsdk:"oecd_fos_2007_label"`
-	ProjectCredit                        types.Float64     `tfsdk:"project_credit"`
-	ResourcesCount                       types.Int64       `tfsdk:"resources_count"`
-	Slug                                 types.String      `tfsdk:"slug"`
-	StaffNotes                           types.String      `tfsdk:"staff_notes"`
-	StartDate                            types.String      `tfsdk:"start_date"`
-	Type                                 types.String      `tfsdk:"type"`
-	TypeName                             types.String      `tfsdk:"type_name"`
-	TypeUuid                             types.String      `tfsdk:"type_uuid"`
-	Url                                  types.String      `tfsdk:"url"`
+	UUID                                 types.String  `tfsdk:"id"`
+	BackendId                            types.String  `tfsdk:"backend_id"`
+	BillingPriceEstimate                 types.Object  `tfsdk:"billing_price_estimate"`
+	Customer                             types.String  `tfsdk:"customer"`
+	CustomerDisplayBillingInfoInProjects types.Bool    `tfsdk:"customer_display_billing_info_in_projects"`
+	CustomerSlug                         types.String  `tfsdk:"customer_slug"`
+	Description                          types.String  `tfsdk:"description"`
+	EndDate                              types.String  `tfsdk:"end_date"`
+	EndDateRequestedBy                   types.String  `tfsdk:"end_date_requested_by"`
+	GracePeriodDays                      types.Int64   `tfsdk:"grace_period_days"`
+	Image                                types.String  `tfsdk:"image"`
+	IsIndustry                           types.Bool    `tfsdk:"is_industry"`
+	IsRemoved                            types.Bool    `tfsdk:"is_removed"`
+	Kind                                 types.String  `tfsdk:"kind"`
+	MaxServiceAccounts                   types.Int64   `tfsdk:"max_service_accounts"`
+	Name                                 types.String  `tfsdk:"name"`
+	OecdFos2007Code                      types.String  `tfsdk:"oecd_fos_2007_code"`
+	OecdFos2007Label                     types.String  `tfsdk:"oecd_fos_2007_label"`
+	ProjectCredit                        types.Float64 `tfsdk:"project_credit"`
+	ResourcesCount                       types.Int64   `tfsdk:"resources_count"`
+	Slug                                 types.String  `tfsdk:"slug"`
+	StaffNotes                           types.String  `tfsdk:"staff_notes"`
+	StartDate                            types.String  `tfsdk:"start_date"`
+	Type                                 types.String  `tfsdk:"type"`
+	TypeName                             types.String  `tfsdk:"type_name"`
+	TypeUuid                             types.String  `tfsdk:"type_uuid"`
+	Url                                  types.String  `tfsdk:"url"`
 }
 
 // CopyFrom maps the API response to the model fields.
@@ -157,9 +155,6 @@ func (model *StructureProjectModel) CopyFrom(ctx context.Context, apiResp Struct
 	} else {
 		model.BillingPriceEstimate = types.ObjectNull(BillingPriceEstimateType().AttrTypes)
 	}
-	valCreated, diagsCreated := timetypes.NewRFC3339PointerValue(apiResp.Created)
-	diags.Append(diagsCreated...)
-	model.Created = valCreated
 	model.Customer = common.StringPointerValue(apiResp.Customer)
 	model.CustomerDisplayBillingInfoInProjects = types.BoolPointerValue(apiResp.CustomerDisplayBillingInfoInProjects)
 	model.CustomerSlug = common.StringPointerValue(apiResp.CustomerSlug)

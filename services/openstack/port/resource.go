@@ -5,7 +5,6 @@ import (
 	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
-	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
@@ -69,7 +68,11 @@ func (r *OpenstackPortResource) Schema(ctx context.Context, req resource.SchemaR
 							MarkdownDescription: "Ip address",
 						},
 						"mac_address": schema.StringAttribute{
-							Optional:            true,
+							Optional: true,
+							Computed: true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
 							MarkdownDescription: "Mac address",
 						},
 					},
@@ -88,14 +91,6 @@ func (r *OpenstackPortResource) Schema(ctx context.Context, req resource.SchemaR
 					stringplanmodifier.UseStateForUnknown(),
 				},
 				MarkdownDescription: "Port ID in OpenStack",
-			},
-			"created": schema.StringAttribute{
-				CustomType: timetypes.RFC3339Type{},
-				Computed:   true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
-				MarkdownDescription: "Created",
 			},
 			"customer": schema.StringAttribute{
 				Computed: true,
@@ -184,14 +179,6 @@ func (r *OpenstackPortResource) Schema(ctx context.Context, req resource.SchemaR
 					stringplanmodifier.UseStateForUnknown(),
 				},
 				MarkdownDescription: "UUID of the marketplace resource",
-			},
-			"modified": schema.StringAttribute{
-				CustomType: timetypes.RFC3339Type{},
-				Computed:   true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
-				MarkdownDescription: "Modified",
 			},
 			"name": schema.StringAttribute{
 				Required:            true,

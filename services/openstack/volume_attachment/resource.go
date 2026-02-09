@@ -5,7 +5,6 @@ import (
 	"strings"
 
 	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
-	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
 	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
@@ -93,14 +92,6 @@ func (r *OpenstackVolumeAttachmentResource) Schema(ctx context.Context, req reso
 					boolplanmodifier.UseStateForUnknown(),
 				},
 				MarkdownDescription: "Indicates if this volume can be used to boot an instance",
-			},
-			"created": schema.StringAttribute{
-				CustomType: timetypes.RFC3339Type{},
-				Computed:   true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
-				MarkdownDescription: "Created",
 			},
 			"customer": schema.StringAttribute{
 				Computed: true,
@@ -195,14 +186,6 @@ func (r *OpenstackVolumeAttachmentResource) Schema(ctx context.Context, req reso
 					stringplanmodifier.UseStateForUnknown(),
 				},
 				MarkdownDescription: "UUID of the marketplace resource",
-			},
-			"modified": schema.StringAttribute{
-				CustomType: timetypes.RFC3339Type{},
-				Computed:   true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
-				MarkdownDescription: "Modified",
 			},
 			"name": schema.StringAttribute{
 				Optional: true,

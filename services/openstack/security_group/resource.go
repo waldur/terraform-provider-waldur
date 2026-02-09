@@ -5,7 +5,6 @@ import (
 	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
-	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
 	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -61,14 +60,6 @@ func (r *OpenstackSecurityGroupResource) Schema(ctx context.Context, req resourc
 				},
 				MarkdownDescription: "ID of the backend",
 			},
-			"created": schema.StringAttribute{
-				CustomType: timetypes.RFC3339Type{},
-				Computed:   true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
-				MarkdownDescription: "Created",
-			},
 			"customer": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
@@ -105,14 +96,6 @@ func (r *OpenstackSecurityGroupResource) Schema(ctx context.Context, req resourc
 				},
 				MarkdownDescription: "UUID of the marketplace resource",
 			},
-			"modified": schema.StringAttribute{
-				CustomType: timetypes.RFC3339Type{},
-				Computed:   true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
-				MarkdownDescription: "Modified",
-			},
 			"name": schema.StringAttribute{
 				Required:            true,
 				MarkdownDescription: "Name of the Openstack Security Group",
@@ -135,23 +118,43 @@ func (r *OpenstackSecurityGroupResource) Schema(ctx context.Context, req resourc
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"cidr": schema.StringAttribute{
-							Optional:            true,
+							Optional: true,
+							Computed: true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
 							MarkdownDescription: "CIDR notation for the source/destination network address range",
 						},
 						"description": schema.StringAttribute{
-							Optional:            true,
+							Optional: true,
+							Computed: true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
 							MarkdownDescription: "Description of the Openstack Security Group",
 						},
 						"direction": schema.StringAttribute{
-							Optional:            true,
+							Optional: true,
+							Computed: true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
 							MarkdownDescription: "Traffic direction - either 'ingress' (incoming) or 'egress' (outgoing)",
 						},
 						"ethertype": schema.StringAttribute{
-							Optional:            true,
+							Optional: true,
+							Computed: true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
 							MarkdownDescription: "IP protocol version - either 'IPv4' or 'IPv6'",
 						},
 						"from_port": schema.Int64Attribute{
-							Optional:            true,
+							Optional: true,
+							Computed: true,
+							PlanModifiers: []planmodifier.Int64{
+								int64planmodifier.UseStateForUnknown(),
+							},
 							MarkdownDescription: "Starting port number in the range (1-65535)",
 							Validators: []validator.Int64{
 								int64validator.AtLeast(-2147483648),
@@ -159,15 +162,27 @@ func (r *OpenstackSecurityGroupResource) Schema(ctx context.Context, req resourc
 							},
 						},
 						"protocol": schema.StringAttribute{
-							Optional:            true,
+							Optional: true,
+							Computed: true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
 							MarkdownDescription: "The network protocol (TCP, UDP, ICMP, or empty for any protocol)",
 						},
 						"remote_group": schema.StringAttribute{
-							Optional:            true,
+							Optional: true,
+							Computed: true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
 							MarkdownDescription: "Remote security group that this rule references, if any",
 						},
 						"to_port": schema.Int64Attribute{
-							Optional:            true,
+							Optional: true,
+							Computed: true,
+							PlanModifiers: []planmodifier.Int64{
+								int64planmodifier.UseStateForUnknown(),
+							},
 							MarkdownDescription: "Ending port number in the range (1-65535)",
 							Validators: []validator.Int64{
 								int64validator.AtLeast(-2147483648),

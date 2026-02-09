@@ -94,13 +94,11 @@ func OpenStackNestedVolumeType() types.ObjectType {
 func OpenStackSecurityGroupType() types.ObjectType {
 	return types.ObjectType{AttrTypes: map[string]attr.Type{
 		"backend_id":                types.StringType,
-		"created":                   types.StringType,
 		"customer":                  types.StringType,
 		"description":               types.StringType,
 		"error_message":             types.StringType,
 		"error_traceback":           types.StringType,
 		"marketplace_resource_uuid": types.StringType,
-		"modified":                  types.StringType,
 		"name":                      types.StringType,
 		"project":                   types.StringType,
 		"resource_type":             types.StringType,
@@ -288,7 +286,6 @@ type OpenstackInstanceModel struct {
 	BackendId                        types.String      `tfsdk:"backend_id"`
 	ConnectDirectlyToExternalNetwork types.Bool        `tfsdk:"connect_directly_to_external_network"`
 	Cores                            types.Int64       `tfsdk:"cores"`
-	Created                          timetypes.RFC3339 `tfsdk:"created"`
 	Customer                         types.String      `tfsdk:"customer"`
 	Description                      types.String      `tfsdk:"description"`
 	Disk                             types.Int64       `tfsdk:"disk"`
@@ -309,7 +306,6 @@ type OpenstackInstanceModel struct {
 	MarketplaceResourceUuid          types.String      `tfsdk:"marketplace_resource_uuid"`
 	MinDisk                          types.Int64       `tfsdk:"min_disk"`
 	MinRam                           types.Int64       `tfsdk:"min_ram"`
-	Modified                         timetypes.RFC3339 `tfsdk:"modified"`
 	Name                             types.String      `tfsdk:"name"`
 	Ports                            types.List        `tfsdk:"ports"`
 	Project                          types.String      `tfsdk:"project"`
@@ -339,9 +335,6 @@ func (model *OpenstackInstanceModel) CopyFrom(ctx context.Context, apiResp Opens
 	model.BackendId = common.StringPointerValue(apiResp.BackendId)
 	model.ConnectDirectlyToExternalNetwork = types.BoolPointerValue(apiResp.ConnectDirectlyToExternalNetwork)
 	model.Cores = types.Int64PointerValue(apiResp.Cores)
-	valCreated, diagsCreated := timetypes.NewRFC3339PointerValue(apiResp.Created)
-	diags.Append(diagsCreated...)
-	model.Created = valCreated
 	model.Customer = common.StringPointerValue(apiResp.Customer)
 	model.Description = common.StringPointerValue(apiResp.Description)
 	model.Disk = types.Int64PointerValue(apiResp.Disk)
@@ -374,9 +367,6 @@ func (model *OpenstackInstanceModel) CopyFrom(ctx context.Context, apiResp Opens
 	model.MarketplaceResourceUuid = common.StringPointerValue(apiResp.MarketplaceResourceUuid)
 	model.MinDisk = types.Int64PointerValue(apiResp.MinDisk)
 	model.MinRam = types.Int64PointerValue(apiResp.MinRam)
-	valModified, diagsModified := timetypes.NewRFC3339PointerValue(apiResp.Modified)
-	diags.Append(diagsModified...)
-	model.Modified = valModified
 	model.Name = common.StringPointerValue(apiResp.Name)
 
 	if apiResp.Ports != nil && len(*apiResp.Ports) > 0 {

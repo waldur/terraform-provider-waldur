@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
 
@@ -45,11 +44,6 @@ func (d *OpenstackNetworkRbacPolicyDataSource) Schema(ctx context.Context, req d
 			"backend_id": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "ID of the backend",
-			},
-			"created": schema.StringAttribute{
-				CustomType:          timetypes.RFC3339Type{},
-				Computed:            true,
-				MarkdownDescription: "Created",
 			},
 			"network": schema.StringAttribute{
 				Computed:            true,

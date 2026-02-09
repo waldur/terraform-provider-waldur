@@ -206,14 +206,6 @@ func (r *StructureCustomerResource) Schema(ctx context.Context, req resource.Sch
 				},
 				MarkdownDescription: "Human-readable country name",
 			},
-			"created": schema.StringAttribute{
-				CustomType: timetypes.RFC3339Type{},
-				Computed:   true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
-				MarkdownDescription: "Created",
-			},
 			"customer_credit": schema.Float64Attribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.Float64{
@@ -372,11 +364,19 @@ func (r *StructureCustomerResource) Schema(ctx context.Context, req resource.Sch
 							MarkdownDescription: "Number of customers in this organization group",
 						},
 						"name": schema.StringAttribute{
-							Optional:            true,
+							Optional: true,
+							Computed: true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
 							MarkdownDescription: "Name of the Structure Customer",
 						},
 						"parent": schema.StringAttribute{
-							Optional:            true,
+							Optional: true,
+							Computed: true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
 							MarkdownDescription: "Parent",
 						},
 						"parent_name": schema.StringAttribute{
@@ -421,31 +421,59 @@ func (r *StructureCustomerResource) Schema(ctx context.Context, req resource.Sch
 						"attributes": schema.SingleNestedAttribute{
 							Attributes: map[string]schema.Attribute{
 								"agreement_number": schema.StringAttribute{
-									Optional:            true,
+									Optional: true,
+									Computed: true,
+									PlanModifiers: []planmodifier.String{
+										stringplanmodifier.UseStateForUnknown(),
+									},
 									MarkdownDescription: "Agreement number",
 								},
 								"contract_sum": schema.Int64Attribute{
-									Optional:            true,
+									Optional: true,
+									Computed: true,
+									PlanModifiers: []planmodifier.Int64{
+										int64planmodifier.UseStateForUnknown(),
+									},
 									MarkdownDescription: "Contract sum",
 								},
 								"end_date": schema.StringAttribute{
-									Optional:            true,
+									Optional: true,
+									Computed: true,
+									PlanModifiers: []planmodifier.String{
+										stringplanmodifier.UseStateForUnknown(),
+									},
 									MarkdownDescription: "End date",
 								},
 							},
-							Optional:            true,
+							Optional: true,
+							Computed: true,
+							PlanModifiers: []planmodifier.Object{
+								objectplanmodifier.UseStateForUnknown(),
+							},
 							MarkdownDescription: "Attributes",
 						},
 						"is_active": schema.BoolAttribute{
-							Optional:            true,
+							Optional: true,
+							Computed: true,
+							PlanModifiers: []planmodifier.Bool{
+								boolplanmodifier.UseStateForUnknown(),
+							},
 							MarkdownDescription: "Is active",
 						},
 						"name": schema.StringAttribute{
-							Optional:            true,
+							Optional: true,
+							Computed: true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
 							MarkdownDescription: "Name of the Structure Customer",
 						},
 						"organization": schema.StringAttribute{
-							Optional:            true,
+							Optional: true,
+							Computed: true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
 							MarkdownDescription: "Organization",
 						},
 						"organization_uuid": schema.StringAttribute{
@@ -456,7 +484,11 @@ func (r *StructureCustomerResource) Schema(ctx context.Context, req resource.Sch
 							MarkdownDescription: "UUID of the organization",
 						},
 						"payment_type": schema.StringAttribute{
-							Optional:            true,
+							Optional: true,
+							Computed: true,
+							PlanModifiers: []planmodifier.String{
+								stringplanmodifier.UseStateForUnknown(),
+							},
 							MarkdownDescription: "Payment type",
 							Validators: []validator.String{
 								stringvalidator.OneOf("fixed_price", "invoices", "payment_gw_monthly"),

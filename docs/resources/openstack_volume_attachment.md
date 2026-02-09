@@ -37,7 +37,6 @@ Openstack Volume Attachment resource
 - `action` (String) Action
 - `availability_zone_name` (String) Name of the availability zone
 - `backend_id` (String) Volume ID in the OpenStack backend
-- `created` (String) Created
 - `customer` (String) Customer
 - `device` (String) Link parameter
 - `error_message` (String) Error message
@@ -50,7 +49,6 @@ Openstack Volume Attachment resource
 - `instance_marketplace_uuid` (String) UUID of the instance marketplace
 - `instance_name` (String) Name of the instance
 - `marketplace_resource_uuid` (String) UUID of the marketplace resource
-- `modified` (String) Modified
 - `resource_type` (String) Resource type
 - `runtime_state` (String) Runtime state
 - `source_snapshot` (String) Snapshot that this volume was created from, if any

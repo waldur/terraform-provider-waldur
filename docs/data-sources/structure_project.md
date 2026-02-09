@@ -24,7 +24,6 @@ Structure Project data source - lookup by name or UUID
 
 - `backend_id` (String) ID of the backend
 - `billing_price_estimate` (Attributes) Billing price estimate (see [below for nested schema](#nestedatt--billing_price_estimate))
-- `created` (String) Created
 - `customer` (String) Customer
 - `customer_display_billing_info_in_projects` (Boolean) Customer display billing info in projects
 - `customer_slug` (String) Customer slug

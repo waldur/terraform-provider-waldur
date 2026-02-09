@@ -127,7 +127,6 @@ type MarketplaceOrderModel struct {
 	ConsumerReviewedByFullName types.String      `tfsdk:"consumer_reviewed_by_full_name"`
 	ConsumerReviewedByUsername types.String      `tfsdk:"consumer_reviewed_by_username"`
 	Cost                       types.String      `tfsdk:"cost"`
-	Created                    timetypes.RFC3339 `tfsdk:"created"`
 	CreatedByCivilNumber       types.String      `tfsdk:"created_by_civil_number"`
 	CreatedByFullName          types.String      `tfsdk:"created_by_full_name"`
 	CreatedByUsername          types.String      `tfsdk:"created_by_username"`
@@ -137,7 +136,6 @@ type MarketplaceOrderModel struct {
 	FixedPrice                 types.Float64     `tfsdk:"fixed_price"`
 	Issue                      types.Object      `tfsdk:"issue"`
 	MarketplaceResourceUuid    types.String      `tfsdk:"marketplace_resource_uuid"`
-	Modified                   timetypes.RFC3339 `tfsdk:"modified"`
 	NewCostEstimate            types.String      `tfsdk:"new_cost_estimate"`
 	NewPlanName                types.String      `tfsdk:"new_plan_name"`
 	NewPlanUuid                types.String      `tfsdk:"new_plan_uuid"`
@@ -204,9 +202,6 @@ func (model *MarketplaceOrderModel) CopyFrom(ctx context.Context, apiResp Market
 	model.ConsumerReviewedByFullName = common.StringPointerValue(apiResp.ConsumerReviewedByFullName)
 	model.ConsumerReviewedByUsername = common.StringPointerValue(apiResp.ConsumerReviewedByUsername)
 	model.Cost = common.StringPointerValue(apiResp.Cost)
-	valCreated, diagsCreated := timetypes.NewRFC3339PointerValue(apiResp.Created)
-	diags.Append(diagsCreated...)
-	model.Created = valCreated
 	model.CreatedByCivilNumber = common.StringPointerValue(apiResp.CreatedByCivilNumber)
 	model.CreatedByFullName = common.StringPointerValue(apiResp.CreatedByFullName)
 	model.CreatedByUsername = common.StringPointerValue(apiResp.CreatedByUsername)
@@ -222,9 +217,6 @@ func (model *MarketplaceOrderModel) CopyFrom(ctx context.Context, apiResp Market
 		model.Issue = types.ObjectNull(IssueType().AttrTypes)
 	}
 	model.MarketplaceResourceUuid = common.StringPointerValue(apiResp.MarketplaceResourceUuid)
-	valModified, diagsModified := timetypes.NewRFC3339PointerValue(apiResp.Modified)
-	diags.Append(diagsModified...)
-	model.Modified = valModified
 	model.NewCostEstimate = common.StringPointerValue(apiResp.NewCostEstimate)
 	model.NewPlanName = common.StringPointerValue(apiResp.NewPlanName)
 	model.NewPlanUuid = common.StringPointerValue(apiResp.NewPlanUuid)

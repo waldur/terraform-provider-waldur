@@ -66,7 +66,6 @@ resource "waldur_structure_customer" "example" {
 - `billing_price_estimate` (Attributes) Billing price estimate (see [below for nested schema](#nestedatt--billing_price_estimate))
 - `call_managing_organization_uuid` (String) UUID of the call managing organization
 - `country_name` (String) Human-readable country name
-- `created` (String) Created
 - `customer_credit` (Number) Customer credit
 - `customer_unallocated_credit` (Number) Customer unallocated credit
 - `display_name` (String) Display name of the organization (includes native name if available)

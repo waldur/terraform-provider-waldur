@@ -27,7 +27,6 @@ Openstack Volume data source - lookup by name or UUID
 - `availability_zone_name` (String) Name of the availability zone
 - `backend_id` (String) Volume ID in the OpenStack backend
 - `bootable` (Boolean) Indicates if this volume can be used to boot an instance
-- `created` (String) Created
 - `customer` (String) Customer
 - `description` (String) Description of the Openstack Volume
 - `device` (String) Name of volume as instance device e.g. /dev/vdb.
@@ -41,7 +40,6 @@ Openstack Volume data source - lookup by name or UUID
 - `instance_marketplace_uuid` (String) UUID of the instance marketplace
 - `instance_name` (String) Name of the instance
 - `marketplace_resource_uuid` (String) UUID of the marketplace resource
-- `modified` (String) Modified
 - `name` (String) Name of the Openstack Volume
 - `project` (String) Project
 - `resource_type` (String) Resource type

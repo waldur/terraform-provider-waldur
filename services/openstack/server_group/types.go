@@ -20,7 +20,6 @@ type OpenstackServerGroupResponse struct {
 	UUID *string `json:"uuid"`
 
 	BackendId               *string                           `json:"backend_id" tfsdk:"backend_id"`
-	Created                 *string                           `json:"created" tfsdk:"created"`
 	Customer                *string                           `json:"customer" tfsdk:"customer"`
 	Description             *string                           `json:"description" tfsdk:"description"`
 	DisplayName             *string                           `json:"display_name" tfsdk:"display_name"`
@@ -28,7 +27,6 @@ type OpenstackServerGroupResponse struct {
 	ErrorTraceback          *string                           `json:"error_traceback" tfsdk:"error_traceback"`
 	Instances               *[]common.OpenStackNestedInstance `json:"instances" tfsdk:"instances"`
 	MarketplaceResourceUuid *string                           `json:"marketplace_resource_uuid" tfsdk:"marketplace_resource_uuid"`
-	Modified                *string                           `json:"modified" tfsdk:"modified"`
 	Name                    *string                           `json:"name" tfsdk:"name"`
 	Policy                  *string                           `json:"policy" tfsdk:"policy"`
 	Project                 *string                           `json:"project" tfsdk:"project"`

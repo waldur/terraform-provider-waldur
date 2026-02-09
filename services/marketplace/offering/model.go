@@ -3,7 +3,6 @@ package offering
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -175,69 +174,68 @@ func (m *MarketplaceOfferingFiltersModel) GetSchema() schema.SingleNestedAttribu
 }
 
 type MarketplaceOfferingModel struct {
-	UUID                      types.String      `tfsdk:"id"`
-	BackendId                 types.String      `tfsdk:"backend_id"`
-	Billable                  types.Bool        `tfsdk:"billable"`
-	BillingTypeClassification types.String      `tfsdk:"billing_type_classification"`
-	Category                  types.String      `tfsdk:"category"`
-	CategoryTitle             types.String      `tfsdk:"category_title"`
-	CategoryUuid              types.String      `tfsdk:"category_uuid"`
-	CitationCount             types.Int64       `tfsdk:"citation_count"`
-	ComplianceChecklist       types.String      `tfsdk:"compliance_checklist"`
-	Components                types.List        `tfsdk:"components"`
-	Country                   types.String      `tfsdk:"country"`
-	Created                   timetypes.RFC3339 `tfsdk:"created"`
-	Customer                  types.String      `tfsdk:"customer"`
-	DataciteDoi               types.String      `tfsdk:"datacite_doi"`
-	Description               types.String      `tfsdk:"description"`
-	Endpoints                 types.List        `tfsdk:"endpoints"`
-	Files                     types.List        `tfsdk:"files"`
-	FullDescription           types.String      `tfsdk:"full_description"`
-	GettingStarted            types.String      `tfsdk:"getting_started"`
-	GoogleCalendarIsPublic    types.Bool        `tfsdk:"google_calendar_is_public"`
-	GoogleCalendarLink        types.String      `tfsdk:"google_calendar_link"`
-	HasComplianceRequirements types.Bool        `tfsdk:"has_compliance_requirements"`
-	Image                     types.String      `tfsdk:"image"`
-	IntegrationGuide          types.String      `tfsdk:"integration_guide"`
-	IsAccessible              types.Bool        `tfsdk:"is_accessible"`
-	Latitude                  types.Float64     `tfsdk:"latitude"`
-	Longitude                 types.Float64     `tfsdk:"longitude"`
-	Name                      types.String      `tfsdk:"name"`
-	Options                   types.Object      `tfsdk:"options"`
-	OrderCount                types.Int64       `tfsdk:"order_count"`
-	OrganizationGroups        types.List        `tfsdk:"organization_groups"`
-	ParentDescription         types.String      `tfsdk:"parent_description"`
-	ParentName                types.String      `tfsdk:"parent_name"`
-	ParentUuid                types.String      `tfsdk:"parent_uuid"`
-	Partitions                types.List        `tfsdk:"partitions"`
-	PausedReason              types.String      `tfsdk:"paused_reason"`
-	Plans                     types.List        `tfsdk:"plans"`
-	PluginOptions             types.Object      `tfsdk:"plugin_options"`
-	PrivacyPolicyLink         types.String      `tfsdk:"privacy_policy_link"`
-	Project                   types.String      `tfsdk:"project"`
-	PromotionCampaigns        types.List        `tfsdk:"promotion_campaigns"`
-	Quotas                    types.List        `tfsdk:"quotas"`
-	ResourceOptions           types.Object      `tfsdk:"resource_options"`
-	Roles                     types.List        `tfsdk:"roles"`
-	Scope                     types.String      `tfsdk:"scope"`
-	ScopeErrorMessage         types.String      `tfsdk:"scope_error_message"`
-	ScopeName                 types.String      `tfsdk:"scope_name"`
-	ScopeState                types.String      `tfsdk:"scope_state"`
-	ScopeUuid                 types.String      `tfsdk:"scope_uuid"`
-	Screenshots               types.List        `tfsdk:"screenshots"`
-	Shared                    types.Bool        `tfsdk:"shared"`
-	Slug                      types.String      `tfsdk:"slug"`
-	SoftwareCatalogs          types.List        `tfsdk:"software_catalogs"`
-	State                     types.String      `tfsdk:"state"`
-	Tags                      types.Set         `tfsdk:"tags"`
-	Thumbnail                 types.String      `tfsdk:"thumbnail"`
-	TotalCost                 types.Int64       `tfsdk:"total_cost"`
-	TotalCostEstimated        types.Int64       `tfsdk:"total_cost_estimated"`
-	TotalCustomers            types.Int64       `tfsdk:"total_customers"`
-	Type                      types.String      `tfsdk:"type"`
-	Url                       types.String      `tfsdk:"url"`
-	UserHasConsent            types.Bool        `tfsdk:"user_has_consent"`
-	VendorDetails             types.String      `tfsdk:"vendor_details"`
+	UUID                      types.String  `tfsdk:"id"`
+	BackendId                 types.String  `tfsdk:"backend_id"`
+	Billable                  types.Bool    `tfsdk:"billable"`
+	BillingTypeClassification types.String  `tfsdk:"billing_type_classification"`
+	Category                  types.String  `tfsdk:"category"`
+	CategoryTitle             types.String  `tfsdk:"category_title"`
+	CategoryUuid              types.String  `tfsdk:"category_uuid"`
+	CitationCount             types.Int64   `tfsdk:"citation_count"`
+	ComplianceChecklist       types.String  `tfsdk:"compliance_checklist"`
+	Components                types.List    `tfsdk:"components"`
+	Country                   types.String  `tfsdk:"country"`
+	Customer                  types.String  `tfsdk:"customer"`
+	DataciteDoi               types.String  `tfsdk:"datacite_doi"`
+	Description               types.String  `tfsdk:"description"`
+	Endpoints                 types.List    `tfsdk:"endpoints"`
+	Files                     types.List    `tfsdk:"files"`
+	FullDescription           types.String  `tfsdk:"full_description"`
+	GettingStarted            types.String  `tfsdk:"getting_started"`
+	GoogleCalendarIsPublic    types.Bool    `tfsdk:"google_calendar_is_public"`
+	GoogleCalendarLink        types.String  `tfsdk:"google_calendar_link"`
+	HasComplianceRequirements types.Bool    `tfsdk:"has_compliance_requirements"`
+	Image                     types.String  `tfsdk:"image"`
+	IntegrationGuide          types.String  `tfsdk:"integration_guide"`
+	IsAccessible              types.Bool    `tfsdk:"is_accessible"`
+	Latitude                  types.Float64 `tfsdk:"latitude"`
+	Longitude                 types.Float64 `tfsdk:"longitude"`
+	Name                      types.String  `tfsdk:"name"`
+	Options                   types.Object  `tfsdk:"options"`
+	OrderCount                types.Int64   `tfsdk:"order_count"`
+	OrganizationGroups        types.List    `tfsdk:"organization_groups"`
+	ParentDescription         types.String  `tfsdk:"parent_description"`
+	ParentName                types.String  `tfsdk:"parent_name"`
+	ParentUuid                types.String  `tfsdk:"parent_uuid"`
+	Partitions                types.List    `tfsdk:"partitions"`
+	PausedReason              types.String  `tfsdk:"paused_reason"`
+	Plans                     types.List    `tfsdk:"plans"`
+	PluginOptions             types.Object  `tfsdk:"plugin_options"`
+	PrivacyPolicyLink         types.String  `tfsdk:"privacy_policy_link"`
+	Project                   types.String  `tfsdk:"project"`
+	PromotionCampaigns        types.List    `tfsdk:"promotion_campaigns"`
+	Quotas                    types.List    `tfsdk:"quotas"`
+	ResourceOptions           types.Object  `tfsdk:"resource_options"`
+	Roles                     types.List    `tfsdk:"roles"`
+	Scope                     types.String  `tfsdk:"scope"`
+	ScopeErrorMessage         types.String  `tfsdk:"scope_error_message"`
+	ScopeName                 types.String  `tfsdk:"scope_name"`
+	ScopeState                types.String  `tfsdk:"scope_state"`
+	ScopeUuid                 types.String  `tfsdk:"scope_uuid"`
+	Screenshots               types.List    `tfsdk:"screenshots"`
+	Shared                    types.Bool    `tfsdk:"shared"`
+	Slug                      types.String  `tfsdk:"slug"`
+	SoftwareCatalogs          types.List    `tfsdk:"software_catalogs"`
+	State                     types.String  `tfsdk:"state"`
+	Tags                      types.Set     `tfsdk:"tags"`
+	Thumbnail                 types.String  `tfsdk:"thumbnail"`
+	TotalCost                 types.Int64   `tfsdk:"total_cost"`
+	TotalCostEstimated        types.Int64   `tfsdk:"total_cost_estimated"`
+	TotalCustomers            types.Int64   `tfsdk:"total_customers"`
+	Type                      types.String  `tfsdk:"type"`
+	Url                       types.String  `tfsdk:"url"`
+	UserHasConsent            types.Bool    `tfsdk:"user_has_consent"`
+	VendorDetails             types.String  `tfsdk:"vendor_details"`
 }
 
 // CopyFrom maps the API response to the model fields.
@@ -306,9 +304,6 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 		}})
 	}
 	model.Country = common.StringPointerValue(apiResp.Country)
-	valCreated, diagsCreated := timetypes.NewRFC3339PointerValue(apiResp.Created)
-	diags.Append(diagsCreated...)
-	model.Created = valCreated
 	model.Customer = common.StringPointerValue(apiResp.Customer)
 	model.DataciteDoi = common.StringPointerValue(apiResp.DataciteDoi)
 	model.Description = common.StringPointerValue(apiResp.Description)
@@ -331,17 +326,15 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 
 	if apiResp.Files != nil && len(*apiResp.Files) > 0 {
 		listValFiles, listDiagsFiles := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
-			"created": types.StringType,
-			"file":    types.StringType,
-			"name":    types.StringType,
+			"file": types.StringType,
+			"name": types.StringType,
 		}}, apiResp.Files)
 		diags.Append(listDiagsFiles...)
 		model.Files = listValFiles
 	} else {
 		model.Files = types.ListNull(types.ObjectType{AttrTypes: map[string]attr.Type{
-			"created": types.StringType,
-			"file":    types.StringType,
-			"name":    types.StringType,
+			"file": types.StringType,
+			"name": types.StringType,
 		}})
 	}
 	model.FullDescription = common.StringPointerValue(apiResp.FullDescription)
@@ -743,7 +736,6 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 
 	if apiResp.Screenshots != nil && len(*apiResp.Screenshots) > 0 {
 		listValScreenshots, listDiagsScreenshots := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
-			"created":     types.StringType,
 			"description": types.StringType,
 			"image":       types.StringType,
 			"name":        types.StringType,
@@ -754,7 +746,6 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 		model.Screenshots = listValScreenshots
 	} else {
 		model.Screenshots = types.ListNull(types.ObjectType{AttrTypes: map[string]attr.Type{
-			"created":     types.StringType,
 			"description": types.StringType,
 			"image":       types.StringType,
 			"name":        types.StringType,
