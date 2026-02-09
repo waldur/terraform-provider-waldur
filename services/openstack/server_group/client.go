@@ -36,7 +36,8 @@ func IsNotFoundError(err error) bool {
 
 func (c *OpenstackServerGroupClient) Create(ctx context.Context, tenant string, req *OpenstackServerGroupCreateRequest) (*OpenstackServerGroupResponse, error) {
 	var apiResp OpenstackServerGroupResponse
-	err := c.Client.ExecuteAction(ctx, "/api/openstack-tenants/{uuid}/create_server_group/", tenant, req, &apiResp)
+	tenantUUID := common.ExtractUUIDFromURL(tenant)
+	err := c.Client.ExecuteAction(ctx, "/api/openstack-tenants/{uuid}/create_server_group/", tenantUUID, req, &apiResp)
 	if err != nil {
 		return nil, err
 	}

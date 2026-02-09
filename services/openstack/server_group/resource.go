@@ -178,10 +178,9 @@ func (r *OpenstackServerGroupResource) Schema(ctx context.Context, req resource.
 				MarkdownDescription: "State",
 			},
 			"tenant": schema.StringAttribute{
-				Computed: true,
+				Required: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
-					stringplanmodifier.UseStateForUnknown(),
 				},
 				MarkdownDescription: "Required path parameter for resource creation",
 			},

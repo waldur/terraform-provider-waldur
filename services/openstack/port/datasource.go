@@ -186,10 +186,6 @@ func (d *OpenstackPortDataSource) Schema(ctx context.Context, req datasource.Sch
 				Computed:            true,
 				MarkdownDescription: "Port status in OpenStack (e.g. ACTIVE, DOWN)",
 			},
-			"target_tenant": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Target tenant for shared network port creation. If not specified, defaults to network's tenant.",
-			},
 			"tenant": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "OpenStack tenant this port belongs to",
@@ -205,6 +201,10 @@ func (d *OpenstackPortDataSource) Schema(ctx context.Context, req datasource.Sch
 			"url": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Url",
+			},
+			"target_tenant": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "Target Tenant UUID",
 			},
 		},
 	}

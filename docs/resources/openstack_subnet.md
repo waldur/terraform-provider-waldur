@@ -18,6 +18,7 @@ Openstack Subnet resource
 ### Required
 
 - `name` (String) Name of the Openstack Subnet
+- `network` (String) Required path parameter for resource creation
 
 ### Optional
 
@@ -43,7 +44,6 @@ Openstack Subnet resource
 - `is_connected` (Boolean) Is subnet connected to the default tenant router.
 - `marketplace_resource_uuid` (String) UUID of the marketplace resource
 - `modified` (String) Modified
-- `network` (String) Required path parameter for resource creation
 - `network_name` (String) Name of the network
 - `project` (String) Project
 - `resource_type` (String) Resource type

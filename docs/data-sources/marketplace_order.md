@@ -22,10 +22,8 @@ Marketplace Order data source - lookup by name or UUID
 
 ### Read-Only
 
-- `accepting_terms_of_service` (Boolean) Accepting terms of service
 - `activation_price` (Number) Activation price
 - `attachment` (String) Attachment
-- `attributes` (Map of String) Order attributes
 - `backend_id` (String) ID of the backend
 - `callback_url` (String) Callback url
 - `can_terminate` (Boolean) Can terminate
@@ -71,7 +69,6 @@ Marketplace Order data source - lookup by name or UUID
 - `plan_name` (String) Name of the plan
 - `plan_unit` (String) Plan unit
 - `plan_uuid` (String) UUID of the plan
-- `project` (String) Project
 - `project_description` (String) Project description
 - `project_slug` (String) Project slug
 - `provider_name` (String) Name of the provider

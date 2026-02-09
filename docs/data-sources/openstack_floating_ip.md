@@ -41,7 +41,6 @@ Openstack Floating Ip data source - lookup by name or UUID
 - `port_fixed_ips` (Attributes List) Port fixed ips (see [below for nested schema](#nestedatt--port_fixed_ips))
 - `project` (String) Project
 - `resource_type` (String) Resource type
-- `router` (String) Optional router to use for external network detection
 - `runtime_state` (String) Runtime state
 - `state` (String) State
 - `tenant` (String) Required path parameter for resource creation

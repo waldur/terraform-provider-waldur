@@ -80,37 +80,6 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 				Computed:            true,
 				MarkdownDescription: "Customer",
 			},
-			"data_volume_size": schema.Int64Attribute{
-				Computed:            true,
-				MarkdownDescription: "Size of the data volume in MiB. Minimum size is 1024 MiB (1 GiB)",
-				Validators: []validator.Int64{
-					int64validator.AtLeast(1024),
-				},
-			},
-			"data_volume_type": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Volume type for the data volume",
-			},
-			"data_volumes": schema.ListNestedAttribute{
-				NestedObject: schema.NestedAttributeObject{
-					Attributes: map[string]schema.Attribute{
-						"size": schema.Int64Attribute{
-							Computed:            true,
-							MarkdownDescription: "Size",
-						},
-						"volume_type": schema.StringAttribute{
-							Computed:            true,
-							MarkdownDescription: "Volume type",
-						},
-					},
-				},
-				Computed:            true,
-				MarkdownDescription: "Additional data volumes to attach to the instance",
-			},
-			"delete_volumes": schema.BoolAttribute{
-				Computed:            true,
-				MarkdownDescription: "Termination attribute",
-			},
 			"description": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Description of the Openstack Instance",
@@ -136,10 +105,6 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 				ElementType:         types.StringType,
 				Computed:            true,
 				MarkdownDescription: "External ips",
-			},
-			"flavor": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "The flavor to use for the instance",
 			},
 			"flavor_disk": schema.Int64Attribute{
 				Computed:            true,
@@ -217,10 +182,6 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 				Computed:            true,
 				MarkdownDescription: "Name of the hypervisor hosting this instance",
 			},
-			"image": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "The OS image to use for the instance",
-			},
 			"image_name": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Name of the image",
@@ -241,11 +202,6 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 			"latitude": schema.Float64Attribute{
 				Computed:            true,
 				MarkdownDescription: "Latitude",
-			},
-			"limits": schema.MapAttribute{
-				ElementType:         types.Float64Type,
-				Computed:            true,
-				MarkdownDescription: "Resource limits",
 			},
 			"longitude": schema.Float64Attribute{
 				Computed:            true,
@@ -271,14 +227,6 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 			"name": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Name of the Openstack Instance",
-			},
-			"offering": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Offering URL",
-			},
-			"plan": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Plan URL",
 			},
 			"ports": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
@@ -520,10 +468,6 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 				Computed:            true,
 				MarkdownDescription: "Rancher cluster",
 			},
-			"release_floating_ips": schema.BoolAttribute{
-				Computed:            true,
-				MarkdownDescription: "Termination attribute",
-			},
 			"resource_type": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Resource type",
@@ -634,10 +578,6 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 				Computed:            true,
 				MarkdownDescription: "Server group for instance scheduling policy",
 			},
-			"ssh_public_key": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Ssh public key",
-			},
 			"start_time": schema.StringAttribute{
 				CustomType:          timetypes.RFC3339Type{},
 				Computed:            true,
@@ -646,17 +586,6 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 			"state": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "State",
-			},
-			"system_volume_size": schema.Int64Attribute{
-				Computed:            true,
-				MarkdownDescription: "Size of the system volume in MiB. Minimum size is 1024 MiB (1 GiB)",
-				Validators: []validator.Int64{
-					int64validator.AtLeast(1024),
-				},
-			},
-			"system_volume_type": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Volume type for the system volume",
 			},
 			"tenant": schema.StringAttribute{
 				Computed:            true,

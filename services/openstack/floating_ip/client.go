@@ -36,7 +36,8 @@ func IsNotFoundError(err error) bool {
 
 func (c *OpenstackFloatingIpClient) Create(ctx context.Context, tenant string, req *OpenstackFloatingIpCreateRequest) (*OpenstackFloatingIpResponse, error) {
 	var apiResp OpenstackFloatingIpResponse
-	err := c.Client.ExecuteAction(ctx, "/api/openstack-tenants/{uuid}/create_floating_ip/", tenant, req, &apiResp)
+	tenantUUID := common.ExtractUUIDFromURL(tenant)
+	err := c.Client.ExecuteAction(ctx, "/api/openstack-tenants/{uuid}/create_floating_ip/", tenantUUID, req, &apiResp)
 	if err != nil {
 		return nil, err
 	}

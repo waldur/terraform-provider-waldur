@@ -18,6 +18,19 @@ import (
 	"github.com/waldur/terraform-provider-waldur/internal/client"
 )
 
+// ExtractUUIDFromURL extracts a UUID from a Waldur API URL.
+// If the input is already a UUID (no slashes), it returns it unchanged.
+// Example: "http://api.example.com/api/openstack-tenants/abc123/" -> "abc123"
+func ExtractUUIDFromURL(urlOrUUID string) string {
+	// If it doesn't contain a slash, assume it's already a UUID
+	if !strings.Contains(urlOrUUID, "/") {
+		return urlOrUUID
+	}
+	urlOrUUID = strings.TrimSuffix(urlOrUUID, "/")
+	parts := strings.Split(urlOrUUID, "/")
+	return parts[len(parts)-1]
+}
+
 // BuildQueryFilters extracts filter values from a filters struct using reflection.
 // It converts Terraform attribute values to query parameter strings based on tfsdk tags.
 func BuildQueryFilters(filtersStruct interface{}) map[string]string {

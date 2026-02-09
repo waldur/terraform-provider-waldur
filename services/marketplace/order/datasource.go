@@ -10,7 +10,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
-	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
@@ -46,10 +45,6 @@ func (d *MarketplaceOrderDataSource) Schema(ctx context.Context, req datasource.
 				MarkdownDescription: "Marketplace Order UUID",
 			},
 			"filters": (&MarketplaceOrderFiltersModel{}).GetSchema(),
-			"accepting_terms_of_service": schema.BoolAttribute{
-				Computed:            true,
-				MarkdownDescription: "Accepting terms of service",
-			},
 			"activation_price": schema.Float64Attribute{
 				Computed:            true,
 				MarkdownDescription: "Activation price",
@@ -57,11 +52,6 @@ func (d *MarketplaceOrderDataSource) Schema(ctx context.Context, req datasource.
 			"attachment": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Attachment",
-			},
-			"attributes": schema.MapAttribute{
-				ElementType:         types.StringType,
-				Computed:            true,
-				MarkdownDescription: "Order attributes",
 			},
 			"backend_id": schema.StringAttribute{
 				Computed:            true,
@@ -262,10 +252,6 @@ func (d *MarketplaceOrderDataSource) Schema(ctx context.Context, req datasource.
 			"plan_uuid": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "UUID of the plan",
-			},
-			"project": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Project",
 			},
 			"project_description": schema.StringAttribute{
 				Computed:            true,

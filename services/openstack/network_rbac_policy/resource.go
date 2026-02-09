@@ -13,6 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+
+	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
 // Ensure provider defined types fully satisfy framework interfaces.
@@ -158,20 +160,12 @@ func (r *OpenstackNetworkRbacPolicyResource) Create(ctx context.Context, req res
 	// Build composite ID from key fields
 	compositeID := ""
 	if apiResp.Network != nil {
-		val := *apiResp.Network
-		if strings.Contains(val, "/") {
-			parts := strings.Split(strings.TrimRight(val, "/"), "/")
-			val = parts[len(parts)-1]
-		}
+		val := common.ExtractUUIDFromURL(*apiResp.Network)
 		compositeID += val
 	}
 	compositeID += "/"
 	if apiResp.TargetTenant != nil {
-		val := *apiResp.TargetTenant
-		if strings.Contains(val, "/") {
-			parts := strings.Split(strings.TrimRight(val, "/"), "/")
-			val = parts[len(parts)-1]
-		}
+		val := common.ExtractUUIDFromURL(*apiResp.TargetTenant)
 		compositeID += val
 	}
 	data.UUID = types.StringValue(compositeID)

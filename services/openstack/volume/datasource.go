@@ -9,7 +9,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
-	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
@@ -118,11 +117,6 @@ func (d *OpenstackVolumeDataSource) Schema(ctx context.Context, req datasource.S
 				Computed:            true,
 				MarkdownDescription: "Name of the instance",
 			},
-			"limits": schema.MapAttribute{
-				ElementType:         types.Float64Type,
-				Computed:            true,
-				MarkdownDescription: "Resource limits",
-			},
 			"marketplace_resource_uuid": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "UUID of the marketplace resource",
@@ -135,14 +129,6 @@ func (d *OpenstackVolumeDataSource) Schema(ctx context.Context, req datasource.S
 			"name": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Name of the Openstack Volume",
-			},
-			"offering": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Offering URL",
-			},
-			"plan": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Plan URL",
 			},
 			"project": schema.StringAttribute{
 				Computed:            true,

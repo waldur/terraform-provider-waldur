@@ -132,10 +132,6 @@ func (d *OpenstackFloatingIpDataSource) Schema(ctx context.Context, req datasour
 				Computed:            true,
 				MarkdownDescription: "Resource type",
 			},
-			"router": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Optional router to use for external network detection",
-			},
 			"runtime_state": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Runtime state",

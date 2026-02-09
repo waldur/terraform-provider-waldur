@@ -18,6 +18,7 @@ Openstack Network resource
 ### Required
 
 - `name` (String) Name of the Openstack Network
+- `tenant` (String) Required path parameter for resource creation
 
 ### Optional
 
@@ -42,7 +43,6 @@ Openstack Network resource
 - `segmentation_id` (Number) VLAN ID for VLAN networks or tunnel ID for VXLAN/GRE networks
 - `state` (String) State
 - `subnets` (Attributes List) Subnets (see [below for nested schema](#nestedatt--subnets))
-- `tenant` (String) Required path parameter for resource creation
 - `tenant_name` (String) Name of the tenant
 - `tenant_uuid` (String) UUID of the tenant
 - `type` (String) Network type, such as local, flat, vlan, vxlan, or gre

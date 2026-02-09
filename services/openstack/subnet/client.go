@@ -36,7 +36,8 @@ func IsNotFoundError(err error) bool {
 
 func (c *OpenstackSubnetClient) Create(ctx context.Context, network string, req *OpenstackSubnetCreateRequest) (*OpenstackSubnetResponse, error) {
 	var apiResp OpenstackSubnetResponse
-	err := c.Client.ExecuteAction(ctx, "/api/openstack-networks/{uuid}/create_subnet/", network, req, &apiResp)
+	networkUUID := common.ExtractUUIDFromURL(network)
+	err := c.Client.ExecuteAction(ctx, "/api/openstack-networks/{uuid}/create_subnet/", networkUUID, req, &apiResp)
 	if err != nil {
 		return nil, err
 	}

@@ -36,7 +36,8 @@ func IsNotFoundError(err error) bool {
 
 func (c *OpenstackNetworkClient) Create(ctx context.Context, tenant string, req *OpenstackNetworkCreateRequest) (*OpenstackNetworkResponse, error) {
 	var apiResp OpenstackNetworkResponse
-	err := c.Client.ExecuteAction(ctx, "/api/openstack-tenants/{uuid}/create_network/", tenant, req, &apiResp)
+	tenantUUID := common.ExtractUUIDFromURL(tenant)
+	err := c.Client.ExecuteAction(ctx, "/api/openstack-tenants/{uuid}/create_network/", tenantUUID, req, &apiResp)
 	if err != nil {
 		return nil, err
 	}
