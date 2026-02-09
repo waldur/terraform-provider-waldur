@@ -17,7 +17,6 @@ Marketplace Order resource
 
 ### Required
 
-- `attributes` (Map of String) Order attributes
 - `offering` (String) Offering
 - `project` (String) Project
 

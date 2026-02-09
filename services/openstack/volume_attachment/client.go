@@ -43,15 +43,6 @@ func (c *OpenstackVolumeAttachmentClient) Get(ctx context.Context, id string) (*
 	return &apiResp, nil
 }
 
-func (c *OpenstackVolumeAttachmentClient) Update(ctx context.Context, id string, req *OpenstackVolumeAttachmentUpdateRequest) (*OpenstackVolumeAttachmentResponse, error) {
-	var apiResp OpenstackVolumeAttachmentResponse
-	err := c.Client.Update(ctx, "/api/openstack-volumes/{uuid}/", id, req, &apiResp)
-	if err != nil {
-		return nil, err
-	}
-	return &apiResp, nil
-}
-
 func (c *OpenstackVolumeAttachmentClient) List(ctx context.Context, filter map[string]string) ([]OpenstackVolumeAttachmentResponse, error) {
 	var listResult []OpenstackVolumeAttachmentResponse
 	err := c.Client.List(ctx, "/api/openstack-volumes/", filter, &listResult)

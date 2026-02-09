@@ -18,7 +18,7 @@ Openstack Network resource
 ### Required
 
 - `name` (String) Name of the Openstack Network
-- `tenant` (String) Required path parameter for resource creation
+- `tenant` (String) OpenStack tenant this network belongs to
 
 ### Optional
 

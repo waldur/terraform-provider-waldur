@@ -39,7 +39,6 @@ data "waldur_marketplace_offering" "offering" {
 ### Required
 
 - `offering` (String) Offering URL
-- `project` (String) Project
 
 ### Optional
 
@@ -49,6 +48,7 @@ data "waldur_marketplace_offering" "offering" {
 - `limits` (Map of Number) Resource limits
 - `name` (String) Name of the Openstack Volume
 - `plan` (String) Plan URL
+- `project` (String) Project URL
 - `size` (Number) Size in MiB
 - `timeouts` (Block, Optional) (see [below for nested schema](#nestedblock--timeouts))
 - `type` (String) Type of the volume (e.g. SSD, HDD)

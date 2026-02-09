@@ -17,7 +17,7 @@ Openstack Floating Ip resource
 
 ### Required
 
-- `tenant` (String) Required path parameter for resource creation
+- `tenant` (String) OpenStack tenant this floating IP belongs to
 
 ### Optional
 

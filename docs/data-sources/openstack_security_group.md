@@ -33,7 +33,7 @@ Openstack Security Group data source - lookup by name or UUID
 - `resource_type` (String) Resource type
 - `rules` (Attributes List) Rules (see [below for nested schema](#nestedatt--rules))
 - `state` (String) State
-- `tenant` (String) Required path parameter for resource creation
+- `tenant` (String) Tenant
 - `tenant_name` (String) Name of the tenant
 - `tenant_uuid` (String) UUID of the tenant
 - `url` (String) Url

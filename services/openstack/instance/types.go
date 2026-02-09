@@ -40,14 +40,14 @@ type OpenstackInstanceUpdateRequest struct {
 	Name        *string `json:"name,omitempty" tfsdk:"name"`
 }
 
-type OpenstackInstanceUpdatePortsActionRequest struct {
-	Ports []common.OpenStackCreateInstancePortRequest `json:"ports"`
-}
 type OpenstackInstanceUpdateSecurityGroupsActionRequest struct {
 	SecurityGroups []common.OpenStackSecurityGroupHyperlinkRequest `json:"security_groups"`
 }
 type OpenstackInstanceUpdateFloatingIpsActionRequest struct {
 	FloatingIps []common.OpenStackCreateFloatingIPRequest `json:"floating_ips"`
+}
+type OpenstackInstanceUpdatePortsActionRequest struct {
+	Ports []common.OpenStackCreateInstancePortRequest `json:"ports"`
 }
 
 type OpenstackInstanceResponse struct {

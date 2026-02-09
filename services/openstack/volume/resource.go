@@ -224,11 +224,13 @@ func (r *OpenstackVolumeResource) Schema(ctx context.Context, req resource.Schem
 				MarkdownDescription: "Plan URL",
 			},
 			"project": schema.StringAttribute{
-				Required: true,
+				Optional: true,
+				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
+					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Project",
+				MarkdownDescription: "Project URL",
 			},
 			"resource_type": schema.StringAttribute{
 				Computed: true,

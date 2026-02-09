@@ -199,7 +199,7 @@ func (r *OpenstackSubnetResource) Schema(ctx context.Context, req resource.Schem
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
 				},
-				MarkdownDescription: "Required path parameter for resource creation",
+				MarkdownDescription: "Network to which this subnet belongs",
 			},
 			"network_name": schema.StringAttribute{
 				Computed: true,

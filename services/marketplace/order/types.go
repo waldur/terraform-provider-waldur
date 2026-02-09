@@ -5,19 +5,15 @@ import (
 )
 
 type MarketplaceOrderCreateRequest struct {
-	AcceptingTermsOfService *bool                  `json:"accepting_terms_of_service,omitempty" tfsdk:"accepting_terms_of_service"`
-	Attributes              map[string]interface{} `json:"attributes" tfsdk:"attributes"`
-	CallbackUrl             *string                `json:"callback_url,omitempty" tfsdk:"callback_url"`
-	Offering                *string                `json:"offering" tfsdk:"offering"`
-	Plan                    *string                `json:"plan,omitempty" tfsdk:"plan"`
-	Project                 *string                `json:"project" tfsdk:"project"`
-	RequestComment          *string                `json:"request_comment,omitempty" tfsdk:"request_comment"`
-	Slug                    *string                `json:"slug,omitempty" tfsdk:"slug"`
-	StartDate               *string                `json:"start_date,omitempty" tfsdk:"start_date"`
-	Type                    *string                `json:"type,omitempty" tfsdk:"type"`
-}
-
-type MarketplaceOrderCreateAttributesRequest struct {
+	AcceptingTermsOfService *bool   `json:"accepting_terms_of_service,omitempty" tfsdk:"accepting_terms_of_service"`
+	CallbackUrl             *string `json:"callback_url,omitempty" tfsdk:"callback_url"`
+	Offering                *string `json:"offering" tfsdk:"offering"`
+	Plan                    *string `json:"plan,omitempty" tfsdk:"plan"`
+	Project                 *string `json:"project" tfsdk:"project"`
+	RequestComment          *string `json:"request_comment,omitempty" tfsdk:"request_comment"`
+	Slug                    *string `json:"slug,omitempty" tfsdk:"slug"`
+	StartDate               *string `json:"start_date,omitempty" tfsdk:"start_date"`
+	Type                    *string `json:"type,omitempty" tfsdk:"type"`
 }
 
 type MarketplaceOrderUpdateRequest struct {

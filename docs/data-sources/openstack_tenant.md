@@ -33,7 +33,7 @@ Openstack Tenant data source - lookup by name or UUID
 - `internal_network_id` (String) ID of internal network in OpenStack tenant
 - `marketplace_resource_uuid` (String) UUID of the marketplace resource
 - `name` (String) Name of the Openstack Tenant
-- `project` (String) Project
+- `project` (String) Project URL
 - `quotas` (Attributes List) Quotas (see [below for nested schema](#nestedatt--quotas))
 - `resource_type` (String) Resource type
 - `skip_creation_of_default_router` (Boolean) Skip creation of default router

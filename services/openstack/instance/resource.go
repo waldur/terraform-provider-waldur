@@ -809,11 +809,13 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 				MarkdownDescription: "Network ports to attach to the instance",
 			},
 			"project": schema.StringAttribute{
-				Required: true,
+				Optional: true,
+				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
+					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Project",
+				MarkdownDescription: "Project URL",
 			},
 			"ram": schema.Int64Attribute{
 				Computed: true,
@@ -1620,28 +1622,6 @@ func (r *OpenstackInstanceResource) Update(ctx context.Context, req resource.Upd
 
 	// Phase 2: RPC Actions
 	// These actions are triggered when their corresponding specific fields change.
-	if !data.Ports.Equal(state.Ports) {
-		// Convert Terraform value to API payload for the specific action
-		var req OpenstackInstanceUpdatePortsActionRequest
-		resp.Diagnostics.Append(common.PopulateSliceField(ctx, data.Ports, &req.Ports)...)
-
-		// Execute the Action
-		if err := r.client.UpdatePorts(ctx, data.UUID.ValueString(), &req); err != nil {
-			resp.Diagnostics.AddError("RPC Action Failed: update_ports", err.Error())
-			return
-		}
-
-		// Wait for the resource to return to OK state
-		apiResp, err := common.WaitForResource(ctx, func(ctx context.Context) (*OpenstackInstanceResponse, error) {
-			return r.client.Get(ctx, data.UUID.ValueString())
-		}, updateTimeout)
-		if err != nil {
-			resp.Diagnostics.AddError("Wait for RPC action failed", err.Error())
-			return
-		}
-		resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
-		state = data // Update local state to avoid repeated action calls if multiple fields changed (though actions are usually 1-to-1)
-	}
 	if !data.SecurityGroups.Equal(state.SecurityGroups) {
 		// Convert Terraform value to API payload for the specific action
 		var req OpenstackInstanceUpdateSecurityGroupsActionRequest
@@ -1672,6 +1652,28 @@ func (r *OpenstackInstanceResource) Update(ctx context.Context, req resource.Upd
 		// Execute the Action
 		if err := r.client.UpdateFloatingIps(ctx, data.UUID.ValueString(), &req); err != nil {
 			resp.Diagnostics.AddError("RPC Action Failed: update_floating_ips", err.Error())
+			return
+		}
+
+		// Wait for the resource to return to OK state
+		apiResp, err := common.WaitForResource(ctx, func(ctx context.Context) (*OpenstackInstanceResponse, error) {
+			return r.client.Get(ctx, data.UUID.ValueString())
+		}, updateTimeout)
+		if err != nil {
+			resp.Diagnostics.AddError("Wait for RPC action failed", err.Error())
+			return
+		}
+		resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
+		state = data // Update local state to avoid repeated action calls if multiple fields changed (though actions are usually 1-to-1)
+	}
+	if !data.Ports.Equal(state.Ports) {
+		// Convert Terraform value to API payload for the specific action
+		var req OpenstackInstanceUpdatePortsActionRequest
+		resp.Diagnostics.Append(common.PopulateSliceField(ctx, data.Ports, &req.Ports)...)
+
+		// Execute the Action
+		if err := r.client.UpdatePorts(ctx, data.UUID.ValueString(), &req); err != nil {
+			resp.Diagnostics.AddError("RPC Action Failed: update_ports", err.Error())
 			return
 		}
 

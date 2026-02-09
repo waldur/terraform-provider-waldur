@@ -316,7 +316,7 @@ func (r *OpenstackNetworkResource) Schema(ctx context.Context, req resource.Sche
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
 				},
-				MarkdownDescription: "Required path parameter for resource creation",
+				MarkdownDescription: "OpenStack tenant this network belongs to",
 			},
 			"tenant_name": schema.StringAttribute{
 				Computed: true,

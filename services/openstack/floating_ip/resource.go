@@ -217,7 +217,7 @@ func (r *OpenstackFloatingIpResource) Schema(ctx context.Context, req resource.S
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
 				},
-				MarkdownDescription: "Required path parameter for resource creation",
+				MarkdownDescription: "OpenStack tenant this floating IP belongs to",
 			},
 			"tenant_name": schema.StringAttribute{
 				Computed: true,

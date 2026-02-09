@@ -50,7 +50,7 @@ Openstack Instance data source - lookup by name or UUID
 - `min_ram` (Number) Minimum memory size in MiB
 - `name` (String) Name of the Openstack Instance
 - `ports` (Attributes List) Network ports to attach to the instance (see [below for nested schema](#nestedatt--ports))
-- `project` (String) Project
+- `project` (String) Project URL
 - `ram` (Number) Memory size in MiB
 - `rancher_cluster` (Attributes) Rancher cluster (see [below for nested schema](#nestedatt--rancher_cluster))
 - `resource_type` (String) Resource type

@@ -19,7 +19,7 @@ Openstack Security Group resource
 
 - `name` (String) Name of the Openstack Security Group
 - `rules` (Attributes List) Rules (see [below for nested schema](#nestedatt--rules))
-- `tenant` (String) Required path parameter for resource creation
+- `tenant` (String) Tenant
 
 ### Optional
 

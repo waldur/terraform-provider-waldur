@@ -6,12 +6,6 @@ type OpenstackVolumeAttachmentCreateRequest struct {
 	Volume   *string `json:"volume" tfsdk:"volume"`
 }
 
-type OpenstackVolumeAttachmentUpdateRequest struct {
-	Bootable    *bool   `json:"bootable,omitempty" tfsdk:"bootable"`
-	Description *string `json:"description,omitempty" tfsdk:"description"`
-	Name        *string `json:"name,omitempty" tfsdk:"name"`
-}
-
 type OpenstackVolumeAttachmentResponse struct {
 	UUID *string `json:"uuid"`
 

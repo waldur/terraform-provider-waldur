@@ -48,7 +48,6 @@ data "waldur_marketplace_offering" "offering" {
 ### Required
 
 - `offering` (String) Offering URL
-- `project` (String) Project
 
 ### Optional
 
@@ -57,6 +56,7 @@ data "waldur_marketplace_offering" "offering" {
 - `limits` (Map of Number) Resource limits
 - `name` (String) Name of the Openstack Tenant
 - `plan` (String) Plan URL
+- `project` (String) Project URL
 - `security_groups` (Attributes Set) Security groups (see [below for nested schema](#nestedatt--security_groups))
 - `skip_connection_extnet` (Boolean) Skip connection extnet
 - `skip_creation_of_default_router` (Boolean) Skip creation of default router

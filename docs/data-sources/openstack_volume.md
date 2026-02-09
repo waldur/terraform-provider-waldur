@@ -41,7 +41,7 @@ Openstack Volume data source - lookup by name or UUID
 - `instance_name` (String) Name of the instance
 - `marketplace_resource_uuid` (String) UUID of the marketplace resource
 - `name` (String) Name of the Openstack Volume
-- `project` (String) Project
+- `project` (String) Project URL
 - `resource_type` (String) Resource type
 - `runtime_state` (String) Runtime state
 - `size` (Number) Size in MiB

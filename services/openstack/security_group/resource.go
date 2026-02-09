@@ -227,7 +227,7 @@ func (r *OpenstackSecurityGroupResource) Schema(ctx context.Context, req resourc
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
 				},
-				MarkdownDescription: "Required path parameter for resource creation",
+				MarkdownDescription: "Tenant",
 			},
 			"tenant_name": schema.StringAttribute{
 				Computed: true,

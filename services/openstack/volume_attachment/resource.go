@@ -89,6 +89,7 @@ func (r *OpenstackVolumeAttachmentResource) Schema(ctx context.Context, req reso
 				Optional: true,
 				Computed: true,
 				PlanModifiers: []planmodifier.Bool{
+					boolplanmodifier.RequiresReplace(),
 					boolplanmodifier.UseStateForUnknown(),
 				},
 				MarkdownDescription: "Indicates if this volume can be used to boot an instance",
@@ -104,6 +105,7 @@ func (r *OpenstackVolumeAttachmentResource) Schema(ctx context.Context, req reso
 				Optional: true,
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.RequiresReplace(),
 					stringplanmodifier.UseStateForUnknown(),
 				},
 				MarkdownDescription: "Description of the Openstack Volume Attachment",
@@ -191,6 +193,7 @@ func (r *OpenstackVolumeAttachmentResource) Schema(ctx context.Context, req reso
 				Optional: true,
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.RequiresReplace(),
 					stringplanmodifier.UseStateForUnknown(),
 				},
 				MarkdownDescription: "Name of the Openstack Volume Attachment",

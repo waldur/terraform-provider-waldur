@@ -12,7 +12,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/float64planmodifier"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/mapplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
@@ -40,7 +39,6 @@ type MarketplaceOrderResource struct {
 type MarketplaceOrderResourceModel struct {
 	MarketplaceOrderModel
 	AcceptingTermsOfService types.Bool     `tfsdk:"accepting_terms_of_service"`
-	Attributes              types.Map      `tfsdk:"attributes"`
 	Project                 types.String   `tfsdk:"project"`
 	Timeouts                timeouts.Value `tfsdk:"timeouts"`
 }
@@ -83,14 +81,6 @@ func (r *MarketplaceOrderResource) Schema(ctx context.Context, req resource.Sche
 					stringplanmodifier.UseStateForUnknown(),
 				},
 				MarkdownDescription: "Attachment",
-			},
-			"attributes": schema.MapAttribute{
-				ElementType: types.StringType,
-				Required:    true,
-				PlanModifiers: []planmodifier.Map{
-					mapplanmodifier.RequiresReplace(),
-				},
-				MarkdownDescription: "Order attributes",
 			},
 			"backend_id": schema.StringAttribute{
 				Optional: true,
@@ -639,14 +629,6 @@ func (r *MarketplaceOrderResource) Create(ctx context.Context, req resource.Crea
 	if !data.Type.IsNull() && !data.Type.IsUnknown() {
 
 		requestBody.Type = data.Type.ValueStringPointer()
-	}
-	{
-		var mapItems map[string]interface{}
-		diags := data.Attributes.ElementsAs(ctx, &mapItems, false)
-		resp.Diagnostics.Append(diags...)
-		if !diags.HasError() && len(mapItems) > 0 {
-			requestBody.Attributes = mapItems
-		}
 	}
 
 	apiResp, err := r.client.Create(ctx, &requestBody)

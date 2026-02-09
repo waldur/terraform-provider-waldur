@@ -111,7 +111,7 @@ func (d *OpenstackServerGroupDataSource) Schema(ctx context.Context, req datasou
 			},
 			"tenant": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Required path parameter for resource creation",
+				MarkdownDescription: "Tenant",
 			},
 			"tenant_name": schema.StringAttribute{
 				Computed:            true,

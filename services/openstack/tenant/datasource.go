@@ -87,7 +87,7 @@ func (d *OpenstackTenantDataSource) Schema(ctx context.Context, req datasource.S
 			},
 			"project": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Project",
+				MarkdownDescription: "Project URL",
 			},
 			"quotas": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{

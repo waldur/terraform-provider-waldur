@@ -37,7 +37,7 @@ Optional:
 
 - `network` (String) Network URL
 - `network_uuid` (String) Network UUID
-- `policy_type` (String) Type of access granted - either shared access or external network access Allowed values: `access_as_external`, `access_as_shared`.
+- `policy_type` (String) Type of access granted - either shared access or external network access
 - `target_tenant` (String) Target tenant URL
 - `target_tenant_uuid` (String) Target tenant UUID
 - `tenant` (String) Tenant URL

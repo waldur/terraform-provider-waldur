@@ -131,7 +131,7 @@ func (d *OpenstackFloatingIpDataSource) Schema(ctx context.Context, req datasour
 			},
 			"tenant": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Required path parameter for resource creation",
+				MarkdownDescription: "OpenStack tenant this floating IP belongs to",
 			},
 			"tenant_name": schema.StringAttribute{
 				Computed:            true,

@@ -76,7 +76,6 @@ resource "waldur_openstack_instance" "example" {
 ### Required
 
 - `offering` (String) Offering URL
-- `project` (String) Project
 
 ### Optional
 
@@ -94,6 +93,7 @@ resource "waldur_openstack_instance" "example" {
 - `name` (String) Name of the Openstack Instance
 - `plan` (String) Plan URL
 - `ports` (Attributes List) Network ports to attach to the instance (see [below for nested schema](#nestedatt--ports))
+- `project` (String) Project URL
 - `release_floating_ips` (Boolean) Termination attribute
 - `security_groups` (Attributes Set) List of security groups to apply to the instance (see [below for nested schema](#nestedatt--security_groups))
 - `server_group` (Attributes) Server group for instance scheduling policy (see [below for nested schema](#nestedatt--server_group))

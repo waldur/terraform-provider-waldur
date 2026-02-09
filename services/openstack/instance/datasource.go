@@ -424,7 +424,7 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 			},
 			"project": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Project",
+				MarkdownDescription: "Project URL",
 			},
 			"ram": schema.Int64Attribute{
 				Computed:            true,

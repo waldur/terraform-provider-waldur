@@ -37,7 +37,7 @@ Openstack Network data source - lookup by name or UUID
 - `segmentation_id` (Number) VLAN ID for VLAN networks or tunnel ID for VXLAN/GRE networks
 - `state` (String) State
 - `subnets` (Attributes List) Subnets (see [below for nested schema](#nestedatt--subnets))
-- `tenant` (String) Required path parameter for resource creation
+- `tenant` (String) OpenStack tenant this network belongs to
 - `tenant_name` (String) Name of the tenant
 - `tenant_uuid` (String) UUID of the tenant
 - `type` (String) Network type, such as local, flat, vlan, vxlan, or gre

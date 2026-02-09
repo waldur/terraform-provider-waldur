@@ -41,7 +41,7 @@ Openstack Floating Ip data source - lookup by name or UUID
 - `resource_type` (String) Resource type
 - `runtime_state` (String) Runtime state
 - `state` (String) State
-- `tenant` (String) Required path parameter for resource creation
+- `tenant` (String) OpenStack tenant this floating IP belongs to
 - `tenant_name` (String) Name of the tenant
 - `tenant_uuid` (String) UUID of the tenant
 - `url` (String) Url

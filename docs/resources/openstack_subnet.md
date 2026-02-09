@@ -18,7 +18,7 @@ Openstack Subnet resource
 ### Required
 
 - `name` (String) Name of the Openstack Subnet
-- `network` (String) Required path parameter for resource creation
+- `network` (String) Network to which this subnet belongs
 
 ### Optional
 

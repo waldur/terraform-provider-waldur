@@ -18,7 +18,7 @@ Openstack Server Group resource
 ### Required
 
 - `name` (String) Name of the Openstack Server Group
-- `tenant` (String) Required path parameter for resource creation
+- `tenant` (String) Tenant
 
 ### Optional
 

@@ -133,7 +133,7 @@ func (d *OpenstackSubnetDataSource) Schema(ctx context.Context, req datasource.S
 			},
 			"network": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Required path parameter for resource creation",
+				MarkdownDescription: "Network to which this subnet belongs",
 			},
 			"network_name": schema.StringAttribute{
 				Computed:            true,

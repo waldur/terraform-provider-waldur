@@ -193,7 +193,7 @@ func (d *OpenstackNetworkDataSource) Schema(ctx context.Context, req datasource.
 			},
 			"tenant": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Required path parameter for resource creation",
+				MarkdownDescription: "OpenStack tenant this network belongs to",
 			},
 			"tenant_name": schema.StringAttribute{
 				Computed:            true,

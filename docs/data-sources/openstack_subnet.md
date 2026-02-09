@@ -38,7 +38,7 @@ Openstack Subnet data source - lookup by name or UUID
 - `is_connected` (Boolean) Is subnet connected to the default tenant router.
 - `marketplace_resource_uuid` (String) UUID of the marketplace resource
 - `name` (String) Name of the Openstack Subnet
-- `network` (String) Required path parameter for resource creation
+- `network` (String) Network to which this subnet belongs
 - `network_name` (String) Name of the network
 - `project` (String) Project
 - `resource_type` (String) Resource type
