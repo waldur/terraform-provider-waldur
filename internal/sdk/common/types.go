@@ -1,17 +1,31 @@
 package common
 
 import (
+	"os"
 	"time"
 )
 
-const (
+var (
 	DefaultCreateTimeout  = 15 * time.Minute
 	DefaultUpdateTimeout  = 15 * time.Minute
 	DefaultDeleteTimeout  = 15 * time.Minute
 	DefaultActionTimeout  = 15 * time.Minute
-	DefaultPollDelay      = 1 * time.Second
+	DefaultPollDelay      = 10 * time.Second
 	DefaultPollMinTimeout = 5 * time.Second
 )
+
+func init() {
+	if delay := os.Getenv("WALDUR_POLL_DELAY"); delay != "" {
+		if d, err := time.ParseDuration(delay); err == nil {
+			DefaultPollDelay = d
+		}
+	}
+	if timeout := os.Getenv("WALDUR_POLL_MIN_TIMEOUT"); timeout != "" {
+		if t, err := time.ParseDuration(timeout); err == nil {
+			DefaultPollMinTimeout = t
+		}
+	}
+}
 
 type BasePublicPlan struct {
 	Archived           *bool                  `json:"archived,omitempty" tfsdk:"archived"`
