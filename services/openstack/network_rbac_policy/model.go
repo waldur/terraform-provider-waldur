@@ -3,8 +3,10 @@ package network_rbac_policy
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
@@ -36,6 +38,10 @@ func (m *OpenstackNetworkRbacPolicyFiltersModel) GetSchema() schema.SingleNested
 			"policy_type": schema.StringAttribute{
 				Optional:            true,
 				MarkdownDescription: "Type of access granted - either shared access or external network access",
+
+				Validators: []validator.String{
+					stringvalidator.OneOf("access_as_external", "access_as_shared"),
+				},
 			},
 			"target_tenant": schema.StringAttribute{
 				Optional:            true,
