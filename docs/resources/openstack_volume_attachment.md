@@ -41,7 +41,6 @@ Openstack Volume Attachment resource
 - `customer` (String) Customer
 - `device` (String) Link parameter
 - `error_message` (String) Error Message
-- `error_traceback` (String) Error Traceback
 - `extend_enabled` (Boolean) Extend Enabled
 - `id` (String) Openstack Volume Attachment UUID (used as Terraform ID)
 - `image_metadata` (String) Metadata of the image this volume was created from

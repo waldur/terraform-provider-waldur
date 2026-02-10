@@ -32,7 +32,6 @@ Openstack Instance data source - lookup by name or UUID
 - `description` (String) Description
 - `disk` (Number) Disk size in MiB
 - `error_message` (String) Error Message
-- `error_traceback` (String) Error Traceback
 - `external_address` (List of String) External Address
 - `external_ips` (List of String) External Ips
 - `flavor_disk` (Number) Flavor disk size in MiB
@@ -167,7 +166,6 @@ Read-Only:
 - `customer` (String) Customer
 - `description` (String) Description
 - `error_message` (String) Error Message
-- `error_traceback` (String) Error Traceback
 - `marketplace_resource_uuid` (String) Marketplace Resource Uuid
 - `name` (String) Name
 - `project` (String) Project

@@ -290,7 +290,6 @@ type OpenStackSecurityGroup struct {
 	Customer                *string                             `json:"customer,omitempty" tfsdk:"customer"`
 	Description             *string                             `json:"description,omitempty" tfsdk:"description"`
 	ErrorMessage            *string                             `json:"error_message,omitempty" tfsdk:"error_message"`
-	ErrorTraceback          *string                             `json:"error_traceback,omitempty" tfsdk:"error_traceback"`
 	MarketplaceResourceUuid *string                             `json:"marketplace_resource_uuid,omitempty" tfsdk:"marketplace_resource_uuid"`
 	Name                    *string                             `json:"name,omitempty" tfsdk:"name"`
 	Project                 *string                             `json:"project,omitempty" tfsdk:"project"`
@@ -381,7 +380,6 @@ type OrderDetails struct {
 	CreatedByUsername          *string            `json:"created_by_username,omitempty" tfsdk:"created_by_username"`
 	CustomerSlug               *string            `json:"customer_slug,omitempty" tfsdk:"customer_slug"`
 	ErrorMessage               *string            `json:"error_message,omitempty" tfsdk:"error_message"`
-	ErrorTraceback             *string            `json:"error_traceback,omitempty" tfsdk:"error_traceback"`
 	FixedPrice                 *float64           `json:"fixed_price,omitempty" tfsdk:"fixed_price"`
 	Issue                      *OrderDetailsIssue `json:"issue,omitempty" tfsdk:"issue"`
 	MarketplaceResourceUuid    *string            `json:"marketplace_resource_uuid,omitempty" tfsdk:"marketplace_resource_uuid"`

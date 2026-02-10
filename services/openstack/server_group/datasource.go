@@ -61,10 +61,6 @@ func (d *OpenstackServerGroupDataSource) Schema(ctx context.Context, req datasou
 				Computed:            true,
 				MarkdownDescription: "Error Message",
 			},
-			"error_traceback": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Error Traceback",
-			},
 			"instances": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{

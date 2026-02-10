@@ -94,13 +94,6 @@ func (r *OpenstackFloatingIpResource) Schema(ctx context.Context, req resource.S
 				},
 				MarkdownDescription: "Error Message",
 			},
-			"error_traceback": schema.StringAttribute{
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
-				MarkdownDescription: "Error Traceback",
-			},
 			"external_address": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
@@ -344,7 +337,55 @@ func (r *OpenstackFloatingIpResource) Read(ctx context.Context, req resource.Rea
 
 func (r *OpenstackFloatingIpResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
 
-	resp.Diagnostics.AddError("Update Not Supported", "This resource cannot be updated via the API.")
+	var data OpenstackFloatingIpResourceModel
+	var state OpenstackFloatingIpResourceModel
+	resp.Diagnostics.Append(req.Plan.Get(ctx, &data)...)
+	resp.Diagnostics.Append(req.State.Get(ctx, &state)...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	var apiResp *OpenstackFloatingIpResponse
+	updateTimeout, diags := data.Timeouts.Update(ctx, common.DefaultUpdateTimeout)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+	_ = updateTimeout
+	if !data.Description.Equal(state.Description) {
+		// Convert Terraform value to API payload for the specific action
+		var req OpenstackFloatingIpUpdateDescriptionActionRequest
+		req.Description = data.Description.ValueStringPointer()
+
+		// Execute the Action
+		if err := r.client.UpdateDescription(ctx, data.UUID.ValueString(), &req); err != nil {
+			resp.Diagnostics.AddError("RPC Action Failed: update_description", err.Error())
+			return
+		}
+		// Wait for the resource to return to OK state
+		_, err := common.WaitForResource(ctx, func(ctx context.Context) (*OpenstackFloatingIpResponse, error) {
+			return r.client.Get(ctx, data.UUID.ValueString())
+		}, updateTimeout)
+		if err != nil {
+			resp.Diagnostics.AddError("Wait for RPC action failed", err.Error())
+			return
+		}
+		state = data
+	}
+
+	newResp, err := r.client.Get(ctx, data.UUID.ValueString())
+	if err != nil {
+		if IsNotFoundError(err) {
+			resp.State.RemoveResource(ctx)
+			return
+		}
+		resp.Diagnostics.AddError("Failed to Read Resource After Update", err.Error())
+		return
+	}
+	apiResp = newResp
+
+	resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
+	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
 func (r *OpenstackFloatingIpResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {

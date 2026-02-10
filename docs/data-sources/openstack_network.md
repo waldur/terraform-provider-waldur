@@ -26,7 +26,6 @@ Openstack Network data source - lookup by name or UUID
 - `customer` (String) Customer
 - `description` (String) Description
 - `error_message` (String) Error Message
-- `error_traceback` (String) Error Traceback
 - `is_external` (Boolean) Defines whether this network is external (public) or internal (private)
 - `marketplace_resource_uuid` (String) Marketplace Resource Uuid
 - `mtu` (Number) The maximum transmission unit (MTU) value to address fragmentation.

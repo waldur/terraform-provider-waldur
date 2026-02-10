@@ -38,7 +38,6 @@ type OpenstackSubnetResponse struct {
 	DnsNameservers          *[]string                                      `json:"dns_nameservers" tfsdk:"dns_nameservers"`
 	EnableDhcp              *bool                                          `json:"enable_dhcp" tfsdk:"enable_dhcp"`
 	ErrorMessage            *string                                        `json:"error_message" tfsdk:"error_message"`
-	ErrorTraceback          *string                                        `json:"error_traceback" tfsdk:"error_traceback"`
 	GatewayIp               *string                                        `json:"gateway_ip" tfsdk:"gateway_ip"`
 	HostRoutes              *[]common.OpenStackStaticRouteRequest          `json:"host_routes" tfsdk:"host_routes"`
 	IpVersion               *int64                                         `json:"ip_version" tfsdk:"ip_version"`

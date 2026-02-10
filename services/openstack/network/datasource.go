@@ -59,10 +59,6 @@ func (d *OpenstackNetworkDataSource) Schema(ctx context.Context, req datasource.
 				Computed:            true,
 				MarkdownDescription: "Error Message",
 			},
-			"error_traceback": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Error Traceback",
-			},
 			"is_external": schema.BoolAttribute{
 				Computed:            true,
 				MarkdownDescription: "Defines whether this network is external (public) or internal (private)",

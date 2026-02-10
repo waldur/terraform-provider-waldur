@@ -42,7 +42,6 @@ type MarketplaceOrderResponse struct {
 	CreatedByUsername          *string                        `json:"created_by_username" tfsdk:"created_by_username"`
 	CustomerSlug               *string                        `json:"customer_slug" tfsdk:"customer_slug"`
 	ErrorMessage               *string                        `json:"error_message" tfsdk:"error_message"`
-	ErrorTraceback             *string                        `json:"error_traceback" tfsdk:"error_traceback"`
 	FixedPrice                 *common.FlexibleNumber         `json:"fixed_price" tfsdk:"fixed_price"`
 	Issue                      *MarketplaceOrderIssueResponse `json:"issue" tfsdk:"issue"`
 	MarketplaceResourceUuid    *string                        `json:"marketplace_resource_uuid" tfsdk:"marketplace_resource_uuid"`

@@ -91,10 +91,6 @@ func (d *OpenstackSubnetDataSource) Schema(ctx context.Context, req datasource.S
 				Computed:            true,
 				MarkdownDescription: "Error Message",
 			},
-			"error_traceback": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Error Traceback",
-			},
 			"gateway_ip": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "IP address of the gateway for this subnet",

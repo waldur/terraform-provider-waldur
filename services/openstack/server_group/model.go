@@ -133,7 +133,6 @@ type OpenstackServerGroupModel struct {
 	Description             types.String `tfsdk:"description"`
 	DisplayName             types.String `tfsdk:"display_name"`
 	ErrorMessage            types.String `tfsdk:"error_message"`
-	ErrorTraceback          types.String `tfsdk:"error_traceback"`
 	Instances               types.List   `tfsdk:"instances"`
 	MarketplaceResourceUuid types.String `tfsdk:"marketplace_resource_uuid"`
 	Name                    types.String `tfsdk:"name"`
@@ -157,9 +156,8 @@ func (model *OpenstackServerGroupModel) CopyFrom(ctx context.Context, apiResp Op
 	model.Description = common.StringPointerValue(apiResp.Description)
 	model.DisplayName = common.StringPointerValue(apiResp.DisplayName)
 	model.ErrorMessage = common.StringPointerValue(apiResp.ErrorMessage)
-	model.ErrorTraceback = common.StringPointerValue(apiResp.ErrorTraceback)
 
-	if apiResp.Instances != nil && len(*apiResp.Instances) > 0 {
+	if apiResp.Instances != nil {
 		listValInstances, listDiagsInstances := types.ListValueFrom(ctx, OpenStackNestedInstanceType(), apiResp.Instances)
 		diags.Append(listDiagsInstances...)
 		model.Instances = listValInstances

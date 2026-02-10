@@ -30,7 +30,6 @@ Openstack Port data source - lookup by name or UUID
 - `device_id` (String) ID of device (instance, router etc) to which this port is connected
 - `device_owner` (String) Entity that uses this port (e.g. network:router_interface)
 - `error_message` (String) Error Message
-- `error_traceback` (String) Error Traceback
 - `fixed_ips` (Attributes List) Fixed Ips (see [below for nested schema](#nestedatt--fixed_ips))
 - `floating_ips` (Set of String) Floating Ips
 - `mac_address` (String) MAC address of the port

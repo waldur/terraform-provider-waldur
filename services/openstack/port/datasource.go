@@ -86,10 +86,6 @@ func (d *OpenstackPortDataSource) Schema(ctx context.Context, req datasource.Sch
 				Computed:            true,
 				MarkdownDescription: "Error Message",
 			},
-			"error_traceback": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Error Traceback",
-			},
 			"fixed_ips": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{

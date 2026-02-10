@@ -210,13 +210,6 @@ func (r *MarketplaceOrderResource) Schema(ctx context.Context, req resource.Sche
 				},
 				MarkdownDescription: "Error Message",
 			},
-			"error_traceback": schema.StringAttribute{
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
-				MarkdownDescription: "Error Traceback",
-			},
 			"fixed_price": schema.Float64Attribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.Float64{
@@ -702,31 +695,49 @@ func (r *MarketplaceOrderResource) Update(ctx context.Context, req resource.Upda
 		return
 	}
 
-	requestBody := MarketplaceOrderUpdateRequest{}
-	if !data.StartDate.IsNull() && !data.StartDate.IsUnknown() {
-
-		requestBody.StartDate = data.StartDate.ValueStringPointer()
-	}
-
-	apiResp, err := r.client.Update(ctx, data.UUID.ValueString(), &requestBody)
-	if err != nil {
-		resp.Diagnostics.AddError(
-			"Unable to Update Marketplace Order",
-			"An error occurred while updating the Marketplace Order: "+err.Error(),
-		)
-		return
-	}
+	var apiResp *MarketplaceOrderResponse
 	updateTimeout, diags := data.Timeouts.Update(ctx, common.DefaultUpdateTimeout)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
+	_ = updateTimeout
+	anyChanges := false
+	requestBody := MarketplaceOrderUpdateRequest{}
+	if !data.StartDate.IsNull() && !data.StartDate.IsUnknown() && !data.StartDate.Equal(state.StartDate) {
+		anyChanges = true
 
-	newResp, err := common.WaitForResource(ctx, func(ctx context.Context) (*MarketplaceOrderResponse, error) {
-		return r.client.Get(ctx, data.UUID.ValueString())
-	}, updateTimeout)
+		requestBody.StartDate = data.StartDate.ValueStringPointer()
+	}
+
+	if anyChanges {
+		var err error
+		apiResp, err = r.client.Update(ctx, data.UUID.ValueString(), &requestBody)
+		if err != nil {
+			resp.Diagnostics.AddError(
+				"Unable to Update Marketplace Order",
+				"An error occurred while updating the Marketplace Order: "+err.Error(),
+			)
+			return
+		}
+		// Wait for the resource to return to OK state
+		newResp, err := common.WaitForResource(ctx, func(ctx context.Context) (*MarketplaceOrderResponse, error) {
+			return r.client.Get(ctx, data.UUID.ValueString())
+		}, updateTimeout)
+		if err != nil {
+			resp.Diagnostics.AddError("Wait for update failed", err.Error())
+			return
+		}
+		apiResp = newResp
+	}
+
+	newResp, err := r.client.Get(ctx, data.UUID.ValueString())
 	if err != nil {
-		resp.Diagnostics.AddError("Failed to wait for resource update", err.Error())
+		if IsNotFoundError(err) {
+			resp.State.RemoveResource(ctx)
+			return
+		}
+		resp.Diagnostics.AddError("Failed to Read Resource After Update", err.Error())
 		return
 	}
 	apiResp = newResp

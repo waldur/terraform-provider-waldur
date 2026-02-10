@@ -87,10 +87,6 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 				Computed:            true,
 				MarkdownDescription: "Error Message",
 			},
-			"error_traceback": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Error Traceback",
-			},
 			"external_address": schema.ListAttribute{
 				ElementType:         types.StringType,
 				Computed:            true,
@@ -287,10 +283,6 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 									"error_message": schema.StringAttribute{
 										Computed:            true,
 										MarkdownDescription: "Error Message",
-									},
-									"error_traceback": schema.StringAttribute{
-										Computed:            true,
-										MarkdownDescription: "Error Traceback",
 									},
 									"marketplace_resource_uuid": schema.StringAttribute{
 										Computed:            true,

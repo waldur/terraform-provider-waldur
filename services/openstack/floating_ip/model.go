@@ -148,7 +148,6 @@ type OpenstackFloatingIpModel struct {
 	Customer                types.String `tfsdk:"customer"`
 	Description             types.String `tfsdk:"description"`
 	ErrorMessage            types.String `tfsdk:"error_message"`
-	ErrorTraceback          types.String `tfsdk:"error_traceback"`
 	ExternalAddress         types.String `tfsdk:"external_address"`
 	InstanceName            types.String `tfsdk:"instance_name"`
 	InstanceUrl             types.String `tfsdk:"instance_url"`
@@ -178,7 +177,6 @@ func (model *OpenstackFloatingIpModel) CopyFrom(ctx context.Context, apiResp Ope
 	model.Customer = common.StringPointerValue(apiResp.Customer)
 	model.Description = common.StringPointerValue(apiResp.Description)
 	model.ErrorMessage = common.StringPointerValue(apiResp.ErrorMessage)
-	model.ErrorTraceback = common.StringPointerValue(apiResp.ErrorTraceback)
 	model.ExternalAddress = common.StringPointerValue(apiResp.ExternalAddress)
 	model.InstanceName = common.StringPointerValue(apiResp.InstanceName)
 	model.InstanceUrl = common.StringPointerValue(apiResp.InstanceUrl)
@@ -187,7 +185,7 @@ func (model *OpenstackFloatingIpModel) CopyFrom(ctx context.Context, apiResp Ope
 	model.Name = common.StringPointerValue(apiResp.Name)
 	model.Port = common.StringPointerValue(apiResp.Port)
 
-	if apiResp.PortFixedIps != nil && len(*apiResp.PortFixedIps) > 0 {
+	if apiResp.PortFixedIps != nil {
 		listValPortFixedIps, listDiagsPortFixedIps := types.ListValueFrom(ctx, OpenStackFixedIpType(), apiResp.PortFixedIps)
 		diags.Append(listDiagsPortFixedIps...)
 		model.PortFixedIps = listValPortFixedIps

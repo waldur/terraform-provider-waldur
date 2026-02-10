@@ -252,7 +252,7 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 	model.CitationCount = types.Int64PointerValue(apiResp.CitationCount)
 	model.ComplianceChecklist = common.StringPointerValue(apiResp.ComplianceChecklist)
 
-	if apiResp.Components != nil && len(*apiResp.Components) > 0 {
+	if apiResp.Components != nil {
 		listValComponents, listDiagsComponents := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
 			"article_code":         types.StringType,
 			"billing_type":         types.StringType,
@@ -308,7 +308,7 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 	model.DataciteDoi = common.StringPointerValue(apiResp.DataciteDoi)
 	model.Description = common.StringPointerValue(apiResp.Description)
 
-	if apiResp.Endpoints != nil && len(*apiResp.Endpoints) > 0 {
+	if apiResp.Endpoints != nil {
 		listValEndpoints, listDiagsEndpoints := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
 			"name": types.StringType,
 			"url":  types.StringType,
@@ -324,7 +324,7 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 		}})
 	}
 
-	if apiResp.Files != nil && len(*apiResp.Files) > 0 {
+	if apiResp.Files != nil {
 		listValFiles, listDiagsFiles := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
 			"file": types.StringType,
 			"name": types.StringType,
@@ -361,7 +361,7 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 	}
 	model.OrderCount = types.Int64PointerValue(apiResp.OrderCount)
 
-	if apiResp.OrganizationGroups != nil && len(*apiResp.OrganizationGroups) > 0 {
+	if apiResp.OrganizationGroups != nil {
 		listValOrganizationGroups, listDiagsOrganizationGroups := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
 			"customers_count": types.Int64Type,
 			"name":            types.StringType,
@@ -388,7 +388,7 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 	model.ParentName = common.StringPointerValue(apiResp.ParentName)
 	model.ParentUuid = common.StringPointerValue(apiResp.ParentUuid)
 
-	if apiResp.Partitions != nil && len(*apiResp.Partitions) > 0 {
+	if apiResp.Partitions != nil {
 		listValPartitions, listDiagsPartitions := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
 			"cpu_bind":            types.Int64Type,
 			"def_cpu_per_gpu":     types.Int64Type,
@@ -441,7 +441,7 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 	}
 	model.PausedReason = common.StringPointerValue(apiResp.PausedReason)
 
-	if apiResp.Plans != nil && len(*apiResp.Plans) > 0 {
+	if apiResp.Plans != nil {
 		listValPlans, listDiagsPlans := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
 			"archived":     types.BoolType,
 			"article_code": types.StringType,
@@ -656,7 +656,7 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 	model.PrivacyPolicyLink = common.StringPointerValue(apiResp.PrivacyPolicyLink)
 	model.Project = common.StringPointerValue(apiResp.Project)
 
-	if apiResp.PromotionCampaigns != nil && len(*apiResp.PromotionCampaigns) > 0 {
+	if apiResp.PromotionCampaigns != nil {
 		listValPromotionCampaigns, listDiagsPromotionCampaigns := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
 			"description":      types.StringType,
 			"discount":         types.Int64Type,
@@ -686,7 +686,7 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 		}})
 	}
 
-	if apiResp.Quotas != nil && len(*apiResp.Quotas) > 0 {
+	if apiResp.Quotas != nil {
 		listValQuotas, listDiagsQuotas := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
 			"limit": types.Int64Type,
 			"name":  types.StringType,
@@ -713,7 +713,7 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 		}}.AttrTypes)
 	}
 
-	if apiResp.Roles != nil && len(*apiResp.Roles) > 0 {
+	if apiResp.Roles != nil {
 		listValRoles, listDiagsRoles := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
 			"name": types.StringType,
 			"url":  types.StringType,
@@ -734,7 +734,7 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 	model.ScopeState = common.StringPointerValue(apiResp.ScopeState)
 	model.ScopeUuid = common.StringPointerValue(apiResp.ScopeUuid)
 
-	if apiResp.Screenshots != nil && len(*apiResp.Screenshots) > 0 {
+	if apiResp.Screenshots != nil {
 		listValScreenshots, listDiagsScreenshots := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
 			"description": types.StringType,
 			"image":       types.StringType,
@@ -756,7 +756,7 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 	model.Shared = types.BoolPointerValue(apiResp.Shared)
 	model.Slug = common.StringPointerValue(apiResp.Slug)
 
-	if apiResp.SoftwareCatalogs != nil && len(*apiResp.SoftwareCatalogs) > 0 {
+	if apiResp.SoftwareCatalogs != nil {
 		listValSoftwareCatalogs, listDiagsSoftwareCatalogs := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
 			"catalog": types.ObjectType{AttrTypes: map[string]attr.Type{
 				"description": types.StringType,

@@ -222,7 +222,7 @@ func (model *StructureCustomerModel) CopyFrom(ctx context.Context, apiResp Struc
 	model.NativeName = common.StringPointerValue(apiResp.NativeName)
 	model.NotificationEmails = common.StringPointerValue(apiResp.NotificationEmails)
 
-	if apiResp.OrganizationGroups != nil && len(*apiResp.OrganizationGroups) > 0 {
+	if apiResp.OrganizationGroups != nil {
 		listValOrganizationGroups, listDiagsOrganizationGroups := types.ListValueFrom(ctx, OrganizationGroupType(), apiResp.OrganizationGroups)
 		diags.Append(listDiagsOrganizationGroups...)
 		model.OrganizationGroups = listValOrganizationGroups
@@ -230,7 +230,7 @@ func (model *StructureCustomerModel) CopyFrom(ctx context.Context, apiResp Struc
 		model.OrganizationGroups = types.ListNull(OrganizationGroupType())
 	}
 
-	if apiResp.PaymentProfiles != nil && len(*apiResp.PaymentProfiles) > 0 {
+	if apiResp.PaymentProfiles != nil {
 		listValPaymentProfiles, listDiagsPaymentProfiles := types.ListValueFrom(ctx, PaymentProfileType(), apiResp.PaymentProfiles)
 		diags.Append(listDiagsPaymentProfiles...)
 		model.PaymentProfiles = listValPaymentProfiles

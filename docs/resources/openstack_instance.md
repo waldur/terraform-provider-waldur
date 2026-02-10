@@ -112,7 +112,6 @@ resource "waldur_openstack_instance" "example" {
 - `customer` (String) Customer
 - `disk` (Number) Disk size in MiB
 - `error_message` (String) Error Message
-- `error_traceback` (String) Error Traceback
 - `external_address` (List of String) External Address
 - `external_ips` (List of String) External Ips
 - `flavor_disk` (Number) Flavor disk size in MiB
@@ -234,7 +233,6 @@ Read-Only:
 - `backend_id` (String) Backend Id
 - `customer` (String) Customer
 - `error_message` (String) Error Message
-- `error_traceback` (String) Error Traceback
 - `marketplace_resource_uuid` (String) Marketplace Resource Uuid
 - `project` (String) Project
 - `resource_type` (String) Resource Type

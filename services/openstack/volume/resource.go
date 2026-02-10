@@ -124,13 +124,6 @@ func (r *OpenstackVolumeResource) Schema(ctx context.Context, req resource.Schem
 				},
 				MarkdownDescription: "Error Message",
 			},
-			"error_traceback": schema.StringAttribute{
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
-				MarkdownDescription: "Error Traceback",
-			},
 			"extend_enabled": schema.BoolAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.Bool{
@@ -366,9 +359,6 @@ func (r *OpenstackVolumeResource) resolveUnknownAttributes(data *OpenstackVolume
 	}
 	if data.ErrorMessage.IsUnknown() {
 		data.ErrorMessage = types.StringNull()
-	}
-	if data.ErrorTraceback.IsUnknown() {
-		data.ErrorTraceback = types.StringNull()
 	}
 	if data.ExtendEnabled.IsUnknown() {
 		data.ExtendEnabled = types.BoolNull()

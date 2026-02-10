@@ -1,6 +1,8 @@
 package instance
 
 import (
+	"encoding/json"
+
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
@@ -41,13 +43,27 @@ type OpenstackInstanceUpdateRequest struct {
 }
 
 type OpenstackInstanceUpdateFloatingIpsActionRequest struct {
-	FloatingIps []common.OpenStackCreateFloatingIPRequest `json:"floating_ips"`
+	FloatingIps []common.OpenStackCreateFloatingIPRequest `json:"-"`
 }
+
+func (r OpenstackInstanceUpdateFloatingIpsActionRequest) MarshalJSON() ([]byte, error) {
+	return json.Marshal(r.FloatingIps)
+}
+
 type OpenstackInstanceUpdatePortsActionRequest struct {
-	Ports []common.OpenStackCreateInstancePortRequest `json:"ports"`
+	Ports []common.OpenStackCreateInstancePortRequest `json:"-"`
 }
+
+func (r OpenstackInstanceUpdatePortsActionRequest) MarshalJSON() ([]byte, error) {
+	return json.Marshal(r.Ports)
+}
+
 type OpenstackInstanceUpdateSecurityGroupsActionRequest struct {
-	SecurityGroups []common.OpenStackSecurityGroupHyperlinkRequest `json:"security_groups"`
+	SecurityGroups []common.OpenStackSecurityGroupHyperlinkRequest `json:"-"`
+}
+
+func (r OpenstackInstanceUpdateSecurityGroupsActionRequest) MarshalJSON() ([]byte, error) {
+	return json.Marshal(r.SecurityGroups)
 }
 
 type OpenstackInstanceResponse struct {
@@ -63,7 +79,6 @@ type OpenstackInstanceResponse struct {
 	Description                      *string                                          `json:"description" tfsdk:"description"`
 	Disk                             *int64                                           `json:"disk" tfsdk:"disk"`
 	ErrorMessage                     *string                                          `json:"error_message" tfsdk:"error_message"`
-	ErrorTraceback                   *string                                          `json:"error_traceback" tfsdk:"error_traceback"`
 	ExternalAddress                  *[]string                                        `json:"external_address" tfsdk:"external_address"`
 	ExternalIps                      *[]string                                        `json:"external_ips" tfsdk:"external_ips"`
 	FlavorDisk                       *int64                                           `json:"flavor_disk" tfsdk:"flavor_disk"`
@@ -146,7 +161,6 @@ type OpenstackInstancePortsSecurityGroupsResponse struct {
 	Customer                *string                                    `json:"customer" tfsdk:"customer"`
 	Description             *string                                    `json:"description" tfsdk:"description"`
 	ErrorMessage            *string                                    `json:"error_message" tfsdk:"error_message"`
-	ErrorTraceback          *string                                    `json:"error_traceback" tfsdk:"error_traceback"`
 	MarketplaceResourceUuid *string                                    `json:"marketplace_resource_uuid" tfsdk:"marketplace_resource_uuid"`
 	Name                    *string                                    `json:"name" tfsdk:"name"`
 	Project                 *string                                    `json:"project" tfsdk:"project"`

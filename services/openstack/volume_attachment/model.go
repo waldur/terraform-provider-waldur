@@ -163,7 +163,6 @@ type OpenstackVolumeAttachmentModel struct {
 	Description             types.String `tfsdk:"description"`
 	Device                  types.String `tfsdk:"device"`
 	ErrorMessage            types.String `tfsdk:"error_message"`
-	ErrorTraceback          types.String `tfsdk:"error_traceback"`
 	ExtendEnabled           types.Bool   `tfsdk:"extend_enabled"`
 	Image                   types.String `tfsdk:"image"`
 	ImageMetadata           types.String `tfsdk:"image_metadata"`
@@ -200,7 +199,6 @@ func (model *OpenstackVolumeAttachmentModel) CopyFrom(ctx context.Context, apiRe
 	model.Description = common.StringPointerValue(apiResp.Description)
 	model.Device = common.StringPointerValue(apiResp.Device)
 	model.ErrorMessage = common.StringPointerValue(apiResp.ErrorMessage)
-	model.ErrorTraceback = common.StringPointerValue(apiResp.ErrorTraceback)
 	model.ExtendEnabled = types.BoolPointerValue(apiResp.ExtendEnabled)
 	model.Image = common.StringPointerValue(apiResp.Image)
 	model.ImageMetadata = common.StringPointerValue(apiResp.ImageMetadata)

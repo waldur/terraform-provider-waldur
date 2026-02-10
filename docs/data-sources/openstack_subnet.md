@@ -31,7 +31,6 @@ Openstack Subnet data source - lookup by name or UUID
 - `dns_nameservers` (List of String) Dns Nameservers
 - `enable_dhcp` (Boolean) If True, DHCP service will be enabled on this subnet
 - `error_message` (String) Error Message
-- `error_traceback` (String) Error Traceback
 - `gateway_ip` (String) IP address of the gateway for this subnet
 - `host_routes` (Attributes List) Host Routes (see [below for nested schema](#nestedatt--host_routes))
 - `ip_version` (Number) IP protocol version (4 or 6)

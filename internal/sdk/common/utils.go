@@ -11,12 +11,48 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	"github.com/hashicorp/terraform-plugin-go/tftypes"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/waldur/terraform-provider-waldur/internal/client"
 )
+
+// UnknownIfNullModifier implements plan modification to set Null values to Unknown.
+type UnknownIfNullModifier struct{}
+
+func (m UnknownIfNullModifier) Description(ctx context.Context) string {
+	return "Sets the attribute to Unknown if it is Null in the plan."
+}
+
+func (m UnknownIfNullModifier) MarkdownDescription(ctx context.Context) string {
+	return m.Description(ctx)
+}
+
+func (m UnknownIfNullModifier) PlanModifyString(ctx context.Context, req planmodifier.StringRequest, resp *planmodifier.StringResponse) {
+	if req.PlanValue.IsNull() && !req.ConfigValue.IsUnknown() {
+		resp.PlanValue = types.StringUnknown()
+	}
+}
+
+func (m UnknownIfNullModifier) PlanModifyInt64(ctx context.Context, req planmodifier.Int64Request, resp *planmodifier.Int64Response) {
+	if req.PlanValue.IsNull() && !req.ConfigValue.IsUnknown() {
+		resp.PlanValue = types.Int64Unknown()
+	}
+}
+
+func (m UnknownIfNullModifier) PlanModifyBool(ctx context.Context, req planmodifier.BoolRequest, resp *planmodifier.BoolResponse) {
+	if req.PlanValue.IsNull() && !req.ConfigValue.IsUnknown() {
+		resp.PlanValue = types.BoolUnknown()
+	}
+}
+
+func (m UnknownIfNullModifier) PlanModifyFloat64(ctx context.Context, req planmodifier.Float64Request, resp *planmodifier.Float64Response) {
+	if req.PlanValue.IsNull() && !req.ConfigValue.IsUnknown() {
+		resp.PlanValue = types.Float64Unknown()
+	}
+}
 
 // ExtractUUIDFromURL extracts a UUID from a Waldur API URL.
 // If the input is already a UUID (no slashes), it returns it unchanged.
@@ -108,7 +144,7 @@ func PopulateSliceField[T any](ctx context.Context, list types.List, target *[]T
 
 	// For lists of objects, use manual iteration and sanitization
 	if _, ok := list.ElementType(ctx).(types.ObjectType); ok {
-		var items []T
+		items := make([]T, 0)
 		var diags diag.Diagnostics
 		for _, el := range list.Elements() {
 			if obj, ok := el.(types.Object); ok {
@@ -128,15 +164,15 @@ func PopulateSliceField[T any](ctx context.Context, list types.List, target *[]T
 				diags.AddError("Conversion Error", "Expected Object element")
 			}
 		}
-		if !diags.HasError() && len(items) > 0 {
+		if !diags.HasError() {
 			*target = items
 		}
 		return diags
 	}
 
-	var items []T
+	items := make([]T, 0)
 	diags := list.ElementsAs(ctx, &items, false)
-	if !diags.HasError() && len(items) > 0 {
+	if !diags.HasError() {
 		*target = items
 	}
 	return diags
@@ -150,7 +186,7 @@ func PopulateSetField[T any](ctx context.Context, set types.Set, target *[]T) di
 
 	// For sets of objects
 	if _, ok := set.ElementType(ctx).(types.ObjectType); ok {
-		var items []T
+		items := make([]T, 0)
 		var diags diag.Diagnostics
 		for _, el := range set.Elements() {
 			if obj, ok := el.(types.Object); ok {
@@ -170,15 +206,15 @@ func PopulateSetField[T any](ctx context.Context, set types.Set, target *[]T) di
 				diags.AddError("Conversion Error", "Expected Object element")
 			}
 		}
-		if !diags.HasError() && len(items) > 0 {
+		if !diags.HasError() {
 			*target = items
 		}
 		return diags
 	}
 
-	var items []T
+	items := make([]T, 0)
 	diags := set.ElementsAs(ctx, &items, false)
-	if !diags.HasError() && len(items) > 0 {
+	if !diags.HasError() {
 		*target = items
 	}
 	return diags
@@ -191,7 +227,7 @@ func PopulateOptionalSliceField[T any](ctx context.Context, list types.List, tar
 	}
 
 	if _, ok := list.ElementType(ctx).(types.ObjectType); ok {
-		var items []T
+		items := make([]T, 0)
 		var diags diag.Diagnostics
 		for _, el := range list.Elements() {
 			if obj, ok := el.(types.Object); ok {
@@ -217,7 +253,7 @@ func PopulateOptionalSliceField[T any](ctx context.Context, list types.List, tar
 		return diags
 	}
 
-	var items []T
+	items := make([]T, 0)
 	diags := list.ElementsAs(ctx, &items, false)
 	if !diags.HasError() {
 		*target = &items
@@ -232,7 +268,7 @@ func PopulateOptionalSetField[T any](ctx context.Context, set types.Set, target 
 	}
 
 	if _, ok := set.ElementType(ctx).(types.ObjectType); ok {
-		var items []T
+		items := make([]T, 0)
 		var diags diag.Diagnostics
 		for _, el := range set.Elements() {
 			if obj, ok := el.(types.Object); ok {
@@ -258,7 +294,7 @@ func PopulateOptionalSetField[T any](ctx context.Context, set types.Set, target 
 		return diags
 	}
 
-	var items []T
+	items := make([]T, 0)
 	diags := set.ElementsAs(ctx, &items, false)
 	if !diags.HasError() {
 		*target = &items

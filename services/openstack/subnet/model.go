@@ -172,7 +172,6 @@ type OpenstackSubnetModel struct {
 	DnsNameservers          types.List   `tfsdk:"dns_nameservers"`
 	EnableDhcp              types.Bool   `tfsdk:"enable_dhcp"`
 	ErrorMessage            types.String `tfsdk:"error_message"`
-	ErrorTraceback          types.String `tfsdk:"error_traceback"`
 	GatewayIp               types.String `tfsdk:"gateway_ip"`
 	HostRoutes              types.List   `tfsdk:"host_routes"`
 	IpVersion               types.Int64  `tfsdk:"ip_version"`
@@ -195,7 +194,7 @@ func (model *OpenstackSubnetModel) CopyFrom(ctx context.Context, apiResp Opensta
 
 	model.UUID = types.StringPointerValue(apiResp.UUID)
 
-	if apiResp.AllocationPools != nil && len(*apiResp.AllocationPools) > 0 {
+	if apiResp.AllocationPools != nil {
 		listValAllocationPools, listDiagsAllocationPools := types.ListValueFrom(ctx, OpenStackSubNetAllocationPoolRequestType(), apiResp.AllocationPools)
 		diags.Append(listDiagsAllocationPools...)
 		model.AllocationPools = listValAllocationPools
@@ -212,10 +211,9 @@ func (model *OpenstackSubnetModel) CopyFrom(ctx context.Context, apiResp Opensta
 	diags.Append(listDiagsDnsNameservers...)
 	model.EnableDhcp = types.BoolPointerValue(apiResp.EnableDhcp)
 	model.ErrorMessage = common.StringPointerValue(apiResp.ErrorMessage)
-	model.ErrorTraceback = common.StringPointerValue(apiResp.ErrorTraceback)
 	model.GatewayIp = common.StringPointerValue(apiResp.GatewayIp)
 
-	if apiResp.HostRoutes != nil && len(*apiResp.HostRoutes) > 0 {
+	if apiResp.HostRoutes != nil {
 		listValHostRoutes, listDiagsHostRoutes := types.ListValueFrom(ctx, OpenStackStaticRouteRequestType(), apiResp.HostRoutes)
 		diags.Append(listDiagsHostRoutes...)
 		model.HostRoutes = listValHostRoutes

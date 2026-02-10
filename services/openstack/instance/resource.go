@@ -195,13 +195,6 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 				},
 				MarkdownDescription: "Error Message",
 			},
-			"error_traceback": schema.StringAttribute{
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
-				MarkdownDescription: "Error Traceback",
-			},
 			"external_address": schema.ListAttribute{
 				ElementType: types.StringType,
 				Computed:    true,
@@ -572,13 +565,6 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 											stringplanmodifier.UseStateForUnknown(),
 										},
 										MarkdownDescription: "Error Message",
-									},
-									"error_traceback": schema.StringAttribute{
-										Computed: true,
-										PlanModifiers: []planmodifier.String{
-											stringplanmodifier.UseStateForUnknown(),
-										},
-										MarkdownDescription: "Error Traceback",
 									},
 									"marketplace_resource_uuid": schema.StringAttribute{
 										Computed: true,
@@ -1302,9 +1288,6 @@ func (r *OpenstackInstanceResource) resolveUnknownAttributes(data *OpenstackInst
 	}
 	if data.ErrorMessage.IsUnknown() {
 		data.ErrorMessage = types.StringNull()
-	}
-	if data.ErrorTraceback.IsUnknown() {
-		data.ErrorTraceback = types.StringNull()
 	}
 	if data.ExternalAddress.IsUnknown() {
 		data.ExternalAddress = types.ListNull(types.StringType)

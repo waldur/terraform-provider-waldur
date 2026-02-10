@@ -132,7 +132,6 @@ type MarketplaceOrderModel struct {
 	CreatedByUsername          types.String      `tfsdk:"created_by_username"`
 	CustomerSlug               types.String      `tfsdk:"customer_slug"`
 	ErrorMessage               types.String      `tfsdk:"error_message"`
-	ErrorTraceback             types.String      `tfsdk:"error_traceback"`
 	FixedPrice                 types.Float64     `tfsdk:"fixed_price"`
 	Issue                      types.Object      `tfsdk:"issue"`
 	MarketplaceResourceUuid    types.String      `tfsdk:"marketplace_resource_uuid"`
@@ -207,7 +206,6 @@ func (model *MarketplaceOrderModel) CopyFrom(ctx context.Context, apiResp Market
 	model.CreatedByUsername = common.StringPointerValue(apiResp.CreatedByUsername)
 	model.CustomerSlug = common.StringPointerValue(apiResp.CustomerSlug)
 	model.ErrorMessage = common.StringPointerValue(apiResp.ErrorMessage)
-	model.ErrorTraceback = common.StringPointerValue(apiResp.ErrorTraceback)
 	model.FixedPrice = types.Float64PointerValue(apiResp.FixedPrice.Float64Ptr())
 	if apiResp.Issue != nil {
 		objValIssue, objDiagsIssue := types.ObjectValueFrom(ctx, IssueType().AttrTypes, *apiResp.Issue)

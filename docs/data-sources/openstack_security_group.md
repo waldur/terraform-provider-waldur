@@ -26,7 +26,6 @@ Openstack Security Group data source - lookup by name or UUID
 - `customer` (String) Customer
 - `description` (String) Description
 - `error_message` (String) Error Message
-- `error_traceback` (String) Error Traceback
 - `marketplace_resource_uuid` (String) Marketplace Resource Uuid
 - `name` (String) Name
 - `project` (String) Project

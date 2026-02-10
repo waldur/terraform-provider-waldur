@@ -1,6 +1,8 @@
 package tenant
 
 import (
+	"encoding/json"
+
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
@@ -33,7 +35,11 @@ type OpenstackTenantUpdateRequest struct {
 }
 
 type OpenstackTenantPushSecurityGroupsActionRequest struct {
-	SecurityGroups []common.OpenStackTenantSecurityGroupRequest `json:"security_groups"`
+	SecurityGroups []common.OpenStackTenantSecurityGroupRequest `json:"-"`
+}
+
+func (r OpenstackTenantPushSecurityGroupsActionRequest) MarshalJSON() ([]byte, error) {
+	return json.Marshal(r.SecurityGroups)
 }
 
 type OpenstackTenantResponse struct {
@@ -45,7 +51,6 @@ type OpenstackTenantResponse struct {
 	DefaultVolumeTypeName       *string         `json:"default_volume_type_name" tfsdk:"default_volume_type_name"`
 	Description                 *string         `json:"description" tfsdk:"description"`
 	ErrorMessage                *string         `json:"error_message" tfsdk:"error_message"`
-	ErrorTraceback              *string         `json:"error_traceback" tfsdk:"error_traceback"`
 	ExternalNetworkId           *string         `json:"external_network_id" tfsdk:"external_network_id"`
 	InternalNetworkId           *string         `json:"internal_network_id" tfsdk:"internal_network_id"`
 	MarketplaceResourceUuid     *string         `json:"marketplace_resource_uuid" tfsdk:"marketplace_resource_uuid"`

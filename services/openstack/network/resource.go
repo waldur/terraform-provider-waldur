@@ -84,13 +84,6 @@ func (r *OpenstackNetworkResource) Schema(ctx context.Context, req resource.Sche
 				},
 				MarkdownDescription: "Error Message",
 			},
-			"error_traceback": schema.StringAttribute{
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
-				MarkdownDescription: "Error Traceback",
-			},
 			"is_external": schema.BoolAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.Bool{
@@ -460,35 +453,74 @@ func (r *OpenstackNetworkResource) Update(ctx context.Context, req resource.Upda
 		return
 	}
 
-	requestBody := OpenstackNetworkUpdateRequest{}
-	if !data.Description.IsNull() && !data.Description.IsUnknown() {
-
-		requestBody.Description = data.Description.ValueStringPointer()
-	}
-	if !data.Name.IsNull() && !data.Name.IsUnknown() {
-
-		requestBody.Name = data.Name.ValueStringPointer()
-	}
-
-	apiResp, err := r.client.Update(ctx, data.UUID.ValueString(), &requestBody)
-	if err != nil {
-		resp.Diagnostics.AddError(
-			"Unable to Update Openstack Network",
-			"An error occurred while updating the Openstack Network: "+err.Error(),
-		)
-		return
-	}
+	var apiResp *OpenstackNetworkResponse
 	updateTimeout, diags := data.Timeouts.Update(ctx, common.DefaultUpdateTimeout)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
+	_ = updateTimeout
+	anyChanges := false
+	requestBody := OpenstackNetworkUpdateRequest{}
+	if !data.Description.IsNull() && !data.Description.IsUnknown() && !data.Description.Equal(state.Description) {
+		anyChanges = true
 
-	newResp, err := common.WaitForResource(ctx, func(ctx context.Context) (*OpenstackNetworkResponse, error) {
-		return r.client.Get(ctx, data.UUID.ValueString())
-	}, updateTimeout)
+		requestBody.Description = data.Description.ValueStringPointer()
+	}
+	if !data.Name.IsNull() && !data.Name.IsUnknown() && !data.Name.Equal(state.Name) {
+		anyChanges = true
+
+		requestBody.Name = data.Name.ValueStringPointer()
+	}
+
+	if anyChanges {
+		var err error
+		apiResp, err = r.client.Update(ctx, data.UUID.ValueString(), &requestBody)
+		if err != nil {
+			resp.Diagnostics.AddError(
+				"Unable to Update Openstack Network",
+				"An error occurred while updating the Openstack Network: "+err.Error(),
+			)
+			return
+		}
+		// Wait for the resource to return to OK state
+		newResp, err := common.WaitForResource(ctx, func(ctx context.Context) (*OpenstackNetworkResponse, error) {
+			return r.client.Get(ctx, data.UUID.ValueString())
+		}, updateTimeout)
+		if err != nil {
+			resp.Diagnostics.AddError("Wait for update failed", err.Error())
+			return
+		}
+		apiResp = newResp
+	}
+	if !data.Mtu.Equal(state.Mtu) {
+		// Convert Terraform value to API payload for the specific action
+		var req OpenstackNetworkSetMtuActionRequest
+		req.Mtu = data.Mtu.ValueInt64Pointer()
+
+		// Execute the Action
+		if err := r.client.SetMtu(ctx, data.UUID.ValueString(), &req); err != nil {
+			resp.Diagnostics.AddError("RPC Action Failed: set_mtu", err.Error())
+			return
+		}
+		// Wait for the resource to return to OK state
+		_, err := common.WaitForResource(ctx, func(ctx context.Context) (*OpenstackNetworkResponse, error) {
+			return r.client.Get(ctx, data.UUID.ValueString())
+		}, updateTimeout)
+		if err != nil {
+			resp.Diagnostics.AddError("Wait for RPC action failed", err.Error())
+			return
+		}
+		state = data
+	}
+
+	newResp, err := r.client.Get(ctx, data.UUID.ValueString())
 	if err != nil {
-		resp.Diagnostics.AddError("Failed to wait for resource update", err.Error())
+		if IsNotFoundError(err) {
+			resp.State.RemoveResource(ctx)
+			return
+		}
+		resp.Diagnostics.AddError("Failed to Read Resource After Update", err.Error())
 		return
 	}
 	apiResp = newResp

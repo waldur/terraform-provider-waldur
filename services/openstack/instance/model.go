@@ -97,7 +97,6 @@ func OpenStackSecurityGroupType() types.ObjectType {
 		"customer":                  types.StringType,
 		"description":               types.StringType,
 		"error_message":             types.StringType,
-		"error_traceback":           types.StringType,
 		"marketplace_resource_uuid": types.StringType,
 		"name":                      types.StringType,
 		"project":                   types.StringType,
@@ -290,7 +289,6 @@ type OpenstackInstanceModel struct {
 	Description                      types.String      `tfsdk:"description"`
 	Disk                             types.Int64       `tfsdk:"disk"`
 	ErrorMessage                     types.String      `tfsdk:"error_message"`
-	ErrorTraceback                   types.String      `tfsdk:"error_traceback"`
 	ExternalAddress                  types.List        `tfsdk:"external_address"`
 	ExternalIps                      types.List        `tfsdk:"external_ips"`
 	FlavorDisk                       types.Int64       `tfsdk:"flavor_disk"`
@@ -339,7 +337,6 @@ func (model *OpenstackInstanceModel) CopyFrom(ctx context.Context, apiResp Opens
 	model.Description = common.StringPointerValue(apiResp.Description)
 	model.Disk = types.Int64PointerValue(apiResp.Disk)
 	model.ErrorMessage = common.StringPointerValue(apiResp.ErrorMessage)
-	model.ErrorTraceback = common.StringPointerValue(apiResp.ErrorTraceback)
 	listValExternalAddress, listDiagsExternalAddress := types.ListValueFrom(ctx, types.StringType, apiResp.ExternalAddress)
 	model.ExternalAddress = listValExternalAddress
 	diags.Append(listDiagsExternalAddress...)
@@ -369,7 +366,7 @@ func (model *OpenstackInstanceModel) CopyFrom(ctx context.Context, apiResp Opens
 	model.MinRam = types.Int64PointerValue(apiResp.MinRam)
 	model.Name = common.StringPointerValue(apiResp.Name)
 
-	if apiResp.Ports != nil && len(*apiResp.Ports) > 0 {
+	if apiResp.Ports != nil {
 		listValPorts, listDiagsPorts := types.ListValueFrom(ctx, OpenStackCreateInstancePortRequestType(), apiResp.Ports)
 		diags.Append(listDiagsPorts...)
 		model.Ports = listValPorts
@@ -410,7 +407,7 @@ func (model *OpenstackInstanceModel) CopyFrom(ctx context.Context, apiResp Opens
 	model.Url = common.StringPointerValue(apiResp.Url)
 	model.UserData = common.StringPointerValue(apiResp.UserData)
 
-	if apiResp.Volumes != nil && len(*apiResp.Volumes) > 0 {
+	if apiResp.Volumes != nil {
 		listValVolumes, listDiagsVolumes := types.ListValueFrom(ctx, OpenStackNestedVolumeType(), apiResp.Volumes)
 		diags.Append(listDiagsVolumes...)
 		model.Volumes = listValVolumes

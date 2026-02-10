@@ -32,7 +32,6 @@ Openstack Floating Ip resource
 - `customer` (String) Customer
 - `description` (String) Description
 - `error_message` (String) Error Message
-- `error_traceback` (String) Error Traceback
 - `external_address` (String) Optional address that maps to floating IP's address in external networks
 - `id` (String) Openstack Floating Ip UUID (used as Terraform ID)
 - `instance_name` (String) Instance Name

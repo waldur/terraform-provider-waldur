@@ -845,148 +845,197 @@ func (r *StructureCustomerResource) Update(ctx context.Context, req resource.Upd
 		return
 	}
 
+	var apiResp *StructureCustomerResponse
+	anyChanges := false
 	requestBody := StructureCustomerUpdateRequest{}
-	if !data.Abbreviation.IsNull() && !data.Abbreviation.IsUnknown() {
+	if !data.Abbreviation.IsNull() && !data.Abbreviation.IsUnknown() && !data.Abbreviation.Equal(state.Abbreviation) {
+		anyChanges = true
 
 		requestBody.Abbreviation = data.Abbreviation.ValueStringPointer()
 	}
-	if !data.AccessSubnets.IsNull() && !data.AccessSubnets.IsUnknown() {
+	if !data.AccessSubnets.IsNull() && !data.AccessSubnets.IsUnknown() && !data.AccessSubnets.Equal(state.AccessSubnets) {
+		anyChanges = true
 
 		requestBody.AccessSubnets = data.AccessSubnets.ValueStringPointer()
 	}
-	if !data.AccountingStartDate.IsNull() && !data.AccountingStartDate.IsUnknown() {
+	if !data.AccountingStartDate.IsNull() && !data.AccountingStartDate.IsUnknown() && !data.AccountingStartDate.Equal(state.AccountingStartDate) {
+		anyChanges = true
 
 		requestBody.AccountingStartDate = data.AccountingStartDate.ValueStringPointer()
 	}
-	if !data.Address.IsNull() && !data.Address.IsUnknown() {
+	if !data.Address.IsNull() && !data.Address.IsUnknown() && !data.Address.Equal(state.Address) {
+		anyChanges = true
 
 		requestBody.Address = data.Address.ValueStringPointer()
 	}
-	if !data.AgreementNumber.IsNull() && !data.AgreementNumber.IsUnknown() {
+	if !data.AgreementNumber.IsNull() && !data.AgreementNumber.IsUnknown() && !data.AgreementNumber.Equal(state.AgreementNumber) {
+		anyChanges = true
 
 		requestBody.AgreementNumber = data.AgreementNumber.ValueStringPointer()
 	}
-	if !data.Archived.IsNull() && !data.Archived.IsUnknown() {
+	if !data.Archived.IsNull() && !data.Archived.IsUnknown() && !data.Archived.Equal(state.Archived) {
+		anyChanges = true
 
 		requestBody.Archived = data.Archived.ValueBoolPointer()
 	}
-	if !data.BackendId.IsNull() && !data.BackendId.IsUnknown() {
+	if !data.BackendId.IsNull() && !data.BackendId.IsUnknown() && !data.BackendId.Equal(state.BackendId) {
+		anyChanges = true
 
 		requestBody.BackendId = data.BackendId.ValueStringPointer()
 	}
-	if !data.BankAccount.IsNull() && !data.BankAccount.IsUnknown() {
+	if !data.BankAccount.IsNull() && !data.BankAccount.IsUnknown() && !data.BankAccount.Equal(state.BankAccount) {
+		anyChanges = true
 
 		requestBody.BankAccount = data.BankAccount.ValueStringPointer()
 	}
-	if !data.BankName.IsNull() && !data.BankName.IsUnknown() {
+	if !data.BankName.IsNull() && !data.BankName.IsUnknown() && !data.BankName.Equal(state.BankName) {
+		anyChanges = true
 
 		requestBody.BankName = data.BankName.ValueStringPointer()
 	}
-	if !data.Blocked.IsNull() && !data.Blocked.IsUnknown() {
+	if !data.Blocked.IsNull() && !data.Blocked.IsUnknown() && !data.Blocked.Equal(state.Blocked) {
+		anyChanges = true
 
 		requestBody.Blocked = data.Blocked.ValueBoolPointer()
 	}
-	if !data.ContactDetails.IsNull() && !data.ContactDetails.IsUnknown() {
+	if !data.ContactDetails.IsNull() && !data.ContactDetails.IsUnknown() && !data.ContactDetails.Equal(state.ContactDetails) {
+		anyChanges = true
 
 		requestBody.ContactDetails = data.ContactDetails.ValueStringPointer()
 	}
-	if !data.Country.IsNull() && !data.Country.IsUnknown() {
+	if !data.Country.IsNull() && !data.Country.IsUnknown() && !data.Country.Equal(state.Country) {
+		anyChanges = true
 
 		requestBody.Country = data.Country.ValueStringPointer()
 	}
-	if !data.DefaultTaxPercent.IsNull() && !data.DefaultTaxPercent.IsUnknown() {
+	if !data.DefaultTaxPercent.IsNull() && !data.DefaultTaxPercent.IsUnknown() && !data.DefaultTaxPercent.Equal(state.DefaultTaxPercent) {
+		anyChanges = true
 
 		requestBody.DefaultTaxPercent = data.DefaultTaxPercent.ValueStringPointer()
 	}
-	if !data.Description.IsNull() && !data.Description.IsUnknown() {
+	if !data.Description.IsNull() && !data.Description.IsUnknown() && !data.Description.Equal(state.Description) {
+		anyChanges = true
 
 		requestBody.Description = data.Description.ValueStringPointer()
 	}
-	if !data.DisplayBillingInfoInProjects.IsNull() && !data.DisplayBillingInfoInProjects.IsUnknown() {
+	if !data.DisplayBillingInfoInProjects.IsNull() && !data.DisplayBillingInfoInProjects.IsUnknown() && !data.DisplayBillingInfoInProjects.Equal(state.DisplayBillingInfoInProjects) {
+		anyChanges = true
 
 		requestBody.DisplayBillingInfoInProjects = data.DisplayBillingInfoInProjects.ValueBoolPointer()
 	}
-	if !data.Domain.IsNull() && !data.Domain.IsUnknown() {
+	if !data.Domain.IsNull() && !data.Domain.IsUnknown() && !data.Domain.Equal(state.Domain) {
+		anyChanges = true
 
 		requestBody.Domain = data.Domain.ValueStringPointer()
 	}
-	if !data.Email.IsNull() && !data.Email.IsUnknown() {
+	if !data.Email.IsNull() && !data.Email.IsUnknown() && !data.Email.Equal(state.Email) {
+		anyChanges = true
 
 		requestBody.Email = data.Email.ValueStringPointer()
 	}
-	if !data.GracePeriodDays.IsNull() && !data.GracePeriodDays.IsUnknown() {
+	if !data.GracePeriodDays.IsNull() && !data.GracePeriodDays.IsUnknown() && !data.GracePeriodDays.Equal(state.GracePeriodDays) {
+		anyChanges = true
 
 		requestBody.GracePeriodDays = data.GracePeriodDays.ValueInt64Pointer()
 	}
-	if !data.Homepage.IsNull() && !data.Homepage.IsUnknown() {
+	if !data.Homepage.IsNull() && !data.Homepage.IsUnknown() && !data.Homepage.Equal(state.Homepage) {
+		anyChanges = true
 
 		requestBody.Homepage = data.Homepage.ValueStringPointer()
 	}
-	if !data.Image.IsNull() && !data.Image.IsUnknown() {
+	if !data.Image.IsNull() && !data.Image.IsUnknown() && !data.Image.Equal(state.Image) {
+		anyChanges = true
 
 		requestBody.Image = data.Image.ValueStringPointer()
 	}
-	if !data.Latitude.IsNull() && !data.Latitude.IsUnknown() {
+	if !data.Latitude.IsNull() && !data.Latitude.IsUnknown() && !data.Latitude.Equal(state.Latitude) {
+		anyChanges = true
 
 		requestBody.Latitude = data.Latitude.ValueFloat64Pointer()
 	}
-	if !data.Longitude.IsNull() && !data.Longitude.IsUnknown() {
+	if !data.Longitude.IsNull() && !data.Longitude.IsUnknown() && !data.Longitude.Equal(state.Longitude) {
+		anyChanges = true
 
 		requestBody.Longitude = data.Longitude.ValueFloat64Pointer()
 	}
-	if !data.MaxServiceAccounts.IsNull() && !data.MaxServiceAccounts.IsUnknown() {
+	if !data.MaxServiceAccounts.IsNull() && !data.MaxServiceAccounts.IsUnknown() && !data.MaxServiceAccounts.Equal(state.MaxServiceAccounts) {
+		anyChanges = true
 
 		requestBody.MaxServiceAccounts = data.MaxServiceAccounts.ValueInt64Pointer()
 	}
-	if !data.Name.IsNull() && !data.Name.IsUnknown() {
+	if !data.Name.IsNull() && !data.Name.IsUnknown() && !data.Name.Equal(state.Name) {
+		anyChanges = true
 
 		requestBody.Name = data.Name.ValueStringPointer()
 	}
-	if !data.NativeName.IsNull() && !data.NativeName.IsUnknown() {
+	if !data.NativeName.IsNull() && !data.NativeName.IsUnknown() && !data.NativeName.Equal(state.NativeName) {
+		anyChanges = true
 
 		requestBody.NativeName = data.NativeName.ValueStringPointer()
 	}
-	if !data.NotificationEmails.IsNull() && !data.NotificationEmails.IsUnknown() {
+	if !data.NotificationEmails.IsNull() && !data.NotificationEmails.IsUnknown() && !data.NotificationEmails.Equal(state.NotificationEmails) {
+		anyChanges = true
 
 		requestBody.NotificationEmails = data.NotificationEmails.ValueStringPointer()
 	}
-	if !data.PhoneNumber.IsNull() && !data.PhoneNumber.IsUnknown() {
+	if !data.PhoneNumber.IsNull() && !data.PhoneNumber.IsUnknown() && !data.PhoneNumber.Equal(state.PhoneNumber) {
+		anyChanges = true
 
 		requestBody.PhoneNumber = data.PhoneNumber.ValueStringPointer()
 	}
-	if !data.Postal.IsNull() && !data.Postal.IsUnknown() {
+	if !data.Postal.IsNull() && !data.Postal.IsUnknown() && !data.Postal.Equal(state.Postal) {
+		anyChanges = true
 
 		requestBody.Postal = data.Postal.ValueStringPointer()
 	}
-	if !data.ProjectMetadataChecklist.IsNull() && !data.ProjectMetadataChecklist.IsUnknown() {
+	if !data.ProjectMetadataChecklist.IsNull() && !data.ProjectMetadataChecklist.IsUnknown() && !data.ProjectMetadataChecklist.Equal(state.ProjectMetadataChecklist) {
+		anyChanges = true
 
 		requestBody.ProjectMetadataChecklist = data.ProjectMetadataChecklist.ValueStringPointer()
 	}
-	if !data.RegistrationCode.IsNull() && !data.RegistrationCode.IsUnknown() {
+	if !data.RegistrationCode.IsNull() && !data.RegistrationCode.IsUnknown() && !data.RegistrationCode.Equal(state.RegistrationCode) {
+		anyChanges = true
 
 		requestBody.RegistrationCode = data.RegistrationCode.ValueStringPointer()
 	}
-	if !data.Slug.IsNull() && !data.Slug.IsUnknown() {
+	if !data.Slug.IsNull() && !data.Slug.IsUnknown() && !data.Slug.Equal(state.Slug) {
+		anyChanges = true
 
 		requestBody.Slug = data.Slug.ValueStringPointer()
 	}
-	if !data.SponsorNumber.IsNull() && !data.SponsorNumber.IsUnknown() {
+	if !data.SponsorNumber.IsNull() && !data.SponsorNumber.IsUnknown() && !data.SponsorNumber.Equal(state.SponsorNumber) {
+		anyChanges = true
 
 		requestBody.SponsorNumber = data.SponsorNumber.ValueInt64Pointer()
 	}
-	if !data.VatCode.IsNull() && !data.VatCode.IsUnknown() {
+	if !data.VatCode.IsNull() && !data.VatCode.IsUnknown() && !data.VatCode.Equal(state.VatCode) {
+		anyChanges = true
 
 		requestBody.VatCode = data.VatCode.ValueStringPointer()
 	}
 
-	apiResp, err := r.client.Update(ctx, data.UUID.ValueString(), &requestBody)
+	if anyChanges {
+		var err error
+		apiResp, err = r.client.Update(ctx, data.UUID.ValueString(), &requestBody)
+		if err != nil {
+			resp.Diagnostics.AddError(
+				"Unable to Update Structure Customer",
+				"An error occurred while updating the Structure Customer: "+err.Error(),
+			)
+			return
+		}
+	}
+
+	newResp, err := r.client.Get(ctx, data.UUID.ValueString())
 	if err != nil {
-		resp.Diagnostics.AddError(
-			"Unable to Update Structure Customer",
-			"An error occurred while updating the Structure Customer: "+err.Error(),
-		)
+		if IsNotFoundError(err) {
+			resp.State.RemoveResource(ctx)
+			return
+		}
+		resp.Diagnostics.AddError("Failed to Read Resource After Update", err.Error())
 		return
 	}
+	apiResp = newResp
 
 	resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)

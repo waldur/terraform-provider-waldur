@@ -59,10 +59,6 @@ func (d *OpenstackSecurityGroupDataSource) Schema(ctx context.Context, req datas
 				Computed:            true,
 				MarkdownDescription: "Error Message",
 			},
-			"error_traceback": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Error Traceback",
-			},
 			"marketplace_resource_uuid": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Marketplace Resource Uuid",

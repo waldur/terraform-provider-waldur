@@ -31,7 +31,6 @@ Openstack Volume data source - lookup by name or UUID
 - `description` (String) Description
 - `device` (String) Name of volume as instance device e.g. /dev/vdb.
 - `error_message` (String) Error Message
-- `error_traceback` (String) Error Traceback
 - `extend_enabled` (Boolean) Extend Enabled
 - `image` (String) Image that this volume was created from, if any
 - `image_metadata` (String) Metadata of the image this volume was created from

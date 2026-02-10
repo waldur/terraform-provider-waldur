@@ -73,7 +73,6 @@ resource "waldur_openstack_subnet" "example" {
 - `customer` (String) Customer
 - `enable_dhcp` (Boolean) If True, DHCP service will be enabled on this subnet
 - `error_message` (String) Error Message
-- `error_traceback` (String) Error Traceback
 - `id` (String) Openstack Subnet UUID (used as Terraform ID)
 - `ip_version` (Number) IP protocol version (4 or 6)
 - `is_connected` (Boolean) Is subnet connected to the default tenant router.

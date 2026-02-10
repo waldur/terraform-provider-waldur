@@ -27,7 +27,6 @@ Openstack Server Group data source - lookup by name or UUID
 - `description` (String) Description
 - `display_name` (String) Display Name
 - `error_message` (String) Error Message
-- `error_traceback` (String) Error Traceback
 - `instances` (Attributes List) Instances (see [below for nested schema](#nestedatt--instances))
 - `marketplace_resource_uuid` (String) Marketplace Resource Uuid
 - `name` (String) Name

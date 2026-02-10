@@ -129,13 +129,6 @@ func (r *OpenstackPortResource) Schema(ctx context.Context, req resource.SchemaR
 				},
 				MarkdownDescription: "Error Message",
 			},
-			"error_traceback": schema.StringAttribute{
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
-				MarkdownDescription: "Error Traceback",
-			},
 			"fixed_ips": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
@@ -440,40 +433,81 @@ func (r *OpenstackPortResource) Update(ctx context.Context, req resource.UpdateR
 		return
 	}
 
-	requestBody := OpenstackPortUpdateRequest{}
-	if !data.Description.IsNull() && !data.Description.IsUnknown() {
-
-		requestBody.Description = data.Description.ValueStringPointer()
-	}
-	if !data.Name.IsNull() && !data.Name.IsUnknown() {
-
-		requestBody.Name = data.Name.ValueStringPointer()
-	}
-	if !data.TargetTenant.IsNull() && !data.TargetTenant.IsUnknown() {
-
-		requestBody.TargetTenant = data.TargetTenant.ValueStringPointer()
-	}
-	resp.Diagnostics.Append(common.PopulateOptionalSetField(ctx, data.SecurityGroups, &requestBody.SecurityGroups)...)
-
-	apiResp, err := r.client.Update(ctx, data.UUID.ValueString(), &requestBody)
-	if err != nil {
-		resp.Diagnostics.AddError(
-			"Unable to Update Openstack Port",
-			"An error occurred while updating the Openstack Port: "+err.Error(),
-		)
-		return
-	}
+	var apiResp *OpenstackPortResponse
 	updateTimeout, diags := data.Timeouts.Update(ctx, common.DefaultUpdateTimeout)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
+	_ = updateTimeout
+	anyChanges := false
+	requestBody := OpenstackPortUpdateRequest{}
+	if !data.Description.IsNull() && !data.Description.IsUnknown() && !data.Description.Equal(state.Description) {
+		anyChanges = true
 
-	newResp, err := common.WaitForResource(ctx, func(ctx context.Context) (*OpenstackPortResponse, error) {
-		return r.client.Get(ctx, data.UUID.ValueString())
-	}, updateTimeout)
+		requestBody.Description = data.Description.ValueStringPointer()
+	}
+	if !data.Name.IsNull() && !data.Name.IsUnknown() && !data.Name.Equal(state.Name) {
+		anyChanges = true
+
+		requestBody.Name = data.Name.ValueStringPointer()
+	}
+	if !data.TargetTenant.IsNull() && !data.TargetTenant.IsUnknown() && !data.TargetTenant.Equal(state.TargetTenant) {
+		anyChanges = true
+
+		requestBody.TargetTenant = data.TargetTenant.ValueStringPointer()
+	}
+
+	resp.Diagnostics.Append(common.PopulateOptionalSetField(ctx, data.SecurityGroups, &requestBody.SecurityGroups)...)
+
+	if anyChanges {
+		var err error
+		apiResp, err = r.client.Update(ctx, data.UUID.ValueString(), &requestBody)
+		if err != nil {
+			resp.Diagnostics.AddError(
+				"Unable to Update Openstack Port",
+				"An error occurred while updating the Openstack Port: "+err.Error(),
+			)
+			return
+		}
+		// Wait for the resource to return to OK state
+		newResp, err := common.WaitForResource(ctx, func(ctx context.Context) (*OpenstackPortResponse, error) {
+			return r.client.Get(ctx, data.UUID.ValueString())
+		}, updateTimeout)
+		if err != nil {
+			resp.Diagnostics.AddError("Wait for update failed", err.Error())
+			return
+		}
+		apiResp = newResp
+	}
+	if !data.SecurityGroups.Equal(state.SecurityGroups) {
+		// Convert Terraform value to API payload for the specific action
+		var req OpenstackPortUpdateSecurityGroupsActionRequest
+		resp.Diagnostics.Append(common.PopulateSetField(ctx, data.SecurityGroups, &req.SecurityGroups)...)
+
+		// Execute the Action
+		if err := r.client.UpdateSecurityGroups(ctx, data.UUID.ValueString(), &req); err != nil {
+			resp.Diagnostics.AddError("RPC Action Failed: update_security_groups", err.Error())
+			return
+		}
+		// Wait for the resource to return to OK state
+		_, err := common.WaitForResource(ctx, func(ctx context.Context) (*OpenstackPortResponse, error) {
+			return r.client.Get(ctx, data.UUID.ValueString())
+		}, updateTimeout)
+		if err != nil {
+			resp.Diagnostics.AddError("Wait for RPC action failed", err.Error())
+			return
+		}
+		state = data
+	}
+
+	newResp, err := r.client.Get(ctx, data.UUID.ValueString())
 	if err != nil {
-		resp.Diagnostics.AddError("Failed to wait for resource update", err.Error())
+		if IsNotFoundError(err) {
+			resp.State.RemoveResource(ctx)
+			return
+		}
+		resp.Diagnostics.AddError("Failed to Read Resource After Update", err.Error())
 		return
 	}
 	apiResp = newResp

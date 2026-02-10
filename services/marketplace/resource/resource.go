@@ -283,13 +283,6 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 						},
 						MarkdownDescription: "Error Message",
 					},
-					"error_traceback": schema.StringAttribute{
-						Computed: true,
-						PlanModifiers: []planmodifier.String{
-							stringplanmodifier.UseStateForUnknown(),
-						},
-						MarkdownDescription: "Error Traceback",
-					},
 					"fixed_price": schema.Float64Attribute{
 						Computed: true,
 						PlanModifiers: []planmodifier.Float64{
@@ -725,13 +718,6 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 					stringplanmodifier.UseStateForUnknown(),
 				},
 				MarkdownDescription: "Error Message",
-			},
-			"error_traceback": schema.StringAttribute{
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
-				MarkdownDescription: "Error Traceback",
 			},
 			"last_sync": schema.StringAttribute{
 				CustomType: timetypes.RFC3339Type{},
@@ -1191,13 +1177,6 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 							stringplanmodifier.UseStateForUnknown(),
 						},
 						MarkdownDescription: "Error Message",
-					},
-					"error_traceback": schema.StringAttribute{
-						Computed: true,
-						PlanModifiers: []planmodifier.String{
-							stringplanmodifier.UseStateForUnknown(),
-						},
-						MarkdownDescription: "Error Traceback",
 					},
 					"fixed_price": schema.Float64Attribute{
 						Computed: true,
@@ -1856,39 +1835,59 @@ func (r *MarketplaceResourceResource) Update(ctx context.Context, req resource.U
 		return
 	}
 
-	requestBody := MarketplaceResourceUpdateRequest{}
-	if !data.Description.IsNull() && !data.Description.IsUnknown() {
-
-		requestBody.Description = data.Description.ValueStringPointer()
-	}
-	if !data.EndDate.IsNull() && !data.EndDate.IsUnknown() {
-
-		requestBody.EndDate = data.EndDate.ValueStringPointer()
-	}
-	if !data.Name.IsNull() && !data.Name.IsUnknown() {
-
-		requestBody.Name = data.Name.ValueStringPointer()
-	}
-
-	apiResp, err := r.client.Update(ctx, data.UUID.ValueString(), &requestBody)
-	if err != nil {
-		resp.Diagnostics.AddError(
-			"Unable to Update Marketplace Resource",
-			"An error occurred while updating the Marketplace Resource: "+err.Error(),
-		)
-		return
-	}
+	var apiResp *MarketplaceResourceResponse
 	updateTimeout, diags := data.Timeouts.Update(ctx, common.DefaultUpdateTimeout)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
+	_ = updateTimeout
+	anyChanges := false
+	requestBody := MarketplaceResourceUpdateRequest{}
+	if !data.Description.IsNull() && !data.Description.IsUnknown() && !data.Description.Equal(state.Description) {
+		anyChanges = true
 
-	newResp, err := common.WaitForResource(ctx, func(ctx context.Context) (*MarketplaceResourceResponse, error) {
-		return r.client.Get(ctx, data.UUID.ValueString())
-	}, updateTimeout)
+		requestBody.Description = data.Description.ValueStringPointer()
+	}
+	if !data.EndDate.IsNull() && !data.EndDate.IsUnknown() && !data.EndDate.Equal(state.EndDate) {
+		anyChanges = true
+
+		requestBody.EndDate = data.EndDate.ValueStringPointer()
+	}
+	if !data.Name.IsNull() && !data.Name.IsUnknown() && !data.Name.Equal(state.Name) {
+		anyChanges = true
+
+		requestBody.Name = data.Name.ValueStringPointer()
+	}
+
+	if anyChanges {
+		var err error
+		apiResp, err = r.client.Update(ctx, data.UUID.ValueString(), &requestBody)
+		if err != nil {
+			resp.Diagnostics.AddError(
+				"Unable to Update Marketplace Resource",
+				"An error occurred while updating the Marketplace Resource: "+err.Error(),
+			)
+			return
+		}
+		// Wait for the resource to return to OK state
+		newResp, err := common.WaitForResource(ctx, func(ctx context.Context) (*MarketplaceResourceResponse, error) {
+			return r.client.Get(ctx, data.UUID.ValueString())
+		}, updateTimeout)
+		if err != nil {
+			resp.Diagnostics.AddError("Wait for update failed", err.Error())
+			return
+		}
+		apiResp = newResp
+	}
+
+	newResp, err := r.client.Get(ctx, data.UUID.ValueString())
 	if err != nil {
-		resp.Diagnostics.AddError("Failed to wait for resource update", err.Error())
+		if IsNotFoundError(err) {
+			resp.State.RemoveResource(ctx)
+			return
+		}
+		resp.Diagnostics.AddError("Failed to Read Resource After Update", err.Error())
 		return
 	}
 	apiResp = newResp

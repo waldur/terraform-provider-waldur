@@ -28,7 +28,6 @@ Openstack Floating Ip data source - lookup by name or UUID
 - `customer` (String) Customer
 - `description` (String) Description
 - `error_message` (String) Error Message
-- `error_traceback` (String) Error Traceback
 - `external_address` (String) Optional address that maps to floating IP's address in external networks
 - `instance_name` (String) Instance Name
 - `instance_url` (String) Instance Url

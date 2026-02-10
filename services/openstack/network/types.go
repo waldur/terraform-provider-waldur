@@ -15,7 +15,7 @@ type OpenstackNetworkUpdateRequest struct {
 }
 
 type OpenstackNetworkSetMtuActionRequest struct {
-	Mtu *int64 `json:"mtu"`
+	Mtu *int64 `json:"mtu,omitempty"`
 }
 
 type OpenstackNetworkResponse struct {
@@ -25,7 +25,6 @@ type OpenstackNetworkResponse struct {
 	Customer                *string                         `json:"customer" tfsdk:"customer"`
 	Description             *string                         `json:"description" tfsdk:"description"`
 	ErrorMessage            *string                         `json:"error_message" tfsdk:"error_message"`
-	ErrorTraceback          *string                         `json:"error_traceback" tfsdk:"error_traceback"`
 	IsExternal              *bool                           `json:"is_external" tfsdk:"is_external"`
 	MarketplaceResourceUuid *string                         `json:"marketplace_resource_uuid" tfsdk:"marketplace_resource_uuid"`
 	Mtu                     *int64                          `json:"mtu" tfsdk:"mtu"`

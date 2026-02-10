@@ -41,7 +41,6 @@ Marketplace Order data source - lookup by name or UUID
 - `created_by_username` (String) Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters
 - `customer_slug` (String) Customer Slug
 - `error_message` (String) Error Message
-- `error_traceback` (String) Error Traceback
 - `fixed_price` (Number) Fixed Price
 - `issue` (Attributes) Issue (see [below for nested schema](#nestedatt--issue))
 - `marketplace_resource_uuid` (String) Marketplace Resource Uuid

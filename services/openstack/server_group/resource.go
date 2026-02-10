@@ -87,13 +87,6 @@ func (r *OpenstackServerGroupResource) Schema(ctx context.Context, req resource.
 				},
 				MarkdownDescription: "Error Message",
 			},
-			"error_traceback": schema.StringAttribute{
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
-				MarkdownDescription: "Error Traceback",
-			},
 			"instances": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
@@ -314,39 +307,59 @@ func (r *OpenstackServerGroupResource) Update(ctx context.Context, req resource.
 		return
 	}
 
-	requestBody := OpenstackServerGroupUpdateRequest{}
-	if !data.Description.IsNull() && !data.Description.IsUnknown() {
-
-		requestBody.Description = data.Description.ValueStringPointer()
-	}
-	if !data.Name.IsNull() && !data.Name.IsUnknown() {
-
-		requestBody.Name = data.Name.ValueStringPointer()
-	}
-	if !data.Policy.IsNull() && !data.Policy.IsUnknown() {
-
-		requestBody.Policy = data.Policy.ValueStringPointer()
-	}
-
-	apiResp, err := r.client.Update(ctx, data.UUID.ValueString(), &requestBody)
-	if err != nil {
-		resp.Diagnostics.AddError(
-			"Unable to Update Openstack Server Group",
-			"An error occurred while updating the Openstack Server Group: "+err.Error(),
-		)
-		return
-	}
+	var apiResp *OpenstackServerGroupResponse
 	updateTimeout, diags := data.Timeouts.Update(ctx, common.DefaultUpdateTimeout)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
+	_ = updateTimeout
+	anyChanges := false
+	requestBody := OpenstackServerGroupUpdateRequest{}
+	if !data.Description.IsNull() && !data.Description.IsUnknown() && !data.Description.Equal(state.Description) {
+		anyChanges = true
 
-	newResp, err := common.WaitForResource(ctx, func(ctx context.Context) (*OpenstackServerGroupResponse, error) {
-		return r.client.Get(ctx, data.UUID.ValueString())
-	}, updateTimeout)
+		requestBody.Description = data.Description.ValueStringPointer()
+	}
+	if !data.Name.IsNull() && !data.Name.IsUnknown() && !data.Name.Equal(state.Name) {
+		anyChanges = true
+
+		requestBody.Name = data.Name.ValueStringPointer()
+	}
+	if !data.Policy.IsNull() && !data.Policy.IsUnknown() && !data.Policy.Equal(state.Policy) {
+		anyChanges = true
+
+		requestBody.Policy = data.Policy.ValueStringPointer()
+	}
+
+	if anyChanges {
+		var err error
+		apiResp, err = r.client.Update(ctx, data.UUID.ValueString(), &requestBody)
+		if err != nil {
+			resp.Diagnostics.AddError(
+				"Unable to Update Openstack Server Group",
+				"An error occurred while updating the Openstack Server Group: "+err.Error(),
+			)
+			return
+		}
+		// Wait for the resource to return to OK state
+		newResp, err := common.WaitForResource(ctx, func(ctx context.Context) (*OpenstackServerGroupResponse, error) {
+			return r.client.Get(ctx, data.UUID.ValueString())
+		}, updateTimeout)
+		if err != nil {
+			resp.Diagnostics.AddError("Wait for update failed", err.Error())
+			return
+		}
+		apiResp = newResp
+	}
+
+	newResp, err := r.client.Get(ctx, data.UUID.ValueString())
 	if err != nil {
-		resp.Diagnostics.AddError("Failed to wait for resource update", err.Error())
+		if IsNotFoundError(err) {
+			resp.State.RemoveResource(ctx)
+			return
+		}
+		resp.Diagnostics.AddError("Failed to Read Resource After Update", err.Error())
 		return
 	}
 	apiResp = newResp

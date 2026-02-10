@@ -1,6 +1,8 @@
 package port
 
 import (
+	"encoding/json"
+
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
@@ -24,7 +26,11 @@ type OpenstackPortUpdateRequest struct {
 }
 
 type OpenstackPortUpdateSecurityGroupsActionRequest struct {
-	SecurityGroups []common.OpenStackPortNestedSecurityGroupRequest `json:"security_groups"`
+	SecurityGroups []common.OpenStackPortNestedSecurityGroupRequest `json:"-"`
+}
+
+func (r OpenstackPortUpdateSecurityGroupsActionRequest) MarshalJSON() ([]byte, error) {
+	return json.Marshal(r.SecurityGroups)
 }
 
 type OpenstackPortResponse struct {
@@ -38,7 +44,6 @@ type OpenstackPortResponse struct {
 	DeviceId                *string                                           `json:"device_id" tfsdk:"device_id"`
 	DeviceOwner             *string                                           `json:"device_owner" tfsdk:"device_owner"`
 	ErrorMessage            *string                                           `json:"error_message" tfsdk:"error_message"`
-	ErrorTraceback          *string                                           `json:"error_traceback" tfsdk:"error_traceback"`
 	FixedIps                *[]common.OpenStackFixedIpRequest                 `json:"fixed_ips" tfsdk:"fixed_ips"`
 	FloatingIps             *[]string                                         `json:"floating_ips" tfsdk:"floating_ips"`
 	MacAddress              *string                                           `json:"mac_address" tfsdk:"mac_address"`

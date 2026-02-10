@@ -18,12 +18,12 @@ Openstack Security Group resource
 ### Required
 
 - `name` (String) Name
-- `rules` (Attributes List) Rules (see [below for nested schema](#nestedatt--rules))
 - `tenant` (String) Tenant
 
 ### Optional
 
 - `description` (String) Description
+- `rules` (Attributes List) Rules (see [below for nested schema](#nestedatt--rules))
 - `timeouts` (Block, Optional) (see [below for nested schema](#nestedblock--timeouts))
 
 ### Read-Only
@@ -31,7 +31,6 @@ Openstack Security Group resource
 - `backend_id` (String) Backend Id
 - `customer` (String) Customer
 - `error_message` (String) Error Message
-- `error_traceback` (String) Error Traceback
 - `id` (String) Openstack Security Group UUID (used as Terraform ID)
 - `marketplace_resource_uuid` (String) Marketplace Resource Uuid
 - `project` (String) Project

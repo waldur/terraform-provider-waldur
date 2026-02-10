@@ -62,7 +62,6 @@ data "waldur_marketplace_offering" "offering" {
 - `customer` (String) Customer
 - `device` (String) Name of volume as instance device e.g. /dev/vdb.
 - `error_message` (String) Error Message
-- `error_traceback` (String) Error Traceback
 - `extend_enabled` (Boolean) Extend Enabled
 - `id` (String) Openstack Volume UUID (used as Terraform ID)
 - `image_metadata` (String) Metadata of the image this volume was created from

@@ -431,72 +431,102 @@ func (r *StructureProjectResource) Update(ctx context.Context, req resource.Upda
 		return
 	}
 
+	var apiResp *StructureProjectResponse
+	anyChanges := false
 	requestBody := StructureProjectUpdateRequest{}
-	if !data.BackendId.IsNull() && !data.BackendId.IsUnknown() {
+	if !data.BackendId.IsNull() && !data.BackendId.IsUnknown() && !data.BackendId.Equal(state.BackendId) {
+		anyChanges = true
 
 		requestBody.BackendId = data.BackendId.ValueStringPointer()
 	}
-	if !data.Customer.IsNull() && !data.Customer.IsUnknown() {
+	if !data.Customer.IsNull() && !data.Customer.IsUnknown() && !data.Customer.Equal(state.Customer) {
+		anyChanges = true
 
 		requestBody.Customer = data.Customer.ValueStringPointer()
 	}
-	if !data.Description.IsNull() && !data.Description.IsUnknown() {
+	if !data.Description.IsNull() && !data.Description.IsUnknown() && !data.Description.Equal(state.Description) {
+		anyChanges = true
 
 		requestBody.Description = data.Description.ValueStringPointer()
 	}
-	if !data.EndDate.IsNull() && !data.EndDate.IsUnknown() {
+	if !data.EndDate.IsNull() && !data.EndDate.IsUnknown() && !data.EndDate.Equal(state.EndDate) {
+		anyChanges = true
 
 		requestBody.EndDate = data.EndDate.ValueStringPointer()
 	}
-	if !data.GracePeriodDays.IsNull() && !data.GracePeriodDays.IsUnknown() {
+	if !data.GracePeriodDays.IsNull() && !data.GracePeriodDays.IsUnknown() && !data.GracePeriodDays.Equal(state.GracePeriodDays) {
+		anyChanges = true
 
 		requestBody.GracePeriodDays = data.GracePeriodDays.ValueInt64Pointer()
 	}
-	if !data.Image.IsNull() && !data.Image.IsUnknown() {
+	if !data.Image.IsNull() && !data.Image.IsUnknown() && !data.Image.Equal(state.Image) {
+		anyChanges = true
 
 		requestBody.Image = data.Image.ValueStringPointer()
 	}
-	if !data.IsIndustry.IsNull() && !data.IsIndustry.IsUnknown() {
+	if !data.IsIndustry.IsNull() && !data.IsIndustry.IsUnknown() && !data.IsIndustry.Equal(state.IsIndustry) {
+		anyChanges = true
 
 		requestBody.IsIndustry = data.IsIndustry.ValueBoolPointer()
 	}
-	if !data.Kind.IsNull() && !data.Kind.IsUnknown() {
+	if !data.Kind.IsNull() && !data.Kind.IsUnknown() && !data.Kind.Equal(state.Kind) {
+		anyChanges = true
 
 		requestBody.Kind = data.Kind.ValueStringPointer()
 	}
-	if !data.Name.IsNull() && !data.Name.IsUnknown() {
+	if !data.Name.IsNull() && !data.Name.IsUnknown() && !data.Name.Equal(state.Name) {
+		anyChanges = true
 
 		requestBody.Name = data.Name.ValueStringPointer()
 	}
-	if !data.OecdFos2007Code.IsNull() && !data.OecdFos2007Code.IsUnknown() {
+	if !data.OecdFos2007Code.IsNull() && !data.OecdFos2007Code.IsUnknown() && !data.OecdFos2007Code.Equal(state.OecdFos2007Code) {
+		anyChanges = true
 
 		requestBody.OecdFos2007Code = data.OecdFos2007Code.ValueStringPointer()
 	}
-	if !data.Slug.IsNull() && !data.Slug.IsUnknown() {
+	if !data.Slug.IsNull() && !data.Slug.IsUnknown() && !data.Slug.Equal(state.Slug) {
+		anyChanges = true
 
 		requestBody.Slug = data.Slug.ValueStringPointer()
 	}
-	if !data.StaffNotes.IsNull() && !data.StaffNotes.IsUnknown() {
+	if !data.StaffNotes.IsNull() && !data.StaffNotes.IsUnknown() && !data.StaffNotes.Equal(state.StaffNotes) {
+		anyChanges = true
 
 		requestBody.StaffNotes = data.StaffNotes.ValueStringPointer()
 	}
-	if !data.StartDate.IsNull() && !data.StartDate.IsUnknown() {
+	if !data.StartDate.IsNull() && !data.StartDate.IsUnknown() && !data.StartDate.Equal(state.StartDate) {
+		anyChanges = true
 
 		requestBody.StartDate = data.StartDate.ValueStringPointer()
 	}
-	if !data.Type.IsNull() && !data.Type.IsUnknown() {
+	if !data.Type.IsNull() && !data.Type.IsUnknown() && !data.Type.Equal(state.Type) {
+		anyChanges = true
 
 		requestBody.Type = data.Type.ValueStringPointer()
 	}
 
-	apiResp, err := r.client.Update(ctx, data.UUID.ValueString(), &requestBody)
+	if anyChanges {
+		var err error
+		apiResp, err = r.client.Update(ctx, data.UUID.ValueString(), &requestBody)
+		if err != nil {
+			resp.Diagnostics.AddError(
+				"Unable to Update Structure Project",
+				"An error occurred while updating the Structure Project: "+err.Error(),
+			)
+			return
+		}
+	}
+
+	newResp, err := r.client.Get(ctx, data.UUID.ValueString())
 	if err != nil {
-		resp.Diagnostics.AddError(
-			"Unable to Update Structure Project",
-			"An error occurred while updating the Structure Project: "+err.Error(),
-		)
+		if IsNotFoundError(err) {
+			resp.State.RemoveResource(ctx)
+			return
+		}
+		resp.Diagnostics.AddError("Failed to Read Resource After Update", err.Error())
 		return
 	}
+	apiResp = newResp
 
 	resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)

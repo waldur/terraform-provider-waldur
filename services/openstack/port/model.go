@@ -133,7 +133,6 @@ type OpenstackPortModel struct {
 	DeviceId                types.String `tfsdk:"device_id"`
 	DeviceOwner             types.String `tfsdk:"device_owner"`
 	ErrorMessage            types.String `tfsdk:"error_message"`
-	ErrorTraceback          types.String `tfsdk:"error_traceback"`
 	FixedIps                types.List   `tfsdk:"fixed_ips"`
 	FloatingIps             types.Set    `tfsdk:"floating_ips"`
 	MacAddress              types.String `tfsdk:"mac_address"`
@@ -161,7 +160,7 @@ func (model *OpenstackPortModel) CopyFrom(ctx context.Context, apiResp Openstack
 	model.UUID = types.StringPointerValue(apiResp.UUID)
 	model.AdminStateUp = types.BoolPointerValue(apiResp.AdminStateUp)
 
-	if apiResp.AllowedAddressPairs != nil && len(*apiResp.AllowedAddressPairs) > 0 {
+	if apiResp.AllowedAddressPairs != nil {
 		listValAllowedAddressPairs, listDiagsAllowedAddressPairs := types.ListValueFrom(ctx, OpenStackAllowedAddressPairRequestType(), apiResp.AllowedAddressPairs)
 		diags.Append(listDiagsAllowedAddressPairs...)
 		model.AllowedAddressPairs = listValAllowedAddressPairs
@@ -174,9 +173,8 @@ func (model *OpenstackPortModel) CopyFrom(ctx context.Context, apiResp Openstack
 	model.DeviceId = common.StringPointerValue(apiResp.DeviceId)
 	model.DeviceOwner = common.StringPointerValue(apiResp.DeviceOwner)
 	model.ErrorMessage = common.StringPointerValue(apiResp.ErrorMessage)
-	model.ErrorTraceback = common.StringPointerValue(apiResp.ErrorTraceback)
 
-	if apiResp.FixedIps != nil && len(*apiResp.FixedIps) > 0 {
+	if apiResp.FixedIps != nil {
 		listValFixedIps, listDiagsFixedIps := types.ListValueFrom(ctx, OpenStackFixedIpRequestType(), apiResp.FixedIps)
 		diags.Append(listDiagsFixedIps...)
 		model.FixedIps = listValFixedIps

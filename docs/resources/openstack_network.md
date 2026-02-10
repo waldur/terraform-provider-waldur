@@ -50,7 +50,6 @@ resource "waldur_openstack_network" "example" {
 - `backend_id` (String) Backend Id
 - `customer` (String) Customer
 - `error_message` (String) Error Message
-- `error_traceback` (String) Error Traceback
 - `id` (String) Openstack Network UUID (used as Terraform ID)
 - `is_external` (Boolean) Defines whether this network is external (public) or internal (private)
 - `marketplace_resource_uuid` (String) Marketplace Resource Uuid

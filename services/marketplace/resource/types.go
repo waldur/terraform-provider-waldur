@@ -13,11 +13,6 @@ type MarketplaceResourceUpdateRequest struct {
 	Name        *string `json:"name,omitempty" tfsdk:"name"`
 }
 
-type MarketplaceResourceUpdateLimitsActionRequest struct {
-}
-type MarketplaceResourceUpdateOptionsActionRequest struct {
-}
-
 type MarketplaceResourceResponse struct {
 	UUID *string `json:"uuid"`
 
@@ -37,7 +32,6 @@ type MarketplaceResourceResponse struct {
 	EndDateRequestedBy        *string                                     `json:"end_date_requested_by" tfsdk:"end_date_requested_by"`
 	Endpoints                 *[]common.NestedEndpoint                    `json:"endpoints" tfsdk:"endpoints"`
 	ErrorMessage              *string                                     `json:"error_message" tfsdk:"error_message"`
-	ErrorTraceback            *string                                     `json:"error_traceback" tfsdk:"error_traceback"`
 	LastSync                  *string                                     `json:"last_sync" tfsdk:"last_sync"`
 	Name                      *string                                     `json:"name" tfsdk:"name"`
 	Offering                  *string                                     `json:"offering" tfsdk:"offering"`
@@ -112,7 +106,6 @@ type MarketplaceResourceCreationOrderResponse struct {
 	CreatedByUsername          *string                                        `json:"created_by_username" tfsdk:"created_by_username"`
 	CustomerSlug               *string                                        `json:"customer_slug" tfsdk:"customer_slug"`
 	ErrorMessage               *string                                        `json:"error_message" tfsdk:"error_message"`
-	ErrorTraceback             *string                                        `json:"error_traceback" tfsdk:"error_traceback"`
 	FixedPrice                 *common.FlexibleNumber                         `json:"fixed_price" tfsdk:"fixed_price"`
 	Issue                      *MarketplaceResourceCreationOrderIssueResponse `json:"issue" tfsdk:"issue"`
 	MarketplaceResourceUuid    *string                                        `json:"marketplace_resource_uuid" tfsdk:"marketplace_resource_uuid"`
@@ -215,7 +208,6 @@ type MarketplaceResourceOrderInProgressResponse struct {
 	CreatedByUsername          *string                                          `json:"created_by_username" tfsdk:"created_by_username"`
 	CustomerSlug               *string                                          `json:"customer_slug" tfsdk:"customer_slug"`
 	ErrorMessage               *string                                          `json:"error_message" tfsdk:"error_message"`
-	ErrorTraceback             *string                                          `json:"error_traceback" tfsdk:"error_traceback"`
 	FixedPrice                 *common.FlexibleNumber                           `json:"fixed_price" tfsdk:"fixed_price"`
 	Issue                      *MarketplaceResourceOrderInProgressIssueResponse `json:"issue" tfsdk:"issue"`
 	MarketplaceResourceUuid    *string                                          `json:"marketplace_resource_uuid" tfsdk:"marketplace_resource_uuid"`

@@ -143,7 +143,6 @@ type OpenstackTenantModel struct {
 	DefaultVolumeTypeName       types.String `tfsdk:"default_volume_type_name"`
 	Description                 types.String `tfsdk:"description"`
 	ErrorMessage                types.String `tfsdk:"error_message"`
-	ErrorTraceback              types.String `tfsdk:"error_traceback"`
 	ExternalNetworkId           types.String `tfsdk:"external_network_id"`
 	InternalNetworkId           types.String `tfsdk:"internal_network_id"`
 	MarketplaceResourceUuid     types.String `tfsdk:"marketplace_resource_uuid"`
@@ -169,14 +168,13 @@ func (model *OpenstackTenantModel) CopyFrom(ctx context.Context, apiResp Opensta
 	model.DefaultVolumeTypeName = common.StringPointerValue(apiResp.DefaultVolumeTypeName)
 	model.Description = common.StringPointerValue(apiResp.Description)
 	model.ErrorMessage = common.StringPointerValue(apiResp.ErrorMessage)
-	model.ErrorTraceback = common.StringPointerValue(apiResp.ErrorTraceback)
 	model.ExternalNetworkId = common.StringPointerValue(apiResp.ExternalNetworkId)
 	model.InternalNetworkId = common.StringPointerValue(apiResp.InternalNetworkId)
 	model.MarketplaceResourceUuid = common.StringPointerValue(apiResp.MarketplaceResourceUuid)
 	model.Name = common.StringPointerValue(apiResp.Name)
 	model.Project = common.StringPointerValue(apiResp.Project)
 
-	if apiResp.Quotas != nil && len(*apiResp.Quotas) > 0 {
+	if apiResp.Quotas != nil {
 		listValQuotas, listDiagsQuotas := types.ListValueFrom(ctx, QuotaType(), apiResp.Quotas)
 		diags.Append(listDiagsQuotas...)
 		model.Quotas = listValQuotas

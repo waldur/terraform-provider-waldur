@@ -9,7 +9,7 @@ type OpenstackFloatingIpCreateRequest struct {
 }
 
 type OpenstackFloatingIpUpdateDescriptionActionRequest struct {
-	Description *string `json:"description"`
+	Description *string `json:"description,omitempty"`
 }
 
 type OpenstackFloatingIpResponse struct {
@@ -21,7 +21,6 @@ type OpenstackFloatingIpResponse struct {
 	Customer                *string                    `json:"customer" tfsdk:"customer"`
 	Description             *string                    `json:"description" tfsdk:"description"`
 	ErrorMessage            *string                    `json:"error_message" tfsdk:"error_message"`
-	ErrorTraceback          *string                    `json:"error_traceback" tfsdk:"error_traceback"`
 	ExternalAddress         *string                    `json:"external_address" tfsdk:"external_address"`
 	InstanceName            *string                    `json:"instance_name" tfsdk:"instance_name"`
 	InstanceUrl             *string                    `json:"instance_url" tfsdk:"instance_url"`

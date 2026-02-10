@@ -24,7 +24,6 @@ type OpenstackServerGroupResponse struct {
 	Description             *string                           `json:"description" tfsdk:"description"`
 	DisplayName             *string                           `json:"display_name" tfsdk:"display_name"`
 	ErrorMessage            *string                           `json:"error_message" tfsdk:"error_message"`
-	ErrorTraceback          *string                           `json:"error_traceback" tfsdk:"error_traceback"`
 	Instances               *[]common.OpenStackNestedInstance `json:"instances" tfsdk:"instances"`
 	MarketplaceResourceUuid *string                           `json:"marketplace_resource_uuid" tfsdk:"marketplace_resource_uuid"`
 	Name                    *string                           `json:"name" tfsdk:"name"`

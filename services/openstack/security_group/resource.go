@@ -9,6 +9,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64planmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
@@ -82,13 +83,6 @@ func (r *OpenstackSecurityGroupResource) Schema(ctx context.Context, req resourc
 				},
 				MarkdownDescription: "Error Message",
 			},
-			"error_traceback": schema.StringAttribute{
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
-				MarkdownDescription: "Error Traceback",
-			},
 			"marketplace_resource_uuid": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
@@ -130,6 +124,7 @@ func (r *OpenstackSecurityGroupResource) Schema(ctx context.Context, req resourc
 							Computed: true,
 							PlanModifiers: []planmodifier.String{
 								stringplanmodifier.UseStateForUnknown(),
+								common.UnknownIfNullModifier{},
 							},
 							MarkdownDescription: "Description",
 						},
@@ -138,6 +133,7 @@ func (r *OpenstackSecurityGroupResource) Schema(ctx context.Context, req resourc
 							Computed: true,
 							PlanModifiers: []planmodifier.String{
 								stringplanmodifier.UseStateForUnknown(),
+								common.UnknownIfNullModifier{},
 							},
 							MarkdownDescription: "Traffic direction - either 'ingress' (incoming) or 'egress' (outgoing)",
 						},
@@ -146,6 +142,7 @@ func (r *OpenstackSecurityGroupResource) Schema(ctx context.Context, req resourc
 							Computed: true,
 							PlanModifiers: []planmodifier.String{
 								stringplanmodifier.UseStateForUnknown(),
+								common.UnknownIfNullModifier{},
 							},
 							MarkdownDescription: "IP protocol version - either 'IPv4' or 'IPv6'",
 						},
@@ -166,6 +163,7 @@ func (r *OpenstackSecurityGroupResource) Schema(ctx context.Context, req resourc
 							Computed: true,
 							PlanModifiers: []planmodifier.String{
 								stringplanmodifier.UseStateForUnknown(),
+								common.UnknownIfNullModifier{},
 							},
 							MarkdownDescription: "The network protocol (TCP, UDP, ICMP, or empty for any protocol)",
 						},
@@ -193,6 +191,7 @@ func (r *OpenstackSecurityGroupResource) Schema(ctx context.Context, req resourc
 							Computed: true,
 							PlanModifiers: []planmodifier.Int64{
 								int64planmodifier.UseStateForUnknown(),
+								common.UnknownIfNullModifier{},
 							},
 							MarkdownDescription: "Id",
 						},
@@ -212,7 +211,11 @@ func (r *OpenstackSecurityGroupResource) Schema(ctx context.Context, req resourc
 						},
 					},
 				},
-				Required:            true,
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.List{
+					listplanmodifier.UseStateForUnknown(),
+				},
 				MarkdownDescription: "Rules",
 			},
 			"state": schema.StringAttribute{
@@ -293,7 +296,7 @@ func (r *OpenstackSecurityGroupResource) Create(ctx context.Context, req resourc
 	}
 
 	requestBody.Name = data.Name.ValueStringPointer()
-	resp.Diagnostics.Append(common.PopulateSliceField(ctx, data.Rules, &requestBody.Rules)...)
+	resp.Diagnostics.Append(common.PopulateOptionalSliceField(ctx, data.Rules, &requestBody.Rules)...)
 
 	apiResp, err := r.client.Create(ctx, data.Tenant.ValueString(), &requestBody)
 	if err != nil {
@@ -365,35 +368,74 @@ func (r *OpenstackSecurityGroupResource) Update(ctx context.Context, req resourc
 		return
 	}
 
-	requestBody := OpenstackSecurityGroupUpdateRequest{}
-	if !data.Description.IsNull() && !data.Description.IsUnknown() {
-
-		requestBody.Description = data.Description.ValueStringPointer()
-	}
-	if !data.Name.IsNull() && !data.Name.IsUnknown() {
-
-		requestBody.Name = data.Name.ValueStringPointer()
-	}
-
-	apiResp, err := r.client.Update(ctx, data.UUID.ValueString(), &requestBody)
-	if err != nil {
-		resp.Diagnostics.AddError(
-			"Unable to Update Openstack Security Group",
-			"An error occurred while updating the Openstack Security Group: "+err.Error(),
-		)
-		return
-	}
+	var apiResp *OpenstackSecurityGroupResponse
 	updateTimeout, diags := data.Timeouts.Update(ctx, common.DefaultUpdateTimeout)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
+	_ = updateTimeout
+	anyChanges := false
+	requestBody := OpenstackSecurityGroupUpdateRequest{}
+	if !data.Description.IsNull() && !data.Description.IsUnknown() && !data.Description.Equal(state.Description) {
+		anyChanges = true
 
-	newResp, err := common.WaitForResource(ctx, func(ctx context.Context) (*OpenstackSecurityGroupResponse, error) {
-		return r.client.Get(ctx, data.UUID.ValueString())
-	}, updateTimeout)
+		requestBody.Description = data.Description.ValueStringPointer()
+	}
+	if !data.Name.IsNull() && !data.Name.IsUnknown() && !data.Name.Equal(state.Name) {
+		anyChanges = true
+
+		requestBody.Name = data.Name.ValueStringPointer()
+	}
+
+	if anyChanges {
+		var err error
+		apiResp, err = r.client.Update(ctx, data.UUID.ValueString(), &requestBody)
+		if err != nil {
+			resp.Diagnostics.AddError(
+				"Unable to Update Openstack Security Group",
+				"An error occurred while updating the Openstack Security Group: "+err.Error(),
+			)
+			return
+		}
+		// Wait for the resource to return to OK state
+		newResp, err := common.WaitForResource(ctx, func(ctx context.Context) (*OpenstackSecurityGroupResponse, error) {
+			return r.client.Get(ctx, data.UUID.ValueString())
+		}, updateTimeout)
+		if err != nil {
+			resp.Diagnostics.AddError("Wait for update failed", err.Error())
+			return
+		}
+		apiResp = newResp
+	}
+	if !data.Rules.Equal(state.Rules) {
+		// Convert Terraform value to API payload for the specific action
+		var req OpenstackSecurityGroupSetRulesActionRequest
+		resp.Diagnostics.Append(common.PopulateSliceField(ctx, data.Rules, &req.Rules)...)
+
+		// Execute the Action
+		if err := r.client.SetRules(ctx, data.UUID.ValueString(), &req); err != nil {
+			resp.Diagnostics.AddError("RPC Action Failed: set_rules", err.Error())
+			return
+		}
+		// Wait for the resource to return to OK state
+		_, err := common.WaitForResource(ctx, func(ctx context.Context) (*OpenstackSecurityGroupResponse, error) {
+			return r.client.Get(ctx, data.UUID.ValueString())
+		}, updateTimeout)
+		if err != nil {
+			resp.Diagnostics.AddError("Wait for RPC action failed", err.Error())
+			return
+		}
+		state = data
+	}
+
+	newResp, err := r.client.Get(ctx, data.UUID.ValueString())
 	if err != nil {
-		resp.Diagnostics.AddError("Failed to wait for resource update", err.Error())
+		if IsNotFoundError(err) {
+			resp.State.RemoveResource(ctx)
+			return
+		}
+		resp.Diagnostics.AddError("Failed to Read Resource After Update", err.Error())
 		return
 	}
 	apiResp = newResp

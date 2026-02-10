@@ -70,7 +70,6 @@ data "waldur_marketplace_offering" "offering" {
 - `customer` (String) Customer
 - `default_volume_type_name` (String) Volume type name to use when creating volumes.
 - `error_message` (String) Error Message
-- `error_traceback` (String) Error Traceback
 - `external_network_id` (String) ID of external network connected to OpenStack tenant
 - `id` (String) Openstack Tenant UUID (used as Terraform ID)
 - `internal_network_id` (String) ID of internal network in OpenStack tenant

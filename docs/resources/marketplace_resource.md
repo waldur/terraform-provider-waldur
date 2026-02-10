@@ -42,7 +42,6 @@ Marketplace Resource resource
 - `end_date_requested_by` (String) End Date Requested By
 - `endpoints` (Attributes List) Endpoints (see [below for nested schema](#nestedatt--endpoints))
 - `error_message` (String) Error Message
-- `error_traceback` (String) Error Traceback
 - `id` (String) Marketplace Resource UUID (used as Terraform ID)
 - `last_sync` (String) Last Sync
 - `offering_backend_id` (String) Offering Backend Id
@@ -138,7 +137,6 @@ Read-Only:
 - `created_by_username` (String) Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters
 - `customer_slug` (String) Customer Slug
 - `error_message` (String) Error Message
-- `error_traceback` (String) Error Traceback
 - `fixed_price` (Number) Fixed Price
 - `issue` (Attributes) Issue (see [below for nested schema](#nestedatt--creation_order--issue))
 - `marketplace_resource_uuid` (String) Marketplace Resource Uuid
@@ -266,7 +264,6 @@ Read-Only:
 - `created_by_username` (String) Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters
 - `customer_slug` (String) Customer Slug
 - `error_message` (String) Error Message
-- `error_traceback` (String) Error Traceback
 - `fixed_price` (Number) Fixed Price
 - `issue` (Attributes) Issue (see [below for nested schema](#nestedatt--order_in_progress--issue))
 - `marketplace_resource_uuid` (String) Marketplace Resource Uuid

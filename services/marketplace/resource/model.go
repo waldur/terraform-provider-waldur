@@ -41,7 +41,6 @@ func CreationOrderType() types.ObjectType {
 		"created_by_username":            types.StringType,
 		"customer_slug":                  types.StringType,
 		"error_message":                  types.StringType,
-		"error_traceback":                types.StringType,
 		"fixed_price":                    types.Float64Type,
 		"issue":                          CreationOrderIssueType(),
 		"marketplace_resource_uuid":      types.StringType,
@@ -334,7 +333,6 @@ type MarketplaceResourceModel struct {
 	EndDateRequestedBy        types.String      `tfsdk:"end_date_requested_by"`
 	Endpoints                 types.List        `tfsdk:"endpoints"`
 	ErrorMessage              types.String      `tfsdk:"error_message"`
-	ErrorTraceback            types.String      `tfsdk:"error_traceback"`
 	LastSync                  timetypes.RFC3339 `tfsdk:"last_sync"`
 	Name                      types.String      `tfsdk:"name"`
 	Offering                  types.String      `tfsdk:"offering"`
@@ -416,7 +414,7 @@ func (model *MarketplaceResourceModel) CopyFrom(ctx context.Context, apiResp Mar
 	model.EndDate = common.StringPointerValue(apiResp.EndDate)
 	model.EndDateRequestedBy = common.StringPointerValue(apiResp.EndDateRequestedBy)
 
-	if apiResp.Endpoints != nil && len(*apiResp.Endpoints) > 0 {
+	if apiResp.Endpoints != nil {
 		listValEndpoints, listDiagsEndpoints := types.ListValueFrom(ctx, NestedEndpointType(), apiResp.Endpoints)
 		diags.Append(listDiagsEndpoints...)
 		model.Endpoints = listValEndpoints
@@ -424,7 +422,6 @@ func (model *MarketplaceResourceModel) CopyFrom(ctx context.Context, apiResp Mar
 		model.Endpoints = types.ListNull(NestedEndpointType())
 	}
 	model.ErrorMessage = common.StringPointerValue(apiResp.ErrorMessage)
-	model.ErrorTraceback = common.StringPointerValue(apiResp.ErrorTraceback)
 	valLastSync, diagsLastSync := timetypes.NewRFC3339PointerValue(apiResp.LastSync)
 	diags.Append(diagsLastSync...)
 	model.LastSync = valLastSync
@@ -433,7 +430,7 @@ func (model *MarketplaceResourceModel) CopyFrom(ctx context.Context, apiResp Mar
 	model.OfferingBackendId = common.StringPointerValue(apiResp.OfferingBackendId)
 	model.OfferingBillable = types.BoolPointerValue(apiResp.OfferingBillable)
 
-	if apiResp.OfferingComponents != nil && len(*apiResp.OfferingComponents) > 0 {
+	if apiResp.OfferingComponents != nil {
 		listValOfferingComponents, listDiagsOfferingComponents := types.ListValueFrom(ctx, OfferingComponentType(), apiResp.OfferingComponents)
 		diags.Append(listDiagsOfferingComponents...)
 		model.OfferingComponents = listValOfferingComponents
@@ -476,7 +473,7 @@ func (model *MarketplaceResourceModel) CopyFrom(ctx context.Context, apiResp Mar
 	model.ProviderSlug = common.StringPointerValue(apiResp.ProviderSlug)
 	model.ProviderUuid = common.StringPointerValue(apiResp.ProviderUuid)
 
-	if apiResp.Report != nil && len(*apiResp.Report) > 0 {
+	if apiResp.Report != nil {
 		listValReport, listDiagsReport := types.ListValueFrom(ctx, ReportSectionType(), apiResp.Report)
 		diags.Append(listDiagsReport...)
 		model.Report = listValReport

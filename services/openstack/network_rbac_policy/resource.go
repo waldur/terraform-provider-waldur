@@ -245,28 +245,47 @@ func (r *OpenstackNetworkRbacPolicyResource) Update(ctx context.Context, req res
 		return
 	}
 
+	var apiResp *OpenstackNetworkRbacPolicyResponse
+	anyChanges := false
 	requestBody := OpenstackNetworkRbacPolicyUpdateRequest{}
-	if !data.Network.IsNull() && !data.Network.IsUnknown() {
+	if !data.Network.IsNull() && !data.Network.IsUnknown() && !data.Network.Equal(state.Network) {
+		anyChanges = true
 
 		requestBody.Network = data.Network.ValueStringPointer()
 	}
-	if !data.PolicyType.IsNull() && !data.PolicyType.IsUnknown() {
+	if !data.PolicyType.IsNull() && !data.PolicyType.IsUnknown() && !data.PolicyType.Equal(state.PolicyType) {
+		anyChanges = true
 
 		requestBody.PolicyType = data.PolicyType.ValueStringPointer()
 	}
-	if !data.TargetTenant.IsNull() && !data.TargetTenant.IsUnknown() {
+	if !data.TargetTenant.IsNull() && !data.TargetTenant.IsUnknown() && !data.TargetTenant.Equal(state.TargetTenant) {
+		anyChanges = true
 
 		requestBody.TargetTenant = data.TargetTenant.ValueStringPointer()
 	}
 
-	apiResp, err := r.client.Update(ctx, data.UUID.ValueString(), &requestBody)
+	if anyChanges {
+		var err error
+		apiResp, err = r.client.Update(ctx, data.UUID.ValueString(), &requestBody)
+		if err != nil {
+			resp.Diagnostics.AddError(
+				"Unable to Update Openstack Network Rbac Policy",
+				"An error occurred while updating the Openstack Network Rbac Policy: "+err.Error(),
+			)
+			return
+		}
+	}
+
+	newResp, err := r.client.Get(ctx, data.UUID.ValueString())
 	if err != nil {
-		resp.Diagnostics.AddError(
-			"Unable to Update Openstack Network Rbac Policy",
-			"An error occurred while updating the Openstack Network Rbac Policy: "+err.Error(),
-		)
+		if IsNotFoundError(err) {
+			resp.State.RemoveResource(ctx)
+			return
+		}
+		resp.Diagnostics.AddError("Failed to Read Resource After Update", err.Error())
 		return
 	}
+	apiResp = newResp
 
 	resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)

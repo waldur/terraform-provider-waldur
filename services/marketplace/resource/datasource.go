@@ -177,10 +177,6 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 						Computed:            true,
 						MarkdownDescription: "Error Message",
 					},
-					"error_traceback": schema.StringAttribute{
-						Computed:            true,
-						MarkdownDescription: "Error Traceback",
-					},
 					"fixed_price": schema.Float64Attribute{
 						Computed:            true,
 						MarkdownDescription: "Fixed Price",
@@ -429,10 +425,6 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 			"error_message": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Error Message",
-			},
-			"error_traceback": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Error Traceback",
 			},
 			"last_sync": schema.StringAttribute{
 				CustomType:          timetypes.RFC3339Type{},
@@ -703,10 +695,6 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 					"error_message": schema.StringAttribute{
 						Computed:            true,
 						MarkdownDescription: "Error Message",
-					},
-					"error_traceback": schema.StringAttribute{
-						Computed:            true,
-						MarkdownDescription: "Error Traceback",
 					},
 					"fixed_price": schema.Float64Attribute{
 						Computed:            true,

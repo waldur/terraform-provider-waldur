@@ -39,7 +39,6 @@ Openstack Port resource
 - `device_id` (String) ID of device (instance, router etc) to which this port is connected
 - `device_owner` (String) Entity that uses this port (e.g. network:router_interface)
 - `error_message` (String) Error Message
-- `error_traceback` (String) Error Traceback
 - `floating_ips` (Set of String) Floating Ips
 - `id` (String) Openstack Port UUID (used as Terraform ID)
 - `marketplace_resource_uuid` (String) Marketplace Resource Uuid

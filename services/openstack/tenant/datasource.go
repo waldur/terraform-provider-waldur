@@ -65,10 +65,6 @@ func (d *OpenstackTenantDataSource) Schema(ctx context.Context, req datasource.S
 				Computed:            true,
 				MarkdownDescription: "Error Message",
 			},
-			"error_traceback": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Error Traceback",
-			},
 			"external_network_id": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "ID of external network connected to OpenStack tenant",

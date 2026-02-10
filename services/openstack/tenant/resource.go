@@ -107,13 +107,6 @@ func (r *OpenstackTenantResource) Schema(ctx context.Context, req resource.Schem
 				},
 				MarkdownDescription: "Error Message",
 			},
-			"error_traceback": schema.StringAttribute{
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
-				MarkdownDescription: "Error Traceback",
-			},
 			"external_network_id": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
@@ -388,9 +381,6 @@ func (r *OpenstackTenantResource) resolveUnknownAttributes(data *OpenstackTenant
 	}
 	if data.ErrorMessage.IsUnknown() {
 		data.ErrorMessage = types.StringNull()
-	}
-	if data.ErrorTraceback.IsUnknown() {
-		data.ErrorTraceback = types.StringNull()
 	}
 	if data.ExternalNetworkId.IsUnknown() {
 		data.ExternalNetworkId = types.StringNull()

@@ -79,10 +79,6 @@ func (d *OpenstackVolumeDataSource) Schema(ctx context.Context, req datasource.S
 				Computed:            true,
 				MarkdownDescription: "Error Message",
 			},
-			"error_traceback": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Error Traceback",
-			},
 			"extend_enabled": schema.BoolAttribute{
 				Computed:            true,
 				MarkdownDescription: "Extend Enabled",

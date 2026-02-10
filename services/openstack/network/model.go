@@ -175,7 +175,6 @@ type OpenstackNetworkModel struct {
 	Customer                types.String `tfsdk:"customer"`
 	Description             types.String `tfsdk:"description"`
 	ErrorMessage            types.String `tfsdk:"error_message"`
-	ErrorTraceback          types.String `tfsdk:"error_traceback"`
 	IsExternal              types.Bool   `tfsdk:"is_external"`
 	MarketplaceResourceUuid types.String `tfsdk:"marketplace_resource_uuid"`
 	Mtu                     types.Int64  `tfsdk:"mtu"`
@@ -202,14 +201,13 @@ func (model *OpenstackNetworkModel) CopyFrom(ctx context.Context, apiResp Openst
 	model.Customer = common.StringPointerValue(apiResp.Customer)
 	model.Description = common.StringPointerValue(apiResp.Description)
 	model.ErrorMessage = common.StringPointerValue(apiResp.ErrorMessage)
-	model.ErrorTraceback = common.StringPointerValue(apiResp.ErrorTraceback)
 	model.IsExternal = types.BoolPointerValue(apiResp.IsExternal)
 	model.MarketplaceResourceUuid = common.StringPointerValue(apiResp.MarketplaceResourceUuid)
 	model.Mtu = types.Int64PointerValue(apiResp.Mtu)
 	model.Name = common.StringPointerValue(apiResp.Name)
 	model.Project = common.StringPointerValue(apiResp.Project)
 
-	if apiResp.RbacPolicies != nil && len(*apiResp.RbacPolicies) > 0 {
+	if apiResp.RbacPolicies != nil {
 		listValRbacPolicies, listDiagsRbacPolicies := types.ListValueFrom(ctx, NetworkRBACPolicyType(), apiResp.RbacPolicies)
 		diags.Append(listDiagsRbacPolicies...)
 		model.RbacPolicies = listValRbacPolicies
@@ -220,7 +218,7 @@ func (model *OpenstackNetworkModel) CopyFrom(ctx context.Context, apiResp Openst
 	model.SegmentationId = types.Int64PointerValue(apiResp.SegmentationId)
 	model.State = common.StringPointerValue(apiResp.State)
 
-	if apiResp.Subnets != nil && len(*apiResp.Subnets) > 0 {
+	if apiResp.Subnets != nil {
 		listValSubnets, listDiagsSubnets := types.ListValueFrom(ctx, OpenStackNestedSubNetType(), apiResp.Subnets)
 		diags.Append(listDiagsSubnets...)
 		model.Subnets = listValSubnets

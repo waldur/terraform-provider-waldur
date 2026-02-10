@@ -32,7 +32,6 @@ Openstack Server Group resource
 - `customer` (String) Customer
 - `display_name` (String) Display Name
 - `error_message` (String) Error Message
-- `error_traceback` (String) Error Traceback
 - `id` (String) Openstack Server Group UUID (used as Terraform ID)
 - `instances` (Attributes List) Instances (see [below for nested schema](#nestedatt--instances))
 - `marketplace_resource_uuid` (String) Marketplace Resource Uuid

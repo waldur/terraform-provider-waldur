@@ -126,10 +126,6 @@ func (d *MarketplaceOrderDataSource) Schema(ctx context.Context, req datasource.
 				Computed:            true,
 				MarkdownDescription: "Error Message",
 			},
-			"error_traceback": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Error Traceback",
-			},
 			"fixed_price": schema.Float64Attribute{
 				Computed:            true,
 				MarkdownDescription: "Fixed Price",

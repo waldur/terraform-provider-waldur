@@ -145,7 +145,6 @@ type OpenstackSecurityGroupModel struct {
 	Customer                types.String `tfsdk:"customer"`
 	Description             types.String `tfsdk:"description"`
 	ErrorMessage            types.String `tfsdk:"error_message"`
-	ErrorTraceback          types.String `tfsdk:"error_traceback"`
 	MarketplaceResourceUuid types.String `tfsdk:"marketplace_resource_uuid"`
 	Name                    types.String `tfsdk:"name"`
 	Project                 types.String `tfsdk:"project"`
@@ -167,13 +166,12 @@ func (model *OpenstackSecurityGroupModel) CopyFrom(ctx context.Context, apiResp 
 	model.Customer = common.StringPointerValue(apiResp.Customer)
 	model.Description = common.StringPointerValue(apiResp.Description)
 	model.ErrorMessage = common.StringPointerValue(apiResp.ErrorMessage)
-	model.ErrorTraceback = common.StringPointerValue(apiResp.ErrorTraceback)
 	model.MarketplaceResourceUuid = common.StringPointerValue(apiResp.MarketplaceResourceUuid)
 	model.Name = common.StringPointerValue(apiResp.Name)
 	model.Project = common.StringPointerValue(apiResp.Project)
 	model.ResourceType = common.StringPointerValue(apiResp.ResourceType)
 
-	if len(apiResp.Rules) > 0 {
+	if apiResp.Rules != nil {
 		listValRules, listDiagsRules := types.ListValueFrom(ctx, OpenStackSecurityGroupRuleCreateRequestType(), apiResp.Rules)
 		diags.Append(listDiagsRules...)
 		model.Rules = listValRules

@@ -23,10 +23,11 @@ type OpenstackVolumeUpdateRequest struct {
 }
 
 type OpenstackVolumeExtendActionRequest struct {
-	Size *int64 `json:"size"`
+	Size *int64 `json:"size,omitempty"`
 }
+
 type OpenstackVolumeRetypeActionRequest struct {
-	Type *string `json:"type"`
+	Type *string `json:"type,omitempty"`
 }
 
 type OpenstackVolumeResponse struct {
@@ -41,7 +42,6 @@ type OpenstackVolumeResponse struct {
 	Description             *string `json:"description" tfsdk:"description"`
 	Device                  *string `json:"device" tfsdk:"device"`
 	ErrorMessage            *string `json:"error_message" tfsdk:"error_message"`
-	ErrorTraceback          *string `json:"error_traceback" tfsdk:"error_traceback"`
 	ExtendEnabled           *bool   `json:"extend_enabled" tfsdk:"extend_enabled"`
 	Image                   *string `json:"image" tfsdk:"image"`
 	ImageMetadata           *string `json:"image_metadata" tfsdk:"image_metadata"`

@@ -28,7 +28,6 @@ Openstack Tenant data source - lookup by name or UUID
 - `default_volume_type_name` (String) Volume type name to use when creating volumes.
 - `description` (String) Description
 - `error_message` (String) Error Message
-- `error_traceback` (String) Error Traceback
 - `external_network_id` (String) ID of external network connected to OpenStack tenant
 - `internal_network_id` (String) ID of internal network in OpenStack tenant
 - `marketplace_resource_uuid` (String) Marketplace Resource Uuid

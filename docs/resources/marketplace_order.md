@@ -50,7 +50,6 @@ Marketplace Order resource
 - `created_by_username` (String) Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters
 - `customer_slug` (String) Customer Slug
 - `error_message` (String) Error Message
-- `error_traceback` (String) Error Traceback
 - `fixed_price` (Number) Fixed Price
 - `id` (String) Marketplace Order UUID (used as Terraform ID)
 - `issue` (Attributes) Issue (see [below for nested schema](#nestedatt--issue))

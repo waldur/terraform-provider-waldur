@@ -134,13 +134,6 @@ func (r *OpenstackSubnetResource) Schema(ctx context.Context, req resource.Schem
 				},
 				MarkdownDescription: "Error Message",
 			},
-			"error_traceback": schema.StringAttribute{
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
-				MarkdownDescription: "Error Traceback",
-			},
 			"gateway_ip": schema.StringAttribute{
 				Optional: true,
 				Computed: true,
@@ -379,50 +372,82 @@ func (r *OpenstackSubnetResource) Update(ctx context.Context, req resource.Updat
 		return
 	}
 
-	requestBody := OpenstackSubnetUpdateRequest{}
-	if !data.Cidr.IsNull() && !data.Cidr.IsUnknown() {
-
-		requestBody.Cidr = data.Cidr.ValueStringPointer()
-	}
-	if !data.Description.IsNull() && !data.Description.IsUnknown() {
-
-		requestBody.Description = data.Description.ValueStringPointer()
-	}
-	if !data.DisableGateway.IsNull() && !data.DisableGateway.IsUnknown() {
-
-		requestBody.DisableGateway = data.DisableGateway.ValueBoolPointer()
-	}
-	if !data.GatewayIp.IsNull() && !data.GatewayIp.IsUnknown() {
-
-		requestBody.GatewayIp = data.GatewayIp.ValueStringPointer()
-	}
-	if !data.Name.IsNull() && !data.Name.IsUnknown() {
-
-		requestBody.Name = data.Name.ValueStringPointer()
-	}
-	resp.Diagnostics.Append(common.PopulateOptionalSliceField(ctx, data.AllocationPools, &requestBody.AllocationPools)...)
-	resp.Diagnostics.Append(common.PopulateOptionalSliceField(ctx, data.DnsNameservers, &requestBody.DnsNameservers)...)
-	resp.Diagnostics.Append(common.PopulateOptionalSliceField(ctx, data.HostRoutes, &requestBody.HostRoutes)...)
-
-	apiResp, err := r.client.Update(ctx, data.UUID.ValueString(), &requestBody)
-	if err != nil {
-		resp.Diagnostics.AddError(
-			"Unable to Update Openstack Subnet",
-			"An error occurred while updating the Openstack Subnet: "+err.Error(),
-		)
-		return
-	}
+	var apiResp *OpenstackSubnetResponse
 	updateTimeout, diags := data.Timeouts.Update(ctx, common.DefaultUpdateTimeout)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
+	_ = updateTimeout
+	anyChanges := false
+	requestBody := OpenstackSubnetUpdateRequest{}
+	if !data.AllocationPools.Equal(state.AllocationPools) {
+		anyChanges = true
+	}
+	if !data.Cidr.IsNull() && !data.Cidr.IsUnknown() && !data.Cidr.Equal(state.Cidr) {
+		anyChanges = true
 
-	newResp, err := common.WaitForResource(ctx, func(ctx context.Context) (*OpenstackSubnetResponse, error) {
-		return r.client.Get(ctx, data.UUID.ValueString())
-	}, updateTimeout)
+		requestBody.Cidr = data.Cidr.ValueStringPointer()
+	}
+	if !data.Description.IsNull() && !data.Description.IsUnknown() && !data.Description.Equal(state.Description) {
+		anyChanges = true
+
+		requestBody.Description = data.Description.ValueStringPointer()
+	}
+	if !data.DisableGateway.IsNull() && !data.DisableGateway.IsUnknown() && !data.DisableGateway.Equal(state.DisableGateway) {
+		anyChanges = true
+
+		requestBody.DisableGateway = data.DisableGateway.ValueBoolPointer()
+	}
+	if !data.DnsNameservers.Equal(state.DnsNameservers) {
+		anyChanges = true
+	}
+	if !data.GatewayIp.IsNull() && !data.GatewayIp.IsUnknown() && !data.GatewayIp.Equal(state.GatewayIp) {
+		anyChanges = true
+
+		requestBody.GatewayIp = data.GatewayIp.ValueStringPointer()
+	}
+	if !data.HostRoutes.Equal(state.HostRoutes) {
+		anyChanges = true
+	}
+	if !data.Name.IsNull() && !data.Name.IsUnknown() && !data.Name.Equal(state.Name) {
+		anyChanges = true
+
+		requestBody.Name = data.Name.ValueStringPointer()
+	}
+
+	resp.Diagnostics.Append(common.PopulateOptionalSliceField(ctx, data.AllocationPools, &requestBody.AllocationPools)...)
+	resp.Diagnostics.Append(common.PopulateOptionalSliceField(ctx, data.DnsNameservers, &requestBody.DnsNameservers)...)
+	resp.Diagnostics.Append(common.PopulateOptionalSliceField(ctx, data.HostRoutes, &requestBody.HostRoutes)...)
+
+	if anyChanges {
+		var err error
+		apiResp, err = r.client.Update(ctx, data.UUID.ValueString(), &requestBody)
+		if err != nil {
+			resp.Diagnostics.AddError(
+				"Unable to Update Openstack Subnet",
+				"An error occurred while updating the Openstack Subnet: "+err.Error(),
+			)
+			return
+		}
+		// Wait for the resource to return to OK state
+		newResp, err := common.WaitForResource(ctx, func(ctx context.Context) (*OpenstackSubnetResponse, error) {
+			return r.client.Get(ctx, data.UUID.ValueString())
+		}, updateTimeout)
+		if err != nil {
+			resp.Diagnostics.AddError("Wait for update failed", err.Error())
+			return
+		}
+		apiResp = newResp
+	}
+
+	newResp, err := r.client.Get(ctx, data.UUID.ValueString())
 	if err != nil {
-		resp.Diagnostics.AddError("Failed to wait for resource update", err.Error())
+		if IsNotFoundError(err) {
+			resp.State.RemoveResource(ctx)
+			return
+		}
+		resp.Diagnostics.AddError("Failed to Read Resource After Update", err.Error())
 		return
 	}
 	apiResp = newResp
