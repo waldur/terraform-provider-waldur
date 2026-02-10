@@ -44,68 +44,52 @@ func (m *MarketplaceOrderFiltersModel) GetSchema() schema.SingleNestedAttribute 
 		MarkdownDescription: "Filter parameters for querying Marketplace Order",
 		Attributes: map[string]schema.Attribute{
 			"can_approve_as_consumer": schema.BoolAttribute{
-				Optional:            true,
-				MarkdownDescription: "Can approve as consumer",
+				Optional: true,
 			},
 			"can_approve_as_provider": schema.BoolAttribute{
-				Optional:            true,
-				MarkdownDescription: "Can approve as provider",
+				Optional: true,
 			},
 			"category_uuid": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Category UUID",
+				Optional: true,
 			},
 			"created": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Created after",
+				Optional: true,
 			},
 			"customer_uuid": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Customer UUID",
+				Optional: true,
 			},
 			"modified": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Modified after",
+				Optional: true,
 			},
 			"offering": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Offering",
+				Optional: true,
 			},
 			"offering_uuid": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Offering UUID",
+				Optional: true,
 			},
 			"parent_offering_uuid": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "UUID of the parent offering",
+				Optional: true,
 			},
 			"project_uuid": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Project UUID",
+				Optional: true,
 			},
 			"provider_uuid": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Provider UUID",
+				Optional: true,
 			},
 			"query": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Search by order UUID, slug, project name or resource name",
+				Optional: true,
 			},
 			"resource": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Resource URL",
+				Optional: true,
 			},
 			"resource_name": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Resource name",
+				Optional: true,
 			},
 			"resource_uuid": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Resource UUID",
+				Optional: true,
 			},
 			"service_manager_uuid": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Service manager UUID",
+				Optional: true,
 			},
 		},
 	}

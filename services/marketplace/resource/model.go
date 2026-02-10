@@ -177,140 +177,106 @@ func (m *MarketplaceResourceFiltersModel) GetSchema() schema.SingleNestedAttribu
 		MarkdownDescription: "Filter parameters for querying Marketplace Resource",
 		Attributes: map[string]schema.Attribute{
 			"backend_id": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Backend ID",
+				Optional: true,
 			},
 			"category_uuid": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Category UUID",
+				Optional: true,
 			},
 			"component_count": schema.Float64Attribute{
-				Optional:            true,
-				MarkdownDescription: "Filter by exact number of components",
+				Optional: true,
 			},
 			"created": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Created after",
+				Optional: true,
 			},
 			"customer": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Customer URL",
+				Optional: true,
 			},
 			"customer_uuid": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Customer UUID",
+				Optional: true,
 			},
 			"downscaled": schema.BoolAttribute{
-				Optional:            true,
-				MarkdownDescription: "Downscaled",
+				Optional: true,
 			},
 			"has_terminate_date": schema.BoolAttribute{
-				Optional:            true,
-				MarkdownDescription: "Has termination date",
+				Optional: true,
 			},
 			"is_attached": schema.BoolAttribute{
-				Optional:            true,
-				MarkdownDescription: "Filter by attached state",
+				Optional: true,
 			},
 			"lexis_links_supported": schema.BoolAttribute{
-				Optional:            true,
-				MarkdownDescription: "LEXIS links supported",
+				Optional: true,
 			},
 			"limit_based": schema.BoolAttribute{
-				Optional:            true,
-				MarkdownDescription: "Filter by limit-based offerings",
+				Optional: true,
 			},
 			"limit_component_count": schema.Float64Attribute{
-				Optional:            true,
-				MarkdownDescription: "Filter by exact number of limit-based components",
+				Optional: true,
 			},
 			"modified": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Modified after",
+				Optional: true,
 			},
 			"name": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Name",
+				Optional: true,
 			},
 			"name_exact": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Name (exact)",
+				Optional: true,
 			},
 			"offering": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Offering",
+				Optional: true,
 			},
 			"offering_billable": schema.BoolAttribute{
-				Optional:            true,
-				MarkdownDescription: "Offering billable",
+				Optional: true,
 			},
 			"offering_shared": schema.BoolAttribute{
-				Optional:            true,
-				MarkdownDescription: "Offering shared",
+				Optional: true,
 			},
 			"offering_type": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Offering type",
+				Optional: true,
 			},
 			"only_limit_based": schema.BoolAttribute{
-				Optional:            true,
-				MarkdownDescription: "Filter resources with only limit-based components",
+				Optional: true,
 			},
 			"only_usage_based": schema.BoolAttribute{
-				Optional:            true,
-				MarkdownDescription: "Filter resources with only usage-based components",
+				Optional: true,
 			},
 			"parent_offering_uuid": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "UUID of the parent offering",
+				Optional: true,
 			},
 			"paused": schema.BoolAttribute{
-				Optional:            true,
-				MarkdownDescription: "Paused",
+				Optional: true,
 			},
 			"plan_uuid": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Plan UUID",
+				Optional: true,
 			},
 			"project_name": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Project name",
+				Optional: true,
 			},
 			"project_uuid": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Project UUID",
+				Optional: true,
 			},
 			"provider_uuid": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Provider UUID",
+				Optional: true,
 			},
 			"query": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Search by resource UUID, name, slug, backend ID, effective ID, IPs or hypervisor",
+				Optional: true,
 			},
 			"restrict_member_access": schema.BoolAttribute{
-				Optional:            true,
-				MarkdownDescription: "Restrict member access",
+				Optional: true,
 			},
 			"runtime_state": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Runtime state",
+				Optional: true,
 			},
 			"service_manager_uuid": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Service manager UUID",
+				Optional: true,
 			},
 			"usage_based": schema.BoolAttribute{
-				Optional:            true,
-				MarkdownDescription: "Filter by usage-based offerings",
+				Optional: true,
 			},
 			"visible_to_providers": schema.BoolAttribute{
-				Optional:            true,
-				MarkdownDescription: "Include only resources visible to service providers",
+				Optional: true,
 			},
 			"visible_to_username": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Visible to username",
+				Optional: true,
 			},
 		},
 	}

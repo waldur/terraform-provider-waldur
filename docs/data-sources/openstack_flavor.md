@@ -42,14 +42,14 @@ Optional:
 - `disk` (Number)
 - `disk__gte` (Number)
 - `disk__lte` (Number)
-- `name` (String) Name
-- `name_exact` (String) Name (exact)
-- `name_iregex` (String) Name (regex)
-- `offering_uuid` (String) Offering UUID
+- `name` (String)
+- `name_exact` (String)
+- `name_iregex` (String)
+- `offering_uuid` (String)
 - `ram` (Number)
 - `ram__gte` (Number)
 - `ram__lte` (Number)
-- `settings` (String) Settings URL
-- `settings_uuid` (String) Settings UUID
-- `tenant` (String) Tenant URL
-- `tenant_uuid` (String) Tenant UUID
+- `settings` (String)
+- `settings_uuid` (String)
+- `tenant` (String)
+- `tenant_uuid` (String)

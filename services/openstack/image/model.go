@@ -28,36 +28,28 @@ func (m *OpenstackImageFiltersModel) GetSchema() schema.SingleNestedAttribute {
 		MarkdownDescription: "Filter parameters for querying Openstack Image",
 		Attributes: map[string]schema.Attribute{
 			"name": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Name",
+				Optional: true,
 			},
 			"name_exact": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Name (exact)",
+				Optional: true,
 			},
 			"offering_uuid": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Offering UUID",
+				Optional: true,
 			},
 			"settings": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Settings URL",
+				Optional: true,
 			},
 			"settings_uuid": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Settings UUID",
+				Optional: true,
 			},
 			"show_duplicate_names": schema.BoolAttribute{
-				Optional:            true,
-				MarkdownDescription: "Show duplicate image names",
+				Optional: true,
 			},
 			"tenant": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Tenant URL",
+				Optional: true,
 			},
 			"tenant_uuid": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Tenant UUID",
+				Optional: true,
 			},
 		},
 	}

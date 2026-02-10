@@ -89,36 +89,36 @@ Marketplace Offering data source - lookup by name or UUID
 
 Optional:
 
-- `accessible_via_calls` (Boolean) Accessible via calls
-- `allowed_customer_uuid` (String) Allowed customer UUID
-- `attributes` (String) Offering attributes (JSON)
-- `billable` (Boolean) Billable
+- `accessible_via_calls` (Boolean)
+- `allowed_customer_uuid` (String)
+- `attributes` (String)
+- `billable` (Boolean)
 - `can_create_offering_user` (Boolean)
-- `category_group_uuid` (String) Category group UUID
-- `category_uuid` (String) Category UUID
-- `created` (String) Created after
-- `customer` (String) Customer URL
-- `customer_uuid` (String) Customer UUID
-- `description` (String) Description contains
-- `has_active_terms_of_service` (Boolean) Has Active Terms of Service
-- `has_terms_of_service` (Boolean) Has Terms of Service
-- `keyword` (String) Keyword
-- `modified` (String) Modified after
-- `name` (String) Name
-- `name_exact` (String) Name (exact)
-- `parent_uuid` (String) Parent offering UUID
-- `project_uuid` (String) Project UUID
-- `query` (String) Search by offering name, slug or description
-- `resource_customer_uuid` (String) Resource customer UUID
-- `resource_project_uuid` (String) Resource project UUID
-- `scope_uuid` (String) Scope UUID
-- `service_manager_uuid` (String) Service manager UUID
-- `shared` (Boolean) Shared
-- `tag_names_and` (String) Tag names with AND logic (comma-separated)
-- `tags_and` (String) Tag UUIDs with AND logic (comma-separated)
-- `user_has_consent` (Boolean) User Has Consent
-- `user_has_offering_user` (Boolean) User Has Offering User
-- `uuid_list` (String) Comma-separated offering UUIDs
+- `category_group_uuid` (String)
+- `category_uuid` (String)
+- `created` (String)
+- `customer` (String)
+- `customer_uuid` (String)
+- `description` (String)
+- `has_active_terms_of_service` (Boolean)
+- `has_terms_of_service` (Boolean)
+- `keyword` (String)
+- `modified` (String)
+- `name` (String)
+- `name_exact` (String)
+- `parent_uuid` (String)
+- `project_uuid` (String)
+- `query` (String)
+- `resource_customer_uuid` (String)
+- `resource_project_uuid` (String)
+- `scope_uuid` (String)
+- `service_manager_uuid` (String)
+- `shared` (Boolean)
+- `tag_names_and` (String)
+- `tags_and` (String)
+- `user_has_consent` (Boolean)
+- `user_has_offering_user` (Boolean)
+- `uuid_list` (String)
 
 
 <a id="nestedatt--components"></a>

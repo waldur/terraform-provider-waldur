@@ -50,124 +50,94 @@ func (m *MarketplaceOfferingFiltersModel) GetSchema() schema.SingleNestedAttribu
 		MarkdownDescription: "Filter parameters for querying Marketplace Offering",
 		Attributes: map[string]schema.Attribute{
 			"accessible_via_calls": schema.BoolAttribute{
-				Optional:            true,
-				MarkdownDescription: "Accessible via calls",
+				Optional: true,
 			},
 			"allowed_customer_uuid": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Allowed customer UUID",
+				Optional: true,
 			},
 			"attributes": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Offering attributes (JSON)",
+				Optional: true,
 			},
 			"billable": schema.BoolAttribute{
-				Optional:            true,
-				MarkdownDescription: "Billable",
+				Optional: true,
 			},
 			"can_create_offering_user": schema.BoolAttribute{
-				Optional:            true,
-				MarkdownDescription: " ",
+				Optional: true,
 			},
 			"category_group_uuid": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Category group UUID",
+				Optional: true,
 			},
 			"category_uuid": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Category UUID",
+				Optional: true,
 			},
 			"created": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Created after",
+				Optional: true,
 			},
 			"customer": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Customer URL",
+				Optional: true,
 			},
 			"customer_uuid": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Customer UUID",
+				Optional: true,
 			},
 			"description": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Description contains",
+				Optional: true,
 			},
 			"has_active_terms_of_service": schema.BoolAttribute{
-				Optional:            true,
-				MarkdownDescription: "Has Active Terms of Service",
+				Optional: true,
 			},
 			"has_terms_of_service": schema.BoolAttribute{
-				Optional:            true,
-				MarkdownDescription: "Has Terms of Service",
+				Optional: true,
 			},
 			"keyword": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Keyword",
+				Optional: true,
 			},
 			"modified": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Modified after",
+				Optional: true,
 			},
 			"name": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Name",
+				Optional: true,
 			},
 			"name_exact": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Name (exact)",
+				Optional: true,
 			},
 			"parent_uuid": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Parent offering UUID",
+				Optional: true,
 			},
 			"project_uuid": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Project UUID",
+				Optional: true,
 			},
 			"query": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Search by offering name, slug or description",
+				Optional: true,
 			},
 			"resource_customer_uuid": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Resource customer UUID",
+				Optional: true,
 			},
 			"resource_project_uuid": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Resource project UUID",
+				Optional: true,
 			},
 			"scope_uuid": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Scope UUID",
+				Optional: true,
 			},
 			"service_manager_uuid": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Service manager UUID",
+				Optional: true,
 			},
 			"shared": schema.BoolAttribute{
-				Optional:            true,
-				MarkdownDescription: "Shared",
+				Optional: true,
 			},
 			"tag_names_and": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Tag names with AND logic (comma-separated)",
+				Optional: true,
 			},
 			"tags_and": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Tag UUIDs with AND logic (comma-separated)",
+				Optional: true,
 			},
 			"user_has_consent": schema.BoolAttribute{
-				Optional:            true,
-				MarkdownDescription: "User Has Consent",
+				Optional: true,
 			},
 			"user_has_offering_user": schema.BoolAttribute{
-				Optional:            true,
-				MarkdownDescription: "User Has Offering User",
+				Optional: true,
 			},
 			"uuid_list": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Comma-separated offering UUIDs",
+				Optional: true,
 			},
 		},
 	}

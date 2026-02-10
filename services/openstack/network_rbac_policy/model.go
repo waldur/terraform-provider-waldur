@@ -26,32 +26,25 @@ func (m *OpenstackNetworkRbacPolicyFiltersModel) GetSchema() schema.SingleNested
 		MarkdownDescription: "Filter parameters for querying Openstack Network Rbac Policy",
 		Attributes: map[string]schema.Attribute{
 			"network": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Network URL",
+				Optional: true,
 			},
 			"network_uuid": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Network UUID",
+				Optional: true,
 			},
 			"policy_type": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Type of access granted - either shared access or external network access",
+				Optional: true,
 			},
 			"target_tenant": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Target tenant URL",
+				Optional: true,
 			},
 			"target_tenant_uuid": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Target tenant UUID",
+				Optional: true,
 			},
 			"tenant": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Tenant URL",
+				Optional: true,
 			},
 			"tenant_uuid": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Tenant UUID",
+				Optional: true,
 			},
 		},
 	}

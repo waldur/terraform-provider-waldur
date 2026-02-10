@@ -36,72 +36,55 @@ func (m *OpenstackFlavorFiltersModel) GetSchema() schema.SingleNestedAttribute {
 		MarkdownDescription: "Filter parameters for querying Openstack Flavor",
 		Attributes: map[string]schema.Attribute{
 			"cores": schema.Int64Attribute{
-				Optional:            true,
-				MarkdownDescription: " ",
+				Optional: true,
 			},
 			"cores__gte": schema.Int64Attribute{
-				Optional:            true,
-				MarkdownDescription: " ",
+				Optional: true,
 			},
 			"cores__lte": schema.Int64Attribute{
-				Optional:            true,
-				MarkdownDescription: " ",
+				Optional: true,
 			},
 			"disk": schema.Int64Attribute{
-				Optional:            true,
-				MarkdownDescription: " ",
+				Optional: true,
 			},
 			"disk__gte": schema.Int64Attribute{
-				Optional:            true,
-				MarkdownDescription: " ",
+				Optional: true,
 			},
 			"disk__lte": schema.Int64Attribute{
-				Optional:            true,
-				MarkdownDescription: " ",
+				Optional: true,
 			},
 			"name": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Name",
+				Optional: true,
 			},
 			"name_exact": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Name (exact)",
+				Optional: true,
 			},
 			"name_iregex": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Name (regex)",
+				Optional: true,
 			},
 			"offering_uuid": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Offering UUID",
+				Optional: true,
 			},
 			"ram": schema.Int64Attribute{
-				Optional:            true,
-				MarkdownDescription: " ",
+				Optional: true,
 			},
 			"ram__gte": schema.Int64Attribute{
-				Optional:            true,
-				MarkdownDescription: " ",
+				Optional: true,
 			},
 			"ram__lte": schema.Int64Attribute{
-				Optional:            true,
-				MarkdownDescription: " ",
+				Optional: true,
 			},
 			"settings": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Settings URL",
+				Optional: true,
 			},
 			"settings_uuid": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Settings UUID",
+				Optional: true,
 			},
 			"tenant": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Tenant URL",
+				Optional: true,
 			},
 			"tenant_uuid": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Tenant UUID",
+				Optional: true,
 			},
 		},
 	}

@@ -24,28 +24,28 @@ description: |-
 
 Optional:
 
-- `backend_id` (String) Backend ID
-- `can_manage` (Boolean) Can manage
-- `customer` (String) Customer UUID
-- `customer_abbreviation` (String) Customer abbreviation
-- `customer_name` (String) Customer name
-- `customer_native_name` (String) Customer native name
-- `customer_uuid` (String) Customer UUID
-- `description` (String) Description
-- `direct_only` (Boolean) Direct only
-- `enable_dhcp` (Boolean) Enable dhcp
-- `external_ip` (String) External IP
-- `ip_version` (Number) Ip version
-- `name` (String) Name
-- `name_exact` (String) Name (exact)
-- `network` (String) Network URL
-- `network_uuid` (String) Network UUID
-- `project` (String) Project UUID
-- `project_name` (String) Project name
-- `project_uuid` (String) Project UUID
-- `rbac_only` (Boolean) RBAC only
-- `service_settings_name` (String) Service settings name
-- `service_settings_uuid` (String) Service settings UUID
-- `tenant` (String) Tenant URL
-- `tenant_uuid` (String) Tenant UUID
-- `uuid` (String) UUID
+- `backend_id` (String)
+- `can_manage` (Boolean)
+- `customer` (String)
+- `customer_abbreviation` (String)
+- `customer_name` (String)
+- `customer_native_name` (String)
+- `customer_uuid` (String)
+- `description` (String)
+- `direct_only` (Boolean)
+- `enable_dhcp` (Boolean)
+- `external_ip` (String)
+- `ip_version` (Number)
+- `name` (String)
+- `name_exact` (String)
+- `network` (String)
+- `network_uuid` (String)
+- `project` (String)
+- `project_name` (String)
+- `project_uuid` (String)
+- `rbac_only` (Boolean)
+- `service_settings_name` (String)
+- `service_settings_uuid` (String)
+- `tenant` (String)
+- `tenant_uuid` (String)
+- `uuid` (String)

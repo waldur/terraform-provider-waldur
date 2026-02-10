@@ -56,68 +56,52 @@ func (m *OpenstackPortFiltersModel) GetSchema() schema.SingleNestedAttribute {
 		MarkdownDescription: "Filter parameters for querying Openstack Port",
 		Attributes: map[string]schema.Attribute{
 			"admin_state_up": schema.BoolAttribute{
-				Optional:            true,
-				MarkdownDescription: "Admin state up",
+				Optional: true,
 			},
 			"backend_id": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "ID of the backend",
+				Optional: true,
 			},
 			"device_id": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "ID of the device",
+				Optional: true,
 			},
 			"device_owner": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Device owner",
+				Optional: true,
 			},
 			"exclude_subnet_uuids": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Exclude Subnet UUIDs (comma-separated)",
+				Optional: true,
 			},
 			"fixed_ips": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Search by fixed IP",
+				Optional: true,
 			},
 			"has_device_owner": schema.BoolAttribute{
-				Optional:            true,
-				MarkdownDescription: "Has device owner",
+				Optional: true,
 			},
 			"mac_address": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Mac address",
+				Optional: true,
 			},
 			"name": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Name",
+				Optional: true,
 			},
 			"name_exact": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Name (exact)",
+				Optional: true,
 			},
 			"network_name": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Search by network name",
+				Optional: true,
 			},
 			"network_uuid": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Search by network UUID",
+				Optional: true,
 			},
 			"query": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Search by name, MAC address or backend ID",
+				Optional: true,
 			},
 			"status": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Status",
+				Optional: true,
 			},
 			"tenant": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Tenant URL",
+				Optional: true,
 			},
 			"tenant_uuid": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Tenant UUID",
+				Optional: true,
 			},
 		},
 	}

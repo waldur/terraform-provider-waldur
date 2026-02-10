@@ -54,22 +54,22 @@ Structure Project data source - lookup by name or UUID
 
 Optional:
 
-- `backend_id` (String) ID of the backend
-- `can_admin` (Boolean) Return a list of projects where current user is admin.
-- `can_manage` (Boolean) Return a list of projects where current user is manager or a customer owner.
-- `conceal_finished_projects` (Boolean) Conceal finished projects
-- `created` (String) Created after
-- `customer_abbreviation` (String) Customer abbreviation
-- `customer_name` (String) Customer name
-- `customer_native_name` (String) Customer native name
-- `description` (String) Description
-- `include_terminated` (Boolean) Include soft-deleted (terminated) projects. Only available to staff and support users, or users with organizational roles who can see their terminated projects.
-- `is_removed` (Boolean) Is removed
-- `modified` (String) Modified after
-- `name` (String) Name
-- `name_exact` (String) Name (exact)
-- `query` (String) Filter by name, slug, UUID, backend ID or resource effective ID
-- `slug` (String) Slug
+- `backend_id` (String)
+- `can_admin` (Boolean)
+- `can_manage` (Boolean)
+- `conceal_finished_projects` (Boolean)
+- `created` (String)
+- `customer_abbreviation` (String)
+- `customer_name` (String)
+- `customer_native_name` (String)
+- `description` (String)
+- `include_terminated` (Boolean)
+- `is_removed` (Boolean)
+- `modified` (String)
+- `name` (String)
+- `name_exact` (String)
+- `query` (String)
+- `slug` (String)
 
 
 <a id="nestedatt--billing_price_estimate"></a>

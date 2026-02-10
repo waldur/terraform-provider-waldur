@@ -3,12 +3,12 @@
 page_title: "waldur_openstack_port_enable_port_security Action - waldur"
 subcategory: ""
 description: |-
-  Perform enable_port_security action on openstack port
+  
 ---
 
 # waldur_openstack_port_enable_port_security (Action)
 
-Perform enable_port_security action on openstack port
+
 
 
 
@@ -17,7 +17,7 @@ Perform enable_port_security action on openstack port
 
 ### Required
 
-- `uuid` (String) The UUID of the openstack port
+- `uuid` (String) UUID of the resource
 
 ### Optional
 

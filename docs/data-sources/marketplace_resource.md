@@ -90,40 +90,40 @@ Marketplace Resource data source - lookup by name or UUID
 
 Optional:
 
-- `backend_id` (String) Backend ID
-- `category_uuid` (String) Category UUID
-- `component_count` (Number) Filter by exact number of components
-- `created` (String) Created after
-- `customer` (String) Customer URL
-- `customer_uuid` (String) Customer UUID
-- `downscaled` (Boolean) Downscaled
-- `has_terminate_date` (Boolean) Has termination date
-- `is_attached` (Boolean) Filter by attached state
-- `lexis_links_supported` (Boolean) LEXIS links supported
-- `limit_based` (Boolean) Filter by limit-based offerings
-- `limit_component_count` (Number) Filter by exact number of limit-based components
-- `modified` (String) Modified after
-- `name` (String) Name
-- `name_exact` (String) Name (exact)
-- `offering` (String) Offering
-- `offering_billable` (Boolean) Offering billable
-- `offering_shared` (Boolean) Offering shared
-- `offering_type` (String) Offering type
-- `only_limit_based` (Boolean) Filter resources with only limit-based components
-- `only_usage_based` (Boolean) Filter resources with only usage-based components
-- `parent_offering_uuid` (String) UUID of the parent offering
-- `paused` (Boolean) Paused
-- `plan_uuid` (String) Plan UUID
-- `project_name` (String) Project name
-- `project_uuid` (String) Project UUID
-- `provider_uuid` (String) Provider UUID
-- `query` (String) Search by resource UUID, name, slug, backend ID, effective ID, IPs or hypervisor
-- `restrict_member_access` (Boolean) Restrict member access
-- `runtime_state` (String) Runtime state
-- `service_manager_uuid` (String) Service manager UUID
-- `usage_based` (Boolean) Filter by usage-based offerings
-- `visible_to_providers` (Boolean) Include only resources visible to service providers
-- `visible_to_username` (String) Visible to username
+- `backend_id` (String)
+- `category_uuid` (String)
+- `component_count` (Number)
+- `created` (String)
+- `customer` (String)
+- `customer_uuid` (String)
+- `downscaled` (Boolean)
+- `has_terminate_date` (Boolean)
+- `is_attached` (Boolean)
+- `lexis_links_supported` (Boolean)
+- `limit_based` (Boolean)
+- `limit_component_count` (Number)
+- `modified` (String)
+- `name` (String)
+- `name_exact` (String)
+- `offering` (String)
+- `offering_billable` (Boolean)
+- `offering_shared` (Boolean)
+- `offering_type` (String)
+- `only_limit_based` (Boolean)
+- `only_usage_based` (Boolean)
+- `parent_offering_uuid` (String)
+- `paused` (Boolean)
+- `plan_uuid` (String)
+- `project_name` (String)
+- `project_uuid` (String)
+- `provider_uuid` (String)
+- `query` (String)
+- `restrict_member_access` (Boolean)
+- `runtime_state` (String)
+- `service_manager_uuid` (String)
+- `usage_based` (Boolean)
+- `visible_to_providers` (Boolean)
+- `visible_to_username` (String)
 
 
 <a id="nestedatt--backend_metadata"></a>

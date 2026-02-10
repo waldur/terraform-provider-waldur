@@ -24,19 +24,19 @@ description: |-
 
 Optional:
 
-- `can_approve_as_consumer` (Boolean) Can approve as consumer
-- `can_approve_as_provider` (Boolean) Can approve as provider
-- `category_uuid` (String) Category UUID
-- `created` (String) Created after
-- `customer_uuid` (String) Customer UUID
-- `modified` (String) Modified after
-- `offering` (String) Offering
-- `offering_uuid` (String) Offering UUID
-- `parent_offering_uuid` (String) UUID of the parent offering
-- `project_uuid` (String) Project UUID
-- `provider_uuid` (String) Provider UUID
-- `query` (String) Search by order UUID, slug, project name or resource name
-- `resource` (String) Resource URL
-- `resource_name` (String) Resource name
-- `resource_uuid` (String) Resource UUID
-- `service_manager_uuid` (String) Service manager UUID
+- `can_approve_as_consumer` (Boolean)
+- `can_approve_as_provider` (Boolean)
+- `category_uuid` (String)
+- `created` (String)
+- `customer_uuid` (String)
+- `modified` (String)
+- `offering` (String)
+- `offering_uuid` (String)
+- `parent_offering_uuid` (String)
+- `project_uuid` (String)
+- `provider_uuid` (String)
+- `query` (String)
+- `resource` (String)
+- `resource_name` (String)
+- `resource_uuid` (String)
+- `service_manager_uuid` (String)

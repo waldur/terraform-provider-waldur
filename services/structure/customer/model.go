@@ -73,52 +73,40 @@ func (m *StructureCustomerFiltersModel) GetSchema() schema.SingleNestedAttribute
 		MarkdownDescription: "Filter parameters for querying Structure Customer",
 		Attributes: map[string]schema.Attribute{
 			"abbreviation": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Abbreviation",
+				Optional: true,
 			},
 			"agreement_number": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Agreement number",
+				Optional: true,
 			},
 			"archived": schema.BoolAttribute{
-				Optional:            true,
-				MarkdownDescription: "Archived",
+				Optional: true,
 			},
 			"backend_id": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "ID of the backend",
+				Optional: true,
 			},
 			"contact_details": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Contact details",
+				Optional: true,
 			},
 			"name": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Name",
+				Optional: true,
 			},
 			"name_exact": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Name (exact)",
+				Optional: true,
 			},
 			"native_name": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Native name",
+				Optional: true,
 			},
 			"organization_group_name": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Organization group name",
+				Optional: true,
 			},
 			"owned_by_current_user": schema.BoolAttribute{
-				Optional:            true,
-				MarkdownDescription: "Return a list of customers where current user is owner.",
+				Optional: true,
 			},
 			"query": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Filter by name, native name, abbreviation, domain, UUID, registration code or agreement number",
+				Optional: true,
 			},
 			"registration_code": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Registration code",
+				Optional: true,
 			},
 		},
 	}

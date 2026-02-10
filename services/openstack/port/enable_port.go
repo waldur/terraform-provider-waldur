@@ -34,10 +34,10 @@ func (a *OpenstackPortEnablePortAction) Metadata(ctx context.Context, req action
 
 func (a *OpenstackPortEnablePortAction) Schema(ctx context.Context, req action.SchemaRequest, resp *action.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		Description: "Perform enable_port action on openstack port",
+		Description: "",
 		Attributes: map[string]schema.Attribute{
 			"uuid": schema.StringAttribute{
-				Description: "The UUID of the openstack port",
+				Description: "UUID of the resource",
 				Required:    true,
 			},
 			"timeout": schema.StringAttribute{

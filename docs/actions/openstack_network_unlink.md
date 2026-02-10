@@ -3,12 +3,12 @@
 page_title: "waldur_openstack_network_unlink Action - waldur"
 subcategory: ""
 description: |-
-  Perform unlink action on openstack network
+  
 ---
 
 # waldur_openstack_network_unlink (Action)
 
-Perform unlink action on openstack network
+
 
 
 
@@ -17,7 +17,7 @@ Perform unlink action on openstack network
 
 ### Required
 
-- `uuid` (String) The UUID of the openstack network
+- `uuid` (String) UUID of the resource
 
 ### Optional
 

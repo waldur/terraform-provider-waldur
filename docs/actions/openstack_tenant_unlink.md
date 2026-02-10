@@ -3,12 +3,12 @@
 page_title: "waldur_openstack_tenant_unlink Action - waldur"
 subcategory: ""
 description: |-
-  Perform unlink action on openstack tenant
+  
 ---
 
 # waldur_openstack_tenant_unlink (Action)
 
-Perform unlink action on openstack tenant
+
 
 
 
@@ -17,7 +17,7 @@ Perform unlink action on openstack tenant
 
 ### Required
 
-- `uuid` (String) The UUID of the openstack tenant
+- `uuid` (String) UUID of the resource
 
 ### Optional
 

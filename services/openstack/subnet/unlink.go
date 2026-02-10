@@ -34,10 +34,10 @@ func (a *OpenstackSubnetUnlinkAction) Metadata(ctx context.Context, req action.M
 
 func (a *OpenstackSubnetUnlinkAction) Schema(ctx context.Context, req action.SchemaRequest, resp *action.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		Description: "Perform unlink action on openstack subnet",
+		Description: "",
 		Attributes: map[string]schema.Attribute{
 			"uuid": schema.StringAttribute{
-				Description: "The UUID of the openstack subnet",
+				Description: "UUID of the resource",
 				Required:    true,
 			},
 			"timeout": schema.StringAttribute{

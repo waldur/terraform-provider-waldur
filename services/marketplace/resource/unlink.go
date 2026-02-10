@@ -34,10 +34,10 @@ func (a *MarketplaceResourceUnlinkAction) Metadata(ctx context.Context, req acti
 
 func (a *MarketplaceResourceUnlinkAction) Schema(ctx context.Context, req action.SchemaRequest, resp *action.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		Description: "Perform unlink action on marketplace resource",
+		Description: "",
 		Attributes: map[string]schema.Attribute{
 			"uuid": schema.StringAttribute{
-				Description: "The UUID of the marketplace resource",
+				Description: "UUID of the resource",
 				Required:    true,
 			},
 			"timeout": schema.StringAttribute{

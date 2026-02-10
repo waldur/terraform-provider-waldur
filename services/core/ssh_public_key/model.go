@@ -29,44 +29,34 @@ func (m *CoreSshPublicKeyFiltersModel) GetSchema() schema.SingleNestedAttribute 
 		MarkdownDescription: "Filter parameters for querying Core Ssh Public Key",
 		Attributes: map[string]schema.Attribute{
 			"created": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Created after",
+				Optional: true,
 			},
 			"fingerprint_md5": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: " ",
+				Optional: true,
 			},
 			"fingerprint_sha256": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: " ",
+				Optional: true,
 			},
 			"fingerprint_sha512": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: " ",
+				Optional: true,
 			},
 			"is_shared": schema.BoolAttribute{
-				Optional:            true,
-				MarkdownDescription: " ",
+				Optional: true,
 			},
 			"modified": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Modified after",
+				Optional: true,
 			},
 			"name": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Name",
+				Optional: true,
 			},
 			"name_exact": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Name (exact)",
+				Optional: true,
 			},
 			"user_uuid": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "User UUID",
+				Optional: true,
 			},
 			"uuid": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "UUID",
+				Optional: true,
 			},
 		},
 	}

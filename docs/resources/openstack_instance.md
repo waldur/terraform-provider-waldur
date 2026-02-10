@@ -303,12 +303,15 @@ Read-Only:
 <a id="nestedatt--server_group"></a>
 ### Nested Schema for `server_group`
 
+Optional:
+
+- `url` (String) Url
+
 Read-Only:
 
 - `name` (String) Name of the Openstack Instance
 - `policy` (String) Server group policy determining the rules for scheduling servers in this group
 - `state` (String) State
-- `url` (String) Url
 
 
 <a id="nestedblock--timeouts"></a>

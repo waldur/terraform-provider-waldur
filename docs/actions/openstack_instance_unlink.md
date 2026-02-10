@@ -3,12 +3,12 @@
 page_title: "waldur_openstack_instance_unlink Action - waldur"
 subcategory: ""
 description: |-
-  Perform unlink action on openstack instance
+  
 ---
 
 # waldur_openstack_instance_unlink (Action)
 
-Perform unlink action on openstack instance
+
 
 
 
@@ -17,7 +17,7 @@ Perform unlink action on openstack instance
 
 ### Required
 
-- `uuid` (String) The UUID of the openstack instance
+- `uuid` (String) UUID of the resource
 
 ### Optional
 

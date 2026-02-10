@@ -34,10 +34,10 @@ func (a *OpenstackTenantPullAction) Metadata(ctx context.Context, req action.Met
 
 func (a *OpenstackTenantPullAction) Schema(ctx context.Context, req action.SchemaRequest, resp *action.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		Description: "Perform pull action on openstack tenant",
+		Description: "",
 		Attributes: map[string]schema.Attribute{
 			"uuid": schema.StringAttribute{
-				Description: "The UUID of the openstack tenant",
+				Description: "UUID of the resource",
 				Required:    true,
 			},
 			"timeout": schema.StringAttribute{

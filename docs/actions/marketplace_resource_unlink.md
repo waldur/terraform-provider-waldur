@@ -3,12 +3,12 @@
 page_title: "waldur_marketplace_resource_unlink Action - waldur"
 subcategory: ""
 description: |-
-  Perform unlink action on marketplace resource
+  
 ---
 
 # waldur_marketplace_resource_unlink (Action)
 
-Perform unlink action on marketplace resource
+
 
 
 
@@ -17,7 +17,7 @@ Perform unlink action on marketplace resource
 
 ### Required
 
-- `uuid` (String) The UUID of the marketplace resource
+- `uuid` (String) UUID of the resource
 
 ### Optional
 

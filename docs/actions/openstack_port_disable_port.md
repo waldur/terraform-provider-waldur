@@ -3,12 +3,12 @@
 page_title: "waldur_openstack_port_disable_port Action - waldur"
 subcategory: ""
 description: |-
-  Perform disable_port action on openstack port
+  
 ---
 
 # waldur_openstack_port_disable_port (Action)
 
-Perform disable_port action on openstack port
+
 
 
 
@@ -17,7 +17,7 @@ Perform disable_port action on openstack port
 
 ### Required
 
-- `uuid` (String) The UUID of the openstack port
+- `uuid` (String) UUID of the resource
 
 ### Optional
 

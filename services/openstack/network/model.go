@@ -74,96 +74,73 @@ func (m *OpenstackNetworkFiltersModel) GetSchema() schema.SingleNestedAttribute 
 		MarkdownDescription: "Filter parameters for querying Openstack Network",
 		Attributes: map[string]schema.Attribute{
 			"backend_id": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Backend ID",
+				Optional: true,
 			},
 			"can_manage": schema.BoolAttribute{
-				Optional:            true,
-				MarkdownDescription: "Can manage",
+				Optional: true,
 			},
 			"customer": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Customer UUID",
+				Optional: true,
 			},
 			"customer_abbreviation": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Customer abbreviation",
+				Optional: true,
 			},
 			"customer_name": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Customer name",
+				Optional: true,
 			},
 			"customer_native_name": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Customer native name",
+				Optional: true,
 			},
 			"customer_uuid": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Customer UUID",
+				Optional: true,
 			},
 			"description": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Description",
+				Optional: true,
 			},
 			"direct_only": schema.BoolAttribute{
-				Optional:            true,
-				MarkdownDescription: "Direct only",
+				Optional: true,
 			},
 			"external_ip": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "External IP",
+				Optional: true,
 			},
 			"is_external": schema.BoolAttribute{
-				Optional:            true,
-				MarkdownDescription: "Is external",
+				Optional: true,
 			},
 			"name": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Name",
+				Optional: true,
 			},
 			"name_exact": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Name (exact)",
+				Optional: true,
 			},
 			"project": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Project UUID",
+				Optional: true,
 			},
 			"project_name": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Project name",
+				Optional: true,
 			},
 			"project_uuid": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Project UUID",
+				Optional: true,
 			},
 			"rbac_only": schema.BoolAttribute{
-				Optional:            true,
-				MarkdownDescription: "RBAC only",
+				Optional: true,
 			},
 			"service_settings_name": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Service settings name",
+				Optional: true,
 			},
 			"service_settings_uuid": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Service settings UUID",
+				Optional: true,
 			},
 			"tenant": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Tenant URL",
+				Optional: true,
 			},
 			"tenant_uuid": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Tenant UUID",
+				Optional: true,
 			},
 			"type": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Type",
+				Optional: true,
 			},
 			"uuid": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "UUID",
+				Optional: true,
 			},
 		},
 	}

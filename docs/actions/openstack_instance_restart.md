@@ -3,12 +3,12 @@
 page_title: "waldur_openstack_instance_restart Action - waldur"
 subcategory: ""
 description: |-
-  Perform restart action on openstack instance
+  
 ---
 
 # waldur_openstack_instance_restart (Action)
 
-Perform restart action on openstack instance
+
 
 
 
@@ -17,7 +17,7 @@ Perform restart action on openstack instance
 
 ### Required
 
-- `uuid` (String) The UUID of the openstack instance
+- `uuid` (String) UUID of the resource
 
 ### Optional
 

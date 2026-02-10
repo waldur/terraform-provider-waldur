@@ -3,12 +3,12 @@
 page_title: "waldur_openstack_volume_pull Action - waldur"
 subcategory: ""
 description: |-
-  Perform pull action on openstack volume
+  
 ---
 
 # waldur_openstack_volume_pull (Action)
 
-Perform pull action on openstack volume
+
 
 
 
@@ -17,7 +17,7 @@ Perform pull action on openstack volume
 
 ### Required
 
-- `uuid` (String) The UUID of the openstack volume
+- `uuid` (String) UUID of the resource
 
 ### Optional
 

@@ -1017,6 +1017,7 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 			"server_group": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
 					"url": schema.StringAttribute{
+						Optional: true,
 						Computed: true,
 						PlanModifiers: []planmodifier.String{
 							stringplanmodifier.UseStateForUnknown(),

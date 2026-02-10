@@ -45,68 +45,52 @@ func (m *StructureProjectFiltersModel) GetSchema() schema.SingleNestedAttribute 
 		MarkdownDescription: "Filter parameters for querying Structure Project",
 		Attributes: map[string]schema.Attribute{
 			"backend_id": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "ID of the backend",
+				Optional: true,
 			},
 			"can_admin": schema.BoolAttribute{
-				Optional:            true,
-				MarkdownDescription: "Return a list of projects where current user is admin.",
+				Optional: true,
 			},
 			"can_manage": schema.BoolAttribute{
-				Optional:            true,
-				MarkdownDescription: "Return a list of projects where current user is manager or a customer owner.",
+				Optional: true,
 			},
 			"conceal_finished_projects": schema.BoolAttribute{
-				Optional:            true,
-				MarkdownDescription: "Conceal finished projects",
+				Optional: true,
 			},
 			"created": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Created after",
+				Optional: true,
 			},
 			"customer_abbreviation": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Customer abbreviation",
+				Optional: true,
 			},
 			"customer_name": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Customer name",
+				Optional: true,
 			},
 			"customer_native_name": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Customer native name",
+				Optional: true,
 			},
 			"description": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Description",
+				Optional: true,
 			},
 			"include_terminated": schema.BoolAttribute{
-				Optional:            true,
-				MarkdownDescription: "Include soft-deleted (terminated) projects. Only available to staff and support users, or users with organizational roles who can see their terminated projects.",
+				Optional: true,
 			},
 			"is_removed": schema.BoolAttribute{
-				Optional:            true,
-				MarkdownDescription: "Is removed",
+				Optional: true,
 			},
 			"modified": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Modified after",
+				Optional: true,
 			},
 			"name": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Name",
+				Optional: true,
 			},
 			"name_exact": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Name (exact)",
+				Optional: true,
 			},
 			"query": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Filter by name, slug, UUID, backend ID or resource effective ID",
+				Optional: true,
 			},
 			"slug": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Slug",
+				Optional: true,
 			},
 		},
 	}
