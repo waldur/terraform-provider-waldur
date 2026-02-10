@@ -84,6 +84,11 @@ func (c *OpenstackInstanceClient) List(ctx context.Context, filter map[string]st
 	return listResult, nil
 }
 
+func (c *OpenstackInstanceClient) UpdateFloatingIps(ctx context.Context, id string, req *OpenstackInstanceUpdateFloatingIpsActionRequest) error {
+	path := "/api/openstack-instances/{uuid}/update_floating_ips/"
+	err := c.Client.ExecuteAction(ctx, path, id, req, nil)
+	return err
+}
 func (c *OpenstackInstanceClient) UpdatePorts(ctx context.Context, id string, req *OpenstackInstanceUpdatePortsActionRequest) error {
 	path := "/api/openstack-instances/{uuid}/update_ports/"
 	err := c.Client.ExecuteAction(ctx, path, id, req, nil)
@@ -91,11 +96,6 @@ func (c *OpenstackInstanceClient) UpdatePorts(ctx context.Context, id string, re
 }
 func (c *OpenstackInstanceClient) UpdateSecurityGroups(ctx context.Context, id string, req *OpenstackInstanceUpdateSecurityGroupsActionRequest) error {
 	path := "/api/openstack-instances/{uuid}/update_security_groups/"
-	err := c.Client.ExecuteAction(ctx, path, id, req, nil)
-	return err
-}
-func (c *OpenstackInstanceClient) UpdateFloatingIps(ctx context.Context, id string, req *OpenstackInstanceUpdateFloatingIpsActionRequest) error {
-	path := "/api/openstack-instances/{uuid}/update_floating_ips/"
 	err := c.Client.ExecuteAction(ctx, path, id, req, nil)
 	return err
 }
