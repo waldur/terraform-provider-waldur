@@ -57,7 +57,6 @@ type OpenstackPortResponse struct {
 	TenantName              *string                                           `json:"tenant_name" tfsdk:"tenant_name"`
 	TenantUuid              *string                                           `json:"tenant_uuid" tfsdk:"tenant_uuid"`
 	Url                     *string                                           `json:"url" tfsdk:"url"`
-	TargetTenant            *string                                           `json:"target_tenant" tfsdk:"target_tenant"`
 }
 
 type OpenstackPortAllowedAddressPairsResponse struct {

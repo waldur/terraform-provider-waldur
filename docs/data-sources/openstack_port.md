@@ -45,7 +45,6 @@ Openstack Port data source - lookup by name or UUID
 - `security_groups` (Attributes Set) Security Groups (see [below for nested schema](#nestedatt--security_groups))
 - `state` (String) State
 - `status` (String) Port status in OpenStack (e.g. ACTIVE, DOWN)
-- `target_tenant` (String) Target Tenant UUID
 - `tenant` (String) OpenStack tenant this port belongs to
 - `tenant_name` (String) Tenant Name
 - `tenant_uuid` (String) Tenant Uuid

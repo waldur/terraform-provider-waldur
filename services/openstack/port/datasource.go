@@ -191,10 +191,6 @@ func (d *OpenstackPortDataSource) Schema(ctx context.Context, req datasource.Sch
 				Computed:            true,
 				MarkdownDescription: "Url",
 			},
-			"target_tenant": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Target Tenant UUID",
-			},
 		},
 	}
 }

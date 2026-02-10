@@ -152,7 +152,6 @@ type OpenstackPortModel struct {
 	TenantName              types.String `tfsdk:"tenant_name"`
 	TenantUuid              types.String `tfsdk:"tenant_uuid"`
 	Url                     types.String `tfsdk:"url"`
-	TargetTenant            types.String `tfsdk:"target_tenant"`
 }
 
 // CopyFrom maps the API response to the model fields.
@@ -209,7 +208,6 @@ func (model *OpenstackPortModel) CopyFrom(ctx context.Context, apiResp Openstack
 	model.TenantName = common.StringPointerValue(apiResp.TenantName)
 	model.TenantUuid = common.StringPointerValue(apiResp.TenantUuid)
 	model.Url = common.StringPointerValue(apiResp.Url)
-	model.TargetTenant = common.StringPointerValue(apiResp.TargetTenant)
 
 	return diags
 }

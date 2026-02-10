@@ -162,9 +162,9 @@ func (r *OpenstackVolumeAttachmentResource) Schema(ctx context.Context, req reso
 				MarkdownDescription: "Name of the image this volume was created from",
 			},
 			"instance": schema.StringAttribute{
-				Computed: true,
+				Required: true,
 				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
+					stringplanmodifier.RequiresReplace(),
 				},
 				MarkdownDescription: "Instance that this volume is attached to, if any",
 			},
@@ -335,20 +335,43 @@ func (r *OpenstackVolumeAttachmentResource) Create(ctx context.Context, req reso
 
 	requestBody := OpenstackVolumeAttachmentCreateRequest{}
 	requestBody.Instance = data.Instance.ValueStringPointer()
+	requestBody.Volume = data.Volume.ValueStringPointer()
 	if !data.Device.IsNull() && !data.Device.IsUnknown() {
 		requestBody.Device = data.Device.ValueStringPointer()
 	}
 
-	apiResp, err := r.client.Link(ctx, &requestBody)
+	_, err := r.client.Link(ctx, &requestBody)
 	if err != nil {
 		resp.Diagnostics.AddError("Link Operation Failed", err.Error())
 		return
 	}
 
 	// For Link resources, ID is composite of Source and Target UUIDs because the API might not return a distinct ID for the link itself.
-	data.UUID = types.StringValue(sourceUUID + "/" + data.Instance.ValueString())
+	targetUUID := common.ExtractUUIDFromURL(data.Instance.ValueString())
+	data.UUID = types.StringValue(sourceUUID + "/" + targetUUID)
+
+	// Extract creation timeout
+	timeout, diags := data.Timeouts.Create(ctx, common.DefaultCreateTimeout)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	// Fetch updated state and wait for it to be ready
+	// The volume might be in "updating" state immediately after attach, so we wait for "OK".
+	apiResp, err := common.WaitForResource(ctx, func(ctx context.Context) (*OpenstackVolumeAttachmentResponse, error) {
+		return r.client.Get(ctx, sourceUUID)
+	}, timeout)
+	if err != nil {
+		resp.Diagnostics.AddError("Failed to wait for resource ready state after Link", err.Error())
+		return
+	}
 
 	resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
+
+	// Restore composite ID overwritten by CopyFrom (which retrieves Source UUID)
+	data.UUID = types.StringValue(sourceUUID + "/" + targetUUID)
+
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 

@@ -34,7 +34,8 @@ type OpenstackPortResource struct {
 // OpenstackPortResourceModel describes the resource data model.
 type OpenstackPortResourceModel struct {
 	OpenstackPortModel
-	Timeouts timeouts.Value `tfsdk:"timeouts"`
+	TargetTenant types.String   `tfsdk:"target_tenant"`
+	Timeouts     timeouts.Value `tfsdk:"timeouts"`
 }
 
 func (r *OpenstackPortResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {

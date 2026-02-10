@@ -17,6 +17,7 @@ Openstack Volume Attachment resource
 
 ### Required
 
+- `instance` (String) Instance that this volume is attached to, if any
 - `volume` (String) Source resource UUID
 
 ### Optional
@@ -45,7 +46,6 @@ Openstack Volume Attachment resource
 - `id` (String) Openstack Volume Attachment UUID (used as Terraform ID)
 - `image_metadata` (String) Metadata of the image this volume was created from
 - `image_name` (String) Name of the image this volume was created from
-- `instance` (String) Instance that this volume is attached to, if any
 - `instance_marketplace_uuid` (String) Instance Marketplace Uuid
 - `instance_name` (String) Instance Name
 - `marketplace_resource_uuid` (String) Marketplace Resource Uuid
