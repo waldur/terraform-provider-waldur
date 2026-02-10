@@ -85,19 +85,19 @@ resource "waldur_openstack_instance" "example" {
 - `data_volume_type` (String) Volume type for the data volume
 - `data_volumes` (Attributes List) Additional data volumes to attach to the instance (see [below for nested schema](#nestedatt--data_volumes))
 - `delete_volumes` (Boolean) Termination attribute
-- `description` (String) Description of the Openstack Instance
+- `description` (String) Description
 - `flavor` (String) The flavor to use for the instance
 - `floating_ips` (Attributes Set) Floating IPs to assign to the instance (see [below for nested schema](#nestedatt--floating_ips))
 - `image` (String) The OS image to use for the instance
 - `limits` (Map of Number) Resource limits
-- `name` (String) Name of the Openstack Instance
+- `name` (String) Name
 - `plan` (String) Plan URL
 - `ports` (Attributes List) Network ports to attach to the instance (see [below for nested schema](#nestedatt--ports))
 - `project` (String) Project URL
 - `release_floating_ips` (Boolean) Termination attribute
 - `security_groups` (Attributes Set) List of security groups to apply to the instance (see [below for nested schema](#nestedatt--security_groups))
 - `server_group` (Attributes) Server group for instance scheduling policy (see [below for nested schema](#nestedatt--server_group))
-- `ssh_public_key` (String) Ssh public key
+- `ssh_public_key` (String) Ssh Public Key
 - `system_volume_size` (Number) Size of the system volume in MiB. Minimum size is 1024 MiB (1 GiB)
 - `system_volume_type` (String) Volume type for the system volume
 - `timeouts` (Block, Optional) (see [below for nested schema](#nestedblock--timeouts))
@@ -111,28 +111,28 @@ resource "waldur_openstack_instance" "example" {
 - `cores` (Number) Number of cores in a VM
 - `customer` (String) Customer
 - `disk` (Number) Disk size in MiB
-- `error_message` (String) Error message
-- `error_traceback` (String) Error traceback
-- `external_address` (List of String) External address
-- `external_ips` (List of String) External ips
+- `error_message` (String) Error Message
+- `error_traceback` (String) Error Traceback
+- `external_address` (List of String) External Address
+- `external_ips` (List of String) External Ips
 - `flavor_disk` (Number) Flavor disk size in MiB
 - `flavor_name` (String) Name of the flavor used by this instance
 - `hypervisor_hostname` (String) Name of the hypervisor hosting this instance
 - `id` (String) Openstack Instance UUID (used as Terraform ID)
-- `image_name` (String) Name of the image
-- `internal_ips` (List of String) Internal ips
-- `key_fingerprint` (String) Key fingerprint
-- `key_name` (String) Name of the key
+- `image_name` (String) Image Name
+- `internal_ips` (List of String) Internal Ips
+- `key_fingerprint` (String) Key Fingerprint
+- `key_name` (String) Key Name
 - `latitude` (Number) Latitude
 - `longitude` (Number) Longitude
-- `marketplace_resource_uuid` (String) UUID of the marketplace resource
+- `marketplace_resource_uuid` (String) Marketplace Resource Uuid
 - `min_disk` (Number) Minimum disk size in MiB
 - `min_ram` (Number) Minimum memory size in MiB
 - `ram` (Number) Memory size in MiB
-- `rancher_cluster` (Attributes) Rancher cluster (see [below for nested schema](#nestedatt--rancher_cluster))
-- `resource_type` (String) Resource type
-- `runtime_state` (String) Runtime state
-- `start_time` (String) Start time
+- `rancher_cluster` (Attributes) Rancher Cluster (see [below for nested schema](#nestedatt--rancher_cluster))
+- `resource_type` (String) Resource Type
+- `runtime_state` (String) Runtime State
+- `start_time` (String) Start Time
 - `state` (String) State
 - `tenant` (String) The OpenStack tenant to create the instance in
 - `tenant_uuid` (String) UUID of the OpenStack tenant
@@ -148,7 +148,7 @@ Required:
 
 Optional:
 
-- `volume_type` (String) Volume type
+- `volume_type` (String) Volume Type
 
 
 <a id="nestedatt--floating_ips"></a>
@@ -162,14 +162,14 @@ Optional:
 Read-Only:
 
 - `address` (String) The public IPv4 address of the floating IP
-- `port_fixed_ips` (Attributes List) Port fixed ips (see [below for nested schema](#nestedatt--floating_ips--port_fixed_ips))
+- `port_fixed_ips` (Attributes List) Port Fixed Ips (see [below for nested schema](#nestedatt--floating_ips--port_fixed_ips))
 - `port_mac_address` (String) MAC address of the port
 - `subnet_cidr` (String) IPv4 network address in CIDR format (e.g. 192.168.0.0/24)
-- `subnet_description` (String) Subnet description
-- `subnet_name` (String) Name of the subnet
-- `subnet_uuid` (String) UUID of the subnet
+- `subnet_description` (String) Subnet Description
+- `subnet_name` (String) Subnet Name
+- `subnet_uuid` (String) Subnet Uuid
 - `url` (String) Url
-- `uuid` (String) UUID of the Openstack Instance
+- `uuid` (String) Uuid
 
 <a id="nestedatt--floating_ips--port_fixed_ips"></a>
 ### Nested Schema for `floating_ips.port_fixed_ips`
@@ -186,21 +186,21 @@ Optional:
 
 Optional:
 
-- `fixed_ips` (Attributes List) Fixed ips (see [below for nested schema](#nestedatt--ports--fixed_ips))
+- `fixed_ips` (Attributes List) Fixed Ips (see [below for nested schema](#nestedatt--ports--fixed_ips))
 - `port` (String) Port
 - `subnet` (String) Subnet to which this port belongs
 
 Read-Only:
 
-- `allowed_address_pairs` (Attributes List) Allowed address pairs (see [below for nested schema](#nestedatt--ports--allowed_address_pairs))
+- `allowed_address_pairs` (Attributes List) Allowed Address Pairs (see [below for nested schema](#nestedatt--ports--allowed_address_pairs))
 - `device_id` (String) ID of device (instance, router etc) to which this port is connected
 - `device_owner` (String) Entity that uses this port (e.g. network:router_interface)
 - `mac_address` (String) MAC address of the port
-- `security_groups` (Attributes Set) Security groups (see [below for nested schema](#nestedatt--ports--security_groups))
+- `security_groups` (Attributes Set) Security Groups (see [below for nested schema](#nestedatt--ports--security_groups))
 - `subnet_cidr` (String) IPv4 network address in CIDR format (e.g. 192.168.0.0/24)
-- `subnet_description` (String) Subnet description
-- `subnet_name` (String) Name of the subnet
-- `subnet_uuid` (String) UUID of the subnet
+- `subnet_description` (String) Subnet Description
+- `subnet_name` (String) Subnet Name
+- `subnet_uuid` (String) Subnet Uuid
 - `url` (String) Url
 
 <a id="nestedatt--ports--fixed_ips"></a>
@@ -217,7 +217,7 @@ Optional:
 
 Optional:
 
-- `mac_address` (String) Mac address
+- `mac_address` (String) Mac Address
 
 
 <a id="nestedatt--ports--security_groups"></a>
@@ -225,25 +225,25 @@ Optional:
 
 Optional:
 
-- `description` (String) Description of the Openstack Instance
-- `name` (String) Name of the Openstack Instance
+- `description` (String) Description
+- `name` (String) Name
 - `rules` (Attributes List) Rules (see [below for nested schema](#nestedatt--ports--security_groups--rules))
 
 Read-Only:
 
-- `backend_id` (String) ID of the backend
+- `backend_id` (String) Backend Id
 - `customer` (String) Customer
-- `error_message` (String) Error message
-- `error_traceback` (String) Error traceback
-- `marketplace_resource_uuid` (String) UUID of the marketplace resource
+- `error_message` (String) Error Message
+- `error_traceback` (String) Error Traceback
+- `marketplace_resource_uuid` (String) Marketplace Resource Uuid
 - `project` (String) Project
-- `resource_type` (String) Resource type
+- `resource_type` (String) Resource Type
 - `state` (String) State
 - `tenant` (String) Tenant
-- `tenant_name` (String) Name of the tenant
-- `tenant_uuid` (String) UUID of the tenant
+- `tenant_name` (String) Tenant Name
+- `tenant_uuid` (String) Tenant Uuid
 - `url` (String) Url
-- `uuid` (String) UUID of the Openstack Instance
+- `uuid` (String) Uuid
 
 <a id="nestedatt--ports--security_groups--rules"></a>
 ### Nested Schema for `ports.security_groups.rules`
@@ -251,7 +251,7 @@ Read-Only:
 Optional:
 
 - `cidr` (String) CIDR notation for the source/destination network address range
-- `description` (String) Description of the Openstack Instance
+- `description` (String) Description
 - `direction` (String) Traffic direction - either 'ingress' (incoming) or 'egress' (outgoing)
 - `ethertype` (String) IP protocol version - either 'IPv4' or 'IPv6'
 - `from_port` (Number) Starting port number in the range (1-65535)
@@ -262,8 +262,8 @@ Optional:
 Read-Only:
 
 - `id` (Number) Id
-- `remote_group_name` (String) Name of the remote group
-- `remote_group_uuid` (String) UUID of the remote group
+- `remote_group_name` (String) Remote Group Name
+- `remote_group_uuid` (String) Remote Group Uuid
 
 
 
@@ -273,8 +273,8 @@ Read-Only:
 
 Read-Only:
 
-- `description` (String) Description of the Openstack Instance
-- `name` (String) Name of the Openstack Instance
+- `description` (String) Description
+- `name` (String) Name
 - `rules` (Attributes List) Rules (see [below for nested schema](#nestedatt--security_groups--rules))
 - `state` (String) State
 - `url` (String) Url
@@ -285,7 +285,7 @@ Read-Only:
 Optional:
 
 - `cidr` (String) CIDR notation for the source/destination network address range
-- `description` (String) Description of the Openstack Instance
+- `description` (String) Description
 - `direction` (String) Traffic direction - either 'ingress' (incoming) or 'egress' (outgoing)
 - `ethertype` (String) IP protocol version - either 'IPv4' or 'IPv6'
 - `from_port` (Number) Starting port number in the range (1-65535)
@@ -295,23 +295,20 @@ Optional:
 Read-Only:
 
 - `id` (Number) Id
-- `remote_group_name` (String) Name of the remote group
-- `remote_group_uuid` (String) UUID of the remote group
+- `remote_group_name` (String) Remote Group Name
+- `remote_group_uuid` (String) Remote Group Uuid
 
 
 
 <a id="nestedatt--server_group"></a>
 ### Nested Schema for `server_group`
 
-Optional:
-
-- `url` (String) Url
-
 Read-Only:
 
-- `name` (String) Name of the Openstack Instance
+- `name` (String) Name
 - `policy` (String) Server group policy determining the rules for scheduling servers in this group
 - `state` (String) State
+- `url` (String) Url
 
 
 <a id="nestedblock--timeouts"></a>
@@ -329,12 +326,12 @@ Optional:
 
 Optional:
 
-- `name` (String) Name of the Openstack Instance
+- `name` (String) Name
 
 Read-Only:
 
-- `marketplace_uuid` (String) UUID of the marketplace
-- `uuid` (String) UUID of the Openstack Instance
+- `marketplace_uuid` (String) Marketplace Uuid
+- `uuid` (String) Uuid
 
 
 <a id="nestedatt--volumes"></a>
@@ -350,10 +347,10 @@ Optional:
 
 Read-Only:
 
-- `marketplace_resource_uuid` (String) UUID of the marketplace resource
-- `name` (String) Name of the Openstack Instance
-- `resource_type` (String) Resource type
+- `marketplace_resource_uuid` (String) Marketplace Resource Uuid
+- `name` (String) Name
+- `resource_type` (String) Resource Type
 - `state` (String) State
-- `type_name` (String) Name of the type
+- `type_name` (String) Type Name
 - `url` (String) Url
-- `uuid` (String) UUID of the Openstack Instance
+- `uuid` (String) Uuid

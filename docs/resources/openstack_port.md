@@ -17,17 +17,17 @@ Openstack Port resource
 
 ### Required
 
-- `name` (String) Name of the Openstack Port
+- `name` (String) Name
 
 ### Optional
 
-- `allowed_address_pairs` (Attributes List) Allowed address pairs (see [below for nested schema](#nestedatt--allowed_address_pairs))
-- `description` (String) Description of the Openstack Port
-- `fixed_ips` (Attributes List) Fixed ips (see [below for nested schema](#nestedatt--fixed_ips))
+- `allowed_address_pairs` (Attributes List) Allowed Address Pairs (see [below for nested schema](#nestedatt--allowed_address_pairs))
+- `description` (String) Description
+- `fixed_ips` (Attributes List) Fixed Ips (see [below for nested schema](#nestedatt--fixed_ips))
 - `mac_address` (String) MAC address of the port
 - `network` (String) Network to which this port belongs
 - `port_security_enabled` (Boolean) If True, security groups and rules will be applied to this port
-- `security_groups` (Attributes Set) Security groups (see [below for nested schema](#nestedatt--security_groups))
+- `security_groups` (Attributes Set) Security Groups (see [below for nested schema](#nestedatt--security_groups))
 - `target_tenant` (String) Target tenant for shared network port creation. If not specified, defaults to network's tenant.
 - `timeouts` (Block, Optional) (see [below for nested schema](#nestedblock--timeouts))
 
@@ -38,20 +38,20 @@ Openstack Port resource
 - `customer` (String) Customer
 - `device_id` (String) ID of device (instance, router etc) to which this port is connected
 - `device_owner` (String) Entity that uses this port (e.g. network:router_interface)
-- `error_message` (String) Error message
-- `error_traceback` (String) Error traceback
-- `floating_ips` (Set of String) Floating ips
+- `error_message` (String) Error Message
+- `error_traceback` (String) Error Traceback
+- `floating_ips` (Set of String) Floating Ips
 - `id` (String) Openstack Port UUID (used as Terraform ID)
-- `marketplace_resource_uuid` (String) UUID of the marketplace resource
-- `network_name` (String) Name of the network
-- `network_uuid` (String) UUID of the network
+- `marketplace_resource_uuid` (String) Marketplace Resource Uuid
+- `network_name` (String) Network Name
+- `network_uuid` (String) Network Uuid
 - `project` (String) Project
-- `resource_type` (String) Resource type
+- `resource_type` (String) Resource Type
 - `state` (String) State
 - `status` (String) Port status in OpenStack (e.g. ACTIVE, DOWN)
 - `tenant` (String) OpenStack tenant this port belongs to
-- `tenant_name` (String) Name of the tenant
-- `tenant_uuid` (String) UUID of the tenant
+- `tenant_name` (String) Tenant Name
+- `tenant_uuid` (String) Tenant Uuid
 - `url` (String) Url
 
 <a id="nestedatt--allowed_address_pairs"></a>
@@ -59,8 +59,8 @@ Openstack Port resource
 
 Optional:
 
-- `ip_address` (String) Ip address
-- `mac_address` (String) Mac address
+- `ip_address` (String) Ip Address
+- `mac_address` (String) Mac Address
 
 
 <a id="nestedatt--fixed_ips"></a>
@@ -77,12 +77,12 @@ Required:
 
 Required:
 
-- `name` (String) Name of the Openstack Port
+- `name` (String) Name
 
 Read-Only:
 
 - `url` (String) Url
-- `uuid` (String) UUID of the Openstack Port
+- `uuid` (String) Uuid
 
 
 <a id="nestedblock--timeouts"></a>

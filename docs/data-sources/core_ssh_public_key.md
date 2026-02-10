@@ -22,28 +22,28 @@ Core Ssh Public Key data source - lookup by name or UUID
 
 ### Read-Only
 
-- `fingerprint_md5` (String)
-- `fingerprint_sha256` (String)
-- `fingerprint_sha512` (String)
-- `is_shared` (Boolean)
-- `name` (String)
-- `public_key` (String)
-- `type` (String)
-- `url` (String)
-- `user_uuid` (String)
+- `fingerprint_md5` (String) Fingerprint Md5
+- `fingerprint_sha256` (String) Fingerprint Sha256
+- `fingerprint_sha512` (String) Fingerprint Sha512
+- `is_shared` (Boolean) Is Shared
+- `name` (String) Name
+- `public_key` (String) Public Key
+- `type` (String) Type
+- `url` (String) Url
+- `user_uuid` (String) User Uuid
 
 <a id="nestedatt--filters"></a>
 ### Nested Schema for `filters`
 
 Optional:
 
-- `created` (String)
-- `fingerprint_md5` (String)
-- `fingerprint_sha256` (String)
-- `fingerprint_sha512` (String)
-- `is_shared` (Boolean)
-- `modified` (String)
-- `name` (String)
-- `name_exact` (String)
-- `user_uuid` (String)
-- `uuid` (String)
+- `created` (String) Created after
+- `fingerprint_md5` (String) Fingerprint md5
+- `fingerprint_sha256` (String) Fingerprint sha256
+- `fingerprint_sha512` (String) Fingerprint sha512
+- `is_shared` (Boolean) Is shared
+- `modified` (String) Modified after
+- `name` (String) Name
+- `name_exact` (String) Name (exact)
+- `user_uuid` (String) User UUID
+- `uuid` (String) UUID

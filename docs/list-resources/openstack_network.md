@@ -24,26 +24,26 @@ description: |-
 
 Optional:
 
-- `backend_id` (String)
-- `can_manage` (Boolean)
-- `customer` (String)
-- `customer_abbreviation` (String)
-- `customer_name` (String)
-- `customer_native_name` (String)
-- `customer_uuid` (String)
-- `description` (String)
-- `direct_only` (Boolean)
-- `external_ip` (String)
-- `is_external` (Boolean)
-- `name` (String)
-- `name_exact` (String)
-- `project` (String)
-- `project_name` (String)
-- `project_uuid` (String)
-- `rbac_only` (Boolean)
-- `service_settings_name` (String)
-- `service_settings_uuid` (String)
-- `tenant` (String)
-- `tenant_uuid` (String)
-- `type` (String)
-- `uuid` (String)
+- `backend_id` (String) Backend ID
+- `can_manage` (Boolean) Can manage
+- `customer` (String) Customer UUID
+- `customer_abbreviation` (String) Customer abbreviation
+- `customer_name` (String) Customer name
+- `customer_native_name` (String) Customer native name
+- `customer_uuid` (String) Customer UUID
+- `description` (String) Description
+- `direct_only` (Boolean) Direct only
+- `external_ip` (String) External IP
+- `is_external` (Boolean) Is external
+- `name` (String) Name
+- `name_exact` (String) Name (exact)
+- `project` (String) Project UUID
+- `project_name` (String) Project name
+- `project_uuid` (String) Project UUID
+- `rbac_only` (Boolean) RBAC only
+- `service_settings_name` (String) Service settings name
+- `service_settings_uuid` (String) Service settings UUID
+- `tenant` (String) Tenant URL
+- `tenant_uuid` (String) Tenant UUID
+- `type` (String) Type
+- `uuid` (String) UUID

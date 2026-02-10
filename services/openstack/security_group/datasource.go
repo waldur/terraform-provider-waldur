@@ -45,7 +45,7 @@ func (d *OpenstackSecurityGroupDataSource) Schema(ctx context.Context, req datas
 			"filters": (&OpenstackSecurityGroupFiltersModel{}).GetSchema(),
 			"backend_id": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "ID of the backend",
+				MarkdownDescription: "Backend Id",
 			},
 			"customer": schema.StringAttribute{
 				Computed:            true,
@@ -53,23 +53,23 @@ func (d *OpenstackSecurityGroupDataSource) Schema(ctx context.Context, req datas
 			},
 			"description": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Description of the Openstack Security Group",
+				MarkdownDescription: "Description",
 			},
 			"error_message": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Error message",
+				MarkdownDescription: "Error Message",
 			},
 			"error_traceback": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Error traceback",
+				MarkdownDescription: "Error Traceback",
 			},
 			"marketplace_resource_uuid": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "UUID of the marketplace resource",
+				MarkdownDescription: "Marketplace Resource Uuid",
 			},
 			"name": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Name of the Openstack Security Group",
+				MarkdownDescription: "Name",
 			},
 			"project": schema.StringAttribute{
 				Computed:            true,
@@ -77,7 +77,7 @@ func (d *OpenstackSecurityGroupDataSource) Schema(ctx context.Context, req datas
 			},
 			"resource_type": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Resource type",
+				MarkdownDescription: "Resource Type",
 			},
 			"rules": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
@@ -88,7 +88,7 @@ func (d *OpenstackSecurityGroupDataSource) Schema(ctx context.Context, req datas
 						},
 						"description": schema.StringAttribute{
 							Computed:            true,
-							MarkdownDescription: "Description of the Openstack Security Group",
+							MarkdownDescription: "Description",
 						},
 						"direction": schema.StringAttribute{
 							Computed:            true,
@@ -128,11 +128,11 @@ func (d *OpenstackSecurityGroupDataSource) Schema(ctx context.Context, req datas
 						},
 						"remote_group_name": schema.StringAttribute{
 							Computed:            true,
-							MarkdownDescription: "Name of the remote group",
+							MarkdownDescription: "Remote Group Name",
 						},
 						"remote_group_uuid": schema.StringAttribute{
 							Computed:            true,
-							MarkdownDescription: "UUID of the remote group",
+							MarkdownDescription: "Remote Group Uuid",
 						},
 					},
 				},
@@ -149,11 +149,11 @@ func (d *OpenstackSecurityGroupDataSource) Schema(ctx context.Context, req datas
 			},
 			"tenant_name": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Name of the tenant",
+				MarkdownDescription: "Tenant Name",
 			},
 			"tenant_uuid": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "UUID of the tenant",
+				MarkdownDescription: "Tenant Uuid",
 			},
 			"url": schema.StringAttribute{
 				Computed:            true,

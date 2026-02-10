@@ -23,32 +23,32 @@ Openstack Port data source - lookup by name or UUID
 ### Read-Only
 
 - `admin_state_up` (Boolean) Administrative state of the port. If down, port does not forward packets
-- `allowed_address_pairs` (Attributes List) Allowed address pairs (see [below for nested schema](#nestedatt--allowed_address_pairs))
+- `allowed_address_pairs` (Attributes List) Allowed Address Pairs (see [below for nested schema](#nestedatt--allowed_address_pairs))
 - `backend_id` (String) Port ID in OpenStack
 - `customer` (String) Customer
-- `description` (String) Description of the Openstack Port
+- `description` (String) Description
 - `device_id` (String) ID of device (instance, router etc) to which this port is connected
 - `device_owner` (String) Entity that uses this port (e.g. network:router_interface)
-- `error_message` (String) Error message
-- `error_traceback` (String) Error traceback
-- `fixed_ips` (Attributes List) Fixed ips (see [below for nested schema](#nestedatt--fixed_ips))
-- `floating_ips` (Set of String) Floating ips
+- `error_message` (String) Error Message
+- `error_traceback` (String) Error Traceback
+- `fixed_ips` (Attributes List) Fixed Ips (see [below for nested schema](#nestedatt--fixed_ips))
+- `floating_ips` (Set of String) Floating Ips
 - `mac_address` (String) MAC address of the port
-- `marketplace_resource_uuid` (String) UUID of the marketplace resource
-- `name` (String) Name of the Openstack Port
+- `marketplace_resource_uuid` (String) Marketplace Resource Uuid
+- `name` (String) Name
 - `network` (String) Network to which this port belongs
-- `network_name` (String) Name of the network
-- `network_uuid` (String) UUID of the network
+- `network_name` (String) Network Name
+- `network_uuid` (String) Network Uuid
 - `port_security_enabled` (Boolean) If True, security groups and rules will be applied to this port
 - `project` (String) Project
-- `resource_type` (String) Resource type
-- `security_groups` (Attributes Set) Security groups (see [below for nested schema](#nestedatt--security_groups))
+- `resource_type` (String) Resource Type
+- `security_groups` (Attributes Set) Security Groups (see [below for nested schema](#nestedatt--security_groups))
 - `state` (String) State
 - `status` (String) Port status in OpenStack (e.g. ACTIVE, DOWN)
 - `target_tenant` (String) Target Tenant UUID
 - `tenant` (String) OpenStack tenant this port belongs to
-- `tenant_name` (String) Name of the tenant
-- `tenant_uuid` (String) UUID of the tenant
+- `tenant_name` (String) Tenant Name
+- `tenant_uuid` (String) Tenant Uuid
 - `url` (String) Url
 
 <a id="nestedatt--filters"></a>
@@ -56,22 +56,22 @@ Openstack Port data source - lookup by name or UUID
 
 Optional:
 
-- `admin_state_up` (Boolean)
-- `backend_id` (String)
-- `device_id` (String)
-- `device_owner` (String)
-- `exclude_subnet_uuids` (String)
-- `fixed_ips` (String)
-- `has_device_owner` (Boolean)
-- `mac_address` (String)
-- `name` (String)
-- `name_exact` (String)
-- `network_name` (String)
-- `network_uuid` (String)
-- `query` (String)
-- `status` (String)
-- `tenant` (String)
-- `tenant_uuid` (String)
+- `admin_state_up` (Boolean) Admin state up
+- `backend_id` (String) ID of the backend
+- `device_id` (String) ID of the device
+- `device_owner` (String) Device owner
+- `exclude_subnet_uuids` (String) Exclude Subnet UUIDs (comma-separated)
+- `fixed_ips` (String) Search by fixed IP
+- `has_device_owner` (Boolean) Has device owner
+- `mac_address` (String) Mac address
+- `name` (String) Name
+- `name_exact` (String) Name (exact)
+- `network_name` (String) Search by network name
+- `network_uuid` (String) Search by network UUID
+- `query` (String) Search by name, MAC address or backend ID
+- `status` (String) Status
+- `tenant` (String) Tenant URL
+- `tenant_uuid` (String) Tenant UUID
 
 
 <a id="nestedatt--allowed_address_pairs"></a>
@@ -79,8 +79,8 @@ Optional:
 
 Read-Only:
 
-- `ip_address` (String) Ip address
-- `mac_address` (String) Mac address
+- `ip_address` (String) Ip Address
+- `mac_address` (String) Mac Address
 
 
 <a id="nestedatt--fixed_ips"></a>
@@ -97,6 +97,6 @@ Read-Only:
 
 Read-Only:
 
-- `name` (String) Name of the Openstack Port
+- `name` (String) Name
 - `url` (String) Url
-- `uuid` (String) UUID of the Openstack Port
+- `uuid` (String) Uuid

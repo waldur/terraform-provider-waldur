@@ -34,7 +34,7 @@ func (a *MarketplaceResourcePullAction) Metadata(ctx context.Context, req action
 
 func (a *MarketplaceResourcePullAction) Schema(ctx context.Context, req action.SchemaRequest, resp *action.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		Description: "",
+		Description: "Perform pull action on marketplace resource",
 		Attributes: map[string]schema.Attribute{
 			"uuid": schema.StringAttribute{
 				Description: "UUID of the resource",

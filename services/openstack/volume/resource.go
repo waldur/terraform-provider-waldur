@@ -79,7 +79,7 @@ func (r *OpenstackVolumeResource) Schema(ctx context.Context, req resource.Schem
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Name of the availability zone",
+				MarkdownDescription: "Availability Zone Name",
 			},
 			"backend_id": schema.StringAttribute{
 				Computed: true,
@@ -108,7 +108,7 @@ func (r *OpenstackVolumeResource) Schema(ctx context.Context, req resource.Schem
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Description of the Openstack Volume",
+				MarkdownDescription: "Description",
 			},
 			"device": schema.StringAttribute{
 				Computed: true,
@@ -122,21 +122,21 @@ func (r *OpenstackVolumeResource) Schema(ctx context.Context, req resource.Schem
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Error message",
+				MarkdownDescription: "Error Message",
 			},
 			"error_traceback": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Error traceback",
+				MarkdownDescription: "Error Traceback",
 			},
 			"extend_enabled": schema.BoolAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.Bool{
 					boolplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Extend enabled",
+				MarkdownDescription: "Extend Enabled",
 			},
 			"image": schema.StringAttribute{
 				Optional: true,
@@ -173,14 +173,14 @@ func (r *OpenstackVolumeResource) Schema(ctx context.Context, req resource.Schem
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "UUID of the instance marketplace",
+				MarkdownDescription: "Instance Marketplace Uuid",
 			},
 			"instance_name": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Name of the instance",
+				MarkdownDescription: "Instance Name",
 			},
 			"limits": schema.MapAttribute{
 				ElementType: types.Float64Type,
@@ -197,7 +197,7 @@ func (r *OpenstackVolumeResource) Schema(ctx context.Context, req resource.Schem
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "UUID of the marketplace resource",
+				MarkdownDescription: "Marketplace Resource Uuid",
 			},
 			"name": schema.StringAttribute{
 				Optional: true,
@@ -205,7 +205,7 @@ func (r *OpenstackVolumeResource) Schema(ctx context.Context, req resource.Schem
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Name of the Openstack Volume",
+				MarkdownDescription: "Name",
 			},
 			"offering": schema.StringAttribute{
 				Required: true,
@@ -237,14 +237,14 @@ func (r *OpenstackVolumeResource) Schema(ctx context.Context, req resource.Schem
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Resource type",
+				MarkdownDescription: "Resource Type",
 			},
 			"runtime_state": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Runtime state",
+				MarkdownDescription: "Runtime State",
 			},
 			"size": schema.Int64Attribute{
 				Optional: true,
@@ -284,7 +284,7 @@ func (r *OpenstackVolumeResource) Schema(ctx context.Context, req resource.Schem
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "UUID of the tenant",
+				MarkdownDescription: "Tenant Uuid",
 			},
 			"type": schema.StringAttribute{
 				Optional: true,
@@ -299,7 +299,7 @@ func (r *OpenstackVolumeResource) Schema(ctx context.Context, req resource.Schem
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Name of the type",
+				MarkdownDescription: "Type Name",
 			},
 			"url": schema.StringAttribute{
 				Computed: true,

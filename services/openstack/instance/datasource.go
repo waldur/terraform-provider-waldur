@@ -77,7 +77,7 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 			},
 			"description": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Description of the Openstack Instance",
+				MarkdownDescription: "Description",
 			},
 			"disk": schema.Int64Attribute{
 				Computed:            true,
@@ -85,21 +85,21 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 			},
 			"error_message": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Error message",
+				MarkdownDescription: "Error Message",
 			},
 			"error_traceback": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Error traceback",
+				MarkdownDescription: "Error Traceback",
 			},
 			"external_address": schema.ListAttribute{
 				ElementType:         types.StringType,
 				Computed:            true,
-				MarkdownDescription: "External address",
+				MarkdownDescription: "External Address",
 			},
 			"external_ips": schema.ListAttribute{
 				ElementType:         types.StringType,
 				Computed:            true,
-				MarkdownDescription: "External ips",
+				MarkdownDescription: "External Ips",
 			},
 			"flavor_disk": schema.Int64Attribute{
 				Computed:            true,
@@ -142,7 +142,7 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 								},
 							},
 							Computed:            true,
-							MarkdownDescription: "Port fixed ips",
+							MarkdownDescription: "Port Fixed Ips",
 						},
 						"port_mac_address": schema.StringAttribute{
 							Computed:            true,
@@ -154,19 +154,19 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 						},
 						"subnet_description": schema.StringAttribute{
 							Computed:            true,
-							MarkdownDescription: "Subnet description",
+							MarkdownDescription: "Subnet Description",
 						},
 						"subnet_name": schema.StringAttribute{
 							Computed:            true,
-							MarkdownDescription: "Name of the subnet",
+							MarkdownDescription: "Subnet Name",
 						},
 						"subnet_uuid": schema.StringAttribute{
 							Computed:            true,
-							MarkdownDescription: "UUID of the subnet",
+							MarkdownDescription: "Subnet Uuid",
 						},
 						"uuid": schema.StringAttribute{
 							Computed:            true,
-							MarkdownDescription: "UUID of the Openstack Instance",
+							MarkdownDescription: "Uuid",
 						},
 					},
 				},
@@ -179,20 +179,20 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 			},
 			"image_name": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Name of the image",
+				MarkdownDescription: "Image Name",
 			},
 			"internal_ips": schema.ListAttribute{
 				ElementType:         types.StringType,
 				Computed:            true,
-				MarkdownDescription: "Internal ips",
+				MarkdownDescription: "Internal Ips",
 			},
 			"key_fingerprint": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Key fingerprint",
+				MarkdownDescription: "Key Fingerprint",
 			},
 			"key_name": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Name of the key",
+				MarkdownDescription: "Key Name",
 			},
 			"latitude": schema.Float64Attribute{
 				Computed:            true,
@@ -204,7 +204,7 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 			},
 			"marketplace_resource_uuid": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "UUID of the marketplace resource",
+				MarkdownDescription: "Marketplace Resource Uuid",
 			},
 			"min_disk": schema.Int64Attribute{
 				Computed:            true,
@@ -216,7 +216,7 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 			},
 			"name": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Name of the Openstack Instance",
+				MarkdownDescription: "Name",
 			},
 			"ports": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
@@ -235,7 +235,7 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 								},
 							},
 							Computed:            true,
-							MarkdownDescription: "Fixed ips",
+							MarkdownDescription: "Fixed Ips",
 						},
 						"port": schema.StringAttribute{
 							Computed:            true,
@@ -250,12 +250,12 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 								Attributes: map[string]schema.Attribute{
 									"mac_address": schema.StringAttribute{
 										Computed:            true,
-										MarkdownDescription: "Mac address",
+										MarkdownDescription: "Mac Address",
 									},
 								},
 							},
 							Computed:            true,
-							MarkdownDescription: "Allowed address pairs",
+							MarkdownDescription: "Allowed Address Pairs",
 						},
 						"device_id": schema.StringAttribute{
 							Computed:            true,
@@ -274,7 +274,7 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 								Attributes: map[string]schema.Attribute{
 									"backend_id": schema.StringAttribute{
 										Computed:            true,
-										MarkdownDescription: "ID of the backend",
+										MarkdownDescription: "Backend Id",
 									},
 									"customer": schema.StringAttribute{
 										Computed:            true,
@@ -282,23 +282,23 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 									},
 									"description": schema.StringAttribute{
 										Computed:            true,
-										MarkdownDescription: "Description of the Openstack Instance",
+										MarkdownDescription: "Description",
 									},
 									"error_message": schema.StringAttribute{
 										Computed:            true,
-										MarkdownDescription: "Error message",
+										MarkdownDescription: "Error Message",
 									},
 									"error_traceback": schema.StringAttribute{
 										Computed:            true,
-										MarkdownDescription: "Error traceback",
+										MarkdownDescription: "Error Traceback",
 									},
 									"marketplace_resource_uuid": schema.StringAttribute{
 										Computed:            true,
-										MarkdownDescription: "UUID of the marketplace resource",
+										MarkdownDescription: "Marketplace Resource Uuid",
 									},
 									"name": schema.StringAttribute{
 										Computed:            true,
-										MarkdownDescription: "Name of the Openstack Instance",
+										MarkdownDescription: "Name",
 									},
 									"project": schema.StringAttribute{
 										Computed:            true,
@@ -306,7 +306,7 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 									},
 									"resource_type": schema.StringAttribute{
 										Computed:            true,
-										MarkdownDescription: "Resource type",
+										MarkdownDescription: "Resource Type",
 									},
 									"rules": schema.ListNestedAttribute{
 										NestedObject: schema.NestedAttributeObject{
@@ -317,7 +317,7 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 												},
 												"description": schema.StringAttribute{
 													Computed:            true,
-													MarkdownDescription: "Description of the Openstack Instance",
+													MarkdownDescription: "Description",
 												},
 												"direction": schema.StringAttribute{
 													Computed:            true,
@@ -349,11 +349,11 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 												},
 												"remote_group_name": schema.StringAttribute{
 													Computed:            true,
-													MarkdownDescription: "Name of the remote group",
+													MarkdownDescription: "Remote Group Name",
 												},
 												"remote_group_uuid": schema.StringAttribute{
 													Computed:            true,
-													MarkdownDescription: "UUID of the remote group",
+													MarkdownDescription: "Remote Group Uuid",
 												},
 												"to_port": schema.Int64Attribute{
 													Computed:            true,
@@ -378,11 +378,11 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 									},
 									"tenant_name": schema.StringAttribute{
 										Computed:            true,
-										MarkdownDescription: "Name of the tenant",
+										MarkdownDescription: "Tenant Name",
 									},
 									"tenant_uuid": schema.StringAttribute{
 										Computed:            true,
-										MarkdownDescription: "UUID of the tenant",
+										MarkdownDescription: "Tenant Uuid",
 									},
 									"url": schema.StringAttribute{
 										Computed:            true,
@@ -390,12 +390,12 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 									},
 									"uuid": schema.StringAttribute{
 										Computed:            true,
-										MarkdownDescription: "UUID of the Openstack Instance",
+										MarkdownDescription: "Uuid",
 									},
 								},
 							},
 							Computed:            true,
-							MarkdownDescription: "Security groups",
+							MarkdownDescription: "Security Groups",
 						},
 						"subnet_cidr": schema.StringAttribute{
 							Computed:            true,
@@ -403,15 +403,15 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 						},
 						"subnet_description": schema.StringAttribute{
 							Computed:            true,
-							MarkdownDescription: "Subnet description",
+							MarkdownDescription: "Subnet Description",
 						},
 						"subnet_name": schema.StringAttribute{
 							Computed:            true,
-							MarkdownDescription: "Name of the subnet",
+							MarkdownDescription: "Subnet Name",
 						},
 						"subnet_uuid": schema.StringAttribute{
 							Computed:            true,
-							MarkdownDescription: "UUID of the subnet",
+							MarkdownDescription: "Subnet Uuid",
 						},
 						"url": schema.StringAttribute{
 							Computed:            true,
@@ -434,27 +434,27 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 				Attributes: map[string]schema.Attribute{
 					"marketplace_uuid": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "UUID of the marketplace",
+						MarkdownDescription: "Marketplace Uuid",
 					},
 					"name": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "Name of the Openstack Instance",
+						MarkdownDescription: "Name",
 					},
 					"uuid": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "UUID of the Openstack Instance",
+						MarkdownDescription: "Uuid",
 					},
 				},
 				Computed:            true,
-				MarkdownDescription: "Rancher cluster",
+				MarkdownDescription: "Rancher Cluster",
 			},
 			"resource_type": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Resource type",
+				MarkdownDescription: "Resource Type",
 			},
 			"runtime_state": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Runtime state",
+				MarkdownDescription: "Runtime State",
 			},
 			"security_groups": schema.SetNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
@@ -465,11 +465,11 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 						},
 						"description": schema.StringAttribute{
 							Computed:            true,
-							MarkdownDescription: "Description of the Openstack Instance",
+							MarkdownDescription: "Description",
 						},
 						"name": schema.StringAttribute{
 							Computed:            true,
-							MarkdownDescription: "Name of the Openstack Instance",
+							MarkdownDescription: "Name",
 						},
 						"rules": schema.ListNestedAttribute{
 							NestedObject: schema.NestedAttributeObject{
@@ -480,7 +480,7 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 									},
 									"description": schema.StringAttribute{
 										Computed:            true,
-										MarkdownDescription: "Description of the Openstack Instance",
+										MarkdownDescription: "Description",
 									},
 									"direction": schema.StringAttribute{
 										Computed:            true,
@@ -508,11 +508,11 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 									},
 									"remote_group_name": schema.StringAttribute{
 										Computed:            true,
-										MarkdownDescription: "Name of the remote group",
+										MarkdownDescription: "Remote Group Name",
 									},
 									"remote_group_uuid": schema.StringAttribute{
 										Computed:            true,
-										MarkdownDescription: "UUID of the remote group",
+										MarkdownDescription: "Remote Group Uuid",
 									},
 									"to_port": schema.Int64Attribute{
 										Computed:            true,
@@ -544,7 +544,7 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 					},
 					"name": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "Name of the Openstack Instance",
+						MarkdownDescription: "Name",
 					},
 					"policy": schema.StringAttribute{
 						Computed:            true,
@@ -561,7 +561,7 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 			"start_time": schema.StringAttribute{
 				CustomType:          timetypes.RFC3339Type{},
 				Computed:            true,
-				MarkdownDescription: "Start time",
+				MarkdownDescription: "Start Time",
 			},
 			"state": schema.StringAttribute{
 				Computed:            true,
@@ -603,15 +603,15 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 						},
 						"marketplace_resource_uuid": schema.StringAttribute{
 							Computed:            true,
-							MarkdownDescription: "UUID of the marketplace resource",
+							MarkdownDescription: "Marketplace Resource Uuid",
 						},
 						"name": schema.StringAttribute{
 							Computed:            true,
-							MarkdownDescription: "Name of the Openstack Instance",
+							MarkdownDescription: "Name",
 						},
 						"resource_type": schema.StringAttribute{
 							Computed:            true,
-							MarkdownDescription: "Resource type",
+							MarkdownDescription: "Resource Type",
 						},
 						"size": schema.Int64Attribute{
 							Computed:            true,
@@ -631,7 +631,7 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 						},
 						"type_name": schema.StringAttribute{
 							Computed:            true,
-							MarkdownDescription: "Name of the type",
+							MarkdownDescription: "Type Name",
 						},
 						"url": schema.StringAttribute{
 							Computed:            true,
@@ -639,7 +639,7 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 						},
 						"uuid": schema.StringAttribute{
 							Computed:            true,
-							MarkdownDescription: "UUID of the Openstack Instance",
+							MarkdownDescription: "Uuid",
 						},
 					},
 				},

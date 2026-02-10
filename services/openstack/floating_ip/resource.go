@@ -64,7 +64,7 @@ func (r *OpenstackFloatingIpResource) Schema(ctx context.Context, req resource.S
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "ID of the backend",
+				MarkdownDescription: "Backend Id",
 			},
 			"backend_network_id": schema.StringAttribute{
 				Computed: true,
@@ -85,21 +85,21 @@ func (r *OpenstackFloatingIpResource) Schema(ctx context.Context, req resource.S
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Description of the Openstack Floating Ip",
+				MarkdownDescription: "Description",
 			},
 			"error_message": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Error message",
+				MarkdownDescription: "Error Message",
 			},
 			"error_traceback": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Error traceback",
+				MarkdownDescription: "Error Traceback",
 			},
 			"external_address": schema.StringAttribute{
 				Computed: true,
@@ -113,35 +113,35 @@ func (r *OpenstackFloatingIpResource) Schema(ctx context.Context, req resource.S
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Name of the instance",
+				MarkdownDescription: "Instance Name",
 			},
 			"instance_url": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Instance url",
+				MarkdownDescription: "Instance Url",
 			},
 			"instance_uuid": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "UUID of the instance",
+				MarkdownDescription: "Instance Uuid",
 			},
 			"marketplace_resource_uuid": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "UUID of the marketplace resource",
+				MarkdownDescription: "Marketplace Resource Uuid",
 			},
 			"name": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Name of the Openstack Floating Ip",
+				MarkdownDescription: "Name",
 			},
 			"port": schema.StringAttribute{
 				Computed: true,
@@ -175,7 +175,7 @@ func (r *OpenstackFloatingIpResource) Schema(ctx context.Context, req resource.S
 				PlanModifiers: []planmodifier.List{
 					listplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Port fixed ips",
+				MarkdownDescription: "Port Fixed Ips",
 			},
 			"project": schema.StringAttribute{
 				Computed: true,
@@ -189,7 +189,7 @@ func (r *OpenstackFloatingIpResource) Schema(ctx context.Context, req resource.S
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Resource type",
+				MarkdownDescription: "Resource Type",
 			},
 			"router": schema.StringAttribute{
 				Optional: true,
@@ -203,7 +203,7 @@ func (r *OpenstackFloatingIpResource) Schema(ctx context.Context, req resource.S
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Runtime state",
+				MarkdownDescription: "Runtime State",
 			},
 			"state": schema.StringAttribute{
 				Computed: true,
@@ -224,14 +224,14 @@ func (r *OpenstackFloatingIpResource) Schema(ctx context.Context, req resource.S
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Name of the tenant",
+				MarkdownDescription: "Tenant Name",
 			},
 			"tenant_uuid": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "UUID of the tenant",
+				MarkdownDescription: "Tenant Uuid",
 			},
 			"url": schema.StringAttribute{
 				Computed: true,

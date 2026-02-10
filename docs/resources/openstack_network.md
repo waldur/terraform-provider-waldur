@@ -17,32 +17,32 @@ Openstack Network resource
 
 ### Required
 
-- `name` (String) Name of the Openstack Network
+- `name` (String) Name
 - `tenant` (String) OpenStack tenant this network belongs to
 
 ### Optional
 
-- `description` (String) Description of the Openstack Network
+- `description` (String) Description
 - `timeouts` (Block, Optional) (see [below for nested schema](#nestedblock--timeouts))
 
 ### Read-Only
 
-- `backend_id` (String) ID of the backend
+- `backend_id` (String) Backend Id
 - `customer` (String) Customer
-- `error_message` (String) Error message
-- `error_traceback` (String) Error traceback
+- `error_message` (String) Error Message
+- `error_traceback` (String) Error Traceback
 - `id` (String) Openstack Network UUID (used as Terraform ID)
 - `is_external` (Boolean) Defines whether this network is external (public) or internal (private)
-- `marketplace_resource_uuid` (String) UUID of the marketplace resource
+- `marketplace_resource_uuid` (String) Marketplace Resource Uuid
 - `mtu` (Number) The maximum transmission unit (MTU) value to address fragmentation.
 - `project` (String) Project
-- `rbac_policies` (Attributes List) Rbac policies (see [below for nested schema](#nestedatt--rbac_policies))
-- `resource_type` (String) Resource type
+- `rbac_policies` (Attributes List) Rbac Policies (see [below for nested schema](#nestedatt--rbac_policies))
+- `resource_type` (String) Resource Type
 - `segmentation_id` (Number) VLAN ID for VLAN networks or tunnel ID for VXLAN/GRE networks
 - `state` (String) State
 - `subnets` (Attributes List) Subnets (see [below for nested schema](#nestedatt--subnets))
-- `tenant_name` (String) Name of the tenant
-- `tenant_uuid` (String) UUID of the tenant
+- `tenant_name` (String) Tenant Name
+- `tenant_uuid` (String) Tenant Uuid
 - `type` (String) Network type, such as local, flat, vlan, vxlan, or gre
 - `url` (String) Url
 
@@ -63,15 +63,15 @@ Optional:
 
 - `network` (String) Network
 - `policy_type` (String) Type of access granted - either shared access or external network access
-- `target_tenant` (String) Target tenant
+- `target_tenant` (String) Target Tenant
 
 Read-Only:
 
-- `backend_id` (String) ID of the backend
-- `network_name` (String) Name of the network
-- `target_tenant_name` (String) Name of the target tenant
+- `backend_id` (String) Backend Id
+- `network_name` (String) Network Name
+- `target_tenant_name` (String) Target Tenant Name
 - `url` (String) Url
-- `uuid` (String) UUID of the Openstack Network
+- `uuid` (String) Uuid
 
 
 <a id="nestedatt--subnets"></a>
@@ -80,16 +80,16 @@ Read-Only:
 Optional:
 
 - `cidr` (String) IPv4 network address in CIDR format (e.g. 192.168.0.0/24)
-- `description` (String) Description of the Openstack Network
+- `description` (String) Description
 - `enable_dhcp` (Boolean) If True, DHCP service will be enabled on this subnet
 - `gateway_ip` (String) IP address of the gateway for this subnet
 - `ip_version` (Number) IP protocol version (4 or 6)
-- `name` (String) Name of the Openstack Network
+- `name` (String) Name
 
 Read-Only:
 
-- `allocation_pools` (Attributes List) Allocation pools (see [below for nested schema](#nestedatt--subnets--allocation_pools))
-- `uuid` (String) UUID of the Openstack Network
+- `allocation_pools` (Attributes List) Allocation Pools (see [below for nested schema](#nestedatt--subnets--allocation_pools))
+- `uuid` (String) Uuid
 
 <a id="nestedatt--subnets--allocation_pools"></a>
 ### Nested Schema for `subnets.allocation_pools`

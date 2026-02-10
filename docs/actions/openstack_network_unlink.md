@@ -3,12 +3,12 @@
 page_title: "waldur_openstack_network_unlink Action - waldur"
 subcategory: ""
 description: |-
-  
+  Perform unlink action on openstack network resource
 ---
 
 # waldur_openstack_network_unlink (Action)
 
-
+Perform unlink action on openstack network resource
 
 
 

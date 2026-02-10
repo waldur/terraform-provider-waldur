@@ -3,12 +3,12 @@
 page_title: "waldur_openstack_instance_restart Action - waldur"
 subcategory: ""
 description: |-
-  
+  Perform restart action on openstack instance resource
 ---
 
 # waldur_openstack_instance_restart (Action)
 
-
+Perform restart action on openstack instance resource
 
 
 

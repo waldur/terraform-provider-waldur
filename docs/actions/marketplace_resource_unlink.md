@@ -3,12 +3,12 @@
 page_title: "waldur_marketplace_resource_unlink Action - waldur"
 subcategory: ""
 description: |-
-  
+  Perform unlink action on marketplace resource
 ---
 
 # waldur_marketplace_resource_unlink (Action)
 
-
+Perform unlink action on marketplace resource
 
 
 

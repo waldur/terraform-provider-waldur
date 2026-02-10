@@ -62,7 +62,7 @@ func (r *StructureProjectResource) Schema(ctx context.Context, req resource.Sche
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "ID of the backend",
+				MarkdownDescription: "Backend Id",
 			},
 			"billing_price_estimate": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
@@ -85,7 +85,7 @@ func (r *StructureProjectResource) Schema(ctx context.Context, req resource.Sche
 						PlanModifiers: []planmodifier.Float64{
 							float64planmodifier.UseStateForUnknown(),
 						},
-						MarkdownDescription: "Tax current",
+						MarkdownDescription: "Tax Current",
 					},
 					"total": schema.Float64Attribute{
 						Computed: true,
@@ -99,7 +99,7 @@ func (r *StructureProjectResource) Schema(ctx context.Context, req resource.Sche
 				PlanModifiers: []planmodifier.Object{
 					objectplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Billing price estimate",
+				MarkdownDescription: "Billing Price Estimate",
 			},
 			"customer": schema.StringAttribute{
 				Required:            true,
@@ -110,14 +110,14 @@ func (r *StructureProjectResource) Schema(ctx context.Context, req resource.Sche
 				PlanModifiers: []planmodifier.Bool{
 					boolplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Customer display billing info in projects",
+				MarkdownDescription: "Customer Display Billing Info In Projects",
 			},
 			"customer_slug": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Customer slug",
+				MarkdownDescription: "Customer Slug",
 			},
 			"description": schema.StringAttribute{
 				Optional: true,
@@ -140,7 +140,7 @@ func (r *StructureProjectResource) Schema(ctx context.Context, req resource.Sche
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "End date requested by",
+				MarkdownDescription: "End Date Requested By",
 			},
 			"grace_period_days": schema.Int64Attribute{
 				Optional: true,
@@ -168,14 +168,14 @@ func (r *StructureProjectResource) Schema(ctx context.Context, req resource.Sche
 				PlanModifiers: []planmodifier.Bool{
 					boolplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Is industry",
+				MarkdownDescription: "Is Industry",
 			},
 			"is_removed": schema.BoolAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.Bool{
 					boolplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Is removed",
+				MarkdownDescription: "Is Removed",
 			},
 			"kind": schema.StringAttribute{
 				Optional: true,
@@ -198,7 +198,7 @@ func (r *StructureProjectResource) Schema(ctx context.Context, req resource.Sche
 			},
 			"name": schema.StringAttribute{
 				Required:            true,
-				MarkdownDescription: "Name of the Structure Project",
+				MarkdownDescription: "Name",
 			},
 			"oecd_fos_2007_code": schema.StringAttribute{
 				Optional: true,
@@ -206,7 +206,7 @@ func (r *StructureProjectResource) Schema(ctx context.Context, req resource.Sche
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Oecd fos 2007 code",
+				MarkdownDescription: "Oecd Fos 2007 Code",
 			},
 			"oecd_fos_2007_label": schema.StringAttribute{
 				Computed: true,
@@ -220,7 +220,7 @@ func (r *StructureProjectResource) Schema(ctx context.Context, req resource.Sche
 				PlanModifiers: []planmodifier.Float64{
 					float64planmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Project credit",
+				MarkdownDescription: "Project Credit",
 			},
 			"resources_count": schema.Int64Attribute{
 				Computed: true,
@@ -269,14 +269,14 @@ func (r *StructureProjectResource) Schema(ctx context.Context, req resource.Sche
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Name of the type",
+				MarkdownDescription: "Type Name",
 			},
 			"type_uuid": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "UUID of the type",
+				MarkdownDescription: "Type Uuid",
 			},
 			"url": schema.StringAttribute{
 				Computed: true,

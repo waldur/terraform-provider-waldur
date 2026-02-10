@@ -56,7 +56,7 @@ func (r *OpenstackNetworkRbacPolicyResource) Schema(ctx context.Context, req res
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "ID of the backend",
+				MarkdownDescription: "Backend Id",
 			},
 			"network": schema.StringAttribute{
 				Required:            true,
@@ -67,7 +67,7 @@ func (r *OpenstackNetworkRbacPolicyResource) Schema(ctx context.Context, req res
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Name of the network",
+				MarkdownDescription: "Network Name",
 			},
 			"policy_type": schema.StringAttribute{
 				Optional: true,
@@ -79,14 +79,14 @@ func (r *OpenstackNetworkRbacPolicyResource) Schema(ctx context.Context, req res
 			},
 			"target_tenant": schema.StringAttribute{
 				Required:            true,
-				MarkdownDescription: "Target tenant",
+				MarkdownDescription: "Target Tenant",
 			},
 			"target_tenant_name": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Name of the target tenant",
+				MarkdownDescription: "Target Tenant Name",
 			},
 			"url": schema.StringAttribute{
 				Computed: true,

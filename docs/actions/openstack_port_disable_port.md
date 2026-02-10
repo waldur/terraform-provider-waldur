@@ -3,12 +3,12 @@
 page_title: "waldur_openstack_port_disable_port Action - waldur"
 subcategory: ""
 description: |-
-  
+  Perform disable_port action on openstack port resource
 ---
 
 # waldur_openstack_port_disable_port (Action)
 
-
+Perform disable_port action on openstack port resource
 
 
 

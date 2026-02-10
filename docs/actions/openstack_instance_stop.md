@@ -3,12 +3,12 @@
 page_title: "waldur_openstack_instance_stop Action - waldur"
 subcategory: ""
 description: |-
-  
+  Perform stop action on openstack instance resource
 ---
 
 # waldur_openstack_instance_stop (Action)
 
-
+Perform stop action on openstack instance resource
 
 
 

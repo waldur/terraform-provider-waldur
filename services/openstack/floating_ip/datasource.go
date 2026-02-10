@@ -47,7 +47,7 @@ func (d *OpenstackFloatingIpDataSource) Schema(ctx context.Context, req datasour
 			},
 			"backend_id": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "ID of the backend",
+				MarkdownDescription: "Backend Id",
 			},
 			"backend_network_id": schema.StringAttribute{
 				Computed:            true,
@@ -59,15 +59,15 @@ func (d *OpenstackFloatingIpDataSource) Schema(ctx context.Context, req datasour
 			},
 			"description": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Description of the Openstack Floating Ip",
+				MarkdownDescription: "Description",
 			},
 			"error_message": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Error message",
+				MarkdownDescription: "Error Message",
 			},
 			"error_traceback": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Error traceback",
+				MarkdownDescription: "Error Traceback",
 			},
 			"external_address": schema.StringAttribute{
 				Computed:            true,
@@ -75,23 +75,23 @@ func (d *OpenstackFloatingIpDataSource) Schema(ctx context.Context, req datasour
 			},
 			"instance_name": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Name of the instance",
+				MarkdownDescription: "Instance Name",
 			},
 			"instance_url": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Instance url",
+				MarkdownDescription: "Instance Url",
 			},
 			"instance_uuid": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "UUID of the instance",
+				MarkdownDescription: "Instance Uuid",
 			},
 			"marketplace_resource_uuid": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "UUID of the marketplace resource",
+				MarkdownDescription: "Marketplace Resource Uuid",
 			},
 			"name": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Name of the Openstack Floating Ip",
+				MarkdownDescription: "Name",
 			},
 			"port": schema.StringAttribute{
 				Computed:            true,
@@ -111,7 +111,7 @@ func (d *OpenstackFloatingIpDataSource) Schema(ctx context.Context, req datasour
 					},
 				},
 				Computed:            true,
-				MarkdownDescription: "Port fixed ips",
+				MarkdownDescription: "Port Fixed Ips",
 			},
 			"project": schema.StringAttribute{
 				Computed:            true,
@@ -119,11 +119,11 @@ func (d *OpenstackFloatingIpDataSource) Schema(ctx context.Context, req datasour
 			},
 			"resource_type": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Resource type",
+				MarkdownDescription: "Resource Type",
 			},
 			"runtime_state": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Runtime state",
+				MarkdownDescription: "Runtime State",
 			},
 			"state": schema.StringAttribute{
 				Computed:            true,
@@ -135,11 +135,11 @@ func (d *OpenstackFloatingIpDataSource) Schema(ctx context.Context, req datasour
 			},
 			"tenant_name": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Name of the tenant",
+				MarkdownDescription: "Tenant Name",
 			},
 			"tenant_uuid": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "UUID of the tenant",
+				MarkdownDescription: "Tenant Uuid",
 			},
 			"url": schema.StringAttribute{
 				Computed:            true,

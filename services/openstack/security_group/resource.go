@@ -58,7 +58,7 @@ func (r *OpenstackSecurityGroupResource) Schema(ctx context.Context, req resourc
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "ID of the backend",
+				MarkdownDescription: "Backend Id",
 			},
 			"customer": schema.StringAttribute{
 				Computed: true,
@@ -73,32 +73,32 @@ func (r *OpenstackSecurityGroupResource) Schema(ctx context.Context, req resourc
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Description of the Openstack Security Group",
+				MarkdownDescription: "Description",
 			},
 			"error_message": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Error message",
+				MarkdownDescription: "Error Message",
 			},
 			"error_traceback": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Error traceback",
+				MarkdownDescription: "Error Traceback",
 			},
 			"marketplace_resource_uuid": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "UUID of the marketplace resource",
+				MarkdownDescription: "Marketplace Resource Uuid",
 			},
 			"name": schema.StringAttribute{
 				Required:            true,
-				MarkdownDescription: "Name of the Openstack Security Group",
+				MarkdownDescription: "Name",
 			},
 			"project": schema.StringAttribute{
 				Computed: true,
@@ -112,7 +112,7 @@ func (r *OpenstackSecurityGroupResource) Schema(ctx context.Context, req resourc
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Resource type",
+				MarkdownDescription: "Resource Type",
 			},
 			"rules": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
@@ -131,7 +131,7 @@ func (r *OpenstackSecurityGroupResource) Schema(ctx context.Context, req resourc
 							PlanModifiers: []planmodifier.String{
 								stringplanmodifier.UseStateForUnknown(),
 							},
-							MarkdownDescription: "Description of the Openstack Security Group",
+							MarkdownDescription: "Description",
 						},
 						"direction": schema.StringAttribute{
 							Optional: true,
@@ -201,14 +201,14 @@ func (r *OpenstackSecurityGroupResource) Schema(ctx context.Context, req resourc
 							PlanModifiers: []planmodifier.String{
 								stringplanmodifier.UseStateForUnknown(),
 							},
-							MarkdownDescription: "Name of the remote group",
+							MarkdownDescription: "Remote Group Name",
 						},
 						"remote_group_uuid": schema.StringAttribute{
 							Computed: true,
 							PlanModifiers: []planmodifier.String{
 								stringplanmodifier.UseStateForUnknown(),
 							},
-							MarkdownDescription: "UUID of the remote group",
+							MarkdownDescription: "Remote Group Uuid",
 						},
 					},
 				},
@@ -234,14 +234,14 @@ func (r *OpenstackSecurityGroupResource) Schema(ctx context.Context, req resourc
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Name of the tenant",
+				MarkdownDescription: "Tenant Name",
 			},
 			"tenant_uuid": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "UUID of the tenant",
+				MarkdownDescription: "Tenant Uuid",
 			},
 			"url": schema.StringAttribute{
 				Computed: true,

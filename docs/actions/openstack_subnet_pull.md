@@ -3,12 +3,12 @@
 page_title: "waldur_openstack_subnet_pull Action - waldur"
 subcategory: ""
 description: |-
-  
+  Perform pull action on openstack subnet resource
 ---
 
 # waldur_openstack_subnet_pull (Action)
 
-
+Perform pull action on openstack subnet resource
 
 
 

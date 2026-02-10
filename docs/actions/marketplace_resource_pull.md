@@ -3,12 +3,12 @@
 page_title: "waldur_marketplace_resource_pull Action - waldur"
 subcategory: ""
 description: |-
-  
+  Perform pull action on marketplace resource
 ---
 
 # waldur_marketplace_resource_pull (Action)
 
-
+Perform pull action on marketplace resource
 
 
 

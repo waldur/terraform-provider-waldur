@@ -24,15 +24,15 @@ description: |-
 
 Optional:
 
-- `abbreviation` (String)
-- `agreement_number` (String)
-- `archived` (Boolean)
-- `backend_id` (String)
-- `contact_details` (String)
-- `name` (String)
-- `name_exact` (String)
-- `native_name` (String)
-- `organization_group_name` (String)
-- `owned_by_current_user` (Boolean)
-- `query` (String)
-- `registration_code` (String)
+- `abbreviation` (String) Abbreviation
+- `agreement_number` (String) Agreement number
+- `archived` (Boolean) Archived
+- `backend_id` (String) ID of the backend
+- `contact_details` (String) Contact details
+- `name` (String) Name
+- `name_exact` (String) Name (exact)
+- `native_name` (String) Native name
+- `organization_group_name` (String) Organization group name
+- `owned_by_current_user` (Boolean) Return a list of customers where current user is owner.
+- `query` (String) Filter by name, native name, abbreviation, domain, UUID, registration code or agreement number
+- `registration_code` (String) Registration code

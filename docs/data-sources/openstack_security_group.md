@@ -22,20 +22,20 @@ Openstack Security Group data source - lookup by name or UUID
 
 ### Read-Only
 
-- `backend_id` (String) ID of the backend
+- `backend_id` (String) Backend Id
 - `customer` (String) Customer
-- `description` (String) Description of the Openstack Security Group
-- `error_message` (String) Error message
-- `error_traceback` (String) Error traceback
-- `marketplace_resource_uuid` (String) UUID of the marketplace resource
-- `name` (String) Name of the Openstack Security Group
+- `description` (String) Description
+- `error_message` (String) Error Message
+- `error_traceback` (String) Error Traceback
+- `marketplace_resource_uuid` (String) Marketplace Resource Uuid
+- `name` (String) Name
 - `project` (String) Project
-- `resource_type` (String) Resource type
+- `resource_type` (String) Resource Type
 - `rules` (Attributes List) Rules (see [below for nested schema](#nestedatt--rules))
 - `state` (String) State
 - `tenant` (String) Tenant
-- `tenant_name` (String) Name of the tenant
-- `tenant_uuid` (String) UUID of the tenant
+- `tenant_name` (String) Tenant Name
+- `tenant_uuid` (String) Tenant Uuid
 - `url` (String) Url
 
 <a id="nestedatt--filters"></a>
@@ -43,26 +43,26 @@ Openstack Security Group data source - lookup by name or UUID
 
 Optional:
 
-- `backend_id` (String)
-- `can_manage` (Boolean)
-- `customer` (String)
-- `customer_abbreviation` (String)
-- `customer_name` (String)
-- `customer_native_name` (String)
-- `customer_uuid` (String)
-- `description` (String)
-- `external_ip` (String)
-- `name` (String)
-- `name_exact` (String)
-- `project` (String)
-- `project_name` (String)
-- `project_uuid` (String)
-- `query` (String)
-- `service_settings_name` (String)
-- `service_settings_uuid` (String)
-- `tenant` (String)
-- `tenant_uuid` (String)
-- `uuid` (String)
+- `backend_id` (String) Backend ID
+- `can_manage` (Boolean) Can manage
+- `customer` (String) Customer UUID
+- `customer_abbreviation` (String) Customer abbreviation
+- `customer_name` (String) Customer name
+- `customer_native_name` (String) Customer native name
+- `customer_uuid` (String) Customer UUID
+- `description` (String) Description
+- `external_ip` (String) External IP
+- `name` (String) Name
+- `name_exact` (String) Name (exact)
+- `project` (String) Project UUID
+- `project_name` (String) Project name
+- `project_uuid` (String) Project UUID
+- `query` (String) Search by name or description
+- `service_settings_name` (String) Service settings name
+- `service_settings_uuid` (String) Service settings UUID
+- `tenant` (String) Tenant URL
+- `tenant_uuid` (String) Tenant UUID
+- `uuid` (String) UUID
 
 
 <a id="nestedatt--rules"></a>
@@ -71,13 +71,13 @@ Optional:
 Read-Only:
 
 - `cidr` (String) CIDR notation for the source/destination network address range
-- `description` (String) Description of the Openstack Security Group
+- `description` (String) Description
 - `direction` (String) Traffic direction - either 'ingress' (incoming) or 'egress' (outgoing)
 - `ethertype` (String) IP protocol version - either 'IPv4' or 'IPv6'
 - `from_port` (Number) Starting port number in the range (1-65535)
 - `id` (Number) Id
 - `protocol` (String) The network protocol (TCP, UDP, ICMP, or empty for any protocol)
 - `remote_group` (String) Remote security group that this rule references, if any
-- `remote_group_name` (String) Name of the remote group
-- `remote_group_uuid` (String) UUID of the remote group
+- `remote_group_name` (String) Remote Group Name
+- `remote_group_uuid` (String) Remote Group Uuid
 - `to_port` (Number) Ending port number in the range (1-65535)

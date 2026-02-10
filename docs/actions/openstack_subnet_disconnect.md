@@ -3,12 +3,12 @@
 page_title: "waldur_openstack_subnet_disconnect Action - waldur"
 subcategory: ""
 description: |-
-  
+  Perform disconnect action on openstack subnet resource
 ---
 
 # waldur_openstack_subnet_disconnect (Action)
 
-
+Perform disconnect action on openstack subnet resource
 
 
 

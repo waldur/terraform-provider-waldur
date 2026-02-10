@@ -23,27 +23,27 @@ Openstack Floating Ip data source - lookup by name or UUID
 ### Read-Only
 
 - `address` (String) The public IPv4 address of the floating IP
-- `backend_id` (String) ID of the backend
+- `backend_id` (String) Backend Id
 - `backend_network_id` (String) ID of network in OpenStack where this floating IP is allocated
 - `customer` (String) Customer
-- `description` (String) Description of the Openstack Floating Ip
-- `error_message` (String) Error message
-- `error_traceback` (String) Error traceback
+- `description` (String) Description
+- `error_message` (String) Error Message
+- `error_traceback` (String) Error Traceback
 - `external_address` (String) Optional address that maps to floating IP's address in external networks
-- `instance_name` (String) Name of the instance
-- `instance_url` (String) Instance url
-- `instance_uuid` (String) UUID of the instance
-- `marketplace_resource_uuid` (String) UUID of the marketplace resource
-- `name` (String) Name of the Openstack Floating Ip
+- `instance_name` (String) Instance Name
+- `instance_url` (String) Instance Url
+- `instance_uuid` (String) Instance Uuid
+- `marketplace_resource_uuid` (String) Marketplace Resource Uuid
+- `name` (String) Name
 - `port` (String) Port
-- `port_fixed_ips` (Attributes List) Port fixed ips (see [below for nested schema](#nestedatt--port_fixed_ips))
+- `port_fixed_ips` (Attributes List) Port Fixed Ips (see [below for nested schema](#nestedatt--port_fixed_ips))
 - `project` (String) Project
-- `resource_type` (String) Resource type
-- `runtime_state` (String) Runtime state
+- `resource_type` (String) Resource Type
+- `runtime_state` (String) Runtime State
 - `state` (String) State
 - `tenant` (String) OpenStack tenant this floating IP belongs to
-- `tenant_name` (String) Name of the tenant
-- `tenant_uuid` (String) UUID of the tenant
+- `tenant_name` (String) Tenant Name
+- `tenant_uuid` (String) Tenant Uuid
 - `url` (String) Url
 
 <a id="nestedatt--filters"></a>
@@ -51,28 +51,28 @@ Openstack Floating Ip data source - lookup by name or UUID
 
 Optional:
 
-- `address` (String)
-- `backend_id` (String)
-- `can_manage` (Boolean)
-- `customer` (String)
-- `customer_abbreviation` (String)
-- `customer_name` (String)
-- `customer_native_name` (String)
-- `customer_uuid` (String)
-- `description` (String)
-- `external_ip` (String)
-- `free` (Boolean)
-- `name` (String)
-- `name_exact` (String)
-- `project` (String)
-- `project_name` (String)
-- `project_uuid` (String)
-- `runtime_state` (String)
-- `service_settings_name` (String)
-- `service_settings_uuid` (String)
-- `tenant` (String)
-- `tenant_uuid` (String)
-- `uuid` (String)
+- `address` (String) Address
+- `backend_id` (String) Backend ID
+- `can_manage` (Boolean) Can manage
+- `customer` (String) Customer UUID
+- `customer_abbreviation` (String) Customer abbreviation
+- `customer_name` (String) Customer name
+- `customer_native_name` (String) Customer native name
+- `customer_uuid` (String) Customer UUID
+- `description` (String) Description
+- `external_ip` (String) External IP
+- `free` (Boolean) Is free
+- `name` (String) Name
+- `name_exact` (String) Name (exact)
+- `project` (String) Project UUID
+- `project_name` (String) Project name
+- `project_uuid` (String) Project UUID
+- `runtime_state` (String) Runtime state
+- `service_settings_name` (String) Service settings name
+- `service_settings_uuid` (String) Service settings UUID
+- `tenant` (String) Tenant URL
+- `tenant_uuid` (String) Tenant UUID
+- `uuid` (String) UUID
 
 
 <a id="nestedatt--port_fixed_ips"></a>

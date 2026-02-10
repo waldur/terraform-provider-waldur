@@ -3,12 +3,12 @@
 page_title: "waldur_openstack_port_enable_port Action - waldur"
 subcategory: ""
 description: |-
-  
+  Perform enable_port action on openstack port resource
 ---
 
 # waldur_openstack_port_enable_port (Action)
 
-
+Perform enable_port action on openstack port resource
 
 
 

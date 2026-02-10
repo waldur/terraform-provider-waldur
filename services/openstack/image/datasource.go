@@ -47,11 +47,11 @@ func (d *OpenstackImageDataSource) Schema(ctx context.Context, req datasource.Sc
 			"backend_created_at": schema.StringAttribute{
 				CustomType:          timetypes.RFC3339Type{},
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Backend Created At",
 			},
 			"backend_id": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Backend Id",
 			},
 			"min_disk": schema.Int64Attribute{
 				Computed:            true,
@@ -71,15 +71,15 @@ func (d *OpenstackImageDataSource) Schema(ctx context.Context, req datasource.Sc
 			},
 			"name": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Name",
 			},
 			"settings": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Settings",
 			},
 			"url": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Url",
 			},
 		},
 	}

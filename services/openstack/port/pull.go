@@ -34,7 +34,7 @@ func (a *OpenstackPortPullAction) Metadata(ctx context.Context, req action.Metad
 
 func (a *OpenstackPortPullAction) Schema(ctx context.Context, req action.SchemaRequest, resp *action.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		Description: "",
+		Description: "Perform pull action on openstack port resource",
 		Attributes: map[string]schema.Attribute{
 			"uuid": schema.StringAttribute{
 				Description: "UUID of the resource",

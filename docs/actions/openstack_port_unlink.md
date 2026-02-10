@@ -3,12 +3,12 @@
 page_title: "waldur_openstack_port_unlink Action - waldur"
 subcategory: ""
 description: |-
-  
+  Perform unlink action on openstack port resource
 ---
 
 # waldur_openstack_port_unlink (Action)
 
-
+Perform unlink action on openstack port resource
 
 
 

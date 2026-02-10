@@ -22,24 +22,24 @@ Openstack Image data source - lookup by name or UUID
 
 ### Read-Only
 
-- `backend_created_at` (String)
-- `backend_id` (String)
+- `backend_created_at` (String) Backend Created At
+- `backend_id` (String) Backend Id
 - `min_disk` (Number) Minimum disk size in MiB
 - `min_ram` (Number) Minimum memory size in MiB
-- `name` (String)
-- `settings` (String)
-- `url` (String)
+- `name` (String) Name
+- `settings` (String) Settings
+- `url` (String) Url
 
 <a id="nestedatt--filters"></a>
 ### Nested Schema for `filters`
 
 Optional:
 
-- `name` (String)
-- `name_exact` (String)
-- `offering_uuid` (String)
-- `settings` (String)
-- `settings_uuid` (String)
-- `show_duplicate_names` (Boolean)
-- `tenant` (String)
-- `tenant_uuid` (String)
+- `name` (String) Name
+- `name_exact` (String) Name (exact)
+- `offering_uuid` (String) Offering UUID
+- `settings` (String) Settings URL
+- `settings_uuid` (String) Settings UUID
+- `show_duplicate_names` (Boolean) Show duplicate image names
+- `tenant` (String) Tenant URL
+- `tenant_uuid` (String) Tenant UUID

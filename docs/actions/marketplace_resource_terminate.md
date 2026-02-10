@@ -3,12 +3,12 @@
 page_title: "waldur_marketplace_resource_terminate Action - waldur"
 subcategory: ""
 description: |-
-  
+  Perform terminate action on marketplace resource
 ---
 
 # waldur_marketplace_resource_terminate (Action)
 
-
+Perform terminate action on marketplace resource
 
 
 

@@ -17,30 +17,30 @@ Openstack Server Group resource
 
 ### Required
 
-- `name` (String) Name of the Openstack Server Group
+- `name` (String) Name
 - `tenant` (String) Tenant
 
 ### Optional
 
-- `description` (String) Description of the Openstack Server Group
+- `description` (String) Description
 - `policy` (String) Server group policy determining the rules for scheduling servers in this group
 - `timeouts` (Block, Optional) (see [below for nested schema](#nestedblock--timeouts))
 
 ### Read-Only
 
-- `backend_id` (String) ID of the backend
+- `backend_id` (String) Backend Id
 - `customer` (String) Customer
-- `display_name` (String) Name of the display
-- `error_message` (String) Error message
-- `error_traceback` (String) Error traceback
+- `display_name` (String) Display Name
+- `error_message` (String) Error Message
+- `error_traceback` (String) Error Traceback
 - `id` (String) Openstack Server Group UUID (used as Terraform ID)
 - `instances` (Attributes List) Instances (see [below for nested schema](#nestedatt--instances))
-- `marketplace_resource_uuid` (String) UUID of the marketplace resource
+- `marketplace_resource_uuid` (String) Marketplace Resource Uuid
 - `project` (String) Project
-- `resource_type` (String) Resource type
+- `resource_type` (String) Resource Type
 - `state` (String) State
-- `tenant_name` (String) Name of the tenant
-- `tenant_uuid` (String) UUID of the tenant
+- `tenant_name` (String) Tenant Name
+- `tenant_uuid` (String) Tenant Uuid
 - `url` (String) Url
 
 <a id="nestedblock--timeouts"></a>
@@ -59,8 +59,8 @@ Optional:
 Optional:
 
 - `backend_id` (String) Instance ID in the OpenStack backend
-- `name` (String) Name of the Openstack Server Group
+- `name` (String) Name
 
 Read-Only:
 
-- `uuid` (String) UUID of the Openstack Server Group
+- `uuid` (String) Uuid

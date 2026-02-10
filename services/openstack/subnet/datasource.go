@@ -56,11 +56,11 @@ func (d *OpenstackSubnetDataSource) Schema(ctx context.Context, req datasource.S
 					},
 				},
 				Computed:            true,
-				MarkdownDescription: "Allocation pools",
+				MarkdownDescription: "Allocation Pools",
 			},
 			"backend_id": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "ID of the backend",
+				MarkdownDescription: "Backend Id",
 			},
 			"cidr": schema.StringAttribute{
 				Computed:            true,
@@ -72,7 +72,7 @@ func (d *OpenstackSubnetDataSource) Schema(ctx context.Context, req datasource.S
 			},
 			"description": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Description of the Openstack Subnet",
+				MarkdownDescription: "Description",
 			},
 			"disable_gateway": schema.BoolAttribute{
 				Computed:            true,
@@ -81,7 +81,7 @@ func (d *OpenstackSubnetDataSource) Schema(ctx context.Context, req datasource.S
 			"dns_nameservers": schema.ListAttribute{
 				ElementType:         types.StringType,
 				Computed:            true,
-				MarkdownDescription: "Dns nameservers",
+				MarkdownDescription: "Dns Nameservers",
 			},
 			"enable_dhcp": schema.BoolAttribute{
 				Computed:            true,
@@ -89,11 +89,11 @@ func (d *OpenstackSubnetDataSource) Schema(ctx context.Context, req datasource.S
 			},
 			"error_message": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Error message",
+				MarkdownDescription: "Error Message",
 			},
 			"error_traceback": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Error traceback",
+				MarkdownDescription: "Error Traceback",
 			},
 			"gateway_ip": schema.StringAttribute{
 				Computed:            true,
@@ -113,7 +113,7 @@ func (d *OpenstackSubnetDataSource) Schema(ctx context.Context, req datasource.S
 					},
 				},
 				Computed:            true,
-				MarkdownDescription: "Host routes",
+				MarkdownDescription: "Host Routes",
 			},
 			"ip_version": schema.Int64Attribute{
 				Computed:            true,
@@ -125,11 +125,11 @@ func (d *OpenstackSubnetDataSource) Schema(ctx context.Context, req datasource.S
 			},
 			"marketplace_resource_uuid": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "UUID of the marketplace resource",
+				MarkdownDescription: "Marketplace Resource Uuid",
 			},
 			"name": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Name of the Openstack Subnet",
+				MarkdownDescription: "Name",
 			},
 			"network": schema.StringAttribute{
 				Computed:            true,
@@ -137,7 +137,7 @@ func (d *OpenstackSubnetDataSource) Schema(ctx context.Context, req datasource.S
 			},
 			"network_name": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Name of the network",
+				MarkdownDescription: "Network Name",
 			},
 			"project": schema.StringAttribute{
 				Computed:            true,
@@ -145,7 +145,7 @@ func (d *OpenstackSubnetDataSource) Schema(ctx context.Context, req datasource.S
 			},
 			"resource_type": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Resource type",
+				MarkdownDescription: "Resource Type",
 			},
 			"state": schema.StringAttribute{
 				Computed:            true,
@@ -157,7 +157,7 @@ func (d *OpenstackSubnetDataSource) Schema(ctx context.Context, req datasource.S
 			},
 			"tenant_name": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Name of the tenant",
+				MarkdownDescription: "Tenant Name",
 			},
 			"url": schema.StringAttribute{
 				Computed:            true,

@@ -51,16 +51,16 @@ func (d *OpenstackPortDataSource) Schema(ctx context.Context, req datasource.Sch
 					Attributes: map[string]schema.Attribute{
 						"ip_address": schema.StringAttribute{
 							Computed:            true,
-							MarkdownDescription: "Ip address",
+							MarkdownDescription: "Ip Address",
 						},
 						"mac_address": schema.StringAttribute{
 							Computed:            true,
-							MarkdownDescription: "Mac address",
+							MarkdownDescription: "Mac Address",
 						},
 					},
 				},
 				Computed:            true,
-				MarkdownDescription: "Allowed address pairs",
+				MarkdownDescription: "Allowed Address Pairs",
 			},
 			"backend_id": schema.StringAttribute{
 				Computed:            true,
@@ -72,7 +72,7 @@ func (d *OpenstackPortDataSource) Schema(ctx context.Context, req datasource.Sch
 			},
 			"description": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Description of the Openstack Port",
+				MarkdownDescription: "Description",
 			},
 			"device_id": schema.StringAttribute{
 				Computed:            true,
@@ -84,11 +84,11 @@ func (d *OpenstackPortDataSource) Schema(ctx context.Context, req datasource.Sch
 			},
 			"error_message": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Error message",
+				MarkdownDescription: "Error Message",
 			},
 			"error_traceback": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Error traceback",
+				MarkdownDescription: "Error Traceback",
 			},
 			"fixed_ips": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
@@ -104,12 +104,12 @@ func (d *OpenstackPortDataSource) Schema(ctx context.Context, req datasource.Sch
 					},
 				},
 				Computed:            true,
-				MarkdownDescription: "Fixed ips",
+				MarkdownDescription: "Fixed Ips",
 			},
 			"floating_ips": schema.SetAttribute{
 				ElementType:         types.StringType,
 				Computed:            true,
-				MarkdownDescription: "Floating ips",
+				MarkdownDescription: "Floating Ips",
 			},
 			"mac_address": schema.StringAttribute{
 				Computed:            true,
@@ -117,11 +117,11 @@ func (d *OpenstackPortDataSource) Schema(ctx context.Context, req datasource.Sch
 			},
 			"marketplace_resource_uuid": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "UUID of the marketplace resource",
+				MarkdownDescription: "Marketplace Resource Uuid",
 			},
 			"name": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Name of the Openstack Port",
+				MarkdownDescription: "Name",
 			},
 			"network": schema.StringAttribute{
 				Computed:            true,
@@ -129,11 +129,11 @@ func (d *OpenstackPortDataSource) Schema(ctx context.Context, req datasource.Sch
 			},
 			"network_name": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Name of the network",
+				MarkdownDescription: "Network Name",
 			},
 			"network_uuid": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "UUID of the network",
+				MarkdownDescription: "Network Uuid",
 			},
 			"port_security_enabled": schema.BoolAttribute{
 				Computed:            true,
@@ -145,14 +145,14 @@ func (d *OpenstackPortDataSource) Schema(ctx context.Context, req datasource.Sch
 			},
 			"resource_type": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Resource type",
+				MarkdownDescription: "Resource Type",
 			},
 			"security_groups": schema.SetNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"name": schema.StringAttribute{
 							Computed:            true,
-							MarkdownDescription: "Name of the Openstack Port",
+							MarkdownDescription: "Name",
 						},
 						"url": schema.StringAttribute{
 							Computed:            true,
@@ -160,12 +160,12 @@ func (d *OpenstackPortDataSource) Schema(ctx context.Context, req datasource.Sch
 						},
 						"uuid": schema.StringAttribute{
 							Computed:            true,
-							MarkdownDescription: "UUID of the Openstack Port",
+							MarkdownDescription: "Uuid",
 						},
 					},
 				},
 				Computed:            true,
-				MarkdownDescription: "Security groups",
+				MarkdownDescription: "Security Groups",
 			},
 			"state": schema.StringAttribute{
 				Computed:            true,
@@ -181,11 +181,11 @@ func (d *OpenstackPortDataSource) Schema(ctx context.Context, req datasource.Sch
 			},
 			"tenant_name": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Name of the tenant",
+				MarkdownDescription: "Tenant Name",
 			},
 			"tenant_uuid": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "UUID of the tenant",
+				MarkdownDescription: "Tenant Uuid",
 			},
 			"url": schema.StringAttribute{
 				Computed:            true,

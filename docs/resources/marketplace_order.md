@@ -22,74 +22,74 @@ Marketplace Order resource
 
 ### Optional
 
-- `accepting_terms_of_service` (Boolean) Accepting terms of service
+- `accepting_terms_of_service` (Boolean) Accepting Terms Of Service
 - `attachment` (String) Attachment
-- `backend_id` (String) ID of the backend
-- `callback_url` (String) Callback url
+- `backend_id` (String) Backend Id
+- `callback_url` (String) Callback Url
 - `plan` (String) Plan
-- `request_comment` (String) Request comment
+- `request_comment` (String) Request Comment
 - `start_date` (String) Enables delayed processing of resource provisioning order.
 - `timeouts` (Block, Optional) (see [below for nested schema](#nestedblock--timeouts))
 - `type` (String) Type
 
 ### Read-Only
 
-- `activation_price` (Number) Activation price
-- `can_terminate` (Boolean) Can terminate
-- `category_icon` (String) Category icon
-- `category_title` (String) Category title
-- `category_uuid` (String) UUID of the category
-- `completed_at` (String) Completed at
-- `consumer_reviewed_at` (String) Consumer reviewed at
+- `activation_price` (Number) Activation Price
+- `can_terminate` (Boolean) Can Terminate
+- `category_icon` (String) Category Icon
+- `category_title` (String) Category Title
+- `category_uuid` (String) Category Uuid
+- `completed_at` (String) Completed At
+- `consumer_reviewed_at` (String) Consumer Reviewed At
 - `consumer_reviewed_by` (String) Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters
-- `consumer_reviewed_by_full_name` (String) Name of the consumer reviewed by full
+- `consumer_reviewed_by_full_name` (String) Consumer Reviewed By Full Name
 - `consumer_reviewed_by_username` (String) Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters
 - `cost` (String) Cost
-- `created_by_civil_number` (String) Created by civil number
-- `created_by_full_name` (String) Name of the created by full
+- `created_by_civil_number` (String) Created By Civil Number
+- `created_by_full_name` (String) Created By Full Name
 - `created_by_username` (String) Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters
-- `customer_slug` (String) Customer slug
-- `error_message` (String) Error message
-- `error_traceback` (String) Error traceback
-- `fixed_price` (Number) Fixed price
+- `customer_slug` (String) Customer Slug
+- `error_message` (String) Error Message
+- `error_traceback` (String) Error Traceback
+- `fixed_price` (Number) Fixed Price
 - `id` (String) Marketplace Order UUID (used as Terraform ID)
 - `issue` (Attributes) Issue (see [below for nested schema](#nestedatt--issue))
-- `marketplace_resource_uuid` (String) UUID of the marketplace resource
-- `new_cost_estimate` (String) New cost estimate
-- `new_plan_name` (String) Name of the new plan
-- `new_plan_uuid` (String) UUID of the new plan
+- `marketplace_resource_uuid` (String) Marketplace Resource Uuid
+- `new_cost_estimate` (String) New Cost Estimate
+- `new_plan_name` (String) New Plan Name
+- `new_plan_uuid` (String) New Plan Uuid
 - `offering_billable` (Boolean) Purchase and usage is invoiced.
-- `offering_description` (String) Offering description
-- `offering_image` (String) Offering image
-- `offering_name` (String) Name of the offering
+- `offering_description` (String) Offering Description
+- `offering_image` (String) Offering Image
+- `offering_name` (String) Offering Name
 - `offering_shared` (Boolean) Accessible to all customers.
-- `offering_thumbnail` (String) Offering thumbnail
-- `offering_type` (String) Offering type
-- `offering_uuid` (String) UUID of the offering
-- `old_cost_estimate` (Number) Old cost estimate
-- `old_plan_name` (String) Name of the old plan
-- `old_plan_uuid` (String) UUID of the old plan
-- `order_subtype` (String) Order subtype
+- `offering_thumbnail` (String) Offering Thumbnail
+- `offering_type` (String) Offering Type
+- `offering_uuid` (String) Offering Uuid
+- `old_cost_estimate` (Number) Old Cost Estimate
+- `old_plan_name` (String) Old Plan Name
+- `old_plan_uuid` (String) Old Plan Uuid
+- `order_subtype` (String) Order Subtype
 - `output` (String) Output
-- `plan_description` (String) Plan description
-- `plan_name` (String) Name of the plan
-- `plan_unit` (String) Plan unit
-- `plan_uuid` (String) UUID of the plan
-- `project_description` (String) Project description
-- `project_slug` (String) Project slug
-- `provider_name` (String) Name of the provider
-- `provider_reviewed_at` (String) Provider reviewed at
+- `plan_description` (String) Plan Description
+- `plan_name` (String) Plan Name
+- `plan_unit` (String) Plan Unit
+- `plan_uuid` (String) Plan Uuid
+- `project_description` (String) Project Description
+- `project_slug` (String) Project Slug
+- `provider_name` (String) Provider Name
+- `provider_reviewed_at` (String) Provider Reviewed At
 - `provider_reviewed_by` (String) Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters
-- `provider_reviewed_by_full_name` (String) Name of the provider reviewed by full
+- `provider_reviewed_by_full_name` (String) Provider Reviewed By Full Name
 - `provider_reviewed_by_username` (String) Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters
-- `provider_slug` (String) Provider slug
-- `provider_uuid` (String) UUID of the provider
-- `resource_name` (String) Name of the resource
-- `resource_type` (String) Resource type
-- `resource_uuid` (String) UUID of the resource
+- `provider_slug` (String) Provider Slug
+- `provider_uuid` (String) Provider Uuid
+- `resource_name` (String) Resource Name
+- `resource_type` (String) Resource Type
+- `resource_uuid` (String) Resource Uuid
 - `slug` (String) URL-friendly identifier. Only editable by staff users.
 - `state` (String) State
-- `termination_comment` (String) Termination comment
+- `termination_comment` (String) Termination Comment
 - `url` (String) Url
 
 <a id="nestedblock--timeouts"></a>
@@ -108,4 +108,4 @@ Optional:
 Read-Only:
 
 - `key` (String) Key
-- `uuid` (String) UUID of the Marketplace Order
+- `uuid` (String) Uuid

@@ -34,7 +34,7 @@ func (a *OpenstackTenantUnlinkAction) Metadata(ctx context.Context, req action.M
 
 func (a *OpenstackTenantUnlinkAction) Schema(ctx context.Context, req action.SchemaRequest, resp *action.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		Description: "",
+		Description: "Perform unlink action on openstack tenant resource",
 		Attributes: map[string]schema.Attribute{
 			"uuid": schema.StringAttribute{
 				Description: "UUID of the resource",

@@ -23,9 +23,9 @@ Openstack Volume Attachment resource
 
 - `availability_zone` (String) Availability zone where this volume is located
 - `bootable` (Boolean) Indicates if this volume can be used to boot an instance
-- `description` (String) Description of the Openstack Volume Attachment
+- `description` (String) Description
 - `image` (String) Image that this volume was created from, if any
-- `name` (String) Name of the Openstack Volume Attachment
+- `name` (String) Name
 - `project` (String) Project
 - `size` (Number) Size in MiB
 - `tenant` (String) Tenant
@@ -35,26 +35,26 @@ Openstack Volume Attachment resource
 ### Read-Only
 
 - `action` (String) Action
-- `availability_zone_name` (String) Name of the availability zone
+- `availability_zone_name` (String) Availability Zone Name
 - `backend_id` (String) Volume ID in the OpenStack backend
 - `customer` (String) Customer
 - `device` (String) Link parameter
-- `error_message` (String) Error message
-- `error_traceback` (String) Error traceback
-- `extend_enabled` (Boolean) Extend enabled
+- `error_message` (String) Error Message
+- `error_traceback` (String) Error Traceback
+- `extend_enabled` (Boolean) Extend Enabled
 - `id` (String) Openstack Volume Attachment UUID (used as Terraform ID)
 - `image_metadata` (String) Metadata of the image this volume was created from
 - `image_name` (String) Name of the image this volume was created from
 - `instance` (String) Instance that this volume is attached to, if any
-- `instance_marketplace_uuid` (String) UUID of the instance marketplace
-- `instance_name` (String) Name of the instance
-- `marketplace_resource_uuid` (String) UUID of the marketplace resource
-- `resource_type` (String) Resource type
-- `runtime_state` (String) Runtime state
+- `instance_marketplace_uuid` (String) Instance Marketplace Uuid
+- `instance_name` (String) Instance Name
+- `marketplace_resource_uuid` (String) Marketplace Resource Uuid
+- `resource_type` (String) Resource Type
+- `runtime_state` (String) Runtime State
 - `source_snapshot` (String) Snapshot that this volume was created from, if any
 - `state` (String) State
-- `tenant_uuid` (String) UUID of the tenant
-- `type_name` (String) Name of the type
+- `tenant_uuid` (String) Tenant Uuid
+- `type_name` (String) Type Name
 - `url` (String) Url
 
 <a id="nestedblock--timeouts"></a>

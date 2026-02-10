@@ -52,16 +52,16 @@ data "waldur_marketplace_offering" "offering" {
 ### Optional
 
 - `availability_zone` (String) Optional availability group. Will be used for all instances provisioned in this tenant
-- `description` (String) Description of the Openstack Tenant
+- `description` (String) Description
 - `limits` (Map of Number) Resource limits
-- `name` (String) Name of the Openstack Tenant
+- `name` (String) Name
 - `plan` (String) Plan URL
 - `project` (String) Project URL
-- `security_groups` (Attributes Set) Security groups (see [below for nested schema](#nestedatt--security_groups))
-- `skip_connection_extnet` (Boolean) Skip connection extnet
-- `skip_creation_of_default_router` (Boolean) Skip creation of default router
-- `skip_creation_of_default_subnet` (Boolean) Skip creation of default subnet
-- `subnet_cidr` (String) Subnet cidr
+- `security_groups` (Attributes Set) Security Groups (see [below for nested schema](#nestedatt--security_groups))
+- `skip_connection_extnet` (Boolean) Skip Connection Extnet
+- `skip_creation_of_default_router` (Boolean) Skip Creation Of Default Router
+- `skip_creation_of_default_subnet` (Boolean) Skip Creation Of Default Subnet
+- `subnet_cidr` (String) Subnet Cidr
 - `timeouts` (Block, Optional) (see [below for nested schema](#nestedblock--timeouts))
 
 ### Read-Only
@@ -69,14 +69,14 @@ data "waldur_marketplace_offering" "offering" {
 - `backend_id` (String) ID of tenant in the OpenStack backend
 - `customer` (String) Customer
 - `default_volume_type_name` (String) Volume type name to use when creating volumes.
-- `error_message` (String) Error message
-- `error_traceback` (String) Error traceback
+- `error_message` (String) Error Message
+- `error_traceback` (String) Error Traceback
 - `external_network_id` (String) ID of external network connected to OpenStack tenant
 - `id` (String) Openstack Tenant UUID (used as Terraform ID)
 - `internal_network_id` (String) ID of internal network in OpenStack tenant
-- `marketplace_resource_uuid` (String) UUID of the marketplace resource
+- `marketplace_resource_uuid` (String) Marketplace Resource Uuid
 - `quotas` (Attributes List) Quotas (see [below for nested schema](#nestedatt--quotas))
-- `resource_type` (String) Resource type
+- `resource_type` (String) Resource Type
 - `state` (String) State
 - `url` (String) Url
 - `user_password` (String, Sensitive) Password of the tenant user
@@ -87,11 +87,11 @@ data "waldur_marketplace_offering" "offering" {
 
 Required:
 
-- `name` (String) Name of the Openstack Tenant
+- `name` (String) Name
 
 Optional:
 
-- `description` (String) Description of the Openstack Tenant
+- `description` (String) Description
 - `rules` (Attributes List) Rules (see [below for nested schema](#nestedatt--security_groups--rules))
 
 <a id="nestedatt--security_groups--rules"></a>
@@ -100,7 +100,7 @@ Optional:
 Optional:
 
 - `cidr` (String) CIDR notation for the source/destination network address range
-- `description` (String) Description of the Openstack Tenant
+- `description` (String) Description
 - `direction` (String) Traffic direction - either 'ingress' (incoming) or 'egress' (outgoing)
 - `ethertype` (String) IP protocol version - either 'IPv4' or 'IPv6'
 - `from_port` (Number) Starting port number in the range (1-65535)
@@ -126,5 +126,5 @@ Optional:
 Optional:
 
 - `limit` (Number) Limit
-- `name` (String) Name of the Openstack Tenant
+- `name` (String) Name
 - `usage` (Number) Usage

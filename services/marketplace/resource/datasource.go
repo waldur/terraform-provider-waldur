@@ -50,11 +50,11 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 			"available_actions": schema.ListAttribute{
 				ElementType:         types.StringType,
 				Computed:            true,
-				MarkdownDescription: "Available actions",
+				MarkdownDescription: "Available Actions",
 			},
 			"backend_id": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "ID of the backend",
+				MarkdownDescription: "Backend Id",
 			},
 			"backend_metadata": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
@@ -76,29 +76,29 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 					},
 				},
 				Computed:            true,
-				MarkdownDescription: "Backend metadata",
+				MarkdownDescription: "Backend Metadata",
 			},
 			"can_terminate": schema.BoolAttribute{
 				Computed:            true,
-				MarkdownDescription: "Can terminate",
+				MarkdownDescription: "Can Terminate",
 			},
 			"category_icon": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Category icon",
+				MarkdownDescription: "Category Icon",
 			},
 			"category_title": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Category title",
+				MarkdownDescription: "Category Title",
 			},
 			"category_uuid": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "UUID of the category",
+				MarkdownDescription: "Category Uuid",
 			},
 			"creation_order": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
 					"activation_price": schema.Float64Attribute{
 						Computed:            true,
-						MarkdownDescription: "Activation price",
+						MarkdownDescription: "Activation Price",
 					},
 					"attachment": schema.StringAttribute{
 						Computed:            true,
@@ -106,37 +106,37 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 					},
 					"backend_id": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "ID of the backend",
+						MarkdownDescription: "Backend Id",
 					},
 					"callback_url": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "Callback url",
+						MarkdownDescription: "Callback Url",
 					},
 					"can_terminate": schema.BoolAttribute{
 						Computed:            true,
-						MarkdownDescription: "Can terminate",
+						MarkdownDescription: "Can Terminate",
 					},
 					"category_icon": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "Category icon",
+						MarkdownDescription: "Category Icon",
 					},
 					"category_title": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "Category title",
+						MarkdownDescription: "Category Title",
 					},
 					"category_uuid": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "UUID of the category",
+						MarkdownDescription: "Category Uuid",
 					},
 					"completed_at": schema.StringAttribute{
 						CustomType:          timetypes.RFC3339Type{},
 						Computed:            true,
-						MarkdownDescription: "Completed at",
+						MarkdownDescription: "Completed At",
 					},
 					"consumer_reviewed_at": schema.StringAttribute{
 						CustomType:          timetypes.RFC3339Type{},
 						Computed:            true,
-						MarkdownDescription: "Consumer reviewed at",
+						MarkdownDescription: "Consumer Reviewed At",
 					},
 					"consumer_reviewed_by": schema.StringAttribute{
 						Computed:            true,
@@ -144,7 +144,7 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 					},
 					"consumer_reviewed_by_full_name": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "Name of the consumer reviewed by full",
+						MarkdownDescription: "Consumer Reviewed By Full Name",
 					},
 					"consumer_reviewed_by_username": schema.StringAttribute{
 						Computed:            true,
@@ -159,11 +159,11 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 					},
 					"created_by_civil_number": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "Created by civil number",
+						MarkdownDescription: "Created By Civil Number",
 					},
 					"created_by_full_name": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "Name of the created by full",
+						MarkdownDescription: "Created By Full Name",
 					},
 					"created_by_username": schema.StringAttribute{
 						Computed:            true,
@@ -171,19 +171,19 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 					},
 					"customer_slug": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "Customer slug",
+						MarkdownDescription: "Customer Slug",
 					},
 					"error_message": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "Error message",
+						MarkdownDescription: "Error Message",
 					},
 					"error_traceback": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "Error traceback",
+						MarkdownDescription: "Error Traceback",
 					},
 					"fixed_price": schema.Float64Attribute{
 						Computed:            true,
-						MarkdownDescription: "Fixed price",
+						MarkdownDescription: "Fixed Price",
 					},
 					"issue": schema.SingleNestedAttribute{
 						Attributes: map[string]schema.Attribute{
@@ -193,7 +193,7 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 							},
 							"uuid": schema.StringAttribute{
 								Computed:            true,
-								MarkdownDescription: "UUID of the Marketplace Resource",
+								MarkdownDescription: "Uuid",
 							},
 						},
 						Computed:            true,
@@ -201,22 +201,22 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 					},
 					"marketplace_resource_uuid": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "UUID of the marketplace resource",
+						MarkdownDescription: "Marketplace Resource Uuid",
 					},
 					"new_cost_estimate": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "New cost estimate",
+						MarkdownDescription: "New Cost Estimate",
 						Validators: []validator.String{
 							stringvalidator.RegexMatches(regexp.MustCompile(`^-?\d{0,12}(?:\.\d{0,10})?$`), ""),
 						},
 					},
 					"new_plan_name": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "Name of the new plan",
+						MarkdownDescription: "New Plan Name",
 					},
 					"new_plan_uuid": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "UUID of the new plan",
+						MarkdownDescription: "New Plan Uuid",
 					},
 					"offering": schema.StringAttribute{
 						Computed:            true,
@@ -228,15 +228,15 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 					},
 					"offering_description": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "Offering description",
+						MarkdownDescription: "Offering Description",
 					},
 					"offering_image": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "Offering image",
+						MarkdownDescription: "Offering Image",
 					},
 					"offering_name": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "Name of the offering",
+						MarkdownDescription: "Offering Name",
 					},
 					"offering_shared": schema.BoolAttribute{
 						Computed:            true,
@@ -244,31 +244,31 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 					},
 					"offering_thumbnail": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "Offering thumbnail",
+						MarkdownDescription: "Offering Thumbnail",
 					},
 					"offering_type": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "Offering type",
+						MarkdownDescription: "Offering Type",
 					},
 					"offering_uuid": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "UUID of the offering",
+						MarkdownDescription: "Offering Uuid",
 					},
 					"old_cost_estimate": schema.Float64Attribute{
 						Computed:            true,
-						MarkdownDescription: "Old cost estimate",
+						MarkdownDescription: "Old Cost Estimate",
 					},
 					"old_plan_name": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "Name of the old plan",
+						MarkdownDescription: "Old Plan Name",
 					},
 					"old_plan_uuid": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "UUID of the old plan",
+						MarkdownDescription: "Old Plan Uuid",
 					},
 					"order_subtype": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "Order subtype",
+						MarkdownDescription: "Order Subtype",
 					},
 					"output": schema.StringAttribute{
 						Computed:            true,
@@ -280,36 +280,36 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 					},
 					"plan_description": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "Plan description",
+						MarkdownDescription: "Plan Description",
 					},
 					"plan_name": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "Name of the plan",
+						MarkdownDescription: "Plan Name",
 					},
 					"plan_unit": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "Plan unit",
+						MarkdownDescription: "Plan Unit",
 					},
 					"plan_uuid": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "UUID of the plan",
+						MarkdownDescription: "Plan Uuid",
 					},
 					"project_description": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "Project description",
+						MarkdownDescription: "Project Description",
 					},
 					"project_slug": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "Project slug",
+						MarkdownDescription: "Project Slug",
 					},
 					"provider_name": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "Name of the provider",
+						MarkdownDescription: "Provider Name",
 					},
 					"provider_reviewed_at": schema.StringAttribute{
 						CustomType:          timetypes.RFC3339Type{},
 						Computed:            true,
-						MarkdownDescription: "Provider reviewed at",
+						MarkdownDescription: "Provider Reviewed At",
 					},
 					"provider_reviewed_by": schema.StringAttribute{
 						Computed:            true,
@@ -317,7 +317,7 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 					},
 					"provider_reviewed_by_full_name": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "Name of the provider reviewed by full",
+						MarkdownDescription: "Provider Reviewed By Full Name",
 					},
 					"provider_reviewed_by_username": schema.StringAttribute{
 						Computed:            true,
@@ -325,27 +325,27 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 					},
 					"provider_slug": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "Provider slug",
+						MarkdownDescription: "Provider Slug",
 					},
 					"provider_uuid": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "UUID of the provider",
+						MarkdownDescription: "Provider Uuid",
 					},
 					"request_comment": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "Request comment",
+						MarkdownDescription: "Request Comment",
 					},
 					"resource_name": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "Name of the resource",
+						MarkdownDescription: "Resource Name",
 					},
 					"resource_type": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "Resource type",
+						MarkdownDescription: "Resource Type",
 					},
 					"resource_uuid": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "UUID of the resource",
+						MarkdownDescription: "Resource Uuid",
 					},
 					"slug": schema.StringAttribute{
 						Computed:            true,
@@ -364,7 +364,7 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 					},
 					"termination_comment": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "Termination comment",
+						MarkdownDescription: "Termination Comment",
 					},
 					"type": schema.StringAttribute{
 						Computed:            true,
@@ -376,19 +376,19 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 					},
 					"uuid": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "UUID of the Marketplace Resource",
+						MarkdownDescription: "Uuid",
 					},
 				},
 				Computed:            true,
-				MarkdownDescription: "Creation order",
+				MarkdownDescription: "Creation Order",
 			},
 			"customer_slug": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Customer slug",
+				MarkdownDescription: "Customer Slug",
 			},
 			"description": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Description of the Marketplace Resource",
+				MarkdownDescription: "Description",
 			},
 			"downscaled": schema.BoolAttribute{
 				Computed:            true,
@@ -396,7 +396,7 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 			},
 			"effective_id": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "ID of the effective",
+				MarkdownDescription: "Effective Id",
 			},
 			"end_date": schema.StringAttribute{
 				Computed:            true,
@@ -404,14 +404,14 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 			},
 			"end_date_requested_by": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "End date requested by",
+				MarkdownDescription: "End Date Requested By",
 			},
 			"endpoints": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"name": schema.StringAttribute{
 							Computed:            true,
-							MarkdownDescription: "Name of the Marketplace Resource",
+							MarkdownDescription: "Name",
 						},
 						"url": schema.StringAttribute{
 							Computed:            true,
@@ -419,7 +419,7 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 						},
 						"uuid": schema.StringAttribute{
 							Computed:            true,
-							MarkdownDescription: "UUID of the Marketplace Resource",
+							MarkdownDescription: "Uuid",
 						},
 					},
 				},
@@ -428,20 +428,20 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 			},
 			"error_message": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Error message",
+				MarkdownDescription: "Error Message",
 			},
 			"error_traceback": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Error traceback",
+				MarkdownDescription: "Error Traceback",
 			},
 			"last_sync": schema.StringAttribute{
 				CustomType:          timetypes.RFC3339Type{},
 				Computed:            true,
-				MarkdownDescription: "Last sync",
+				MarkdownDescription: "Last Sync",
 			},
 			"name": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Name of the Marketplace Resource",
+				MarkdownDescription: "Name",
 			},
 			"offering": schema.StringAttribute{
 				Computed:            true,
@@ -449,7 +449,7 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 			},
 			"offering_backend_id": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "ID of the offering backend",
+				MarkdownDescription: "Offering Backend Id",
 			},
 			"offering_billable": schema.BoolAttribute{
 				Computed:            true,
@@ -460,18 +460,18 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 					Attributes: map[string]schema.Attribute{
 						"article_code": schema.StringAttribute{
 							Computed:            true,
-							MarkdownDescription: "Article code",
+							MarkdownDescription: "Article Code",
 						},
 						"billing_type": schema.StringAttribute{
 							Computed:            true,
-							MarkdownDescription: "Billing type",
+							MarkdownDescription: "Billing Type",
 							Validators: []validator.String{
 								stringvalidator.OneOf("fixed", "usage", "limit", "one", "few"),
 							},
 						},
 						"default_limit": schema.Int64Attribute{
 							Computed:            true,
-							MarkdownDescription: "Default limit",
+							MarkdownDescription: "Default Limit",
 							Validators: []validator.Int64{
 								int64validator.AtLeast(-2147483648),
 								int64validator.AtMost(2147483647),
@@ -479,7 +479,7 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 						},
 						"description": schema.StringAttribute{
 							Computed:            true,
-							MarkdownDescription: "Description of the Marketplace Resource",
+							MarkdownDescription: "Description",
 						},
 						"factor": schema.Int64Attribute{
 							Computed:            true,
@@ -487,19 +487,19 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 						},
 						"is_boolean": schema.BoolAttribute{
 							Computed:            true,
-							MarkdownDescription: "Is boolean",
+							MarkdownDescription: "Is Boolean",
 						},
 						"is_builtin": schema.BoolAttribute{
 							Computed:            true,
-							MarkdownDescription: "Is builtin",
+							MarkdownDescription: "Is Builtin",
 						},
 						"is_prepaid": schema.BoolAttribute{
 							Computed:            true,
-							MarkdownDescription: "Is prepaid",
+							MarkdownDescription: "Is Prepaid",
 						},
 						"limit_amount": schema.Int64Attribute{
 							Computed:            true,
-							MarkdownDescription: "Limit amount",
+							MarkdownDescription: "Limit Amount",
 							Validators: []validator.Int64{
 								int64validator.AtLeast(-2147483648),
 								int64validator.AtMost(2147483647),
@@ -507,11 +507,11 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 						},
 						"limit_period": schema.StringAttribute{
 							Computed:            true,
-							MarkdownDescription: "Limit period",
+							MarkdownDescription: "Limit Period",
 						},
 						"max_available_limit": schema.Int64Attribute{
 							Computed:            true,
-							MarkdownDescription: "Max available limit",
+							MarkdownDescription: "Max Available Limit",
 							Validators: []validator.Int64{
 								int64validator.AtLeast(-2147483648),
 								int64validator.AtMost(2147483647),
@@ -519,7 +519,7 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 						},
 						"max_prepaid_duration": schema.Int64Attribute{
 							Computed:            true,
-							MarkdownDescription: "Max prepaid duration",
+							MarkdownDescription: "Max Prepaid Duration",
 							Validators: []validator.Int64{
 								int64validator.AtLeast(-2147483648),
 								int64validator.AtMost(2147483647),
@@ -527,7 +527,7 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 						},
 						"max_value": schema.Int64Attribute{
 							Computed:            true,
-							MarkdownDescription: "Max value",
+							MarkdownDescription: "Max Value",
 							Validators: []validator.Int64{
 								int64validator.AtLeast(-2147483648),
 								int64validator.AtMost(2147483647),
@@ -539,7 +539,7 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 						},
 						"min_prepaid_duration": schema.Int64Attribute{
 							Computed:            true,
-							MarkdownDescription: "Min prepaid duration",
+							MarkdownDescription: "Min Prepaid Duration",
 							Validators: []validator.Int64{
 								int64validator.AtLeast(-2147483648),
 								int64validator.AtMost(2147483647),
@@ -547,7 +547,7 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 						},
 						"min_value": schema.Int64Attribute{
 							Computed:            true,
-							MarkdownDescription: "Min value",
+							MarkdownDescription: "Min Value",
 							Validators: []validator.Int64{
 								int64validator.AtLeast(-2147483648),
 								int64validator.AtMost(2147483647),
@@ -559,7 +559,7 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 						},
 						"overage_component": schema.StringAttribute{
 							Computed:            true,
-							MarkdownDescription: "Overage component",
+							MarkdownDescription: "Overage Component",
 						},
 						"type": schema.StringAttribute{
 							Computed:            true,
@@ -578,24 +578,24 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 						},
 						"uuid": schema.StringAttribute{
 							Computed:            true,
-							MarkdownDescription: "UUID of the Marketplace Resource",
+							MarkdownDescription: "Uuid",
 						},
 					},
 				},
 				Computed:            true,
-				MarkdownDescription: "Offering components",
+				MarkdownDescription: "Offering Components",
 			},
 			"offering_description": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Offering description",
+				MarkdownDescription: "Offering Description",
 			},
 			"offering_image": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Offering image",
+				MarkdownDescription: "Offering Image",
 			},
 			"offering_name": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Name of the offering",
+				MarkdownDescription: "Offering Name",
 			},
 			"offering_shared": schema.BoolAttribute{
 				Computed:            true,
@@ -603,29 +603,29 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 			},
 			"offering_slug": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Offering slug",
+				MarkdownDescription: "Offering Slug",
 			},
 			"offering_state": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Offering state",
+				MarkdownDescription: "Offering State",
 			},
 			"offering_thumbnail": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Offering thumbnail",
+				MarkdownDescription: "Offering Thumbnail",
 			},
 			"offering_type": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Offering type",
+				MarkdownDescription: "Offering Type",
 			},
 			"offering_uuid": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "UUID of the offering",
+				MarkdownDescription: "Offering Uuid",
 			},
 			"order_in_progress": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
 					"activation_price": schema.Float64Attribute{
 						Computed:            true,
-						MarkdownDescription: "Activation price",
+						MarkdownDescription: "Activation Price",
 					},
 					"attachment": schema.StringAttribute{
 						Computed:            true,
@@ -633,37 +633,37 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 					},
 					"backend_id": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "ID of the backend",
+						MarkdownDescription: "Backend Id",
 					},
 					"callback_url": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "Callback url",
+						MarkdownDescription: "Callback Url",
 					},
 					"can_terminate": schema.BoolAttribute{
 						Computed:            true,
-						MarkdownDescription: "Can terminate",
+						MarkdownDescription: "Can Terminate",
 					},
 					"category_icon": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "Category icon",
+						MarkdownDescription: "Category Icon",
 					},
 					"category_title": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "Category title",
+						MarkdownDescription: "Category Title",
 					},
 					"category_uuid": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "UUID of the category",
+						MarkdownDescription: "Category Uuid",
 					},
 					"completed_at": schema.StringAttribute{
 						CustomType:          timetypes.RFC3339Type{},
 						Computed:            true,
-						MarkdownDescription: "Completed at",
+						MarkdownDescription: "Completed At",
 					},
 					"consumer_reviewed_at": schema.StringAttribute{
 						CustomType:          timetypes.RFC3339Type{},
 						Computed:            true,
-						MarkdownDescription: "Consumer reviewed at",
+						MarkdownDescription: "Consumer Reviewed At",
 					},
 					"consumer_reviewed_by": schema.StringAttribute{
 						Computed:            true,
@@ -671,7 +671,7 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 					},
 					"consumer_reviewed_by_full_name": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "Name of the consumer reviewed by full",
+						MarkdownDescription: "Consumer Reviewed By Full Name",
 					},
 					"consumer_reviewed_by_username": schema.StringAttribute{
 						Computed:            true,
@@ -686,11 +686,11 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 					},
 					"created_by_civil_number": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "Created by civil number",
+						MarkdownDescription: "Created By Civil Number",
 					},
 					"created_by_full_name": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "Name of the created by full",
+						MarkdownDescription: "Created By Full Name",
 					},
 					"created_by_username": schema.StringAttribute{
 						Computed:            true,
@@ -698,19 +698,19 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 					},
 					"customer_slug": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "Customer slug",
+						MarkdownDescription: "Customer Slug",
 					},
 					"error_message": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "Error message",
+						MarkdownDescription: "Error Message",
 					},
 					"error_traceback": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "Error traceback",
+						MarkdownDescription: "Error Traceback",
 					},
 					"fixed_price": schema.Float64Attribute{
 						Computed:            true,
-						MarkdownDescription: "Fixed price",
+						MarkdownDescription: "Fixed Price",
 					},
 					"issue": schema.SingleNestedAttribute{
 						Attributes: map[string]schema.Attribute{
@@ -720,7 +720,7 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 							},
 							"uuid": schema.StringAttribute{
 								Computed:            true,
-								MarkdownDescription: "UUID of the Marketplace Resource",
+								MarkdownDescription: "Uuid",
 							},
 						},
 						Computed:            true,
@@ -728,22 +728,22 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 					},
 					"marketplace_resource_uuid": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "UUID of the marketplace resource",
+						MarkdownDescription: "Marketplace Resource Uuid",
 					},
 					"new_cost_estimate": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "New cost estimate",
+						MarkdownDescription: "New Cost Estimate",
 						Validators: []validator.String{
 							stringvalidator.RegexMatches(regexp.MustCompile(`^-?\d{0,12}(?:\.\d{0,10})?$`), ""),
 						},
 					},
 					"new_plan_name": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "Name of the new plan",
+						MarkdownDescription: "New Plan Name",
 					},
 					"new_plan_uuid": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "UUID of the new plan",
+						MarkdownDescription: "New Plan Uuid",
 					},
 					"offering": schema.StringAttribute{
 						Computed:            true,
@@ -755,15 +755,15 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 					},
 					"offering_description": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "Offering description",
+						MarkdownDescription: "Offering Description",
 					},
 					"offering_image": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "Offering image",
+						MarkdownDescription: "Offering Image",
 					},
 					"offering_name": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "Name of the offering",
+						MarkdownDescription: "Offering Name",
 					},
 					"offering_shared": schema.BoolAttribute{
 						Computed:            true,
@@ -771,31 +771,31 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 					},
 					"offering_thumbnail": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "Offering thumbnail",
+						MarkdownDescription: "Offering Thumbnail",
 					},
 					"offering_type": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "Offering type",
+						MarkdownDescription: "Offering Type",
 					},
 					"offering_uuid": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "UUID of the offering",
+						MarkdownDescription: "Offering Uuid",
 					},
 					"old_cost_estimate": schema.Float64Attribute{
 						Computed:            true,
-						MarkdownDescription: "Old cost estimate",
+						MarkdownDescription: "Old Cost Estimate",
 					},
 					"old_plan_name": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "Name of the old plan",
+						MarkdownDescription: "Old Plan Name",
 					},
 					"old_plan_uuid": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "UUID of the old plan",
+						MarkdownDescription: "Old Plan Uuid",
 					},
 					"order_subtype": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "Order subtype",
+						MarkdownDescription: "Order Subtype",
 					},
 					"output": schema.StringAttribute{
 						Computed:            true,
@@ -807,36 +807,36 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 					},
 					"plan_description": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "Plan description",
+						MarkdownDescription: "Plan Description",
 					},
 					"plan_name": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "Name of the plan",
+						MarkdownDescription: "Plan Name",
 					},
 					"plan_unit": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "Plan unit",
+						MarkdownDescription: "Plan Unit",
 					},
 					"plan_uuid": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "UUID of the plan",
+						MarkdownDescription: "Plan Uuid",
 					},
 					"project_description": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "Project description",
+						MarkdownDescription: "Project Description",
 					},
 					"project_slug": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "Project slug",
+						MarkdownDescription: "Project Slug",
 					},
 					"provider_name": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "Name of the provider",
+						MarkdownDescription: "Provider Name",
 					},
 					"provider_reviewed_at": schema.StringAttribute{
 						CustomType:          timetypes.RFC3339Type{},
 						Computed:            true,
-						MarkdownDescription: "Provider reviewed at",
+						MarkdownDescription: "Provider Reviewed At",
 					},
 					"provider_reviewed_by": schema.StringAttribute{
 						Computed:            true,
@@ -844,7 +844,7 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 					},
 					"provider_reviewed_by_full_name": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "Name of the provider reviewed by full",
+						MarkdownDescription: "Provider Reviewed By Full Name",
 					},
 					"provider_reviewed_by_username": schema.StringAttribute{
 						Computed:            true,
@@ -852,27 +852,27 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 					},
 					"provider_slug": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "Provider slug",
+						MarkdownDescription: "Provider Slug",
 					},
 					"provider_uuid": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "UUID of the provider",
+						MarkdownDescription: "Provider Uuid",
 					},
 					"request_comment": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "Request comment",
+						MarkdownDescription: "Request Comment",
 					},
 					"resource_name": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "Name of the resource",
+						MarkdownDescription: "Resource Name",
 					},
 					"resource_type": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "Resource type",
+						MarkdownDescription: "Resource Type",
 					},
 					"resource_uuid": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "UUID of the resource",
+						MarkdownDescription: "Resource Uuid",
 					},
 					"slug": schema.StringAttribute{
 						Computed:            true,
@@ -891,7 +891,7 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 					},
 					"termination_comment": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "Termination comment",
+						MarkdownDescription: "Termination Comment",
 					},
 					"type": schema.StringAttribute{
 						Computed:            true,
@@ -903,31 +903,31 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 					},
 					"uuid": schema.StringAttribute{
 						Computed:            true,
-						MarkdownDescription: "UUID of the Marketplace Resource",
+						MarkdownDescription: "Uuid",
 					},
 				},
 				Computed:            true,
-				MarkdownDescription: "Order in progress",
+				MarkdownDescription: "Order In Progress",
 			},
 			"parent_name": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Name of the parent",
+				MarkdownDescription: "Parent Name",
 			},
 			"parent_offering_name": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Name of the parent offering",
+				MarkdownDescription: "Parent Offering Name",
 			},
 			"parent_offering_slug": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Parent offering slug",
+				MarkdownDescription: "Parent Offering Slug",
 			},
 			"parent_offering_uuid": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "UUID of the parent offering",
+				MarkdownDescription: "Parent Offering Uuid",
 			},
 			"parent_uuid": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "UUID of the parent",
+				MarkdownDescription: "Parent Uuid",
 			},
 			"paused": schema.BoolAttribute{
 				Computed:            true,
@@ -939,19 +939,19 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 			},
 			"plan_description": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Plan description",
+				MarkdownDescription: "Plan Description",
 			},
 			"plan_name": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Name of the plan",
+				MarkdownDescription: "Plan Name",
 			},
 			"plan_unit": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Plan unit",
+				MarkdownDescription: "Plan Unit",
 			},
 			"plan_uuid": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "UUID of the plan",
+				MarkdownDescription: "Plan Uuid",
 			},
 			"project": schema.StringAttribute{
 				Computed:            true,
@@ -959,7 +959,7 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 			},
 			"project_description": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Project description",
+				MarkdownDescription: "Project Description",
 			},
 			"project_end_date": schema.StringAttribute{
 				Computed:            true,
@@ -967,23 +967,23 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 			},
 			"project_end_date_requested_by": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Project end date requested by",
+				MarkdownDescription: "Project End Date Requested By",
 			},
 			"project_slug": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Project slug",
+				MarkdownDescription: "Project Slug",
 			},
 			"provider_name": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Name of the provider",
+				MarkdownDescription: "Provider Name",
 			},
 			"provider_slug": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Provider slug",
+				MarkdownDescription: "Provider Slug",
 			},
 			"provider_uuid": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "UUID of the provider",
+				MarkdownDescription: "Provider Uuid",
 			},
 			"report": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
@@ -1003,15 +1003,15 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 			},
 			"resource_type": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Resource type",
+				MarkdownDescription: "Resource Type",
 			},
 			"resource_uuid": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "UUID of the resource",
+				MarkdownDescription: "Resource Uuid",
 			},
 			"restrict_member_access": schema.BoolAttribute{
 				Computed:            true,
-				MarkdownDescription: "Restrict member access",
+				MarkdownDescription: "Restrict Member Access",
 			},
 			"scope": schema.StringAttribute{
 				Computed:            true,

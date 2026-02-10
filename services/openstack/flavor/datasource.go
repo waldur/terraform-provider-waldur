@@ -45,7 +45,7 @@ func (d *OpenstackFlavorDataSource) Schema(ctx context.Context, req datasource.S
 			"filters": (&OpenstackFlavorFiltersModel{}).GetSchema(),
 			"backend_id": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Backend Id",
 			},
 			"cores": schema.Int64Attribute{
 				Computed:            true,
@@ -65,11 +65,11 @@ func (d *OpenstackFlavorDataSource) Schema(ctx context.Context, req datasource.S
 			},
 			"display_name": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Display Name",
 			},
 			"name": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Name",
 			},
 			"ram": schema.Int64Attribute{
 				Computed:            true,
@@ -81,11 +81,11 @@ func (d *OpenstackFlavorDataSource) Schema(ctx context.Context, req datasource.S
 			},
 			"settings": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Settings",
 			},
 			"url": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: " ",
+				MarkdownDescription: "Url",
 			},
 		},
 	}

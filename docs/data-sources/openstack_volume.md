@@ -24,33 +24,33 @@ Openstack Volume data source - lookup by name or UUID
 
 - `action` (String) Action
 - `availability_zone` (String) Availability zone where this volume is located
-- `availability_zone_name` (String) Name of the availability zone
+- `availability_zone_name` (String) Availability Zone Name
 - `backend_id` (String) Volume ID in the OpenStack backend
 - `bootable` (Boolean) Indicates if this volume can be used to boot an instance
 - `customer` (String) Customer
-- `description` (String) Description of the Openstack Volume
+- `description` (String) Description
 - `device` (String) Name of volume as instance device e.g. /dev/vdb.
-- `error_message` (String) Error message
-- `error_traceback` (String) Error traceback
-- `extend_enabled` (Boolean) Extend enabled
+- `error_message` (String) Error Message
+- `error_traceback` (String) Error Traceback
+- `extend_enabled` (Boolean) Extend Enabled
 - `image` (String) Image that this volume was created from, if any
 - `image_metadata` (String) Metadata of the image this volume was created from
 - `image_name` (String) Name of the image this volume was created from
 - `instance` (String) Instance that this volume is attached to, if any
-- `instance_marketplace_uuid` (String) UUID of the instance marketplace
-- `instance_name` (String) Name of the instance
-- `marketplace_resource_uuid` (String) UUID of the marketplace resource
-- `name` (String) Name of the Openstack Volume
+- `instance_marketplace_uuid` (String) Instance Marketplace Uuid
+- `instance_name` (String) Instance Name
+- `marketplace_resource_uuid` (String) Marketplace Resource Uuid
+- `name` (String) Name
 - `project` (String) Project URL
-- `resource_type` (String) Resource type
-- `runtime_state` (String) Runtime state
+- `resource_type` (String) Resource Type
+- `runtime_state` (String) Runtime State
 - `size` (Number) Size in MiB
 - `source_snapshot` (String) Snapshot that this volume was created from, if any
 - `state` (String) State
 - `tenant` (String) Tenant
-- `tenant_uuid` (String) UUID of the tenant
+- `tenant_uuid` (String) Tenant Uuid
 - `type` (String) Type of the volume (e.g. SSD, HDD)
-- `type_name` (String) Name of the type
+- `type_name` (String) Type Name
 - `url` (String) Url
 
 <a id="nestedatt--filters"></a>
@@ -58,29 +58,29 @@ Openstack Volume data source - lookup by name or UUID
 
 Optional:
 
-- `attach_instance_uuid` (String)
-- `availability_zone_name` (String)
-- `backend_id` (String)
-- `can_manage` (Boolean)
-- `customer` (String)
-- `customer_abbreviation` (String)
-- `customer_name` (String)
-- `customer_native_name` (String)
-- `customer_uuid` (String)
-- `description` (String)
-- `external_ip` (String)
-- `instance` (String)
-- `instance_uuid` (String)
-- `name` (String)
-- `name_exact` (String)
-- `project` (String)
-- `project_name` (String)
-- `project_uuid` (String)
-- `runtime_state` (String)
-- `service_settings_name` (String)
-- `service_settings_uuid` (String)
-- `snapshot` (String)
-- `snapshot_uuid` (String)
-- `tenant` (String)
-- `tenant_uuid` (String)
-- `uuid` (String)
+- `attach_instance_uuid` (String) Filter for attachment to instance UUID
+- `availability_zone_name` (String) Availability zone name
+- `backend_id` (String) Backend ID
+- `can_manage` (Boolean) Can manage
+- `customer` (String) Customer UUID
+- `customer_abbreviation` (String) Customer abbreviation
+- `customer_name` (String) Customer name
+- `customer_native_name` (String) Customer native name
+- `customer_uuid` (String) Customer UUID
+- `description` (String) Description
+- `external_ip` (String) External IP
+- `instance` (String) Instance URL
+- `instance_uuid` (String) Instance UUID
+- `name` (String) Name
+- `name_exact` (String) Name (exact)
+- `project` (String) Project UUID
+- `project_name` (String) Project name
+- `project_uuid` (String) Project UUID
+- `runtime_state` (String) Runtime state
+- `service_settings_name` (String) Service settings name
+- `service_settings_uuid` (String) Service settings UUID
+- `snapshot` (String) Snapshot URL
+- `snapshot_uuid` (String) Snapshot UUID
+- `tenant` (String) Tenant URL
+- `tenant_uuid` (String) Tenant UUID
+- `uuid` (String) UUID

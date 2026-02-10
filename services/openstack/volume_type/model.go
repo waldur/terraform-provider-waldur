@@ -26,25 +26,32 @@ func (m *OpenstackVolumeTypeFiltersModel) GetSchema() schema.SingleNestedAttribu
 		MarkdownDescription: "Filter parameters for querying Openstack Volume Type",
 		Attributes: map[string]schema.Attribute{
 			"name": schema.StringAttribute{
-				Optional: true,
+				Optional:            true,
+				MarkdownDescription: "Name",
 			},
 			"name_exact": schema.StringAttribute{
-				Optional: true,
+				Optional:            true,
+				MarkdownDescription: "Name (exact)",
 			},
 			"offering_uuid": schema.StringAttribute{
-				Optional: true,
+				Optional:            true,
+				MarkdownDescription: "Offering UUID",
 			},
 			"settings": schema.StringAttribute{
-				Optional: true,
+				Optional:            true,
+				MarkdownDescription: "Settings URL",
 			},
 			"settings_uuid": schema.StringAttribute{
-				Optional: true,
+				Optional:            true,
+				MarkdownDescription: "Settings UUID",
 			},
 			"tenant": schema.StringAttribute{
-				Optional: true,
+				Optional:            true,
+				MarkdownDescription: "Tenant URL",
 			},
 			"tenant_uuid": schema.StringAttribute{
-				Optional: true,
+				Optional:            true,
+				MarkdownDescription: "Tenant UUID",
 			},
 		},
 	}

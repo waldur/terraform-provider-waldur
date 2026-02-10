@@ -17,28 +17,28 @@ Openstack Security Group resource
 
 ### Required
 
-- `name` (String) Name of the Openstack Security Group
+- `name` (String) Name
 - `rules` (Attributes List) Rules (see [below for nested schema](#nestedatt--rules))
 - `tenant` (String) Tenant
 
 ### Optional
 
-- `description` (String) Description of the Openstack Security Group
+- `description` (String) Description
 - `timeouts` (Block, Optional) (see [below for nested schema](#nestedblock--timeouts))
 
 ### Read-Only
 
-- `backend_id` (String) ID of the backend
+- `backend_id` (String) Backend Id
 - `customer` (String) Customer
-- `error_message` (String) Error message
-- `error_traceback` (String) Error traceback
+- `error_message` (String) Error Message
+- `error_traceback` (String) Error Traceback
 - `id` (String) Openstack Security Group UUID (used as Terraform ID)
-- `marketplace_resource_uuid` (String) UUID of the marketplace resource
+- `marketplace_resource_uuid` (String) Marketplace Resource Uuid
 - `project` (String) Project
-- `resource_type` (String) Resource type
+- `resource_type` (String) Resource Type
 - `state` (String) State
-- `tenant_name` (String) Name of the tenant
-- `tenant_uuid` (String) UUID of the tenant
+- `tenant_name` (String) Tenant Name
+- `tenant_uuid` (String) Tenant Uuid
 - `url` (String) Url
 
 <a id="nestedatt--rules"></a>
@@ -47,7 +47,7 @@ Openstack Security Group resource
 Optional:
 
 - `cidr` (String) CIDR notation for the source/destination network address range
-- `description` (String) Description of the Openstack Security Group
+- `description` (String) Description
 - `direction` (String) Traffic direction - either 'ingress' (incoming) or 'egress' (outgoing)
 - `ethertype` (String) IP protocol version - either 'IPv4' or 'IPv6'
 - `from_port` (Number) Starting port number in the range (1-65535)
@@ -58,8 +58,8 @@ Optional:
 Read-Only:
 
 - `id` (Number) Id
-- `remote_group_name` (String) Name of the remote group
-- `remote_group_uuid` (String) UUID of the remote group
+- `remote_group_name` (String) Remote Group Name
+- `remote_group_uuid` (String) Remote Group Uuid
 
 
 <a id="nestedblock--timeouts"></a>

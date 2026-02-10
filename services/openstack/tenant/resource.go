@@ -98,21 +98,21 @@ func (r *OpenstackTenantResource) Schema(ctx context.Context, req resource.Schem
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Description of the Openstack Tenant",
+				MarkdownDescription: "Description",
 			},
 			"error_message": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Error message",
+				MarkdownDescription: "Error Message",
 			},
 			"error_traceback": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Error traceback",
+				MarkdownDescription: "Error Traceback",
 			},
 			"external_network_id": schema.StringAttribute{
 				Computed: true,
@@ -143,7 +143,7 @@ func (r *OpenstackTenantResource) Schema(ctx context.Context, req resource.Schem
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "UUID of the marketplace resource",
+				MarkdownDescription: "Marketplace Resource Uuid",
 			},
 			"name": schema.StringAttribute{
 				Optional: true,
@@ -151,7 +151,7 @@ func (r *OpenstackTenantResource) Schema(ctx context.Context, req resource.Schem
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Name of the Openstack Tenant",
+				MarkdownDescription: "Name",
 			},
 			"offering": schema.StringAttribute{
 				Required: true,
@@ -195,7 +195,7 @@ func (r *OpenstackTenantResource) Schema(ctx context.Context, req resource.Schem
 							PlanModifiers: []planmodifier.String{
 								stringplanmodifier.UseStateForUnknown(),
 							},
-							MarkdownDescription: "Name of the Openstack Tenant",
+							MarkdownDescription: "Name",
 						},
 						"usage": schema.Int64Attribute{
 							Optional: true,
@@ -218,18 +218,18 @@ func (r *OpenstackTenantResource) Schema(ctx context.Context, req resource.Schem
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Resource type",
+				MarkdownDescription: "Resource Type",
 			},
 			"security_groups": schema.SetNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"description": schema.StringAttribute{
 							Optional:            true,
-							MarkdownDescription: "Description of the Openstack Tenant",
+							MarkdownDescription: "Description",
 						},
 						"name": schema.StringAttribute{
 							Required:            true,
-							MarkdownDescription: "Name of the Openstack Tenant",
+							MarkdownDescription: "Name",
 						},
 						"rules": schema.ListNestedAttribute{
 							NestedObject: schema.NestedAttributeObject{
@@ -240,7 +240,7 @@ func (r *OpenstackTenantResource) Schema(ctx context.Context, req resource.Schem
 									},
 									"description": schema.StringAttribute{
 										Optional:            true,
-										MarkdownDescription: "Description of the Openstack Tenant",
+										MarkdownDescription: "Description",
 									},
 									"direction": schema.StringAttribute{
 										Optional:            true,
@@ -282,14 +282,14 @@ func (r *OpenstackTenantResource) Schema(ctx context.Context, req resource.Schem
 					},
 				},
 				Optional:            true,
-				MarkdownDescription: "Security groups",
+				MarkdownDescription: "Security Groups",
 			},
 			"skip_connection_extnet": schema.BoolAttribute{
 				Optional: true,
 				PlanModifiers: []planmodifier.Bool{
 					boolplanmodifier.RequiresReplace(),
 				},
-				MarkdownDescription: "Skip connection extnet",
+				MarkdownDescription: "Skip Connection Extnet",
 			},
 			"skip_creation_of_default_router": schema.BoolAttribute{
 				Optional: true,
@@ -297,11 +297,11 @@ func (r *OpenstackTenantResource) Schema(ctx context.Context, req resource.Schem
 				PlanModifiers: []planmodifier.Bool{
 					boolplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Skip creation of default router",
+				MarkdownDescription: "Skip Creation Of Default Router",
 			},
 			"skip_creation_of_default_subnet": schema.BoolAttribute{
 				Optional:            true,
-				MarkdownDescription: "Skip creation of default subnet",
+				MarkdownDescription: "Skip Creation Of Default Subnet",
 			},
 			"state": schema.StringAttribute{
 				Computed: true,
@@ -315,7 +315,7 @@ func (r *OpenstackTenantResource) Schema(ctx context.Context, req resource.Schem
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
 				},
-				MarkdownDescription: "Subnet cidr",
+				MarkdownDescription: "Subnet Cidr",
 			},
 			"url": schema.StringAttribute{
 				Computed: true,

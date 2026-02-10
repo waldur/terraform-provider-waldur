@@ -34,7 +34,7 @@ func (a *OpenstackPortDisablePortSecurityAction) Metadata(ctx context.Context, r
 
 func (a *OpenstackPortDisablePortSecurityAction) Schema(ctx context.Context, req action.SchemaRequest, resp *action.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		Description: "",
+		Description: "Perform disable_port_security action on openstack port resource",
 		Attributes: map[string]schema.Attribute{
 			"uuid": schema.StringAttribute{
 				Description: "UUID of the resource",

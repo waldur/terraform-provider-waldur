@@ -22,29 +22,29 @@ Openstack Subnet data source - lookup by name or UUID
 
 ### Read-Only
 
-- `allocation_pools` (Attributes List) Allocation pools (see [below for nested schema](#nestedatt--allocation_pools))
-- `backend_id` (String) ID of the backend
+- `allocation_pools` (Attributes List) Allocation Pools (see [below for nested schema](#nestedatt--allocation_pools))
+- `backend_id` (String) Backend Id
 - `cidr` (String) Cidr
 - `customer` (String) Customer
-- `description` (String) Description of the Openstack Subnet
+- `description` (String) Description
 - `disable_gateway` (Boolean) If True, no gateway IP address will be allocated
-- `dns_nameservers` (List of String) Dns nameservers
+- `dns_nameservers` (List of String) Dns Nameservers
 - `enable_dhcp` (Boolean) If True, DHCP service will be enabled on this subnet
-- `error_message` (String) Error message
-- `error_traceback` (String) Error traceback
+- `error_message` (String) Error Message
+- `error_traceback` (String) Error Traceback
 - `gateway_ip` (String) IP address of the gateway for this subnet
-- `host_routes` (Attributes List) Host routes (see [below for nested schema](#nestedatt--host_routes))
+- `host_routes` (Attributes List) Host Routes (see [below for nested schema](#nestedatt--host_routes))
 - `ip_version` (Number) IP protocol version (4 or 6)
 - `is_connected` (Boolean) Is subnet connected to the default tenant router.
-- `marketplace_resource_uuid` (String) UUID of the marketplace resource
-- `name` (String) Name of the Openstack Subnet
+- `marketplace_resource_uuid` (String) Marketplace Resource Uuid
+- `name` (String) Name
 - `network` (String) Network to which this subnet belongs
-- `network_name` (String) Name of the network
+- `network_name` (String) Network Name
 - `project` (String) Project
-- `resource_type` (String) Resource type
+- `resource_type` (String) Resource Type
 - `state` (String) State
 - `tenant` (String) Tenant
-- `tenant_name` (String) Name of the tenant
+- `tenant_name` (String) Tenant Name
 - `url` (String) Url
 
 <a id="nestedatt--filters"></a>
@@ -52,31 +52,31 @@ Openstack Subnet data source - lookup by name or UUID
 
 Optional:
 
-- `backend_id` (String)
-- `can_manage` (Boolean)
-- `customer` (String)
-- `customer_abbreviation` (String)
-- `customer_name` (String)
-- `customer_native_name` (String)
-- `customer_uuid` (String)
-- `description` (String)
-- `direct_only` (Boolean)
-- `enable_dhcp` (Boolean)
-- `external_ip` (String)
-- `ip_version` (Number)
-- `name` (String)
-- `name_exact` (String)
-- `network` (String)
-- `network_uuid` (String)
-- `project` (String)
-- `project_name` (String)
-- `project_uuid` (String)
-- `rbac_only` (Boolean)
-- `service_settings_name` (String)
-- `service_settings_uuid` (String)
-- `tenant` (String)
-- `tenant_uuid` (String)
-- `uuid` (String)
+- `backend_id` (String) Backend ID
+- `can_manage` (Boolean) Can manage
+- `customer` (String) Customer UUID
+- `customer_abbreviation` (String) Customer abbreviation
+- `customer_name` (String) Customer name
+- `customer_native_name` (String) Customer native name
+- `customer_uuid` (String) Customer UUID
+- `description` (String) Description
+- `direct_only` (Boolean) Direct only
+- `enable_dhcp` (Boolean) Enable dhcp
+- `external_ip` (String) External IP
+- `ip_version` (Number) Ip version
+- `name` (String) Name
+- `name_exact` (String) Name (exact)
+- `network` (String) Network URL
+- `network_uuid` (String) Network UUID
+- `project` (String) Project UUID
+- `project_name` (String) Project name
+- `project_uuid` (String) Project UUID
+- `rbac_only` (Boolean) RBAC only
+- `service_settings_name` (String) Service settings name
+- `service_settings_uuid` (String) Service settings UUID
+- `tenant` (String) Tenant URL
+- `tenant_uuid` (String) Tenant UUID
+- `uuid` (String) UUID
 
 
 <a id="nestedatt--allocation_pools"></a>

@@ -27,27 +27,27 @@ Openstack Floating Ip resource
 ### Read-Only
 
 - `address` (String) The public IPv4 address of the floating IP
-- `backend_id` (String) ID of the backend
+- `backend_id` (String) Backend Id
 - `backend_network_id` (String) ID of network in OpenStack where this floating IP is allocated
 - `customer` (String) Customer
-- `description` (String) Description of the Openstack Floating Ip
-- `error_message` (String) Error message
-- `error_traceback` (String) Error traceback
+- `description` (String) Description
+- `error_message` (String) Error Message
+- `error_traceback` (String) Error Traceback
 - `external_address` (String) Optional address that maps to floating IP's address in external networks
 - `id` (String) Openstack Floating Ip UUID (used as Terraform ID)
-- `instance_name` (String) Name of the instance
-- `instance_url` (String) Instance url
-- `instance_uuid` (String) UUID of the instance
-- `marketplace_resource_uuid` (String) UUID of the marketplace resource
-- `name` (String) Name of the Openstack Floating Ip
+- `instance_name` (String) Instance Name
+- `instance_url` (String) Instance Url
+- `instance_uuid` (String) Instance Uuid
+- `marketplace_resource_uuid` (String) Marketplace Resource Uuid
+- `name` (String) Name
 - `port` (String) Port
-- `port_fixed_ips` (Attributes List) Port fixed ips (see [below for nested schema](#nestedatt--port_fixed_ips))
+- `port_fixed_ips` (Attributes List) Port Fixed Ips (see [below for nested schema](#nestedatt--port_fixed_ips))
 - `project` (String) Project
-- `resource_type` (String) Resource type
-- `runtime_state` (String) Runtime state
+- `resource_type` (String) Resource Type
+- `runtime_state` (String) Runtime State
 - `state` (String) State
-- `tenant_name` (String) Name of the tenant
-- `tenant_uuid` (String) UUID of the tenant
+- `tenant_name` (String) Tenant Name
+- `tenant_uuid` (String) Tenant Uuid
 - `url` (String) Url
 
 <a id="nestedblock--timeouts"></a>

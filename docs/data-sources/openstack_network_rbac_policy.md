@@ -22,12 +22,12 @@ Openstack Network Rbac Policy data source - lookup by name or UUID
 
 ### Read-Only
 
-- `backend_id` (String) ID of the backend
+- `backend_id` (String) Backend Id
 - `network` (String) Network
-- `network_name` (String) Name of the network
+- `network_name` (String) Network Name
 - `policy_type` (String) Type of access granted - either shared access or external network access
-- `target_tenant` (String) Target tenant
-- `target_tenant_name` (String) Name of the target tenant
+- `target_tenant` (String) Target Tenant
+- `target_tenant_name` (String) Target Tenant Name
 - `url` (String) Url
 
 <a id="nestedatt--filters"></a>
@@ -35,10 +35,10 @@ Openstack Network Rbac Policy data source - lookup by name or UUID
 
 Optional:
 
-- `network` (String)
-- `network_uuid` (String)
-- `policy_type` (String)
-- `target_tenant` (String)
-- `target_tenant_uuid` (String)
-- `tenant` (String)
-- `tenant_uuid` (String)
+- `network` (String) Network URL
+- `network_uuid` (String) Network UUID
+- `policy_type` (String) Type of access granted - either shared access or external network access
+- `target_tenant` (String) Target tenant URL
+- `target_tenant_uuid` (String) Target tenant UUID
+- `tenant` (String) Tenant URL
+- `tenant_uuid` (String) Tenant UUID

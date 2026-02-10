@@ -3,12 +3,12 @@
 page_title: "waldur_openstack_port_pull Action - waldur"
 subcategory: ""
 description: |-
-  
+  Perform pull action on openstack port resource
 ---
 
 # waldur_openstack_port_pull (Action)
 
-
+Perform pull action on openstack port resource
 
 
 

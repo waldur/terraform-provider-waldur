@@ -3,12 +3,12 @@
 page_title: "waldur_openstack_tenant_unlink Action - waldur"
 subcategory: ""
 description: |-
-  
+  Perform unlink action on openstack tenant resource
 ---
 
 # waldur_openstack_tenant_unlink (Action)
 
-
+Perform unlink action on openstack tenant resource
 
 
 

@@ -3,12 +3,12 @@
 page_title: "waldur_openstack_instance_unlink Action - waldur"
 subcategory: ""
 description: |-
-  
+  Perform unlink action on openstack instance resource
 ---
 
 # waldur_openstack_instance_unlink (Action)
 
-
+Perform unlink action on openstack instance resource
 
 
 

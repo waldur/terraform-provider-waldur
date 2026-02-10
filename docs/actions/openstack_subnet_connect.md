@@ -3,12 +3,12 @@
 page_title: "waldur_openstack_subnet_connect Action - waldur"
 subcategory: ""
 description: |-
-  
+  Perform connect action on openstack subnet resource
 ---
 
 # waldur_openstack_subnet_connect (Action)
 
-
+Perform connect action on openstack subnet resource
 
 
 

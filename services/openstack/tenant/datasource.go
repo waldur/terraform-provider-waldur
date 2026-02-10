@@ -59,15 +59,15 @@ func (d *OpenstackTenantDataSource) Schema(ctx context.Context, req datasource.S
 			},
 			"description": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Description of the Openstack Tenant",
+				MarkdownDescription: "Description",
 			},
 			"error_message": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Error message",
+				MarkdownDescription: "Error Message",
 			},
 			"error_traceback": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Error traceback",
+				MarkdownDescription: "Error Traceback",
 			},
 			"external_network_id": schema.StringAttribute{
 				Computed:            true,
@@ -79,11 +79,11 @@ func (d *OpenstackTenantDataSource) Schema(ctx context.Context, req datasource.S
 			},
 			"marketplace_resource_uuid": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "UUID of the marketplace resource",
+				MarkdownDescription: "Marketplace Resource Uuid",
 			},
 			"name": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Name of the Openstack Tenant",
+				MarkdownDescription: "Name",
 			},
 			"project": schema.StringAttribute{
 				Computed:            true,
@@ -98,7 +98,7 @@ func (d *OpenstackTenantDataSource) Schema(ctx context.Context, req datasource.S
 						},
 						"name": schema.StringAttribute{
 							Computed:            true,
-							MarkdownDescription: "Name of the Openstack Tenant",
+							MarkdownDescription: "Name",
 						},
 						"usage": schema.Int64Attribute{
 							Computed:            true,
@@ -111,11 +111,11 @@ func (d *OpenstackTenantDataSource) Schema(ctx context.Context, req datasource.S
 			},
 			"resource_type": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Resource type",
+				MarkdownDescription: "Resource Type",
 			},
 			"skip_creation_of_default_router": schema.BoolAttribute{
 				Computed:            true,
-				MarkdownDescription: "Skip creation of default router",
+				MarkdownDescription: "Skip Creation Of Default Router",
 			},
 			"state": schema.StringAttribute{
 				Computed:            true,

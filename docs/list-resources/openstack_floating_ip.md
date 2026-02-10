@@ -24,25 +24,25 @@ description: |-
 
 Optional:
 
-- `address` (String)
-- `backend_id` (String)
-- `can_manage` (Boolean)
-- `customer` (String)
-- `customer_abbreviation` (String)
-- `customer_name` (String)
-- `customer_native_name` (String)
-- `customer_uuid` (String)
-- `description` (String)
-- `external_ip` (String)
-- `free` (Boolean)
-- `name` (String)
-- `name_exact` (String)
-- `project` (String)
-- `project_name` (String)
-- `project_uuid` (String)
-- `runtime_state` (String)
-- `service_settings_name` (String)
-- `service_settings_uuid` (String)
-- `tenant` (String)
-- `tenant_uuid` (String)
-- `uuid` (String)
+- `address` (String) Address
+- `backend_id` (String) Backend ID
+- `can_manage` (Boolean) Can manage
+- `customer` (String) Customer UUID
+- `customer_abbreviation` (String) Customer abbreviation
+- `customer_name` (String) Customer name
+- `customer_native_name` (String) Customer native name
+- `customer_uuid` (String) Customer UUID
+- `description` (String) Description
+- `external_ip` (String) External IP
+- `free` (Boolean) Is free
+- `name` (String) Name
+- `name_exact` (String) Name (exact)
+- `project` (String) Project UUID
+- `project_name` (String) Project name
+- `project_uuid` (String) Project UUID
+- `runtime_state` (String) Runtime state
+- `service_settings_name` (String) Service settings name
+- `service_settings_uuid` (String) Service settings UUID
+- `tenant` (String) Tenant URL
+- `tenant_uuid` (String) Tenant UUID
+- `uuid` (String) UUID

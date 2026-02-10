@@ -247,53 +247,10 @@ type OpenStackFixedIpRequest struct {
 	SubnetId  *string `json:"subnet_id" tfsdk:"subnet_id"`
 }
 
-type OpenStackNestedFloatingIP struct {
-	Address           *string             `json:"address,omitempty" tfsdk:"address"`
-	PortFixedIps      *[]OpenStackFixedIp `json:"port_fixed_ips,omitempty" tfsdk:"port_fixed_ips"`
-	PortMacAddress    *string             `json:"port_mac_address,omitempty" tfsdk:"port_mac_address"`
-	Subnet            *string             `json:"subnet,omitempty" tfsdk:"subnet"`
-	SubnetCidr        *string             `json:"subnet_cidr,omitempty" tfsdk:"subnet_cidr"`
-	SubnetDescription *string             `json:"subnet_description,omitempty" tfsdk:"subnet_description"`
-	SubnetName        *string             `json:"subnet_name,omitempty" tfsdk:"subnet_name"`
-	SubnetUuid        *string             `json:"subnet_uuid,omitempty" tfsdk:"subnet_uuid"`
-	Url               *string             `json:"url,omitempty" tfsdk:"url"`
-	Uuid              *string             `json:"uuid,omitempty" tfsdk:"uuid"`
-}
-
 type OpenStackNestedInstance struct {
 	BackendId *string `json:"backend_id,omitempty" tfsdk:"backend_id"`
 	Name      *string `json:"name,omitempty" tfsdk:"name"`
 	Uuid      *string `json:"uuid,omitempty" tfsdk:"uuid"`
-}
-
-type OpenStackNestedPort struct {
-	AllowedAddressPairs *[]OpenStackAllowedAddressPair `json:"allowed_address_pairs,omitempty" tfsdk:"allowed_address_pairs"`
-	DeviceId            *string                        `json:"device_id,omitempty" tfsdk:"device_id"`
-	DeviceOwner         *string                        `json:"device_owner,omitempty" tfsdk:"device_owner"`
-	FixedIps            *[]OpenStackFixedIp            `json:"fixed_ips,omitempty" tfsdk:"fixed_ips"`
-	MacAddress          *string                        `json:"mac_address,omitempty" tfsdk:"mac_address"`
-	SecurityGroups      *[]OpenStackSecurityGroup      `json:"security_groups,omitempty" tfsdk:"security_groups"`
-	Subnet              *string                        `json:"subnet,omitempty" tfsdk:"subnet"`
-	SubnetCidr          *string                        `json:"subnet_cidr,omitempty" tfsdk:"subnet_cidr"`
-	SubnetDescription   *string                        `json:"subnet_description,omitempty" tfsdk:"subnet_description"`
-	SubnetName          *string                        `json:"subnet_name,omitempty" tfsdk:"subnet_name"`
-	SubnetUuid          *string                        `json:"subnet_uuid,omitempty" tfsdk:"subnet_uuid"`
-	Url                 *string                        `json:"url,omitempty" tfsdk:"url"`
-}
-
-type OpenStackNestedSecurityGroup struct {
-	Description *string                    `json:"description,omitempty" tfsdk:"description"`
-	Name        *string                    `json:"name,omitempty" tfsdk:"name"`
-	Rules       *[]NestedSecurityGroupRule `json:"rules,omitempty" tfsdk:"rules"`
-	State       *string                    `json:"state,omitempty" tfsdk:"state"`
-	Url         *string                    `json:"url,omitempty" tfsdk:"url"`
-}
-
-type OpenStackNestedServerGroup struct {
-	Name   *string `json:"name,omitempty" tfsdk:"name"`
-	Policy *string `json:"policy,omitempty" tfsdk:"policy"`
-	State  *string `json:"state,omitempty" tfsdk:"state"`
-	Url    *string `json:"url,omitempty" tfsdk:"url"`
 }
 
 type OpenStackNestedSubNet struct {
@@ -320,12 +277,6 @@ type OpenStackNestedVolume struct {
 	TypeName                *string `json:"type_name,omitempty" tfsdk:"type_name"`
 	Url                     *string `json:"url,omitempty" tfsdk:"url"`
 	Uuid                    *string `json:"uuid,omitempty" tfsdk:"uuid"`
-}
-
-type OpenStackPortNestedSecurityGroup struct {
-	Name *string `json:"name,omitempty" tfsdk:"name"`
-	Url  *string `json:"url,omitempty" tfsdk:"url"`
-	Uuid *string `json:"uuid,omitempty" tfsdk:"uuid"`
 }
 
 type OpenStackPortNestedSecurityGroupRequest struct {
@@ -387,11 +338,6 @@ type OpenStackSecurityGroupRuleCreateRequest struct {
 	RemoteGroupName *string `json:"remote_group_name,omitempty" tfsdk:"remote_group_name"`
 	RemoteGroupUuid *string `json:"remote_group_uuid,omitempty" tfsdk:"remote_group_uuid"`
 	ToPort          *int64  `json:"to_port,omitempty" tfsdk:"to_port"`
-}
-
-type OpenStackStaticRoute struct {
-	Destination *string `json:"destination,omitempty" tfsdk:"destination"`
-	Nexthop     *string `json:"nexthop,omitempty" tfsdk:"nexthop"`
 }
 
 type OpenStackStaticRouteRequest struct {

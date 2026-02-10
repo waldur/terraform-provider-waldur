@@ -57,7 +57,7 @@ func (d *StructureCustomerDataSource) Schema(ctx context.Context, req datasource
 			"accounting_start_date": schema.StringAttribute{
 				CustomType:          timetypes.RFC3339Type{},
 				Computed:            true,
-				MarkdownDescription: "Accounting start date",
+				MarkdownDescription: "Accounting Start Date",
 			},
 			"address": schema.StringAttribute{
 				Computed:            true,
@@ -65,7 +65,7 @@ func (d *StructureCustomerDataSource) Schema(ctx context.Context, req datasource
 			},
 			"agreement_number": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Agreement number",
+				MarkdownDescription: "Agreement Number",
 			},
 			"archived": schema.BoolAttribute{
 				Computed:            true,
@@ -77,11 +77,11 @@ func (d *StructureCustomerDataSource) Schema(ctx context.Context, req datasource
 			},
 			"bank_account": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Bank account",
+				MarkdownDescription: "Bank Account",
 			},
 			"bank_name": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Name of the bank",
+				MarkdownDescription: "Bank Name",
 			},
 			"billing_price_estimate": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
@@ -95,7 +95,7 @@ func (d *StructureCustomerDataSource) Schema(ctx context.Context, req datasource
 					},
 					"tax_current": schema.Float64Attribute{
 						Computed:            true,
-						MarkdownDescription: "Tax current",
+						MarkdownDescription: "Tax Current",
 					},
 					"total": schema.Float64Attribute{
 						Computed:            true,
@@ -103,7 +103,7 @@ func (d *StructureCustomerDataSource) Schema(ctx context.Context, req datasource
 					},
 				},
 				Computed:            true,
-				MarkdownDescription: "Billing price estimate",
+				MarkdownDescription: "Billing Price Estimate",
 			},
 			"blocked": schema.BoolAttribute{
 				Computed:            true,
@@ -111,11 +111,11 @@ func (d *StructureCustomerDataSource) Schema(ctx context.Context, req datasource
 			},
 			"call_managing_organization_uuid": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "UUID of the call managing organization",
+				MarkdownDescription: "Call Managing Organization Uuid",
 			},
 			"contact_details": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Contact details",
+				MarkdownDescription: "Contact Details",
 			},
 			"country": schema.StringAttribute{
 				Computed:            true,
@@ -127,26 +127,26 @@ func (d *StructureCustomerDataSource) Schema(ctx context.Context, req datasource
 			},
 			"customer_credit": schema.Float64Attribute{
 				Computed:            true,
-				MarkdownDescription: "Customer credit",
+				MarkdownDescription: "Customer Credit",
 			},
 			"customer_unallocated_credit": schema.Float64Attribute{
 				Computed:            true,
-				MarkdownDescription: "Customer unallocated credit",
+				MarkdownDescription: "Customer Unallocated Credit",
 			},
 			"default_tax_percent": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Default tax percent",
+				MarkdownDescription: "Default Tax Percent",
 				Validators: []validator.String{
 					stringvalidator.RegexMatches(regexp.MustCompile(`^-?\d{0,3}(?:\.\d{0,2})?$`), ""),
 				},
 			},
 			"description": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Description of the Structure Customer",
+				MarkdownDescription: "Description",
 			},
 			"display_billing_info_in_projects": schema.BoolAttribute{
 				Computed:            true,
-				MarkdownDescription: "Display billing info in projects",
+				MarkdownDescription: "Display Billing Info In Projects",
 			},
 			"display_name": schema.StringAttribute{
 				Computed:            true,
@@ -178,7 +178,7 @@ func (d *StructureCustomerDataSource) Schema(ctx context.Context, req datasource
 			},
 			"is_service_provider": schema.BoolAttribute{
 				Computed:            true,
-				MarkdownDescription: "Is service provider",
+				MarkdownDescription: "Is Service Provider",
 			},
 			"latitude": schema.Float64Attribute{
 				Computed:            true,
@@ -198,11 +198,11 @@ func (d *StructureCustomerDataSource) Schema(ctx context.Context, req datasource
 			},
 			"name": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Name of the Structure Customer",
+				MarkdownDescription: "Name",
 			},
 			"native_name": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Name of the native",
+				MarkdownDescription: "Native Name",
 			},
 			"notification_emails": schema.StringAttribute{
 				Computed:            true,
@@ -217,7 +217,7 @@ func (d *StructureCustomerDataSource) Schema(ctx context.Context, req datasource
 						},
 						"name": schema.StringAttribute{
 							Computed:            true,
-							MarkdownDescription: "Name of the Structure Customer",
+							MarkdownDescription: "Name",
 						},
 						"parent": schema.StringAttribute{
 							Computed:            true,
@@ -237,7 +237,7 @@ func (d *StructureCustomerDataSource) Schema(ctx context.Context, req datasource
 						},
 						"uuid": schema.StringAttribute{
 							Computed:            true,
-							MarkdownDescription: "UUID of the Structure Customer",
+							MarkdownDescription: "Uuid",
 						},
 					},
 				},
@@ -251,15 +251,15 @@ func (d *StructureCustomerDataSource) Schema(ctx context.Context, req datasource
 							Attributes: map[string]schema.Attribute{
 								"agreement_number": schema.StringAttribute{
 									Computed:            true,
-									MarkdownDescription: "Agreement number",
+									MarkdownDescription: "Agreement Number",
 								},
 								"contract_sum": schema.Int64Attribute{
 									Computed:            true,
-									MarkdownDescription: "Contract sum",
+									MarkdownDescription: "Contract Sum",
 								},
 								"end_date": schema.StringAttribute{
 									Computed:            true,
-									MarkdownDescription: "End date",
+									MarkdownDescription: "End Date",
 								},
 							},
 							Computed:            true,
@@ -267,11 +267,11 @@ func (d *StructureCustomerDataSource) Schema(ctx context.Context, req datasource
 						},
 						"is_active": schema.BoolAttribute{
 							Computed:            true,
-							MarkdownDescription: "Is active",
+							MarkdownDescription: "Is Active",
 						},
 						"name": schema.StringAttribute{
 							Computed:            true,
-							MarkdownDescription: "Name of the Structure Customer",
+							MarkdownDescription: "Name",
 						},
 						"organization": schema.StringAttribute{
 							Computed:            true,
@@ -279,18 +279,18 @@ func (d *StructureCustomerDataSource) Schema(ctx context.Context, req datasource
 						},
 						"organization_uuid": schema.StringAttribute{
 							Computed:            true,
-							MarkdownDescription: "UUID of the organization",
+							MarkdownDescription: "Organization Uuid",
 						},
 						"payment_type": schema.StringAttribute{
 							Computed:            true,
-							MarkdownDescription: "Payment type",
+							MarkdownDescription: "Payment Type",
 							Validators: []validator.String{
 								stringvalidator.OneOf("fixed_price", "invoices", "payment_gw_monthly"),
 							},
 						},
 						"payment_type_display": schema.StringAttribute{
 							Computed:            true,
-							MarkdownDescription: "Payment type display",
+							MarkdownDescription: "Payment Type Display",
 						},
 						"url": schema.StringAttribute{
 							Computed:            true,
@@ -298,16 +298,16 @@ func (d *StructureCustomerDataSource) Schema(ctx context.Context, req datasource
 						},
 						"uuid": schema.StringAttribute{
 							Computed:            true,
-							MarkdownDescription: "UUID of the Structure Customer",
+							MarkdownDescription: "Uuid",
 						},
 					},
 				},
 				Computed:            true,
-				MarkdownDescription: "Payment profiles",
+				MarkdownDescription: "Payment Profiles",
 			},
 			"phone_number": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Phone number",
+				MarkdownDescription: "Phone Number",
 			},
 			"postal": schema.StringAttribute{
 				Computed:            true,
@@ -323,15 +323,15 @@ func (d *StructureCustomerDataSource) Schema(ctx context.Context, req datasource
 			},
 			"registration_code": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Registration code",
+				MarkdownDescription: "Registration Code",
 			},
 			"service_provider": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Service provider",
+				MarkdownDescription: "Service Provider",
 			},
 			"service_provider_uuid": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "UUID of the service provider",
+				MarkdownDescription: "Service Provider Uuid",
 			},
 			"slug": schema.StringAttribute{
 				Computed:            true,

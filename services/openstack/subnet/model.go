@@ -58,79 +58,104 @@ func (m *OpenstackSubnetFiltersModel) GetSchema() schema.SingleNestedAttribute {
 		MarkdownDescription: "Filter parameters for querying Openstack Subnet",
 		Attributes: map[string]schema.Attribute{
 			"backend_id": schema.StringAttribute{
-				Optional: true,
+				Optional:            true,
+				MarkdownDescription: "Backend ID",
 			},
 			"can_manage": schema.BoolAttribute{
-				Optional: true,
+				Optional:            true,
+				MarkdownDescription: "Can manage",
 			},
 			"customer": schema.StringAttribute{
-				Optional: true,
+				Optional:            true,
+				MarkdownDescription: "Customer UUID",
 			},
 			"customer_abbreviation": schema.StringAttribute{
-				Optional: true,
+				Optional:            true,
+				MarkdownDescription: "Customer abbreviation",
 			},
 			"customer_name": schema.StringAttribute{
-				Optional: true,
+				Optional:            true,
+				MarkdownDescription: "Customer name",
 			},
 			"customer_native_name": schema.StringAttribute{
-				Optional: true,
+				Optional:            true,
+				MarkdownDescription: "Customer native name",
 			},
 			"customer_uuid": schema.StringAttribute{
-				Optional: true,
+				Optional:            true,
+				MarkdownDescription: "Customer UUID",
 			},
 			"description": schema.StringAttribute{
-				Optional: true,
+				Optional:            true,
+				MarkdownDescription: "Description",
 			},
 			"direct_only": schema.BoolAttribute{
-				Optional: true,
+				Optional:            true,
+				MarkdownDescription: "Direct only",
 			},
 			"enable_dhcp": schema.BoolAttribute{
-				Optional: true,
+				Optional:            true,
+				MarkdownDescription: "Enable dhcp",
 			},
 			"external_ip": schema.StringAttribute{
-				Optional: true,
+				Optional:            true,
+				MarkdownDescription: "External IP",
 			},
 			"ip_version": schema.Int64Attribute{
-				Optional: true,
+				Optional:            true,
+				MarkdownDescription: "Ip version",
 			},
 			"name": schema.StringAttribute{
-				Optional: true,
+				Optional:            true,
+				MarkdownDescription: "Name",
 			},
 			"name_exact": schema.StringAttribute{
-				Optional: true,
+				Optional:            true,
+				MarkdownDescription: "Name (exact)",
 			},
 			"network": schema.StringAttribute{
-				Optional: true,
+				Optional:            true,
+				MarkdownDescription: "Network URL",
 			},
 			"network_uuid": schema.StringAttribute{
-				Optional: true,
+				Optional:            true,
+				MarkdownDescription: "Network UUID",
 			},
 			"project": schema.StringAttribute{
-				Optional: true,
+				Optional:            true,
+				MarkdownDescription: "Project UUID",
 			},
 			"project_name": schema.StringAttribute{
-				Optional: true,
+				Optional:            true,
+				MarkdownDescription: "Project name",
 			},
 			"project_uuid": schema.StringAttribute{
-				Optional: true,
+				Optional:            true,
+				MarkdownDescription: "Project UUID",
 			},
 			"rbac_only": schema.BoolAttribute{
-				Optional: true,
+				Optional:            true,
+				MarkdownDescription: "RBAC only",
 			},
 			"service_settings_name": schema.StringAttribute{
-				Optional: true,
+				Optional:            true,
+				MarkdownDescription: "Service settings name",
 			},
 			"service_settings_uuid": schema.StringAttribute{
-				Optional: true,
+				Optional:            true,
+				MarkdownDescription: "Service settings UUID",
 			},
 			"tenant": schema.StringAttribute{
-				Optional: true,
+				Optional:            true,
+				MarkdownDescription: "Tenant URL",
 			},
 			"tenant_uuid": schema.StringAttribute{
-				Optional: true,
+				Optional:            true,
+				MarkdownDescription: "Tenant UUID",
 			},
 			"uuid": schema.StringAttribute{
-				Optional: true,
+				Optional:            true,
+				MarkdownDescription: "UUID",
 			},
 		},
 	}

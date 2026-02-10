@@ -43,10 +43,10 @@ data "waldur_marketplace_offering" "offering" {
 ### Optional
 
 - `availability_zone` (String) Availability zone where this volume is located
-- `description` (String) Description of the Openstack Volume
+- `description` (String) Description
 - `image` (String) Image that this volume was created from, if any
 - `limits` (Map of Number) Resource limits
-- `name` (String) Name of the Openstack Volume
+- `name` (String) Name
 - `plan` (String) Plan URL
 - `project` (String) Project URL
 - `size` (Number) Size in MiB
@@ -56,28 +56,28 @@ data "waldur_marketplace_offering" "offering" {
 ### Read-Only
 
 - `action` (String) Action
-- `availability_zone_name` (String) Name of the availability zone
+- `availability_zone_name` (String) Availability Zone Name
 - `backend_id` (String) Volume ID in the OpenStack backend
 - `bootable` (Boolean) Indicates if this volume can be used to boot an instance
 - `customer` (String) Customer
 - `device` (String) Name of volume as instance device e.g. /dev/vdb.
-- `error_message` (String) Error message
-- `error_traceback` (String) Error traceback
-- `extend_enabled` (Boolean) Extend enabled
+- `error_message` (String) Error Message
+- `error_traceback` (String) Error Traceback
+- `extend_enabled` (Boolean) Extend Enabled
 - `id` (String) Openstack Volume UUID (used as Terraform ID)
 - `image_metadata` (String) Metadata of the image this volume was created from
 - `image_name` (String) Name of the image this volume was created from
 - `instance` (String) Instance that this volume is attached to, if any
-- `instance_marketplace_uuid` (String) UUID of the instance marketplace
-- `instance_name` (String) Name of the instance
-- `marketplace_resource_uuid` (String) UUID of the marketplace resource
-- `resource_type` (String) Resource type
-- `runtime_state` (String) Runtime state
+- `instance_marketplace_uuid` (String) Instance Marketplace Uuid
+- `instance_name` (String) Instance Name
+- `marketplace_resource_uuid` (String) Marketplace Resource Uuid
+- `resource_type` (String) Resource Type
+- `runtime_state` (String) Runtime State
 - `source_snapshot` (String) Snapshot that this volume was created from, if any
 - `state` (String) State
 - `tenant` (String) Tenant
-- `tenant_uuid` (String) UUID of the tenant
-- `type_name` (String) Name of the type
+- `tenant_uuid` (String) Tenant Uuid
+- `type_name` (String) Type Name
 - `url` (String) Url
 
 <a id="nestedblock--timeouts"></a>

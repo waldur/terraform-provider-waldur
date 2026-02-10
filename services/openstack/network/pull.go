@@ -34,7 +34,7 @@ func (a *OpenstackNetworkPullAction) Metadata(ctx context.Context, req action.Me
 
 func (a *OpenstackNetworkPullAction) Schema(ctx context.Context, req action.SchemaRequest, resp *action.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		Description: "",
+		Description: "Perform pull action on openstack network resource",
 		Attributes: map[string]schema.Attribute{
 			"uuid": schema.StringAttribute{
 				Description: "UUID of the resource",

@@ -53,7 +53,7 @@ func (d *OpenstackVolumeDataSource) Schema(ctx context.Context, req datasource.S
 			},
 			"availability_zone_name": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Name of the availability zone",
+				MarkdownDescription: "Availability Zone Name",
 			},
 			"backend_id": schema.StringAttribute{
 				Computed:            true,
@@ -69,7 +69,7 @@ func (d *OpenstackVolumeDataSource) Schema(ctx context.Context, req datasource.S
 			},
 			"description": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Description of the Openstack Volume",
+				MarkdownDescription: "Description",
 			},
 			"device": schema.StringAttribute{
 				Computed:            true,
@@ -77,15 +77,15 @@ func (d *OpenstackVolumeDataSource) Schema(ctx context.Context, req datasource.S
 			},
 			"error_message": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Error message",
+				MarkdownDescription: "Error Message",
 			},
 			"error_traceback": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Error traceback",
+				MarkdownDescription: "Error Traceback",
 			},
 			"extend_enabled": schema.BoolAttribute{
 				Computed:            true,
-				MarkdownDescription: "Extend enabled",
+				MarkdownDescription: "Extend Enabled",
 			},
 			"image": schema.StringAttribute{
 				Computed:            true,
@@ -105,19 +105,19 @@ func (d *OpenstackVolumeDataSource) Schema(ctx context.Context, req datasource.S
 			},
 			"instance_marketplace_uuid": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "UUID of the instance marketplace",
+				MarkdownDescription: "Instance Marketplace Uuid",
 			},
 			"instance_name": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Name of the instance",
+				MarkdownDescription: "Instance Name",
 			},
 			"marketplace_resource_uuid": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "UUID of the marketplace resource",
+				MarkdownDescription: "Marketplace Resource Uuid",
 			},
 			"name": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Name of the Openstack Volume",
+				MarkdownDescription: "Name",
 			},
 			"project": schema.StringAttribute{
 				Computed:            true,
@@ -125,11 +125,11 @@ func (d *OpenstackVolumeDataSource) Schema(ctx context.Context, req datasource.S
 			},
 			"resource_type": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Resource type",
+				MarkdownDescription: "Resource Type",
 			},
 			"runtime_state": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Runtime state",
+				MarkdownDescription: "Runtime State",
 			},
 			"size": schema.Int64Attribute{
 				Computed:            true,
@@ -153,7 +153,7 @@ func (d *OpenstackVolumeDataSource) Schema(ctx context.Context, req datasource.S
 			},
 			"tenant_uuid": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "UUID of the tenant",
+				MarkdownDescription: "Tenant Uuid",
 			},
 			"type": schema.StringAttribute{
 				Computed:            true,
@@ -161,7 +161,7 @@ func (d *OpenstackVolumeDataSource) Schema(ctx context.Context, req datasource.S
 			},
 			"type_name": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Name of the type",
+				MarkdownDescription: "Type Name",
 			},
 			"url": schema.StringAttribute{
 				Computed:            true,

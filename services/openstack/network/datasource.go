@@ -45,7 +45,7 @@ func (d *OpenstackNetworkDataSource) Schema(ctx context.Context, req datasource.
 			"filters": (&OpenstackNetworkFiltersModel{}).GetSchema(),
 			"backend_id": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "ID of the backend",
+				MarkdownDescription: "Backend Id",
 			},
 			"customer": schema.StringAttribute{
 				Computed:            true,
@@ -53,15 +53,15 @@ func (d *OpenstackNetworkDataSource) Schema(ctx context.Context, req datasource.
 			},
 			"description": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Description of the Openstack Network",
+				MarkdownDescription: "Description",
 			},
 			"error_message": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Error message",
+				MarkdownDescription: "Error Message",
 			},
 			"error_traceback": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Error traceback",
+				MarkdownDescription: "Error Traceback",
 			},
 			"is_external": schema.BoolAttribute{
 				Computed:            true,
@@ -69,7 +69,7 @@ func (d *OpenstackNetworkDataSource) Schema(ctx context.Context, req datasource.
 			},
 			"marketplace_resource_uuid": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "UUID of the marketplace resource",
+				MarkdownDescription: "Marketplace Resource Uuid",
 			},
 			"mtu": schema.Int64Attribute{
 				Computed:            true,
@@ -77,7 +77,7 @@ func (d *OpenstackNetworkDataSource) Schema(ctx context.Context, req datasource.
 			},
 			"name": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Name of the Openstack Network",
+				MarkdownDescription: "Name",
 			},
 			"project": schema.StringAttribute{
 				Computed:            true,
@@ -88,7 +88,7 @@ func (d *OpenstackNetworkDataSource) Schema(ctx context.Context, req datasource.
 					Attributes: map[string]schema.Attribute{
 						"backend_id": schema.StringAttribute{
 							Computed:            true,
-							MarkdownDescription: "ID of the backend",
+							MarkdownDescription: "Backend Id",
 						},
 						"network": schema.StringAttribute{
 							Computed:            true,
@@ -96,7 +96,7 @@ func (d *OpenstackNetworkDataSource) Schema(ctx context.Context, req datasource.
 						},
 						"network_name": schema.StringAttribute{
 							Computed:            true,
-							MarkdownDescription: "Name of the network",
+							MarkdownDescription: "Network Name",
 						},
 						"policy_type": schema.StringAttribute{
 							Computed:            true,
@@ -104,11 +104,11 @@ func (d *OpenstackNetworkDataSource) Schema(ctx context.Context, req datasource.
 						},
 						"target_tenant": schema.StringAttribute{
 							Computed:            true,
-							MarkdownDescription: "Target tenant",
+							MarkdownDescription: "Target Tenant",
 						},
 						"target_tenant_name": schema.StringAttribute{
 							Computed:            true,
-							MarkdownDescription: "Name of the target tenant",
+							MarkdownDescription: "Target Tenant Name",
 						},
 						"url": schema.StringAttribute{
 							Computed:            true,
@@ -116,16 +116,16 @@ func (d *OpenstackNetworkDataSource) Schema(ctx context.Context, req datasource.
 						},
 						"uuid": schema.StringAttribute{
 							Computed:            true,
-							MarkdownDescription: "UUID of the Openstack Network",
+							MarkdownDescription: "Uuid",
 						},
 					},
 				},
 				Computed:            true,
-				MarkdownDescription: "Rbac policies",
+				MarkdownDescription: "Rbac Policies",
 			},
 			"resource_type": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Resource type",
+				MarkdownDescription: "Resource Type",
 			},
 			"segmentation_id": schema.Int64Attribute{
 				Computed:            true,
@@ -152,7 +152,7 @@ func (d *OpenstackNetworkDataSource) Schema(ctx context.Context, req datasource.
 								},
 							},
 							Computed:            true,
-							MarkdownDescription: "Allocation pools",
+							MarkdownDescription: "Allocation Pools",
 						},
 						"cidr": schema.StringAttribute{
 							Computed:            true,
@@ -160,7 +160,7 @@ func (d *OpenstackNetworkDataSource) Schema(ctx context.Context, req datasource.
 						},
 						"description": schema.StringAttribute{
 							Computed:            true,
-							MarkdownDescription: "Description of the Openstack Network",
+							MarkdownDescription: "Description",
 						},
 						"enable_dhcp": schema.BoolAttribute{
 							Computed:            true,
@@ -180,11 +180,11 @@ func (d *OpenstackNetworkDataSource) Schema(ctx context.Context, req datasource.
 						},
 						"name": schema.StringAttribute{
 							Computed:            true,
-							MarkdownDescription: "Name of the Openstack Network",
+							MarkdownDescription: "Name",
 						},
 						"uuid": schema.StringAttribute{
 							Computed:            true,
-							MarkdownDescription: "UUID of the Openstack Network",
+							MarkdownDescription: "Uuid",
 						},
 					},
 				},
@@ -197,11 +197,11 @@ func (d *OpenstackNetworkDataSource) Schema(ctx context.Context, req datasource.
 			},
 			"tenant_name": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Name of the tenant",
+				MarkdownDescription: "Tenant Name",
 			},
 			"tenant_uuid": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "UUID of the tenant",
+				MarkdownDescription: "Tenant Uuid",
 			},
 			"type": schema.StringAttribute{
 				Computed:            true,

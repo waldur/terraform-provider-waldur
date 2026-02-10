@@ -3,12 +3,12 @@
 page_title: "waldur_openstack_volume_unlink Action - waldur"
 subcategory: ""
 description: |-
-  
+  Perform unlink action on openstack volume resource
 ---
 
 # waldur_openstack_volume_unlink (Action)
 
-
+Perform unlink action on openstack volume resource
 
 
 

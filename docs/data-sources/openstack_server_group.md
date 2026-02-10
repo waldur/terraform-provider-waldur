@@ -22,22 +22,22 @@ Openstack Server Group data source - lookup by name or UUID
 
 ### Read-Only
 
-- `backend_id` (String) ID of the backend
+- `backend_id` (String) Backend Id
 - `customer` (String) Customer
-- `description` (String) Description of the Openstack Server Group
-- `display_name` (String) Name of the display
-- `error_message` (String) Error message
-- `error_traceback` (String) Error traceback
+- `description` (String) Description
+- `display_name` (String) Display Name
+- `error_message` (String) Error Message
+- `error_traceback` (String) Error Traceback
 - `instances` (Attributes List) Instances (see [below for nested schema](#nestedatt--instances))
-- `marketplace_resource_uuid` (String) UUID of the marketplace resource
-- `name` (String) Name of the Openstack Server Group
+- `marketplace_resource_uuid` (String) Marketplace Resource Uuid
+- `name` (String) Name
 - `policy` (String) Server group policy determining the rules for scheduling servers in this group
 - `project` (String) Project
-- `resource_type` (String) Resource type
+- `resource_type` (String) Resource Type
 - `state` (String) State
 - `tenant` (String) Tenant
-- `tenant_name` (String) Name of the tenant
-- `tenant_uuid` (String) UUID of the tenant
+- `tenant_name` (String) Tenant Name
+- `tenant_uuid` (String) Tenant Uuid
 - `url` (String) Url
 
 <a id="nestedatt--filters"></a>
@@ -45,25 +45,25 @@ Openstack Server Group data source - lookup by name or UUID
 
 Optional:
 
-- `backend_id` (String)
-- `can_manage` (Boolean)
-- `customer` (String)
-- `customer_abbreviation` (String)
-- `customer_name` (String)
-- `customer_native_name` (String)
-- `customer_uuid` (String)
-- `description` (String)
-- `external_ip` (String)
-- `name` (String)
-- `name_exact` (String)
-- `project` (String)
-- `project_name` (String)
-- `project_uuid` (String)
-- `service_settings_name` (String)
-- `service_settings_uuid` (String)
-- `tenant` (String)
-- `tenant_uuid` (String)
-- `uuid` (String)
+- `backend_id` (String) Backend ID
+- `can_manage` (Boolean) Can manage
+- `customer` (String) Customer UUID
+- `customer_abbreviation` (String) Customer abbreviation
+- `customer_name` (String) Customer name
+- `customer_native_name` (String) Customer native name
+- `customer_uuid` (String) Customer UUID
+- `description` (String) Description
+- `external_ip` (String) External IP
+- `name` (String) Name
+- `name_exact` (String) Name (exact)
+- `project` (String) Project UUID
+- `project_name` (String) Project name
+- `project_uuid` (String) Project UUID
+- `service_settings_name` (String) Service settings name
+- `service_settings_uuid` (String) Service settings UUID
+- `tenant` (String) Tenant URL
+- `tenant_uuid` (String) Tenant UUID
+- `uuid` (String) UUID
 
 
 <a id="nestedatt--instances"></a>
@@ -72,5 +72,5 @@ Optional:
 Read-Only:
 
 - `backend_id` (String) Instance ID in the OpenStack backend
-- `name` (String) Name of the Openstack Server Group
-- `uuid` (String) UUID of the Openstack Server Group
+- `name` (String) Name
+- `uuid` (String) Uuid

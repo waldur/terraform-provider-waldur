@@ -3,12 +3,12 @@
 page_title: "waldur_openstack_tenant_pull Action - waldur"
 subcategory: ""
 description: |-
-  
+  Perform pull action on openstack tenant resource
 ---
 
 # waldur_openstack_tenant_pull (Action)
 
-
+Perform pull action on openstack tenant resource
 
 
 

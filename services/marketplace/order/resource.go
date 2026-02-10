@@ -64,14 +64,14 @@ func (r *MarketplaceOrderResource) Schema(ctx context.Context, req resource.Sche
 				PlanModifiers: []planmodifier.Bool{
 					boolplanmodifier.RequiresReplace(),
 				},
-				MarkdownDescription: "Accepting terms of service",
+				MarkdownDescription: "Accepting Terms Of Service",
 			},
 			"activation_price": schema.Float64Attribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.Float64{
 					float64planmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Activation price",
+				MarkdownDescription: "Activation Price",
 			},
 			"attachment": schema.StringAttribute{
 				Optional: true,
@@ -89,7 +89,7 @@ func (r *MarketplaceOrderResource) Schema(ctx context.Context, req resource.Sche
 					stringplanmodifier.RequiresReplace(),
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "ID of the backend",
+				MarkdownDescription: "Backend Id",
 			},
 			"callback_url": schema.StringAttribute{
 				Optional: true,
@@ -98,35 +98,35 @@ func (r *MarketplaceOrderResource) Schema(ctx context.Context, req resource.Sche
 					stringplanmodifier.RequiresReplace(),
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Callback url",
+				MarkdownDescription: "Callback Url",
 			},
 			"can_terminate": schema.BoolAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.Bool{
 					boolplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Can terminate",
+				MarkdownDescription: "Can Terminate",
 			},
 			"category_icon": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Category icon",
+				MarkdownDescription: "Category Icon",
 			},
 			"category_title": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Category title",
+				MarkdownDescription: "Category Title",
 			},
 			"category_uuid": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "UUID of the category",
+				MarkdownDescription: "Category Uuid",
 			},
 			"completed_at": schema.StringAttribute{
 				CustomType: timetypes.RFC3339Type{},
@@ -134,7 +134,7 @@ func (r *MarketplaceOrderResource) Schema(ctx context.Context, req resource.Sche
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Completed at",
+				MarkdownDescription: "Completed At",
 			},
 			"consumer_reviewed_at": schema.StringAttribute{
 				CustomType: timetypes.RFC3339Type{},
@@ -142,7 +142,7 @@ func (r *MarketplaceOrderResource) Schema(ctx context.Context, req resource.Sche
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Consumer reviewed at",
+				MarkdownDescription: "Consumer Reviewed At",
 			},
 			"consumer_reviewed_by": schema.StringAttribute{
 				Computed: true,
@@ -156,7 +156,7 @@ func (r *MarketplaceOrderResource) Schema(ctx context.Context, req resource.Sche
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Name of the consumer reviewed by full",
+				MarkdownDescription: "Consumer Reviewed By Full Name",
 			},
 			"consumer_reviewed_by_username": schema.StringAttribute{
 				Computed: true,
@@ -180,14 +180,14 @@ func (r *MarketplaceOrderResource) Schema(ctx context.Context, req resource.Sche
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Created by civil number",
+				MarkdownDescription: "Created By Civil Number",
 			},
 			"created_by_full_name": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Name of the created by full",
+				MarkdownDescription: "Created By Full Name",
 			},
 			"created_by_username": schema.StringAttribute{
 				Computed: true,
@@ -201,28 +201,28 @@ func (r *MarketplaceOrderResource) Schema(ctx context.Context, req resource.Sche
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Customer slug",
+				MarkdownDescription: "Customer Slug",
 			},
 			"error_message": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Error message",
+				MarkdownDescription: "Error Message",
 			},
 			"error_traceback": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Error traceback",
+				MarkdownDescription: "Error Traceback",
 			},
 			"fixed_price": schema.Float64Attribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.Float64{
 					float64planmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Fixed price",
+				MarkdownDescription: "Fixed Price",
 			},
 			"issue": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
@@ -238,7 +238,7 @@ func (r *MarketplaceOrderResource) Schema(ctx context.Context, req resource.Sche
 						PlanModifiers: []planmodifier.String{
 							stringplanmodifier.UseStateForUnknown(),
 						},
-						MarkdownDescription: "UUID of the Marketplace Order",
+						MarkdownDescription: "Uuid",
 					},
 				},
 				Computed: true,
@@ -252,14 +252,14 @@ func (r *MarketplaceOrderResource) Schema(ctx context.Context, req resource.Sche
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "UUID of the marketplace resource",
+				MarkdownDescription: "Marketplace Resource Uuid",
 			},
 			"new_cost_estimate": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "New cost estimate",
+				MarkdownDescription: "New Cost Estimate",
 				Validators: []validator.String{
 					stringvalidator.RegexMatches(regexp.MustCompile(`^-?\d{0,12}(?:\.\d{0,10})?$`), ""),
 				},
@@ -269,14 +269,14 @@ func (r *MarketplaceOrderResource) Schema(ctx context.Context, req resource.Sche
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Name of the new plan",
+				MarkdownDescription: "New Plan Name",
 			},
 			"new_plan_uuid": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "UUID of the new plan",
+				MarkdownDescription: "New Plan Uuid",
 			},
 			"offering": schema.StringAttribute{
 				Required: true,
@@ -297,21 +297,21 @@ func (r *MarketplaceOrderResource) Schema(ctx context.Context, req resource.Sche
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Offering description",
+				MarkdownDescription: "Offering Description",
 			},
 			"offering_image": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Offering image",
+				MarkdownDescription: "Offering Image",
 			},
 			"offering_name": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Name of the offering",
+				MarkdownDescription: "Offering Name",
 			},
 			"offering_shared": schema.BoolAttribute{
 				Computed: true,
@@ -325,49 +325,49 @@ func (r *MarketplaceOrderResource) Schema(ctx context.Context, req resource.Sche
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Offering thumbnail",
+				MarkdownDescription: "Offering Thumbnail",
 			},
 			"offering_type": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Offering type",
+				MarkdownDescription: "Offering Type",
 			},
 			"offering_uuid": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "UUID of the offering",
+				MarkdownDescription: "Offering Uuid",
 			},
 			"old_cost_estimate": schema.Float64Attribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.Float64{
 					float64planmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Old cost estimate",
+				MarkdownDescription: "Old Cost Estimate",
 			},
 			"old_plan_name": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Name of the old plan",
+				MarkdownDescription: "Old Plan Name",
 			},
 			"old_plan_uuid": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "UUID of the old plan",
+				MarkdownDescription: "Old Plan Uuid",
 			},
 			"order_subtype": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Order subtype",
+				MarkdownDescription: "Order Subtype",
 			},
 			"output": schema.StringAttribute{
 				Computed: true,
@@ -390,28 +390,28 @@ func (r *MarketplaceOrderResource) Schema(ctx context.Context, req resource.Sche
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Plan description",
+				MarkdownDescription: "Plan Description",
 			},
 			"plan_name": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Name of the plan",
+				MarkdownDescription: "Plan Name",
 			},
 			"plan_unit": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Plan unit",
+				MarkdownDescription: "Plan Unit",
 			},
 			"plan_uuid": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "UUID of the plan",
+				MarkdownDescription: "Plan Uuid",
 			},
 			"project": schema.StringAttribute{
 				Required: true,
@@ -425,21 +425,21 @@ func (r *MarketplaceOrderResource) Schema(ctx context.Context, req resource.Sche
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Project description",
+				MarkdownDescription: "Project Description",
 			},
 			"project_slug": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Project slug",
+				MarkdownDescription: "Project Slug",
 			},
 			"provider_name": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Name of the provider",
+				MarkdownDescription: "Provider Name",
 			},
 			"provider_reviewed_at": schema.StringAttribute{
 				CustomType: timetypes.RFC3339Type{},
@@ -447,7 +447,7 @@ func (r *MarketplaceOrderResource) Schema(ctx context.Context, req resource.Sche
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Provider reviewed at",
+				MarkdownDescription: "Provider Reviewed At",
 			},
 			"provider_reviewed_by": schema.StringAttribute{
 				Computed: true,
@@ -461,7 +461,7 @@ func (r *MarketplaceOrderResource) Schema(ctx context.Context, req resource.Sche
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Name of the provider reviewed by full",
+				MarkdownDescription: "Provider Reviewed By Full Name",
 			},
 			"provider_reviewed_by_username": schema.StringAttribute{
 				Computed: true,
@@ -475,14 +475,14 @@ func (r *MarketplaceOrderResource) Schema(ctx context.Context, req resource.Sche
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Provider slug",
+				MarkdownDescription: "Provider Slug",
 			},
 			"provider_uuid": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "UUID of the provider",
+				MarkdownDescription: "Provider Uuid",
 			},
 			"request_comment": schema.StringAttribute{
 				Optional: true,
@@ -491,28 +491,28 @@ func (r *MarketplaceOrderResource) Schema(ctx context.Context, req resource.Sche
 					stringplanmodifier.RequiresReplace(),
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Request comment",
+				MarkdownDescription: "Request Comment",
 			},
 			"resource_name": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Name of the resource",
+				MarkdownDescription: "Resource Name",
 			},
 			"resource_type": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Resource type",
+				MarkdownDescription: "Resource Type",
 			},
 			"resource_uuid": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "UUID of the resource",
+				MarkdownDescription: "Resource Uuid",
 			},
 			"slug": schema.StringAttribute{
 				Computed: true,
@@ -544,7 +544,7 @@ func (r *MarketplaceOrderResource) Schema(ctx context.Context, req resource.Sche
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Termination comment",
+				MarkdownDescription: "Termination Comment",
 			},
 			"type": schema.StringAttribute{
 				Optional: true,

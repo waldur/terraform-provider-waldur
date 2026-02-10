@@ -34,7 +34,7 @@ func (a *OpenstackInstanceStopAction) Metadata(ctx context.Context, req action.M
 
 func (a *OpenstackInstanceStopAction) Schema(ctx context.Context, req action.SchemaRequest, resp *action.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		Description: "",
+		Description: "Perform stop action on openstack instance resource",
 		Attributes: map[string]schema.Attribute{
 			"uuid": schema.StringAttribute{
 				Description: "UUID of the resource",

@@ -17,37 +17,37 @@ Openstack Subnet resource
 
 ### Required
 
-- `name` (String) Name of the Openstack Subnet
+- `name` (String) Name
 - `network` (String) Network to which this subnet belongs
 
 ### Optional
 
-- `allocation_pools` (Attributes List) Allocation pools (see [below for nested schema](#nestedatt--allocation_pools))
+- `allocation_pools` (Attributes List) Allocation Pools (see [below for nested schema](#nestedatt--allocation_pools))
 - `cidr` (String) Cidr
-- `description` (String) Description of the Openstack Subnet
+- `description` (String) Description
 - `disable_gateway` (Boolean) If True, no gateway IP address will be allocated
-- `dns_nameservers` (List of String) Dns nameservers
+- `dns_nameservers` (List of String) Dns Nameservers
 - `gateway_ip` (String) IP address of the gateway for this subnet
-- `host_routes` (Attributes List) Host routes (see [below for nested schema](#nestedatt--host_routes))
+- `host_routes` (Attributes List) Host Routes (see [below for nested schema](#nestedatt--host_routes))
 - `timeouts` (Block, Optional) (see [below for nested schema](#nestedblock--timeouts))
 
 ### Read-Only
 
-- `backend_id` (String) ID of the backend
+- `backend_id` (String) Backend Id
 - `customer` (String) Customer
 - `enable_dhcp` (Boolean) If True, DHCP service will be enabled on this subnet
-- `error_message` (String) Error message
-- `error_traceback` (String) Error traceback
+- `error_message` (String) Error Message
+- `error_traceback` (String) Error Traceback
 - `id` (String) Openstack Subnet UUID (used as Terraform ID)
 - `ip_version` (Number) IP protocol version (4 or 6)
 - `is_connected` (Boolean) Is subnet connected to the default tenant router.
-- `marketplace_resource_uuid` (String) UUID of the marketplace resource
-- `network_name` (String) Name of the network
+- `marketplace_resource_uuid` (String) Marketplace Resource Uuid
+- `network_name` (String) Network Name
 - `project` (String) Project
-- `resource_type` (String) Resource type
+- `resource_type` (String) Resource Type
 - `state` (String) State
 - `tenant` (String) Tenant
-- `tenant_name` (String) Name of the tenant
+- `tenant_name` (String) Tenant Name
 - `url` (String) Url
 
 <a id="nestedatt--allocation_pools"></a>

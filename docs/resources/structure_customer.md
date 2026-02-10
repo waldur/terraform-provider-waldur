@@ -23,25 +23,25 @@ resource "waldur_structure_customer" "example" {
 
 ### Required
 
-- `name` (String) Name of the Structure Customer
+- `name` (String) Name
 
 ### Optional
 
 - `abbreviation` (String) Abbreviation
 - `access_subnets` (String) Enter a comma separated list of IPv4 or IPv6 CIDR addresses from where connection to self-service is allowed.
-- `accounting_start_date` (String) Accounting start date
+- `accounting_start_date` (String) Accounting Start Date
 - `address` (String) Address
-- `agreement_number` (String) Agreement number
+- `agreement_number` (String) Agreement Number
 - `archived` (Boolean) Archived
 - `backend_id` (String) Organization identifier in another application.
-- `bank_account` (String) Bank account
-- `bank_name` (String) Name of the bank
+- `bank_account` (String) Bank Account
+- `bank_name` (String) Bank Name
 - `blocked` (Boolean) Blocked
-- `contact_details` (String) Contact details
+- `contact_details` (String) Contact Details
 - `country` (String) Country code (ISO 3166-1 alpha-2)
-- `default_tax_percent` (String) Default tax percent
-- `description` (String) Description of the Structure Customer
-- `display_billing_info_in_projects` (Boolean) Display billing info in projects
+- `default_tax_percent` (String) Default Tax Percent
+- `description` (String) Description
+- `display_billing_info_in_projects` (Boolean) Display Billing Info In Projects
 - `domain` (String) Domain
 - `email` (String) Email
 - `grace_period_days` (Number) Number of extra days after project end date before resources are terminated
@@ -50,12 +50,12 @@ resource "waldur_structure_customer" "example" {
 - `latitude` (Number) Latitude
 - `longitude` (Number) Longitude
 - `max_service_accounts` (Number) Maximum number of service accounts allowed
-- `native_name` (String) Name of the native
+- `native_name` (String) Native Name
 - `notification_emails` (String) Comma-separated list of notification email addresses
-- `phone_number` (String) Phone number
+- `phone_number` (String) Phone Number
 - `postal` (String) Postal
 - `project_metadata_checklist` (String) Checklist to be used for project metadata validation in this organization
-- `registration_code` (String) Registration code
+- `registration_code` (String) Registration Code
 - `slug` (String) URL-friendly identifier. Only editable by staff users.
 - `sponsor_number` (Number) External ID of the sponsor covering the costs
 - `timeouts` (Block, Optional) (see [below for nested schema](#nestedblock--timeouts))
@@ -63,19 +63,19 @@ resource "waldur_structure_customer" "example" {
 
 ### Read-Only
 
-- `billing_price_estimate` (Attributes) Billing price estimate (see [below for nested schema](#nestedatt--billing_price_estimate))
-- `call_managing_organization_uuid` (String) UUID of the call managing organization
+- `billing_price_estimate` (Attributes) Billing Price Estimate (see [below for nested schema](#nestedatt--billing_price_estimate))
+- `call_managing_organization_uuid` (String) Call Managing Organization Uuid
 - `country_name` (String) Human-readable country name
-- `customer_credit` (Number) Customer credit
-- `customer_unallocated_credit` (Number) Customer unallocated credit
+- `customer_credit` (Number) Customer Credit
+- `customer_unallocated_credit` (Number) Customer Unallocated Credit
 - `display_name` (String) Display name of the organization (includes native name if available)
 - `id` (String) Structure Customer UUID (used as Terraform ID)
-- `is_service_provider` (Boolean) Is service provider
+- `is_service_provider` (Boolean) Is Service Provider
 - `organization_groups` (Attributes List) Organization groups this customer belongs to (see [below for nested schema](#nestedatt--organization_groups))
-- `payment_profiles` (Attributes List) Payment profiles (see [below for nested schema](#nestedatt--payment_profiles))
+- `payment_profiles` (Attributes List) Payment Profiles (see [below for nested schema](#nestedatt--payment_profiles))
 - `projects_count` (Number) Number of projects in this organization
-- `service_provider` (String) Service provider
-- `service_provider_uuid` (String) UUID of the service provider
+- `service_provider` (String) Service Provider
+- `service_provider_uuid` (String) Service Provider Uuid
 - `url` (String) Url
 - `users_count` (Number) Number of users with access to this organization
 
@@ -96,7 +96,7 @@ Read-Only:
 
 - `current` (Number) Current
 - `tax` (Number) Tax
-- `tax_current` (Number) Tax current
+- `tax_current` (Number) Tax Current
 - `total` (Number) Total
 
 
@@ -105,7 +105,7 @@ Read-Only:
 
 Optional:
 
-- `name` (String) Name of the Structure Customer
+- `name` (String) Name
 - `parent` (String) Parent
 
 Read-Only:
@@ -114,7 +114,7 @@ Read-Only:
 - `parent_name` (String) Name of the parent organization group
 - `parent_uuid` (String) UUID of the parent organization group
 - `url` (String) Url
-- `uuid` (String) UUID of the Structure Customer
+- `uuid` (String) Uuid
 
 
 <a id="nestedatt--payment_profiles"></a>
@@ -123,23 +123,23 @@ Read-Only:
 Optional:
 
 - `attributes` (Attributes) Attributes (see [below for nested schema](#nestedatt--payment_profiles--attributes))
-- `is_active` (Boolean) Is active
-- `name` (String) Name of the Structure Customer
+- `is_active` (Boolean) Is Active
+- `name` (String) Name
 - `organization` (String) Organization
-- `payment_type` (String) Payment type
+- `payment_type` (String) Payment Type
 
 Read-Only:
 
-- `organization_uuid` (String) UUID of the organization
-- `payment_type_display` (String) Payment type display
+- `organization_uuid` (String) Organization Uuid
+- `payment_type_display` (String) Payment Type Display
 - `url` (String) Url
-- `uuid` (String) UUID of the Structure Customer
+- `uuid` (String) Uuid
 
 <a id="nestedatt--payment_profiles--attributes"></a>
 ### Nested Schema for `payment_profiles.attributes`
 
 Optional:
 
-- `agreement_number` (String) Agreement number
-- `contract_sum` (Number) Contract sum
-- `end_date` (String) End date
+- `agreement_number` (String) Agreement Number
+- `contract_sum` (Number) Contract Sum
+- `end_date` (String) End Date

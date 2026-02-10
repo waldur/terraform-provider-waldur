@@ -71,14 +71,14 @@ func (r *OpenstackSubnetResource) Schema(ctx context.Context, req resource.Schem
 				PlanModifiers: []planmodifier.List{
 					listplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Allocation pools",
+				MarkdownDescription: "Allocation Pools",
 			},
 			"backend_id": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "ID of the backend",
+				MarkdownDescription: "Backend Id",
 			},
 			"cidr": schema.StringAttribute{
 				Optional: true,
@@ -101,7 +101,7 @@ func (r *OpenstackSubnetResource) Schema(ctx context.Context, req resource.Schem
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Description of the Openstack Subnet",
+				MarkdownDescription: "Description",
 			},
 			"disable_gateway": schema.BoolAttribute{
 				Optional: true,
@@ -118,7 +118,7 @@ func (r *OpenstackSubnetResource) Schema(ctx context.Context, req resource.Schem
 				PlanModifiers: []planmodifier.List{
 					listplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Dns nameservers",
+				MarkdownDescription: "Dns Nameservers",
 			},
 			"enable_dhcp": schema.BoolAttribute{
 				Computed: true,
@@ -132,14 +132,14 @@ func (r *OpenstackSubnetResource) Schema(ctx context.Context, req resource.Schem
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Error message",
+				MarkdownDescription: "Error Message",
 			},
 			"error_traceback": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Error traceback",
+				MarkdownDescription: "Error Traceback",
 			},
 			"gateway_ip": schema.StringAttribute{
 				Optional: true,
@@ -167,7 +167,7 @@ func (r *OpenstackSubnetResource) Schema(ctx context.Context, req resource.Schem
 				PlanModifiers: []planmodifier.List{
 					listplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Host routes",
+				MarkdownDescription: "Host Routes",
 			},
 			"ip_version": schema.Int64Attribute{
 				Computed: true,
@@ -188,11 +188,11 @@ func (r *OpenstackSubnetResource) Schema(ctx context.Context, req resource.Schem
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "UUID of the marketplace resource",
+				MarkdownDescription: "Marketplace Resource Uuid",
 			},
 			"name": schema.StringAttribute{
 				Required:            true,
-				MarkdownDescription: "Name of the Openstack Subnet",
+				MarkdownDescription: "Name",
 			},
 			"network": schema.StringAttribute{
 				Required: true,
@@ -206,7 +206,7 @@ func (r *OpenstackSubnetResource) Schema(ctx context.Context, req resource.Schem
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Name of the network",
+				MarkdownDescription: "Network Name",
 			},
 			"project": schema.StringAttribute{
 				Computed: true,
@@ -220,7 +220,7 @@ func (r *OpenstackSubnetResource) Schema(ctx context.Context, req resource.Schem
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Resource type",
+				MarkdownDescription: "Resource Type",
 			},
 			"state": schema.StringAttribute{
 				Computed: true,
@@ -241,7 +241,7 @@ func (r *OpenstackSubnetResource) Schema(ctx context.Context, req resource.Schem
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				MarkdownDescription: "Name of the tenant",
+				MarkdownDescription: "Tenant Name",
 			},
 			"url": schema.StringAttribute{
 				Computed: true,

@@ -43,7 +43,7 @@ func (d *OpenstackServerGroupDataSource) Schema(ctx context.Context, req datasou
 			"filters": (&OpenstackServerGroupFiltersModel{}).GetSchema(),
 			"backend_id": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "ID of the backend",
+				MarkdownDescription: "Backend Id",
 			},
 			"customer": schema.StringAttribute{
 				Computed:            true,
@@ -51,19 +51,19 @@ func (d *OpenstackServerGroupDataSource) Schema(ctx context.Context, req datasou
 			},
 			"description": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Description of the Openstack Server Group",
+				MarkdownDescription: "Description",
 			},
 			"display_name": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Name of the display",
+				MarkdownDescription: "Display Name",
 			},
 			"error_message": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Error message",
+				MarkdownDescription: "Error Message",
 			},
 			"error_traceback": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Error traceback",
+				MarkdownDescription: "Error Traceback",
 			},
 			"instances": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
@@ -74,11 +74,11 @@ func (d *OpenstackServerGroupDataSource) Schema(ctx context.Context, req datasou
 						},
 						"name": schema.StringAttribute{
 							Computed:            true,
-							MarkdownDescription: "Name of the Openstack Server Group",
+							MarkdownDescription: "Name",
 						},
 						"uuid": schema.StringAttribute{
 							Computed:            true,
-							MarkdownDescription: "UUID of the Openstack Server Group",
+							MarkdownDescription: "Uuid",
 						},
 					},
 				},
@@ -87,11 +87,11 @@ func (d *OpenstackServerGroupDataSource) Schema(ctx context.Context, req datasou
 			},
 			"marketplace_resource_uuid": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "UUID of the marketplace resource",
+				MarkdownDescription: "Marketplace Resource Uuid",
 			},
 			"name": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Name of the Openstack Server Group",
+				MarkdownDescription: "Name",
 			},
 			"policy": schema.StringAttribute{
 				Computed:            true,
@@ -103,7 +103,7 @@ func (d *OpenstackServerGroupDataSource) Schema(ctx context.Context, req datasou
 			},
 			"resource_type": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Resource type",
+				MarkdownDescription: "Resource Type",
 			},
 			"state": schema.StringAttribute{
 				Computed:            true,
@@ -115,11 +115,11 @@ func (d *OpenstackServerGroupDataSource) Schema(ctx context.Context, req datasou
 			},
 			"tenant_name": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Name of the tenant",
+				MarkdownDescription: "Tenant Name",
 			},
 			"tenant_uuid": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "UUID of the tenant",
+				MarkdownDescription: "Tenant Uuid",
 			},
 			"url": schema.StringAttribute{
 				Computed:            true,

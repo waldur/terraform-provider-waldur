@@ -3,12 +3,12 @@
 page_title: "waldur_openstack_instance_pull Action - waldur"
 subcategory: ""
 description: |-
-  
+  Perform pull action on openstack instance resource
 ---
 
 # waldur_openstack_instance_pull (Action)
 
-
+Perform pull action on openstack instance resource
 
 
 
