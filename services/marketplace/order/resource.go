@@ -591,6 +591,7 @@ func (r *MarketplaceOrderResource) Configure(ctx context.Context, req resource.C
 }
 
 func (r *MarketplaceOrderResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
+
 	var data MarketplaceOrderResourceModel
 	resp.Diagnostics.Append(req.Plan.Get(ctx, &data)...)
 	if resp.Diagnostics.HasError() {
@@ -656,7 +657,6 @@ func (r *MarketplaceOrderResource) Create(ctx context.Context, req resource.Crea
 	apiResp = newResp
 
 	resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
-
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
@@ -693,6 +693,7 @@ func (r *MarketplaceOrderResource) Read(ctx context.Context, req resource.ReadRe
 }
 
 func (r *MarketplaceOrderResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
+
 	var data MarketplaceOrderResourceModel
 	var state MarketplaceOrderResourceModel
 	resp.Diagnostics.Append(req.Plan.Get(ctx, &data)...)
@@ -731,11 +732,11 @@ func (r *MarketplaceOrderResource) Update(ctx context.Context, req resource.Upda
 	apiResp = newResp
 
 	resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
-
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
 func (r *MarketplaceOrderResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
+
 	var data MarketplaceOrderResourceModel
 	resp.Diagnostics.Append(req.State.Get(ctx, &data)...)
 	if resp.Diagnostics.HasError() {

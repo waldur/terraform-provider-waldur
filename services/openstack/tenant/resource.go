@@ -452,6 +452,7 @@ func (r *OpenstackTenantResource) resolveUnknownAttributes(data *OpenstackTenant
 }
 
 func (r *OpenstackTenantResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
+
 	var data OpenstackTenantResourceModel
 	resp.Diagnostics.Append(req.Plan.Get(ctx, &data)...)
 	if resp.Diagnostics.HasError() {
@@ -588,6 +589,7 @@ func (r *OpenstackTenantResource) Read(ctx context.Context, req resource.ReadReq
 }
 
 func (r *OpenstackTenantResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
+
 	var data OpenstackTenantResourceModel
 	var state OpenstackTenantResourceModel
 	resp.Diagnostics.Append(req.Plan.Get(ctx, &data)...)
@@ -684,6 +686,7 @@ func (r *OpenstackTenantResource) Update(ctx context.Context, req resource.Updat
 }
 
 func (r *OpenstackTenantResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
+
 	var data OpenstackTenantResourceModel
 	resp.Diagnostics.Append(req.State.Get(ctx, &data)...)
 	if resp.Diagnostics.HasError() {

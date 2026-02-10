@@ -124,6 +124,7 @@ func (r *OpenstackNetworkRbacPolicyResource) Configure(ctx context.Context, req 
 }
 
 func (r *OpenstackNetworkRbacPolicyResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
+
 	var data OpenstackNetworkRbacPolicyResourceModel
 	resp.Diagnostics.Append(req.Plan.Get(ctx, &data)...)
 	if resp.Diagnostics.HasError() {
@@ -162,7 +163,6 @@ func (r *OpenstackNetworkRbacPolicyResource) Create(ctx context.Context, req res
 	data.UUID = types.StringValue(compositeID)
 
 	resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
-
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
@@ -236,6 +236,7 @@ func (r *OpenstackNetworkRbacPolicyResource) Read(ctx context.Context, req resou
 }
 
 func (r *OpenstackNetworkRbacPolicyResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
+
 	var data OpenstackNetworkRbacPolicyResourceModel
 	var state OpenstackNetworkRbacPolicyResourceModel
 	resp.Diagnostics.Append(req.Plan.Get(ctx, &data)...)
@@ -268,11 +269,11 @@ func (r *OpenstackNetworkRbacPolicyResource) Update(ctx context.Context, req res
 	}
 
 	resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
-
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
 func (r *OpenstackNetworkRbacPolicyResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
+
 	var data OpenstackNetworkRbacPolicyResourceModel
 	resp.Diagnostics.Append(req.State.Get(ctx, &data)...)
 	if resp.Diagnostics.HasError() {

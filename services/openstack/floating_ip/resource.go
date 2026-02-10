@@ -269,6 +269,7 @@ func (r *OpenstackFloatingIpResource) Configure(ctx context.Context, req resourc
 }
 
 func (r *OpenstackFloatingIpResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
+
 	var data OpenstackFloatingIpResourceModel
 	resp.Diagnostics.Append(req.Plan.Get(ctx, &data)...)
 	if resp.Diagnostics.HasError() {
@@ -306,7 +307,6 @@ func (r *OpenstackFloatingIpResource) Create(ctx context.Context, req resource.C
 	apiResp = newResp
 
 	resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
-
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
@@ -343,10 +343,12 @@ func (r *OpenstackFloatingIpResource) Read(ctx context.Context, req resource.Rea
 }
 
 func (r *OpenstackFloatingIpResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
+
 	resp.Diagnostics.AddError("Update Not Supported", "This resource cannot be updated via the API.")
 }
 
 func (r *OpenstackFloatingIpResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
+
 	var data OpenstackFloatingIpResourceModel
 	resp.Diagnostics.Append(req.State.Get(ctx, &data)...)
 	if resp.Diagnostics.HasError() {

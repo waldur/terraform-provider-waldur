@@ -650,6 +650,7 @@ func (r *StructureCustomerResource) Configure(ctx context.Context, req resource.
 }
 
 func (r *StructureCustomerResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
+
 	var data StructureCustomerResourceModel
 	resp.Diagnostics.Append(req.Plan.Get(ctx, &data)...)
 	if resp.Diagnostics.HasError() {
@@ -799,7 +800,6 @@ func (r *StructureCustomerResource) Create(ctx context.Context, req resource.Cre
 	data.UUID = types.StringPointerValue(apiResp.UUID)
 
 	resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
-
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
@@ -836,6 +836,7 @@ func (r *StructureCustomerResource) Read(ctx context.Context, req resource.ReadR
 }
 
 func (r *StructureCustomerResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
+
 	var data StructureCustomerResourceModel
 	var state StructureCustomerResourceModel
 	resp.Diagnostics.Append(req.Plan.Get(ctx, &data)...)
@@ -988,11 +989,11 @@ func (r *StructureCustomerResource) Update(ctx context.Context, req resource.Upd
 	}
 
 	resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
-
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
 func (r *StructureCustomerResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
+
 	var data StructureCustomerResourceModel
 	resp.Diagnostics.Append(req.State.Get(ctx, &data)...)
 	if resp.Diagnostics.HasError() {

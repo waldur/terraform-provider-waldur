@@ -314,6 +314,7 @@ func (r *StructureProjectResource) Configure(ctx context.Context, req resource.C
 }
 
 func (r *StructureProjectResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
+
 	var data StructureProjectResourceModel
 	resp.Diagnostics.Append(req.Plan.Get(ctx, &data)...)
 	if resp.Diagnostics.HasError() {
@@ -385,7 +386,6 @@ func (r *StructureProjectResource) Create(ctx context.Context, req resource.Crea
 	data.UUID = types.StringPointerValue(apiResp.UUID)
 
 	resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
-
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
@@ -422,6 +422,7 @@ func (r *StructureProjectResource) Read(ctx context.Context, req resource.ReadRe
 }
 
 func (r *StructureProjectResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
+
 	var data StructureProjectResourceModel
 	var state StructureProjectResourceModel
 	resp.Diagnostics.Append(req.Plan.Get(ctx, &data)...)
@@ -498,11 +499,11 @@ func (r *StructureProjectResource) Update(ctx context.Context, req resource.Upda
 	}
 
 	resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
-
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
 func (r *StructureProjectResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
+
 	var data StructureProjectResourceModel
 	resp.Diagnostics.Append(req.State.Get(ctx, &data)...)
 	if resp.Diagnostics.HasError() {

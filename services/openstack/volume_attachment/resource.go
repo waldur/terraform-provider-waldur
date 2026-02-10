@@ -323,6 +323,7 @@ func (r *OpenstackVolumeAttachmentResource) Configure(ctx context.Context, req r
 }
 
 func (r *OpenstackVolumeAttachmentResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
+
 	var data OpenstackVolumeAttachmentResourceModel
 	resp.Diagnostics.Append(req.Plan.Get(ctx, &data)...)
 	if resp.Diagnostics.HasError() {
@@ -348,7 +349,6 @@ func (r *OpenstackVolumeAttachmentResource) Create(ctx context.Context, req reso
 	data.UUID = types.StringValue(sourceUUID + "/" + data.Instance.ValueString())
 
 	resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
-
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
@@ -429,11 +429,13 @@ func (r *OpenstackVolumeAttachmentResource) Read(ctx context.Context, req resour
 }
 
 func (r *OpenstackVolumeAttachmentResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
+
 	// Link resources typically do not support update, as they are bindings.
 	resp.Diagnostics.AddError("Update Not Supported", "Link resources cannot be updated.")
 }
 
 func (r *OpenstackVolumeAttachmentResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
+
 	var data OpenstackVolumeAttachmentResourceModel
 	resp.Diagnostics.Append(req.State.Get(ctx, &data)...)
 	if resp.Diagnostics.HasError() {

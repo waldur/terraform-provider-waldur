@@ -442,6 +442,7 @@ func (r *OpenstackVolumeResource) resolveUnknownAttributes(data *OpenstackVolume
 }
 
 func (r *OpenstackVolumeResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
+
 	var data OpenstackVolumeResourceModel
 	resp.Diagnostics.Append(req.Plan.Get(ctx, &data)...)
 	if resp.Diagnostics.HasError() {
@@ -574,6 +575,7 @@ func (r *OpenstackVolumeResource) Read(ctx context.Context, req resource.ReadReq
 }
 
 func (r *OpenstackVolumeResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
+
 	var data OpenstackVolumeResourceModel
 	var state OpenstackVolumeResourceModel
 	resp.Diagnostics.Append(req.Plan.Get(ctx, &data)...)
@@ -680,6 +682,7 @@ func (r *OpenstackVolumeResource) Update(ctx context.Context, req resource.Updat
 }
 
 func (r *OpenstackVolumeResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
+
 	var data OpenstackVolumeResourceModel
 	resp.Diagnostics.Append(req.State.Get(ctx, &data)...)
 	if resp.Diagnostics.HasError() {

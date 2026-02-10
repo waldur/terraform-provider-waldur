@@ -279,6 +279,7 @@ func (r *OpenstackSecurityGroupResource) Configure(ctx context.Context, req reso
 }
 
 func (r *OpenstackSecurityGroupResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
+
 	var data OpenstackSecurityGroupResourceModel
 	resp.Diagnostics.Append(req.Plan.Get(ctx, &data)...)
 	if resp.Diagnostics.HasError() {
@@ -319,7 +320,6 @@ func (r *OpenstackSecurityGroupResource) Create(ctx context.Context, req resourc
 	apiResp = newResp
 
 	resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
-
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
@@ -356,6 +356,7 @@ func (r *OpenstackSecurityGroupResource) Read(ctx context.Context, req resource.
 }
 
 func (r *OpenstackSecurityGroupResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
+
 	var data OpenstackSecurityGroupResourceModel
 	var state OpenstackSecurityGroupResourceModel
 	resp.Diagnostics.Append(req.Plan.Get(ctx, &data)...)
@@ -398,11 +399,11 @@ func (r *OpenstackSecurityGroupResource) Update(ctx context.Context, req resourc
 	apiResp = newResp
 
 	resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
-
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
 func (r *OpenstackSecurityGroupResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
+
 	var data OpenstackSecurityGroupResourceModel
 	resp.Diagnostics.Append(req.State.Get(ctx, &data)...)
 	if resp.Diagnostics.HasError() {

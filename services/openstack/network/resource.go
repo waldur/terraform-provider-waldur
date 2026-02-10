@@ -375,6 +375,7 @@ func (r *OpenstackNetworkResource) Configure(ctx context.Context, req resource.C
 }
 
 func (r *OpenstackNetworkResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
+
 	var data OpenstackNetworkResourceModel
 	resp.Diagnostics.Append(req.Plan.Get(ctx, &data)...)
 	if resp.Diagnostics.HasError() {
@@ -414,7 +415,6 @@ func (r *OpenstackNetworkResource) Create(ctx context.Context, req resource.Crea
 	apiResp = newResp
 
 	resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
-
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
@@ -451,6 +451,7 @@ func (r *OpenstackNetworkResource) Read(ctx context.Context, req resource.ReadRe
 }
 
 func (r *OpenstackNetworkResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
+
 	var data OpenstackNetworkResourceModel
 	var state OpenstackNetworkResourceModel
 	resp.Diagnostics.Append(req.Plan.Get(ctx, &data)...)
@@ -493,11 +494,11 @@ func (r *OpenstackNetworkResource) Update(ctx context.Context, req resource.Upda
 	apiResp = newResp
 
 	resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
-
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
 func (r *OpenstackNetworkResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
+
 	var data OpenstackNetworkResourceModel
 	resp.Diagnostics.Append(req.State.Get(ctx, &data)...)
 	if resp.Diagnostics.HasError() {

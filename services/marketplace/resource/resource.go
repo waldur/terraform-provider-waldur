@@ -1810,6 +1810,7 @@ func (r *MarketplaceResourceResource) Configure(ctx context.Context, req resourc
 }
 
 func (r *MarketplaceResourceResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
+
 	resp.Diagnostics.AddError("Creation Not Supported", "This resource cannot be created via the API.")
 }
 
@@ -1846,6 +1847,7 @@ func (r *MarketplaceResourceResource) Read(ctx context.Context, req resource.Rea
 }
 
 func (r *MarketplaceResourceResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
+
 	var data MarketplaceResourceResourceModel
 	var state MarketplaceResourceResourceModel
 	resp.Diagnostics.Append(req.Plan.Get(ctx, &data)...)
@@ -1892,11 +1894,11 @@ func (r *MarketplaceResourceResource) Update(ctx context.Context, req resource.U
 	apiResp = newResp
 
 	resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
-
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
 func (r *MarketplaceResourceResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
+
 	resp.Diagnostics.AddError("Deletion Not Supported", "This resource cannot be deleted via the API.")
 }
 
