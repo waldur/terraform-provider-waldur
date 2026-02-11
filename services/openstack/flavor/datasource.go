@@ -50,6 +50,7 @@ func (d *OpenstackFlavorDataSource) Schema(ctx context.Context, req datasource.S
 			"cores": schema.Int64Attribute{
 				Computed:            true,
 				MarkdownDescription: "Number of cores in a VM",
+
 				Validators: []validator.Int64{
 					int64validator.AtLeast(0),
 					int64validator.AtMost(32767),
@@ -58,6 +59,7 @@ func (d *OpenstackFlavorDataSource) Schema(ctx context.Context, req datasource.S
 			"disk": schema.Int64Attribute{
 				Computed:            true,
 				MarkdownDescription: "Root disk size in MiB",
+
 				Validators: []validator.Int64{
 					int64validator.AtLeast(0),
 					int64validator.AtMost(2147483647),
@@ -74,6 +76,7 @@ func (d *OpenstackFlavorDataSource) Schema(ctx context.Context, req datasource.S
 			"ram": schema.Int64Attribute{
 				Computed:            true,
 				MarkdownDescription: "Memory size in MiB",
+
 				Validators: []validator.Int64{
 					int64validator.AtLeast(0),
 					int64validator.AtMost(2147483647),

@@ -171,6 +171,7 @@ func (r *MarketplaceOrderResource) Schema(ctx context.Context, req resource.Sche
 					stringplanmodifier.UseStateForUnknown(),
 				},
 				MarkdownDescription: "Cost",
+
 				Validators: []validator.String{
 					stringvalidator.RegexMatches(regexp.MustCompile(`^-?\d{0,12}(?:\.\d{0,10})?$`), ""),
 				},
@@ -253,6 +254,7 @@ func (r *MarketplaceOrderResource) Schema(ctx context.Context, req resource.Sche
 					stringplanmodifier.UseStateForUnknown(),
 				},
 				MarkdownDescription: "New Cost Estimate",
+
 				Validators: []validator.String{
 					stringvalidator.RegexMatches(regexp.MustCompile(`^-?\d{0,12}(?:\.\d{0,10})?$`), ""),
 				},
@@ -513,6 +515,7 @@ func (r *MarketplaceOrderResource) Schema(ctx context.Context, req resource.Sche
 					stringplanmodifier.UseStateForUnknown(),
 				},
 				MarkdownDescription: "URL-friendly identifier. Only editable by staff users.",
+
 				Validators: []validator.String{
 					stringvalidator.RegexMatches(regexp.MustCompile(`^[-a-zA-Z0-9_]+$`), ""),
 				},

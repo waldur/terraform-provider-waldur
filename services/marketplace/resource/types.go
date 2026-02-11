@@ -87,7 +87,7 @@ type MarketplaceResourceBackendMetadataResponse struct {
 }
 
 type MarketplaceResourceCreationOrderResponse struct {
-	ActivationPrice            *common.FlexibleNumber                         `json:"activation_price" tfsdk:"activation_price"`
+	ActivationPrice            common.FlexibleNumber                          `json:"activation_price" tfsdk:"activation_price"`
 	Attachment                 *string                                        `json:"attachment" tfsdk:"attachment"`
 	BackendId                  *string                                        `json:"backend_id" tfsdk:"backend_id"`
 	CallbackUrl                *string                                        `json:"callback_url" tfsdk:"callback_url"`
@@ -106,7 +106,7 @@ type MarketplaceResourceCreationOrderResponse struct {
 	CreatedByUsername          *string                                        `json:"created_by_username" tfsdk:"created_by_username"`
 	CustomerSlug               *string                                        `json:"customer_slug" tfsdk:"customer_slug"`
 	ErrorMessage               *string                                        `json:"error_message" tfsdk:"error_message"`
-	FixedPrice                 *common.FlexibleNumber                         `json:"fixed_price" tfsdk:"fixed_price"`
+	FixedPrice                 common.FlexibleNumber                          `json:"fixed_price" tfsdk:"fixed_price"`
 	Issue                      *MarketplaceResourceCreationOrderIssueResponse `json:"issue" tfsdk:"issue"`
 	MarketplaceResourceUuid    *string                                        `json:"marketplace_resource_uuid" tfsdk:"marketplace_resource_uuid"`
 	NewCostEstimate            *string                                        `json:"new_cost_estimate" tfsdk:"new_cost_estimate"`
@@ -121,7 +121,7 @@ type MarketplaceResourceCreationOrderResponse struct {
 	OfferingThumbnail          *string                                        `json:"offering_thumbnail" tfsdk:"offering_thumbnail"`
 	OfferingType               *string                                        `json:"offering_type" tfsdk:"offering_type"`
 	OfferingUuid               *string                                        `json:"offering_uuid" tfsdk:"offering_uuid"`
-	OldCostEstimate            *common.FlexibleNumber                         `json:"old_cost_estimate" tfsdk:"old_cost_estimate"`
+	OldCostEstimate            common.FlexibleNumber                          `json:"old_cost_estimate" tfsdk:"old_cost_estimate"`
 	OldPlanName                *string                                        `json:"old_plan_name" tfsdk:"old_plan_name"`
 	OldPlanUuid                *string                                        `json:"old_plan_uuid" tfsdk:"old_plan_uuid"`
 	OrderSubtype               *string                                        `json:"order_subtype" tfsdk:"order_subtype"`
@@ -189,7 +189,7 @@ type MarketplaceResourceOfferingComponentsResponse struct {
 }
 
 type MarketplaceResourceOrderInProgressResponse struct {
-	ActivationPrice            *common.FlexibleNumber                           `json:"activation_price" tfsdk:"activation_price"`
+	ActivationPrice            common.FlexibleNumber                            `json:"activation_price" tfsdk:"activation_price"`
 	Attachment                 *string                                          `json:"attachment" tfsdk:"attachment"`
 	BackendId                  *string                                          `json:"backend_id" tfsdk:"backend_id"`
 	CallbackUrl                *string                                          `json:"callback_url" tfsdk:"callback_url"`
@@ -208,7 +208,7 @@ type MarketplaceResourceOrderInProgressResponse struct {
 	CreatedByUsername          *string                                          `json:"created_by_username" tfsdk:"created_by_username"`
 	CustomerSlug               *string                                          `json:"customer_slug" tfsdk:"customer_slug"`
 	ErrorMessage               *string                                          `json:"error_message" tfsdk:"error_message"`
-	FixedPrice                 *common.FlexibleNumber                           `json:"fixed_price" tfsdk:"fixed_price"`
+	FixedPrice                 common.FlexibleNumber                            `json:"fixed_price" tfsdk:"fixed_price"`
 	Issue                      *MarketplaceResourceOrderInProgressIssueResponse `json:"issue" tfsdk:"issue"`
 	MarketplaceResourceUuid    *string                                          `json:"marketplace_resource_uuid" tfsdk:"marketplace_resource_uuid"`
 	NewCostEstimate            *string                                          `json:"new_cost_estimate" tfsdk:"new_cost_estimate"`
@@ -223,7 +223,7 @@ type MarketplaceResourceOrderInProgressResponse struct {
 	OfferingThumbnail          *string                                          `json:"offering_thumbnail" tfsdk:"offering_thumbnail"`
 	OfferingType               *string                                          `json:"offering_type" tfsdk:"offering_type"`
 	OfferingUuid               *string                                          `json:"offering_uuid" tfsdk:"offering_uuid"`
-	OldCostEstimate            *common.FlexibleNumber                           `json:"old_cost_estimate" tfsdk:"old_cost_estimate"`
+	OldCostEstimate            common.FlexibleNumber                            `json:"old_cost_estimate" tfsdk:"old_cost_estimate"`
 	OldPlanName                *string                                          `json:"old_plan_name" tfsdk:"old_plan_name"`
 	OldPlanUuid                *string                                          `json:"old_plan_uuid" tfsdk:"old_plan_uuid"`
 	OrderSubtype               *string                                          `json:"order_subtype" tfsdk:"order_subtype"`

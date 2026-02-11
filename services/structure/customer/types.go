@@ -94,8 +94,8 @@ type StructureCustomerResponse struct {
 	ContactDetails               *string                                        `json:"contact_details" tfsdk:"contact_details"`
 	Country                      *string                                        `json:"country" tfsdk:"country"`
 	CountryName                  *string                                        `json:"country_name" tfsdk:"country_name"`
-	CustomerCredit               *common.FlexibleNumber                         `json:"customer_credit" tfsdk:"customer_credit"`
-	CustomerUnallocatedCredit    *common.FlexibleNumber                         `json:"customer_unallocated_credit" tfsdk:"customer_unallocated_credit"`
+	CustomerCredit               common.FlexibleNumber                          `json:"customer_credit" tfsdk:"customer_credit"`
+	CustomerUnallocatedCredit    common.FlexibleNumber                          `json:"customer_unallocated_credit" tfsdk:"customer_unallocated_credit"`
 	DefaultTaxPercent            *string                                        `json:"default_tax_percent" tfsdk:"default_tax_percent"`
 	Description                  *string                                        `json:"description" tfsdk:"description"`
 	DisplayBillingInfoInProjects *bool                                          `json:"display_billing_info_in_projects" tfsdk:"display_billing_info_in_projects"`
@@ -106,8 +106,8 @@ type StructureCustomerResponse struct {
 	Homepage                     *string                                        `json:"homepage" tfsdk:"homepage"`
 	Image                        *string                                        `json:"image" tfsdk:"image"`
 	IsServiceProvider            *bool                                          `json:"is_service_provider" tfsdk:"is_service_provider"`
-	Latitude                     *common.FlexibleNumber                         `json:"latitude" tfsdk:"latitude"`
-	Longitude                    *common.FlexibleNumber                         `json:"longitude" tfsdk:"longitude"`
+	Latitude                     common.FlexibleNumber                          `json:"latitude" tfsdk:"latitude"`
+	Longitude                    common.FlexibleNumber                          `json:"longitude" tfsdk:"longitude"`
 	MaxServiceAccounts           *int64                                         `json:"max_service_accounts" tfsdk:"max_service_accounts"`
 	Name                         *string                                        `json:"name" tfsdk:"name"`
 	NativeName                   *string                                        `json:"native_name" tfsdk:"native_name"`
@@ -129,10 +129,10 @@ type StructureCustomerResponse struct {
 }
 
 type StructureCustomerBillingPriceEstimateResponse struct {
-	Current    *common.FlexibleNumber `json:"current" tfsdk:"current"`
-	Tax        *common.FlexibleNumber `json:"tax" tfsdk:"tax"`
-	TaxCurrent *common.FlexibleNumber `json:"tax_current" tfsdk:"tax_current"`
-	Total      *common.FlexibleNumber `json:"total" tfsdk:"total"`
+	Current    common.FlexibleNumber `json:"current" tfsdk:"current"`
+	Tax        common.FlexibleNumber `json:"tax" tfsdk:"tax"`
+	TaxCurrent common.FlexibleNumber `json:"tax_current" tfsdk:"tax_current"`
+	Total      common.FlexibleNumber `json:"total" tfsdk:"total"`
 }
 
 type StructureCustomerOrganizationGroupsResponse struct {

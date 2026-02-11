@@ -169,6 +169,7 @@ func (d *OpenstackNetworkDataSource) Schema(ctx context.Context, req datasource.
 						"ip_version": schema.Int64Attribute{
 							Computed:            true,
 							MarkdownDescription: "IP protocol version (4 or 6)",
+
 							Validators: []validator.Int64{
 								int64validator.AtLeast(-32768),
 								int64validator.AtMost(32767),

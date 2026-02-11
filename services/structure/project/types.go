@@ -58,7 +58,7 @@ type StructureProjectResponse struct {
 	Name                                 *string                                       `json:"name" tfsdk:"name"`
 	OecdFos2007Code                      *string                                       `json:"oecd_fos_2007_code" tfsdk:"oecd_fos_2007_code"`
 	OecdFos2007Label                     *string                                       `json:"oecd_fos_2007_label" tfsdk:"oecd_fos_2007_label"`
-	ProjectCredit                        *common.FlexibleNumber                        `json:"project_credit" tfsdk:"project_credit"`
+	ProjectCredit                        common.FlexibleNumber                         `json:"project_credit" tfsdk:"project_credit"`
 	ResourcesCount                       *int64                                        `json:"resources_count" tfsdk:"resources_count"`
 	Slug                                 *string                                       `json:"slug" tfsdk:"slug"`
 	StaffNotes                           *string                                       `json:"staff_notes" tfsdk:"staff_notes"`
@@ -70,10 +70,10 @@ type StructureProjectResponse struct {
 }
 
 type StructureProjectBillingPriceEstimateResponse struct {
-	Current    *common.FlexibleNumber `json:"current" tfsdk:"current"`
-	Tax        *common.FlexibleNumber `json:"tax" tfsdk:"tax"`
-	TaxCurrent *common.FlexibleNumber `json:"tax_current" tfsdk:"tax_current"`
-	Total      *common.FlexibleNumber `json:"total" tfsdk:"total"`
+	Current    common.FlexibleNumber `json:"current" tfsdk:"current"`
+	Tax        common.FlexibleNumber `json:"tax" tfsdk:"tax"`
+	TaxCurrent common.FlexibleNumber `json:"tax_current" tfsdk:"tax_current"`
+	Total      common.FlexibleNumber `json:"total" tfsdk:"total"`
 }
 
 func (r *StructureProjectResponse) GetState() string {

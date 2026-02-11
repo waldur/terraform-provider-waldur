@@ -56,6 +56,7 @@ func (d *OpenstackImageDataSource) Schema(ctx context.Context, req datasource.Sc
 			"min_disk": schema.Int64Attribute{
 				Computed:            true,
 				MarkdownDescription: "Minimum disk size in MiB",
+
 				Validators: []validator.Int64{
 					int64validator.AtLeast(0),
 					int64validator.AtMost(2147483647),
@@ -64,6 +65,7 @@ func (d *OpenstackImageDataSource) Schema(ctx context.Context, req datasource.Sc
 			"min_ram": schema.Int64Attribute{
 				Computed:            true,
 				MarkdownDescription: "Minimum memory size in MiB",
+
 				Validators: []validator.Int64{
 					int64validator.AtLeast(0),
 					int64validator.AtMost(2147483647),

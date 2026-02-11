@@ -247,6 +247,7 @@ func (r *OpenstackVolumeResource) Schema(ctx context.Context, req resource.Schem
 					int64planmodifier.UseStateForUnknown(),
 				},
 				MarkdownDescription: "Size in MiB",
+
 				Validators: []validator.Int64{
 					int64validator.AtLeast(0),
 					int64validator.AtMost(2147483647),

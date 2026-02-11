@@ -244,6 +244,7 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 							stringplanmodifier.UseStateForUnknown(),
 						},
 						MarkdownDescription: "Cost",
+
 						Validators: []validator.String{
 							stringvalidator.RegexMatches(regexp.MustCompile(`^-?\d{0,12}(?:\.\d{0,10})?$`), ""),
 						},
@@ -326,6 +327,7 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 							stringplanmodifier.UseStateForUnknown(),
 						},
 						MarkdownDescription: "New Cost Estimate",
+
 						Validators: []validator.String{
 							stringvalidator.RegexMatches(regexp.MustCompile(`^-?\d{0,12}(?:\.\d{0,10})?$`), ""),
 						},
@@ -578,6 +580,7 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 							stringplanmodifier.UseStateForUnknown(),
 						},
 						MarkdownDescription: "Slug",
+
 						Validators: []validator.String{
 							stringvalidator.RegexMatches(regexp.MustCompile(`^[-a-zA-Z0-9_]+$`), ""),
 						},
@@ -776,6 +779,7 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 								stringplanmodifier.UseStateForUnknown(),
 							},
 							MarkdownDescription: "Billing Type",
+
 							Validators: []validator.String{
 								stringvalidator.OneOf("fixed", "usage", "limit", "one", "few"),
 							},
@@ -787,6 +791,7 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 								int64planmodifier.UseStateForUnknown(),
 							},
 							MarkdownDescription: "Default Limit",
+
 							Validators: []validator.Int64{
 								int64validator.AtLeast(-2147483648),
 								int64validator.AtMost(2147483647),
@@ -837,6 +842,7 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 								int64planmodifier.UseStateForUnknown(),
 							},
 							MarkdownDescription: "Limit Amount",
+
 							Validators: []validator.Int64{
 								int64validator.AtLeast(-2147483648),
 								int64validator.AtMost(2147483647),
@@ -857,6 +863,7 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 								int64planmodifier.UseStateForUnknown(),
 							},
 							MarkdownDescription: "Max Available Limit",
+
 							Validators: []validator.Int64{
 								int64validator.AtLeast(-2147483648),
 								int64validator.AtMost(2147483647),
@@ -869,6 +876,7 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 								int64planmodifier.UseStateForUnknown(),
 							},
 							MarkdownDescription: "Max Prepaid Duration",
+
 							Validators: []validator.Int64{
 								int64validator.AtLeast(-2147483648),
 								int64validator.AtMost(2147483647),
@@ -881,6 +889,7 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 								int64planmodifier.UseStateForUnknown(),
 							},
 							MarkdownDescription: "Max Value",
+
 							Validators: []validator.Int64{
 								int64validator.AtLeast(-2147483648),
 								int64validator.AtMost(2147483647),
@@ -901,6 +910,7 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 								int64planmodifier.UseStateForUnknown(),
 							},
 							MarkdownDescription: "Min Prepaid Duration",
+
 							Validators: []validator.Int64{
 								int64validator.AtLeast(-2147483648),
 								int64validator.AtMost(2147483647),
@@ -913,6 +923,7 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 								int64planmodifier.UseStateForUnknown(),
 							},
 							MarkdownDescription: "Min Value",
+
 							Validators: []validator.Int64{
 								int64validator.AtLeast(-2147483648),
 								int64validator.AtMost(2147483647),
@@ -941,6 +952,7 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 								stringplanmodifier.UseStateForUnknown(),
 							},
 							MarkdownDescription: "Unique internal name of the measured unit, for example floating_ip.",
+
 							Validators: []validator.String{
 								stringvalidator.RegexMatches(regexp.MustCompile(`^[a-zA-Z0-9_\-\/:]+$`), ""),
 							},
@@ -952,6 +964,7 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 								int64planmodifier.UseStateForUnknown(),
 							},
 							MarkdownDescription: "The conversion factor from backend units to measured_unit",
+
 							Validators: []validator.Int64{
 								int64validator.AtLeast(-2147483648),
 								int64validator.AtMost(2147483647),
@@ -1139,6 +1152,7 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 							stringplanmodifier.UseStateForUnknown(),
 						},
 						MarkdownDescription: "Cost",
+
 						Validators: []validator.String{
 							stringvalidator.RegexMatches(regexp.MustCompile(`^-?\d{0,12}(?:\.\d{0,10})?$`), ""),
 						},
@@ -1221,6 +1235,7 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 							stringplanmodifier.UseStateForUnknown(),
 						},
 						MarkdownDescription: "New Cost Estimate",
+
 						Validators: []validator.String{
 							stringvalidator.RegexMatches(regexp.MustCompile(`^-?\d{0,12}(?:\.\d{0,10})?$`), ""),
 						},
@@ -1473,6 +1488,7 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 							stringplanmodifier.UseStateForUnknown(),
 						},
 						MarkdownDescription: "Slug",
+
 						Validators: []validator.String{
 							stringvalidator.RegexMatches(regexp.MustCompile(`^[-a-zA-Z0-9_]+$`), ""),
 						},
@@ -1728,6 +1744,7 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 					stringplanmodifier.UseStateForUnknown(),
 				},
 				MarkdownDescription: "URL-friendly identifier. Only editable by staff users.",
+
 				Validators: []validator.String{
 					stringvalidator.RegexMatches(regexp.MustCompile(`^[-a-zA-Z0-9_]+$`), ""),
 				},

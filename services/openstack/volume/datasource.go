@@ -130,6 +130,7 @@ func (d *OpenstackVolumeDataSource) Schema(ctx context.Context, req datasource.S
 			"size": schema.Int64Attribute{
 				Computed:            true,
 				MarkdownDescription: "Size in MiB",
+
 				Validators: []validator.Int64{
 					int64validator.AtLeast(0),
 					int64validator.AtMost(2147483647),

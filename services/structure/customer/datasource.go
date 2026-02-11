@@ -136,6 +136,7 @@ func (d *StructureCustomerDataSource) Schema(ctx context.Context, req datasource
 			"default_tax_percent": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Default Tax Percent",
+
 				Validators: []validator.String{
 					stringvalidator.RegexMatches(regexp.MustCompile(`^-?\d{0,3}(?:\.\d{0,2})?$`), ""),
 				},
@@ -163,6 +164,7 @@ func (d *StructureCustomerDataSource) Schema(ctx context.Context, req datasource
 			"grace_period_days": schema.Int64Attribute{
 				Computed:            true,
 				MarkdownDescription: "Number of extra days after project end date before resources are terminated",
+
 				Validators: []validator.Int64{
 					int64validator.AtLeast(0),
 					int64validator.AtMost(2147483647),
@@ -191,6 +193,7 @@ func (d *StructureCustomerDataSource) Schema(ctx context.Context, req datasource
 			"max_service_accounts": schema.Int64Attribute{
 				Computed:            true,
 				MarkdownDescription: "Maximum number of service accounts allowed",
+
 				Validators: []validator.Int64{
 					int64validator.AtLeast(0),
 					int64validator.AtMost(32767),
@@ -284,6 +287,7 @@ func (d *StructureCustomerDataSource) Schema(ctx context.Context, req datasource
 						"payment_type": schema.StringAttribute{
 							Computed:            true,
 							MarkdownDescription: "Payment Type",
+
 							Validators: []validator.String{
 								stringvalidator.OneOf("fixed_price", "invoices", "payment_gw_monthly"),
 							},
@@ -336,6 +340,7 @@ func (d *StructureCustomerDataSource) Schema(ctx context.Context, req datasource
 			"slug": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "URL-friendly identifier. Only editable by staff users.",
+
 				Validators: []validator.String{
 					stringvalidator.RegexMatches(regexp.MustCompile(`^[-a-zA-Z0-9_]+$`), ""),
 				},
@@ -343,6 +348,7 @@ func (d *StructureCustomerDataSource) Schema(ctx context.Context, req datasource
 			"sponsor_number": schema.Int64Attribute{
 				Computed:            true,
 				MarkdownDescription: "External ID of the sponsor covering the costs",
+
 				Validators: []validator.Int64{
 					int64validator.AtLeast(0),
 					int64validator.AtMost(2147483647),

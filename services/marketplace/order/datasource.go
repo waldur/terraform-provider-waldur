@@ -102,6 +102,7 @@ func (d *MarketplaceOrderDataSource) Schema(ctx context.Context, req datasource.
 			"cost": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "Cost",
+
 				Validators: []validator.String{
 					stringvalidator.RegexMatches(regexp.MustCompile(`^-?\d{0,12}(?:\.\d{0,10})?$`), ""),
 				},
@@ -151,6 +152,7 @@ func (d *MarketplaceOrderDataSource) Schema(ctx context.Context, req datasource.
 			"new_cost_estimate": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "New Cost Estimate",
+
 				Validators: []validator.String{
 					stringvalidator.RegexMatches(regexp.MustCompile(`^-?\d{0,12}(?:\.\d{0,10})?$`), ""),
 				},
@@ -295,6 +297,7 @@ func (d *MarketplaceOrderDataSource) Schema(ctx context.Context, req datasource.
 			"slug": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "URL-friendly identifier. Only editable by staff users.",
+
 				Validators: []validator.String{
 					stringvalidator.RegexMatches(regexp.MustCompile(`^[-a-zA-Z0-9_]+$`), ""),
 				},

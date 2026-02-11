@@ -97,6 +97,7 @@ func (d *OpenstackSecurityGroupDataSource) Schema(ctx context.Context, req datas
 						"from_port": schema.Int64Attribute{
 							Computed:            true,
 							MarkdownDescription: "Starting port number in the range (1-65535)",
+
 							Validators: []validator.Int64{
 								int64validator.AtLeast(-2147483648),
 								int64validator.AtMost(65535),
@@ -113,6 +114,7 @@ func (d *OpenstackSecurityGroupDataSource) Schema(ctx context.Context, req datas
 						"to_port": schema.Int64Attribute{
 							Computed:            true,
 							MarkdownDescription: "Ending port number in the range (1-65535)",
+
 							Validators: []validator.Int64{
 								int64validator.AtLeast(-2147483648),
 								int64validator.AtMost(65535),

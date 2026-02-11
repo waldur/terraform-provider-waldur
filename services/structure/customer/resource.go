@@ -227,6 +227,7 @@ func (r *StructureCustomerResource) Schema(ctx context.Context, req resource.Sch
 					stringplanmodifier.UseStateForUnknown(),
 				},
 				MarkdownDescription: "Default Tax Percent",
+
 				Validators: []validator.String{
 					stringvalidator.RegexMatches(regexp.MustCompile(`^-?\d{0,3}(?:\.\d{0,2})?$`), ""),
 				},
@@ -277,6 +278,7 @@ func (r *StructureCustomerResource) Schema(ctx context.Context, req resource.Sch
 					int64planmodifier.UseStateForUnknown(),
 				},
 				MarkdownDescription: "Number of extra days after project end date before resources are terminated",
+
 				Validators: []validator.Int64{
 					int64validator.AtLeast(0),
 					int64validator.AtMost(2147483647),
@@ -328,6 +330,7 @@ func (r *StructureCustomerResource) Schema(ctx context.Context, req resource.Sch
 					int64planmodifier.UseStateForUnknown(),
 				},
 				MarkdownDescription: "Maximum number of service accounts allowed",
+
 				Validators: []validator.Int64{
 					int64validator.AtLeast(0),
 					int64validator.AtMost(32767),
@@ -490,6 +493,7 @@ func (r *StructureCustomerResource) Schema(ctx context.Context, req resource.Sch
 								stringplanmodifier.UseStateForUnknown(),
 							},
 							MarkdownDescription: "Payment Type",
+
 							Validators: []validator.String{
 								stringvalidator.OneOf("fixed_price", "invoices", "payment_gw_monthly"),
 							},
@@ -583,6 +587,7 @@ func (r *StructureCustomerResource) Schema(ctx context.Context, req resource.Sch
 					stringplanmodifier.UseStateForUnknown(),
 				},
 				MarkdownDescription: "URL-friendly identifier. Only editable by staff users.",
+
 				Validators: []validator.String{
 					stringvalidator.RegexMatches(regexp.MustCompile(`^[-a-zA-Z0-9_]+$`), ""),
 				},
@@ -594,6 +599,7 @@ func (r *StructureCustomerResource) Schema(ctx context.Context, req resource.Sch
 					int64planmodifier.UseStateForUnknown(),
 				},
 				MarkdownDescription: "External ID of the sponsor covering the costs",
+
 				Validators: []validator.Int64{
 					int64validator.AtLeast(0),
 					int64validator.AtMost(2147483647),

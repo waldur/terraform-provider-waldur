@@ -322,6 +322,7 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 												"from_port": schema.Int64Attribute{
 													Computed:            true,
 													MarkdownDescription: "Starting port number in the range (1-65535)",
+
 													Validators: []validator.Int64{
 														int64validator.AtLeast(-2147483648),
 														int64validator.AtMost(65535),
@@ -350,6 +351,7 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 												"to_port": schema.Int64Attribute{
 													Computed:            true,
 													MarkdownDescription: "Ending port number in the range (1-65535)",
+
 													Validators: []validator.Int64{
 														int64validator.AtLeast(-2147483648),
 														int64validator.AtMost(65535),
@@ -485,6 +487,7 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 									"from_port": schema.Int64Attribute{
 										Computed:            true,
 										MarkdownDescription: "Starting port number in the range (1-65535)",
+
 										Validators: []validator.Int64{
 											int64validator.AtLeast(-2147483648),
 											int64validator.AtMost(65535),
@@ -509,6 +512,7 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 									"to_port": schema.Int64Attribute{
 										Computed:            true,
 										MarkdownDescription: "Ending port number in the range (1-65535)",
+
 										Validators: []validator.Int64{
 											int64validator.AtLeast(-2147483648),
 											int64validator.AtMost(65535),
@@ -585,6 +589,7 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 						"device": schema.StringAttribute{
 							Computed:            true,
 							MarkdownDescription: "Name of volume as instance device e.g. /dev/vdb.",
+
 							Validators: []validator.String{
 								stringvalidator.RegexMatches(regexp.MustCompile(`^/dev/[a-zA-Z0-9]+$`), ""),
 							},
@@ -608,6 +613,7 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 						"size": schema.Int64Attribute{
 							Computed:            true,
 							MarkdownDescription: "Size in MiB",
+
 							Validators: []validator.Int64{
 								int64validator.AtLeast(0),
 								int64validator.AtMost(2147483647),

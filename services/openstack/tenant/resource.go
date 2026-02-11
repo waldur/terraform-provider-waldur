@@ -247,6 +247,7 @@ func (r *OpenstackTenantResource) Schema(ctx context.Context, req resource.Schem
 									"from_port": schema.Int64Attribute{
 										Optional:            true,
 										MarkdownDescription: "Starting port number in the range (1-65535)",
+
 										Validators: []validator.Int64{
 											int64validator.AtLeast(-2147483648),
 											int64validator.AtMost(65535),
@@ -263,6 +264,7 @@ func (r *OpenstackTenantResource) Schema(ctx context.Context, req resource.Schem
 									"to_port": schema.Int64Attribute{
 										Optional:            true,
 										MarkdownDescription: "Ending port number in the range (1-65535)",
+
 										Validators: []validator.Int64{
 											int64validator.AtLeast(-2147483648),
 											int64validator.AtMost(65535),

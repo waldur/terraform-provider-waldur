@@ -98,8 +98,8 @@ type OpenstackInstanceResponse struct {
 	InternalIps                      *[]string                                        `json:"internal_ips" tfsdk:"internal_ips"`
 	KeyFingerprint                   *string                                          `json:"key_fingerprint" tfsdk:"key_fingerprint"`
 	KeyName                          *string                                          `json:"key_name" tfsdk:"key_name"`
-	Latitude                         *common.FlexibleNumber                           `json:"latitude" tfsdk:"latitude"`
-	Longitude                        *common.FlexibleNumber                           `json:"longitude" tfsdk:"longitude"`
+	Latitude                         common.FlexibleNumber                            `json:"latitude" tfsdk:"latitude"`
+	Longitude                        common.FlexibleNumber                            `json:"longitude" tfsdk:"longitude"`
 	MarketplaceResourceUuid          *string                                          `json:"marketplace_resource_uuid" tfsdk:"marketplace_resource_uuid"`
 	MinDisk                          *int64                                           `json:"min_disk" tfsdk:"min_disk"`
 	MinRam                           *int64                                           `json:"min_ram" tfsdk:"min_ram"`

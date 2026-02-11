@@ -276,6 +276,7 @@ func (r *OpenstackNetworkResource) Schema(ctx context.Context, req resource.Sche
 								int64planmodifier.UseStateForUnknown(),
 							},
 							MarkdownDescription: "IP protocol version (4 or 6)",
+
 							Validators: []validator.Int64{
 								int64validator.AtLeast(-32768),
 								int64validator.AtMost(32767),

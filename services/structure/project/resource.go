@@ -149,6 +149,7 @@ func (r *StructureProjectResource) Schema(ctx context.Context, req resource.Sche
 					int64planmodifier.UseStateForUnknown(),
 				},
 				MarkdownDescription: "Number of extra days after project end date before resources are terminated. Overrides customer-level setting.",
+
 				Validators: []validator.Int64{
 					int64validator.AtLeast(0),
 					int64validator.AtMost(2147483647),
@@ -191,6 +192,7 @@ func (r *StructureProjectResource) Schema(ctx context.Context, req resource.Sche
 					int64planmodifier.UseStateForUnknown(),
 				},
 				MarkdownDescription: "Maximum number of service accounts allowed",
+
 				Validators: []validator.Int64{
 					int64validator.AtLeast(0),
 					int64validator.AtMost(32767),
@@ -236,6 +238,7 @@ func (r *StructureProjectResource) Schema(ctx context.Context, req resource.Sche
 					stringplanmodifier.UseStateForUnknown(),
 				},
 				MarkdownDescription: "URL-friendly identifier. Only editable by staff users.",
+
 				Validators: []validator.String{
 					stringvalidator.RegexMatches(regexp.MustCompile(`^[-a-zA-Z0-9_]+$`), ""),
 				},

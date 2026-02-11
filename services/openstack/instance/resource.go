@@ -136,6 +136,7 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 					int64planmodifier.RequiresReplace(),
 				},
 				MarkdownDescription: "Size of the data volume in MiB. Minimum size is 1024 MiB (1 GiB)",
+
 				Validators: []validator.Int64{
 					int64validator.AtLeast(1024),
 				},
@@ -627,6 +628,7 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 														int64planmodifier.UseStateForUnknown(),
 													},
 													MarkdownDescription: "Starting port number in the range (1-65535)",
+
 													Validators: []validator.Int64{
 														int64validator.AtLeast(-2147483648),
 														int64validator.AtMost(65535),
@@ -676,6 +678,7 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 														int64planmodifier.UseStateForUnknown(),
 													},
 													MarkdownDescription: "Ending port number in the range (1-65535)",
+
 													Validators: []validator.Int64{
 														int64validator.AtLeast(-2147483648),
 														int64validator.AtMost(65535),
@@ -912,6 +915,7 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 											int64planmodifier.UseStateForUnknown(),
 										},
 										MarkdownDescription: "Starting port number in the range (1-65535)",
+
 										Validators: []validator.Int64{
 											int64validator.AtLeast(-2147483648),
 											int64validator.AtMost(65535),
@@ -953,6 +957,7 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 											int64planmodifier.UseStateForUnknown(),
 										},
 										MarkdownDescription: "Ending port number in the range (1-65535)",
+
 										Validators: []validator.Int64{
 											int64validator.AtLeast(-2147483648),
 											int64validator.AtMost(65535),
@@ -1055,6 +1060,7 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 					int64planmodifier.RequiresReplace(),
 				},
 				MarkdownDescription: "Size of the system volume in MiB. Minimum size is 1024 MiB (1 GiB)",
+
 				Validators: []validator.Int64{
 					int64validator.AtLeast(1024),
 				},
@@ -1114,6 +1120,7 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 								stringplanmodifier.UseStateForUnknown(),
 							},
 							MarkdownDescription: "Name of volume as instance device e.g. /dev/vdb.",
+
 							Validators: []validator.String{
 								stringvalidator.RegexMatches(regexp.MustCompile(`^/dev/[a-zA-Z0-9]+$`), ""),
 							},
@@ -1154,6 +1161,7 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 								int64planmodifier.UseStateForUnknown(),
 							},
 							MarkdownDescription: "Size in MiB",
+
 							Validators: []validator.Int64{
 								int64validator.AtLeast(0),
 								int64validator.AtMost(2147483647),

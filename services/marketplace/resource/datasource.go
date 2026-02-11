@@ -153,6 +153,7 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 					"cost": schema.StringAttribute{
 						Computed:            true,
 						MarkdownDescription: "Cost",
+
 						Validators: []validator.String{
 							stringvalidator.RegexMatches(regexp.MustCompile(`^-?\d{0,12}(?:\.\d{0,10})?$`), ""),
 						},
@@ -202,6 +203,7 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 					"new_cost_estimate": schema.StringAttribute{
 						Computed:            true,
 						MarkdownDescription: "New Cost Estimate",
+
 						Validators: []validator.String{
 							stringvalidator.RegexMatches(regexp.MustCompile(`^-?\d{0,12}(?:\.\d{0,10})?$`), ""),
 						},
@@ -346,6 +348,7 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 					"slug": schema.StringAttribute{
 						Computed:            true,
 						MarkdownDescription: "Slug",
+
 						Validators: []validator.String{
 							stringvalidator.RegexMatches(regexp.MustCompile(`^[-a-zA-Z0-9_]+$`), ""),
 						},
@@ -457,6 +460,7 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 						"billing_type": schema.StringAttribute{
 							Computed:            true,
 							MarkdownDescription: "Billing Type",
+
 							Validators: []validator.String{
 								stringvalidator.OneOf("fixed", "usage", "limit", "one", "few"),
 							},
@@ -464,6 +468,7 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 						"default_limit": schema.Int64Attribute{
 							Computed:            true,
 							MarkdownDescription: "Default Limit",
+
 							Validators: []validator.Int64{
 								int64validator.AtLeast(-2147483648),
 								int64validator.AtMost(2147483647),
@@ -492,6 +497,7 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 						"limit_amount": schema.Int64Attribute{
 							Computed:            true,
 							MarkdownDescription: "Limit Amount",
+
 							Validators: []validator.Int64{
 								int64validator.AtLeast(-2147483648),
 								int64validator.AtMost(2147483647),
@@ -504,6 +510,7 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 						"max_available_limit": schema.Int64Attribute{
 							Computed:            true,
 							MarkdownDescription: "Max Available Limit",
+
 							Validators: []validator.Int64{
 								int64validator.AtLeast(-2147483648),
 								int64validator.AtMost(2147483647),
@@ -512,6 +519,7 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 						"max_prepaid_duration": schema.Int64Attribute{
 							Computed:            true,
 							MarkdownDescription: "Max Prepaid Duration",
+
 							Validators: []validator.Int64{
 								int64validator.AtLeast(-2147483648),
 								int64validator.AtMost(2147483647),
@@ -520,6 +528,7 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 						"max_value": schema.Int64Attribute{
 							Computed:            true,
 							MarkdownDescription: "Max Value",
+
 							Validators: []validator.Int64{
 								int64validator.AtLeast(-2147483648),
 								int64validator.AtMost(2147483647),
@@ -532,6 +541,7 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 						"min_prepaid_duration": schema.Int64Attribute{
 							Computed:            true,
 							MarkdownDescription: "Min Prepaid Duration",
+
 							Validators: []validator.Int64{
 								int64validator.AtLeast(-2147483648),
 								int64validator.AtMost(2147483647),
@@ -540,6 +550,7 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 						"min_value": schema.Int64Attribute{
 							Computed:            true,
 							MarkdownDescription: "Min Value",
+
 							Validators: []validator.Int64{
 								int64validator.AtLeast(-2147483648),
 								int64validator.AtMost(2147483647),
@@ -556,6 +567,7 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 						"type": schema.StringAttribute{
 							Computed:            true,
 							MarkdownDescription: "Unique internal name of the measured unit, for example floating_ip.",
+
 							Validators: []validator.String{
 								stringvalidator.RegexMatches(regexp.MustCompile(`^[a-zA-Z0-9_\-\/:]+$`), ""),
 							},
@@ -563,6 +575,7 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 						"unit_factor": schema.Int64Attribute{
 							Computed:            true,
 							MarkdownDescription: "The conversion factor from backend units to measured_unit",
+
 							Validators: []validator.Int64{
 								int64validator.AtLeast(-2147483648),
 								int64validator.AtMost(2147483647),
@@ -672,6 +685,7 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 					"cost": schema.StringAttribute{
 						Computed:            true,
 						MarkdownDescription: "Cost",
+
 						Validators: []validator.String{
 							stringvalidator.RegexMatches(regexp.MustCompile(`^-?\d{0,12}(?:\.\d{0,10})?$`), ""),
 						},
@@ -721,6 +735,7 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 					"new_cost_estimate": schema.StringAttribute{
 						Computed:            true,
 						MarkdownDescription: "New Cost Estimate",
+
 						Validators: []validator.String{
 							stringvalidator.RegexMatches(regexp.MustCompile(`^-?\d{0,12}(?:\.\d{0,10})?$`), ""),
 						},
@@ -865,6 +880,7 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 					"slug": schema.StringAttribute{
 						Computed:            true,
 						MarkdownDescription: "Slug",
+
 						Validators: []validator.String{
 							stringvalidator.RegexMatches(regexp.MustCompile(`^[-a-zA-Z0-9_]+$`), ""),
 						},
@@ -1008,6 +1024,7 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 			"slug": schema.StringAttribute{
 				Computed:            true,
 				MarkdownDescription: "URL-friendly identifier. Only editable by staff users.",
+
 				Validators: []validator.String{
 					stringvalidator.RegexMatches(regexp.MustCompile(`^[-a-zA-Z0-9_]+$`), ""),
 				},

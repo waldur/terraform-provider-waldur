@@ -153,6 +153,7 @@ func (r *OpenstackSecurityGroupResource) Schema(ctx context.Context, req resourc
 								int64planmodifier.UseStateForUnknown(),
 							},
 							MarkdownDescription: "Starting port number in the range (1-65535)",
+
 							Validators: []validator.Int64{
 								int64validator.AtLeast(-2147483648),
 								int64validator.AtMost(65535),
@@ -182,6 +183,7 @@ func (r *OpenstackSecurityGroupResource) Schema(ctx context.Context, req resourc
 								int64planmodifier.UseStateForUnknown(),
 							},
 							MarkdownDescription: "Ending port number in the range (1-65535)",
+
 							Validators: []validator.Int64{
 								int64validator.AtLeast(-2147483648),
 								int64validator.AtMost(65535),

@@ -33,8 +33,8 @@ type MarketplaceOfferingResponse struct {
 	Image                     *string                                     `json:"image" tfsdk:"image"`
 	IntegrationGuide          *string                                     `json:"integration_guide" tfsdk:"integration_guide"`
 	IsAccessible              *bool                                       `json:"is_accessible" tfsdk:"is_accessible"`
-	Latitude                  *common.FlexibleNumber                      `json:"latitude" tfsdk:"latitude"`
-	Longitude                 *common.FlexibleNumber                      `json:"longitude" tfsdk:"longitude"`
+	Latitude                  common.FlexibleNumber                       `json:"latitude" tfsdk:"latitude"`
+	Longitude                 common.FlexibleNumber                       `json:"longitude" tfsdk:"longitude"`
 	Name                      *string                                     `json:"name" tfsdk:"name"`
 	Options                   *MarketplaceOfferingOptionsResponse         `json:"options" tfsdk:"options"`
 	OrderCount                *int64                                      `json:"order_count" tfsdk:"order_count"`
@@ -152,15 +152,15 @@ type MarketplaceOfferingPlansResponse struct {
 	BackendId          *string                       `json:"backend_id" tfsdk:"backend_id"`
 	Components         *[]common.NestedPlanComponent `json:"components" tfsdk:"components"`
 	Description        *string                       `json:"description" tfsdk:"description"`
-	InitPrice          *common.FlexibleNumber        `json:"init_price" tfsdk:"init_price"`
+	InitPrice          common.FlexibleNumber         `json:"init_price" tfsdk:"init_price"`
 	IsActive           *bool                         `json:"is_active" tfsdk:"is_active"`
 	MaxAmount          *int64                        `json:"max_amount" tfsdk:"max_amount"`
-	MinimalPrice       *common.FlexibleNumber        `json:"minimal_price" tfsdk:"minimal_price"`
+	MinimalPrice       common.FlexibleNumber         `json:"minimal_price" tfsdk:"minimal_price"`
 	Name               *string                       `json:"name" tfsdk:"name"`
 	OrganizationGroups *[]common.OrganizationGroup   `json:"organization_groups" tfsdk:"organization_groups"`
 	PlanType           *string                       `json:"plan_type" tfsdk:"plan_type"`
 	ResourcesCount     *int64                        `json:"resources_count" tfsdk:"resources_count"`
-	SwitchPrice        *common.FlexibleNumber        `json:"switch_price" tfsdk:"switch_price"`
+	SwitchPrice        common.FlexibleNumber         `json:"switch_price" tfsdk:"switch_price"`
 	Unit               *string                       `json:"unit" tfsdk:"unit"`
 	UnitPrice          *string                       `json:"unit_price" tfsdk:"unit_price"`
 	Url                *string                       `json:"url" tfsdk:"url"`
