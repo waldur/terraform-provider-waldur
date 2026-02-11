@@ -16,7 +16,7 @@ type OpenstackTenantCreateRequest struct {
 type OpenstackTenantCreateAttributes struct {
 	AvailabilityZone            *string                                       `json:"availability_zone,omitempty"`
 	Description                 *string                                       `json:"description,omitempty"`
-	Name                        *string                                       `json:"name,omitempty"`
+	Name                        *string                                       `json:"name"`
 	SecurityGroups              *[]common.OpenStackTenantSecurityGroupRequest `json:"security_groups,omitempty"`
 	SkipConnectionExtnet        *bool                                         `json:"skip_connection_extnet,omitempty"`
 	SkipCreationOfDefaultRouter *bool                                         `json:"skip_creation_of_default_router,omitempty"`

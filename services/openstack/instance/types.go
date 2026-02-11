@@ -20,15 +20,15 @@ type OpenstackInstanceCreateAttributes struct {
 	DataVolumeType                   *string                                          `json:"data_volume_type,omitempty"`
 	DataVolumes                      *[]common.OpenStackDataVolumeRequest             `json:"data_volumes,omitempty"`
 	Description                      *string                                          `json:"description,omitempty"`
-	Flavor                           *string                                          `json:"flavor,omitempty"`
+	Flavor                           *string                                          `json:"flavor"`
 	FloatingIps                      *[]common.OpenStackCreateFloatingIPRequest       `json:"floating_ips,omitempty"`
-	Image                            *string                                          `json:"image,omitempty"`
-	Name                             *string                                          `json:"name,omitempty"`
-	Ports                            *[]common.OpenStackCreateInstancePortRequest     `json:"ports,omitempty"`
+	Image                            *string                                          `json:"image"`
+	Name                             *string                                          `json:"name"`
+	Ports                            []common.OpenStackCreateInstancePortRequest      `json:"ports"`
 	SecurityGroups                   *[]common.OpenStackSecurityGroupHyperlinkRequest `json:"security_groups,omitempty"`
 	ServerGroup                      *OpenstackInstanceCreateServerGroupRequest       `json:"server_group,omitempty"`
 	SshPublicKey                     *string                                          `json:"ssh_public_key,omitempty"`
-	SystemVolumeSize                 *int64                                           `json:"system_volume_size,omitempty"`
+	SystemVolumeSize                 *int64                                           `json:"system_volume_size"`
 	SystemVolumeType                 *string                                          `json:"system_volume_type,omitempty"`
 	UserData                         *string                                          `json:"user_data,omitempty"`
 }
@@ -95,7 +95,7 @@ type OpenstackInstanceResponse struct {
 	MinDisk                          *int64                                           `json:"min_disk" tfsdk:"min_disk"`
 	MinRam                           *int64                                           `json:"min_ram" tfsdk:"min_ram"`
 	Name                             *string                                          `json:"name" tfsdk:"name"`
-	Ports                            *[]common.OpenStackCreateInstancePortRequest     `json:"ports" tfsdk:"ports"`
+	Ports                            []common.OpenStackCreateInstancePortRequest      `json:"ports" tfsdk:"ports"`
 	Project                          *string                                          `json:"project" tfsdk:"project"`
 	Ram                              *int64                                           `json:"ram" tfsdk:"ram"`
 	RancherCluster                   *OpenstackInstanceRancherClusterResponse         `json:"rancher_cluster" tfsdk:"rancher_cluster"`

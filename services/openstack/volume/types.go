@@ -11,7 +11,7 @@ type OpenstackVolumeCreateAttributes struct {
 	AvailabilityZone *string `json:"availability_zone,omitempty"`
 	Description      *string `json:"description,omitempty"`
 	Image            *string `json:"image,omitempty"`
-	Name             *string `json:"name,omitempty"`
+	Name             *string `json:"name"`
 	Size             *int64  `json:"size,omitempty"`
 	Type             *string `json:"type,omitempty"`
 }

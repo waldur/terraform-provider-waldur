@@ -75,7 +75,13 @@ resource "waldur_openstack_instance" "example" {
 
 ### Required
 
+- `flavor` (String) The flavor to use for the instance
+- `image` (String) The OS image to use for the instance
+- `name` (String) Name
 - `offering` (String) Offering URL
+- `ports` (Attributes List) Network ports to attach to the instance (see [below for nested schema](#nestedatt--ports))
+- `project` (String) Project URL
+- `system_volume_size` (Number) Size of the system volume in MiB. Minimum size is 1024 MiB (1 GiB)
 
 ### Optional
 
@@ -86,19 +92,15 @@ resource "waldur_openstack_instance" "example" {
 - `data_volumes` (Attributes List) Additional data volumes to attach to the instance (see [below for nested schema](#nestedatt--data_volumes))
 - `delete_volumes` (Boolean) Termination attribute
 - `description` (String) Description
-- `flavor` (String) The flavor to use for the instance
+- `end_date` (String) Order end date
 - `floating_ips` (Attributes Set) Floating IPs to assign to the instance (see [below for nested schema](#nestedatt--floating_ips))
-- `image` (String) The OS image to use for the instance
 - `limits` (Map of Number) Resource limits
-- `name` (String) Name
 - `plan` (String) Plan URL
-- `ports` (Attributes List) Network ports to attach to the instance (see [below for nested schema](#nestedatt--ports))
-- `project` (String) Project URL
 - `release_floating_ips` (Boolean) Termination attribute
 - `security_groups` (Attributes Set) List of security groups to apply to the instance (see [below for nested schema](#nestedatt--security_groups))
 - `server_group` (Attributes) Server group for instance scheduling policy (see [below for nested schema](#nestedatt--server_group))
 - `ssh_public_key` (String) Ssh Public Key
-- `system_volume_size` (Number) Size of the system volume in MiB. Minimum size is 1024 MiB (1 GiB)
+- `start_date` (String) Order start date
 - `system_volume_type` (String) Volume type for the system volume
 - `timeouts` (Block, Optional) (see [below for nested schema](#nestedblock--timeouts))
 - `user_data` (String) Additional data that will be added to instance on provisioning
@@ -138,48 +140,6 @@ resource "waldur_openstack_instance" "example" {
 - `url` (String) Url
 - `volumes` (Attributes List) List of volumes attached to the instance (see [below for nested schema](#nestedatt--volumes))
 
-<a id="nestedatt--data_volumes"></a>
-### Nested Schema for `data_volumes`
-
-Required:
-
-- `size` (Number) Size
-
-Optional:
-
-- `volume_type` (String) Volume Type
-
-
-<a id="nestedatt--floating_ips"></a>
-### Nested Schema for `floating_ips`
-
-Optional:
-
-- `ip_address` (String) Existing floating IP address in selected OpenStack tenant to be assigned to new virtual machine
-- `subnet` (String) Subnet
-
-Read-Only:
-
-- `address` (String) The public IPv4 address of the floating IP
-- `port_fixed_ips` (Attributes List) Port Fixed Ips (see [below for nested schema](#nestedatt--floating_ips--port_fixed_ips))
-- `port_mac_address` (String) MAC address of the port
-- `subnet_cidr` (String) IPv4 network address in CIDR format (e.g. 192.168.0.0/24)
-- `subnet_description` (String) Subnet Description
-- `subnet_name` (String) Subnet Name
-- `subnet_uuid` (String) Subnet Uuid
-- `url` (String) Url
-- `uuid` (String) Uuid
-
-<a id="nestedatt--floating_ips--port_fixed_ips"></a>
-### Nested Schema for `floating_ips.port_fixed_ips`
-
-Optional:
-
-- `ip_address` (String) IP address to assign to the port
-- `subnet_id` (String) ID of the subnet in which to assign the IP address
-
-
-
 <a id="nestedatt--ports"></a>
 ### Nested Schema for `ports`
 
@@ -205,7 +165,7 @@ Read-Only:
 <a id="nestedatt--ports--fixed_ips"></a>
 ### Nested Schema for `ports.fixed_ips`
 
-Optional:
+Required:
 
 - `ip_address` (String) IP address to assign to the port
 - `subnet_id` (String) ID of the subnet in which to assign the IP address
@@ -263,6 +223,51 @@ Read-Only:
 - `remote_group_name` (String) Remote Group Name
 - `remote_group_uuid` (String) Remote Group Uuid
 
+
+
+
+<a id="nestedatt--data_volumes"></a>
+### Nested Schema for `data_volumes`
+
+Required:
+
+- `size` (Number) Size
+
+Optional:
+
+- `volume_type` (String) Volume Type
+
+
+<a id="nestedatt--floating_ips"></a>
+### Nested Schema for `floating_ips`
+
+Required:
+
+- `subnet` (String) Subnet
+
+Optional:
+
+- `ip_address` (String) Existing floating IP address in selected OpenStack tenant to be assigned to new virtual machine
+
+Read-Only:
+
+- `address` (String) The public IPv4 address of the floating IP
+- `port_fixed_ips` (Attributes List) Port Fixed Ips (see [below for nested schema](#nestedatt--floating_ips--port_fixed_ips))
+- `port_mac_address` (String) MAC address of the port
+- `subnet_cidr` (String) IPv4 network address in CIDR format (e.g. 192.168.0.0/24)
+- `subnet_description` (String) Subnet Description
+- `subnet_name` (String) Subnet Name
+- `subnet_uuid` (String) Subnet Uuid
+- `url` (String) Url
+- `uuid` (String) Uuid
+
+<a id="nestedatt--floating_ips--port_fixed_ips"></a>
+### Nested Schema for `floating_ips.port_fixed_ips`
+
+Optional:
+
+- `ip_address` (String) IP address to assign to the port
+- `subnet_id` (String) ID of the subnet in which to assign the IP address
 
 
 

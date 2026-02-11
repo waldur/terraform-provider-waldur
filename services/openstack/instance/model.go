@@ -366,13 +366,9 @@ func (model *OpenstackInstanceModel) CopyFrom(ctx context.Context, apiResp Opens
 	model.MinRam = types.Int64PointerValue(apiResp.MinRam)
 	model.Name = common.StringPointerValue(apiResp.Name)
 
-	if apiResp.Ports != nil {
-		listValPorts, listDiagsPorts := types.ListValueFrom(ctx, OpenStackCreateInstancePortRequestType(), apiResp.Ports)
-		diags.Append(listDiagsPorts...)
-		model.Ports = listValPorts
-	} else {
-		model.Ports = types.ListNull(OpenStackCreateInstancePortRequestType())
-	}
+	listValPorts, listDiagsPorts := types.ListValueFrom(ctx, OpenStackCreateInstancePortRequestType(), apiResp.Ports)
+	diags.Append(listDiagsPorts...)
+	model.Ports = listValPorts
 	model.Project = common.StringPointerValue(apiResp.Project)
 	model.Ram = types.Int64PointerValue(apiResp.Ram)
 	if apiResp.RancherCluster != nil {

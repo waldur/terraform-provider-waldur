@@ -47,20 +47,22 @@ data "waldur_marketplace_offering" "offering" {
 
 ### Required
 
+- `name` (String) Name
 - `offering` (String) Offering URL
+- `project` (String) Project URL
 
 ### Optional
 
 - `availability_zone` (String) Optional availability group. Will be used for all instances provisioned in this tenant
 - `description` (String) Description
+- `end_date` (String) Order end date
 - `limits` (Map of Number) Resource limits
-- `name` (String) Name
 - `plan` (String) Plan URL
-- `project` (String) Project URL
 - `security_groups` (Attributes Set) Security Groups (see [below for nested schema](#nestedatt--security_groups))
 - `skip_connection_extnet` (Boolean) Skip Connection Extnet
 - `skip_creation_of_default_router` (Boolean) Skip Creation Of Default Router
 - `skip_creation_of_default_subnet` (Boolean) Skip Creation Of Default Subnet
+- `start_date` (String) Order start date
 - `subnet_cidr` (String) Subnet Cidr
 - `timeouts` (Block, Optional) (see [below for nested schema](#nestedblock--timeouts))
 

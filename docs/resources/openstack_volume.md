@@ -38,18 +38,20 @@ data "waldur_marketplace_offering" "offering" {
 
 ### Required
 
+- `name` (String) Name
 - `offering` (String) Offering URL
+- `project` (String) Project URL
 
 ### Optional
 
 - `availability_zone` (String) Availability zone where this volume is located
 - `description` (String) Description
+- `end_date` (String) Order end date
 - `image` (String) Image that this volume was created from, if any
 - `limits` (Map of Number) Resource limits
-- `name` (String) Name
 - `plan` (String) Plan URL
-- `project` (String) Project URL
 - `size` (Number) Size in MiB
+- `start_date` (String) Order start date
 - `timeouts` (Block, Optional) (see [below for nested schema](#nestedblock--timeouts))
 - `type` (String) Type of the volume (e.g. SSD, HDD)
 

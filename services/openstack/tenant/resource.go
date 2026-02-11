@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
+	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
 	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -37,14 +38,16 @@ type OpenstackTenantResource struct {
 // OpenstackTenantResourceModel describes the resource data model.
 type OpenstackTenantResourceModel struct {
 	OpenstackTenantModel
-	Limits                      types.Map      `tfsdk:"limits"`
-	Offering                    types.String   `tfsdk:"offering"`
-	Plan                        types.String   `tfsdk:"plan"`
-	SecurityGroups              types.Set      `tfsdk:"security_groups"`
-	SkipConnectionExtnet        types.Bool     `tfsdk:"skip_connection_extnet"`
-	SkipCreationOfDefaultSubnet types.Bool     `tfsdk:"skip_creation_of_default_subnet"`
-	SubnetCidr                  types.String   `tfsdk:"subnet_cidr"`
-	Timeouts                    timeouts.Value `tfsdk:"timeouts"`
+	EndDate                     timetypes.RFC3339 `tfsdk:"end_date"`
+	Limits                      types.Map         `tfsdk:"limits"`
+	Offering                    types.String      `tfsdk:"offering"`
+	Plan                        types.String      `tfsdk:"plan"`
+	SecurityGroups              types.Set         `tfsdk:"security_groups"`
+	SkipConnectionExtnet        types.Bool        `tfsdk:"skip_connection_extnet"`
+	SkipCreationOfDefaultSubnet types.Bool        `tfsdk:"skip_creation_of_default_subnet"`
+	StartDate                   timetypes.RFC3339 `tfsdk:"start_date"`
+	SubnetCidr                  types.String      `tfsdk:"subnet_cidr"`
+	Timeouts                    timeouts.Value    `tfsdk:"timeouts"`
 }
 
 func (r *OpenstackTenantResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
@@ -100,6 +103,16 @@ func (r *OpenstackTenantResource) Schema(ctx context.Context, req resource.Schem
 				},
 				MarkdownDescription: "Description",
 			},
+			"end_date": schema.StringAttribute{
+				CustomType: timetypes.RFC3339Type{},
+				Optional:   true,
+				Computed:   true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.RequiresReplace(),
+					stringplanmodifier.UseStateForUnknown(),
+				},
+				MarkdownDescription: "Order end date",
+			},
 			"error_message": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
@@ -139,11 +152,7 @@ func (r *OpenstackTenantResource) Schema(ctx context.Context, req resource.Schem
 				MarkdownDescription: "Marketplace Resource Uuid",
 			},
 			"name": schema.StringAttribute{
-				Optional: true,
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
+				Required:            true,
 				MarkdownDescription: "Name",
 			},
 			"offering": schema.StringAttribute{
@@ -163,11 +172,9 @@ func (r *OpenstackTenantResource) Schema(ctx context.Context, req resource.Schem
 				MarkdownDescription: "Plan URL",
 			},
 			"project": schema.StringAttribute{
-				Optional: true,
-				Computed: true,
+				Required: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
-					stringplanmodifier.UseStateForUnknown(),
 				},
 				MarkdownDescription: "Project URL",
 			},
@@ -296,6 +303,16 @@ func (r *OpenstackTenantResource) Schema(ctx context.Context, req resource.Schem
 				Optional:            true,
 				MarkdownDescription: "Skip Creation Of Default Subnet",
 			},
+			"start_date": schema.StringAttribute{
+				CustomType: timetypes.RFC3339Type{},
+				Optional:   true,
+				Computed:   true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.RequiresReplace(),
+					stringplanmodifier.UseStateForUnknown(),
+				},
+				MarkdownDescription: "Order start date",
+			},
 			"state": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
@@ -379,6 +396,9 @@ func (r *OpenstackTenantResource) resolveUnknownAttributes(data *OpenstackTenant
 	if data.Description.IsUnknown() {
 		data.Description = types.StringNull()
 	}
+	if data.EndDate.IsUnknown() {
+		data.EndDate = timetypes.NewRFC3339Null()
+	}
 	if data.ErrorMessage.IsUnknown() {
 		data.ErrorMessage = types.StringNull()
 	}
@@ -423,6 +443,9 @@ func (r *OpenstackTenantResource) resolveUnknownAttributes(data *OpenstackTenant
 	}
 	if data.SkipCreationOfDefaultSubnet.IsUnknown() {
 		data.SkipCreationOfDefaultSubnet = types.BoolNull()
+	}
+	if data.StartDate.IsUnknown() {
+		data.StartDate = timetypes.NewRFC3339Null()
 	}
 	if data.State.IsUnknown() {
 		data.State = types.StringNull()

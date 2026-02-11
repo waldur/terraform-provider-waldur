@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
+	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
 	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -36,10 +37,12 @@ type OpenstackVolumeResource struct {
 // OpenstackVolumeResourceModel describes the resource data model.
 type OpenstackVolumeResourceModel struct {
 	OpenstackVolumeModel
-	Limits   types.Map      `tfsdk:"limits"`
-	Offering types.String   `tfsdk:"offering"`
-	Plan     types.String   `tfsdk:"plan"`
-	Timeouts timeouts.Value `tfsdk:"timeouts"`
+	EndDate   timetypes.RFC3339 `tfsdk:"end_date"`
+	Limits    types.Map         `tfsdk:"limits"`
+	Offering  types.String      `tfsdk:"offering"`
+	Plan      types.String      `tfsdk:"plan"`
+	StartDate timetypes.RFC3339 `tfsdk:"start_date"`
+	Timeouts  timeouts.Value    `tfsdk:"timeouts"`
 }
 
 func (r *OpenstackVolumeResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
@@ -117,6 +120,16 @@ func (r *OpenstackVolumeResource) Schema(ctx context.Context, req resource.Schem
 				},
 				MarkdownDescription: "Name of volume as instance device e.g. /dev/vdb.",
 			},
+			"end_date": schema.StringAttribute{
+				CustomType: timetypes.RFC3339Type{},
+				Optional:   true,
+				Computed:   true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.RequiresReplace(),
+					stringplanmodifier.UseStateForUnknown(),
+				},
+				MarkdownDescription: "Order end date",
+			},
 			"error_message": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
@@ -193,11 +206,7 @@ func (r *OpenstackVolumeResource) Schema(ctx context.Context, req resource.Schem
 				MarkdownDescription: "Marketplace Resource Uuid",
 			},
 			"name": schema.StringAttribute{
-				Optional: true,
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
+				Required:            true,
 				MarkdownDescription: "Name",
 			},
 			"offering": schema.StringAttribute{
@@ -217,11 +226,9 @@ func (r *OpenstackVolumeResource) Schema(ctx context.Context, req resource.Schem
 				MarkdownDescription: "Plan URL",
 			},
 			"project": schema.StringAttribute{
-				Optional: true,
-				Computed: true,
+				Required: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
-					stringplanmodifier.UseStateForUnknown(),
 				},
 				MarkdownDescription: "Project URL",
 			},
@@ -257,6 +264,16 @@ func (r *OpenstackVolumeResource) Schema(ctx context.Context, req resource.Schem
 					stringplanmodifier.UseStateForUnknown(),
 				},
 				MarkdownDescription: "Snapshot that this volume was created from, if any",
+			},
+			"start_date": schema.StringAttribute{
+				CustomType: timetypes.RFC3339Type{},
+				Optional:   true,
+				Computed:   true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.RequiresReplace(),
+					stringplanmodifier.UseStateForUnknown(),
+				},
+				MarkdownDescription: "Order start date",
 			},
 			"state": schema.StringAttribute{
 				Computed: true,
@@ -357,6 +374,9 @@ func (r *OpenstackVolumeResource) resolveUnknownAttributes(data *OpenstackVolume
 	if data.Device.IsUnknown() {
 		data.Device = types.StringNull()
 	}
+	if data.EndDate.IsUnknown() {
+		data.EndDate = timetypes.NewRFC3339Null()
+	}
 	if data.ErrorMessage.IsUnknown() {
 		data.ErrorMessage = types.StringNull()
 	}
@@ -410,6 +430,9 @@ func (r *OpenstackVolumeResource) resolveUnknownAttributes(data *OpenstackVolume
 	}
 	if data.SourceSnapshot.IsUnknown() {
 		data.SourceSnapshot = types.StringNull()
+	}
+	if data.StartDate.IsUnknown() {
+		data.StartDate = timetypes.NewRFC3339Null()
 	}
 	if data.State.IsUnknown() {
 		data.State = types.StringNull()

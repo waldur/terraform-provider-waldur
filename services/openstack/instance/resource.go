@@ -43,20 +43,22 @@ type OpenstackInstanceResource struct {
 // OpenstackInstanceResourceModel describes the resource data model.
 type OpenstackInstanceResourceModel struct {
 	OpenstackInstanceModel
-	DataVolumeSize     types.Int64    `tfsdk:"data_volume_size"`
-	DataVolumeType     types.String   `tfsdk:"data_volume_type"`
-	DataVolumes        types.List     `tfsdk:"data_volumes"`
-	DeleteVolumes      types.Bool     `tfsdk:"delete_volumes"`
-	Flavor             types.String   `tfsdk:"flavor"`
-	Image              types.String   `tfsdk:"image"`
-	Limits             types.Map      `tfsdk:"limits"`
-	Offering           types.String   `tfsdk:"offering"`
-	Plan               types.String   `tfsdk:"plan"`
-	ReleaseFloatingIps types.Bool     `tfsdk:"release_floating_ips"`
-	SshPublicKey       types.String   `tfsdk:"ssh_public_key"`
-	SystemVolumeSize   types.Int64    `tfsdk:"system_volume_size"`
-	SystemVolumeType   types.String   `tfsdk:"system_volume_type"`
-	Timeouts           timeouts.Value `tfsdk:"timeouts"`
+	DataVolumeSize     types.Int64       `tfsdk:"data_volume_size"`
+	DataVolumeType     types.String      `tfsdk:"data_volume_type"`
+	DataVolumes        types.List        `tfsdk:"data_volumes"`
+	DeleteVolumes      types.Bool        `tfsdk:"delete_volumes"`
+	EndDate            timetypes.RFC3339 `tfsdk:"end_date"`
+	Flavor             types.String      `tfsdk:"flavor"`
+	Image              types.String      `tfsdk:"image"`
+	Limits             types.Map         `tfsdk:"limits"`
+	Offering           types.String      `tfsdk:"offering"`
+	Plan               types.String      `tfsdk:"plan"`
+	ReleaseFloatingIps types.Bool        `tfsdk:"release_floating_ips"`
+	SshPublicKey       types.String      `tfsdk:"ssh_public_key"`
+	StartDate          timetypes.RFC3339 `tfsdk:"start_date"`
+	SystemVolumeSize   types.Int64       `tfsdk:"system_volume_size"`
+	SystemVolumeType   types.String      `tfsdk:"system_volume_type"`
+	Timeouts           timeouts.Value    `tfsdk:"timeouts"`
 }
 
 func (r *OpenstackInstanceResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
@@ -188,6 +190,16 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 				},
 				MarkdownDescription: "Disk size in MiB",
 			},
+			"end_date": schema.StringAttribute{
+				CustomType: timetypes.RFC3339Type{},
+				Optional:   true,
+				Computed:   true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.RequiresReplace(),
+					stringplanmodifier.UseStateForUnknown(),
+				},
+				MarkdownDescription: "Order end date",
+			},
 			"error_message": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
@@ -212,7 +224,7 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 				MarkdownDescription: "External Ips",
 			},
 			"flavor": schema.StringAttribute{
-				Optional: true,
+				Required: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
 				},
@@ -240,11 +252,7 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 							MarkdownDescription: "Existing floating IP address in selected OpenStack tenant to be assigned to new virtual machine",
 						},
 						"subnet": schema.StringAttribute{
-							Optional: true,
-							Computed: true,
-							PlanModifiers: []planmodifier.String{
-								stringplanmodifier.UseStateForUnknown(),
-							},
+							Required:            true,
 							MarkdownDescription: "Subnet",
 						},
 						"url": schema.StringAttribute{
@@ -347,7 +355,7 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 				MarkdownDescription: "Name of the hypervisor hosting this instance",
 			},
 			"image": schema.StringAttribute{
-				Optional: true,
+				Required: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
 				},
@@ -428,11 +436,7 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 				MarkdownDescription: "Minimum memory size in MiB",
 			},
 			"name": schema.StringAttribute{
-				Optional: true,
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
+				Required:            true,
 				MarkdownDescription: "Name",
 			},
 			"offering": schema.StringAttribute{
@@ -458,19 +462,11 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 							NestedObject: schema.NestedAttributeObject{
 								Attributes: map[string]schema.Attribute{
 									"ip_address": schema.StringAttribute{
-										Optional: true,
-										Computed: true,
-										PlanModifiers: []planmodifier.String{
-											stringplanmodifier.UseStateForUnknown(),
-										},
+										Required:            true,
 										MarkdownDescription: "IP address to assign to the port",
 									},
 									"subnet_id": schema.StringAttribute{
-										Optional: true,
-										Computed: true,
-										PlanModifiers: []planmodifier.String{
-											stringplanmodifier.UseStateForUnknown(),
-										},
+										Required:            true,
 										MarkdownDescription: "ID of the subnet in which to assign the IP address",
 									},
 								},
@@ -787,19 +783,13 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 						},
 					},
 				},
-				Optional: true,
-				Computed: true,
-				PlanModifiers: []planmodifier.List{
-					listplanmodifier.UseStateForUnknown(),
-				},
+				Required:            true,
 				MarkdownDescription: "Network ports to attach to the instance",
 			},
 			"project": schema.StringAttribute{
-				Optional: true,
-				Computed: true,
+				Required: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
-					stringplanmodifier.UseStateForUnknown(),
 				},
 				MarkdownDescription: "Project URL",
 			},
@@ -868,10 +858,8 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"url": schema.StringAttribute{
-							Computed: true,
-							PlanModifiers: []planmodifier.String{
-								stringplanmodifier.UseStateForUnknown(),
-							},
+							Computed:            true,
+							PlanModifiers:       []planmodifier.String{},
 							MarkdownDescription: "Url",
 						},
 						"description": schema.StringAttribute{
@@ -1003,10 +991,8 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 			"server_group": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
 					"url": schema.StringAttribute{
-						Computed: true,
-						PlanModifiers: []planmodifier.String{
-							stringplanmodifier.UseStateForUnknown(),
-						},
+						Computed:            true,
+						PlanModifiers:       []planmodifier.String{},
 						MarkdownDescription: "Url",
 					},
 					"name": schema.StringAttribute{
@@ -1046,6 +1032,16 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 				},
 				MarkdownDescription: "Ssh Public Key",
 			},
+			"start_date": schema.StringAttribute{
+				CustomType: timetypes.RFC3339Type{},
+				Optional:   true,
+				Computed:   true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.RequiresReplace(),
+					stringplanmodifier.UseStateForUnknown(),
+				},
+				MarkdownDescription: "Order start date",
+			},
 			"start_time": schema.StringAttribute{
 				CustomType: timetypes.RFC3339Type{},
 				Computed:   true,
@@ -1062,7 +1058,7 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 				MarkdownDescription: "State",
 			},
 			"system_volume_size": schema.Int64Attribute{
-				Optional: true,
+				Required: true,
 				PlanModifiers: []planmodifier.Int64{
 					int64planmodifier.RequiresReplace(),
 				},
@@ -1286,6 +1282,9 @@ func (r *OpenstackInstanceResource) resolveUnknownAttributes(data *OpenstackInst
 	if data.Disk.IsUnknown() {
 		data.Disk = types.Int64Null()
 	}
+	if data.EndDate.IsUnknown() {
+		data.EndDate = timetypes.NewRFC3339Null()
+	}
 	if data.ErrorMessage.IsUnknown() {
 		data.ErrorMessage = types.StringNull()
 	}
@@ -1382,6 +1381,9 @@ func (r *OpenstackInstanceResource) resolveUnknownAttributes(data *OpenstackInst
 	if data.SshPublicKey.IsUnknown() {
 		data.SshPublicKey = types.StringNull()
 	}
+	if data.StartDate.IsUnknown() {
+		data.StartDate = timetypes.NewRFC3339Null()
+	}
 	if data.StartTime.IsUnknown() {
 		data.StartTime = timetypes.NewRFC3339Null()
 	}
@@ -1460,7 +1462,7 @@ func (r *OpenstackInstanceResource) Create(ctx context.Context, req resource.Cre
 	}
 	resp.Diagnostics.Append(common.PopulateOptionalSliceField(ctx, data.DataVolumes, &attributes.DataVolumes)...)
 	resp.Diagnostics.Append(common.PopulateOptionalSetField(ctx, data.FloatingIps, &attributes.FloatingIps)...)
-	resp.Diagnostics.Append(common.PopulateOptionalSliceField(ctx, data.Ports, &attributes.Ports)...)
+	resp.Diagnostics.Append(common.PopulateSliceField(ctx, data.Ports, &attributes.Ports)...)
 	resp.Diagnostics.Append(common.PopulateOptionalSetField(ctx, data.SecurityGroups, &attributes.SecurityGroups)...)
 	resp.Diagnostics.Append(common.PopulateOptionalObjectField(ctx, data.ServerGroup, &attributes.ServerGroup)...)
 
