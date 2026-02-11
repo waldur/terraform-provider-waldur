@@ -44,135 +44,52 @@ func (d *OpenstackNetworkDataSource) Schema(ctx context.Context, req datasource.
 			},
 			"filters": (&OpenstackNetworkFiltersModel{}).GetSchema(),
 			"backend_id": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Backend Id",
-			},
+				Computed: true, MarkdownDescription: "Backend Id"},
 			"customer": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Customer",
-			},
+				Computed: true, MarkdownDescription: "Customer"},
 			"description": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Description",
-			},
+				Computed: true, MarkdownDescription: "Description"},
 			"error_message": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Error Message",
-			},
+				Computed: true, MarkdownDescription: "Error Message"},
 			"is_external": schema.BoolAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Defines whether this network is external (public) or internal (private)",
-			},
+				Computed: true, MarkdownDescription: "Defines whether this network is external (public) or internal (private)"},
 			"marketplace_resource_uuid": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Marketplace Resource Uuid",
-			},
+				Computed: true, MarkdownDescription: "Marketplace Resource Uuid"},
 			"mtu": schema.Int64Attribute{
-
-				Computed: true,
-
-				MarkdownDescription: "The maximum transmission unit (MTU) value to address fragmentation.",
-			},
+				Computed: true, MarkdownDescription: "The maximum transmission unit (MTU) value to address fragmentation."},
 			"name": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Name",
-			},
+				Computed: true, MarkdownDescription: "Name"},
 			"project": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Project",
-			},
+				Computed: true, MarkdownDescription: "Project"},
 			"rbac_policies": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"backend_id": schema.StringAttribute{
-
-							Computed: true,
-
-							MarkdownDescription: "Backend Id",
-						},
+							Computed: true, MarkdownDescription: "Backend Id"},
 						"network": schema.StringAttribute{
-
-							Computed: true,
-
-							MarkdownDescription: "Network",
-						},
+							Computed: true, MarkdownDescription: "Network"},
 						"network_name": schema.StringAttribute{
-
-							Computed: true,
-
-							MarkdownDescription: "Network Name",
-						},
+							Computed: true, MarkdownDescription: "Network Name"},
 						"policy_type": schema.StringAttribute{
-
-							Computed: true,
-
-							MarkdownDescription: "Type of access granted - either shared access or external network access",
-						},
+							Computed: true, MarkdownDescription: "Type of access granted - either shared access or external network access"},
 						"target_tenant": schema.StringAttribute{
-
-							Computed: true,
-
-							MarkdownDescription: "Target Tenant",
-						},
+							Computed: true, MarkdownDescription: "Target Tenant"},
 						"target_tenant_name": schema.StringAttribute{
-
-							Computed: true,
-
-							MarkdownDescription: "Target Tenant Name",
-						},
+							Computed: true, MarkdownDescription: "Target Tenant Name"},
 						"url": schema.StringAttribute{
-
-							Computed: true,
-
-							MarkdownDescription: "Url",
-						},
+							Computed: true, MarkdownDescription: "Url"},
 						"uuid": schema.StringAttribute{
-
-							Computed: true,
-
-							MarkdownDescription: "Uuid",
-						},
+							Computed: true, MarkdownDescription: "Uuid"},
 					},
 				},
-
-				Computed: true,
-
-				MarkdownDescription: "Rbac Policies",
+				Computed: true, MarkdownDescription: "Rbac Policies",
 			},
 			"resource_type": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Resource Type",
-			},
+				Computed: true, MarkdownDescription: "Resource Type"},
 			"segmentation_id": schema.Int64Attribute{
-
-				Computed: true,
-
-				MarkdownDescription: "VLAN ID for VLAN networks or tunnel ID for VXLAN/GRE networks",
-			},
+				Computed: true, MarkdownDescription: "VLAN ID for VLAN networks or tunnel ID for VXLAN/GRE networks"},
 			"state": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "State",
-			},
+				Computed: true, MarkdownDescription: "State"},
 			"subnets": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
@@ -180,108 +97,45 @@ func (d *OpenstackNetworkDataSource) Schema(ctx context.Context, req datasource.
 							NestedObject: schema.NestedAttributeObject{
 								Attributes: map[string]schema.Attribute{
 									"end": schema.StringAttribute{
-
-										Computed: true,
-
-										MarkdownDescription: "An IPv4 or IPv6 address.",
-									},
+										Computed: true, MarkdownDescription: "An IPv4 or IPv6 address."},
 									"start": schema.StringAttribute{
-
-										Computed: true,
-
-										MarkdownDescription: "An IPv4 or IPv6 address.",
-									},
+										Computed: true, MarkdownDescription: "An IPv4 or IPv6 address."},
 								},
 							},
-
-							Computed: true,
-
-							MarkdownDescription: "Allocation Pools",
+							Computed: true, MarkdownDescription: "Allocation Pools",
 						},
 						"cidr": schema.StringAttribute{
-
-							Computed: true,
-
-							MarkdownDescription: "IPv4 network address in CIDR format (e.g. 192.168.0.0/24)",
-						},
+							Computed: true, MarkdownDescription: "IPv4 network address in CIDR format (e.g. 192.168.0.0/24)"},
 						"description": schema.StringAttribute{
-
-							Computed: true,
-
-							MarkdownDescription: "Description",
-						},
+							Computed: true, MarkdownDescription: "Description"},
 						"enable_dhcp": schema.BoolAttribute{
-
-							Computed: true,
-
-							MarkdownDescription: "If True, DHCP service will be enabled on this subnet",
-						},
+							Computed: true, MarkdownDescription: "If True, DHCP service will be enabled on this subnet"},
 						"gateway_ip": schema.StringAttribute{
-
-							Computed: true,
-
-							MarkdownDescription: "IP address of the gateway for this subnet",
-						},
+							Computed: true, MarkdownDescription: "IP address of the gateway for this subnet"},
 						"ip_version": schema.Int64Attribute{
-
-							Computed: true,
-
-							MarkdownDescription: "IP protocol version (4 or 6)",
-
+							Computed: true, MarkdownDescription: "IP protocol version (4 or 6)",
 							Validators: []validator.Int64{
 								int64validator.AtLeast(-32768),
 								int64validator.AtMost(32767),
-							},
-						},
+							}},
 						"name": schema.StringAttribute{
-
-							Computed: true,
-
-							MarkdownDescription: "Name",
-						},
+							Computed: true, MarkdownDescription: "Name"},
 						"uuid": schema.StringAttribute{
-
-							Computed: true,
-
-							MarkdownDescription: "Uuid",
-						},
+							Computed: true, MarkdownDescription: "Uuid"},
 					},
 				},
-
-				Computed: true,
-
-				MarkdownDescription: "Subnets",
+				Computed: true, MarkdownDescription: "Subnets",
 			},
 			"tenant": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "OpenStack tenant this network belongs to",
-			},
+				Computed: true, MarkdownDescription: "OpenStack tenant this network belongs to"},
 			"tenant_name": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Tenant Name",
-			},
+				Computed: true, MarkdownDescription: "Tenant Name"},
 			"tenant_uuid": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Tenant Uuid",
-			},
+				Computed: true, MarkdownDescription: "Tenant Uuid"},
 			"type": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Network type, such as local, flat, vlan, vxlan, or gre",
-			},
+				Computed: true, MarkdownDescription: "Network type, such as local, flat, vlan, vxlan, or gre"},
 			"url": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Url",
-			},
+				Computed: true, MarkdownDescription: "Url"},
 		},
 	}
 }

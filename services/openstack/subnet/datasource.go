@@ -46,173 +46,67 @@ func (d *OpenstackSubnetDataSource) Schema(ctx context.Context, req datasource.S
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"end": schema.StringAttribute{
-
-							Computed: true,
-
-							MarkdownDescription: "An IPv4 or IPv6 address.",
-						},
+							Computed: true, MarkdownDescription: "An IPv4 or IPv6 address."},
 						"start": schema.StringAttribute{
-
-							Computed: true,
-
-							MarkdownDescription: "An IPv4 or IPv6 address.",
-						},
+							Computed: true, MarkdownDescription: "An IPv4 or IPv6 address."},
 					},
 				},
-
-				Computed: true,
-
-				MarkdownDescription: "Allocation Pools",
+				Computed: true, MarkdownDescription: "Allocation Pools",
 			},
 			"backend_id": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Backend Id",
-			},
+				Computed: true, MarkdownDescription: "Backend Id"},
 			"cidr": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Cidr",
-			},
+				Computed: true, MarkdownDescription: "Cidr"},
 			"customer": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Customer",
-			},
+				Computed: true, MarkdownDescription: "Customer"},
 			"description": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Description",
-			},
+				Computed: true, MarkdownDescription: "Description"},
 			"disable_gateway": schema.BoolAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "If True, no gateway IP address will be allocated",
-			},
+				Computed: true, MarkdownDescription: "If True, no gateway IP address will be allocated"},
 			"dns_nameservers": schema.ListAttribute{
 				ElementType: types.StringType,
-
-				Computed: true,
-
-				MarkdownDescription: "Dns Nameservers",
-			},
+				Computed:    true, MarkdownDescription: "Dns Nameservers"},
 			"enable_dhcp": schema.BoolAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "If True, DHCP service will be enabled on this subnet",
-			},
+				Computed: true, MarkdownDescription: "If True, DHCP service will be enabled on this subnet"},
 			"error_message": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Error Message",
-			},
+				Computed: true, MarkdownDescription: "Error Message"},
 			"gateway_ip": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "IP address of the gateway for this subnet",
-			},
+				Computed: true, MarkdownDescription: "IP address of the gateway for this subnet"},
 			"host_routes": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"destination": schema.StringAttribute{
-
-							Computed: true,
-
-							MarkdownDescription: "Destination",
-						},
+							Computed: true, MarkdownDescription: "Destination"},
 						"nexthop": schema.StringAttribute{
-
-							Computed: true,
-
-							MarkdownDescription: "An IPv4 or IPv6 address.",
-						},
+							Computed: true, MarkdownDescription: "An IPv4 or IPv6 address."},
 					},
 				},
-
-				Computed: true,
-
-				MarkdownDescription: "Host Routes",
+				Computed: true, MarkdownDescription: "Host Routes",
 			},
 			"ip_version": schema.Int64Attribute{
-
-				Computed: true,
-
-				MarkdownDescription: "IP protocol version (4 or 6)",
-			},
+				Computed: true, MarkdownDescription: "IP protocol version (4 or 6)"},
 			"is_connected": schema.BoolAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Is subnet connected to the default tenant router.",
-			},
+				Computed: true, MarkdownDescription: "Is subnet connected to the default tenant router."},
 			"marketplace_resource_uuid": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Marketplace Resource Uuid",
-			},
+				Computed: true, MarkdownDescription: "Marketplace Resource Uuid"},
 			"name": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Name",
-			},
+				Computed: true, MarkdownDescription: "Name"},
 			"network": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Network to which this subnet belongs",
-			},
+				Computed: true, MarkdownDescription: "Network to which this subnet belongs"},
 			"network_name": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Network Name",
-			},
+				Computed: true, MarkdownDescription: "Network Name"},
 			"project": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Project",
-			},
+				Computed: true, MarkdownDescription: "Project"},
 			"resource_type": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Resource Type",
-			},
+				Computed: true, MarkdownDescription: "Resource Type"},
 			"state": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "State",
-			},
+				Computed: true, MarkdownDescription: "State"},
 			"tenant": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Tenant",
-			},
+				Computed: true, MarkdownDescription: "Tenant"},
 			"tenant_name": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Tenant Name",
-			},
+				Computed: true, MarkdownDescription: "Tenant Name"},
 			"url": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Url",
-			},
+				Computed: true, MarkdownDescription: "Url"},
 		},
 	}
 }

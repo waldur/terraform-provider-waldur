@@ -44,68 +44,33 @@ func (d *OpenstackFlavorDataSource) Schema(ctx context.Context, req datasource.S
 			},
 			"filters": (&OpenstackFlavorFiltersModel{}).GetSchema(),
 			"backend_id": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Backend Id",
-			},
+				Computed: true, MarkdownDescription: "Backend Id"},
 			"cores": schema.Int64Attribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Number of cores in a VM",
-
+				Computed: true, MarkdownDescription: "Number of cores in a VM",
 				Validators: []validator.Int64{
 					int64validator.AtLeast(0),
 					int64validator.AtMost(32767),
-				},
-			},
+				}},
 			"disk": schema.Int64Attribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Root disk size in MiB",
-
+				Computed: true, MarkdownDescription: "Root disk size in MiB",
 				Validators: []validator.Int64{
 					int64validator.AtLeast(0),
 					int64validator.AtMost(2147483647),
-				},
-			},
+				}},
 			"display_name": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Display Name",
-			},
+				Computed: true, MarkdownDescription: "Display Name"},
 			"name": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Name",
-			},
+				Computed: true, MarkdownDescription: "Name"},
 			"ram": schema.Int64Attribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Memory size in MiB",
-
+				Computed: true, MarkdownDescription: "Memory size in MiB",
 				Validators: []validator.Int64{
 					int64validator.AtLeast(0),
 					int64validator.AtMost(2147483647),
-				},
-			},
+				}},
 			"settings": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Settings",
-			},
+				Computed: true, MarkdownDescription: "Settings"},
 			"url": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Url",
-			},
+				Computed: true, MarkdownDescription: "Url"},
 		},
 	}
 }

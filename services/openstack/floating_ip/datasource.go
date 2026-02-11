@@ -42,153 +42,58 @@ func (d *OpenstackFloatingIpDataSource) Schema(ctx context.Context, req datasour
 			},
 			"filters": (&OpenstackFloatingIpFiltersModel{}).GetSchema(),
 			"address": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "The public IPv4 address of the floating IP",
-			},
+				Computed: true, MarkdownDescription: "The public IPv4 address of the floating IP"},
 			"backend_id": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Backend Id",
-			},
+				Computed: true, MarkdownDescription: "Backend Id"},
 			"backend_network_id": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "ID of network in OpenStack where this floating IP is allocated",
-			},
+				Computed: true, MarkdownDescription: "ID of network in OpenStack where this floating IP is allocated"},
 			"customer": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Customer",
-			},
+				Computed: true, MarkdownDescription: "Customer"},
 			"description": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Description",
-			},
+				Computed: true, MarkdownDescription: "Description"},
 			"error_message": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Error Message",
-			},
+				Computed: true, MarkdownDescription: "Error Message"},
 			"external_address": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Optional address that maps to floating IP's address in external networks",
-			},
+				Computed: true, MarkdownDescription: "Optional address that maps to floating IP's address in external networks"},
 			"instance_name": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Instance Name",
-			},
+				Computed: true, MarkdownDescription: "Instance Name"},
 			"instance_url": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Instance Url",
-			},
+				Computed: true, MarkdownDescription: "Instance Url"},
 			"instance_uuid": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Instance Uuid",
-			},
+				Computed: true, MarkdownDescription: "Instance Uuid"},
 			"marketplace_resource_uuid": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Marketplace Resource Uuid",
-			},
+				Computed: true, MarkdownDescription: "Marketplace Resource Uuid"},
 			"name": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Name",
-			},
+				Computed: true, MarkdownDescription: "Name"},
 			"port": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Port",
-			},
+				Computed: true, MarkdownDescription: "Port"},
 			"port_fixed_ips": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"ip_address": schema.StringAttribute{
-
-							Computed: true,
-
-							MarkdownDescription: "IP address to assign to the port",
-						},
+							Computed: true, MarkdownDescription: "IP address to assign to the port"},
 						"subnet_id": schema.StringAttribute{
-
-							Computed: true,
-
-							MarkdownDescription: "ID of the subnet in which to assign the IP address",
-						},
+							Computed: true, MarkdownDescription: "ID of the subnet in which to assign the IP address"},
 					},
 				},
-
-				Computed: true,
-
-				MarkdownDescription: "Port Fixed Ips",
+				Computed: true, MarkdownDescription: "Port Fixed Ips",
 			},
 			"project": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Project",
-			},
+				Computed: true, MarkdownDescription: "Project"},
 			"resource_type": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Resource Type",
-			},
+				Computed: true, MarkdownDescription: "Resource Type"},
 			"runtime_state": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Runtime State",
-			},
+				Computed: true, MarkdownDescription: "Runtime State"},
 			"state": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "State",
-			},
+				Computed: true, MarkdownDescription: "State"},
 			"tenant": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "OpenStack tenant this floating IP belongs to",
-			},
+				Computed: true, MarkdownDescription: "OpenStack tenant this floating IP belongs to"},
 			"tenant_name": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Tenant Name",
-			},
+				Computed: true, MarkdownDescription: "Tenant Name"},
 			"tenant_uuid": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Tenant Uuid",
-			},
+				Computed: true, MarkdownDescription: "Tenant Uuid"},
 			"url": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Url",
-			},
+				Computed: true, MarkdownDescription: "Url"},
 		},
 	}
 }

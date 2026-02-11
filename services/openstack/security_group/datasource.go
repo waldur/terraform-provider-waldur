@@ -44,169 +44,68 @@ func (d *OpenstackSecurityGroupDataSource) Schema(ctx context.Context, req datas
 			},
 			"filters": (&OpenstackSecurityGroupFiltersModel{}).GetSchema(),
 			"backend_id": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Backend Id",
-			},
+				Computed: true, MarkdownDescription: "Backend Id"},
 			"customer": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Customer",
-			},
+				Computed: true, MarkdownDescription: "Customer"},
 			"description": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Description",
-			},
+				Computed: true, MarkdownDescription: "Description"},
 			"error_message": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Error Message",
-			},
+				Computed: true, MarkdownDescription: "Error Message"},
 			"marketplace_resource_uuid": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Marketplace Resource Uuid",
-			},
+				Computed: true, MarkdownDescription: "Marketplace Resource Uuid"},
 			"name": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Name",
-			},
+				Computed: true, MarkdownDescription: "Name"},
 			"project": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Project",
-			},
+				Computed: true, MarkdownDescription: "Project"},
 			"resource_type": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Resource Type",
-			},
+				Computed: true, MarkdownDescription: "Resource Type"},
 			"rules": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"cidr": schema.StringAttribute{
-
-							Computed: true,
-
-							MarkdownDescription: "CIDR notation for the source/destination network address range",
-						},
+							Computed: true, MarkdownDescription: "CIDR notation for the source/destination network address range"},
 						"description": schema.StringAttribute{
-
-							Computed: true,
-
-							MarkdownDescription: "Description",
-						},
+							Computed: true, MarkdownDescription: "Description"},
 						"direction": schema.StringAttribute{
-
-							Computed: true,
-
-							MarkdownDescription: "Traffic direction - either 'ingress' (incoming) or 'egress' (outgoing)",
-						},
+							Computed: true, MarkdownDescription: "Traffic direction - either 'ingress' (incoming) or 'egress' (outgoing)"},
 						"ethertype": schema.StringAttribute{
-
-							Computed: true,
-
-							MarkdownDescription: "IP protocol version - either 'IPv4' or 'IPv6'",
-						},
+							Computed: true, MarkdownDescription: "IP protocol version - either 'IPv4' or 'IPv6'"},
 						"from_port": schema.Int64Attribute{
-
-							Computed: true,
-
-							MarkdownDescription: "Starting port number in the range (1-65535)",
-
+							Computed: true, MarkdownDescription: "Starting port number in the range (1-65535)",
 							Validators: []validator.Int64{
 								int64validator.AtLeast(-2147483648),
 								int64validator.AtMost(65535),
-							},
-						},
+							}},
 						"protocol": schema.StringAttribute{
-
-							Computed: true,
-
-							MarkdownDescription: "The network protocol (TCP, UDP, ICMP, or empty for any protocol)",
-						},
+							Computed: true, MarkdownDescription: "The network protocol (TCP, UDP, ICMP, or empty for any protocol)"},
 						"remote_group": schema.StringAttribute{
-
-							Computed: true,
-
-							MarkdownDescription: "Remote security group that this rule references, if any",
-						},
+							Computed: true, MarkdownDescription: "Remote security group that this rule references, if any"},
 						"to_port": schema.Int64Attribute{
-
-							Computed: true,
-
-							MarkdownDescription: "Ending port number in the range (1-65535)",
-
+							Computed: true, MarkdownDescription: "Ending port number in the range (1-65535)",
 							Validators: []validator.Int64{
 								int64validator.AtLeast(-2147483648),
 								int64validator.AtMost(65535),
-							},
-						},
+							}},
 						"id": schema.Int64Attribute{
-
-							Computed: true,
-
-							MarkdownDescription: "Id",
-						},
+							Computed: true, MarkdownDescription: "Id"},
 						"remote_group_name": schema.StringAttribute{
-
-							Computed: true,
-
-							MarkdownDescription: "Remote Group Name",
-						},
+							Computed: true, MarkdownDescription: "Remote Group Name"},
 						"remote_group_uuid": schema.StringAttribute{
-
-							Computed: true,
-
-							MarkdownDescription: "Remote Group Uuid",
-						},
+							Computed: true, MarkdownDescription: "Remote Group Uuid"},
 					},
 				},
-
-				Computed: true,
-
-				MarkdownDescription: "Rules",
+				Computed: true, MarkdownDescription: "Rules",
 			},
 			"state": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "State",
-			},
+				Computed: true, MarkdownDescription: "State"},
 			"tenant": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Tenant",
-			},
+				Computed: true, MarkdownDescription: "Tenant"},
 			"tenant_name": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Tenant Name",
-			},
+				Computed: true, MarkdownDescription: "Tenant Name"},
 			"tenant_uuid": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Tenant Uuid",
-			},
+				Computed: true, MarkdownDescription: "Tenant Uuid"},
 			"url": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Url",
-			},
+				Computed: true, MarkdownDescription: "Url"},
 		},
 	}
 }

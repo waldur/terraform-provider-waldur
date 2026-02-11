@@ -46,412 +46,150 @@ func (d *MarketplaceOrderDataSource) Schema(ctx context.Context, req datasource.
 			},
 			"filters": (&MarketplaceOrderFiltersModel{}).GetSchema(),
 			"activation_price": schema.Float64Attribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Activation Price",
-			},
+				Computed: true, MarkdownDescription: "Activation Price"},
 			"attachment": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Attachment",
-			},
+				Computed: true, MarkdownDescription: "Attachment"},
 			"backend_id": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Backend Id",
-			},
+				Computed: true, MarkdownDescription: "Backend Id"},
 			"callback_url": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Callback Url",
-			},
+				Computed: true, MarkdownDescription: "Callback Url"},
 			"can_terminate": schema.BoolAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Can Terminate",
-			},
+				Computed: true, MarkdownDescription: "Can Terminate"},
 			"category_icon": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Category Icon",
-			},
+				Computed: true, MarkdownDescription: "Category Icon"},
 			"category_title": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Category Title",
-			},
+				Computed: true, MarkdownDescription: "Category Title"},
 			"category_uuid": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Category Uuid",
-			},
+				Computed: true, MarkdownDescription: "Category Uuid"},
 			"completed_at": schema.StringAttribute{
 				CustomType: timetypes.RFC3339Type{},
-
-				Computed: true,
-
-				MarkdownDescription: "Completed At",
-			},
+				Computed:   true, MarkdownDescription: "Completed At"},
 			"consumer_reviewed_at": schema.StringAttribute{
 				CustomType: timetypes.RFC3339Type{},
-
-				Computed: true,
-
-				MarkdownDescription: "Consumer Reviewed At",
-			},
+				Computed:   true, MarkdownDescription: "Consumer Reviewed At"},
 			"consumer_reviewed_by": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters",
-			},
+				Computed: true, MarkdownDescription: "Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters"},
 			"consumer_reviewed_by_full_name": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Consumer Reviewed By Full Name",
-			},
+				Computed: true, MarkdownDescription: "Consumer Reviewed By Full Name"},
 			"consumer_reviewed_by_username": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters",
-			},
+				Computed: true, MarkdownDescription: "Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters"},
 			"cost": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Cost",
-
+				Computed: true, MarkdownDescription: "Cost",
 				Validators: []validator.String{
 					stringvalidator.RegexMatches(regexp.MustCompile(`^-?\d{0,12}(?:\.\d{0,10})?$`), ""),
-				},
-			},
+				}},
 			"created_by_civil_number": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Created By Civil Number",
-			},
+				Computed: true, MarkdownDescription: "Created By Civil Number"},
 			"created_by_full_name": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Created By Full Name",
-			},
+				Computed: true, MarkdownDescription: "Created By Full Name"},
 			"created_by_username": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters",
-			},
+				Computed: true, MarkdownDescription: "Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters"},
 			"customer_slug": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Customer Slug",
-			},
+				Computed: true, MarkdownDescription: "Customer Slug"},
 			"error_message": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Error Message",
-			},
+				Computed: true, MarkdownDescription: "Error Message"},
 			"fixed_price": schema.Float64Attribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Fixed Price",
-			},
+				Computed: true, MarkdownDescription: "Fixed Price"},
 			"issue": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
 					"key": schema.StringAttribute{
-
-						Computed: true,
-
-						MarkdownDescription: "Key",
-					},
+						Computed: true, MarkdownDescription: "Key"},
 					"uuid": schema.StringAttribute{
-
-						Computed: true,
-
-						MarkdownDescription: "Uuid",
-					},
+						Computed: true, MarkdownDescription: "Uuid"},
 				},
-
-				Computed: true,
-
-				MarkdownDescription: "Issue",
+				Computed: true, MarkdownDescription: "Issue",
 			},
 			"marketplace_resource_uuid": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Marketplace Resource Uuid",
-			},
+				Computed: true, MarkdownDescription: "Marketplace Resource Uuid"},
 			"new_cost_estimate": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "New Cost Estimate",
-
+				Computed: true, MarkdownDescription: "New Cost Estimate",
 				Validators: []validator.String{
 					stringvalidator.RegexMatches(regexp.MustCompile(`^-?\d{0,12}(?:\.\d{0,10})?$`), ""),
-				},
-			},
+				}},
 			"new_plan_name": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "New Plan Name",
-			},
+				Computed: true, MarkdownDescription: "New Plan Name"},
 			"new_plan_uuid": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "New Plan Uuid",
-			},
+				Computed: true, MarkdownDescription: "New Plan Uuid"},
 			"offering": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Offering",
-			},
+				Computed: true, MarkdownDescription: "Offering"},
 			"offering_billable": schema.BoolAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Purchase and usage is invoiced.",
-			},
+				Computed: true, MarkdownDescription: "Purchase and usage is invoiced."},
 			"offering_description": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Offering Description",
-			},
+				Computed: true, MarkdownDescription: "Offering Description"},
 			"offering_image": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Offering Image",
-			},
+				Computed: true, MarkdownDescription: "Offering Image"},
 			"offering_name": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Offering Name",
-			},
+				Computed: true, MarkdownDescription: "Offering Name"},
 			"offering_shared": schema.BoolAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Accessible to all customers.",
-			},
+				Computed: true, MarkdownDescription: "Accessible to all customers."},
 			"offering_thumbnail": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Offering Thumbnail",
-			},
+				Computed: true, MarkdownDescription: "Offering Thumbnail"},
 			"offering_type": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Offering Type",
-			},
+				Computed: true, MarkdownDescription: "Offering Type"},
 			"offering_uuid": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Offering Uuid",
-			},
+				Computed: true, MarkdownDescription: "Offering Uuid"},
 			"old_cost_estimate": schema.Float64Attribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Old Cost Estimate",
-			},
+				Computed: true, MarkdownDescription: "Old Cost Estimate"},
 			"old_plan_name": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Old Plan Name",
-			},
+				Computed: true, MarkdownDescription: "Old Plan Name"},
 			"old_plan_uuid": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Old Plan Uuid",
-			},
+				Computed: true, MarkdownDescription: "Old Plan Uuid"},
 			"order_subtype": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Order Subtype",
-			},
+				Computed: true, MarkdownDescription: "Order Subtype"},
 			"output": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Output",
-			},
+				Computed: true, MarkdownDescription: "Output"},
 			"plan": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Plan",
-			},
+				Computed: true, MarkdownDescription: "Plan"},
 			"plan_description": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Plan Description",
-			},
+				Computed: true, MarkdownDescription: "Plan Description"},
 			"plan_name": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Plan Name",
-			},
+				Computed: true, MarkdownDescription: "Plan Name"},
 			"plan_unit": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Plan Unit",
-			},
+				Computed: true, MarkdownDescription: "Plan Unit"},
 			"plan_uuid": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Plan Uuid",
-			},
+				Computed: true, MarkdownDescription: "Plan Uuid"},
 			"project_description": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Project Description",
-			},
+				Computed: true, MarkdownDescription: "Project Description"},
 			"project_slug": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Project Slug",
-			},
+				Computed: true, MarkdownDescription: "Project Slug"},
 			"provider_name": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Provider Name",
-			},
+				Computed: true, MarkdownDescription: "Provider Name"},
 			"provider_reviewed_at": schema.StringAttribute{
 				CustomType: timetypes.RFC3339Type{},
-
-				Computed: true,
-
-				MarkdownDescription: "Provider Reviewed At",
-			},
+				Computed:   true, MarkdownDescription: "Provider Reviewed At"},
 			"provider_reviewed_by": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters",
-			},
+				Computed: true, MarkdownDescription: "Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters"},
 			"provider_reviewed_by_full_name": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Provider Reviewed By Full Name",
-			},
+				Computed: true, MarkdownDescription: "Provider Reviewed By Full Name"},
 			"provider_reviewed_by_username": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters",
-			},
+				Computed: true, MarkdownDescription: "Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters"},
 			"provider_slug": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Provider Slug",
-			},
+				Computed: true, MarkdownDescription: "Provider Slug"},
 			"provider_uuid": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Provider Uuid",
-			},
+				Computed: true, MarkdownDescription: "Provider Uuid"},
 			"request_comment": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Request Comment",
-			},
+				Computed: true, MarkdownDescription: "Request Comment"},
 			"resource_name": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Resource Name",
-			},
+				Computed: true, MarkdownDescription: "Resource Name"},
 			"resource_type": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Resource Type",
-			},
+				Computed: true, MarkdownDescription: "Resource Type"},
 			"resource_uuid": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Resource Uuid",
-			},
+				Computed: true, MarkdownDescription: "Resource Uuid"},
 			"slug": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "URL-friendly identifier. Only editable by staff users.",
-
+				Computed: true, MarkdownDescription: "URL-friendly identifier. Only editable by staff users.",
 				Validators: []validator.String{
 					stringvalidator.RegexMatches(regexp.MustCompile(`^[-a-zA-Z0-9_]+$`), ""),
-				},
-			},
+				}},
 			"start_date": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Enables delayed processing of resource provisioning order.",
-			},
+				Computed: true, MarkdownDescription: "Enables delayed processing of resource provisioning order."},
 			"state": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "State",
-			},
+				Computed: true, MarkdownDescription: "State"},
 			"termination_comment": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Termination Comment",
-			},
+				Computed: true, MarkdownDescription: "Termination Comment"},
 			"type": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Type",
-			},
+				Computed: true, MarkdownDescription: "Type"},
 			"url": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Url",
-			},
+				Computed: true, MarkdownDescription: "Url"},
 		},
 	}
 }

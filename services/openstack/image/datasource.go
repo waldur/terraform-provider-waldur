@@ -46,57 +46,27 @@ func (d *OpenstackImageDataSource) Schema(ctx context.Context, req datasource.Sc
 			"filters": (&OpenstackImageFiltersModel{}).GetSchema(),
 			"backend_created_at": schema.StringAttribute{
 				CustomType: timetypes.RFC3339Type{},
-
-				Computed: true,
-
-				MarkdownDescription: "Backend Created At",
-			},
+				Computed:   true, MarkdownDescription: "Backend Created At"},
 			"backend_id": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Backend Id",
-			},
+				Computed: true, MarkdownDescription: "Backend Id"},
 			"min_disk": schema.Int64Attribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Minimum disk size in MiB",
-
+				Computed: true, MarkdownDescription: "Minimum disk size in MiB",
 				Validators: []validator.Int64{
 					int64validator.AtLeast(0),
 					int64validator.AtMost(2147483647),
-				},
-			},
+				}},
 			"min_ram": schema.Int64Attribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Minimum memory size in MiB",
-
+				Computed: true, MarkdownDescription: "Minimum memory size in MiB",
 				Validators: []validator.Int64{
 					int64validator.AtLeast(0),
 					int64validator.AtMost(2147483647),
-				},
-			},
+				}},
 			"name": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Name",
-			},
+				Computed: true, MarkdownDescription: "Name"},
 			"settings": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Settings",
-			},
+				Computed: true, MarkdownDescription: "Settings"},
 			"url": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Url",
-			},
+				Computed: true, MarkdownDescription: "Url"},
 		},
 	}
 }

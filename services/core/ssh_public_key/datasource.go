@@ -42,59 +42,23 @@ func (d *CoreSshPublicKeyDataSource) Schema(ctx context.Context, req datasource.
 			},
 			"filters": (&CoreSshPublicKeyFiltersModel{}).GetSchema(),
 			"fingerprint_md5": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Fingerprint Md5",
-			},
+				Computed: true, MarkdownDescription: "Fingerprint Md5"},
 			"fingerprint_sha256": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Fingerprint Sha256",
-			},
+				Computed: true, MarkdownDescription: "Fingerprint Sha256"},
 			"fingerprint_sha512": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Fingerprint Sha512",
-			},
+				Computed: true, MarkdownDescription: "Fingerprint Sha512"},
 			"is_shared": schema.BoolAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Is Shared",
-			},
+				Computed: true, MarkdownDescription: "Is Shared"},
 			"name": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Name",
-			},
+				Computed: true, MarkdownDescription: "Name"},
 			"public_key": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Public Key",
-			},
+				Computed: true, MarkdownDescription: "Public Key"},
 			"type": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Type",
-			},
+				Computed: true, MarkdownDescription: "Type"},
 			"url": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Url",
-			},
+				Computed: true, MarkdownDescription: "Url"},
 			"user_uuid": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "User Uuid",
-			},
+				Computed: true, MarkdownDescription: "User Uuid"},
 		},
 	}
 }

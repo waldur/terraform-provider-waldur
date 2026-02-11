@@ -67,418 +67,228 @@ func (r *OpenstackTenantResource) Schema(ctx context.Context, req resource.Schem
 				},
 			},
 			"availability_zone": schema.StringAttribute{
-
 				Optional: true,
 				Computed: true,
-
 				PlanModifiers: []planmodifier.String{
 
 					stringplanmodifier.UseStateForUnknown(),
-				},
-
-				MarkdownDescription: "Optional availability group. Will be used for all instances provisioned in this tenant",
-			},
+				}, MarkdownDescription: "Optional availability group. Will be used for all instances provisioned in this tenant"},
 			"backend_id": schema.StringAttribute{
-
 				Computed: true,
-
 				PlanModifiers: []planmodifier.String{
 
 					stringplanmodifier.UseStateForUnknown(),
-				},
-
-				MarkdownDescription: "ID of tenant in the OpenStack backend",
-			},
+				}, MarkdownDescription: "ID of tenant in the OpenStack backend"},
 			"customer": schema.StringAttribute{
-
 				Computed: true,
-
 				PlanModifiers: []planmodifier.String{
 
 					stringplanmodifier.UseStateForUnknown(),
-				},
-
-				MarkdownDescription: "Customer",
-			},
+				}, MarkdownDescription: "Customer"},
 			"default_volume_type_name": schema.StringAttribute{
-
 				Computed: true,
-
 				PlanModifiers: []planmodifier.String{
 
 					stringplanmodifier.UseStateForUnknown(),
-				},
-
-				MarkdownDescription: "Volume type name to use when creating volumes.",
-			},
+				}, MarkdownDescription: "Volume type name to use when creating volumes."},
 			"description": schema.StringAttribute{
-
 				Optional: true,
 				Computed: true,
-
 				PlanModifiers: []planmodifier.String{
 
 					stringplanmodifier.UseStateForUnknown(),
-				},
-
-				MarkdownDescription: "Description",
-			},
+				}, MarkdownDescription: "Description"},
 			"end_date": schema.StringAttribute{
 				CustomType: timetypes.RFC3339Type{},
-
-				Optional: true,
-
+				Optional:   true,
 				PlanModifiers: []planmodifier.String{
 
 					stringplanmodifier.RequiresReplace(),
-				},
-
-				MarkdownDescription: "Order end date",
-			},
+				}, MarkdownDescription: "Order end date"},
 			"error_message": schema.StringAttribute{
-
 				Computed: true,
-
 				PlanModifiers: []planmodifier.String{
 
 					stringplanmodifier.UseStateForUnknown(),
-				},
-
-				MarkdownDescription: "Error Message",
-			},
+				}, MarkdownDescription: "Error Message"},
 			"external_network_id": schema.StringAttribute{
-
 				Computed: true,
-
 				PlanModifiers: []planmodifier.String{
 
 					stringplanmodifier.UseStateForUnknown(),
-				},
-
-				MarkdownDescription: "ID of external network connected to OpenStack tenant",
-			},
+				}, MarkdownDescription: "ID of external network connected to OpenStack tenant"},
 			"internal_network_id": schema.StringAttribute{
-
 				Computed: true,
-
 				PlanModifiers: []planmodifier.String{
 
 					stringplanmodifier.UseStateForUnknown(),
-				},
-
-				MarkdownDescription: "ID of internal network in OpenStack tenant",
-			},
+				}, MarkdownDescription: "ID of internal network in OpenStack tenant"},
 			"limits": schema.MapAttribute{
 				ElementType: types.Float64Type,
-
-				Optional: true,
-
+				Optional:    true,
 				PlanModifiers: []planmodifier.Map{
 
 					mapplanmodifier.RequiresReplace(),
-				},
-
-				MarkdownDescription: "Resource limits",
-			},
+				}, MarkdownDescription: "Resource limits"},
 			"marketplace_resource_uuid": schema.StringAttribute{
-
 				Computed: true,
-
 				PlanModifiers: []planmodifier.String{
 
 					stringplanmodifier.UseStateForUnknown(),
-				},
-
-				MarkdownDescription: "Marketplace Resource Uuid",
-			},
+				}, MarkdownDescription: "Marketplace Resource Uuid"},
 			"name": schema.StringAttribute{
-
-				Required: true,
-
-				MarkdownDescription: "Name",
-			},
+				Required: true, MarkdownDescription: "Name"},
 			"offering": schema.StringAttribute{
-
 				Required: true,
-
 				PlanModifiers: []planmodifier.String{
 
 					stringplanmodifier.RequiresReplace(),
-				},
-
-				MarkdownDescription: "Offering URL",
-			},
+				}, MarkdownDescription: "Offering URL"},
 			"plan": schema.StringAttribute{
-
 				Optional: true,
-
 				PlanModifiers: []planmodifier.String{
 
 					stringplanmodifier.RequiresReplace(),
-				},
-
-				MarkdownDescription: "Plan URL",
-			},
+				}, MarkdownDescription: "Plan URL"},
 			"project": schema.StringAttribute{
-
 				Required: true,
-
 				PlanModifiers: []planmodifier.String{
 
 					stringplanmodifier.RequiresReplace(),
-				},
-
-				MarkdownDescription: "Project URL",
-			},
+				}, MarkdownDescription: "Project URL"},
 			"quotas": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"limit": schema.Int64Attribute{
-
 							Optional: true,
 							Computed: true,
-
 							PlanModifiers: []planmodifier.Int64{
 
 								int64planmodifier.UseStateForUnknown(),
-							},
-
-							MarkdownDescription: "Limit",
-						},
+							}, MarkdownDescription: "Limit"},
 						"name": schema.StringAttribute{
-
 							Optional: true,
 							Computed: true,
-
 							PlanModifiers: []planmodifier.String{
 
 								stringplanmodifier.UseStateForUnknown(),
-							},
-
-							MarkdownDescription: "Name",
-						},
+							}, MarkdownDescription: "Name"},
 						"usage": schema.Int64Attribute{
-
 							Optional: true,
 							Computed: true,
-
 							PlanModifiers: []planmodifier.Int64{
 
 								int64planmodifier.UseStateForUnknown(),
-							},
-
-							MarkdownDescription: "Usage",
-						},
+							}, MarkdownDescription: "Usage"},
 					},
 				},
-
 				Computed: true,
-
 				PlanModifiers: []planmodifier.List{
 
 					listplanmodifier.UseStateForUnknown(),
-				},
-
-				MarkdownDescription: "Quotas",
+				}, MarkdownDescription: "Quotas",
 			},
 			"resource_type": schema.StringAttribute{
-
 				Computed: true,
-
 				PlanModifiers: []planmodifier.String{
 
 					stringplanmodifier.UseStateForUnknown(),
-				},
-
-				MarkdownDescription: "Resource Type",
-			},
+				}, MarkdownDescription: "Resource Type"},
 			"security_groups": schema.SetNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"description": schema.StringAttribute{
-
-							Optional: true,
-
-							MarkdownDescription: "Description",
-						},
+							Optional: true, MarkdownDescription: "Description"},
 						"name": schema.StringAttribute{
-
-							Required: true,
-
-							MarkdownDescription: "Name",
-						},
+							Required: true, MarkdownDescription: "Name"},
 						"rules": schema.ListNestedAttribute{
 							NestedObject: schema.NestedAttributeObject{
 								Attributes: map[string]schema.Attribute{
 									"cidr": schema.StringAttribute{
-
-										Optional: true,
-
-										MarkdownDescription: "CIDR notation for the source/destination network address range",
-									},
+										Optional: true, MarkdownDescription: "CIDR notation for the source/destination network address range"},
 									"description": schema.StringAttribute{
-
-										Optional: true,
-
-										MarkdownDescription: "Description",
-									},
+										Optional: true, MarkdownDescription: "Description"},
 									"direction": schema.StringAttribute{
-
-										Optional: true,
-
-										MarkdownDescription: "Traffic direction - either 'ingress' (incoming) or 'egress' (outgoing)",
-									},
+										Optional: true, MarkdownDescription: "Traffic direction - either 'ingress' (incoming) or 'egress' (outgoing)"},
 									"ethertype": schema.StringAttribute{
-
-										Optional: true,
-
-										MarkdownDescription: "IP protocol version - either 'IPv4' or 'IPv6'",
-									},
+										Optional: true, MarkdownDescription: "IP protocol version - either 'IPv4' or 'IPv6'"},
 									"from_port": schema.Int64Attribute{
-
-										Optional: true,
-
-										MarkdownDescription: "Starting port number in the range (1-65535)",
-
+										Optional: true, MarkdownDescription: "Starting port number in the range (1-65535)",
 										Validators: []validator.Int64{
 											int64validator.AtLeast(-2147483648),
 											int64validator.AtMost(65535),
-										},
-									},
+										}},
 									"protocol": schema.StringAttribute{
-
-										Optional: true,
-
-										MarkdownDescription: "The network protocol (TCP, UDP, ICMP, or empty for any protocol)",
-									},
+										Optional: true, MarkdownDescription: "The network protocol (TCP, UDP, ICMP, or empty for any protocol)"},
 									"remote_group": schema.StringAttribute{
-
-										Optional: true,
-
-										MarkdownDescription: "Remote security group that this rule references, if any",
-									},
+										Optional: true, MarkdownDescription: "Remote security group that this rule references, if any"},
 									"to_port": schema.Int64Attribute{
-
-										Optional: true,
-
-										MarkdownDescription: "Ending port number in the range (1-65535)",
-
+										Optional: true, MarkdownDescription: "Ending port number in the range (1-65535)",
 										Validators: []validator.Int64{
 											int64validator.AtLeast(-2147483648),
 											int64validator.AtMost(65535),
-										},
-									},
+										}},
 								},
 							},
-
-							Optional: true,
-
-							MarkdownDescription: "Rules",
+							Optional: true, MarkdownDescription: "Rules",
 						},
 					},
 				},
-
-				Optional: true,
-
-				MarkdownDescription: "Security Groups",
+				Optional: true, MarkdownDescription: "Security Groups",
 			},
 			"skip_connection_extnet": schema.BoolAttribute{
-
 				Optional: true,
-
 				PlanModifiers: []planmodifier.Bool{
 
 					boolplanmodifier.RequiresReplace(),
-				},
-
-				MarkdownDescription: "Skip Connection Extnet",
-			},
+				}, MarkdownDescription: "Skip Connection Extnet"},
 			"skip_creation_of_default_router": schema.BoolAttribute{
-
 				Optional: true,
 				Computed: true,
-
 				PlanModifiers: []planmodifier.Bool{
 
 					boolplanmodifier.UseStateForUnknown(),
-				},
-
-				MarkdownDescription: "Skip Creation Of Default Router",
-			},
+				}, MarkdownDescription: "Skip Creation Of Default Router"},
 			"skip_creation_of_default_subnet": schema.BoolAttribute{
-
-				Optional: true,
-
-				MarkdownDescription: "Skip Creation Of Default Subnet",
-			},
+				Optional: true, MarkdownDescription: "Skip Creation Of Default Subnet"},
 			"start_date": schema.StringAttribute{
 				CustomType: timetypes.RFC3339Type{},
-
-				Optional: true,
-
+				Optional:   true,
 				PlanModifiers: []planmodifier.String{
 
 					stringplanmodifier.RequiresReplace(),
-				},
-
-				MarkdownDescription: "Order start date",
-			},
+				}, MarkdownDescription: "Order start date"},
 			"state": schema.StringAttribute{
-
 				Computed: true,
-
 				PlanModifiers: []planmodifier.String{
 
 					stringplanmodifier.UseStateForUnknown(),
-				},
-
-				MarkdownDescription: "State",
-			},
+				}, MarkdownDescription: "State"},
 			"subnet_cidr": schema.StringAttribute{
-
 				Optional: true,
-
 				PlanModifiers: []planmodifier.String{
 
 					stringplanmodifier.RequiresReplace(),
-				},
-
-				MarkdownDescription: "Subnet Cidr",
-			},
+				}, MarkdownDescription: "Subnet Cidr"},
 			"url": schema.StringAttribute{
-
 				Computed: true,
-
 				PlanModifiers: []planmodifier.String{
 
 					stringplanmodifier.UseStateForUnknown(),
-				},
-
-				MarkdownDescription: "Url",
-			},
+				}, MarkdownDescription: "Url"},
 			"user_password": schema.StringAttribute{
-
 				Computed: true,
-
 				PlanModifiers: []planmodifier.String{
 
 					stringplanmodifier.UseStateForUnknown(),
-				},
-
-				MarkdownDescription: "Password of the tenant user",
-				Sensitive:           true,
-			},
+				}, MarkdownDescription: "Password of the tenant user",
+				Sensitive: true},
 			"user_username": schema.StringAttribute{
-
 				Computed: true,
-
 				PlanModifiers: []planmodifier.String{
 
 					stringplanmodifier.UseStateForUnknown(),
-				},
-
-				MarkdownDescription: "Username of the tenant user",
-			},
+				}, MarkdownDescription: "Username of the tenant user"},
 		},
 
 		Blocks: map[string]schema.Block{

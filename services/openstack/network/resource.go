@@ -56,239 +56,136 @@ func (r *OpenstackNetworkResource) Schema(ctx context.Context, req resource.Sche
 				},
 			},
 			"backend_id": schema.StringAttribute{
-
 				Computed: true,
-
 				PlanModifiers: []planmodifier.String{
 
 					stringplanmodifier.UseStateForUnknown(),
-				},
-
-				MarkdownDescription: "Backend Id",
-			},
+				}, MarkdownDescription: "Backend Id"},
 			"customer": schema.StringAttribute{
-
 				Computed: true,
-
 				PlanModifiers: []planmodifier.String{
 
 					stringplanmodifier.UseStateForUnknown(),
-				},
-
-				MarkdownDescription: "Customer",
-			},
+				}, MarkdownDescription: "Customer"},
 			"description": schema.StringAttribute{
-
 				Optional: true,
 				Computed: true,
-
 				PlanModifiers: []planmodifier.String{
 
 					stringplanmodifier.UseStateForUnknown(),
-				},
-
-				MarkdownDescription: "Description",
-			},
+				}, MarkdownDescription: "Description"},
 			"error_message": schema.StringAttribute{
-
 				Computed: true,
-
 				PlanModifiers: []planmodifier.String{
 
 					stringplanmodifier.UseStateForUnknown(),
-				},
-
-				MarkdownDescription: "Error Message",
-			},
+				}, MarkdownDescription: "Error Message"},
 			"is_external": schema.BoolAttribute{
-
 				Computed: true,
-
 				PlanModifiers: []planmodifier.Bool{
 
 					boolplanmodifier.UseStateForUnknown(),
-				},
-
-				MarkdownDescription: "Defines whether this network is external (public) or internal (private)",
-			},
+				}, MarkdownDescription: "Defines whether this network is external (public) or internal (private)"},
 			"marketplace_resource_uuid": schema.StringAttribute{
-
 				Computed: true,
-
 				PlanModifiers: []planmodifier.String{
 
 					stringplanmodifier.UseStateForUnknown(),
-				},
-
-				MarkdownDescription: "Marketplace Resource Uuid",
-			},
+				}, MarkdownDescription: "Marketplace Resource Uuid"},
 			"mtu": schema.Int64Attribute{
-
 				Computed: true,
-
 				PlanModifiers: []planmodifier.Int64{
 
 					int64planmodifier.UseStateForUnknown(),
-				},
-
-				MarkdownDescription: "The maximum transmission unit (MTU) value to address fragmentation.",
-			},
+				}, MarkdownDescription: "The maximum transmission unit (MTU) value to address fragmentation."},
 			"name": schema.StringAttribute{
-
-				Required: true,
-
-				MarkdownDescription: "Name",
-			},
+				Required: true, MarkdownDescription: "Name"},
 			"project": schema.StringAttribute{
-
 				Computed: true,
-
 				PlanModifiers: []planmodifier.String{
 
 					stringplanmodifier.UseStateForUnknown(),
-				},
-
-				MarkdownDescription: "Project",
-			},
+				}, MarkdownDescription: "Project"},
 			"rbac_policies": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"backend_id": schema.StringAttribute{
-
 							Computed: true,
-
 							PlanModifiers: []planmodifier.String{
 
 								stringplanmodifier.UseStateForUnknown(),
-							},
-
-							MarkdownDescription: "Backend Id",
-						},
+							}, MarkdownDescription: "Backend Id"},
 						"network": schema.StringAttribute{
-
 							Optional: true,
 							Computed: true,
-
 							PlanModifiers: []planmodifier.String{
 
 								stringplanmodifier.UseStateForUnknown(),
-							},
-
-							MarkdownDescription: "Network",
-						},
+							}, MarkdownDescription: "Network"},
 						"network_name": schema.StringAttribute{
-
 							Computed: true,
-
 							PlanModifiers: []planmodifier.String{
 
 								stringplanmodifier.UseStateForUnknown(),
-							},
-
-							MarkdownDescription: "Network Name",
-						},
+							}, MarkdownDescription: "Network Name"},
 						"policy_type": schema.StringAttribute{
-
 							Optional: true,
 							Computed: true,
-
 							PlanModifiers: []planmodifier.String{
 
 								stringplanmodifier.UseStateForUnknown(),
-							},
-
-							MarkdownDescription: "Type of access granted - either shared access or external network access",
-						},
+							}, MarkdownDescription: "Type of access granted - either shared access or external network access"},
 						"target_tenant": schema.StringAttribute{
-
 							Optional: true,
 							Computed: true,
-
 							PlanModifiers: []planmodifier.String{
 
 								stringplanmodifier.UseStateForUnknown(),
-							},
-
-							MarkdownDescription: "Target Tenant",
-						},
+							}, MarkdownDescription: "Target Tenant"},
 						"target_tenant_name": schema.StringAttribute{
-
 							Computed: true,
-
 							PlanModifiers: []planmodifier.String{
 
 								stringplanmodifier.UseStateForUnknown(),
-							},
-
-							MarkdownDescription: "Target Tenant Name",
-						},
+							}, MarkdownDescription: "Target Tenant Name"},
 						"url": schema.StringAttribute{
-
 							Computed: true,
-
 							PlanModifiers: []planmodifier.String{
 
 								stringplanmodifier.UseStateForUnknown(),
-							},
-
-							MarkdownDescription: "Url",
-						},
+							}, MarkdownDescription: "Url"},
 						"uuid": schema.StringAttribute{
-
 							Computed: true,
-
 							PlanModifiers: []planmodifier.String{
 
 								stringplanmodifier.UseStateForUnknown(),
-							},
-
-							MarkdownDescription: "Uuid",
-						},
+							}, MarkdownDescription: "Uuid"},
 					},
 				},
-
 				Computed: true,
-
 				PlanModifiers: []planmodifier.List{
 
 					listplanmodifier.UseStateForUnknown(),
-				},
-
-				MarkdownDescription: "Rbac Policies",
+				}, MarkdownDescription: "Rbac Policies",
 			},
 			"resource_type": schema.StringAttribute{
-
 				Computed: true,
-
 				PlanModifiers: []planmodifier.String{
 
 					stringplanmodifier.UseStateForUnknown(),
-				},
-
-				MarkdownDescription: "Resource Type",
-			},
+				}, MarkdownDescription: "Resource Type"},
 			"segmentation_id": schema.Int64Attribute{
-
 				Computed: true,
-
 				PlanModifiers: []planmodifier.Int64{
 
 					int64planmodifier.UseStateForUnknown(),
-				},
-
-				MarkdownDescription: "VLAN ID for VLAN networks or tunnel ID for VXLAN/GRE networks",
-			},
+				}, MarkdownDescription: "VLAN ID for VLAN networks or tunnel ID for VXLAN/GRE networks"},
 			"state": schema.StringAttribute{
-
 				Computed: true,
-
 				PlanModifiers: []planmodifier.String{
 
 					stringplanmodifier.UseStateForUnknown(),
-				},
-
-				MarkdownDescription: "State",
-			},
+				}, MarkdownDescription: "State"},
 			"subnets": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
@@ -296,196 +193,117 @@ func (r *OpenstackNetworkResource) Schema(ctx context.Context, req resource.Sche
 							NestedObject: schema.NestedAttributeObject{
 								Attributes: map[string]schema.Attribute{
 									"end": schema.StringAttribute{
-
 										Optional: true,
 										Computed: true,
-
 										PlanModifiers: []planmodifier.String{
 
 											stringplanmodifier.UseStateForUnknown(),
-										},
-
-										MarkdownDescription: "An IPv4 or IPv6 address.",
-									},
+										}, MarkdownDescription: "An IPv4 or IPv6 address."},
 									"start": schema.StringAttribute{
-
 										Optional: true,
 										Computed: true,
-
 										PlanModifiers: []planmodifier.String{
 
 											stringplanmodifier.UseStateForUnknown(),
-										},
-
-										MarkdownDescription: "An IPv4 or IPv6 address.",
-									},
+										}, MarkdownDescription: "An IPv4 or IPv6 address."},
 								},
 							},
-
 							Computed: true,
-
 							PlanModifiers: []planmodifier.List{
 
 								listplanmodifier.UseStateForUnknown(),
-							},
-
-							MarkdownDescription: "Allocation Pools",
+							}, MarkdownDescription: "Allocation Pools",
 						},
 						"cidr": schema.StringAttribute{
-
 							Optional: true,
 							Computed: true,
-
 							PlanModifiers: []planmodifier.String{
 
 								stringplanmodifier.UseStateForUnknown(),
-							},
-
-							MarkdownDescription: "IPv4 network address in CIDR format (e.g. 192.168.0.0/24)",
-						},
+							}, MarkdownDescription: "IPv4 network address in CIDR format (e.g. 192.168.0.0/24)"},
 						"description": schema.StringAttribute{
-
 							Optional: true,
 							Computed: true,
-
 							PlanModifiers: []planmodifier.String{
 
 								stringplanmodifier.UseStateForUnknown(),
-							},
-
-							MarkdownDescription: "Description",
-						},
+							}, MarkdownDescription: "Description"},
 						"enable_dhcp": schema.BoolAttribute{
-
 							Optional: true,
 							Computed: true,
-
 							PlanModifiers: []planmodifier.Bool{
 
 								boolplanmodifier.UseStateForUnknown(),
-							},
-
-							MarkdownDescription: "If True, DHCP service will be enabled on this subnet",
-						},
+							}, MarkdownDescription: "If True, DHCP service will be enabled on this subnet"},
 						"gateway_ip": schema.StringAttribute{
-
 							Optional: true,
 							Computed: true,
-
 							PlanModifiers: []planmodifier.String{
 
 								stringplanmodifier.UseStateForUnknown(),
-							},
-
-							MarkdownDescription: "IP address of the gateway for this subnet",
-						},
+							}, MarkdownDescription: "IP address of the gateway for this subnet"},
 						"ip_version": schema.Int64Attribute{
-
 							Optional: true,
 							Computed: true,
-
 							PlanModifiers: []planmodifier.Int64{
 
 								int64planmodifier.UseStateForUnknown(),
-							},
-
-							MarkdownDescription: "IP protocol version (4 or 6)",
-
+							}, MarkdownDescription: "IP protocol version (4 or 6)",
 							Validators: []validator.Int64{
 								int64validator.AtLeast(-32768),
 								int64validator.AtMost(32767),
-							},
-						},
+							}},
 						"name": schema.StringAttribute{
-
 							Optional: true,
 							Computed: true,
-
 							PlanModifiers: []planmodifier.String{
 
 								stringplanmodifier.UseStateForUnknown(),
-							},
-
-							MarkdownDescription: "Name",
-						},
+							}, MarkdownDescription: "Name"},
 						"uuid": schema.StringAttribute{
-
 							Computed: true,
-
 							PlanModifiers: []planmodifier.String{
 
 								stringplanmodifier.UseStateForUnknown(),
-							},
-
-							MarkdownDescription: "Uuid",
-						},
+							}, MarkdownDescription: "Uuid"},
 					},
 				},
-
 				Computed: true,
-
 				PlanModifiers: []planmodifier.List{
 
 					listplanmodifier.UseStateForUnknown(),
-				},
-
-				MarkdownDescription: "Subnets",
+				}, MarkdownDescription: "Subnets",
 			},
 			"tenant": schema.StringAttribute{
-
 				Required: true,
-
 				PlanModifiers: []planmodifier.String{
 
 					stringplanmodifier.RequiresReplace(),
-				},
-
-				MarkdownDescription: "OpenStack tenant this network belongs to",
-			},
+				}, MarkdownDescription: "OpenStack tenant this network belongs to"},
 			"tenant_name": schema.StringAttribute{
-
 				Computed: true,
-
 				PlanModifiers: []planmodifier.String{
 
 					stringplanmodifier.UseStateForUnknown(),
-				},
-
-				MarkdownDescription: "Tenant Name",
-			},
+				}, MarkdownDescription: "Tenant Name"},
 			"tenant_uuid": schema.StringAttribute{
-
 				Computed: true,
-
 				PlanModifiers: []planmodifier.String{
 
 					stringplanmodifier.UseStateForUnknown(),
-				},
-
-				MarkdownDescription: "Tenant Uuid",
-			},
+				}, MarkdownDescription: "Tenant Uuid"},
 			"type": schema.StringAttribute{
-
 				Computed: true,
-
 				PlanModifiers: []planmodifier.String{
 
 					stringplanmodifier.UseStateForUnknown(),
-				},
-
-				MarkdownDescription: "Network type, such as local, flat, vlan, vxlan, or gre",
-			},
+				}, MarkdownDescription: "Network type, such as local, flat, vlan, vxlan, or gre"},
 			"url": schema.StringAttribute{
-
 				Computed: true,
-
 				PlanModifiers: []planmodifier.String{
 
 					stringplanmodifier.UseStateForUnknown(),
-				},
-
-				MarkdownDescription: "Url",
-			},
+				}, MarkdownDescription: "Url"},
 		},
 
 		Blocks: map[string]schema.Block{

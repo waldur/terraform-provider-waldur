@@ -44,184 +44,67 @@ func (d *OpenstackVolumeDataSource) Schema(ctx context.Context, req datasource.S
 			},
 			"filters": (&OpenstackVolumeFiltersModel{}).GetSchema(),
 			"action": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Action",
-			},
+				Computed: true, MarkdownDescription: "Action"},
 			"availability_zone": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Availability zone where this volume is located",
-			},
+				Computed: true, MarkdownDescription: "Availability zone where this volume is located"},
 			"availability_zone_name": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Availability Zone Name",
-			},
+				Computed: true, MarkdownDescription: "Availability Zone Name"},
 			"backend_id": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Volume ID in the OpenStack backend",
-			},
+				Computed: true, MarkdownDescription: "Volume ID in the OpenStack backend"},
 			"bootable": schema.BoolAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Indicates if this volume can be used to boot an instance",
-			},
+				Computed: true, MarkdownDescription: "Indicates if this volume can be used to boot an instance"},
 			"customer": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Customer",
-			},
+				Computed: true, MarkdownDescription: "Customer"},
 			"description": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Description",
-			},
+				Computed: true, MarkdownDescription: "Description"},
 			"device": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Name of volume as instance device e.g. /dev/vdb.",
-			},
+				Computed: true, MarkdownDescription: "Name of volume as instance device e.g. /dev/vdb."},
 			"error_message": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Error Message",
-			},
+				Computed: true, MarkdownDescription: "Error Message"},
 			"extend_enabled": schema.BoolAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Extend Enabled",
-			},
+				Computed: true, MarkdownDescription: "Extend Enabled"},
 			"image": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Image that this volume was created from, if any",
-			},
+				Computed: true, MarkdownDescription: "Image that this volume was created from, if any"},
 			"image_metadata": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Metadata of the image this volume was created from",
-			},
+				Computed: true, MarkdownDescription: "Metadata of the image this volume was created from"},
 			"image_name": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Name of the image this volume was created from",
-			},
+				Computed: true, MarkdownDescription: "Name of the image this volume was created from"},
 			"instance": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Instance that this volume is attached to, if any",
-			},
+				Computed: true, MarkdownDescription: "Instance that this volume is attached to, if any"},
 			"instance_marketplace_uuid": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Instance Marketplace Uuid",
-			},
+				Computed: true, MarkdownDescription: "Instance Marketplace Uuid"},
 			"instance_name": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Instance Name",
-			},
+				Computed: true, MarkdownDescription: "Instance Name"},
 			"marketplace_resource_uuid": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Marketplace Resource Uuid",
-			},
+				Computed: true, MarkdownDescription: "Marketplace Resource Uuid"},
 			"name": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Name",
-			},
+				Computed: true, MarkdownDescription: "Name"},
 			"project": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Project URL",
-			},
+				Computed: true, MarkdownDescription: "Project URL"},
 			"resource_type": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Resource Type",
-			},
+				Computed: true, MarkdownDescription: "Resource Type"},
 			"runtime_state": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Runtime State",
-			},
+				Computed: true, MarkdownDescription: "Runtime State"},
 			"size": schema.Int64Attribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Size in MiB",
-
+				Computed: true, MarkdownDescription: "Size in MiB",
 				Validators: []validator.Int64{
 					int64validator.AtLeast(0),
 					int64validator.AtMost(2147483647),
-				},
-			},
+				}},
 			"source_snapshot": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Snapshot that this volume was created from, if any",
-			},
+				Computed: true, MarkdownDescription: "Snapshot that this volume was created from, if any"},
 			"state": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "State",
-			},
+				Computed: true, MarkdownDescription: "State"},
 			"tenant": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Tenant",
-			},
+				Computed: true, MarkdownDescription: "Tenant"},
 			"tenant_uuid": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Tenant Uuid",
-			},
+				Computed: true, MarkdownDescription: "Tenant Uuid"},
 			"type": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Type of the volume (e.g. SSD, HDD)",
-			},
+				Computed: true, MarkdownDescription: "Type of the volume (e.g. SSD, HDD)"},
 			"type_name": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Type Name",
-			},
+				Computed: true, MarkdownDescription: "Type Name"},
 			"url": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Url",
-			},
+				Computed: true, MarkdownDescription: "Url"},
 		},
 	}
 }

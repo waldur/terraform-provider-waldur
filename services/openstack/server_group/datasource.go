@@ -42,123 +42,48 @@ func (d *OpenstackServerGroupDataSource) Schema(ctx context.Context, req datasou
 			},
 			"filters": (&OpenstackServerGroupFiltersModel{}).GetSchema(),
 			"backend_id": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Backend Id",
-			},
+				Computed: true, MarkdownDescription: "Backend Id"},
 			"customer": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Customer",
-			},
+				Computed: true, MarkdownDescription: "Customer"},
 			"description": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Description",
-			},
+				Computed: true, MarkdownDescription: "Description"},
 			"display_name": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Display Name",
-			},
+				Computed: true, MarkdownDescription: "Display Name"},
 			"error_message": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Error Message",
-			},
+				Computed: true, MarkdownDescription: "Error Message"},
 			"instances": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"backend_id": schema.StringAttribute{
-
-							Computed: true,
-
-							MarkdownDescription: "Instance ID in the OpenStack backend",
-						},
+							Computed: true, MarkdownDescription: "Instance ID in the OpenStack backend"},
 						"name": schema.StringAttribute{
-
-							Computed: true,
-
-							MarkdownDescription: "Name",
-						},
+							Computed: true, MarkdownDescription: "Name"},
 						"uuid": schema.StringAttribute{
-
-							Computed: true,
-
-							MarkdownDescription: "Uuid",
-						},
+							Computed: true, MarkdownDescription: "Uuid"},
 					},
 				},
-
-				Computed: true,
-
-				MarkdownDescription: "Instances",
+				Computed: true, MarkdownDescription: "Instances",
 			},
 			"marketplace_resource_uuid": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Marketplace Resource Uuid",
-			},
+				Computed: true, MarkdownDescription: "Marketplace Resource Uuid"},
 			"name": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Name",
-			},
+				Computed: true, MarkdownDescription: "Name"},
 			"policy": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Server group policy determining the rules for scheduling servers in this group",
-			},
+				Computed: true, MarkdownDescription: "Server group policy determining the rules for scheduling servers in this group"},
 			"project": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Project",
-			},
+				Computed: true, MarkdownDescription: "Project"},
 			"resource_type": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Resource Type",
-			},
+				Computed: true, MarkdownDescription: "Resource Type"},
 			"state": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "State",
-			},
+				Computed: true, MarkdownDescription: "State"},
 			"tenant": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Tenant",
-			},
+				Computed: true, MarkdownDescription: "Tenant"},
 			"tenant_name": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Tenant Name",
-			},
+				Computed: true, MarkdownDescription: "Tenant Name"},
 			"tenant_uuid": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Tenant Uuid",
-			},
+				Computed: true, MarkdownDescription: "Tenant Uuid"},
 			"url": schema.StringAttribute{
-
-				Computed: true,
-
-				MarkdownDescription: "Url",
-			},
+				Computed: true, MarkdownDescription: "Url"},
 		},
 	}
 }

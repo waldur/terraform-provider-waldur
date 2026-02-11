@@ -52,73 +52,40 @@ func (r *OpenstackNetworkRbacPolicyResource) Schema(ctx context.Context, req res
 				},
 			},
 			"backend_id": schema.StringAttribute{
-
 				Computed: true,
-
 				PlanModifiers: []planmodifier.String{
 
 					stringplanmodifier.UseStateForUnknown(),
-				},
-
-				MarkdownDescription: "Backend Id",
-			},
+				}, MarkdownDescription: "Backend Id"},
 			"network": schema.StringAttribute{
-
-				Required: true,
-
-				MarkdownDescription: "Network",
-			},
+				Required: true, MarkdownDescription: "Network"},
 			"network_name": schema.StringAttribute{
-
 				Computed: true,
-
 				PlanModifiers: []planmodifier.String{
 
 					stringplanmodifier.UseStateForUnknown(),
-				},
-
-				MarkdownDescription: "Network Name",
-			},
+				}, MarkdownDescription: "Network Name"},
 			"policy_type": schema.StringAttribute{
-
 				Optional: true,
 				Computed: true,
-
 				PlanModifiers: []planmodifier.String{
 
 					stringplanmodifier.UseStateForUnknown(),
-				},
-
-				MarkdownDescription: "Type of access granted - either shared access or external network access",
-			},
+				}, MarkdownDescription: "Type of access granted - either shared access or external network access"},
 			"target_tenant": schema.StringAttribute{
-
-				Required: true,
-
-				MarkdownDescription: "Target Tenant",
-			},
+				Required: true, MarkdownDescription: "Target Tenant"},
 			"target_tenant_name": schema.StringAttribute{
-
 				Computed: true,
-
 				PlanModifiers: []planmodifier.String{
 
 					stringplanmodifier.UseStateForUnknown(),
-				},
-
-				MarkdownDescription: "Target Tenant Name",
-			},
+				}, MarkdownDescription: "Target Tenant Name"},
 			"url": schema.StringAttribute{
-
 				Computed: true,
-
 				PlanModifiers: []planmodifier.String{
 
 					stringplanmodifier.UseStateForUnknown(),
-				},
-
-				MarkdownDescription: "Url",
-			},
+				}, MarkdownDescription: "Url"},
 		},
 
 		Blocks: map[string]schema.Block{
