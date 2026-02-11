@@ -123,10 +123,8 @@ func (r *OpenstackVolumeResource) Schema(ctx context.Context, req resource.Schem
 			"end_date": schema.StringAttribute{
 				CustomType: timetypes.RFC3339Type{},
 				Optional:   true,
-				Computed:   true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
-					stringplanmodifier.UseStateForUnknown(),
 				},
 				MarkdownDescription: "Order end date",
 			},
@@ -191,10 +189,8 @@ func (r *OpenstackVolumeResource) Schema(ctx context.Context, req resource.Schem
 			"limits": schema.MapAttribute{
 				ElementType: types.Float64Type,
 				Optional:    true,
-				Computed:    true,
 				PlanModifiers: []planmodifier.Map{
 					mapplanmodifier.RequiresReplace(),
-					mapplanmodifier.UseStateForUnknown(),
 				},
 				MarkdownDescription: "Resource limits",
 			},
@@ -218,10 +214,8 @@ func (r *OpenstackVolumeResource) Schema(ctx context.Context, req resource.Schem
 			},
 			"plan": schema.StringAttribute{
 				Optional: true,
-				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
-					stringplanmodifier.UseStateForUnknown(),
 				},
 				MarkdownDescription: "Plan URL",
 			},
@@ -268,10 +262,8 @@ func (r *OpenstackVolumeResource) Schema(ctx context.Context, req resource.Schem
 			"start_date": schema.StringAttribute{
 				CustomType: timetypes.RFC3339Type{},
 				Optional:   true,
-				Computed:   true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
-					stringplanmodifier.UseStateForUnknown(),
 				},
 				MarkdownDescription: "Order start date",
 			},
@@ -486,15 +478,11 @@ func (r *OpenstackVolumeResource) Create(ctx context.Context, req resource.Creat
 
 	// Construct the Create Order Request
 	payload := OpenstackVolumeCreateRequest{
-		Project:    data.Project.ValueStringPointer(),
-		Offering:   data.Offering.ValueStringPointer(),
 		Attributes: attributes,
 	}
-
-	if !data.Plan.IsNull() && !data.Plan.IsUnknown() {
-		payload.Plan = data.Plan.ValueStringPointer()
+	if !data.EndDate.IsNull() && !data.EndDate.IsUnknown() {
+		payload.EndDate = data.EndDate.ValueStringPointer()
 	}
-
 	if !data.Limits.IsNull() && !data.Limits.IsUnknown() {
 		limits := make(map[string]float64)
 		diags := data.Limits.ElementsAs(ctx, &limits, false)
@@ -503,6 +491,14 @@ func (r *OpenstackVolumeResource) Create(ctx context.Context, req resource.Creat
 			return
 		}
 		payload.Limits = limits
+	}
+	payload.Offering = data.Offering.ValueStringPointer()
+	if !data.Plan.IsNull() && !data.Plan.IsUnknown() {
+		payload.Plan = data.Plan.ValueStringPointer()
+	}
+	payload.Project = data.Project.ValueStringPointer()
+	if !data.StartDate.IsNull() && !data.StartDate.IsUnknown() {
+		payload.StartDate = data.StartDate.ValueStringPointer()
 	}
 
 	// Phase 2: Submit Order

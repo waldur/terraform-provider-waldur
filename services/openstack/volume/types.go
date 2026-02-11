@@ -1,19 +1,28 @@
 package volume
 
 type OpenstackVolumeCreateRequest struct {
-	Project    *string                         `json:"project"`
+	EndDate    *string                         `json:"end_date,omitempty"`
+	Limits     map[string]float64              `json:"limits,omitempty"`
 	Offering   *string                         `json:"offering"`
 	Plan       *string                         `json:"plan,omitempty"`
-	Limits     map[string]float64              `json:"limits,omitempty"`
+	Project    *string                         `json:"project"`
+	StartDate  *string                         `json:"start_date,omitempty"`
 	Attributes OpenstackVolumeCreateAttributes `json:"attributes"`
 }
 type OpenstackVolumeCreateAttributes struct {
-	AvailabilityZone *string `json:"availability_zone,omitempty"`
-	Description      *string `json:"description,omitempty"`
-	Image            *string `json:"image,omitempty"`
-	Name             *string `json:"name"`
-	Size             *int64  `json:"size,omitempty"`
-	Type             *string `json:"type,omitempty"`
+	AvailabilityZone *string            `json:"availability_zone,omitempty"`
+	Description      *string            `json:"description,omitempty"`
+	EndDate          *string            `json:"end_date,omitempty"`
+	Image            *string            `json:"image,omitempty"`
+	Limits           map[string]float64 `json:"limits,omitempty"`
+	Name             *string            `json:"name"`
+	Plan             *string            `json:"plan,omitempty"`
+	Size             *int64             `json:"size,omitempty"`
+	StartDate        *string            `json:"start_date,omitempty"`
+	Type             *string            `json:"type,omitempty"`
+}
+
+type OpenstackVolumeCreateLimitsRequest struct {
 }
 
 type OpenstackVolumeUpdateRequest struct {

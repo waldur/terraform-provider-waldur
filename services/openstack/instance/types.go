@@ -7,10 +7,12 @@ import (
 )
 
 type OpenstackInstanceCreateRequest struct {
-	Project    *string                           `json:"project"`
+	EndDate    *string                           `json:"end_date,omitempty"`
+	Limits     map[string]float64                `json:"limits,omitempty"`
 	Offering   *string                           `json:"offering"`
 	Plan       *string                           `json:"plan,omitempty"`
-	Limits     map[string]float64                `json:"limits,omitempty"`
+	Project    *string                           `json:"project"`
+	StartDate  *string                           `json:"start_date,omitempty"`
 	Attributes OpenstackInstanceCreateAttributes `json:"attributes"`
 }
 type OpenstackInstanceCreateAttributes struct {
@@ -20,17 +22,24 @@ type OpenstackInstanceCreateAttributes struct {
 	DataVolumeType                   *string                                          `json:"data_volume_type,omitempty"`
 	DataVolumes                      *[]common.OpenStackDataVolumeRequest             `json:"data_volumes,omitempty"`
 	Description                      *string                                          `json:"description,omitempty"`
+	EndDate                          *string                                          `json:"end_date,omitempty"`
 	Flavor                           *string                                          `json:"flavor"`
 	FloatingIps                      *[]common.OpenStackCreateFloatingIPRequest       `json:"floating_ips,omitempty"`
 	Image                            *string                                          `json:"image"`
+	Limits                           map[string]float64                               `json:"limits,omitempty"`
 	Name                             *string                                          `json:"name"`
+	Plan                             *string                                          `json:"plan,omitempty"`
 	Ports                            []common.OpenStackCreateInstancePortRequest      `json:"ports"`
 	SecurityGroups                   *[]common.OpenStackSecurityGroupHyperlinkRequest `json:"security_groups,omitempty"`
 	ServerGroup                      *OpenstackInstanceCreateServerGroupRequest       `json:"server_group,omitempty"`
 	SshPublicKey                     *string                                          `json:"ssh_public_key,omitempty"`
+	StartDate                        *string                                          `json:"start_date,omitempty"`
 	SystemVolumeSize                 *int64                                           `json:"system_volume_size"`
 	SystemVolumeType                 *string                                          `json:"system_volume_type,omitempty"`
 	UserData                         *string                                          `json:"user_data,omitempty"`
+}
+
+type OpenstackInstanceCreateLimitsRequest struct {
 }
 
 type OpenstackInstanceCreateServerGroupRequest struct {

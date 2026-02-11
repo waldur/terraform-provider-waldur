@@ -7,21 +7,30 @@ import (
 )
 
 type OpenstackTenantCreateRequest struct {
-	Project    *string                         `json:"project"`
+	EndDate    *string                         `json:"end_date,omitempty"`
+	Limits     map[string]float64              `json:"limits,omitempty"`
 	Offering   *string                         `json:"offering"`
 	Plan       *string                         `json:"plan,omitempty"`
-	Limits     map[string]float64              `json:"limits,omitempty"`
+	Project    *string                         `json:"project"`
+	StartDate  *string                         `json:"start_date,omitempty"`
 	Attributes OpenstackTenantCreateAttributes `json:"attributes"`
 }
 type OpenstackTenantCreateAttributes struct {
 	AvailabilityZone            *string                                       `json:"availability_zone,omitempty"`
 	Description                 *string                                       `json:"description,omitempty"`
+	EndDate                     *string                                       `json:"end_date,omitempty"`
+	Limits                      map[string]float64                            `json:"limits,omitempty"`
 	Name                        *string                                       `json:"name"`
+	Plan                        *string                                       `json:"plan,omitempty"`
 	SecurityGroups              *[]common.OpenStackTenantSecurityGroupRequest `json:"security_groups,omitempty"`
 	SkipConnectionExtnet        *bool                                         `json:"skip_connection_extnet,omitempty"`
 	SkipCreationOfDefaultRouter *bool                                         `json:"skip_creation_of_default_router,omitempty"`
 	SkipCreationOfDefaultSubnet *bool                                         `json:"skip_creation_of_default_subnet,omitempty"`
+	StartDate                   *string                                       `json:"start_date,omitempty"`
 	SubnetCidr                  *string                                       `json:"subnet_cidr,omitempty"`
+}
+
+type OpenstackTenantCreateLimitsRequest struct {
 }
 
 type OpenstackTenantUpdateRequest struct {
