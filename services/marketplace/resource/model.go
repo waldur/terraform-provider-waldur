@@ -385,109 +385,171 @@ func (model *MarketplaceResourceModel) CopyFrom(ctx context.Context, apiResp Mar
 	var diags diag.Diagnostics
 
 	model.UUID = types.StringPointerValue(apiResp.UUID)
-	listValAvailableActions, listDiagsAvailableActions := types.ListValueFrom(ctx, types.StringType, apiResp.AvailableActions)
-	model.AvailableActions = listValAvailableActions
-	diags.Append(listDiagsAvailableActions...)
+
+	if apiResp.AvailableActions != nil {
+		valAvailableActions, diagsAvailableActions := types.ListValueFrom(ctx, types.StringType, apiResp.AvailableActions)
+		diags.Append(diagsAvailableActions...)
+		model.AvailableActions = valAvailableActions
+	} else {
+		model.AvailableActions = types.ListNull(types.StringType)
+	}
+
 	model.BackendId = common.StringPointerValue(apiResp.BackendId)
+
 	if apiResp.BackendMetadata != nil {
-		objValBackendMetadata, objDiagsBackendMetadata := types.ObjectValueFrom(ctx, BackendMetadataType().AttrTypes, *apiResp.BackendMetadata)
-		diags.Append(objDiagsBackendMetadata...)
-		model.BackendMetadata = objValBackendMetadata
+		valBackendMetadata, diagsBackendMetadata := types.ObjectValueFrom(ctx, BackendMetadataType().AttrTypes, *apiResp.BackendMetadata)
+		diags.Append(diagsBackendMetadata...)
+		model.BackendMetadata = valBackendMetadata
 	} else {
 		model.BackendMetadata = types.ObjectNull(BackendMetadataType().AttrTypes)
 	}
+
 	model.CanTerminate = types.BoolPointerValue(apiResp.CanTerminate)
+
 	model.CategoryIcon = common.StringPointerValue(apiResp.CategoryIcon)
+
 	model.CategoryTitle = common.StringPointerValue(apiResp.CategoryTitle)
+
 	model.CategoryUuid = common.StringPointerValue(apiResp.CategoryUuid)
+
 	if apiResp.CreationOrder != nil {
-		objValCreationOrder, objDiagsCreationOrder := types.ObjectValueFrom(ctx, CreationOrderType().AttrTypes, *apiResp.CreationOrder)
-		diags.Append(objDiagsCreationOrder...)
-		model.CreationOrder = objValCreationOrder
+		valCreationOrder, diagsCreationOrder := types.ObjectValueFrom(ctx, CreationOrderType().AttrTypes, *apiResp.CreationOrder)
+		diags.Append(diagsCreationOrder...)
+		model.CreationOrder = valCreationOrder
 	} else {
 		model.CreationOrder = types.ObjectNull(CreationOrderType().AttrTypes)
 	}
+
 	model.CustomerSlug = common.StringPointerValue(apiResp.CustomerSlug)
+
 	model.Description = common.StringPointerValue(apiResp.Description)
+
 	model.Downscaled = types.BoolPointerValue(apiResp.Downscaled)
+
 	model.EffectiveId = common.StringPointerValue(apiResp.EffectiveId)
+
 	model.EndDate = common.StringPointerValue(apiResp.EndDate)
+
 	model.EndDateRequestedBy = common.StringPointerValue(apiResp.EndDateRequestedBy)
 
 	if apiResp.Endpoints != nil {
-		listValEndpoints, listDiagsEndpoints := types.ListValueFrom(ctx, NestedEndpointType(), apiResp.Endpoints)
-		diags.Append(listDiagsEndpoints...)
-		model.Endpoints = listValEndpoints
+		valEndpoints, diagsEndpoints := types.ListValueFrom(ctx, NestedEndpointType(), apiResp.Endpoints)
+		diags.Append(diagsEndpoints...)
+		model.Endpoints = valEndpoints
 	} else {
 		model.Endpoints = types.ListNull(NestedEndpointType())
 	}
+
 	model.ErrorMessage = common.StringPointerValue(apiResp.ErrorMessage)
+
 	valLastSync, diagsLastSync := timetypes.NewRFC3339PointerValue(apiResp.LastSync)
 	diags.Append(diagsLastSync...)
 	model.LastSync = valLastSync
+
 	model.Name = common.StringPointerValue(apiResp.Name)
+
 	model.Offering = common.StringPointerValue(apiResp.Offering)
+
 	model.OfferingBackendId = common.StringPointerValue(apiResp.OfferingBackendId)
+
 	model.OfferingBillable = types.BoolPointerValue(apiResp.OfferingBillable)
 
 	if apiResp.OfferingComponents != nil {
-		listValOfferingComponents, listDiagsOfferingComponents := types.ListValueFrom(ctx, OfferingComponentType(), apiResp.OfferingComponents)
-		diags.Append(listDiagsOfferingComponents...)
-		model.OfferingComponents = listValOfferingComponents
+		valOfferingComponents, diagsOfferingComponents := types.ListValueFrom(ctx, OfferingComponentType(), apiResp.OfferingComponents)
+		diags.Append(diagsOfferingComponents...)
+		model.OfferingComponents = valOfferingComponents
 	} else {
 		model.OfferingComponents = types.ListNull(OfferingComponentType())
 	}
+
 	model.OfferingDescription = common.StringPointerValue(apiResp.OfferingDescription)
+
 	model.OfferingImage = common.StringPointerValue(apiResp.OfferingImage)
+
 	model.OfferingName = common.StringPointerValue(apiResp.OfferingName)
+
 	model.OfferingShared = types.BoolPointerValue(apiResp.OfferingShared)
+
 	model.OfferingSlug = common.StringPointerValue(apiResp.OfferingSlug)
+
 	model.OfferingState = common.StringPointerValue(apiResp.OfferingState)
+
 	model.OfferingThumbnail = common.StringPointerValue(apiResp.OfferingThumbnail)
+
 	model.OfferingType = common.StringPointerValue(apiResp.OfferingType)
+
 	model.OfferingUuid = common.StringPointerValue(apiResp.OfferingUuid)
+
 	if apiResp.OrderInProgress != nil {
-		objValOrderInProgress, objDiagsOrderInProgress := types.ObjectValueFrom(ctx, CreationOrderType().AttrTypes, *apiResp.OrderInProgress)
-		diags.Append(objDiagsOrderInProgress...)
-		model.OrderInProgress = objValOrderInProgress
+		valOrderInProgress, diagsOrderInProgress := types.ObjectValueFrom(ctx, CreationOrderType().AttrTypes, *apiResp.OrderInProgress)
+		diags.Append(diagsOrderInProgress...)
+		model.OrderInProgress = valOrderInProgress
 	} else {
 		model.OrderInProgress = types.ObjectNull(CreationOrderType().AttrTypes)
 	}
+
 	model.ParentName = common.StringPointerValue(apiResp.ParentName)
+
 	model.ParentOfferingName = common.StringPointerValue(apiResp.ParentOfferingName)
+
 	model.ParentOfferingSlug = common.StringPointerValue(apiResp.ParentOfferingSlug)
+
 	model.ParentOfferingUuid = common.StringPointerValue(apiResp.ParentOfferingUuid)
+
 	model.ParentUuid = common.StringPointerValue(apiResp.ParentUuid)
+
 	model.Paused = types.BoolPointerValue(apiResp.Paused)
+
 	model.Plan = common.StringPointerValue(apiResp.Plan)
+
 	model.PlanDescription = common.StringPointerValue(apiResp.PlanDescription)
+
 	model.PlanName = common.StringPointerValue(apiResp.PlanName)
+
 	model.PlanUnit = common.StringPointerValue(apiResp.PlanUnit)
+
 	model.PlanUuid = common.StringPointerValue(apiResp.PlanUuid)
+
 	model.Project = common.StringPointerValue(apiResp.Project)
+
 	model.ProjectDescription = common.StringPointerValue(apiResp.ProjectDescription)
+
 	model.ProjectEndDate = common.StringPointerValue(apiResp.ProjectEndDate)
+
 	model.ProjectEndDateRequestedBy = common.StringPointerValue(apiResp.ProjectEndDateRequestedBy)
+
 	model.ProjectSlug = common.StringPointerValue(apiResp.ProjectSlug)
+
 	model.ProviderName = common.StringPointerValue(apiResp.ProviderName)
+
 	model.ProviderSlug = common.StringPointerValue(apiResp.ProviderSlug)
+
 	model.ProviderUuid = common.StringPointerValue(apiResp.ProviderUuid)
 
 	if apiResp.Report != nil {
-		listValReport, listDiagsReport := types.ListValueFrom(ctx, ReportSectionType(), apiResp.Report)
-		diags.Append(listDiagsReport...)
-		model.Report = listValReport
+		valReport, diagsReport := types.ListValueFrom(ctx, ReportSectionType(), apiResp.Report)
+		diags.Append(diagsReport...)
+		model.Report = valReport
 	} else {
 		model.Report = types.ListNull(ReportSectionType())
 	}
+
 	model.ResourceType = common.StringPointerValue(apiResp.ResourceType)
+
 	model.ResourceUuid = common.StringPointerValue(apiResp.ResourceUuid)
+
 	model.RestrictMemberAccess = types.BoolPointerValue(apiResp.RestrictMemberAccess)
+
 	model.Scope = common.StringPointerValue(apiResp.Scope)
+
 	model.Slug = common.StringPointerValue(apiResp.Slug)
+
 	model.State = common.StringPointerValue(apiResp.State)
+
 	model.Url = common.StringPointerValue(apiResp.Url)
+
 	model.UserRequiresReconsent = types.BoolPointerValue(apiResp.UserRequiresReconsent)
+
 	model.Username = common.StringPointerValue(apiResp.Username)
 
 	return diags

@@ -171,34 +171,55 @@ func (model *OpenstackFloatingIpModel) CopyFrom(ctx context.Context, apiResp Ope
 	var diags diag.Diagnostics
 
 	model.UUID = types.StringPointerValue(apiResp.UUID)
+
 	model.Address = common.StringPointerValue(apiResp.Address)
+
 	model.BackendId = common.StringPointerValue(apiResp.BackendId)
+
 	model.BackendNetworkId = common.StringPointerValue(apiResp.BackendNetworkId)
+
 	model.Customer = common.StringPointerValue(apiResp.Customer)
+
 	model.Description = common.StringPointerValue(apiResp.Description)
+
 	model.ErrorMessage = common.StringPointerValue(apiResp.ErrorMessage)
+
 	model.ExternalAddress = common.StringPointerValue(apiResp.ExternalAddress)
+
 	model.InstanceName = common.StringPointerValue(apiResp.InstanceName)
+
 	model.InstanceUrl = common.StringPointerValue(apiResp.InstanceUrl)
+
 	model.InstanceUuid = common.StringPointerValue(apiResp.InstanceUuid)
+
 	model.MarketplaceResourceUuid = common.StringPointerValue(apiResp.MarketplaceResourceUuid)
+
 	model.Name = common.StringPointerValue(apiResp.Name)
+
 	model.Port = common.StringPointerValue(apiResp.Port)
 
 	if apiResp.PortFixedIps != nil {
-		listValPortFixedIps, listDiagsPortFixedIps := types.ListValueFrom(ctx, OpenStackFixedIpType(), apiResp.PortFixedIps)
-		diags.Append(listDiagsPortFixedIps...)
-		model.PortFixedIps = listValPortFixedIps
+		valPortFixedIps, diagsPortFixedIps := types.ListValueFrom(ctx, OpenStackFixedIpType(), apiResp.PortFixedIps)
+		diags.Append(diagsPortFixedIps...)
+		model.PortFixedIps = valPortFixedIps
 	} else {
 		model.PortFixedIps = types.ListNull(OpenStackFixedIpType())
 	}
+
 	model.Project = common.StringPointerValue(apiResp.Project)
+
 	model.ResourceType = common.StringPointerValue(apiResp.ResourceType)
+
 	model.RuntimeState = common.StringPointerValue(apiResp.RuntimeState)
+
 	model.State = common.StringPointerValue(apiResp.State)
+
 	model.Tenant = common.StringPointerValue(apiResp.Tenant)
+
 	model.TenantName = common.StringPointerValue(apiResp.TenantName)
+
 	model.TenantUuid = common.StringPointerValue(apiResp.TenantUuid)
+
 	model.Url = common.StringPointerValue(apiResp.Url)
 
 	return diags

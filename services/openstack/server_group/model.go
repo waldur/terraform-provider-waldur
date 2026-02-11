@@ -151,28 +151,43 @@ func (model *OpenstackServerGroupModel) CopyFrom(ctx context.Context, apiResp Op
 	var diags diag.Diagnostics
 
 	model.UUID = types.StringPointerValue(apiResp.UUID)
+
 	model.BackendId = common.StringPointerValue(apiResp.BackendId)
+
 	model.Customer = common.StringPointerValue(apiResp.Customer)
+
 	model.Description = common.StringPointerValue(apiResp.Description)
+
 	model.DisplayName = common.StringPointerValue(apiResp.DisplayName)
+
 	model.ErrorMessage = common.StringPointerValue(apiResp.ErrorMessage)
 
 	if apiResp.Instances != nil {
-		listValInstances, listDiagsInstances := types.ListValueFrom(ctx, OpenStackNestedInstanceType(), apiResp.Instances)
-		diags.Append(listDiagsInstances...)
-		model.Instances = listValInstances
+		valInstances, diagsInstances := types.ListValueFrom(ctx, OpenStackNestedInstanceType(), apiResp.Instances)
+		diags.Append(diagsInstances...)
+		model.Instances = valInstances
 	} else {
 		model.Instances = types.ListNull(OpenStackNestedInstanceType())
 	}
+
 	model.MarketplaceResourceUuid = common.StringPointerValue(apiResp.MarketplaceResourceUuid)
+
 	model.Name = common.StringPointerValue(apiResp.Name)
+
 	model.Policy = common.StringPointerValue(apiResp.Policy)
+
 	model.Project = common.StringPointerValue(apiResp.Project)
+
 	model.ResourceType = common.StringPointerValue(apiResp.ResourceType)
+
 	model.State = common.StringPointerValue(apiResp.State)
+
 	model.Tenant = common.StringPointerValue(apiResp.Tenant)
+
 	model.TenantName = common.StringPointerValue(apiResp.TenantName)
+
 	model.TenantUuid = common.StringPointerValue(apiResp.TenantUuid)
+
 	model.Url = common.StringPointerValue(apiResp.Url)
 
 	return diags

@@ -70,9 +70,13 @@ func (model *OpenstackVolumeTypeModel) CopyFrom(ctx context.Context, apiResp Ope
 	var diags diag.Diagnostics
 
 	model.UUID = types.StringPointerValue(apiResp.UUID)
+
 	model.Description = common.StringPointerValue(apiResp.Description)
+
 	model.Name = common.StringPointerValue(apiResp.Name)
+
 	model.Settings = common.StringPointerValue(apiResp.Settings)
+
 	model.Url = common.StringPointerValue(apiResp.Url)
 
 	return diags

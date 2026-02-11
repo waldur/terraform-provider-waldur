@@ -43,148 +43,214 @@ func (d *OpenstackPortDataSource) Schema(ctx context.Context, req datasource.Sch
 			},
 			"filters": (&OpenstackPortFiltersModel{}).GetSchema(),
 			"admin_state_up": schema.BoolAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Administrative state of the port. If down, port does not forward packets",
 			},
 			"allowed_address_pairs": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"ip_address": schema.StringAttribute{
-							Computed:            true,
+
+							Computed: true,
+
 							MarkdownDescription: "Ip Address",
 						},
 						"mac_address": schema.StringAttribute{
-							Computed:            true,
+
+							Computed: true,
+
 							MarkdownDescription: "Mac Address",
 						},
 					},
 				},
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Allowed Address Pairs",
 			},
 			"backend_id": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Port ID in OpenStack",
 			},
 			"customer": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Customer",
 			},
 			"description": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Description",
 			},
 			"device_id": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "ID of device (instance, router etc) to which this port is connected",
 			},
 			"device_owner": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Entity that uses this port (e.g. network:router_interface)",
 			},
 			"error_message": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Error Message",
 			},
 			"fixed_ips": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"ip_address": schema.StringAttribute{
-							Computed:            true,
+
+							Computed: true,
+
 							MarkdownDescription: "IP address to assign to the port",
 						},
 						"subnet_id": schema.StringAttribute{
-							Computed:            true,
+
+							Computed: true,
+
 							MarkdownDescription: "ID of the subnet in which to assign the IP address",
 						},
 					},
 				},
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Fixed Ips",
 			},
 			"floating_ips": schema.SetAttribute{
-				ElementType:         types.StringType,
-				Computed:            true,
+				ElementType: types.StringType,
+
+				Computed: true,
+
 				MarkdownDescription: "Floating Ips",
 			},
 			"mac_address": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "MAC address of the port",
 			},
 			"marketplace_resource_uuid": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Marketplace Resource Uuid",
 			},
 			"name": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Name",
 			},
 			"network": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Network to which this port belongs",
 			},
 			"network_name": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Network Name",
 			},
 			"network_uuid": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Network Uuid",
 			},
 			"port_security_enabled": schema.BoolAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "If True, security groups and rules will be applied to this port",
 			},
 			"project": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Project",
 			},
 			"resource_type": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Resource Type",
 			},
 			"security_groups": schema.SetNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"name": schema.StringAttribute{
-							Computed:            true,
+
+							Computed: true,
+
 							MarkdownDescription: "Name",
 						},
 						"url": schema.StringAttribute{
-							Computed:            true,
+
+							Computed: true,
+
 							MarkdownDescription: "Url",
 						},
 						"uuid": schema.StringAttribute{
-							Computed:            true,
+
+							Computed: true,
+
 							MarkdownDescription: "Uuid",
 						},
 					},
 				},
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Security Groups",
 			},
 			"state": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "State",
 			},
 			"status": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Port status in OpenStack (e.g. ACTIVE, DOWN)",
 			},
 			"tenant": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "OpenStack tenant this port belongs to",
 			},
 			"tenant_name": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Tenant Name",
 			},
 			"tenant_uuid": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Tenant Uuid",
 			},
 			"url": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Url",
 			},
 		},

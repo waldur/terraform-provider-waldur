@@ -44,11 +44,15 @@ func (d *OpenstackFlavorDataSource) Schema(ctx context.Context, req datasource.S
 			},
 			"filters": (&OpenstackFlavorFiltersModel{}).GetSchema(),
 			"backend_id": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Backend Id",
 			},
 			"cores": schema.Int64Attribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Number of cores in a VM",
 
 				Validators: []validator.Int64{
@@ -57,7 +61,9 @@ func (d *OpenstackFlavorDataSource) Schema(ctx context.Context, req datasource.S
 				},
 			},
 			"disk": schema.Int64Attribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Root disk size in MiB",
 
 				Validators: []validator.Int64{
@@ -66,15 +72,21 @@ func (d *OpenstackFlavorDataSource) Schema(ctx context.Context, req datasource.S
 				},
 			},
 			"display_name": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Display Name",
 			},
 			"name": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Name",
 			},
 			"ram": schema.Int64Attribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Memory size in MiB",
 
 				Validators: []validator.Int64{
@@ -83,11 +95,15 @@ func (d *OpenstackFlavorDataSource) Schema(ctx context.Context, req datasource.S
 				},
 			},
 			"settings": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Settings",
 			},
 			"url": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Url",
 			},
 		},

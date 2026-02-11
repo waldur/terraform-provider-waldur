@@ -47,94 +47,138 @@ func (d *StructureCustomerDataSource) Schema(ctx context.Context, req datasource
 			},
 			"filters": (&StructureCustomerFiltersModel{}).GetSchema(),
 			"abbreviation": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Abbreviation",
 			},
 			"access_subnets": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Enter a comma separated list of IPv4 or IPv6 CIDR addresses from where connection to self-service is allowed.",
 			},
 			"accounting_start_date": schema.StringAttribute{
-				CustomType:          timetypes.RFC3339Type{},
-				Computed:            true,
+				CustomType: timetypes.RFC3339Type{},
+
+				Computed: true,
+
 				MarkdownDescription: "Accounting Start Date",
 			},
 			"address": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Address",
 			},
 			"agreement_number": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Agreement Number",
 			},
 			"archived": schema.BoolAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Archived",
 			},
 			"backend_id": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Organization identifier in another application.",
 			},
 			"bank_account": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Bank Account",
 			},
 			"bank_name": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Bank Name",
 			},
 			"billing_price_estimate": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
 					"current": schema.Float64Attribute{
-						Computed:            true,
+
+						Computed: true,
+
 						MarkdownDescription: "Current",
 					},
 					"tax": schema.Float64Attribute{
-						Computed:            true,
+
+						Computed: true,
+
 						MarkdownDescription: "Tax",
 					},
 					"tax_current": schema.Float64Attribute{
-						Computed:            true,
+
+						Computed: true,
+
 						MarkdownDescription: "Tax Current",
 					},
 					"total": schema.Float64Attribute{
-						Computed:            true,
+
+						Computed: true,
+
 						MarkdownDescription: "Total",
 					},
 				},
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Billing Price Estimate",
 			},
 			"blocked": schema.BoolAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Blocked",
 			},
 			"call_managing_organization_uuid": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Call Managing Organization Uuid",
 			},
 			"contact_details": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Contact Details",
 			},
 			"country": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Country code (ISO 3166-1 alpha-2)",
 			},
 			"country_name": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Human-readable country name",
 			},
 			"customer_credit": schema.Float64Attribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Customer Credit",
 			},
 			"customer_unallocated_credit": schema.Float64Attribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Customer Unallocated Credit",
 			},
 			"default_tax_percent": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Default Tax Percent",
 
 				Validators: []validator.String{
@@ -142,27 +186,39 @@ func (d *StructureCustomerDataSource) Schema(ctx context.Context, req datasource
 				},
 			},
 			"description": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Description",
 			},
 			"display_billing_info_in_projects": schema.BoolAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Display Billing Info In Projects",
 			},
 			"display_name": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Display name of the organization (includes native name if available)",
 			},
 			"domain": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Domain",
 			},
 			"email": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Email",
 			},
 			"grace_period_days": schema.Int64Attribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Number of extra days after project end date before resources are terminated",
 
 				Validators: []validator.Int64{
@@ -171,27 +227,39 @@ func (d *StructureCustomerDataSource) Schema(ctx context.Context, req datasource
 				},
 			},
 			"homepage": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Homepage",
 			},
 			"image": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Image",
 			},
 			"is_service_provider": schema.BoolAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Is Service Provider",
 			},
 			"latitude": schema.Float64Attribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Latitude",
 			},
 			"longitude": schema.Float64Attribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Longitude",
 			},
 			"max_service_accounts": schema.Int64Attribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Maximum number of service accounts allowed",
 
 				Validators: []validator.Int64{
@@ -200,51 +268,73 @@ func (d *StructureCustomerDataSource) Schema(ctx context.Context, req datasource
 				},
 			},
 			"name": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Name",
 			},
 			"native_name": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Native Name",
 			},
 			"notification_emails": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Comma-separated list of notification email addresses",
 			},
 			"organization_groups": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"customers_count": schema.Int64Attribute{
-							Computed:            true,
+
+							Computed: true,
+
 							MarkdownDescription: "Number of customers in this organization group",
 						},
 						"name": schema.StringAttribute{
-							Computed:            true,
+
+							Computed: true,
+
 							MarkdownDescription: "Name",
 						},
 						"parent": schema.StringAttribute{
-							Computed:            true,
+
+							Computed: true,
+
 							MarkdownDescription: "Parent",
 						},
 						"parent_name": schema.StringAttribute{
-							Computed:            true,
+
+							Computed: true,
+
 							MarkdownDescription: "Name of the parent organization group",
 						},
 						"parent_uuid": schema.StringAttribute{
-							Computed:            true,
+
+							Computed: true,
+
 							MarkdownDescription: "UUID of the parent organization group",
 						},
 						"url": schema.StringAttribute{
-							Computed:            true,
+
+							Computed: true,
+
 							MarkdownDescription: "Url",
 						},
 						"uuid": schema.StringAttribute{
-							Computed:            true,
+
+							Computed: true,
+
 							MarkdownDescription: "Uuid",
 						},
 					},
 				},
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Organization groups this customer belongs to",
 			},
 			"payment_profiles": schema.ListNestedAttribute{
@@ -253,39 +343,57 @@ func (d *StructureCustomerDataSource) Schema(ctx context.Context, req datasource
 						"attributes": schema.SingleNestedAttribute{
 							Attributes: map[string]schema.Attribute{
 								"agreement_number": schema.StringAttribute{
-									Computed:            true,
+
+									Computed: true,
+
 									MarkdownDescription: "Agreement Number",
 								},
 								"contract_sum": schema.Int64Attribute{
-									Computed:            true,
+
+									Computed: true,
+
 									MarkdownDescription: "Contract Sum",
 								},
 								"end_date": schema.StringAttribute{
-									Computed:            true,
+
+									Computed: true,
+
 									MarkdownDescription: "End Date",
 								},
 							},
-							Computed:            true,
+
+							Computed: true,
+
 							MarkdownDescription: "Attributes",
 						},
 						"is_active": schema.BoolAttribute{
-							Computed:            true,
+
+							Computed: true,
+
 							MarkdownDescription: "Is Active",
 						},
 						"name": schema.StringAttribute{
-							Computed:            true,
+
+							Computed: true,
+
 							MarkdownDescription: "Name",
 						},
 						"organization": schema.StringAttribute{
-							Computed:            true,
+
+							Computed: true,
+
 							MarkdownDescription: "Organization",
 						},
 						"organization_uuid": schema.StringAttribute{
-							Computed:            true,
+
+							Computed: true,
+
 							MarkdownDescription: "Organization Uuid",
 						},
 						"payment_type": schema.StringAttribute{
-							Computed:            true,
+
+							Computed: true,
+
 							MarkdownDescription: "Payment Type",
 
 							Validators: []validator.String{
@@ -293,52 +401,76 @@ func (d *StructureCustomerDataSource) Schema(ctx context.Context, req datasource
 							},
 						},
 						"payment_type_display": schema.StringAttribute{
-							Computed:            true,
+
+							Computed: true,
+
 							MarkdownDescription: "Payment Type Display",
 						},
 						"url": schema.StringAttribute{
-							Computed:            true,
+
+							Computed: true,
+
 							MarkdownDescription: "Url",
 						},
 						"uuid": schema.StringAttribute{
-							Computed:            true,
+
+							Computed: true,
+
 							MarkdownDescription: "Uuid",
 						},
 					},
 				},
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Payment Profiles",
 			},
 			"phone_number": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Phone Number",
 			},
 			"postal": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Postal",
 			},
 			"project_metadata_checklist": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Checklist to be used for project metadata validation in this organization",
 			},
 			"projects_count": schema.Int64Attribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Number of projects in this organization",
 			},
 			"registration_code": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Registration Code",
 			},
 			"service_provider": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Service Provider",
 			},
 			"service_provider_uuid": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Service Provider Uuid",
 			},
 			"slug": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "URL-friendly identifier. Only editable by staff users.",
 
 				Validators: []validator.String{
@@ -346,7 +478,9 @@ func (d *StructureCustomerDataSource) Schema(ctx context.Context, req datasource
 				},
 			},
 			"sponsor_number": schema.Int64Attribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "External ID of the sponsor covering the costs",
 
 				Validators: []validator.Int64{
@@ -355,15 +489,21 @@ func (d *StructureCustomerDataSource) Schema(ctx context.Context, req datasource
 				},
 			},
 			"url": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Url",
 			},
 			"users_count": schema.Int64Attribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Number of users with access to this organization",
 			},
 			"vat_code": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "VAT number",
 			},
 		},

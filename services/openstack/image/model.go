@@ -79,14 +79,21 @@ func (model *OpenstackImageModel) CopyFrom(ctx context.Context, apiResp Openstac
 	var diags diag.Diagnostics
 
 	model.UUID = types.StringPointerValue(apiResp.UUID)
+
 	valBackendCreatedAt, diagsBackendCreatedAt := timetypes.NewRFC3339PointerValue(apiResp.BackendCreatedAt)
 	diags.Append(diagsBackendCreatedAt...)
 	model.BackendCreatedAt = valBackendCreatedAt
+
 	model.BackendId = common.StringPointerValue(apiResp.BackendId)
+
 	model.MinDisk = types.Int64PointerValue(apiResp.MinDisk)
+
 	model.MinRam = types.Int64PointerValue(apiResp.MinRam)
+
 	model.Name = common.StringPointerValue(apiResp.Name)
+
 	model.Settings = common.StringPointerValue(apiResp.Settings)
+
 	model.Url = common.StringPointerValue(apiResp.Url)
 
 	return diags

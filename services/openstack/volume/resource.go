@@ -62,190 +62,292 @@ func (r *OpenstackVolumeResource) Schema(ctx context.Context, req resource.Schem
 				},
 			},
 			"action": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Action",
 			},
 			"availability_zone": schema.StringAttribute{
+
 				Optional: true,
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.RequiresReplace(),
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Availability zone where this volume is located",
 			},
 			"availability_zone_name": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Availability Zone Name",
 			},
 			"backend_id": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Volume ID in the OpenStack backend",
 			},
 			"bootable": schema.BoolAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.Bool{
+
 					boolplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Indicates if this volume can be used to boot an instance",
 			},
 			"customer": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Customer",
 			},
 			"description": schema.StringAttribute{
+
 				Optional: true,
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Description",
 			},
 			"device": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Name of volume as instance device e.g. /dev/vdb.",
 			},
 			"end_date": schema.StringAttribute{
 				CustomType: timetypes.RFC3339Type{},
-				Optional:   true,
+
+				Optional: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.RequiresReplace(),
 				},
+
 				MarkdownDescription: "Order end date",
 			},
 			"error_message": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Error Message",
 			},
 			"extend_enabled": schema.BoolAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.Bool{
+
 					boolplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Extend Enabled",
 			},
 			"image": schema.StringAttribute{
+
 				Optional: true,
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.RequiresReplace(),
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Image that this volume was created from, if any",
 			},
 			"image_metadata": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Metadata of the image this volume was created from",
 			},
 			"image_name": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Name of the image this volume was created from",
 			},
 			"instance": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Instance that this volume is attached to, if any",
 			},
 			"instance_marketplace_uuid": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Instance Marketplace Uuid",
 			},
 			"instance_name": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Instance Name",
 			},
 			"limits": schema.MapAttribute{
 				ElementType: types.Float64Type,
-				Optional:    true,
+
+				Optional: true,
+
 				PlanModifiers: []planmodifier.Map{
+
 					mapplanmodifier.RequiresReplace(),
 				},
+
 				MarkdownDescription: "Resource limits",
 			},
 			"marketplace_resource_uuid": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Marketplace Resource Uuid",
 			},
 			"name": schema.StringAttribute{
-				Required:            true,
+
+				Required: true,
+
 				MarkdownDescription: "Name",
 			},
 			"offering": schema.StringAttribute{
+
 				Required: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.RequiresReplace(),
 				},
+
 				MarkdownDescription: "Offering URL",
 			},
 			"plan": schema.StringAttribute{
+
 				Optional: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.RequiresReplace(),
 				},
+
 				MarkdownDescription: "Plan URL",
 			},
 			"project": schema.StringAttribute{
+
 				Required: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.RequiresReplace(),
 				},
+
 				MarkdownDescription: "Project URL",
 			},
 			"resource_type": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Resource Type",
 			},
 			"runtime_state": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Runtime State",
 			},
 			"size": schema.Int64Attribute{
+
 				Optional: true,
 				Computed: true,
+
 				PlanModifiers: []planmodifier.Int64{
+
 					int64planmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Size in MiB",
 
 				Validators: []validator.Int64{
@@ -254,61 +356,93 @@ func (r *OpenstackVolumeResource) Schema(ctx context.Context, req resource.Schem
 				},
 			},
 			"source_snapshot": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Snapshot that this volume was created from, if any",
 			},
 			"start_date": schema.StringAttribute{
 				CustomType: timetypes.RFC3339Type{},
-				Optional:   true,
+
+				Optional: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.RequiresReplace(),
 				},
+
 				MarkdownDescription: "Order start date",
 			},
 			"state": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "State",
 			},
 			"tenant": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Tenant",
 			},
 			"tenant_uuid": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Tenant Uuid",
 			},
 			"type": schema.StringAttribute{
+
 				Optional: true,
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Type of the volume (e.g. SSD, HDD)",
 			},
 			"type_name": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Type Name",
 			},
 			"url": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Url",
 			},
 		},

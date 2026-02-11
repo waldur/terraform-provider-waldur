@@ -56,171 +56,259 @@ func (r *OpenstackVolumeAttachmentResource) Schema(ctx context.Context, req reso
 				},
 			},
 			"action": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Action",
 			},
 			"availability_zone": schema.StringAttribute{
+
 				Optional: true,
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.RequiresReplace(),
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Availability zone where this volume is located",
 			},
 			"availability_zone_name": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Availability Zone Name",
 			},
 			"backend_id": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Volume ID in the OpenStack backend",
 			},
 			"bootable": schema.BoolAttribute{
+
 				Optional: true,
 				Computed: true,
+
 				PlanModifiers: []planmodifier.Bool{
+
 					boolplanmodifier.RequiresReplace(),
 					boolplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Indicates if this volume can be used to boot an instance",
 			},
 			"customer": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Customer",
 			},
 			"description": schema.StringAttribute{
+
 				Optional: true,
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.RequiresReplace(),
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Description",
 			},
 			"device": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Link parameter",
 			},
 			"error_message": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Error Message",
 			},
 			"extend_enabled": schema.BoolAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.Bool{
+
 					boolplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Extend Enabled",
 			},
 			"image": schema.StringAttribute{
+
 				Optional: true,
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.RequiresReplace(),
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Image that this volume was created from, if any",
 			},
 			"image_metadata": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Metadata of the image this volume was created from",
 			},
 			"image_name": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Name of the image this volume was created from",
 			},
 			"instance": schema.StringAttribute{
+
 				Required: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.RequiresReplace(),
 				},
+
 				MarkdownDescription: "Instance that this volume is attached to, if any",
 			},
 			"instance_marketplace_uuid": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Instance Marketplace Uuid",
 			},
 			"instance_name": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Instance Name",
 			},
 			"marketplace_resource_uuid": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Marketplace Resource Uuid",
 			},
 			"name": schema.StringAttribute{
+
 				Optional: true,
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.RequiresReplace(),
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Name",
 			},
 			"project": schema.StringAttribute{
+
 				Optional: true,
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.RequiresReplace(),
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Project",
 			},
 			"resource_type": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Resource Type",
 			},
 			"runtime_state": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Runtime State",
 			},
 			"size": schema.Int64Attribute{
+
 				Optional: true,
 				Computed: true,
+
 				PlanModifiers: []planmodifier.Int64{
+
 					int64planmodifier.RequiresReplace(),
 					int64planmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Size in MiB",
 
 				Validators: []validator.Int64{
@@ -229,63 +317,95 @@ func (r *OpenstackVolumeAttachmentResource) Schema(ctx context.Context, req reso
 				},
 			},
 			"source_snapshot": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Snapshot that this volume was created from, if any",
 			},
 			"state": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "State",
 			},
 			"tenant": schema.StringAttribute{
+
 				Optional: true,
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.RequiresReplace(),
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Tenant",
 			},
 			"tenant_uuid": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Tenant Uuid",
 			},
 			"type": schema.StringAttribute{
+
 				Optional: true,
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.RequiresReplace(),
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Type of the volume (e.g. SSD, HDD)",
 			},
 			"type_name": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Type Name",
 			},
 			"url": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Url",
 			},
 			"volume": schema.StringAttribute{
+
 				Required: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.RequiresReplace(),
 				},
+
 				MarkdownDescription: "Source resource UUID",
 			},
 		},

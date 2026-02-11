@@ -42,92 +42,134 @@ func (d *OpenstackTenantDataSource) Schema(ctx context.Context, req datasource.S
 			},
 			"filters": (&OpenstackTenantFiltersModel{}).GetSchema(),
 			"availability_zone": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Optional availability group. Will be used for all instances provisioned in this tenant",
 			},
 			"backend_id": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "ID of tenant in the OpenStack backend",
 			},
 			"customer": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Customer",
 			},
 			"default_volume_type_name": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Volume type name to use when creating volumes.",
 			},
 			"description": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Description",
 			},
 			"error_message": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Error Message",
 			},
 			"external_network_id": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "ID of external network connected to OpenStack tenant",
 			},
 			"internal_network_id": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "ID of internal network in OpenStack tenant",
 			},
 			"marketplace_resource_uuid": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Marketplace Resource Uuid",
 			},
 			"name": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Name",
 			},
 			"project": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Project URL",
 			},
 			"quotas": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"limit": schema.Int64Attribute{
-							Computed:            true,
+
+							Computed: true,
+
 							MarkdownDescription: "Limit",
 						},
 						"name": schema.StringAttribute{
-							Computed:            true,
+
+							Computed: true,
+
 							MarkdownDescription: "Name",
 						},
 						"usage": schema.Int64Attribute{
-							Computed:            true,
+
+							Computed: true,
+
 							MarkdownDescription: "Usage",
 						},
 					},
 				},
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Quotas",
 			},
 			"resource_type": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Resource Type",
 			},
 			"skip_creation_of_default_router": schema.BoolAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Skip Creation Of Default Router",
 			},
 			"state": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "State",
 			},
 			"url": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Url",
 			},
 			"user_password": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Password of the tenant user",
 				Sensitive:           true,
 			},
 			"user_username": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Username of the tenant user",
 			},
 		},

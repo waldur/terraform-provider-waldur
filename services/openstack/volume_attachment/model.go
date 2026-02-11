@@ -190,34 +190,63 @@ func (model *OpenstackVolumeAttachmentModel) CopyFrom(ctx context.Context, apiRe
 	var diags diag.Diagnostics
 
 	model.UUID = types.StringPointerValue(apiResp.UUID)
+
 	model.Action = common.StringPointerValue(apiResp.Action)
+
 	model.AvailabilityZone = common.StringPointerValue(apiResp.AvailabilityZone)
+
 	model.AvailabilityZoneName = common.StringPointerValue(apiResp.AvailabilityZoneName)
+
 	model.BackendId = common.StringPointerValue(apiResp.BackendId)
+
 	model.Bootable = types.BoolPointerValue(apiResp.Bootable)
+
 	model.Customer = common.StringPointerValue(apiResp.Customer)
+
 	model.Description = common.StringPointerValue(apiResp.Description)
+
 	model.Device = common.StringPointerValue(apiResp.Device)
+
 	model.ErrorMessage = common.StringPointerValue(apiResp.ErrorMessage)
+
 	model.ExtendEnabled = types.BoolPointerValue(apiResp.ExtendEnabled)
+
 	model.Image = common.StringPointerValue(apiResp.Image)
+
 	model.ImageMetadata = common.StringPointerValue(apiResp.ImageMetadata)
+
 	model.ImageName = common.StringPointerValue(apiResp.ImageName)
+
 	model.Instance = common.StringPointerValue(apiResp.Instance)
+
 	model.InstanceMarketplaceUuid = common.StringPointerValue(apiResp.InstanceMarketplaceUuid)
+
 	model.InstanceName = common.StringPointerValue(apiResp.InstanceName)
+
 	model.MarketplaceResourceUuid = common.StringPointerValue(apiResp.MarketplaceResourceUuid)
+
 	model.Name = common.StringPointerValue(apiResp.Name)
+
 	model.Project = common.StringPointerValue(apiResp.Project)
+
 	model.ResourceType = common.StringPointerValue(apiResp.ResourceType)
+
 	model.RuntimeState = common.StringPointerValue(apiResp.RuntimeState)
+
 	model.Size = types.Int64PointerValue(apiResp.Size)
+
 	model.SourceSnapshot = common.StringPointerValue(apiResp.SourceSnapshot)
+
 	model.State = common.StringPointerValue(apiResp.State)
+
 	model.Tenant = common.StringPointerValue(apiResp.Tenant)
+
 	model.TenantUuid = common.StringPointerValue(apiResp.TenantUuid)
+
 	model.Type = common.StringPointerValue(apiResp.Type)
+
 	model.TypeName = common.StringPointerValue(apiResp.TypeName)
+
 	model.Url = common.StringPointerValue(apiResp.Url)
 
 	return diags

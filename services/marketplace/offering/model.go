@@ -243,17 +243,25 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 	var diags diag.Diagnostics
 
 	model.UUID = types.StringPointerValue(apiResp.UUID)
+
 	model.BackendId = common.StringPointerValue(apiResp.BackendId)
+
 	model.Billable = types.BoolPointerValue(apiResp.Billable)
+
 	model.BillingTypeClassification = common.StringPointerValue(apiResp.BillingTypeClassification)
+
 	model.Category = common.StringPointerValue(apiResp.Category)
+
 	model.CategoryTitle = common.StringPointerValue(apiResp.CategoryTitle)
+
 	model.CategoryUuid = common.StringPointerValue(apiResp.CategoryUuid)
+
 	model.CitationCount = types.Int64PointerValue(apiResp.CitationCount)
+
 	model.ComplianceChecklist = common.StringPointerValue(apiResp.ComplianceChecklist)
 
 	if apiResp.Components != nil {
-		listValComponents, listDiagsComponents := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+		valComponents, diagsComponents := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
 			"article_code":         types.StringType,
 			"billing_type":         types.StringType,
 			"default_limit":        types.Int64Type,
@@ -276,8 +284,8 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 			"unit_factor":          types.Int64Type,
 			"uuid":                 types.StringType,
 		}}, apiResp.Components)
-		diags.Append(listDiagsComponents...)
-		model.Components = listValComponents
+		diags.Append(diagsComponents...)
+		model.Components = valComponents
 	} else {
 		model.Components = types.ListNull(types.ObjectType{AttrTypes: map[string]attr.Type{
 			"article_code":         types.StringType,
@@ -303,19 +311,23 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 			"uuid":                 types.StringType,
 		}})
 	}
+
 	model.Country = common.StringPointerValue(apiResp.Country)
+
 	model.Customer = common.StringPointerValue(apiResp.Customer)
+
 	model.DataciteDoi = common.StringPointerValue(apiResp.DataciteDoi)
+
 	model.Description = common.StringPointerValue(apiResp.Description)
 
 	if apiResp.Endpoints != nil {
-		listValEndpoints, listDiagsEndpoints := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+		valEndpoints, diagsEndpoints := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
 			"name": types.StringType,
 			"url":  types.StringType,
 			"uuid": types.StringType,
 		}}, apiResp.Endpoints)
-		diags.Append(listDiagsEndpoints...)
-		model.Endpoints = listValEndpoints
+		diags.Append(diagsEndpoints...)
+		model.Endpoints = valEndpoints
 	} else {
 		model.Endpoints = types.ListNull(types.ObjectType{AttrTypes: map[string]attr.Type{
 			"name": types.StringType,
@@ -325,44 +337,57 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 	}
 
 	if apiResp.Files != nil {
-		listValFiles, listDiagsFiles := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+		valFiles, diagsFiles := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
 			"file": types.StringType,
 			"name": types.StringType,
 		}}, apiResp.Files)
-		diags.Append(listDiagsFiles...)
-		model.Files = listValFiles
+		diags.Append(diagsFiles...)
+		model.Files = valFiles
 	} else {
 		model.Files = types.ListNull(types.ObjectType{AttrTypes: map[string]attr.Type{
 			"file": types.StringType,
 			"name": types.StringType,
 		}})
 	}
+
 	model.FullDescription = common.StringPointerValue(apiResp.FullDescription)
+
 	model.GettingStarted = common.StringPointerValue(apiResp.GettingStarted)
+
 	model.GoogleCalendarIsPublic = types.BoolPointerValue(apiResp.GoogleCalendarIsPublic)
+
 	model.GoogleCalendarLink = common.StringPointerValue(apiResp.GoogleCalendarLink)
+
 	model.HasComplianceRequirements = types.BoolPointerValue(apiResp.HasComplianceRequirements)
+
 	model.Image = common.StringPointerValue(apiResp.Image)
+
 	model.IntegrationGuide = common.StringPointerValue(apiResp.IntegrationGuide)
+
 	model.IsAccessible = types.BoolPointerValue(apiResp.IsAccessible)
+
 	model.Latitude = types.Float64PointerValue(apiResp.Latitude.Float64Ptr())
+
 	model.Longitude = types.Float64PointerValue(apiResp.Longitude.Float64Ptr())
+
 	model.Name = common.StringPointerValue(apiResp.Name)
+
 	if apiResp.Options != nil {
-		objValOptions, objDiagsOptions := types.ObjectValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+		valOptions, diagsOptions := types.ObjectValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
 			"order": types.ListType{ElemType: types.StringType},
 		}}.AttrTypes, *apiResp.Options)
-		diags.Append(objDiagsOptions...)
-		model.Options = objValOptions
+		diags.Append(diagsOptions...)
+		model.Options = valOptions
 	} else {
 		model.Options = types.ObjectNull(types.ObjectType{AttrTypes: map[string]attr.Type{
 			"order": types.ListType{ElemType: types.StringType},
 		}}.AttrTypes)
 	}
+
 	model.OrderCount = types.Int64PointerValue(apiResp.OrderCount)
 
 	if apiResp.OrganizationGroups != nil {
-		listValOrganizationGroups, listDiagsOrganizationGroups := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+		valOrganizationGroups, diagsOrganizationGroups := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
 			"customers_count": types.Int64Type,
 			"name":            types.StringType,
 			"parent":          types.StringType,
@@ -371,8 +396,8 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 			"url":             types.StringType,
 			"uuid":            types.StringType,
 		}}, apiResp.OrganizationGroups)
-		diags.Append(listDiagsOrganizationGroups...)
-		model.OrganizationGroups = listValOrganizationGroups
+		diags.Append(diagsOrganizationGroups...)
+		model.OrganizationGroups = valOrganizationGroups
 	} else {
 		model.OrganizationGroups = types.ListNull(types.ObjectType{AttrTypes: map[string]attr.Type{
 			"customers_count": types.Int64Type,
@@ -384,12 +409,15 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 			"uuid":            types.StringType,
 		}})
 	}
+
 	model.ParentDescription = common.StringPointerValue(apiResp.ParentDescription)
+
 	model.ParentName = common.StringPointerValue(apiResp.ParentName)
+
 	model.ParentUuid = common.StringPointerValue(apiResp.ParentUuid)
 
 	if apiResp.Partitions != nil {
-		listValPartitions, listDiagsPartitions := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+		valPartitions, diagsPartitions := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
 			"cpu_bind":            types.Int64Type,
 			"def_cpu_per_gpu":     types.Int64Type,
 			"def_mem_per_cpu":     types.Int64Type,
@@ -412,8 +440,8 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 			"req_resv":            types.BoolType,
 			"uuid":                types.StringType,
 		}}, apiResp.Partitions)
-		diags.Append(listDiagsPartitions...)
-		model.Partitions = listValPartitions
+		diags.Append(diagsPartitions...)
+		model.Partitions = valPartitions
 	} else {
 		model.Partitions = types.ListNull(types.ObjectType{AttrTypes: map[string]attr.Type{
 			"cpu_bind":            types.Int64Type,
@@ -439,10 +467,11 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 			"uuid":                types.StringType,
 		}})
 	}
+
 	model.PausedReason = common.StringPointerValue(apiResp.PausedReason)
 
 	if apiResp.Plans != nil {
-		listValPlans, listDiagsPlans := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+		valPlans, diagsPlans := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
 			"archived":     types.BoolType,
 			"article_code": types.StringType,
 			"backend_id":   types.StringType,
@@ -479,8 +508,8 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 			"url":             types.StringType,
 			"uuid":            types.StringType,
 		}}, apiResp.Plans)
-		diags.Append(listDiagsPlans...)
-		model.Plans = listValPlans
+		diags.Append(diagsPlans...)
+		model.Plans = valPlans
 	} else {
 		model.Plans = types.ListNull(types.ObjectType{AttrTypes: map[string]attr.Type{
 			"archived":     types.BoolType,
@@ -520,8 +549,9 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 			"uuid":            types.StringType,
 		}})
 	}
+
 	if apiResp.PluginOptions != nil {
-		objValPluginOptions, objDiagsPluginOptions := types.ObjectValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+		valPluginOptions, diagsPluginOptions := types.ObjectValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
 			"auto_approve_in_service_provider_projects":             types.BoolType,
 			"auto_approve_marketplace_script":                       types.BoolType,
 			"auto_approve_remote_orders":                            types.BoolType,
@@ -585,8 +615,8 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 			"username_anonymized_prefix":                            types.StringType,
 			"username_generation_policy":                            types.StringType,
 		}}.AttrTypes, *apiResp.PluginOptions)
-		diags.Append(objDiagsPluginOptions...)
-		model.PluginOptions = objValPluginOptions
+		diags.Append(diagsPluginOptions...)
+		model.PluginOptions = valPluginOptions
 	} else {
 		model.PluginOptions = types.ObjectNull(types.ObjectType{AttrTypes: map[string]attr.Type{
 			"auto_approve_in_service_provider_projects":             types.BoolType,
@@ -653,11 +683,13 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 			"username_generation_policy":                            types.StringType,
 		}}.AttrTypes)
 	}
+
 	model.PrivacyPolicyLink = common.StringPointerValue(apiResp.PrivacyPolicyLink)
+
 	model.Project = common.StringPointerValue(apiResp.Project)
 
 	if apiResp.PromotionCampaigns != nil {
-		listValPromotionCampaigns, listDiagsPromotionCampaigns := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+		valPromotionCampaigns, diagsPromotionCampaigns := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
 			"description":      types.StringType,
 			"discount":         types.Int64Type,
 			"discount_type":    types.StringType,
@@ -669,8 +701,8 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 			"stock":            types.Int64Type,
 			"uuid":             types.StringType,
 		}}, apiResp.PromotionCampaigns)
-		diags.Append(listDiagsPromotionCampaigns...)
-		model.PromotionCampaigns = listValPromotionCampaigns
+		diags.Append(diagsPromotionCampaigns...)
+		model.PromotionCampaigns = valPromotionCampaigns
 	} else {
 		model.PromotionCampaigns = types.ListNull(types.ObjectType{AttrTypes: map[string]attr.Type{
 			"description":      types.StringType,
@@ -687,13 +719,13 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 	}
 
 	if apiResp.Quotas != nil {
-		listValQuotas, listDiagsQuotas := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+		valQuotas, diagsQuotas := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
 			"limit": types.Int64Type,
 			"name":  types.StringType,
 			"usage": types.Int64Type,
 		}}, apiResp.Quotas)
-		diags.Append(listDiagsQuotas...)
-		model.Quotas = listValQuotas
+		diags.Append(diagsQuotas...)
+		model.Quotas = valQuotas
 	} else {
 		model.Quotas = types.ListNull(types.ObjectType{AttrTypes: map[string]attr.Type{
 			"limit": types.Int64Type,
@@ -701,12 +733,13 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 			"usage": types.Int64Type,
 		}})
 	}
+
 	if apiResp.ResourceOptions != nil {
-		objValResourceOptions, objDiagsResourceOptions := types.ObjectValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+		valResourceOptions, diagsResourceOptions := types.ObjectValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
 			"order": types.ListType{ElemType: types.StringType},
 		}}.AttrTypes, *apiResp.ResourceOptions)
-		diags.Append(objDiagsResourceOptions...)
-		model.ResourceOptions = objValResourceOptions
+		diags.Append(diagsResourceOptions...)
+		model.ResourceOptions = valResourceOptions
 	} else {
 		model.ResourceOptions = types.ObjectNull(types.ObjectType{AttrTypes: map[string]attr.Type{
 			"order": types.ListType{ElemType: types.StringType},
@@ -714,13 +747,13 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 	}
 
 	if apiResp.Roles != nil {
-		listValRoles, listDiagsRoles := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+		valRoles, diagsRoles := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
 			"name": types.StringType,
 			"url":  types.StringType,
 			"uuid": types.StringType,
 		}}, apiResp.Roles)
-		diags.Append(listDiagsRoles...)
-		model.Roles = listValRoles
+		diags.Append(diagsRoles...)
+		model.Roles = valRoles
 	} else {
 		model.Roles = types.ListNull(types.ObjectType{AttrTypes: map[string]attr.Type{
 			"name": types.StringType,
@@ -728,22 +761,27 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 			"uuid": types.StringType,
 		}})
 	}
+
 	model.Scope = common.StringPointerValue(apiResp.Scope)
+
 	model.ScopeErrorMessage = common.StringPointerValue(apiResp.ScopeErrorMessage)
+
 	model.ScopeName = common.StringPointerValue(apiResp.ScopeName)
+
 	model.ScopeState = common.StringPointerValue(apiResp.ScopeState)
+
 	model.ScopeUuid = common.StringPointerValue(apiResp.ScopeUuid)
 
 	if apiResp.Screenshots != nil {
-		listValScreenshots, listDiagsScreenshots := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+		valScreenshots, diagsScreenshots := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
 			"description": types.StringType,
 			"image":       types.StringType,
 			"name":        types.StringType,
 			"thumbnail":   types.StringType,
 			"uuid":        types.StringType,
 		}}, apiResp.Screenshots)
-		diags.Append(listDiagsScreenshots...)
-		model.Screenshots = listValScreenshots
+		diags.Append(diagsScreenshots...)
+		model.Screenshots = valScreenshots
 	} else {
 		model.Screenshots = types.ListNull(types.ObjectType{AttrTypes: map[string]attr.Type{
 			"description": types.StringType,
@@ -753,11 +791,13 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 			"uuid":        types.StringType,
 		}})
 	}
+
 	model.Shared = types.BoolPointerValue(apiResp.Shared)
+
 	model.Slug = common.StringPointerValue(apiResp.Slug)
 
 	if apiResp.SoftwareCatalogs != nil {
-		listValSoftwareCatalogs, listDiagsSoftwareCatalogs := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+		valSoftwareCatalogs, diagsSoftwareCatalogs := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
 			"catalog": types.ObjectType{AttrTypes: map[string]attr.Type{
 				"description": types.StringType,
 				"name":        types.StringType,
@@ -773,8 +813,8 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 			}},
 			"uuid": types.StringType,
 		}}, apiResp.SoftwareCatalogs)
-		diags.Append(listDiagsSoftwareCatalogs...)
-		model.SoftwareCatalogs = listValSoftwareCatalogs
+		diags.Append(diagsSoftwareCatalogs...)
+		model.SoftwareCatalogs = valSoftwareCatalogs
 	} else {
 		model.SoftwareCatalogs = types.ListNull(types.ObjectType{AttrTypes: map[string]attr.Type{
 			"catalog": types.ObjectType{AttrTypes: map[string]attr.Type{
@@ -793,27 +833,37 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 			"uuid": types.StringType,
 		}})
 	}
+
 	model.State = common.StringPointerValue(apiResp.State)
-	if apiResp.Tags != nil && len(*apiResp.Tags) > 0 {
-		setValTags, setDiagsTags := types.SetValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+
+	if apiResp.Tags != nil {
+		valTags, diagsTags := types.SetValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
 			"name": types.StringType,
 			"uuid": types.StringType,
 		}}, apiResp.Tags)
-		diags.Append(setDiagsTags...)
-		model.Tags = setValTags
+		diags.Append(diagsTags...)
+		model.Tags = valTags
 	} else {
 		model.Tags = types.SetNull(types.ObjectType{AttrTypes: map[string]attr.Type{
 			"name": types.StringType,
 			"uuid": types.StringType,
 		}})
 	}
+
 	model.Thumbnail = common.StringPointerValue(apiResp.Thumbnail)
+
 	model.TotalCost = types.Int64PointerValue(apiResp.TotalCost)
+
 	model.TotalCostEstimated = types.Int64PointerValue(apiResp.TotalCostEstimated)
+
 	model.TotalCustomers = types.Int64PointerValue(apiResp.TotalCustomers)
+
 	model.Type = common.StringPointerValue(apiResp.Type)
+
 	model.Url = common.StringPointerValue(apiResp.Url)
+
 	model.UserHasConsent = types.BoolPointerValue(apiResp.UserHasConsent)
+
 	model.VendorDetails = common.StringPointerValue(apiResp.VendorDetails)
 
 	return diags

@@ -162,30 +162,47 @@ func (model *OpenstackTenantModel) CopyFrom(ctx context.Context, apiResp Opensta
 	var diags diag.Diagnostics
 
 	model.UUID = types.StringPointerValue(apiResp.UUID)
+
 	model.AvailabilityZone = common.StringPointerValue(apiResp.AvailabilityZone)
+
 	model.BackendId = common.StringPointerValue(apiResp.BackendId)
+
 	model.Customer = common.StringPointerValue(apiResp.Customer)
+
 	model.DefaultVolumeTypeName = common.StringPointerValue(apiResp.DefaultVolumeTypeName)
+
 	model.Description = common.StringPointerValue(apiResp.Description)
+
 	model.ErrorMessage = common.StringPointerValue(apiResp.ErrorMessage)
+
 	model.ExternalNetworkId = common.StringPointerValue(apiResp.ExternalNetworkId)
+
 	model.InternalNetworkId = common.StringPointerValue(apiResp.InternalNetworkId)
+
 	model.MarketplaceResourceUuid = common.StringPointerValue(apiResp.MarketplaceResourceUuid)
+
 	model.Name = common.StringPointerValue(apiResp.Name)
+
 	model.Project = common.StringPointerValue(apiResp.Project)
 
 	if apiResp.Quotas != nil {
-		listValQuotas, listDiagsQuotas := types.ListValueFrom(ctx, QuotaType(), apiResp.Quotas)
-		diags.Append(listDiagsQuotas...)
-		model.Quotas = listValQuotas
+		valQuotas, diagsQuotas := types.ListValueFrom(ctx, QuotaType(), apiResp.Quotas)
+		diags.Append(diagsQuotas...)
+		model.Quotas = valQuotas
 	} else {
 		model.Quotas = types.ListNull(QuotaType())
 	}
+
 	model.ResourceType = common.StringPointerValue(apiResp.ResourceType)
+
 	model.SkipCreationOfDefaultRouter = types.BoolPointerValue(apiResp.SkipCreationOfDefaultRouter)
+
 	model.State = common.StringPointerValue(apiResp.State)
+
 	model.Url = common.StringPointerValue(apiResp.Url)
+
 	model.UserPassword = common.StringPointerValue(apiResp.UserPassword)
+
 	model.UserUsername = common.StringPointerValue(apiResp.UserUsername)
 
 	return diags

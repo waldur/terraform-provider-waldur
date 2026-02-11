@@ -147,37 +147,63 @@ func (model *StructureProjectModel) CopyFrom(ctx context.Context, apiResp Struct
 	var diags diag.Diagnostics
 
 	model.UUID = types.StringPointerValue(apiResp.UUID)
+
 	model.BackendId = common.StringPointerValue(apiResp.BackendId)
+
 	if apiResp.BillingPriceEstimate != nil {
-		objValBillingPriceEstimate, objDiagsBillingPriceEstimate := types.ObjectValueFrom(ctx, BillingPriceEstimateType().AttrTypes, *apiResp.BillingPriceEstimate)
-		diags.Append(objDiagsBillingPriceEstimate...)
-		model.BillingPriceEstimate = objValBillingPriceEstimate
+		valBillingPriceEstimate, diagsBillingPriceEstimate := types.ObjectValueFrom(ctx, BillingPriceEstimateType().AttrTypes, *apiResp.BillingPriceEstimate)
+		diags.Append(diagsBillingPriceEstimate...)
+		model.BillingPriceEstimate = valBillingPriceEstimate
 	} else {
 		model.BillingPriceEstimate = types.ObjectNull(BillingPriceEstimateType().AttrTypes)
 	}
+
 	model.Customer = common.StringPointerValue(apiResp.Customer)
+
 	model.CustomerDisplayBillingInfoInProjects = types.BoolPointerValue(apiResp.CustomerDisplayBillingInfoInProjects)
+
 	model.CustomerSlug = common.StringPointerValue(apiResp.CustomerSlug)
+
 	model.Description = common.StringPointerValue(apiResp.Description)
+
 	model.EndDate = common.StringPointerValue(apiResp.EndDate)
+
 	model.EndDateRequestedBy = common.StringPointerValue(apiResp.EndDateRequestedBy)
+
 	model.GracePeriodDays = types.Int64PointerValue(apiResp.GracePeriodDays)
+
 	model.Image = common.StringPointerValue(apiResp.Image)
+
 	model.IsIndustry = types.BoolPointerValue(apiResp.IsIndustry)
+
 	model.IsRemoved = types.BoolPointerValue(apiResp.IsRemoved)
+
 	model.Kind = common.StringPointerValue(apiResp.Kind)
+
 	model.MaxServiceAccounts = types.Int64PointerValue(apiResp.MaxServiceAccounts)
+
 	model.Name = common.StringPointerValue(apiResp.Name)
+
 	model.OecdFos2007Code = common.StringPointerValue(apiResp.OecdFos2007Code)
+
 	model.OecdFos2007Label = common.StringPointerValue(apiResp.OecdFos2007Label)
+
 	model.ProjectCredit = types.Float64PointerValue(apiResp.ProjectCredit.Float64Ptr())
+
 	model.ResourcesCount = types.Int64PointerValue(apiResp.ResourcesCount)
+
 	model.Slug = common.StringPointerValue(apiResp.Slug)
+
 	model.StaffNotes = common.StringPointerValue(apiResp.StaffNotes)
+
 	model.StartDate = common.StringPointerValue(apiResp.StartDate)
+
 	model.Type = common.StringPointerValue(apiResp.Type)
+
 	model.TypeName = common.StringPointerValue(apiResp.TypeName)
+
 	model.TypeUuid = common.StringPointerValue(apiResp.TypeUuid)
+
 	model.Url = common.StringPointerValue(apiResp.Url)
 
 	return diags

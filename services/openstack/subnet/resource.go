@@ -57,190 +57,288 @@ func (r *OpenstackSubnetResource) Schema(ctx context.Context, req resource.Schem
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"end": schema.StringAttribute{
-							Required:            true,
+
+							Required: true,
+
 							MarkdownDescription: "An IPv4 or IPv6 address.",
 						},
 						"start": schema.StringAttribute{
-							Required:            true,
+
+							Required: true,
+
 							MarkdownDescription: "An IPv4 or IPv6 address.",
 						},
 					},
 				},
+
 				Optional: true,
 				Computed: true,
+
 				PlanModifiers: []planmodifier.List{
+
 					listplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Allocation Pools",
 			},
 			"backend_id": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Backend Id",
 			},
 			"cidr": schema.StringAttribute{
+
 				Optional: true,
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Cidr",
 			},
 			"customer": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Customer",
 			},
 			"description": schema.StringAttribute{
+
 				Optional: true,
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Description",
 			},
 			"disable_gateway": schema.BoolAttribute{
+
 				Optional: true,
 				Computed: true,
+
 				PlanModifiers: []planmodifier.Bool{
+
 					boolplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "If True, no gateway IP address will be allocated",
 			},
 			"dns_nameservers": schema.ListAttribute{
 				ElementType: types.StringType,
-				Optional:    true,
-				Computed:    true,
+
+				Optional: true,
+				Computed: true,
+
 				PlanModifiers: []planmodifier.List{
+
 					listplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Dns Nameservers",
 			},
 			"enable_dhcp": schema.BoolAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.Bool{
+
 					boolplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "If True, DHCP service will be enabled on this subnet",
 			},
 			"error_message": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Error Message",
 			},
 			"gateway_ip": schema.StringAttribute{
+
 				Optional: true,
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "IP address of the gateway for this subnet",
 			},
 			"host_routes": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"destination": schema.StringAttribute{
-							Required:            true,
+
+							Required: true,
+
 							MarkdownDescription: "Destination",
 						},
 						"nexthop": schema.StringAttribute{
-							Required:            true,
+
+							Required: true,
+
 							MarkdownDescription: "An IPv4 or IPv6 address.",
 						},
 					},
 				},
+
 				Optional: true,
 				Computed: true,
+
 				PlanModifiers: []planmodifier.List{
+
 					listplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Host Routes",
 			},
 			"ip_version": schema.Int64Attribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.Int64{
+
 					int64planmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "IP protocol version (4 or 6)",
 			},
 			"is_connected": schema.BoolAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.Bool{
+
 					boolplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Is subnet connected to the default tenant router.",
 			},
 			"marketplace_resource_uuid": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Marketplace Resource Uuid",
 			},
 			"name": schema.StringAttribute{
-				Required:            true,
+
+				Required: true,
+
 				MarkdownDescription: "Name",
 			},
 			"network": schema.StringAttribute{
+
 				Required: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.RequiresReplace(),
 				},
+
 				MarkdownDescription: "Network to which this subnet belongs",
 			},
 			"network_name": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Network Name",
 			},
 			"project": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Project",
 			},
 			"resource_type": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Resource Type",
 			},
 			"state": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "State",
 			},
 			"tenant": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Tenant",
 			},
 			"tenant_name": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Tenant Name",
 			},
 			"url": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Url",
 			},
 		},

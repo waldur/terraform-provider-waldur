@@ -124,13 +124,21 @@ func (model *OpenstackFlavorModel) CopyFrom(ctx context.Context, apiResp Opensta
 	var diags diag.Diagnostics
 
 	model.UUID = types.StringPointerValue(apiResp.UUID)
+
 	model.BackendId = common.StringPointerValue(apiResp.BackendId)
+
 	model.Cores = types.Int64PointerValue(apiResp.Cores)
+
 	model.Disk = types.Int64PointerValue(apiResp.Disk)
+
 	model.DisplayName = common.StringPointerValue(apiResp.DisplayName)
+
 	model.Name = common.StringPointerValue(apiResp.Name)
+
 	model.Ram = types.Int64PointerValue(apiResp.Ram)
+
 	model.Settings = common.StringPointerValue(apiResp.Settings)
+
 	model.Url = common.StringPointerValue(apiResp.Url)
 
 	return diags

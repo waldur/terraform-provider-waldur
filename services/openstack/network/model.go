@@ -197,38 +197,55 @@ func (model *OpenstackNetworkModel) CopyFrom(ctx context.Context, apiResp Openst
 	var diags diag.Diagnostics
 
 	model.UUID = types.StringPointerValue(apiResp.UUID)
+
 	model.BackendId = common.StringPointerValue(apiResp.BackendId)
+
 	model.Customer = common.StringPointerValue(apiResp.Customer)
+
 	model.Description = common.StringPointerValue(apiResp.Description)
+
 	model.ErrorMessage = common.StringPointerValue(apiResp.ErrorMessage)
+
 	model.IsExternal = types.BoolPointerValue(apiResp.IsExternal)
+
 	model.MarketplaceResourceUuid = common.StringPointerValue(apiResp.MarketplaceResourceUuid)
+
 	model.Mtu = types.Int64PointerValue(apiResp.Mtu)
+
 	model.Name = common.StringPointerValue(apiResp.Name)
+
 	model.Project = common.StringPointerValue(apiResp.Project)
 
 	if apiResp.RbacPolicies != nil {
-		listValRbacPolicies, listDiagsRbacPolicies := types.ListValueFrom(ctx, NetworkRBACPolicyType(), apiResp.RbacPolicies)
-		diags.Append(listDiagsRbacPolicies...)
-		model.RbacPolicies = listValRbacPolicies
+		valRbacPolicies, diagsRbacPolicies := types.ListValueFrom(ctx, NetworkRBACPolicyType(), apiResp.RbacPolicies)
+		diags.Append(diagsRbacPolicies...)
+		model.RbacPolicies = valRbacPolicies
 	} else {
 		model.RbacPolicies = types.ListNull(NetworkRBACPolicyType())
 	}
+
 	model.ResourceType = common.StringPointerValue(apiResp.ResourceType)
+
 	model.SegmentationId = types.Int64PointerValue(apiResp.SegmentationId)
+
 	model.State = common.StringPointerValue(apiResp.State)
 
 	if apiResp.Subnets != nil {
-		listValSubnets, listDiagsSubnets := types.ListValueFrom(ctx, OpenStackNestedSubNetType(), apiResp.Subnets)
-		diags.Append(listDiagsSubnets...)
-		model.Subnets = listValSubnets
+		valSubnets, diagsSubnets := types.ListValueFrom(ctx, OpenStackNestedSubNetType(), apiResp.Subnets)
+		diags.Append(diagsSubnets...)
+		model.Subnets = valSubnets
 	} else {
 		model.Subnets = types.ListNull(OpenStackNestedSubNetType())
 	}
+
 	model.Tenant = common.StringPointerValue(apiResp.Tenant)
+
 	model.TenantName = common.StringPointerValue(apiResp.TenantName)
+
 	model.TenantUuid = common.StringPointerValue(apiResp.TenantUuid)
+
 	model.Type = common.StringPointerValue(apiResp.Type)
+
 	model.Url = common.StringPointerValue(apiResp.Url)
 
 	return diags

@@ -60,116 +60,176 @@ func (r *MarketplaceOrderResource) Schema(ctx context.Context, req resource.Sche
 				},
 			},
 			"accepting_terms_of_service": schema.BoolAttribute{
+
 				Optional: true,
+
 				PlanModifiers: []planmodifier.Bool{
+
 					boolplanmodifier.RequiresReplace(),
 				},
+
 				MarkdownDescription: "Accepting Terms Of Service",
 			},
 			"activation_price": schema.Float64Attribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.Float64{
+
 					float64planmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Activation Price",
 			},
 			"attachment": schema.StringAttribute{
+
 				Optional: true,
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.RequiresReplace(),
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Attachment",
 			},
 			"backend_id": schema.StringAttribute{
+
 				Optional: true,
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.RequiresReplace(),
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Backend Id",
 			},
 			"callback_url": schema.StringAttribute{
+
 				Optional: true,
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.RequiresReplace(),
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Callback Url",
 			},
 			"can_terminate": schema.BoolAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.Bool{
+
 					boolplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Can Terminate",
 			},
 			"category_icon": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Category Icon",
 			},
 			"category_title": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Category Title",
 			},
 			"category_uuid": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Category Uuid",
 			},
 			"completed_at": schema.StringAttribute{
 				CustomType: timetypes.RFC3339Type{},
-				Computed:   true,
+
+				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Completed At",
 			},
 			"consumer_reviewed_at": schema.StringAttribute{
 				CustomType: timetypes.RFC3339Type{},
-				Computed:   true,
+
+				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Consumer Reviewed At",
 			},
 			"consumer_reviewed_by": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters",
 			},
 			"consumer_reviewed_by_full_name": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Consumer Reviewed By Full Name",
 			},
 			"consumer_reviewed_by_username": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters",
 			},
 			"cost": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Cost",
 
 				Validators: []validator.String{
@@ -177,82 +237,126 @@ func (r *MarketplaceOrderResource) Schema(ctx context.Context, req resource.Sche
 				},
 			},
 			"created_by_civil_number": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Created By Civil Number",
 			},
 			"created_by_full_name": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Created By Full Name",
 			},
 			"created_by_username": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters",
 			},
 			"customer_slug": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Customer Slug",
 			},
 			"error_message": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Error Message",
 			},
 			"fixed_price": schema.Float64Attribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.Float64{
+
 					float64planmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Fixed Price",
 			},
 			"issue": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
 					"key": schema.StringAttribute{
+
 						Computed: true,
+
 						PlanModifiers: []planmodifier.String{
+
 							stringplanmodifier.UseStateForUnknown(),
 						},
+
 						MarkdownDescription: "Key",
 					},
 					"uuid": schema.StringAttribute{
+
 						Computed: true,
+
 						PlanModifiers: []planmodifier.String{
+
 							stringplanmodifier.UseStateForUnknown(),
 						},
+
 						MarkdownDescription: "Uuid",
 					},
 				},
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.Object{
+
 					objectplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Issue",
 			},
 			"marketplace_resource_uuid": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Marketplace Resource Uuid",
 			},
 			"new_cost_estimate": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "New Cost Estimate",
 
 				Validators: []validator.String{
@@ -260,260 +364,404 @@ func (r *MarketplaceOrderResource) Schema(ctx context.Context, req resource.Sche
 				},
 			},
 			"new_plan_name": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "New Plan Name",
 			},
 			"new_plan_uuid": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "New Plan Uuid",
 			},
 			"offering": schema.StringAttribute{
+
 				Required: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.RequiresReplace(),
 				},
+
 				MarkdownDescription: "Offering",
 			},
 			"offering_billable": schema.BoolAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.Bool{
+
 					boolplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Purchase and usage is invoiced.",
 			},
 			"offering_description": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Offering Description",
 			},
 			"offering_image": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Offering Image",
 			},
 			"offering_name": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Offering Name",
 			},
 			"offering_shared": schema.BoolAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.Bool{
+
 					boolplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Accessible to all customers.",
 			},
 			"offering_thumbnail": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Offering Thumbnail",
 			},
 			"offering_type": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Offering Type",
 			},
 			"offering_uuid": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Offering Uuid",
 			},
 			"old_cost_estimate": schema.Float64Attribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.Float64{
+
 					float64planmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Old Cost Estimate",
 			},
 			"old_plan_name": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Old Plan Name",
 			},
 			"old_plan_uuid": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Old Plan Uuid",
 			},
 			"order_subtype": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Order Subtype",
 			},
 			"output": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Output",
 			},
 			"plan": schema.StringAttribute{
+
 				Optional: true,
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.RequiresReplace(),
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Plan",
 			},
 			"plan_description": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Plan Description",
 			},
 			"plan_name": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Plan Name",
 			},
 			"plan_unit": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Plan Unit",
 			},
 			"plan_uuid": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Plan Uuid",
 			},
 			"project": schema.StringAttribute{
+
 				Required: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.RequiresReplace(),
 				},
+
 				MarkdownDescription: "Project",
 			},
 			"project_description": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Project Description",
 			},
 			"project_slug": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Project Slug",
 			},
 			"provider_name": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Provider Name",
 			},
 			"provider_reviewed_at": schema.StringAttribute{
 				CustomType: timetypes.RFC3339Type{},
-				Computed:   true,
+
+				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Provider Reviewed At",
 			},
 			"provider_reviewed_by": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters",
 			},
 			"provider_reviewed_by_full_name": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Provider Reviewed By Full Name",
 			},
 			"provider_reviewed_by_username": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters",
 			},
 			"provider_slug": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Provider Slug",
 			},
 			"provider_uuid": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Provider Uuid",
 			},
 			"request_comment": schema.StringAttribute{
+
 				Optional: true,
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.RequiresReplace(),
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Request Comment",
 			},
 			"resource_name": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Resource Name",
 			},
 			"resource_type": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Resource Type",
 			},
 			"resource_uuid": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Resource Uuid",
 			},
 			"slug": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "URL-friendly identifier. Only editable by staff users.",
 
 				Validators: []validator.String{
@@ -521,41 +769,61 @@ func (r *MarketplaceOrderResource) Schema(ctx context.Context, req resource.Sche
 				},
 			},
 			"start_date": schema.StringAttribute{
+
 				Optional: true,
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Enables delayed processing of resource provisioning order.",
 			},
 			"state": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "State",
 			},
 			"termination_comment": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Termination Comment",
 			},
 			"type": schema.StringAttribute{
+
 				Optional: true,
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.RequiresReplace(),
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Type",
 			},
 			"url": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Url",
 			},
 		},

@@ -162,26 +162,39 @@ func (model *OpenstackSecurityGroupModel) CopyFrom(ctx context.Context, apiResp 
 	var diags diag.Diagnostics
 
 	model.UUID = types.StringPointerValue(apiResp.UUID)
+
 	model.BackendId = common.StringPointerValue(apiResp.BackendId)
+
 	model.Customer = common.StringPointerValue(apiResp.Customer)
+
 	model.Description = common.StringPointerValue(apiResp.Description)
+
 	model.ErrorMessage = common.StringPointerValue(apiResp.ErrorMessage)
+
 	model.MarketplaceResourceUuid = common.StringPointerValue(apiResp.MarketplaceResourceUuid)
+
 	model.Name = common.StringPointerValue(apiResp.Name)
+
 	model.Project = common.StringPointerValue(apiResp.Project)
+
 	model.ResourceType = common.StringPointerValue(apiResp.ResourceType)
 
 	if apiResp.Rules != nil {
-		listValRules, listDiagsRules := types.ListValueFrom(ctx, OpenStackSecurityGroupRuleCreateRequestType(), apiResp.Rules)
-		diags.Append(listDiagsRules...)
-		model.Rules = listValRules
+		valRules, diagsRules := types.ListValueFrom(ctx, OpenStackSecurityGroupRuleCreateRequestType(), apiResp.Rules)
+		diags.Append(diagsRules...)
+		model.Rules = valRules
 	} else {
 		model.Rules = types.ListNull(OpenStackSecurityGroupRuleCreateRequestType())
 	}
+
 	model.State = common.StringPointerValue(apiResp.State)
+
 	model.Tenant = common.StringPointerValue(apiResp.Tenant)
+
 	model.TenantName = common.StringPointerValue(apiResp.TenantName)
+
 	model.TenantUuid = common.StringPointerValue(apiResp.TenantUuid)
+
 	model.Url = common.StringPointerValue(apiResp.Url)
 
 	return diags

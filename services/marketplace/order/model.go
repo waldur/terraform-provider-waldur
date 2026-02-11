@@ -183,80 +183,143 @@ func (model *MarketplaceOrderModel) CopyFrom(ctx context.Context, apiResp Market
 	var diags diag.Diagnostics
 
 	model.UUID = types.StringPointerValue(apiResp.UUID)
+
 	model.ActivationPrice = types.Float64PointerValue(apiResp.ActivationPrice.Float64Ptr())
+
 	model.Attachment = common.StringPointerValue(apiResp.Attachment)
+
 	model.BackendId = common.StringPointerValue(apiResp.BackendId)
+
 	model.CallbackUrl = common.StringPointerValue(apiResp.CallbackUrl)
+
 	model.CanTerminate = types.BoolPointerValue(apiResp.CanTerminate)
+
 	model.CategoryIcon = common.StringPointerValue(apiResp.CategoryIcon)
+
 	model.CategoryTitle = common.StringPointerValue(apiResp.CategoryTitle)
+
 	model.CategoryUuid = common.StringPointerValue(apiResp.CategoryUuid)
+
 	valCompletedAt, diagsCompletedAt := timetypes.NewRFC3339PointerValue(apiResp.CompletedAt)
 	diags.Append(diagsCompletedAt...)
 	model.CompletedAt = valCompletedAt
+
 	valConsumerReviewedAt, diagsConsumerReviewedAt := timetypes.NewRFC3339PointerValue(apiResp.ConsumerReviewedAt)
 	diags.Append(diagsConsumerReviewedAt...)
 	model.ConsumerReviewedAt = valConsumerReviewedAt
+
 	model.ConsumerReviewedBy = common.StringPointerValue(apiResp.ConsumerReviewedBy)
+
 	model.ConsumerReviewedByFullName = common.StringPointerValue(apiResp.ConsumerReviewedByFullName)
+
 	model.ConsumerReviewedByUsername = common.StringPointerValue(apiResp.ConsumerReviewedByUsername)
+
 	model.Cost = common.StringPointerValue(apiResp.Cost)
+
 	model.CreatedByCivilNumber = common.StringPointerValue(apiResp.CreatedByCivilNumber)
+
 	model.CreatedByFullName = common.StringPointerValue(apiResp.CreatedByFullName)
+
 	model.CreatedByUsername = common.StringPointerValue(apiResp.CreatedByUsername)
+
 	model.CustomerSlug = common.StringPointerValue(apiResp.CustomerSlug)
+
 	model.ErrorMessage = common.StringPointerValue(apiResp.ErrorMessage)
+
 	model.FixedPrice = types.Float64PointerValue(apiResp.FixedPrice.Float64Ptr())
+
 	if apiResp.Issue != nil {
-		objValIssue, objDiagsIssue := types.ObjectValueFrom(ctx, IssueType().AttrTypes, *apiResp.Issue)
-		diags.Append(objDiagsIssue...)
-		model.Issue = objValIssue
+		valIssue, diagsIssue := types.ObjectValueFrom(ctx, IssueType().AttrTypes, *apiResp.Issue)
+		diags.Append(diagsIssue...)
+		model.Issue = valIssue
 	} else {
 		model.Issue = types.ObjectNull(IssueType().AttrTypes)
 	}
+
 	model.MarketplaceResourceUuid = common.StringPointerValue(apiResp.MarketplaceResourceUuid)
+
 	model.NewCostEstimate = common.StringPointerValue(apiResp.NewCostEstimate)
+
 	model.NewPlanName = common.StringPointerValue(apiResp.NewPlanName)
+
 	model.NewPlanUuid = common.StringPointerValue(apiResp.NewPlanUuid)
+
 	model.Offering = common.StringPointerValue(apiResp.Offering)
+
 	model.OfferingBillable = types.BoolPointerValue(apiResp.OfferingBillable)
+
 	model.OfferingDescription = common.StringPointerValue(apiResp.OfferingDescription)
+
 	model.OfferingImage = common.StringPointerValue(apiResp.OfferingImage)
+
 	model.OfferingName = common.StringPointerValue(apiResp.OfferingName)
+
 	model.OfferingShared = types.BoolPointerValue(apiResp.OfferingShared)
+
 	model.OfferingThumbnail = common.StringPointerValue(apiResp.OfferingThumbnail)
+
 	model.OfferingType = common.StringPointerValue(apiResp.OfferingType)
+
 	model.OfferingUuid = common.StringPointerValue(apiResp.OfferingUuid)
+
 	model.OldCostEstimate = types.Float64PointerValue(apiResp.OldCostEstimate.Float64Ptr())
+
 	model.OldPlanName = common.StringPointerValue(apiResp.OldPlanName)
+
 	model.OldPlanUuid = common.StringPointerValue(apiResp.OldPlanUuid)
+
 	model.OrderSubtype = common.StringPointerValue(apiResp.OrderSubtype)
+
 	model.Output = common.StringPointerValue(apiResp.Output)
+
 	model.Plan = common.StringPointerValue(apiResp.Plan)
+
 	model.PlanDescription = common.StringPointerValue(apiResp.PlanDescription)
+
 	model.PlanName = common.StringPointerValue(apiResp.PlanName)
+
 	model.PlanUnit = common.StringPointerValue(apiResp.PlanUnit)
+
 	model.PlanUuid = common.StringPointerValue(apiResp.PlanUuid)
+
 	model.ProjectDescription = common.StringPointerValue(apiResp.ProjectDescription)
+
 	model.ProjectSlug = common.StringPointerValue(apiResp.ProjectSlug)
+
 	model.ProviderName = common.StringPointerValue(apiResp.ProviderName)
+
 	valProviderReviewedAt, diagsProviderReviewedAt := timetypes.NewRFC3339PointerValue(apiResp.ProviderReviewedAt)
 	diags.Append(diagsProviderReviewedAt...)
 	model.ProviderReviewedAt = valProviderReviewedAt
+
 	model.ProviderReviewedBy = common.StringPointerValue(apiResp.ProviderReviewedBy)
+
 	model.ProviderReviewedByFullName = common.StringPointerValue(apiResp.ProviderReviewedByFullName)
+
 	model.ProviderReviewedByUsername = common.StringPointerValue(apiResp.ProviderReviewedByUsername)
+
 	model.ProviderSlug = common.StringPointerValue(apiResp.ProviderSlug)
+
 	model.ProviderUuid = common.StringPointerValue(apiResp.ProviderUuid)
+
 	model.RequestComment = common.StringPointerValue(apiResp.RequestComment)
+
 	model.ResourceName = common.StringPointerValue(apiResp.ResourceName)
+
 	model.ResourceType = common.StringPointerValue(apiResp.ResourceType)
+
 	model.ResourceUuid = common.StringPointerValue(apiResp.ResourceUuid)
+
 	model.Slug = common.StringPointerValue(apiResp.Slug)
+
 	model.StartDate = common.StringPointerValue(apiResp.StartDate)
+
 	model.State = common.StringPointerValue(apiResp.State)
+
 	model.TerminationComment = common.StringPointerValue(apiResp.TerminationComment)
+
 	model.Type = common.StringPointerValue(apiResp.Type)
+
 	model.Url = common.StringPointerValue(apiResp.Url)
 
 	return diags

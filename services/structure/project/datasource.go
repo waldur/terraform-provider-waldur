@@ -46,57 +46,83 @@ func (d *StructureProjectDataSource) Schema(ctx context.Context, req datasource.
 			},
 			"filters": (&StructureProjectFiltersModel{}).GetSchema(),
 			"backend_id": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Backend Id",
 			},
 			"billing_price_estimate": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
 					"current": schema.Float64Attribute{
-						Computed:            true,
+
+						Computed: true,
+
 						MarkdownDescription: "Current",
 					},
 					"tax": schema.Float64Attribute{
-						Computed:            true,
+
+						Computed: true,
+
 						MarkdownDescription: "Tax",
 					},
 					"tax_current": schema.Float64Attribute{
-						Computed:            true,
+
+						Computed: true,
+
 						MarkdownDescription: "Tax Current",
 					},
 					"total": schema.Float64Attribute{
-						Computed:            true,
+
+						Computed: true,
+
 						MarkdownDescription: "Total",
 					},
 				},
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Billing Price Estimate",
 			},
 			"customer": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Customer",
 			},
 			"customer_display_billing_info_in_projects": schema.BoolAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Customer Display Billing Info In Projects",
 			},
 			"customer_slug": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Customer Slug",
 			},
 			"description": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Project description (HTML content will be sanitized)",
 			},
 			"end_date": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Project end date. Setting this field requires DELETE_PROJECT permission.",
 			},
 			"end_date_requested_by": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "End Date Requested By",
 			},
 			"grace_period_days": schema.Int64Attribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Number of extra days after project end date before resources are terminated. Overrides customer-level setting.",
 
 				Validators: []validator.Int64{
@@ -105,23 +131,33 @@ func (d *StructureProjectDataSource) Schema(ctx context.Context, req datasource.
 				},
 			},
 			"image": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Image",
 			},
 			"is_industry": schema.BoolAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Is Industry",
 			},
 			"is_removed": schema.BoolAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Is Removed",
 			},
 			"kind": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Kind",
 			},
 			"max_service_accounts": schema.Int64Attribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Maximum number of service accounts allowed",
 
 				Validators: []validator.Int64{
@@ -130,27 +166,39 @@ func (d *StructureProjectDataSource) Schema(ctx context.Context, req datasource.
 				},
 			},
 			"name": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Name",
 			},
 			"oecd_fos_2007_code": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Oecd Fos 2007 Code",
 			},
 			"oecd_fos_2007_label": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Human-readable label for the OECD FOS 2007 classification code",
 			},
 			"project_credit": schema.Float64Attribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Project Credit",
 			},
 			"resources_count": schema.Int64Attribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Number of active resources in this project",
 			},
 			"slug": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "URL-friendly identifier. Only editable by staff users.",
 
 				Validators: []validator.String{
@@ -158,27 +206,39 @@ func (d *StructureProjectDataSource) Schema(ctx context.Context, req datasource.
 				},
 			},
 			"staff_notes": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Internal notes visible only to staff and support users (HTML content will be sanitized)",
 			},
 			"start_date": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Project start date. Cannot be edited after the start date has arrived.",
 			},
 			"type": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Type",
 			},
 			"type_name": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Type Name",
 			},
 			"type_uuid": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Type Uuid",
 			},
 			"url": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Url",
 			},
 		},

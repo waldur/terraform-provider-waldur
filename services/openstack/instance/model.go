@@ -327,86 +327,141 @@ func (model *OpenstackInstanceModel) CopyFrom(ctx context.Context, apiResp Opens
 	var diags diag.Diagnostics
 
 	model.UUID = types.StringPointerValue(apiResp.UUID)
+
 	model.Action = common.StringPointerValue(apiResp.Action)
+
 	model.AvailabilityZone = common.StringPointerValue(apiResp.AvailabilityZone)
+
 	model.AvailabilityZoneName = common.StringPointerValue(apiResp.AvailabilityZoneName)
+
 	model.BackendId = common.StringPointerValue(apiResp.BackendId)
+
 	model.ConnectDirectlyToExternalNetwork = types.BoolPointerValue(apiResp.ConnectDirectlyToExternalNetwork)
+
 	model.Cores = types.Int64PointerValue(apiResp.Cores)
+
 	model.Customer = common.StringPointerValue(apiResp.Customer)
+
 	model.Description = common.StringPointerValue(apiResp.Description)
+
 	model.Disk = types.Int64PointerValue(apiResp.Disk)
+
 	model.ErrorMessage = common.StringPointerValue(apiResp.ErrorMessage)
-	listValExternalAddress, listDiagsExternalAddress := types.ListValueFrom(ctx, types.StringType, apiResp.ExternalAddress)
-	model.ExternalAddress = listValExternalAddress
-	diags.Append(listDiagsExternalAddress...)
-	listValExternalIps, listDiagsExternalIps := types.ListValueFrom(ctx, types.StringType, apiResp.ExternalIps)
-	model.ExternalIps = listValExternalIps
-	diags.Append(listDiagsExternalIps...)
+
+	if apiResp.ExternalAddress != nil {
+		valExternalAddress, diagsExternalAddress := types.ListValueFrom(ctx, types.StringType, apiResp.ExternalAddress)
+		diags.Append(diagsExternalAddress...)
+		model.ExternalAddress = valExternalAddress
+	} else {
+		model.ExternalAddress = types.ListNull(types.StringType)
+	}
+
+	if apiResp.ExternalIps != nil {
+		valExternalIps, diagsExternalIps := types.ListValueFrom(ctx, types.StringType, apiResp.ExternalIps)
+		diags.Append(diagsExternalIps...)
+		model.ExternalIps = valExternalIps
+	} else {
+		model.ExternalIps = types.ListNull(types.StringType)
+	}
+
 	model.FlavorDisk = types.Int64PointerValue(apiResp.FlavorDisk)
+
 	model.FlavorName = common.StringPointerValue(apiResp.FlavorName)
-	if apiResp.FloatingIps != nil && len(*apiResp.FloatingIps) > 0 {
-		setValFloatingIps, setDiagsFloatingIps := types.SetValueFrom(ctx, OpenStackCreateFloatingIPRequestType(), apiResp.FloatingIps)
-		diags.Append(setDiagsFloatingIps...)
-		model.FloatingIps = setValFloatingIps
+
+	if apiResp.FloatingIps != nil {
+		valFloatingIps, diagsFloatingIps := types.SetValueFrom(ctx, OpenStackCreateFloatingIPRequestType(), apiResp.FloatingIps)
+		diags.Append(diagsFloatingIps...)
+		model.FloatingIps = valFloatingIps
 	} else {
 		model.FloatingIps = types.SetNull(OpenStackCreateFloatingIPRequestType())
 	}
+
 	model.HypervisorHostname = common.StringPointerValue(apiResp.HypervisorHostname)
+
 	model.ImageName = common.StringPointerValue(apiResp.ImageName)
-	listValInternalIps, listDiagsInternalIps := types.ListValueFrom(ctx, types.StringType, apiResp.InternalIps)
-	model.InternalIps = listValInternalIps
-	diags.Append(listDiagsInternalIps...)
+
+	if apiResp.InternalIps != nil {
+		valInternalIps, diagsInternalIps := types.ListValueFrom(ctx, types.StringType, apiResp.InternalIps)
+		diags.Append(diagsInternalIps...)
+		model.InternalIps = valInternalIps
+	} else {
+		model.InternalIps = types.ListNull(types.StringType)
+	}
+
 	model.KeyFingerprint = common.StringPointerValue(apiResp.KeyFingerprint)
+
 	model.KeyName = common.StringPointerValue(apiResp.KeyName)
+
 	model.Latitude = types.Float64PointerValue(apiResp.Latitude.Float64Ptr())
+
 	model.Longitude = types.Float64PointerValue(apiResp.Longitude.Float64Ptr())
+
 	model.MarketplaceResourceUuid = common.StringPointerValue(apiResp.MarketplaceResourceUuid)
+
 	model.MinDisk = types.Int64PointerValue(apiResp.MinDisk)
+
 	model.MinRam = types.Int64PointerValue(apiResp.MinRam)
+
 	model.Name = common.StringPointerValue(apiResp.Name)
 
-	listValPorts, listDiagsPorts := types.ListValueFrom(ctx, OpenStackCreateInstancePortRequestType(), apiResp.Ports)
-	diags.Append(listDiagsPorts...)
-	model.Ports = listValPorts
+	if apiResp.Ports != nil {
+		valPorts, diagsPorts := types.ListValueFrom(ctx, OpenStackCreateInstancePortRequestType(), apiResp.Ports)
+		diags.Append(diagsPorts...)
+		model.Ports = valPorts
+	} else {
+		model.Ports = types.ListNull(OpenStackCreateInstancePortRequestType())
+	}
+
 	model.Project = common.StringPointerValue(apiResp.Project)
+
 	model.Ram = types.Int64PointerValue(apiResp.Ram)
+
 	if apiResp.RancherCluster != nil {
-		objValRancherCluster, objDiagsRancherCluster := types.ObjectValueFrom(ctx, RancherClusterType().AttrTypes, *apiResp.RancherCluster)
-		diags.Append(objDiagsRancherCluster...)
-		model.RancherCluster = objValRancherCluster
+		valRancherCluster, diagsRancherCluster := types.ObjectValueFrom(ctx, RancherClusterType().AttrTypes, *apiResp.RancherCluster)
+		diags.Append(diagsRancherCluster...)
+		model.RancherCluster = valRancherCluster
 	} else {
 		model.RancherCluster = types.ObjectNull(RancherClusterType().AttrTypes)
 	}
+
 	model.ResourceType = common.StringPointerValue(apiResp.ResourceType)
+
 	model.RuntimeState = common.StringPointerValue(apiResp.RuntimeState)
-	if apiResp.SecurityGroups != nil && len(*apiResp.SecurityGroups) > 0 {
-		setValSecurityGroups, setDiagsSecurityGroups := types.SetValueFrom(ctx, OpenStackSecurityGroupHyperlinkRequestType(), apiResp.SecurityGroups)
-		diags.Append(setDiagsSecurityGroups...)
-		model.SecurityGroups = setValSecurityGroups
+
+	if apiResp.SecurityGroups != nil {
+		valSecurityGroups, diagsSecurityGroups := types.SetValueFrom(ctx, OpenStackSecurityGroupHyperlinkRequestType(), apiResp.SecurityGroups)
+		diags.Append(diagsSecurityGroups...)
+		model.SecurityGroups = valSecurityGroups
 	} else {
 		model.SecurityGroups = types.SetNull(OpenStackSecurityGroupHyperlinkRequestType())
 	}
+
 	if apiResp.ServerGroup != nil {
-		objValServerGroup, objDiagsServerGroup := types.ObjectValueFrom(ctx, ServerGroupType().AttrTypes, *apiResp.ServerGroup)
-		diags.Append(objDiagsServerGroup...)
-		model.ServerGroup = objValServerGroup
+		valServerGroup, diagsServerGroup := types.ObjectValueFrom(ctx, ServerGroupType().AttrTypes, *apiResp.ServerGroup)
+		diags.Append(diagsServerGroup...)
+		model.ServerGroup = valServerGroup
 	} else {
 		model.ServerGroup = types.ObjectNull(ServerGroupType().AttrTypes)
 	}
+
 	valStartTime, diagsStartTime := timetypes.NewRFC3339PointerValue(apiResp.StartTime)
 	diags.Append(diagsStartTime...)
 	model.StartTime = valStartTime
+
 	model.State = common.StringPointerValue(apiResp.State)
+
 	model.Tenant = common.StringPointerValue(apiResp.Tenant)
+
 	model.TenantUuid = common.StringPointerValue(apiResp.TenantUuid)
+
 	model.Url = common.StringPointerValue(apiResp.Url)
+
 	model.UserData = common.StringPointerValue(apiResp.UserData)
 
 	if apiResp.Volumes != nil {
-		listValVolumes, listDiagsVolumes := types.ListValueFrom(ctx, OpenStackNestedVolumeType(), apiResp.Volumes)
-		diags.Append(listDiagsVolumes...)
-		model.Volumes = listValVolumes
+		valVolumes, diagsVolumes := types.ListValueFrom(ctx, OpenStackNestedVolumeType(), apiResp.Volumes)
+		diags.Append(diagsVolumes...)
+		model.Volumes = valVolumes
 	} else {
 		model.Volumes = types.ListNull(OpenStackNestedVolumeType())
 	}

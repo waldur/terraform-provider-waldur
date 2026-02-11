@@ -195,42 +195,67 @@ func (model *OpenstackSubnetModel) CopyFrom(ctx context.Context, apiResp Opensta
 	model.UUID = types.StringPointerValue(apiResp.UUID)
 
 	if apiResp.AllocationPools != nil {
-		listValAllocationPools, listDiagsAllocationPools := types.ListValueFrom(ctx, OpenStackSubNetAllocationPoolRequestType(), apiResp.AllocationPools)
-		diags.Append(listDiagsAllocationPools...)
-		model.AllocationPools = listValAllocationPools
+		valAllocationPools, diagsAllocationPools := types.ListValueFrom(ctx, OpenStackSubNetAllocationPoolRequestType(), apiResp.AllocationPools)
+		diags.Append(diagsAllocationPools...)
+		model.AllocationPools = valAllocationPools
 	} else {
 		model.AllocationPools = types.ListNull(OpenStackSubNetAllocationPoolRequestType())
 	}
+
 	model.BackendId = common.StringPointerValue(apiResp.BackendId)
+
 	model.Cidr = common.StringPointerValue(apiResp.Cidr)
+
 	model.Customer = common.StringPointerValue(apiResp.Customer)
+
 	model.Description = common.StringPointerValue(apiResp.Description)
+
 	model.DisableGateway = types.BoolPointerValue(apiResp.DisableGateway)
-	listValDnsNameservers, listDiagsDnsNameservers := types.ListValueFrom(ctx, types.StringType, apiResp.DnsNameservers)
-	model.DnsNameservers = listValDnsNameservers
-	diags.Append(listDiagsDnsNameservers...)
+
+	if apiResp.DnsNameservers != nil {
+		valDnsNameservers, diagsDnsNameservers := types.ListValueFrom(ctx, types.StringType, apiResp.DnsNameservers)
+		diags.Append(diagsDnsNameservers...)
+		model.DnsNameservers = valDnsNameservers
+	} else {
+		model.DnsNameservers = types.ListNull(types.StringType)
+	}
+
 	model.EnableDhcp = types.BoolPointerValue(apiResp.EnableDhcp)
+
 	model.ErrorMessage = common.StringPointerValue(apiResp.ErrorMessage)
+
 	model.GatewayIp = common.StringPointerValue(apiResp.GatewayIp)
 
 	if apiResp.HostRoutes != nil {
-		listValHostRoutes, listDiagsHostRoutes := types.ListValueFrom(ctx, OpenStackStaticRouteRequestType(), apiResp.HostRoutes)
-		diags.Append(listDiagsHostRoutes...)
-		model.HostRoutes = listValHostRoutes
+		valHostRoutes, diagsHostRoutes := types.ListValueFrom(ctx, OpenStackStaticRouteRequestType(), apiResp.HostRoutes)
+		diags.Append(diagsHostRoutes...)
+		model.HostRoutes = valHostRoutes
 	} else {
 		model.HostRoutes = types.ListNull(OpenStackStaticRouteRequestType())
 	}
+
 	model.IpVersion = types.Int64PointerValue(apiResp.IpVersion)
+
 	model.IsConnected = types.BoolPointerValue(apiResp.IsConnected)
+
 	model.MarketplaceResourceUuid = common.StringPointerValue(apiResp.MarketplaceResourceUuid)
+
 	model.Name = common.StringPointerValue(apiResp.Name)
+
 	model.Network = common.StringPointerValue(apiResp.Network)
+
 	model.NetworkName = common.StringPointerValue(apiResp.NetworkName)
+
 	model.Project = common.StringPointerValue(apiResp.Project)
+
 	model.ResourceType = common.StringPointerValue(apiResp.ResourceType)
+
 	model.State = common.StringPointerValue(apiResp.State)
+
 	model.Tenant = common.StringPointerValue(apiResp.Tenant)
+
 	model.TenantName = common.StringPointerValue(apiResp.TenantName)
+
 	model.Url = common.StringPointerValue(apiResp.Url)
 
 	return diags

@@ -158,53 +158,81 @@ func (model *OpenstackPortModel) CopyFrom(ctx context.Context, apiResp Openstack
 	var diags diag.Diagnostics
 
 	model.UUID = types.StringPointerValue(apiResp.UUID)
+
 	model.AdminStateUp = types.BoolPointerValue(apiResp.AdminStateUp)
 
 	if apiResp.AllowedAddressPairs != nil {
-		listValAllowedAddressPairs, listDiagsAllowedAddressPairs := types.ListValueFrom(ctx, OpenStackAllowedAddressPairRequestType(), apiResp.AllowedAddressPairs)
-		diags.Append(listDiagsAllowedAddressPairs...)
-		model.AllowedAddressPairs = listValAllowedAddressPairs
+		valAllowedAddressPairs, diagsAllowedAddressPairs := types.ListValueFrom(ctx, OpenStackAllowedAddressPairRequestType(), apiResp.AllowedAddressPairs)
+		diags.Append(diagsAllowedAddressPairs...)
+		model.AllowedAddressPairs = valAllowedAddressPairs
 	} else {
 		model.AllowedAddressPairs = types.ListNull(OpenStackAllowedAddressPairRequestType())
 	}
+
 	model.BackendId = common.StringPointerValue(apiResp.BackendId)
+
 	model.Customer = common.StringPointerValue(apiResp.Customer)
+
 	model.Description = common.StringPointerValue(apiResp.Description)
+
 	model.DeviceId = common.StringPointerValue(apiResp.DeviceId)
+
 	model.DeviceOwner = common.StringPointerValue(apiResp.DeviceOwner)
+
 	model.ErrorMessage = common.StringPointerValue(apiResp.ErrorMessage)
 
 	if apiResp.FixedIps != nil {
-		listValFixedIps, listDiagsFixedIps := types.ListValueFrom(ctx, OpenStackFixedIpRequestType(), apiResp.FixedIps)
-		diags.Append(listDiagsFixedIps...)
-		model.FixedIps = listValFixedIps
+		valFixedIps, diagsFixedIps := types.ListValueFrom(ctx, OpenStackFixedIpRequestType(), apiResp.FixedIps)
+		diags.Append(diagsFixedIps...)
+		model.FixedIps = valFixedIps
 	} else {
 		model.FixedIps = types.ListNull(OpenStackFixedIpRequestType())
 	}
-	setValFloatingIps, setDiagsFloatingIps := types.SetValueFrom(ctx, types.StringType, apiResp.FloatingIps)
-	model.FloatingIps = setValFloatingIps
-	diags.Append(setDiagsFloatingIps...)
+
+	if apiResp.FloatingIps != nil {
+		valFloatingIps, diagsFloatingIps := types.SetValueFrom(ctx, types.StringType, apiResp.FloatingIps)
+		diags.Append(diagsFloatingIps...)
+		model.FloatingIps = valFloatingIps
+	} else {
+		model.FloatingIps = types.SetNull(types.StringType)
+	}
+
 	model.MacAddress = common.StringPointerValue(apiResp.MacAddress)
+
 	model.MarketplaceResourceUuid = common.StringPointerValue(apiResp.MarketplaceResourceUuid)
+
 	model.Name = common.StringPointerValue(apiResp.Name)
+
 	model.Network = common.StringPointerValue(apiResp.Network)
+
 	model.NetworkName = common.StringPointerValue(apiResp.NetworkName)
+
 	model.NetworkUuid = common.StringPointerValue(apiResp.NetworkUuid)
+
 	model.PortSecurityEnabled = types.BoolPointerValue(apiResp.PortSecurityEnabled)
+
 	model.Project = common.StringPointerValue(apiResp.Project)
+
 	model.ResourceType = common.StringPointerValue(apiResp.ResourceType)
-	if apiResp.SecurityGroups != nil && len(*apiResp.SecurityGroups) > 0 {
-		setValSecurityGroups, setDiagsSecurityGroups := types.SetValueFrom(ctx, OpenStackPortNestedSecurityGroupRequestType(), apiResp.SecurityGroups)
-		diags.Append(setDiagsSecurityGroups...)
-		model.SecurityGroups = setValSecurityGroups
+
+	if apiResp.SecurityGroups != nil {
+		valSecurityGroups, diagsSecurityGroups := types.SetValueFrom(ctx, OpenStackPortNestedSecurityGroupRequestType(), apiResp.SecurityGroups)
+		diags.Append(diagsSecurityGroups...)
+		model.SecurityGroups = valSecurityGroups
 	} else {
 		model.SecurityGroups = types.SetNull(OpenStackPortNestedSecurityGroupRequestType())
 	}
+
 	model.State = common.StringPointerValue(apiResp.State)
+
 	model.Status = common.StringPointerValue(apiResp.Status)
+
 	model.Tenant = common.StringPointerValue(apiResp.Tenant)
+
 	model.TenantName = common.StringPointerValue(apiResp.TenantName)
+
 	model.TenantUuid = common.StringPointerValue(apiResp.TenantUuid)
+
 	model.Url = common.StringPointerValue(apiResp.Url)
 
 	return diags

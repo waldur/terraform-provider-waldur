@@ -45,16 +45,22 @@ func (d *OpenstackImageDataSource) Schema(ctx context.Context, req datasource.Sc
 			},
 			"filters": (&OpenstackImageFiltersModel{}).GetSchema(),
 			"backend_created_at": schema.StringAttribute{
-				CustomType:          timetypes.RFC3339Type{},
-				Computed:            true,
+				CustomType: timetypes.RFC3339Type{},
+
+				Computed: true,
+
 				MarkdownDescription: "Backend Created At",
 			},
 			"backend_id": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Backend Id",
 			},
 			"min_disk": schema.Int64Attribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Minimum disk size in MiB",
 
 				Validators: []validator.Int64{
@@ -63,7 +69,9 @@ func (d *OpenstackImageDataSource) Schema(ctx context.Context, req datasource.Sc
 				},
 			},
 			"min_ram": schema.Int64Attribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Minimum memory size in MiB",
 
 				Validators: []validator.Int64{
@@ -72,15 +80,21 @@ func (d *OpenstackImageDataSource) Schema(ctx context.Context, req datasource.Sc
 				},
 			},
 			"name": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Name",
 			},
 			"settings": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Settings",
 			},
 			"url": schema.StringAttribute{
-				Computed:            true,
+
+				Computed: true,
+
 				MarkdownDescription: "Url",
 			},
 		},

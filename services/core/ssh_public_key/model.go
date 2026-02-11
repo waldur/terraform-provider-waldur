@@ -90,14 +90,23 @@ func (model *CoreSshPublicKeyModel) CopyFrom(ctx context.Context, apiResp CoreSs
 	var diags diag.Diagnostics
 
 	model.UUID = types.StringPointerValue(apiResp.UUID)
+
 	model.FingerprintMd5 = common.StringPointerValue(apiResp.FingerprintMd5)
+
 	model.FingerprintSha256 = common.StringPointerValue(apiResp.FingerprintSha256)
+
 	model.FingerprintSha512 = common.StringPointerValue(apiResp.FingerprintSha512)
+
 	model.IsShared = types.BoolPointerValue(apiResp.IsShared)
+
 	model.Name = common.StringPointerValue(apiResp.Name)
+
 	model.PublicKey = common.StringPointerValue(apiResp.PublicKey)
+
 	model.Type = common.StringPointerValue(apiResp.Type)
+
 	model.Url = common.StringPointerValue(apiResp.Url)
+
 	model.UserUuid = common.StringPointerValue(apiResp.UserUuid)
 
 	return diags

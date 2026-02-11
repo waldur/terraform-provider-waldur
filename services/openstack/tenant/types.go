@@ -16,31 +16,48 @@ type OpenstackTenantCreateRequest struct {
 	Attributes OpenstackTenantCreateAttributes `json:"attributes"`
 }
 type OpenstackTenantCreateAttributes struct {
-	AvailabilityZone            *string                                       `json:"availability_zone,omitempty"`
-	Description                 *string                                       `json:"description,omitempty"`
-	EndDate                     *string                                       `json:"end_date,omitempty"`
-	Limits                      map[string]float64                            `json:"limits,omitempty"`
-	Name                        *string                                       `json:"name"`
-	Plan                        *string                                       `json:"plan,omitempty"`
-	SecurityGroups              *[]common.OpenStackTenantSecurityGroupRequest `json:"security_groups,omitempty"`
-	SkipConnectionExtnet        *bool                                         `json:"skip_connection_extnet,omitempty"`
-	SkipCreationOfDefaultRouter *bool                                         `json:"skip_creation_of_default_router,omitempty"`
-	SkipCreationOfDefaultSubnet *bool                                         `json:"skip_creation_of_default_subnet,omitempty"`
-	StartDate                   *string                                       `json:"start_date,omitempty"`
-	SubnetCidr                  *string                                       `json:"subnet_cidr,omitempty"`
+	AvailabilityZone *string `json:"availability_zone,omitempty"`
+
+	Description *string `json:"description,omitempty"`
+
+	EndDate *string `json:"end_date,omitempty"`
+
+	Limits map[string]float64 `json:"limits,omitempty"`
+
+	Name *string `json:"name"`
+
+	Plan *string `json:"plan,omitempty"`
+
+	SecurityGroups *[]common.OpenStackTenantSecurityGroupRequest `json:"security_groups,omitempty"`
+
+	SkipConnectionExtnet *bool `json:"skip_connection_extnet,omitempty"`
+
+	SkipCreationOfDefaultRouter *bool `json:"skip_creation_of_default_router,omitempty"`
+
+	SkipCreationOfDefaultSubnet *bool `json:"skip_creation_of_default_subnet,omitempty"`
+
+	StartDate *string `json:"start_date,omitempty"`
+
+	SubnetCidr *string `json:"subnet_cidr,omitempty"`
 }
 
 type OpenstackTenantCreateLimitsRequest struct {
 }
 
 type OpenstackTenantUpdateRequest struct {
-	AvailabilityZone            *string                                       `json:"availability_zone,omitempty" tfsdk:"availability_zone"`
-	DefaultVolumeTypeName       *string                                       `json:"default_volume_type_name,omitempty" tfsdk:"default_volume_type_name"`
-	Description                 *string                                       `json:"description,omitempty" tfsdk:"description"`
-	Name                        *string                                       `json:"name,omitempty" tfsdk:"name"`
-	SecurityGroups              *[]common.OpenStackTenantSecurityGroupRequest `json:"security_groups,omitempty" tfsdk:"security_groups"`
-	SkipCreationOfDefaultRouter *bool                                         `json:"skip_creation_of_default_router,omitempty" tfsdk:"skip_creation_of_default_router"`
-	SkipCreationOfDefaultSubnet *bool                                         `json:"skip_creation_of_default_subnet,omitempty" tfsdk:"skip_creation_of_default_subnet"`
+	AvailabilityZone *string `json:"availability_zone,omitempty" tfsdk:"availability_zone"`
+
+	DefaultVolumeTypeName *string `json:"default_volume_type_name,omitempty" tfsdk:"default_volume_type_name"`
+
+	Description *string `json:"description,omitempty" tfsdk:"description"`
+
+	Name *string `json:"name,omitempty" tfsdk:"name"`
+
+	SecurityGroups *[]common.OpenStackTenantSecurityGroupRequest `json:"security_groups,omitempty" tfsdk:"security_groups"`
+
+	SkipCreationOfDefaultRouter *bool `json:"skip_creation_of_default_router,omitempty" tfsdk:"skip_creation_of_default_router"`
+
+	SkipCreationOfDefaultSubnet *bool `json:"skip_creation_of_default_subnet,omitempty" tfsdk:"skip_creation_of_default_subnet"`
 }
 
 type OpenstackTenantPushSecurityGroupsActionRequest struct {
@@ -54,30 +71,49 @@ func (r OpenstackTenantPushSecurityGroupsActionRequest) MarshalJSON() ([]byte, e
 type OpenstackTenantResponse struct {
 	UUID *string `json:"uuid"`
 
-	AvailabilityZone            *string         `json:"availability_zone" tfsdk:"availability_zone"`
-	BackendId                   *string         `json:"backend_id" tfsdk:"backend_id"`
-	Customer                    *string         `json:"customer" tfsdk:"customer"`
-	DefaultVolumeTypeName       *string         `json:"default_volume_type_name" tfsdk:"default_volume_type_name"`
-	Description                 *string         `json:"description" tfsdk:"description"`
-	ErrorMessage                *string         `json:"error_message" tfsdk:"error_message"`
-	ExternalNetworkId           *string         `json:"external_network_id" tfsdk:"external_network_id"`
-	InternalNetworkId           *string         `json:"internal_network_id" tfsdk:"internal_network_id"`
-	MarketplaceResourceUuid     *string         `json:"marketplace_resource_uuid" tfsdk:"marketplace_resource_uuid"`
-	Name                        *string         `json:"name" tfsdk:"name"`
-	Project                     *string         `json:"project" tfsdk:"project"`
-	Quotas                      *[]common.Quota `json:"quotas" tfsdk:"quotas"`
-	ResourceType                *string         `json:"resource_type" tfsdk:"resource_type"`
-	SkipCreationOfDefaultRouter *bool           `json:"skip_creation_of_default_router" tfsdk:"skip_creation_of_default_router"`
-	State                       *string         `json:"state" tfsdk:"state"`
-	Url                         *string         `json:"url" tfsdk:"url"`
-	UserPassword                *string         `json:"user_password" tfsdk:"user_password"`
-	UserUsername                *string         `json:"user_username" tfsdk:"user_username"`
+	AvailabilityZone *string `json:"availability_zone,omitempty" tfsdk:"availability_zone"`
+
+	BackendId *string `json:"backend_id,omitempty" tfsdk:"backend_id"`
+
+	Customer *string `json:"customer,omitempty" tfsdk:"customer"`
+
+	DefaultVolumeTypeName *string `json:"default_volume_type_name,omitempty" tfsdk:"default_volume_type_name"`
+
+	Description *string `json:"description,omitempty" tfsdk:"description"`
+
+	ErrorMessage *string `json:"error_message,omitempty" tfsdk:"error_message"`
+
+	ExternalNetworkId *string `json:"external_network_id,omitempty" tfsdk:"external_network_id"`
+
+	InternalNetworkId *string `json:"internal_network_id,omitempty" tfsdk:"internal_network_id"`
+
+	MarketplaceResourceUuid *string `json:"marketplace_resource_uuid,omitempty" tfsdk:"marketplace_resource_uuid"`
+
+	Name *string `json:"name" tfsdk:"name"`
+
+	Project *string `json:"project" tfsdk:"project"`
+
+	Quotas *[]common.Quota `json:"quotas,omitempty" tfsdk:"quotas"`
+
+	ResourceType *string `json:"resource_type,omitempty" tfsdk:"resource_type"`
+
+	SkipCreationOfDefaultRouter *bool `json:"skip_creation_of_default_router,omitempty" tfsdk:"skip_creation_of_default_router"`
+
+	State *string `json:"state,omitempty" tfsdk:"state"`
+
+	Url *string `json:"url,omitempty" tfsdk:"url"`
+
+	UserPassword *string `json:"user_password,omitempty" tfsdk:"user_password"`
+
+	UserUsername *string `json:"user_username,omitempty" tfsdk:"user_username"`
 }
 
 type OpenstackTenantQuotasResponse struct {
-	Limit *int64  `json:"limit" tfsdk:"limit"`
-	Name  *string `json:"name" tfsdk:"name"`
-	Usage *int64  `json:"usage" tfsdk:"usage"`
+	Limit *int64 `json:"limit,omitempty" tfsdk:"limit"`
+
+	Name *string `json:"name,omitempty" tfsdk:"name"`
+
+	Usage *int64 `json:"usage,omitempty" tfsdk:"usage"`
 }
 
 func (r *OpenstackTenantResponse) GetState() string {

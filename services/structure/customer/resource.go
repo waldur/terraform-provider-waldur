@@ -59,173 +59,261 @@ func (r *StructureCustomerResource) Schema(ctx context.Context, req resource.Sch
 				},
 			},
 			"abbreviation": schema.StringAttribute{
+
 				Optional: true,
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Abbreviation",
 			},
 			"access_subnets": schema.StringAttribute{
+
 				Optional: true,
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Enter a comma separated list of IPv4 or IPv6 CIDR addresses from where connection to self-service is allowed.",
 			},
 			"accounting_start_date": schema.StringAttribute{
 				CustomType: timetypes.RFC3339Type{},
-				Optional:   true,
-				Computed:   true,
+
+				Optional: true,
+				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Accounting Start Date",
 			},
 			"address": schema.StringAttribute{
+
 				Optional: true,
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Address",
 			},
 			"agreement_number": schema.StringAttribute{
+
 				Optional: true,
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Agreement Number",
 			},
 			"archived": schema.BoolAttribute{
+
 				Optional: true,
 				Computed: true,
+
 				PlanModifiers: []planmodifier.Bool{
+
 					boolplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Archived",
 			},
 			"backend_id": schema.StringAttribute{
+
 				Optional: true,
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Organization identifier in another application.",
 			},
 			"bank_account": schema.StringAttribute{
+
 				Optional: true,
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Bank Account",
 			},
 			"bank_name": schema.StringAttribute{
+
 				Optional: true,
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Bank Name",
 			},
 			"billing_price_estimate": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
 					"current": schema.Float64Attribute{
+
 						Computed: true,
+
 						PlanModifiers: []planmodifier.Float64{
+
 							float64planmodifier.UseStateForUnknown(),
 						},
+
 						MarkdownDescription: "Current",
 					},
 					"tax": schema.Float64Attribute{
+
 						Computed: true,
+
 						PlanModifiers: []planmodifier.Float64{
+
 							float64planmodifier.UseStateForUnknown(),
 						},
+
 						MarkdownDescription: "Tax",
 					},
 					"tax_current": schema.Float64Attribute{
+
 						Computed: true,
+
 						PlanModifiers: []planmodifier.Float64{
+
 							float64planmodifier.UseStateForUnknown(),
 						},
+
 						MarkdownDescription: "Tax Current",
 					},
 					"total": schema.Float64Attribute{
+
 						Computed: true,
+
 						PlanModifiers: []planmodifier.Float64{
+
 							float64planmodifier.UseStateForUnknown(),
 						},
+
 						MarkdownDescription: "Total",
 					},
 				},
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.Object{
+
 					objectplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Billing Price Estimate",
 			},
 			"blocked": schema.BoolAttribute{
+
 				Optional: true,
 				Computed: true,
+
 				PlanModifiers: []planmodifier.Bool{
+
 					boolplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Blocked",
 			},
 			"call_managing_organization_uuid": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Call Managing Organization Uuid",
 			},
 			"contact_details": schema.StringAttribute{
+
 				Optional: true,
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Contact Details",
 			},
 			"country": schema.StringAttribute{
+
 				Optional: true,
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Country code (ISO 3166-1 alpha-2)",
 			},
 			"country_name": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Human-readable country name",
 			},
 			"customer_credit": schema.Float64Attribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.Float64{
+
 					float64planmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Customer Credit",
 			},
 			"customer_unallocated_credit": schema.Float64Attribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.Float64{
+
 					float64planmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Customer Unallocated Credit",
 			},
 			"default_tax_percent": schema.StringAttribute{
+
 				Optional: true,
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Default Tax Percent",
 
 				Validators: []validator.String{
@@ -233,50 +321,74 @@ func (r *StructureCustomerResource) Schema(ctx context.Context, req resource.Sch
 				},
 			},
 			"description": schema.StringAttribute{
+
 				Optional: true,
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Description",
 			},
 			"display_billing_info_in_projects": schema.BoolAttribute{
+
 				Optional: true,
 				Computed: true,
+
 				PlanModifiers: []planmodifier.Bool{
+
 					boolplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Display Billing Info In Projects",
 			},
 			"display_name": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Display name of the organization (includes native name if available)",
 			},
 			"domain": schema.StringAttribute{
+
 				Optional: true,
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Domain",
 			},
 			"email": schema.StringAttribute{
+
 				Optional: true,
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Email",
 			},
 			"grace_period_days": schema.Int64Attribute{
+
 				Optional: true,
 				Computed: true,
+
 				PlanModifiers: []planmodifier.Int64{
+
 					int64planmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Number of extra days after project end date before resources are terminated",
 
 				Validators: []validator.Int64{
@@ -285,50 +397,74 @@ func (r *StructureCustomerResource) Schema(ctx context.Context, req resource.Sch
 				},
 			},
 			"homepage": schema.StringAttribute{
+
 				Optional: true,
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Homepage",
 			},
 			"image": schema.StringAttribute{
+
 				Optional: true,
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Image",
 			},
 			"is_service_provider": schema.BoolAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.Bool{
+
 					boolplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Is Service Provider",
 			},
 			"latitude": schema.Float64Attribute{
+
 				Optional: true,
 				Computed: true,
+
 				PlanModifiers: []planmodifier.Float64{
+
 					float64planmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Latitude",
 			},
 			"longitude": schema.Float64Attribute{
+
 				Optional: true,
 				Computed: true,
+
 				PlanModifiers: []planmodifier.Float64{
+
 					float64planmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Longitude",
 			},
 			"max_service_accounts": schema.Int64Attribute{
+
 				Optional: true,
 				Computed: true,
+
 				PlanModifiers: []planmodifier.Int64{
+
 					int64planmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Maximum number of service accounts allowed",
 
 				Validators: []validator.Int64{
@@ -337,85 +473,127 @@ func (r *StructureCustomerResource) Schema(ctx context.Context, req resource.Sch
 				},
 			},
 			"name": schema.StringAttribute{
-				Required:            true,
+
+				Required: true,
+
 				MarkdownDescription: "Name",
 			},
 			"native_name": schema.StringAttribute{
+
 				Optional: true,
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Native Name",
 			},
 			"notification_emails": schema.StringAttribute{
+
 				Optional: true,
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Comma-separated list of notification email addresses",
 			},
 			"organization_groups": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"customers_count": schema.Int64Attribute{
+
 							Computed: true,
+
 							PlanModifiers: []planmodifier.Int64{
+
 								int64planmodifier.UseStateForUnknown(),
 							},
+
 							MarkdownDescription: "Number of customers in this organization group",
 						},
 						"name": schema.StringAttribute{
+
 							Optional: true,
 							Computed: true,
+
 							PlanModifiers: []planmodifier.String{
+
 								stringplanmodifier.UseStateForUnknown(),
 							},
+
 							MarkdownDescription: "Name",
 						},
 						"parent": schema.StringAttribute{
+
 							Optional: true,
 							Computed: true,
+
 							PlanModifiers: []planmodifier.String{
+
 								stringplanmodifier.UseStateForUnknown(),
 							},
+
 							MarkdownDescription: "Parent",
 						},
 						"parent_name": schema.StringAttribute{
+
 							Computed: true,
+
 							PlanModifiers: []planmodifier.String{
+
 								stringplanmodifier.UseStateForUnknown(),
 							},
+
 							MarkdownDescription: "Name of the parent organization group",
 						},
 						"parent_uuid": schema.StringAttribute{
+
 							Computed: true,
+
 							PlanModifiers: []planmodifier.String{
+
 								stringplanmodifier.UseStateForUnknown(),
 							},
+
 							MarkdownDescription: "UUID of the parent organization group",
 						},
 						"url": schema.StringAttribute{
+
 							Computed: true,
+
 							PlanModifiers: []planmodifier.String{
+
 								stringplanmodifier.UseStateForUnknown(),
 							},
+
 							MarkdownDescription: "Url",
 						},
 						"uuid": schema.StringAttribute{
+
 							Computed: true,
+
 							PlanModifiers: []planmodifier.String{
+
 								stringplanmodifier.UseStateForUnknown(),
 							},
+
 							MarkdownDescription: "Uuid",
 						},
 					},
 				},
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.List{
+
 					listplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Organization groups this customer belongs to",
 			},
 			"payment_profiles": schema.ListNestedAttribute{
@@ -424,74 +602,110 @@ func (r *StructureCustomerResource) Schema(ctx context.Context, req resource.Sch
 						"attributes": schema.SingleNestedAttribute{
 							Attributes: map[string]schema.Attribute{
 								"agreement_number": schema.StringAttribute{
+
 									Optional: true,
 									Computed: true,
+
 									PlanModifiers: []planmodifier.String{
+
 										stringplanmodifier.UseStateForUnknown(),
 									},
+
 									MarkdownDescription: "Agreement Number",
 								},
 								"contract_sum": schema.Int64Attribute{
+
 									Optional: true,
 									Computed: true,
+
 									PlanModifiers: []planmodifier.Int64{
+
 										int64planmodifier.UseStateForUnknown(),
 									},
+
 									MarkdownDescription: "Contract Sum",
 								},
 								"end_date": schema.StringAttribute{
+
 									Optional: true,
 									Computed: true,
+
 									PlanModifiers: []planmodifier.String{
+
 										stringplanmodifier.UseStateForUnknown(),
 									},
+
 									MarkdownDescription: "End Date",
 								},
 							},
+
 							Optional: true,
 							Computed: true,
+
 							PlanModifiers: []planmodifier.Object{
+
 								objectplanmodifier.UseStateForUnknown(),
 							},
+
 							MarkdownDescription: "Attributes",
 						},
 						"is_active": schema.BoolAttribute{
+
 							Optional: true,
 							Computed: true,
+
 							PlanModifiers: []planmodifier.Bool{
+
 								boolplanmodifier.UseStateForUnknown(),
 							},
+
 							MarkdownDescription: "Is Active",
 						},
 						"name": schema.StringAttribute{
+
 							Optional: true,
 							Computed: true,
+
 							PlanModifiers: []planmodifier.String{
+
 								stringplanmodifier.UseStateForUnknown(),
 							},
+
 							MarkdownDescription: "Name",
 						},
 						"organization": schema.StringAttribute{
+
 							Optional: true,
 							Computed: true,
+
 							PlanModifiers: []planmodifier.String{
+
 								stringplanmodifier.UseStateForUnknown(),
 							},
+
 							MarkdownDescription: "Organization",
 						},
 						"organization_uuid": schema.StringAttribute{
+
 							Computed: true,
+
 							PlanModifiers: []planmodifier.String{
+
 								stringplanmodifier.UseStateForUnknown(),
 							},
+
 							MarkdownDescription: "Organization Uuid",
 						},
 						"payment_type": schema.StringAttribute{
+
 							Optional: true,
 							Computed: true,
+
 							PlanModifiers: []planmodifier.String{
+
 								stringplanmodifier.UseStateForUnknown(),
 							},
+
 							MarkdownDescription: "Payment Type",
 
 							Validators: []validator.String{
@@ -499,93 +713,141 @@ func (r *StructureCustomerResource) Schema(ctx context.Context, req resource.Sch
 							},
 						},
 						"payment_type_display": schema.StringAttribute{
+
 							Computed: true,
+
 							PlanModifiers: []planmodifier.String{
+
 								stringplanmodifier.UseStateForUnknown(),
 							},
+
 							MarkdownDescription: "Payment Type Display",
 						},
 						"url": schema.StringAttribute{
+
 							Computed: true,
+
 							PlanModifiers: []planmodifier.String{
+
 								stringplanmodifier.UseStateForUnknown(),
 							},
+
 							MarkdownDescription: "Url",
 						},
 						"uuid": schema.StringAttribute{
+
 							Computed: true,
+
 							PlanModifiers: []planmodifier.String{
+
 								stringplanmodifier.UseStateForUnknown(),
 							},
+
 							MarkdownDescription: "Uuid",
 						},
 					},
 				},
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.List{
+
 					listplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Payment Profiles",
 			},
 			"phone_number": schema.StringAttribute{
+
 				Optional: true,
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Phone Number",
 			},
 			"postal": schema.StringAttribute{
+
 				Optional: true,
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Postal",
 			},
 			"project_metadata_checklist": schema.StringAttribute{
+
 				Optional: true,
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Checklist to be used for project metadata validation in this organization",
 			},
 			"projects_count": schema.Int64Attribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.Int64{
+
 					int64planmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Number of projects in this organization",
 			},
 			"registration_code": schema.StringAttribute{
+
 				Optional: true,
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Registration Code",
 			},
 			"service_provider": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Service Provider",
 			},
 			"service_provider_uuid": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Service Provider Uuid",
 			},
 			"slug": schema.StringAttribute{
+
 				Optional: true,
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "URL-friendly identifier. Only editable by staff users.",
 
 				Validators: []validator.String{
@@ -593,11 +855,15 @@ func (r *StructureCustomerResource) Schema(ctx context.Context, req resource.Sch
 				},
 			},
 			"sponsor_number": schema.Int64Attribute{
+
 				Optional: true,
 				Computed: true,
+
 				PlanModifiers: []planmodifier.Int64{
+
 					int64planmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "External ID of the sponsor covering the costs",
 
 				Validators: []validator.Int64{
@@ -606,25 +872,37 @@ func (r *StructureCustomerResource) Schema(ctx context.Context, req resource.Sch
 				},
 			},
 			"url": schema.StringAttribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Url",
 			},
 			"users_count": schema.Int64Attribute{
+
 				Computed: true,
+
 				PlanModifiers: []planmodifier.Int64{
+
 					int64planmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "Number of users with access to this organization",
 			},
 			"vat_code": schema.StringAttribute{
+
 				Optional: true,
 				Computed: true,
+
 				PlanModifiers: []planmodifier.String{
+
 					stringplanmodifier.UseStateForUnknown(),
 				},
+
 				MarkdownDescription: "VAT number",
 			},
 		},

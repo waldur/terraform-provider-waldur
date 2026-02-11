@@ -79,12 +79,19 @@ func (model *OpenstackNetworkRbacPolicyModel) CopyFrom(ctx context.Context, apiR
 	var diags diag.Diagnostics
 
 	model.UUID = types.StringPointerValue(apiResp.UUID)
+
 	model.BackendId = common.StringPointerValue(apiResp.BackendId)
+
 	model.Network = common.StringPointerValue(apiResp.Network)
+
 	model.NetworkName = common.StringPointerValue(apiResp.NetworkName)
+
 	model.PolicyType = common.StringPointerValue(apiResp.PolicyType)
+
 	model.TargetTenant = common.StringPointerValue(apiResp.TargetTenant)
+
 	model.TargetTenantName = common.StringPointerValue(apiResp.TargetTenantName)
+
 	model.Url = common.StringPointerValue(apiResp.Url)
 
 	return diags

@@ -6,14 +6,21 @@ type OpenstackFlavorCreateRequest struct {
 type OpenstackFlavorResponse struct {
 	UUID *string `json:"uuid"`
 
-	BackendId   *string `json:"backend_id" tfsdk:"backend_id"`
-	Cores       *int64  `json:"cores" tfsdk:"cores"`
-	Disk        *int64  `json:"disk" tfsdk:"disk"`
-	DisplayName *string `json:"display_name" tfsdk:"display_name"`
-	Name        *string `json:"name" tfsdk:"name"`
-	Ram         *int64  `json:"ram" tfsdk:"ram"`
-	Settings    *string `json:"settings" tfsdk:"settings"`
-	Url         *string `json:"url" tfsdk:"url"`
+	BackendId *string `json:"backend_id,omitempty" tfsdk:"backend_id"`
+
+	Cores *int64 `json:"cores,omitempty" tfsdk:"cores"`
+
+	Disk *int64 `json:"disk,omitempty" tfsdk:"disk"`
+
+	DisplayName *string `json:"display_name,omitempty" tfsdk:"display_name"`
+
+	Name *string `json:"name,omitempty" tfsdk:"name"`
+
+	Ram *int64 `json:"ram,omitempty" tfsdk:"ram"`
+
+	Settings *string `json:"settings,omitempty" tfsdk:"settings"`
+
+	Url *string `json:"url,omitempty" tfsdk:"url"`
 }
 
 func (r *OpenstackFlavorResponse) GetState() string {

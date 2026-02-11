@@ -180,74 +180,119 @@ func (model *StructureCustomerModel) CopyFrom(ctx context.Context, apiResp Struc
 	var diags diag.Diagnostics
 
 	model.UUID = types.StringPointerValue(apiResp.UUID)
+
 	model.Abbreviation = common.StringPointerValue(apiResp.Abbreviation)
+
 	model.AccessSubnets = common.StringPointerValue(apiResp.AccessSubnets)
+
 	valAccountingStartDate, diagsAccountingStartDate := timetypes.NewRFC3339PointerValue(apiResp.AccountingStartDate)
 	diags.Append(diagsAccountingStartDate...)
 	model.AccountingStartDate = valAccountingStartDate
+
 	model.Address = common.StringPointerValue(apiResp.Address)
+
 	model.AgreementNumber = common.StringPointerValue(apiResp.AgreementNumber)
+
 	model.Archived = types.BoolPointerValue(apiResp.Archived)
+
 	model.BackendId = common.StringPointerValue(apiResp.BackendId)
+
 	model.BankAccount = common.StringPointerValue(apiResp.BankAccount)
+
 	model.BankName = common.StringPointerValue(apiResp.BankName)
+
 	if apiResp.BillingPriceEstimate != nil {
-		objValBillingPriceEstimate, objDiagsBillingPriceEstimate := types.ObjectValueFrom(ctx, BillingPriceEstimateType().AttrTypes, *apiResp.BillingPriceEstimate)
-		diags.Append(objDiagsBillingPriceEstimate...)
-		model.BillingPriceEstimate = objValBillingPriceEstimate
+		valBillingPriceEstimate, diagsBillingPriceEstimate := types.ObjectValueFrom(ctx, BillingPriceEstimateType().AttrTypes, *apiResp.BillingPriceEstimate)
+		diags.Append(diagsBillingPriceEstimate...)
+		model.BillingPriceEstimate = valBillingPriceEstimate
 	} else {
 		model.BillingPriceEstimate = types.ObjectNull(BillingPriceEstimateType().AttrTypes)
 	}
+
 	model.Blocked = types.BoolPointerValue(apiResp.Blocked)
+
 	model.CallManagingOrganizationUuid = common.StringPointerValue(apiResp.CallManagingOrganizationUuid)
+
 	model.ContactDetails = common.StringPointerValue(apiResp.ContactDetails)
+
 	model.Country = common.StringPointerValue(apiResp.Country)
+
 	model.CountryName = common.StringPointerValue(apiResp.CountryName)
+
 	model.CustomerCredit = types.Float64PointerValue(apiResp.CustomerCredit.Float64Ptr())
+
 	model.CustomerUnallocatedCredit = types.Float64PointerValue(apiResp.CustomerUnallocatedCredit.Float64Ptr())
+
 	model.DefaultTaxPercent = common.StringPointerValue(apiResp.DefaultTaxPercent)
+
 	model.Description = common.StringPointerValue(apiResp.Description)
+
 	model.DisplayBillingInfoInProjects = types.BoolPointerValue(apiResp.DisplayBillingInfoInProjects)
+
 	model.DisplayName = common.StringPointerValue(apiResp.DisplayName)
+
 	model.Domain = common.StringPointerValue(apiResp.Domain)
+
 	model.Email = common.StringPointerValue(apiResp.Email)
+
 	model.GracePeriodDays = types.Int64PointerValue(apiResp.GracePeriodDays)
+
 	model.Homepage = common.StringPointerValue(apiResp.Homepage)
+
 	model.Image = common.StringPointerValue(apiResp.Image)
+
 	model.IsServiceProvider = types.BoolPointerValue(apiResp.IsServiceProvider)
+
 	model.Latitude = types.Float64PointerValue(apiResp.Latitude.Float64Ptr())
+
 	model.Longitude = types.Float64PointerValue(apiResp.Longitude.Float64Ptr())
+
 	model.MaxServiceAccounts = types.Int64PointerValue(apiResp.MaxServiceAccounts)
+
 	model.Name = common.StringPointerValue(apiResp.Name)
+
 	model.NativeName = common.StringPointerValue(apiResp.NativeName)
+
 	model.NotificationEmails = common.StringPointerValue(apiResp.NotificationEmails)
 
 	if apiResp.OrganizationGroups != nil {
-		listValOrganizationGroups, listDiagsOrganizationGroups := types.ListValueFrom(ctx, OrganizationGroupType(), apiResp.OrganizationGroups)
-		diags.Append(listDiagsOrganizationGroups...)
-		model.OrganizationGroups = listValOrganizationGroups
+		valOrganizationGroups, diagsOrganizationGroups := types.ListValueFrom(ctx, OrganizationGroupType(), apiResp.OrganizationGroups)
+		diags.Append(diagsOrganizationGroups...)
+		model.OrganizationGroups = valOrganizationGroups
 	} else {
 		model.OrganizationGroups = types.ListNull(OrganizationGroupType())
 	}
 
 	if apiResp.PaymentProfiles != nil {
-		listValPaymentProfiles, listDiagsPaymentProfiles := types.ListValueFrom(ctx, PaymentProfileType(), apiResp.PaymentProfiles)
-		diags.Append(listDiagsPaymentProfiles...)
-		model.PaymentProfiles = listValPaymentProfiles
+		valPaymentProfiles, diagsPaymentProfiles := types.ListValueFrom(ctx, PaymentProfileType(), apiResp.PaymentProfiles)
+		diags.Append(diagsPaymentProfiles...)
+		model.PaymentProfiles = valPaymentProfiles
 	} else {
 		model.PaymentProfiles = types.ListNull(PaymentProfileType())
 	}
+
 	model.PhoneNumber = common.StringPointerValue(apiResp.PhoneNumber)
+
 	model.Postal = common.StringPointerValue(apiResp.Postal)
+
 	model.ProjectMetadataChecklist = common.StringPointerValue(apiResp.ProjectMetadataChecklist)
+
 	model.ProjectsCount = types.Int64PointerValue(apiResp.ProjectsCount)
+
 	model.RegistrationCode = common.StringPointerValue(apiResp.RegistrationCode)
+
 	model.ServiceProvider = common.StringPointerValue(apiResp.ServiceProvider)
+
 	model.ServiceProviderUuid = common.StringPointerValue(apiResp.ServiceProviderUuid)
+
 	model.Slug = common.StringPointerValue(apiResp.Slug)
+
 	model.SponsorNumber = types.Int64PointerValue(apiResp.SponsorNumber)
+
 	model.Url = common.StringPointerValue(apiResp.Url)
+
 	model.UsersCount = types.Int64PointerValue(apiResp.UsersCount)
+
 	model.VatCode = common.StringPointerValue(apiResp.VatCode)
 
 	return diags
