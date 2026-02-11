@@ -47,6 +47,9 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 				MarkdownDescription: "Marketplace Resource UUID",
 			},
 			"filters": (&MarketplaceResourceFiltersModel{}).GetSchema(),
+			"attributes": schema.MapAttribute{
+				ElementType: types.StringType,
+				Computed:    true, MarkdownDescription: "Attributes"},
 			"available_actions": schema.ListAttribute{
 				ElementType: types.StringType,
 				Computed:    true, MarkdownDescription: "Available Actions"},
@@ -129,6 +132,9 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 						},
 						Computed: true, MarkdownDescription: "Issue",
 					},
+					"limits": schema.MapAttribute{
+						ElementType: types.Int64Type,
+						Computed:    true, MarkdownDescription: "Limits"},
 					"marketplace_resource_uuid": schema.StringAttribute{
 						Computed: true, MarkdownDescription: "Marketplace Resource Uuid"},
 					"new_cost_estimate": schema.StringAttribute{
@@ -225,6 +231,9 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 				},
 				Computed: true, MarkdownDescription: "Creation Order",
 			},
+			"current_usages": schema.MapAttribute{
+				ElementType: types.Int64Type,
+				Computed:    true, MarkdownDescription: "Current Usages"},
 			"customer_slug": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Customer Slug"},
 			"description": schema.StringAttribute{
@@ -255,6 +264,12 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 			"last_sync": schema.StringAttribute{
 				CustomType: timetypes.RFC3339Type{},
 				Computed:   true, MarkdownDescription: "Last Sync"},
+			"limit_usage": schema.MapAttribute{
+				ElementType: types.Float64Type,
+				Computed:    true, MarkdownDescription: "Limit Usage"},
+			"limits": schema.MapAttribute{
+				ElementType: types.Int64Type,
+				Computed:    true, MarkdownDescription: "Limits"},
 			"name": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Name"},
 			"offering": schema.StringAttribute{
@@ -424,6 +439,9 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 						},
 						Computed: true, MarkdownDescription: "Issue",
 					},
+					"limits": schema.MapAttribute{
+						ElementType: types.Int64Type,
+						Computed:    true, MarkdownDescription: "Limits"},
 					"marketplace_resource_uuid": schema.StringAttribute{
 						Computed: true, MarkdownDescription: "Marketplace Resource Uuid"},
 					"new_cost_estimate": schema.StringAttribute{
@@ -558,6 +576,9 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 				Computed: true, MarkdownDescription: "Provider Slug"},
 			"provider_uuid": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Provider Uuid"},
+			"renewal_date": schema.MapAttribute{
+				ElementType: types.StringType,
+				Computed:    true, MarkdownDescription: "Renewal Date"},
 			"report": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{

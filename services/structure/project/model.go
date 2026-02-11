@@ -127,6 +127,7 @@ type StructureProjectModel struct {
 	IsIndustry                           types.Bool    `tfsdk:"is_industry"`
 	IsRemoved                            types.Bool    `tfsdk:"is_removed"`
 	Kind                                 types.String  `tfsdk:"kind"`
+	MarketplaceResourceCount             types.Map     `tfsdk:"marketplace_resource_count"`
 	MaxServiceAccounts                   types.Int64   `tfsdk:"max_service_accounts"`
 	Name                                 types.String  `tfsdk:"name"`
 	OecdFos2007Code                      types.String  `tfsdk:"oecd_fos_2007_code"`
@@ -179,6 +180,14 @@ func (model *StructureProjectModel) CopyFrom(ctx context.Context, apiResp Struct
 	model.IsRemoved = types.BoolPointerValue(apiResp.IsRemoved)
 
 	model.Kind = common.StringPointerValue(apiResp.Kind)
+
+	if apiResp.MarketplaceResourceCount != nil {
+		valMarketplaceResourceCount, diagsMarketplaceResourceCount := types.MapValueFrom(ctx, types.Int64Type, apiResp.MarketplaceResourceCount)
+		diags.Append(diagsMarketplaceResourceCount...)
+		model.MarketplaceResourceCount = valMarketplaceResourceCount
+	} else {
+		model.MarketplaceResourceCount = types.MapNull(types.Int64Type)
+	}
 
 	model.MaxServiceAccounts = types.Int64PointerValue(apiResp.MaxServiceAccounts)
 

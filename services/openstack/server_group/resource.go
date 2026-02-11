@@ -232,7 +232,6 @@ func (r *OpenstackServerGroupResource) Create(ctx context.Context, req resource.
 	if resp.Diagnostics.HasError() {
 		return
 	}
-
 	newResp, err := common.WaitForResource(ctx, func(ctx context.Context) (*OpenstackServerGroupResponse, error) {
 		return r.client.Get(ctx, data.UUID.ValueString())
 	}, createTimeout)
@@ -356,7 +355,6 @@ func (r *OpenstackServerGroupResource) Delete(ctx context.Context, req resource.
 	if resp.Diagnostics.HasError() {
 		return
 	}
-
 	err := r.client.Delete(ctx, data.UUID.ValueString())
 	if err != nil {
 		resp.Diagnostics.AddError(

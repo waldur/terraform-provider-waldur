@@ -265,7 +265,6 @@ func (r *OpenstackFloatingIpResource) Create(ctx context.Context, req resource.C
 	if resp.Diagnostics.HasError() {
 		return
 	}
-
 	newResp, err := common.WaitForResource(ctx, func(ctx context.Context) (*OpenstackFloatingIpResponse, error) {
 		return r.client.Get(ctx, data.UUID.ValueString())
 	}, createTimeout)
@@ -371,7 +370,6 @@ func (r *OpenstackFloatingIpResource) Delete(ctx context.Context, req resource.D
 	if resp.Diagnostics.HasError() {
 		return
 	}
-
 	err := r.client.Delete(ctx, data.UUID.ValueString())
 	if err != nil {
 		resp.Diagnostics.AddError(

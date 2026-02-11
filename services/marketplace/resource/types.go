@@ -15,8 +15,17 @@ type MarketplaceResourceUpdateRequest struct {
 	Name *string `json:"name,omitempty" tfsdk:"name"`
 }
 
+type MarketplaceResourceUpdateLimitsActionRequest struct {
+	Limits map[string]interface{} `json:"limits"`
+}
+
+type MarketplaceResourceCreateLimitsRequest struct {
+}
+
 type MarketplaceResourceResponse struct {
 	UUID *string `json:"uuid"`
+
+	Attributes map[string]interface{} `json:"attributes,omitempty" tfsdk:"attributes"`
 
 	AvailableActions *[]string `json:"available_actions,omitempty" tfsdk:"available_actions"`
 
@@ -33,6 +42,8 @@ type MarketplaceResourceResponse struct {
 	CategoryUuid *string `json:"category_uuid,omitempty" tfsdk:"category_uuid"`
 
 	CreationOrder *MarketplaceResourceCreationOrderResponse `json:"creation_order,omitempty" tfsdk:"creation_order"`
+
+	CurrentUsages map[string]int64 `json:"current_usages,omitempty" tfsdk:"current_usages"`
 
 	CustomerSlug *string `json:"customer_slug,omitempty" tfsdk:"customer_slug"`
 
@@ -51,6 +62,10 @@ type MarketplaceResourceResponse struct {
 	ErrorMessage *string `json:"error_message,omitempty" tfsdk:"error_message"`
 
 	LastSync *string `json:"last_sync,omitempty" tfsdk:"last_sync"`
+
+	LimitUsage map[string]float64 `json:"limit_usage,omitempty" tfsdk:"limit_usage"`
+
+	Limits map[string]int64 `json:"limits,omitempty" tfsdk:"limits"`
 
 	Name *string `json:"name,omitempty" tfsdk:"name"`
 
@@ -120,6 +135,8 @@ type MarketplaceResourceResponse struct {
 
 	ProviderUuid *string `json:"provider_uuid,omitempty" tfsdk:"provider_uuid"`
 
+	RenewalDate map[string]string `json:"renewal_date,omitempty" tfsdk:"renewal_date"`
+
 	Report *[]common.ReportSection `json:"report,omitempty" tfsdk:"report"`
 
 	ResourceType *string `json:"resource_type,omitempty" tfsdk:"resource_type"`
@@ -139,6 +156,9 @@ type MarketplaceResourceResponse struct {
 	UserRequiresReconsent *bool `json:"user_requires_reconsent,omitempty" tfsdk:"user_requires_reconsent"`
 
 	Username *string `json:"username,omitempty" tfsdk:"username"`
+}
+
+type MarketplaceResourceAttributesResponse struct {
 }
 
 type MarketplaceResourceBackendMetadataResponse struct {
@@ -193,6 +213,8 @@ type MarketplaceResourceCreationOrderResponse struct {
 	FixedPrice common.FlexibleNumber `json:"fixed_price,omitempty" tfsdk:"fixed_price"`
 
 	Issue *MarketplaceResourceCreationOrderIssueResponse `json:"issue,omitempty" tfsdk:"issue"`
+
+	Limits map[string]int64 `json:"limits,omitempty" tfsdk:"limits"`
 
 	MarketplaceResourceUuid *string `json:"marketplace_resource_uuid,omitempty" tfsdk:"marketplace_resource_uuid"`
 
@@ -287,12 +309,24 @@ type MarketplaceResourceCreationOrderIssueResponse struct {
 	Uuid *string `json:"uuid,omitempty" tfsdk:"uuid"`
 }
 
+type MarketplaceResourceCreationOrderLimitsResponse struct {
+}
+
+type MarketplaceResourceCurrentUsagesResponse struct {
+}
+
 type MarketplaceResourceEndpointsResponse struct {
 	Name *string `json:"name,omitempty" tfsdk:"name"`
 
 	Url *string `json:"url,omitempty" tfsdk:"url"`
 
 	Uuid *string `json:"uuid,omitempty" tfsdk:"uuid"`
+}
+
+type MarketplaceResourceLimitUsageResponse struct {
+}
+
+type MarketplaceResourceLimitsResponse struct {
 }
 
 type MarketplaceResourceOfferingComponentsResponse struct {
@@ -381,6 +415,8 @@ type MarketplaceResourceOrderInProgressResponse struct {
 	FixedPrice common.FlexibleNumber `json:"fixed_price,omitempty" tfsdk:"fixed_price"`
 
 	Issue *MarketplaceResourceOrderInProgressIssueResponse `json:"issue,omitempty" tfsdk:"issue"`
+
+	Limits map[string]int64 `json:"limits,omitempty" tfsdk:"limits"`
 
 	MarketplaceResourceUuid *string `json:"marketplace_resource_uuid,omitempty" tfsdk:"marketplace_resource_uuid"`
 
@@ -473,6 +509,12 @@ type MarketplaceResourceOrderInProgressIssueResponse struct {
 	Key *string `json:"key,omitempty" tfsdk:"key"`
 
 	Uuid *string `json:"uuid,omitempty" tfsdk:"uuid"`
+}
+
+type MarketplaceResourceOrderInProgressLimitsResponse struct {
+}
+
+type MarketplaceResourceRenewalDateResponse struct {
 }
 
 type MarketplaceResourceReportResponse struct {

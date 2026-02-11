@@ -61,6 +61,11 @@ func (c *MarketplaceResourceClient) List(ctx context.Context, filter map[string]
 	return listResult, nil
 }
 
+func (c *MarketplaceResourceClient) UpdateLimits(ctx context.Context, id string, req *MarketplaceResourceUpdateLimitsActionRequest) error {
+	path := "/api/marketplace-resources/{uuid}/update_limits/"
+	err := c.Client.ExecuteAction(ctx, path, id, req, nil)
+	return err
+}
 func (c *MarketplaceResourceClient) Pull(ctx context.Context, id string) error {
 	err := c.Client.ExecuteAction(ctx, "/api/marketplace-resources/{uuid}/pull/", id, nil, nil)
 	return err

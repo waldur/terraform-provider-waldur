@@ -286,7 +286,6 @@ func (r *OpenstackSubnetResource) Create(ctx context.Context, req resource.Creat
 	if resp.Diagnostics.HasError() {
 		return
 	}
-
 	newResp, err := common.WaitForResource(ctx, func(ctx context.Context) (*OpenstackSubnetResponse, error) {
 		return r.client.Get(ctx, data.UUID.ValueString())
 	}, createTimeout)
@@ -433,7 +432,6 @@ func (r *OpenstackSubnetResource) Delete(ctx context.Context, req resource.Delet
 	if resp.Diagnostics.HasError() {
 		return
 	}
-
 	err := r.client.Delete(ctx, data.UUID.ValueString())
 	if err != nil {
 		resp.Diagnostics.AddError(

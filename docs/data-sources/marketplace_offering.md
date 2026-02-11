@@ -22,6 +22,7 @@ Marketplace Offering data source - lookup by name or UUID
 
 ### Read-Only
 
+- `attributes` (Map of String) Attributes
 - `backend_id` (String) Backend Id
 - `billable` (Boolean) Purchase and usage is invoiced.
 - `billing_type_classification` (String) Classify offering components by billing type. Returns 'limit_only', 'usage_only', or 'mixed'.
@@ -173,6 +174,7 @@ Read-Only:
 
 Read-Only:
 
+- `options` (Map of String) Options
 - `order` (List of String) Order
 
 
@@ -228,6 +230,7 @@ Read-Only:
 - `backend_id` (String) Backend Id
 - `components` (Attributes List) Components (see [below for nested schema](#nestedatt--plans--components))
 - `description` (String) Description
+- `future_prices` (Map of Number) Future Prices
 - `init_price` (Number) Init Price
 - `is_active` (Boolean) Is Active
 - `max_amount` (Number) Maximum number of plans that could be active. Plan is disabled when maximum amount is reached.
@@ -235,6 +238,8 @@ Read-Only:
 - `name` (String) Name
 - `organization_groups` (Attributes List) Organization Groups (see [below for nested schema](#nestedatt--plans--organization_groups))
 - `plan_type` (String) Plan Type
+- `prices` (Map of String) Prices
+- `quotas` (Map of Number) Quotas
 - `resources_count` (Number) Resources Count
 - `switch_price` (Number) Switch Price
 - `unit` (String) Unit
@@ -373,6 +378,7 @@ Read-Only:
 
 Read-Only:
 
+- `options` (Map of String) Options
 - `order` (List of String) Order
 
 

@@ -13,6 +13,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/float64planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64planmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/mapplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
@@ -168,6 +169,13 @@ func (r *StructureProjectResource) Schema(ctx context.Context, req resource.Sche
 
 					stringplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "Kind"},
+			"marketplace_resource_count": schema.MapAttribute{
+				ElementType: types.Int64Type,
+				Computed:    true,
+				PlanModifiers: []planmodifier.Map{
+
+					mapplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Marketplace Resource Count"},
 			"max_service_accounts": schema.Int64Attribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.Int64{
@@ -508,7 +516,6 @@ func (r *StructureProjectResource) Delete(ctx context.Context, req resource.Dele
 	if resp.Diagnostics.HasError() {
 		return
 	}
-
 	err := r.client.Delete(ctx, data.UUID.ValueString())
 	if err != nil {
 		resp.Diagnostics.AddError(

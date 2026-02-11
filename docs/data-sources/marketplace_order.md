@@ -43,6 +43,7 @@ Marketplace Order data source - lookup by name or UUID
 - `error_message` (String) Error Message
 - `fixed_price` (Number) Fixed Price
 - `issue` (Attributes) Issue (see [below for nested schema](#nestedatt--issue))
+- `limits` (Map of Number) Limits
 - `marketplace_resource_uuid` (String) Marketplace Resource Uuid
 - `new_cost_estimate` (String) New Cost Estimate
 - `new_plan_name` (String) New Plan Name

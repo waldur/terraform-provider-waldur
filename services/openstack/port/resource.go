@@ -340,7 +340,6 @@ func (r *OpenstackPortResource) Create(ctx context.Context, req resource.CreateR
 	if resp.Diagnostics.HasError() {
 		return
 	}
-
 	newResp, err := common.WaitForResource(ctx, func(ctx context.Context) (*OpenstackPortResponse, error) {
 		return r.client.Get(ctx, data.UUID.ValueString())
 	}, createTimeout)
@@ -486,7 +485,6 @@ func (r *OpenstackPortResource) Delete(ctx context.Context, req resource.DeleteR
 	if resp.Diagnostics.HasError() {
 		return
 	}
-
 	err := r.client.Delete(ctx, data.UUID.ValueString())
 	if err != nil {
 		resp.Diagnostics.AddError(

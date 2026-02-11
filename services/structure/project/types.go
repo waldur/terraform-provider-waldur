@@ -93,6 +93,8 @@ type StructureProjectResponse struct {
 
 	Kind *string `json:"kind,omitempty" tfsdk:"kind"`
 
+	MarketplaceResourceCount map[string]int64 `json:"marketplace_resource_count,omitempty" tfsdk:"marketplace_resource_count"`
+
 	MaxServiceAccounts *int64 `json:"max_service_accounts,omitempty" tfsdk:"max_service_accounts"`
 
 	Name *string `json:"name" tfsdk:"name"`
@@ -128,6 +130,9 @@ type StructureProjectBillingPriceEstimateResponse struct {
 	TaxCurrent common.FlexibleNumber `json:"tax_current,omitempty" tfsdk:"tax_current"`
 
 	Total common.FlexibleNumber `json:"total,omitempty" tfsdk:"total"`
+}
+
+type StructureProjectMarketplaceResourceCountResponse struct {
 }
 
 func (r *StructureProjectResponse) GetState() string {

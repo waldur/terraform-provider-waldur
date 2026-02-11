@@ -10,6 +10,8 @@ type MarketplaceOfferingCreateRequest struct {
 type MarketplaceOfferingResponse struct {
 	UUID *string `json:"uuid"`
 
+	Attributes map[string]interface{} `json:"attributes,omitempty" tfsdk:"attributes"`
+
 	BackendId *string `json:"backend_id,omitempty" tfsdk:"backend_id"`
 
 	Billable *bool `json:"billable,omitempty" tfsdk:"billable"`
@@ -133,6 +135,9 @@ type MarketplaceOfferingResponse struct {
 	VendorDetails *string `json:"vendor_details,omitempty" tfsdk:"vendor_details"`
 }
 
+type MarketplaceOfferingAttributesResponse struct {
+}
+
 type MarketplaceOfferingComponentsResponse struct {
 	ArticleCode *string `json:"article_code,omitempty" tfsdk:"article_code"`
 
@@ -192,7 +197,12 @@ type MarketplaceOfferingFilesResponse struct {
 }
 
 type MarketplaceOfferingOptionsResponse struct {
+	Options map[string]interface{} `json:"options,omitempty" tfsdk:"options"`
+
 	Order *[]string `json:"order,omitempty" tfsdk:"order"`
+}
+
+type MarketplaceOfferingOptionsOptionsResponse struct {
 }
 
 type MarketplaceOfferingOrganizationGroupsResponse struct {
@@ -266,6 +276,8 @@ type MarketplaceOfferingPlansResponse struct {
 
 	Description *string `json:"description,omitempty" tfsdk:"description"`
 
+	FuturePrices map[string]float64 `json:"future_prices,omitempty" tfsdk:"future_prices"`
+
 	InitPrice common.FlexibleNumber `json:"init_price,omitempty" tfsdk:"init_price"`
 
 	IsActive *bool `json:"is_active,omitempty" tfsdk:"is_active"`
@@ -279,6 +291,10 @@ type MarketplaceOfferingPlansResponse struct {
 	OrganizationGroups *[]common.OrganizationGroup `json:"organization_groups,omitempty" tfsdk:"organization_groups"`
 
 	PlanType *string `json:"plan_type,omitempty" tfsdk:"plan_type"`
+
+	Prices map[string]string `json:"prices,omitempty" tfsdk:"prices"`
+
+	Quotas map[string]float64 `json:"quotas,omitempty" tfsdk:"quotas"`
 
 	ResourcesCount *int64 `json:"resources_count,omitempty" tfsdk:"resources_count"`
 
@@ -311,6 +327,9 @@ type MarketplaceOfferingPlansComponentsResponse struct {
 	Type *string `json:"type,omitempty" tfsdk:"type"`
 }
 
+type MarketplaceOfferingPlansFuturePricesResponse struct {
+}
+
 type MarketplaceOfferingPlansOrganizationGroupsResponse struct {
 	CustomersCount *int64 `json:"customers_count,omitempty" tfsdk:"customers_count"`
 
@@ -325,6 +344,12 @@ type MarketplaceOfferingPlansOrganizationGroupsResponse struct {
 	Url *string `json:"url,omitempty" tfsdk:"url"`
 
 	Uuid *string `json:"uuid,omitempty" tfsdk:"uuid"`
+}
+
+type MarketplaceOfferingPlansPricesResponse struct {
+}
+
+type MarketplaceOfferingPlansQuotasResponse struct {
 }
 
 type MarketplaceOfferingPluginOptionsResponse struct {
@@ -484,7 +509,12 @@ type MarketplaceOfferingQuotasResponse struct {
 }
 
 type MarketplaceOfferingResourceOptionsResponse struct {
+	Options map[string]interface{} `json:"options,omitempty" tfsdk:"options"`
+
 	Order *[]string `json:"order,omitempty" tfsdk:"order"`
+}
+
+type MarketplaceOfferingResourceOptionsOptionsResponse struct {
 }
 
 type MarketplaceOfferingRolesResponse struct {

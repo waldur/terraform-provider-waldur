@@ -289,7 +289,6 @@ func (r *OpenstackNetworkRbacPolicyResource) Delete(ctx context.Context, req res
 	if resp.Diagnostics.HasError() {
 		return
 	}
-
 	err := r.client.Delete(ctx, data.UUID.ValueString())
 	if err != nil {
 		resp.Diagnostics.AddError(

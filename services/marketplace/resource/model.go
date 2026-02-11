@@ -43,6 +43,7 @@ func CreationOrderType() types.ObjectType {
 		"error_message":                  types.StringType,
 		"fixed_price":                    types.Float64Type,
 		"issue":                          CreationOrderIssueType(),
+		"limits":                         types.MapType{ElemType: types.Int64Type},
 		"marketplace_resource_uuid":      types.StringType,
 		"new_cost_estimate":              types.StringType,
 		"new_plan_name":                  types.StringType,
@@ -317,6 +318,7 @@ func (m *MarketplaceResourceFiltersModel) GetSchema() schema.SingleNestedAttribu
 
 type MarketplaceResourceModel struct {
 	UUID                      types.String      `tfsdk:"id"`
+	Attributes                types.Map         `tfsdk:"attributes"`
 	AvailableActions          types.List        `tfsdk:"available_actions"`
 	BackendId                 types.String      `tfsdk:"backend_id"`
 	BackendMetadata           types.Object      `tfsdk:"backend_metadata"`
@@ -325,6 +327,7 @@ type MarketplaceResourceModel struct {
 	CategoryTitle             types.String      `tfsdk:"category_title"`
 	CategoryUuid              types.String      `tfsdk:"category_uuid"`
 	CreationOrder             types.Object      `tfsdk:"creation_order"`
+	CurrentUsages             types.Map         `tfsdk:"current_usages"`
 	CustomerSlug              types.String      `tfsdk:"customer_slug"`
 	Description               types.String      `tfsdk:"description"`
 	Downscaled                types.Bool        `tfsdk:"downscaled"`
@@ -334,6 +337,8 @@ type MarketplaceResourceModel struct {
 	Endpoints                 types.List        `tfsdk:"endpoints"`
 	ErrorMessage              types.String      `tfsdk:"error_message"`
 	LastSync                  timetypes.RFC3339 `tfsdk:"last_sync"`
+	LimitUsage                types.Map         `tfsdk:"limit_usage"`
+	Limits                    types.Map         `tfsdk:"limits"`
 	Name                      types.String      `tfsdk:"name"`
 	Offering                  types.String      `tfsdk:"offering"`
 	OfferingBackendId         types.String      `tfsdk:"offering_backend_id"`
@@ -368,6 +373,7 @@ type MarketplaceResourceModel struct {
 	ProviderName              types.String      `tfsdk:"provider_name"`
 	ProviderSlug              types.String      `tfsdk:"provider_slug"`
 	ProviderUuid              types.String      `tfsdk:"provider_uuid"`
+	RenewalDate               types.Map         `tfsdk:"renewal_date"`
 	Report                    types.List        `tfsdk:"report"`
 	ResourceType              types.String      `tfsdk:"resource_type"`
 	ResourceUuid              types.String      `tfsdk:"resource_uuid"`
@@ -385,6 +391,14 @@ func (model *MarketplaceResourceModel) CopyFrom(ctx context.Context, apiResp Mar
 	var diags diag.Diagnostics
 
 	model.UUID = types.StringPointerValue(apiResp.UUID)
+
+	if apiResp.Attributes != nil {
+		valAttributes, diagsAttributes := types.MapValueFrom(ctx, types.StringType, apiResp.Attributes)
+		diags.Append(diagsAttributes...)
+		model.Attributes = valAttributes
+	} else {
+		model.Attributes = types.MapNull(types.StringType)
+	}
 
 	if apiResp.AvailableActions != nil {
 		valAvailableActions, diagsAvailableActions := types.ListValueFrom(ctx, types.StringType, apiResp.AvailableActions)
@@ -420,6 +434,14 @@ func (model *MarketplaceResourceModel) CopyFrom(ctx context.Context, apiResp Mar
 		model.CreationOrder = types.ObjectNull(CreationOrderType().AttrTypes)
 	}
 
+	if apiResp.CurrentUsages != nil {
+		valCurrentUsages, diagsCurrentUsages := types.MapValueFrom(ctx, types.Int64Type, apiResp.CurrentUsages)
+		diags.Append(diagsCurrentUsages...)
+		model.CurrentUsages = valCurrentUsages
+	} else {
+		model.CurrentUsages = types.MapNull(types.Int64Type)
+	}
+
 	model.CustomerSlug = common.StringPointerValue(apiResp.CustomerSlug)
 
 	model.Description = common.StringPointerValue(apiResp.Description)
@@ -445,6 +467,22 @@ func (model *MarketplaceResourceModel) CopyFrom(ctx context.Context, apiResp Mar
 	valLastSync, diagsLastSync := timetypes.NewRFC3339PointerValue(apiResp.LastSync)
 	diags.Append(diagsLastSync...)
 	model.LastSync = valLastSync
+
+	if apiResp.LimitUsage != nil {
+		valLimitUsage, diagsLimitUsage := types.MapValueFrom(ctx, types.Float64Type, apiResp.LimitUsage)
+		diags.Append(diagsLimitUsage...)
+		model.LimitUsage = valLimitUsage
+	} else {
+		model.LimitUsage = types.MapNull(types.Float64Type)
+	}
+
+	if apiResp.Limits != nil {
+		valLimits, diagsLimits := types.MapValueFrom(ctx, types.Int64Type, apiResp.Limits)
+		diags.Append(diagsLimits...)
+		model.Limits = valLimits
+	} else {
+		model.Limits = types.MapNull(types.Int64Type)
+	}
 
 	model.Name = common.StringPointerValue(apiResp.Name)
 
@@ -525,6 +563,14 @@ func (model *MarketplaceResourceModel) CopyFrom(ctx context.Context, apiResp Mar
 	model.ProviderSlug = common.StringPointerValue(apiResp.ProviderSlug)
 
 	model.ProviderUuid = common.StringPointerValue(apiResp.ProviderUuid)
+
+	if apiResp.RenewalDate != nil {
+		valRenewalDate, diagsRenewalDate := types.MapValueFrom(ctx, types.StringType, apiResp.RenewalDate)
+		diags.Append(diagsRenewalDate...)
+		model.RenewalDate = valRenewalDate
+	} else {
+		model.RenewalDate = types.MapNull(types.StringType)
+	}
 
 	if apiResp.Report != nil {
 		valReport, diagsReport := types.ListValueFrom(ctx, ReportSectionType(), apiResp.Report)

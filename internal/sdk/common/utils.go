@@ -339,7 +339,7 @@ func ResolveResourceUUID(orderRes *OrderDetails) string {
 // WaitForOrder blocks until a marketplace order reaches the "done" state.
 func WaitForOrder(ctx context.Context, c *client.Client, orderUUID string, timeout time.Duration) (*OrderDetails, error) {
 	stateConf := &retry.StateChangeConf{
-		Pending: []string{"pending", "executing", "created"},
+		Pending: []string{"pending", "pending-consumer", "pending-provider", "pending-project", "pending-start-date", "executing", "created"},
 		Target:  []string{"done"},
 		Refresh: func() (interface{}, string, error) {
 			var res OrderDetails
@@ -352,7 +352,7 @@ func WaitForOrder(ctx context.Context, c *client.Client, orderUUID string, timeo
 			if res.State != nil {
 				state = *res.State
 			}
-			if state == "erred" || state == "rejected" {
+			if state == "erred" || state == "rejected" || state == "canceled" {
 				msg := ""
 				if res.ErrorMessage != nil {
 					msg = *res.ErrorMessage

@@ -55,6 +55,7 @@ resource "waldur_structure_project" "example" {
 - `end_date_requested_by` (String) End Date Requested By
 - `id` (String) Structure Project UUID (used as Terraform ID)
 - `is_removed` (Boolean) Is Removed
+- `marketplace_resource_count` (Map of Number) Marketplace Resource Count
 - `max_service_accounts` (Number) Maximum number of service accounts allowed
 - `oecd_fos_2007_label` (String) Human-readable label for the OECD FOS 2007 classification code
 - `project_credit` (Number) Project Credit

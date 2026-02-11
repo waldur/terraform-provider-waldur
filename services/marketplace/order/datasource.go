@@ -10,6 +10,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
+	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
@@ -99,6 +100,9 @@ func (d *MarketplaceOrderDataSource) Schema(ctx context.Context, req datasource.
 				},
 				Computed: true, MarkdownDescription: "Issue",
 			},
+			"limits": schema.MapAttribute{
+				ElementType: types.Int64Type,
+				Computed:    true, MarkdownDescription: "Limits"},
 			"marketplace_resource_uuid": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Marketplace Resource Uuid"},
 			"new_cost_estimate": schema.StringAttribute{

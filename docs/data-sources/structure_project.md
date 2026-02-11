@@ -35,6 +35,7 @@ Structure Project data source - lookup by name or UUID
 - `is_industry` (Boolean) Is Industry
 - `is_removed` (Boolean) Is Removed
 - `kind` (String) Kind
+- `marketplace_resource_count` (Map of Number) Marketplace Resource Count
 - `max_service_accounts` (Number) Maximum number of service accounts allowed
 - `name` (String) Name
 - `oecd_fos_2007_code` (String) Oecd Fos 2007 Code

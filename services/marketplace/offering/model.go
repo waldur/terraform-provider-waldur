@@ -175,6 +175,7 @@ func (m *MarketplaceOfferingFiltersModel) GetSchema() schema.SingleNestedAttribu
 
 type MarketplaceOfferingModel struct {
 	UUID                      types.String  `tfsdk:"id"`
+	Attributes                types.Map     `tfsdk:"attributes"`
 	BackendId                 types.String  `tfsdk:"backend_id"`
 	Billable                  types.Bool    `tfsdk:"billable"`
 	BillingTypeClassification types.String  `tfsdk:"billing_type_classification"`
@@ -243,6 +244,14 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 	var diags diag.Diagnostics
 
 	model.UUID = types.StringPointerValue(apiResp.UUID)
+
+	if apiResp.Attributes != nil {
+		valAttributes, diagsAttributes := types.MapValueFrom(ctx, types.StringType, apiResp.Attributes)
+		diags.Append(diagsAttributes...)
+		model.Attributes = valAttributes
+	} else {
+		model.Attributes = types.MapNull(types.StringType)
+	}
 
 	model.BackendId = common.StringPointerValue(apiResp.BackendId)
 
@@ -374,13 +383,15 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 
 	if apiResp.Options != nil {
 		valOptions, diagsOptions := types.ObjectValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
-			"order": types.ListType{ElemType: types.StringType},
+			"options": types.MapType{ElemType: types.StringType},
+			"order":   types.ListType{ElemType: types.StringType},
 		}}.AttrTypes, *apiResp.Options)
 		diags.Append(diagsOptions...)
 		model.Options = valOptions
 	} else {
 		model.Options = types.ObjectNull(types.ObjectType{AttrTypes: map[string]attr.Type{
-			"order": types.ListType{ElemType: types.StringType},
+			"options": types.MapType{ElemType: types.StringType},
+			"order":   types.ListType{ElemType: types.StringType},
 		}}.AttrTypes)
 	}
 
@@ -486,6 +497,7 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 				"type":               types.StringType,
 			}}},
 			"description":   types.StringType,
+			"future_prices": types.MapType{ElemType: types.Float64Type},
 			"init_price":    types.Float64Type,
 			"is_active":     types.BoolType,
 			"max_amount":    types.Int64Type,
@@ -501,6 +513,8 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 				"uuid":            types.StringType,
 			}}},
 			"plan_type":       types.StringType,
+			"prices":          types.MapType{ElemType: types.StringType},
+			"quotas":          types.MapType{ElemType: types.Float64Type},
 			"resources_count": types.Int64Type,
 			"switch_price":    types.Float64Type,
 			"unit":            types.StringType,
@@ -526,6 +540,7 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 				"type":               types.StringType,
 			}}},
 			"description":   types.StringType,
+			"future_prices": types.MapType{ElemType: types.Float64Type},
 			"init_price":    types.Float64Type,
 			"is_active":     types.BoolType,
 			"max_amount":    types.Int64Type,
@@ -541,6 +556,8 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 				"uuid":            types.StringType,
 			}}},
 			"plan_type":       types.StringType,
+			"prices":          types.MapType{ElemType: types.StringType},
+			"quotas":          types.MapType{ElemType: types.Float64Type},
 			"resources_count": types.Int64Type,
 			"switch_price":    types.Float64Type,
 			"unit":            types.StringType,
@@ -736,13 +753,15 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 
 	if apiResp.ResourceOptions != nil {
 		valResourceOptions, diagsResourceOptions := types.ObjectValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
-			"order": types.ListType{ElemType: types.StringType},
+			"options": types.MapType{ElemType: types.StringType},
+			"order":   types.ListType{ElemType: types.StringType},
 		}}.AttrTypes, *apiResp.ResourceOptions)
 		diags.Append(diagsResourceOptions...)
 		model.ResourceOptions = valResourceOptions
 	} else {
 		model.ResourceOptions = types.ObjectNull(types.ObjectType{AttrTypes: map[string]attr.Type{
-			"order": types.ListType{ElemType: types.StringType},
+			"options": types.MapType{ElemType: types.StringType},
+			"order":   types.ListType{ElemType: types.StringType},
 		}}.AttrTypes)
 	}
 

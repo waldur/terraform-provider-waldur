@@ -981,7 +981,6 @@ func (r *StructureCustomerResource) Delete(ctx context.Context, req resource.Del
 	if resp.Diagnostics.HasError() {
 		return
 	}
-
 	err := r.client.Delete(ctx, data.UUID.ValueString())
 	if err != nil {
 		resp.Diagnostics.AddError(

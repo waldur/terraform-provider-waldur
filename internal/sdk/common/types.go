@@ -38,13 +38,15 @@ type BasePublicPlan struct {
 
 	Description *string `json:"description,omitempty" tfsdk:"description"`
 
-	InitPrice *float64 `json:"init_price,omitempty" tfsdk:"init_price"`
+	FuturePrices map[string]float64 `json:"future_prices,omitempty" tfsdk:"future_prices"`
+
+	InitPrice FlexibleNumber `json:"init_price,omitempty" tfsdk:"init_price"`
 
 	IsActive *bool `json:"is_active,omitempty" tfsdk:"is_active"`
 
 	MaxAmount *int64 `json:"max_amount,omitempty" tfsdk:"max_amount"`
 
-	MinimalPrice *float64 `json:"minimal_price,omitempty" tfsdk:"minimal_price"`
+	MinimalPrice FlexibleNumber `json:"minimal_price,omitempty" tfsdk:"minimal_price"`
 
 	Name *string `json:"name,omitempty" tfsdk:"name"`
 
@@ -52,9 +54,13 @@ type BasePublicPlan struct {
 
 	PlanType *string `json:"plan_type,omitempty" tfsdk:"plan_type"`
 
+	Prices map[string]string `json:"prices,omitempty" tfsdk:"prices"`
+
+	Quotas map[string]float64 `json:"quotas,omitempty" tfsdk:"quotas"`
+
 	ResourcesCount *int64 `json:"resources_count,omitempty" tfsdk:"resources_count"`
 
-	SwitchPrice *float64 `json:"switch_price,omitempty" tfsdk:"switch_price"`
+	SwitchPrice FlexibleNumber `json:"switch_price,omitempty" tfsdk:"switch_price"`
 
 	Unit *string `json:"unit,omitempty" tfsdk:"unit"`
 
@@ -63,6 +69,12 @@ type BasePublicPlan struct {
 	Url *string `json:"url,omitempty" tfsdk:"url"`
 
 	Uuid *string `json:"uuid,omitempty" tfsdk:"uuid"`
+}
+type BasePublicPlanFuturePrices struct {
+}
+type BasePublicPlanPrices struct {
+}
+type BasePublicPlanQuotas struct {
 }
 
 type NestedCampaign struct {
@@ -560,7 +572,7 @@ type OpenStackTenantSecurityGroupRequest struct {
 }
 
 type OrderDetails struct {
-	ActivationPrice *float64 `json:"activation_price,omitempty" tfsdk:"activation_price"`
+	ActivationPrice FlexibleNumber `json:"activation_price,omitempty" tfsdk:"activation_price"`
 
 	Attachment *string `json:"attachment,omitempty" tfsdk:"attachment"`
 
@@ -598,9 +610,11 @@ type OrderDetails struct {
 
 	ErrorMessage *string `json:"error_message,omitempty" tfsdk:"error_message"`
 
-	FixedPrice *float64 `json:"fixed_price,omitempty" tfsdk:"fixed_price"`
+	FixedPrice FlexibleNumber `json:"fixed_price,omitempty" tfsdk:"fixed_price"`
 
 	Issue *OrderDetailsIssue `json:"issue,omitempty" tfsdk:"issue"`
+
+	Limits map[string]int64 `json:"limits,omitempty" tfsdk:"limits"`
 
 	MarketplaceResourceUuid *string `json:"marketplace_resource_uuid,omitempty" tfsdk:"marketplace_resource_uuid"`
 
@@ -628,7 +642,7 @@ type OrderDetails struct {
 
 	OfferingUuid *string `json:"offering_uuid,omitempty" tfsdk:"offering_uuid"`
 
-	OldCostEstimate *float64 `json:"old_cost_estimate,omitempty" tfsdk:"old_cost_estimate"`
+	OldCostEstimate FlexibleNumber `json:"old_cost_estimate,omitempty" tfsdk:"old_cost_estimate"`
 
 	OldPlanName *string `json:"old_plan_name,omitempty" tfsdk:"old_plan_name"`
 
@@ -692,6 +706,8 @@ type OrderDetailsIssue struct {
 	Key *string `json:"key,omitempty" tfsdk:"key"`
 
 	Uuid *string `json:"uuid,omitempty" tfsdk:"uuid"`
+}
+type OrderDetailsLimits struct {
 }
 
 type OrganizationGroup struct {

@@ -15,6 +15,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/float64planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listplanmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/mapplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
@@ -60,6 +61,13 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 					stringplanmodifier.UseStateForUnknown(),
 				},
 			},
+			"attributes": schema.MapAttribute{
+				ElementType: types.StringType,
+				Computed:    true,
+				PlanModifiers: []planmodifier.Map{
+
+					mapplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Attributes"},
 			"available_actions": schema.ListAttribute{
 				ElementType: types.StringType,
 				Computed:    true,
@@ -281,6 +289,14 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 							objectplanmodifier.UseStateForUnknown(),
 						}, MarkdownDescription: "Issue",
 					},
+					"limits": schema.MapAttribute{
+						ElementType: types.Int64Type,
+						Optional:    true,
+						Computed:    true,
+						PlanModifiers: []planmodifier.Map{
+
+							mapplanmodifier.UseStateForUnknown(),
+						}, MarkdownDescription: "Limits"},
 					"marketplace_resource_uuid": schema.StringAttribute{
 						Computed: true,
 						PlanModifiers: []planmodifier.String{
@@ -558,6 +574,13 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 					objectplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "Creation Order",
 			},
+			"current_usages": schema.MapAttribute{
+				ElementType: types.Int64Type,
+				Computed:    true,
+				PlanModifiers: []planmodifier.Map{
+
+					mapplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Current Usages"},
 			"customer_slug": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
@@ -641,6 +664,20 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 
 					stringplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "Last Sync"},
+			"limit_usage": schema.MapAttribute{
+				ElementType: types.Float64Type,
+				Computed:    true,
+				PlanModifiers: []planmodifier.Map{
+
+					mapplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Limit Usage"},
+			"limits": schema.MapAttribute{
+				ElementType: types.Int64Type,
+				Computed:    true,
+				PlanModifiers: []planmodifier.Map{
+
+					mapplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Limits"},
 			"name": schema.StringAttribute{
 				Optional: true,
 				Computed: true,
@@ -1066,6 +1103,14 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 							objectplanmodifier.UseStateForUnknown(),
 						}, MarkdownDescription: "Issue",
 					},
+					"limits": schema.MapAttribute{
+						ElementType: types.Int64Type,
+						Optional:    true,
+						Computed:    true,
+						PlanModifiers: []planmodifier.Map{
+
+							mapplanmodifier.UseStateForUnknown(),
+						}, MarkdownDescription: "Limits"},
 					"marketplace_resource_uuid": schema.StringAttribute{
 						Computed: true,
 						PlanModifiers: []planmodifier.String{
@@ -1461,6 +1506,13 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 
 					stringplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "Provider Uuid"},
+			"renewal_date": schema.MapAttribute{
+				ElementType: types.StringType,
+				Computed:    true,
+				PlanModifiers: []planmodifier.Map{
+
+					mapplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Renewal Date"},
 			"report": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
@@ -1664,6 +1716,28 @@ func (r *MarketplaceResourceResource) Update(ctx context.Context, req resource.U
 			return
 		}
 		apiResp = newResp
+	}
+	if !data.Limits.Equal(state.Limits) {
+		// Convert Terraform value to API payload for the specific action
+		var req MarketplaceResourceUpdateLimitsActionRequest
+		var mapItems map[string]interface{}
+		resp.Diagnostics.Append(data.Limits.ElementsAs(ctx, &mapItems, false)...)
+		req.Limits = mapItems
+
+		// Execute the Action
+		if err := r.client.UpdateLimits(ctx, data.UUID.ValueString(), &req); err != nil {
+			resp.Diagnostics.AddError("RPC Action Failed: update_limits", err.Error())
+			return
+		}
+		// Wait for the resource to return to OK state
+		_, err := common.WaitForResource(ctx, func(ctx context.Context) (*MarketplaceResourceResponse, error) {
+			return r.client.Get(ctx, data.UUID.ValueString())
+		}, updateTimeout)
+		if err != nil {
+			resp.Diagnostics.AddError("Wait for RPC action failed", err.Error())
+			return
+		}
+		state = data
 	}
 
 	newResp, err := r.client.Get(ctx, data.UUID.ValueString())

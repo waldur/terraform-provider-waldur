@@ -22,6 +22,7 @@ Marketplace Resource data source - lookup by name or UUID
 
 ### Read-Only
 
+- `attributes` (Map of String) Attributes
 - `available_actions` (List of String) Available Actions
 - `backend_id` (String) Backend Id
 - `backend_metadata` (Attributes) Backend Metadata (see [below for nested schema](#nestedatt--backend_metadata))
@@ -30,6 +31,7 @@ Marketplace Resource data source - lookup by name or UUID
 - `category_title` (String) Category Title
 - `category_uuid` (String) Category Uuid
 - `creation_order` (Attributes) Creation Order (see [below for nested schema](#nestedatt--creation_order))
+- `current_usages` (Map of Number) Current Usages
 - `customer_slug` (String) Customer Slug
 - `description` (String) Description
 - `downscaled` (Boolean) Downscaled
@@ -39,6 +41,8 @@ Marketplace Resource data source - lookup by name or UUID
 - `endpoints` (Attributes List) Endpoints (see [below for nested schema](#nestedatt--endpoints))
 - `error_message` (String) Error Message
 - `last_sync` (String) Last Sync
+- `limit_usage` (Map of Number) Limit Usage
+- `limits` (Map of Number) Limits
 - `name` (String) Name
 - `offering` (String) Offering
 - `offering_backend_id` (String) Offering Backend Id
@@ -73,6 +77,7 @@ Marketplace Resource data source - lookup by name or UUID
 - `provider_name` (String) Provider Name
 - `provider_slug` (String) Provider Slug
 - `provider_uuid` (String) Provider Uuid
+- `renewal_date` (Map of String) Renewal Date
 - `report` (Attributes List) Report (see [below for nested schema](#nestedatt--report))
 - `resource_type` (String) Resource Type
 - `resource_uuid` (String) Resource Uuid
@@ -162,6 +167,7 @@ Read-Only:
 - `error_message` (String) Error Message
 - `fixed_price` (Number) Fixed Price
 - `issue` (Attributes) Issue (see [below for nested schema](#nestedatt--creation_order--issue))
+- `limits` (Map of Number) Limits
 - `marketplace_resource_uuid` (String) Marketplace Resource Uuid
 - `new_cost_estimate` (String) New Cost Estimate
 - `new_plan_name` (String) New Plan Name
@@ -280,6 +286,7 @@ Read-Only:
 - `error_message` (String) Error Message
 - `fixed_price` (Number) Fixed Price
 - `issue` (Attributes) Issue (see [below for nested schema](#nestedatt--order_in_progress--issue))
+- `limits` (Map of Number) Limits
 - `marketplace_resource_uuid` (String) Marketplace Resource Uuid
 - `new_cost_estimate` (String) New Cost Estimate
 - `new_plan_name` (String) New Plan Name

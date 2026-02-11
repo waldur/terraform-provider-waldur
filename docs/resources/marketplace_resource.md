@@ -55,6 +55,7 @@ resource "waldur_marketplace_resource" "example" {
 
 ### Read-Only
 
+- `attributes` (Map of String) Attributes
 - `available_actions` (List of String) Available Actions
 - `backend_id` (String) Backend Id
 - `backend_metadata` (Attributes) Backend Metadata (see [below for nested schema](#nestedatt--backend_metadata))
@@ -63,6 +64,7 @@ resource "waldur_marketplace_resource" "example" {
 - `category_title` (String) Category Title
 - `category_uuid` (String) Category Uuid
 - `creation_order` (Attributes) Creation Order (see [below for nested schema](#nestedatt--creation_order))
+- `current_usages` (Map of Number) Current Usages
 - `customer_slug` (String) Customer Slug
 - `description` (String) Description
 - `effective_id` (String) Effective Id
@@ -71,6 +73,8 @@ resource "waldur_marketplace_resource" "example" {
 - `error_message` (String) Error Message
 - `id` (String) Marketplace Resource UUID (used as Terraform ID)
 - `last_sync` (String) Last Sync
+- `limit_usage` (Map of Number) Limit Usage
+- `limits` (Map of Number) Limits
 - `offering_backend_id` (String) Offering Backend Id
 - `offering_billable` (Boolean) Purchase and usage is invoiced.
 - `offering_components` (Attributes List) Offering Components (see [below for nested schema](#nestedatt--offering_components))
@@ -101,6 +105,7 @@ resource "waldur_marketplace_resource" "example" {
 - `provider_name` (String) Provider Name
 - `provider_slug` (String) Provider Slug
 - `provider_uuid` (String) Provider Uuid
+- `renewal_date` (Map of String) Renewal Date
 - `report` (Attributes List) Report (see [below for nested schema](#nestedatt--report))
 - `resource_type` (String) Resource Type
 - `resource_uuid` (String) Resource Uuid
@@ -140,6 +145,7 @@ Optional:
 - `attachment` (String) Attachment
 - `backend_id` (String) Backend Id
 - `callback_url` (String) Callback Url
+- `limits` (Map of Number) Limits
 - `offering` (String) Offering
 - `plan` (String) Plan
 - `request_comment` (String) Request Comment
@@ -267,6 +273,7 @@ Optional:
 - `attachment` (String) Attachment
 - `backend_id` (String) Backend Id
 - `callback_url` (String) Callback Url
+- `limits` (Map of Number) Limits
 - `offering` (String) Offering
 - `plan` (String) Plan
 - `request_comment` (String) Request Comment

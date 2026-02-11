@@ -58,8 +58,12 @@ func NewClient(config *Config) (*Client, error) {
 
 // doRequest performs an HTTP request with authentication
 func (c *Client) doRequest(ctx context.Context, method, path string, body interface{}) (*http.Response, error) {
-	// Construct full URL, avoiding double slashes
-	fullURL := strings.TrimSuffix(c.baseURL, "/") + path
+	// Construct full URL, avoiding double slashes and double 'api' segments
+	baseURL := strings.TrimSuffix(c.baseURL, "/")
+	if strings.HasSuffix(baseURL, "/api") && strings.HasPrefix(path, "/api/") {
+		baseURL = strings.TrimSuffix(baseURL, "/api")
+	}
+	fullURL := baseURL + path
 
 	var reqBody io.Reader
 	if body != nil {

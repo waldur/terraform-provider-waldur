@@ -7,7 +7,11 @@ import (
 type MarketplaceOrderCreateRequest struct {
 	AcceptingTermsOfService *bool `json:"accepting_terms_of_service,omitempty" tfsdk:"accepting_terms_of_service"`
 
+	Attributes map[string]string `json:"attributes,omitempty" tfsdk:"attributes"`
+
 	CallbackUrl *string `json:"callback_url,omitempty" tfsdk:"callback_url"`
+
+	Limits map[string]int64 `json:"limits,omitempty" tfsdk:"limits"`
 
 	Offering *string `json:"offering" tfsdk:"offering"`
 
@@ -24,8 +28,19 @@ type MarketplaceOrderCreateRequest struct {
 	Type *string `json:"type,omitempty" tfsdk:"type"`
 }
 
+type MarketplaceOrderCreateAttributesRequest struct {
+}
+
+type MarketplaceOrderCreateLimitsRequest struct {
+}
+
 type MarketplaceOrderUpdateRequest struct {
+	Limits map[string]int64 `json:"limits,omitempty" tfsdk:"limits"`
+
 	StartDate *string `json:"start_date,omitempty" tfsdk:"start_date"`
+}
+
+type MarketplaceOrderUpdateLimitsRequest struct {
 }
 
 type MarketplaceOrderResponse struct {
@@ -72,6 +87,8 @@ type MarketplaceOrderResponse struct {
 	FixedPrice common.FlexibleNumber `json:"fixed_price,omitempty" tfsdk:"fixed_price"`
 
 	Issue *MarketplaceOrderIssueResponse `json:"issue,omitempty" tfsdk:"issue"`
+
+	Limits map[string]int64 `json:"limits,omitempty" tfsdk:"limits"`
 
 	MarketplaceResourceUuid *string `json:"marketplace_resource_uuid,omitempty" tfsdk:"marketplace_resource_uuid"`
 
@@ -162,6 +179,9 @@ type MarketplaceOrderIssueResponse struct {
 	Key *string `json:"key,omitempty" tfsdk:"key"`
 
 	Uuid *string `json:"uuid,omitempty" tfsdk:"uuid"`
+}
+
+type MarketplaceOrderLimitsResponse struct {
 }
 
 func (r *MarketplaceOrderResponse) GetState() string {

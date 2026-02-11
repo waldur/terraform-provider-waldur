@@ -46,6 +46,9 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 				MarkdownDescription: "Marketplace Offering UUID",
 			},
 			"filters": (&MarketplaceOfferingFiltersModel{}).GetSchema(),
+			"attributes": schema.MapAttribute{
+				ElementType: types.StringType,
+				Computed:    true, MarkdownDescription: "Attributes"},
 			"backend_id": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Backend Id"},
 			"billable": schema.BoolAttribute{
@@ -205,6 +208,9 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 				Computed: true, MarkdownDescription: "Name"},
 			"options": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
+					"options": schema.MapAttribute{
+						ElementType: types.StringType,
+						Computed:    true, MarkdownDescription: "Options"},
 					"order": schema.ListAttribute{
 						ElementType: types.StringType,
 						Computed:    true, MarkdownDescription: "Order"},
@@ -398,6 +404,9 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 						},
 						"description": schema.StringAttribute{
 							Computed: true, MarkdownDescription: "Description"},
+						"future_prices": schema.MapAttribute{
+							ElementType: types.Float64Type,
+							Computed:    true, MarkdownDescription: "Future Prices"},
 						"init_price": schema.Float64Attribute{
 							Computed: true, MarkdownDescription: "Init Price"},
 						"is_active": schema.BoolAttribute{
@@ -435,6 +444,12 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 						},
 						"plan_type": schema.StringAttribute{
 							Computed: true, MarkdownDescription: "Plan Type"},
+						"prices": schema.MapAttribute{
+							ElementType: types.StringType,
+							Computed:    true, MarkdownDescription: "Prices"},
+						"quotas": schema.MapAttribute{
+							ElementType: types.Float64Type,
+							Computed:    true, MarkdownDescription: "Quotas"},
 						"resources_count": schema.Int64Attribute{
 							Computed: true, MarkdownDescription: "Resources Count"},
 						"switch_price": schema.Float64Attribute{
@@ -682,6 +697,9 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 			},
 			"resource_options": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
+					"options": schema.MapAttribute{
+						ElementType: types.StringType,
+						Computed:    true, MarkdownDescription: "Options"},
 					"order": schema.ListAttribute{
 						ElementType: types.StringType,
 						Computed:    true, MarkdownDescription: "Order"},

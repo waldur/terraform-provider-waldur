@@ -134,6 +134,7 @@ type MarketplaceOrderModel struct {
 	ErrorMessage               types.String      `tfsdk:"error_message"`
 	FixedPrice                 types.Float64     `tfsdk:"fixed_price"`
 	Issue                      types.Object      `tfsdk:"issue"`
+	Limits                     types.Map         `tfsdk:"limits"`
 	MarketplaceResourceUuid    types.String      `tfsdk:"marketplace_resource_uuid"`
 	NewCostEstimate            types.String      `tfsdk:"new_cost_estimate"`
 	NewPlanName                types.String      `tfsdk:"new_plan_name"`
@@ -234,6 +235,14 @@ func (model *MarketplaceOrderModel) CopyFrom(ctx context.Context, apiResp Market
 		model.Issue = valIssue
 	} else {
 		model.Issue = types.ObjectNull(IssueType().AttrTypes)
+	}
+
+	if apiResp.Limits != nil {
+		valLimits, diagsLimits := types.MapValueFrom(ctx, types.Int64Type, apiResp.Limits)
+		diags.Append(diagsLimits...)
+		model.Limits = valLimits
+	} else {
+		model.Limits = types.MapNull(types.Int64Type)
 	}
 
 	model.MarketplaceResourceUuid = common.StringPointerValue(apiResp.MarketplaceResourceUuid)
