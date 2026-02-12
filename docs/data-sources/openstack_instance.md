@@ -22,7 +22,6 @@ Openstack Instance data source - lookup by name or UUID
 
 ### Read-Only
 
-- `action` (String) Action
 - `availability_zone` (String) Availability zone where this instance is located
 - `availability_zone_name` (String) Name of the availability zone where instance is located
 - `backend_id` (String) Instance ID in the OpenStack backend
@@ -42,8 +41,6 @@ Openstack Instance data source - lookup by name or UUID
 - `internal_ips` (List of String) Internal Ips
 - `key_fingerprint` (String) Key Fingerprint
 - `key_name` (String) Key Name
-- `latitude` (Number) Latitude
-- `longitude` (Number) Longitude
 - `marketplace_resource_uuid` (String) Marketplace Resource Uuid
 - `min_disk` (Number) Minimum disk size in MiB
 - `min_ram` (Number) Minimum memory size in MiB

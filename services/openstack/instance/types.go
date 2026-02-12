@@ -99,8 +99,6 @@ func (r OpenstackInstanceUpdateSecurityGroupsActionRequest) MarshalJSON() ([]byt
 type OpenstackInstanceResponse struct {
 	UUID *string `json:"uuid"`
 
-	Action *string `json:"action,omitempty" tfsdk:"action"`
-
 	AvailabilityZone *string `json:"availability_zone,omitempty" tfsdk:"availability_zone"`
 
 	AvailabilityZoneName *string `json:"availability_zone_name,omitempty" tfsdk:"availability_zone_name"`
@@ -138,10 +136,6 @@ type OpenstackInstanceResponse struct {
 	KeyFingerprint *string `json:"key_fingerprint,omitempty" tfsdk:"key_fingerprint"`
 
 	KeyName *string `json:"key_name,omitempty" tfsdk:"key_name"`
-
-	Latitude common.FlexibleNumber `json:"latitude,omitempty" tfsdk:"latitude"`
-
-	Longitude common.FlexibleNumber `json:"longitude,omitempty" tfsdk:"longitude"`
 
 	MarketplaceResourceUuid *string `json:"marketplace_resource_uuid,omitempty" tfsdk:"marketplace_resource_uuid"`
 

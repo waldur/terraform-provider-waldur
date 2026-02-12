@@ -57,8 +57,6 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 				Computed: true, MarkdownDescription: "Classify offering components by billing type. Returns 'limit_only', 'usage_only', or 'mixed'."},
 			"category": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Category"},
-			"category_title": schema.StringAttribute{
-				Computed: true, MarkdownDescription: "Category Title"},
 			"category_uuid": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Category Uuid"},
 			"citation_count": schema.Int64Attribute{
@@ -200,10 +198,6 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 				Computed: true, MarkdownDescription: "Integration Guide"},
 			"is_accessible": schema.BoolAttribute{
 				Computed: true, MarkdownDescription: "Is Accessible"},
-			"latitude": schema.Float64Attribute{
-				Computed: true, MarkdownDescription: "Latitude"},
-			"longitude": schema.Float64Attribute{
-				Computed: true, MarkdownDescription: "Longitude"},
 			"name": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Name"},
 			"options": schema.SingleNestedAttribute{

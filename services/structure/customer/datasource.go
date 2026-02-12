@@ -119,10 +119,6 @@ func (d *StructureCustomerDataSource) Schema(ctx context.Context, req datasource
 				Computed: true, MarkdownDescription: "Image"},
 			"is_service_provider": schema.BoolAttribute{
 				Computed: true, MarkdownDescription: "Is Service Provider"},
-			"latitude": schema.Float64Attribute{
-				Computed: true, MarkdownDescription: "Latitude"},
-			"longitude": schema.Float64Attribute{
-				Computed: true, MarkdownDescription: "Longitude"},
 			"max_service_accounts": schema.Int64Attribute{
 				Computed: true, MarkdownDescription: "Maximum number of service accounts allowed",
 				Validators: []validator.Int64{

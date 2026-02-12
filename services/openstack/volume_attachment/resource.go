@@ -55,12 +55,6 @@ func (r *OpenstackVolumeAttachmentResource) Schema(ctx context.Context, req reso
 					stringplanmodifier.UseStateForUnknown(),
 				},
 			},
-			"action": schema.StringAttribute{
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-
-					stringplanmodifier.UseStateForUnknown(),
-				}, MarkdownDescription: "Action"},
 			"availability_zone": schema.StringAttribute{
 				Optional: true,
 				Computed: true,
@@ -153,12 +147,6 @@ func (r *OpenstackVolumeAttachmentResource) Schema(ctx context.Context, req reso
 
 					stringplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "Instance Marketplace Uuid"},
-			"instance_name": schema.StringAttribute{
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-
-					stringplanmodifier.UseStateForUnknown(),
-				}, MarkdownDescription: "Instance Name"},
 			"marketplace_resource_uuid": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{

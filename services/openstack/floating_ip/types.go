@@ -29,8 +29,6 @@ type OpenstackFloatingIpResponse struct {
 
 	ExternalAddress *string `json:"external_address,omitempty" tfsdk:"external_address"`
 
-	InstanceName *string `json:"instance_name,omitempty" tfsdk:"instance_name"`
-
 	InstanceUrl *string `json:"instance_url,omitempty" tfsdk:"instance_url"`
 
 	InstanceUuid *string `json:"instance_uuid,omitempty" tfsdk:"instance_uuid"`

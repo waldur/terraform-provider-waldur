@@ -58,8 +58,6 @@ func (d *MarketplaceOrderDataSource) Schema(ctx context.Context, req datasource.
 				Computed: true, MarkdownDescription: "Can Terminate"},
 			"category_icon": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Category Icon"},
-			"category_title": schema.StringAttribute{
-				Computed: true, MarkdownDescription: "Category Title"},
 			"category_uuid": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Category Uuid"},
 			"completed_at": schema.StringAttribute{
@@ -122,8 +120,6 @@ func (d *MarketplaceOrderDataSource) Schema(ctx context.Context, req datasource.
 				Computed: true, MarkdownDescription: "Offering Description"},
 			"offering_image": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Offering Image"},
-			"offering_name": schema.StringAttribute{
-				Computed: true, MarkdownDescription: "Offering Name"},
 			"offering_shared": schema.BoolAttribute{
 				Computed: true, MarkdownDescription: "Accessible to all customers."},
 			"offering_thumbnail": schema.StringAttribute{

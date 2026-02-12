@@ -55,8 +55,6 @@ func (d *OpenstackFloatingIpDataSource) Schema(ctx context.Context, req datasour
 				Computed: true, MarkdownDescription: "Error Message"},
 			"external_address": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Optional address that maps to floating IP's address in external networks"},
-			"instance_name": schema.StringAttribute{
-				Computed: true, MarkdownDescription: "Instance Name"},
 			"instance_url": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Instance Url"},
 			"instance_uuid": schema.StringAttribute{

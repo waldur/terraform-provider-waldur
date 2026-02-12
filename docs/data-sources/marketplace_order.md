@@ -28,7 +28,6 @@ Marketplace Order data source - lookup by name or UUID
 - `callback_url` (String) Callback Url
 - `can_terminate` (Boolean) Can Terminate
 - `category_icon` (String) Category Icon
-- `category_title` (String) Category Title
 - `category_uuid` (String) Category Uuid
 - `completed_at` (String) Completed At
 - `consumer_reviewed_at` (String) Consumer Reviewed At
@@ -52,7 +51,6 @@ Marketplace Order data source - lookup by name or UUID
 - `offering_billable` (Boolean) Purchase and usage is invoiced.
 - `offering_description` (String) Offering Description
 - `offering_image` (String) Offering Image
-- `offering_name` (String) Offering Name
 - `offering_shared` (Boolean) Accessible to all customers.
 - `offering_thumbnail` (String) Offering Thumbnail
 - `offering_type` (String) Offering Type

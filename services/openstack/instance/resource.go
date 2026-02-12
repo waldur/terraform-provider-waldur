@@ -12,7 +12,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/float64planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/mapplanmodifier"
@@ -77,12 +76,6 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 					stringplanmodifier.UseStateForUnknown(),
 				},
 			},
-			"action": schema.StringAttribute{
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-
-					stringplanmodifier.UseStateForUnknown(),
-				}, MarkdownDescription: "Action"},
 			"availability_zone": schema.StringAttribute{
 				Optional: true,
 				Computed: true,
@@ -345,12 +338,6 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 
 					stringplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "Key Name"},
-			"latitude": schema.Float64Attribute{
-				Computed: true,
-				PlanModifiers: []planmodifier.Float64{
-
-					float64planmodifier.UseStateForUnknown(),
-				}, MarkdownDescription: "Latitude"},
 			"limits": schema.MapAttribute{
 				ElementType: types.Float64Type,
 				Optional:    true,
@@ -358,12 +345,6 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 
 					mapplanmodifier.RequiresReplace(),
 				}, MarkdownDescription: "Resource limits"},
-			"longitude": schema.Float64Attribute{
-				Computed: true,
-				PlanModifiers: []planmodifier.Float64{
-
-					float64planmodifier.UseStateForUnknown(),
-				}, MarkdownDescription: "Longitude"},
 			"marketplace_resource_uuid": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
@@ -1090,9 +1071,6 @@ func (r *OpenstackInstanceResource) Configure(ctx context.Context, req resource.
 // are set to explicit null values instead of remaining "Unknown".
 func (r *OpenstackInstanceResource) resolveUnknownAttributes(data *OpenstackInstanceResourceModel) {
 	// Iterate over all model fields to handle Unknown values
-	if data.Action.IsUnknown() {
-		data.Action = types.StringNull()
-	}
 	if data.AvailabilityZone.IsUnknown() {
 		data.AvailabilityZone = types.StringNull()
 	}
@@ -1171,14 +1149,8 @@ func (r *OpenstackInstanceResource) resolveUnknownAttributes(data *OpenstackInst
 	if data.KeyName.IsUnknown() {
 		data.KeyName = types.StringNull()
 	}
-	if data.Latitude.IsUnknown() {
-		data.Latitude = types.Float64Null()
-	}
 	if data.Limits.IsUnknown() {
 		data.Limits = types.MapNull(types.Float64Type)
-	}
-	if data.Longitude.IsUnknown() {
-		data.Longitude = types.Float64Null()
 	}
 	if data.MarketplaceResourceUuid.IsUnknown() {
 		data.MarketplaceResourceUuid = types.StringNull()

@@ -20,8 +20,6 @@ type MarketplaceOfferingResponse struct {
 
 	Category *string `json:"category,omitempty" tfsdk:"category"`
 
-	CategoryTitle *string `json:"category_title,omitempty" tfsdk:"category_title"`
-
 	CategoryUuid *string `json:"category_uuid,omitempty" tfsdk:"category_uuid"`
 
 	CitationCount *int64 `json:"citation_count,omitempty" tfsdk:"citation_count"`
@@ -57,10 +55,6 @@ type MarketplaceOfferingResponse struct {
 	IntegrationGuide *string `json:"integration_guide,omitempty" tfsdk:"integration_guide"`
 
 	IsAccessible *bool `json:"is_accessible,omitempty" tfsdk:"is_accessible"`
-
-	Latitude common.FlexibleNumber `json:"latitude,omitempty" tfsdk:"latitude"`
-
-	Longitude common.FlexibleNumber `json:"longitude,omitempty" tfsdk:"longitude"`
 
 	Name *string `json:"name,omitempty" tfsdk:"name"`
 

@@ -53,7 +53,6 @@ resource "waldur_openstack_floating_ip" "example" {
 - `error_message` (String) Error Message
 - `external_address` (String) Optional address that maps to floating IP's address in external networks
 - `id` (String) Openstack Floating Ip UUID (used as Terraform ID)
-- `instance_name` (String) Instance Name
 - `instance_url` (String) Instance Url
 - `instance_uuid` (String) Instance Uuid
 - `marketplace_resource_uuid` (String) Marketplace Resource Uuid

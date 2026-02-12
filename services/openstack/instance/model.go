@@ -279,7 +279,6 @@ func (m *OpenstackInstanceFiltersModel) GetSchema() schema.SingleNestedAttribute
 
 type OpenstackInstanceModel struct {
 	UUID                             types.String      `tfsdk:"id"`
-	Action                           types.String      `tfsdk:"action"`
 	AvailabilityZone                 types.String      `tfsdk:"availability_zone"`
 	AvailabilityZoneName             types.String      `tfsdk:"availability_zone_name"`
 	BackendId                        types.String      `tfsdk:"backend_id"`
@@ -299,8 +298,6 @@ type OpenstackInstanceModel struct {
 	InternalIps                      types.List        `tfsdk:"internal_ips"`
 	KeyFingerprint                   types.String      `tfsdk:"key_fingerprint"`
 	KeyName                          types.String      `tfsdk:"key_name"`
-	Latitude                         types.Float64     `tfsdk:"latitude"`
-	Longitude                        types.Float64     `tfsdk:"longitude"`
 	MarketplaceResourceUuid          types.String      `tfsdk:"marketplace_resource_uuid"`
 	MinDisk                          types.Int64       `tfsdk:"min_disk"`
 	MinRam                           types.Int64       `tfsdk:"min_ram"`
@@ -327,8 +324,6 @@ func (model *OpenstackInstanceModel) CopyFrom(ctx context.Context, apiResp Opens
 	var diags diag.Diagnostics
 
 	model.UUID = types.StringPointerValue(apiResp.UUID)
-
-	model.Action = common.StringPointerValue(apiResp.Action)
 
 	model.AvailabilityZone = common.StringPointerValue(apiResp.AvailabilityZone)
 
@@ -391,10 +386,6 @@ func (model *OpenstackInstanceModel) CopyFrom(ctx context.Context, apiResp Opens
 	model.KeyFingerprint = common.StringPointerValue(apiResp.KeyFingerprint)
 
 	model.KeyName = common.StringPointerValue(apiResp.KeyName)
-
-	model.Latitude = types.Float64PointerValue(apiResp.Latitude.Float64Ptr())
-
-	model.Longitude = types.Float64PointerValue(apiResp.Longitude.Float64Ptr())
 
 	model.MarketplaceResourceUuid = common.StringPointerValue(apiResp.MarketplaceResourceUuid)
 

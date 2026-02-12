@@ -27,7 +27,6 @@ Marketplace Offering data source - lookup by name or UUID
 - `billable` (Boolean) Purchase and usage is invoiced.
 - `billing_type_classification` (String) Classify offering components by billing type. Returns 'limit_only', 'usage_only', or 'mixed'.
 - `category` (String) Category
-- `category_title` (String) Category Title
 - `category_uuid` (String) Category Uuid
 - `citation_count` (Number) Number of citations of a DOI
 - `compliance_checklist` (String) Compliance Checklist
@@ -46,8 +45,6 @@ Marketplace Offering data source - lookup by name or UUID
 - `image` (String) Image
 - `integration_guide` (String) Integration Guide
 - `is_accessible` (Boolean) Is Accessible
-- `latitude` (Number) Latitude
-- `longitude` (Number) Longitude
 - `name` (String) Name
 - `options` (Attributes) Options (see [below for nested schema](#nestedatt--options))
 - `order_count` (Number) Order Count

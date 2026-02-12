@@ -29,7 +29,6 @@ Openstack Floating Ip data source - lookup by name or UUID
 - `description` (String) Description
 - `error_message` (String) Error Message
 - `external_address` (String) Optional address that maps to floating IP's address in external networks
-- `instance_name` (String) Instance Name
 - `instance_url` (String) Instance Url
 - `instance_uuid` (String) Instance Uuid
 - `marketplace_resource_uuid` (String) Marketplace Resource Uuid

@@ -119,7 +119,6 @@ type MarketplaceOrderModel struct {
 	CallbackUrl                types.String      `tfsdk:"callback_url"`
 	CanTerminate               types.Bool        `tfsdk:"can_terminate"`
 	CategoryIcon               types.String      `tfsdk:"category_icon"`
-	CategoryTitle              types.String      `tfsdk:"category_title"`
 	CategoryUuid               types.String      `tfsdk:"category_uuid"`
 	CompletedAt                timetypes.RFC3339 `tfsdk:"completed_at"`
 	ConsumerReviewedAt         timetypes.RFC3339 `tfsdk:"consumer_reviewed_at"`
@@ -143,7 +142,6 @@ type MarketplaceOrderModel struct {
 	OfferingBillable           types.Bool        `tfsdk:"offering_billable"`
 	OfferingDescription        types.String      `tfsdk:"offering_description"`
 	OfferingImage              types.String      `tfsdk:"offering_image"`
-	OfferingName               types.String      `tfsdk:"offering_name"`
 	OfferingShared             types.Bool        `tfsdk:"offering_shared"`
 	OfferingThumbnail          types.String      `tfsdk:"offering_thumbnail"`
 	OfferingType               types.String      `tfsdk:"offering_type"`
@@ -196,8 +194,6 @@ func (model *MarketplaceOrderModel) CopyFrom(ctx context.Context, apiResp Market
 	model.CanTerminate = types.BoolPointerValue(apiResp.CanTerminate)
 
 	model.CategoryIcon = common.StringPointerValue(apiResp.CategoryIcon)
-
-	model.CategoryTitle = common.StringPointerValue(apiResp.CategoryTitle)
 
 	model.CategoryUuid = common.StringPointerValue(apiResp.CategoryUuid)
 
@@ -260,8 +256,6 @@ func (model *MarketplaceOrderModel) CopyFrom(ctx context.Context, apiResp Market
 	model.OfferingDescription = common.StringPointerValue(apiResp.OfferingDescription)
 
 	model.OfferingImage = common.StringPointerValue(apiResp.OfferingImage)
-
-	model.OfferingName = common.StringPointerValue(apiResp.OfferingName)
 
 	model.OfferingShared = types.BoolPointerValue(apiResp.OfferingShared)
 

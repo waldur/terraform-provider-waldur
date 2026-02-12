@@ -49,8 +49,6 @@ Structure Customer data source - lookup by name or UUID
 - `homepage` (String) Homepage
 - `image` (String) Image
 - `is_service_provider` (Boolean) Is Service Provider
-- `latitude` (Number) Latitude
-- `longitude` (Number) Longitude
 - `max_service_accounts` (Number) Maximum number of service accounts allowed
 - `name` (String) Name
 - `native_name` (String) Native Name

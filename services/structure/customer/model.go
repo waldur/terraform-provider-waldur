@@ -153,8 +153,6 @@ type StructureCustomerModel struct {
 	Homepage                     types.String      `tfsdk:"homepage"`
 	Image                        types.String      `tfsdk:"image"`
 	IsServiceProvider            types.Bool        `tfsdk:"is_service_provider"`
-	Latitude                     types.Float64     `tfsdk:"latitude"`
-	Longitude                    types.Float64     `tfsdk:"longitude"`
 	MaxServiceAccounts           types.Int64       `tfsdk:"max_service_accounts"`
 	Name                         types.String      `tfsdk:"name"`
 	NativeName                   types.String      `tfsdk:"native_name"`
@@ -242,10 +240,6 @@ func (model *StructureCustomerModel) CopyFrom(ctx context.Context, apiResp Struc
 	model.Image = common.StringPointerValue(apiResp.Image)
 
 	model.IsServiceProvider = types.BoolPointerValue(apiResp.IsServiceProvider)
-
-	model.Latitude = types.Float64PointerValue(apiResp.Latitude.Float64Ptr())
-
-	model.Longitude = types.Float64PointerValue(apiResp.Longitude.Float64Ptr())
 
 	model.MaxServiceAccounts = types.Int64PointerValue(apiResp.MaxServiceAccounts)
 

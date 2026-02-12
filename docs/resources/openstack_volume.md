@@ -57,7 +57,6 @@ data "waldur_marketplace_offering" "offering" {
 
 ### Read-Only
 
-- `action` (String) Action
 - `availability_zone_name` (String) Availability Zone Name
 - `backend_id` (String) Volume ID in the OpenStack backend
 - `bootable` (Boolean) Indicates if this volume can be used to boot an instance
@@ -70,7 +69,6 @@ data "waldur_marketplace_offering" "offering" {
 - `image_name` (String) Name of the image this volume was created from
 - `instance` (String) Instance that this volume is attached to, if any
 - `instance_marketplace_uuid` (String) Instance Marketplace Uuid
-- `instance_name` (String) Instance Name
 - `marketplace_resource_uuid` (String) Marketplace Resource Uuid
 - `resource_type` (String) Resource Type
 - `runtime_state` (String) Runtime State

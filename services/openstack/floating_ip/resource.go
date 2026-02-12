@@ -94,12 +94,6 @@ func (r *OpenstackFloatingIpResource) Schema(ctx context.Context, req resource.S
 
 					stringplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "Optional address that maps to floating IP's address in external networks"},
-			"instance_name": schema.StringAttribute{
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-
-					stringplanmodifier.UseStateForUnknown(),
-				}, MarkdownDescription: "Instance Name"},
 			"instance_url": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{

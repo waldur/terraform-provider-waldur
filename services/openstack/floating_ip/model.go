@@ -149,7 +149,6 @@ type OpenstackFloatingIpModel struct {
 	Description             types.String `tfsdk:"description"`
 	ErrorMessage            types.String `tfsdk:"error_message"`
 	ExternalAddress         types.String `tfsdk:"external_address"`
-	InstanceName            types.String `tfsdk:"instance_name"`
 	InstanceUrl             types.String `tfsdk:"instance_url"`
 	InstanceUuid            types.String `tfsdk:"instance_uuid"`
 	MarketplaceResourceUuid types.String `tfsdk:"marketplace_resource_uuid"`
@@ -185,8 +184,6 @@ func (model *OpenstackFloatingIpModel) CopyFrom(ctx context.Context, apiResp Ope
 	model.ErrorMessage = common.StringPointerValue(apiResp.ErrorMessage)
 
 	model.ExternalAddress = common.StringPointerValue(apiResp.ExternalAddress)
-
-	model.InstanceName = common.StringPointerValue(apiResp.InstanceName)
 
 	model.InstanceUrl = common.StringPointerValue(apiResp.InstanceUrl)
 

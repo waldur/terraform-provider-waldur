@@ -61,12 +61,6 @@ func (r *OpenstackVolumeResource) Schema(ctx context.Context, req resource.Schem
 					stringplanmodifier.UseStateForUnknown(),
 				},
 			},
-			"action": schema.StringAttribute{
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-
-					stringplanmodifier.UseStateForUnknown(),
-				}, MarkdownDescription: "Action"},
 			"availability_zone": schema.StringAttribute{
 				Optional: true,
 				Computed: true,
@@ -163,12 +157,6 @@ func (r *OpenstackVolumeResource) Schema(ctx context.Context, req resource.Schem
 
 					stringplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "Instance Marketplace Uuid"},
-			"instance_name": schema.StringAttribute{
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-
-					stringplanmodifier.UseStateForUnknown(),
-				}, MarkdownDescription: "Instance Name"},
 			"limits": schema.MapAttribute{
 				ElementType: types.Float64Type,
 				Optional:    true,
@@ -307,9 +295,6 @@ func (r *OpenstackVolumeResource) Configure(ctx context.Context, req resource.Co
 // are set to explicit null values instead of remaining "Unknown".
 func (r *OpenstackVolumeResource) resolveUnknownAttributes(data *OpenstackVolumeResourceModel) {
 	// Iterate over all model fields to handle Unknown values
-	if data.Action.IsUnknown() {
-		data.Action = types.StringNull()
-	}
 	if data.AvailabilityZone.IsUnknown() {
 		data.AvailabilityZone = types.StringNull()
 	}
@@ -354,9 +339,6 @@ func (r *OpenstackVolumeResource) resolveUnknownAttributes(data *OpenstackVolume
 	}
 	if data.InstanceMarketplaceUuid.IsUnknown() {
 		data.InstanceMarketplaceUuid = types.StringNull()
-	}
-	if data.InstanceName.IsUnknown() {
-		data.InstanceName = types.StringNull()
 	}
 	if data.Limits.IsUnknown() {
 		data.Limits = types.MapNull(types.Float64Type)

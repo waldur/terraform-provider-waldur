@@ -12,15 +12,39 @@ import (
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
-func BackendMetadataType() types.ObjectType {
+func NestedEndpointType() types.ObjectType {
 	return types.ObjectType{AttrTypes: map[string]attr.Type{
-		"action":        types.StringType,
-		"instance_name": types.StringType,
-		"runtime_state": types.StringType,
-		"state":         types.StringType,
+		"name": types.StringType,
+		"url":  types.StringType,
+		"uuid": types.StringType,
 	}}
 }
-func CreationOrderType() types.ObjectType {
+func OfferingComponentType() types.ObjectType {
+	return types.ObjectType{AttrTypes: map[string]attr.Type{
+		"article_code":         types.StringType,
+		"billing_type":         types.StringType,
+		"default_limit":        types.Int64Type,
+		"description":          types.StringType,
+		"factor":               types.Int64Type,
+		"is_boolean":           types.BoolType,
+		"is_builtin":           types.BoolType,
+		"is_prepaid":           types.BoolType,
+		"limit_amount":         types.Int64Type,
+		"limit_period":         types.StringType,
+		"max_available_limit":  types.Int64Type,
+		"max_prepaid_duration": types.Int64Type,
+		"max_value":            types.Int64Type,
+		"measured_unit":        types.StringType,
+		"min_prepaid_duration": types.Int64Type,
+		"min_value":            types.Int64Type,
+		"name":                 types.StringType,
+		"overage_component":    types.StringType,
+		"type":                 types.StringType,
+		"unit_factor":          types.Int64Type,
+		"uuid":                 types.StringType,
+	}}
+}
+func OrderInProgressType() types.ObjectType {
 	return types.ObjectType{AttrTypes: map[string]attr.Type{
 		"activation_price":               types.Float64Type,
 		"attachment":                     types.StringType,
@@ -28,7 +52,6 @@ func CreationOrderType() types.ObjectType {
 		"callback_url":                   types.StringType,
 		"can_terminate":                  types.BoolType,
 		"category_icon":                  types.StringType,
-		"category_title":                 types.StringType,
 		"category_uuid":                  types.StringType,
 		"completed_at":                   types.StringType,
 		"consumer_reviewed_at":           types.StringType,
@@ -42,7 +65,7 @@ func CreationOrderType() types.ObjectType {
 		"customer_slug":                  types.StringType,
 		"error_message":                  types.StringType,
 		"fixed_price":                    types.Float64Type,
-		"issue":                          CreationOrderIssueType(),
+		"issue":                          OrderInProgressIssueType(),
 		"limits":                         types.MapType{ElemType: types.Int64Type},
 		"marketplace_resource_uuid":      types.StringType,
 		"new_cost_estimate":              types.StringType,
@@ -52,7 +75,6 @@ func CreationOrderType() types.ObjectType {
 		"offering_billable":              types.BoolType,
 		"offering_description":           types.StringType,
 		"offering_image":                 types.StringType,
-		"offering_name":                  types.StringType,
 		"offering_shared":                types.BoolType,
 		"offering_thumbnail":             types.StringType,
 		"offering_type":                  types.StringType,
@@ -89,42 +111,10 @@ func CreationOrderType() types.ObjectType {
 		"uuid":                           types.StringType,
 	}}
 }
-func CreationOrderIssueType() types.ObjectType {
+func OrderInProgressIssueType() types.ObjectType {
 	return types.ObjectType{AttrTypes: map[string]attr.Type{
 		"key":  types.StringType,
 		"uuid": types.StringType,
-	}}
-}
-func NestedEndpointType() types.ObjectType {
-	return types.ObjectType{AttrTypes: map[string]attr.Type{
-		"name": types.StringType,
-		"url":  types.StringType,
-		"uuid": types.StringType,
-	}}
-}
-func OfferingComponentType() types.ObjectType {
-	return types.ObjectType{AttrTypes: map[string]attr.Type{
-		"article_code":         types.StringType,
-		"billing_type":         types.StringType,
-		"default_limit":        types.Int64Type,
-		"description":          types.StringType,
-		"factor":               types.Int64Type,
-		"is_boolean":           types.BoolType,
-		"is_builtin":           types.BoolType,
-		"is_prepaid":           types.BoolType,
-		"limit_amount":         types.Int64Type,
-		"limit_period":         types.StringType,
-		"max_available_limit":  types.Int64Type,
-		"max_prepaid_duration": types.Int64Type,
-		"max_value":            types.Int64Type,
-		"measured_unit":        types.StringType,
-		"min_prepaid_duration": types.Int64Type,
-		"min_value":            types.Int64Type,
-		"name":                 types.StringType,
-		"overage_component":    types.StringType,
-		"type":                 types.StringType,
-		"unit_factor":          types.Int64Type,
-		"uuid":                 types.StringType,
 	}}
 }
 func ReportSectionType() types.ObjectType {
@@ -319,15 +309,10 @@ func (m *MarketplaceResourceFiltersModel) GetSchema() schema.SingleNestedAttribu
 type MarketplaceResourceModel struct {
 	UUID                      types.String      `tfsdk:"id"`
 	Attributes                types.Map         `tfsdk:"attributes"`
-	AvailableActions          types.List        `tfsdk:"available_actions"`
 	BackendId                 types.String      `tfsdk:"backend_id"`
-	BackendMetadata           types.Object      `tfsdk:"backend_metadata"`
 	CanTerminate              types.Bool        `tfsdk:"can_terminate"`
 	CategoryIcon              types.String      `tfsdk:"category_icon"`
-	CategoryTitle             types.String      `tfsdk:"category_title"`
 	CategoryUuid              types.String      `tfsdk:"category_uuid"`
-	CreationOrder             types.Object      `tfsdk:"creation_order"`
-	CurrentUsages             types.Map         `tfsdk:"current_usages"`
 	CustomerSlug              types.String      `tfsdk:"customer_slug"`
 	Description               types.String      `tfsdk:"description"`
 	Downscaled                types.Bool        `tfsdk:"downscaled"`
@@ -346,7 +331,6 @@ type MarketplaceResourceModel struct {
 	OfferingComponents        types.List        `tfsdk:"offering_components"`
 	OfferingDescription       types.String      `tfsdk:"offering_description"`
 	OfferingImage             types.String      `tfsdk:"offering_image"`
-	OfferingName              types.String      `tfsdk:"offering_name"`
 	OfferingShared            types.Bool        `tfsdk:"offering_shared"`
 	OfferingSlug              types.String      `tfsdk:"offering_slug"`
 	OfferingState             types.String      `tfsdk:"offering_state"`
@@ -400,47 +384,13 @@ func (model *MarketplaceResourceModel) CopyFrom(ctx context.Context, apiResp Mar
 		model.Attributes = types.MapNull(types.StringType)
 	}
 
-	if apiResp.AvailableActions != nil {
-		valAvailableActions, diagsAvailableActions := types.ListValueFrom(ctx, types.StringType, apiResp.AvailableActions)
-		diags.Append(diagsAvailableActions...)
-		model.AvailableActions = valAvailableActions
-	} else {
-		model.AvailableActions = types.ListNull(types.StringType)
-	}
-
 	model.BackendId = common.StringPointerValue(apiResp.BackendId)
-
-	if apiResp.BackendMetadata != nil {
-		valBackendMetadata, diagsBackendMetadata := types.ObjectValueFrom(ctx, BackendMetadataType().AttrTypes, *apiResp.BackendMetadata)
-		diags.Append(diagsBackendMetadata...)
-		model.BackendMetadata = valBackendMetadata
-	} else {
-		model.BackendMetadata = types.ObjectNull(BackendMetadataType().AttrTypes)
-	}
 
 	model.CanTerminate = types.BoolPointerValue(apiResp.CanTerminate)
 
 	model.CategoryIcon = common.StringPointerValue(apiResp.CategoryIcon)
 
-	model.CategoryTitle = common.StringPointerValue(apiResp.CategoryTitle)
-
 	model.CategoryUuid = common.StringPointerValue(apiResp.CategoryUuid)
-
-	if apiResp.CreationOrder != nil {
-		valCreationOrder, diagsCreationOrder := types.ObjectValueFrom(ctx, CreationOrderType().AttrTypes, *apiResp.CreationOrder)
-		diags.Append(diagsCreationOrder...)
-		model.CreationOrder = valCreationOrder
-	} else {
-		model.CreationOrder = types.ObjectNull(CreationOrderType().AttrTypes)
-	}
-
-	if apiResp.CurrentUsages != nil {
-		valCurrentUsages, diagsCurrentUsages := types.MapValueFrom(ctx, types.Int64Type, apiResp.CurrentUsages)
-		diags.Append(diagsCurrentUsages...)
-		model.CurrentUsages = valCurrentUsages
-	} else {
-		model.CurrentUsages = types.MapNull(types.Int64Type)
-	}
 
 	model.CustomerSlug = common.StringPointerValue(apiResp.CustomerSlug)
 
@@ -504,8 +454,6 @@ func (model *MarketplaceResourceModel) CopyFrom(ctx context.Context, apiResp Mar
 
 	model.OfferingImage = common.StringPointerValue(apiResp.OfferingImage)
 
-	model.OfferingName = common.StringPointerValue(apiResp.OfferingName)
-
 	model.OfferingShared = types.BoolPointerValue(apiResp.OfferingShared)
 
 	model.OfferingSlug = common.StringPointerValue(apiResp.OfferingSlug)
@@ -519,11 +467,11 @@ func (model *MarketplaceResourceModel) CopyFrom(ctx context.Context, apiResp Mar
 	model.OfferingUuid = common.StringPointerValue(apiResp.OfferingUuid)
 
 	if apiResp.OrderInProgress != nil {
-		valOrderInProgress, diagsOrderInProgress := types.ObjectValueFrom(ctx, CreationOrderType().AttrTypes, *apiResp.OrderInProgress)
+		valOrderInProgress, diagsOrderInProgress := types.ObjectValueFrom(ctx, OrderInProgressType().AttrTypes, *apiResp.OrderInProgress)
 		diags.Append(diagsOrderInProgress...)
 		model.OrderInProgress = valOrderInProgress
 	} else {
-		model.OrderInProgress = types.ObjectNull(CreationOrderType().AttrTypes)
+		model.OrderInProgress = types.ObjectNull(OrderInProgressType().AttrTypes)
 	}
 
 	model.ParentName = common.StringPointerValue(apiResp.ParentName)

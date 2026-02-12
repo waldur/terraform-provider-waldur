@@ -47,8 +47,6 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 				MarkdownDescription: "Openstack Instance UUID",
 			},
 			"filters": (&OpenstackInstanceFiltersModel{}).GetSchema(),
-			"action": schema.StringAttribute{
-				Computed: true, MarkdownDescription: "Action"},
 			"availability_zone": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Availability zone where this instance is located"},
 			"availability_zone_name": schema.StringAttribute{
@@ -126,10 +124,6 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 				Computed: true, MarkdownDescription: "Key Fingerprint"},
 			"key_name": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Key Name"},
-			"latitude": schema.Float64Attribute{
-				Computed: true, MarkdownDescription: "Latitude"},
-			"longitude": schema.Float64Attribute{
-				Computed: true, MarkdownDescription: "Longitude"},
 			"marketplace_resource_uuid": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Marketplace Resource Uuid"},
 			"min_disk": schema.Int64Attribute{

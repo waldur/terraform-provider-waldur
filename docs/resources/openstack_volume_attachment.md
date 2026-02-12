@@ -42,7 +42,6 @@ resource "waldur_openstack_volume_attachment" "example" {
 
 ### Read-Only
 
-- `action` (String) Action
 - `availability_zone_name` (String) Availability Zone Name
 - `backend_id` (String) Volume ID in the OpenStack backend
 - `customer` (String) Customer
@@ -53,7 +52,6 @@ resource "waldur_openstack_volume_attachment" "example" {
 - `image_metadata` (String) Metadata of the image this volume was created from
 - `image_name` (String) Name of the image this volume was created from
 - `instance_marketplace_uuid` (String) Instance Marketplace Uuid
-- `instance_name` (String) Instance Name
 - `marketplace_resource_uuid` (String) Marketplace Resource Uuid
 - `resource_type` (String) Resource Type
 - `runtime_state` (String) Runtime State

@@ -11,8 +11,6 @@ type OpenstackVolumeAttachmentCreateRequest struct {
 type OpenstackVolumeAttachmentResponse struct {
 	UUID *string `json:"uuid"`
 
-	Action *string `json:"action,omitempty" tfsdk:"action"`
-
 	AvailabilityZone *string `json:"availability_zone,omitempty" tfsdk:"availability_zone"`
 
 	AvailabilityZoneName *string `json:"availability_zone_name,omitempty" tfsdk:"availability_zone_name"`
@@ -40,8 +38,6 @@ type OpenstackVolumeAttachmentResponse struct {
 	Instance *string `json:"instance" tfsdk:"instance"`
 
 	InstanceMarketplaceUuid *string `json:"instance_marketplace_uuid,omitempty" tfsdk:"instance_marketplace_uuid"`
-
-	InstanceName *string `json:"instance_name,omitempty" tfsdk:"instance_name"`
 
 	MarketplaceResourceUuid *string `json:"marketplace_resource_uuid,omitempty" tfsdk:"marketplace_resource_uuid"`
 

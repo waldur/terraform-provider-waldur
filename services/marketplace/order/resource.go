@@ -116,12 +116,6 @@ func (r *MarketplaceOrderResource) Schema(ctx context.Context, req resource.Sche
 
 					stringplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "Category Icon"},
-			"category_title": schema.StringAttribute{
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-
-					stringplanmodifier.UseStateForUnknown(),
-				}, MarkdownDescription: "Category Title"},
 			"category_uuid": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
@@ -285,12 +279,6 @@ func (r *MarketplaceOrderResource) Schema(ctx context.Context, req resource.Sche
 
 					stringplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "Offering Image"},
-			"offering_name": schema.StringAttribute{
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-
-					stringplanmodifier.UseStateForUnknown(),
-				}, MarkdownDescription: "Offering Name"},
 			"offering_shared": schema.BoolAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.Bool{

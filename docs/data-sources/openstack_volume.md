@@ -22,7 +22,6 @@ Openstack Volume data source - lookup by name or UUID
 
 ### Read-Only
 
-- `action` (String) Action
 - `availability_zone` (String) Availability zone where this volume is located
 - `availability_zone_name` (String) Availability Zone Name
 - `backend_id` (String) Volume ID in the OpenStack backend
@@ -37,7 +36,6 @@ Openstack Volume data source - lookup by name or UUID
 - `image_name` (String) Name of the image this volume was created from
 - `instance` (String) Instance that this volume is attached to, if any
 - `instance_marketplace_uuid` (String) Instance Marketplace Uuid
-- `instance_name` (String) Instance Name
 - `marketplace_resource_uuid` (String) Marketplace Resource Uuid
 - `name` (String) Name
 - `project` (String) Project URL

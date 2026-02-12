@@ -58,8 +58,6 @@ type MarketplaceOrderResponse struct {
 
 	CategoryIcon *string `json:"category_icon,omitempty" tfsdk:"category_icon"`
 
-	CategoryTitle *string `json:"category_title,omitempty" tfsdk:"category_title"`
-
 	CategoryUuid *string `json:"category_uuid,omitempty" tfsdk:"category_uuid"`
 
 	CompletedAt *string `json:"completed_at,omitempty" tfsdk:"completed_at"`
@@ -105,8 +103,6 @@ type MarketplaceOrderResponse struct {
 	OfferingDescription *string `json:"offering_description,omitempty" tfsdk:"offering_description"`
 
 	OfferingImage *string `json:"offering_image,omitempty" tfsdk:"offering_image"`
-
-	OfferingName *string `json:"offering_name,omitempty" tfsdk:"offering_name"`
 
 	OfferingShared *bool `json:"offering_shared,omitempty" tfsdk:"offering_shared"`
 

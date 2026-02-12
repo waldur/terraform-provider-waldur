@@ -154,7 +154,6 @@ func (m *OpenstackVolumeAttachmentFiltersModel) GetSchema() schema.SingleNestedA
 
 type OpenstackVolumeAttachmentModel struct {
 	UUID                    types.String `tfsdk:"id"`
-	Action                  types.String `tfsdk:"action"`
 	AvailabilityZone        types.String `tfsdk:"availability_zone"`
 	AvailabilityZoneName    types.String `tfsdk:"availability_zone_name"`
 	BackendId               types.String `tfsdk:"backend_id"`
@@ -169,7 +168,6 @@ type OpenstackVolumeAttachmentModel struct {
 	ImageName               types.String `tfsdk:"image_name"`
 	Instance                types.String `tfsdk:"instance"`
 	InstanceMarketplaceUuid types.String `tfsdk:"instance_marketplace_uuid"`
-	InstanceName            types.String `tfsdk:"instance_name"`
 	MarketplaceResourceUuid types.String `tfsdk:"marketplace_resource_uuid"`
 	Name                    types.String `tfsdk:"name"`
 	Project                 types.String `tfsdk:"project"`
@@ -190,8 +188,6 @@ func (model *OpenstackVolumeAttachmentModel) CopyFrom(ctx context.Context, apiRe
 	var diags diag.Diagnostics
 
 	model.UUID = types.StringPointerValue(apiResp.UUID)
-
-	model.Action = common.StringPointerValue(apiResp.Action)
 
 	model.AvailabilityZone = common.StringPointerValue(apiResp.AvailabilityZone)
 
@@ -220,8 +216,6 @@ func (model *OpenstackVolumeAttachmentModel) CopyFrom(ctx context.Context, apiRe
 	model.Instance = common.StringPointerValue(apiResp.Instance)
 
 	model.InstanceMarketplaceUuid = common.StringPointerValue(apiResp.InstanceMarketplaceUuid)
-
-	model.InstanceName = common.StringPointerValue(apiResp.InstanceName)
 
 	model.MarketplaceResourceUuid = common.StringPointerValue(apiResp.MarketplaceResourceUuid)
 

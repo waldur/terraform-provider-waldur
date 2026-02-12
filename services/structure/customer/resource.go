@@ -275,20 +275,6 @@ func (r *StructureCustomerResource) Schema(ctx context.Context, req resource.Sch
 
 					boolplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "Is Service Provider"},
-			"latitude": schema.Float64Attribute{
-				Optional: true,
-				Computed: true,
-				PlanModifiers: []planmodifier.Float64{
-
-					float64planmodifier.UseStateForUnknown(),
-				}, MarkdownDescription: "Latitude"},
-			"longitude": schema.Float64Attribute{
-				Optional: true,
-				Computed: true,
-				PlanModifiers: []planmodifier.Float64{
-
-					float64planmodifier.UseStateForUnknown(),
-				}, MarkdownDescription: "Longitude"},
 			"max_service_accounts": schema.Int64Attribute{
 				Optional: true,
 				Computed: true,
@@ -671,14 +657,6 @@ func (r *StructureCustomerResource) Create(ctx context.Context, req resource.Cre
 
 		requestBody.Image = data.Image.ValueStringPointer()
 	}
-	if !data.Latitude.IsNull() && !data.Latitude.IsUnknown() {
-
-		requestBody.Latitude = data.Latitude.ValueFloat64Pointer()
-	}
-	if !data.Longitude.IsNull() && !data.Longitude.IsUnknown() {
-
-		requestBody.Longitude = data.Longitude.ValueFloat64Pointer()
-	}
 	if !data.MaxServiceAccounts.IsNull() && !data.MaxServiceAccounts.IsUnknown() {
 
 		requestBody.MaxServiceAccounts = data.MaxServiceAccounts.ValueInt64Pointer()
@@ -880,16 +858,6 @@ func (r *StructureCustomerResource) Update(ctx context.Context, req resource.Upd
 		anyChanges = true
 
 		requestBody.Image = data.Image.ValueStringPointer()
-	}
-	if !data.Latitude.IsNull() && !data.Latitude.IsUnknown() && !data.Latitude.Equal(state.Latitude) {
-		anyChanges = true
-
-		requestBody.Latitude = data.Latitude.ValueFloat64Pointer()
-	}
-	if !data.Longitude.IsNull() && !data.Longitude.IsUnknown() && !data.Longitude.Equal(state.Longitude) {
-		anyChanges = true
-
-		requestBody.Longitude = data.Longitude.ValueFloat64Pointer()
 	}
 	if !data.MaxServiceAccounts.IsNull() && !data.MaxServiceAccounts.IsUnknown() && !data.MaxServiceAccounts.Equal(state.MaxServiceAccounts) {
 		anyChanges = true

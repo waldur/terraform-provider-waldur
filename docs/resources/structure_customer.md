@@ -47,8 +47,6 @@ resource "waldur_structure_customer" "example" {
 - `grace_period_days` (Number) Number of extra days after project end date before resources are terminated
 - `homepage` (String) Homepage
 - `image` (String) Image
-- `latitude` (Number) Latitude
-- `longitude` (Number) Longitude
 - `max_service_accounts` (Number) Maximum number of service accounts allowed
 - `native_name` (String) Native Name
 - `notification_emails` (String) Comma-separated list of notification email addresses

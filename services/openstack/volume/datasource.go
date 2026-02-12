@@ -43,8 +43,6 @@ func (d *OpenstackVolumeDataSource) Schema(ctx context.Context, req datasource.S
 				MarkdownDescription: "Openstack Volume UUID",
 			},
 			"filters": (&OpenstackVolumeFiltersModel{}).GetSchema(),
-			"action": schema.StringAttribute{
-				Computed: true, MarkdownDescription: "Action"},
 			"availability_zone": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Availability zone where this volume is located"},
 			"availability_zone_name": schema.StringAttribute{
@@ -73,8 +71,6 @@ func (d *OpenstackVolumeDataSource) Schema(ctx context.Context, req datasource.S
 				Computed: true, MarkdownDescription: "Instance that this volume is attached to, if any"},
 			"instance_marketplace_uuid": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Instance Marketplace Uuid"},
-			"instance_name": schema.StringAttribute{
-				Computed: true, MarkdownDescription: "Instance Name"},
 			"marketplace_resource_uuid": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Marketplace Resource Uuid"},
 			"name": schema.StringAttribute{

@@ -45,10 +45,6 @@ type StructureCustomerCreateRequest struct {
 
 	Image *string `json:"image,omitempty" tfsdk:"image"`
 
-	Latitude *float64 `json:"latitude,omitempty" tfsdk:"latitude"`
-
-	Longitude *float64 `json:"longitude,omitempty" tfsdk:"longitude"`
-
 	MaxServiceAccounts *int64 `json:"max_service_accounts,omitempty" tfsdk:"max_service_accounts"`
 
 	Name *string `json:"name" tfsdk:"name"`
@@ -112,10 +108,6 @@ type StructureCustomerUpdateRequest struct {
 	Homepage *string `json:"homepage,omitempty" tfsdk:"homepage"`
 
 	Image *string `json:"image,omitempty" tfsdk:"image"`
-
-	Latitude *float64 `json:"latitude,omitempty" tfsdk:"latitude"`
-
-	Longitude *float64 `json:"longitude,omitempty" tfsdk:"longitude"`
 
 	MaxServiceAccounts *int64 `json:"max_service_accounts,omitempty" tfsdk:"max_service_accounts"`
 
@@ -196,10 +188,6 @@ type StructureCustomerResponse struct {
 	Image *string `json:"image,omitempty" tfsdk:"image"`
 
 	IsServiceProvider *bool `json:"is_service_provider,omitempty" tfsdk:"is_service_provider"`
-
-	Latitude common.FlexibleNumber `json:"latitude,omitempty" tfsdk:"latitude"`
-
-	Longitude common.FlexibleNumber `json:"longitude,omitempty" tfsdk:"longitude"`
 
 	MaxServiceAccounts *int64 `json:"max_service_accounts,omitempty" tfsdk:"max_service_accounts"`
 
