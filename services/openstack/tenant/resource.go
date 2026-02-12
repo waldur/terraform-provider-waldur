@@ -445,15 +445,7 @@ func (r *OpenstackTenantResource) Create(ctx context.Context, req resource.Creat
 	if !data.EndDate.IsNull() && !data.EndDate.IsUnknown() {
 		payload.EndDate = data.EndDate.ValueStringPointer()
 	}
-	if !data.Limits.IsNull() && !data.Limits.IsUnknown() {
-		limits := make(map[string]float64)
-		diags := data.Limits.ElementsAs(ctx, &limits, false)
-		resp.Diagnostics.Append(diags...)
-		if resp.Diagnostics.HasError() {
-			return
-		}
-		payload.Limits = limits
-	}
+	resp.Diagnostics.Append(common.PopulateOptionalMapField(ctx, data.Limits, &payload.Limits)...)
 	payload.Offering = data.Offering.ValueStringPointer()
 	if !data.Plan.IsNull() && !data.Plan.IsUnknown() {
 		payload.Plan = data.Plan.ValueStringPointer()

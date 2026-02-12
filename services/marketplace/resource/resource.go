@@ -1720,9 +1720,7 @@ func (r *MarketplaceResourceResource) Update(ctx context.Context, req resource.U
 	if !data.Limits.Equal(state.Limits) {
 		// Convert Terraform value to API payload for the specific action
 		var req MarketplaceResourceUpdateLimitsActionRequest
-		var mapItems map[string]interface{}
-		resp.Diagnostics.Append(data.Limits.ElementsAs(ctx, &mapItems, false)...)
-		req.Limits = mapItems
+		resp.Diagnostics.Append(common.PopulateMapField(ctx, data.Limits, &req.Limits)...)
 
 		// Execute the Action
 		if err := r.client.UpdateLimits(ctx, data.UUID.ValueString(), &req); err != nil {

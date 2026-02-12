@@ -575,22 +575,8 @@ func (r *MarketplaceOrderResource) Create(ctx context.Context, req resource.Crea
 
 		requestBody.Type = data.Type.ValueStringPointer()
 	}
-	if !data.Attributes.IsNull() && !data.Attributes.IsUnknown() {
-		var mapItems map[string]string
-		diags := data.Attributes.ElementsAs(ctx, &mapItems, false)
-		resp.Diagnostics.Append(diags...)
-		if !diags.HasError() && len(mapItems) > 0 {
-			requestBody.Attributes = mapItems
-		}
-	}
-	if !data.Limits.IsNull() && !data.Limits.IsUnknown() {
-		var mapItems map[string]int64
-		diags := data.Limits.ElementsAs(ctx, &mapItems, false)
-		resp.Diagnostics.Append(diags...)
-		if !diags.HasError() && len(mapItems) > 0 {
-			requestBody.Limits = mapItems
-		}
-	}
+	resp.Diagnostics.Append(common.PopulateOptionalMapField(ctx, data.Attributes, &requestBody.Attributes)...)
+	resp.Diagnostics.Append(common.PopulateOptionalMapField(ctx, data.Limits, &requestBody.Limits)...)
 
 	apiResp, err := r.client.Create(ctx, &requestBody)
 	if err != nil {
@@ -686,14 +672,7 @@ func (r *MarketplaceOrderResource) Update(ctx context.Context, req resource.Upda
 		requestBody.StartDate = data.StartDate.ValueStringPointer()
 	}
 
-	if !data.Limits.IsNull() && !data.Limits.IsUnknown() {
-		var mapItems map[string]int64
-		diags := data.Limits.ElementsAs(ctx, &mapItems, false)
-		resp.Diagnostics.Append(diags...)
-		if !diags.HasError() && len(mapItems) > 0 {
-			requestBody.Limits = mapItems
-		}
-	}
+	resp.Diagnostics.Append(common.PopulateOptionalMapField(ctx, data.Limits, &requestBody.Limits)...)
 
 	if anyChanges {
 		var err error
