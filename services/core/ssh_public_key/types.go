@@ -1,6 +1,9 @@
 package ssh_public_key
 
 type CoreSshPublicKeyCreateRequest struct {
+	Name *string `json:"name,omitempty" tfsdk:"name"`
+
+	PublicKey *string `json:"public_key" tfsdk:"public_key"`
 }
 
 type CoreSshPublicKeyResponse struct {
@@ -16,7 +19,7 @@ type CoreSshPublicKeyResponse struct {
 
 	Name *string `json:"name,omitempty" tfsdk:"name"`
 
-	PublicKey *string `json:"public_key,omitempty" tfsdk:"public_key"`
+	PublicKey *string `json:"public_key" tfsdk:"public_key"`
 
 	Type *string `json:"type,omitempty" tfsdk:"type"`
 

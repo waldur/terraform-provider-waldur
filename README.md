@@ -42,6 +42,7 @@ provider "waldur" {
 |----------|-------------|
 | `waldur_structure_project` | Manages a Project |
 | `waldur_structure_customer` | Manages a Customer |
+| `waldur_core_ssh_public_key` | Manages a SshPublicKey |
 | `waldur_marketplace_order` | Manages a Order |
 | `waldur_marketplace_resource` | Manages a Resource |
 | `waldur_openstack_tenant` | Manages a Tenant |

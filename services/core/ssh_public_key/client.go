@@ -34,6 +34,17 @@ func IsNotFoundError(err error) bool {
 	return common.IsNotFoundError(err)
 }
 
+func (c *CoreSshPublicKeyClient) Create(ctx context.Context, req *CoreSshPublicKeyCreateRequest) (*CoreSshPublicKeyResponse, error) {
+	var apiResp CoreSshPublicKeyResponse
+	path := "/api/keys/"
+
+	err := c.Client.Post(ctx, path, req, &apiResp)
+	if err != nil {
+		return nil, err
+	}
+	return &apiResp, nil
+}
+
 func (c *CoreSshPublicKeyClient) Get(ctx context.Context, id string) (*CoreSshPublicKeyResponse, error) {
 	var apiResp CoreSshPublicKeyResponse
 	err := c.Client.Get(ctx, "/api/keys/{uuid}/", id, &apiResp)
@@ -41,6 +52,10 @@ func (c *CoreSshPublicKeyClient) Get(ctx context.Context, id string) (*CoreSshPu
 		return nil, err
 	}
 	return &apiResp, nil
+}
+
+func (c *CoreSshPublicKeyClient) Delete(ctx context.Context, id string) error {
+	return c.Client.Delete(ctx, "/api/keys/{uuid}/", id)
 }
 
 func (c *CoreSshPublicKeyClient) List(ctx context.Context, filter map[string]string) ([]CoreSshPublicKeyResponse, error) {

@@ -9,7 +9,9 @@ import (
 )
 
 func GetResources() []func() resource.Resource {
-	return []func() resource.Resource{}
+	return []func() resource.Resource{
+		pkg_ssh_public_key.NewCoreSshPublicKeyResource,
+	}
 }
 
 func GetDataSources() []func() datasource.DataSource {
@@ -23,5 +25,7 @@ func GetActions() []func() action.Action {
 }
 
 func GetListResources() []func() list.ListResource {
-	return []func() list.ListResource{}
+	return []func() list.ListResource{
+		pkg_ssh_public_key.NewCoreSshPublicKeyList,
+	}
 }
