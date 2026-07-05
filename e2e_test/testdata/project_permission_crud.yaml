@@ -1,0 +1,872 @@
+---
+version: 2
+interactions:
+    - id: 0
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 36
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: '{"name":"tf-test-customer-for-perm"}'
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token test-token-sanitized
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/customers/
+        method: POST
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 1523
+        uncompressed: false
+        body: '{"url":"http://127.0.0.1:8000/api/customers/c1211eabbadd42efb22e6696e6ae5fdf/","uuid":"c1211eabbadd42efb22e6696e6ae5fdf","created":"2026-07-05T18:49:38.850495+00:00","organization_groups":[],"display_name":"tf-test-customer-for-perm","backend_id":"","image":null,"blocked":false,"archived":false,"display_billing_info_in_projects":true,"default_tax_percent":"0.00","accounting_start_date":"2026-07-05T18:49:38.850621+00:00","projects_count":0,"users_count":0,"sponsor_number":null,"country_name":null,"max_service_accounts":0,"project_metadata_checklist":null,"grace_period_days":null,"user_email_patterns":[],"user_affiliations":[],"user_identity_sources":[],"default_affiliations":[],"name":"tf-test-customer-for-perm","slug":"tf-test-cu","native_name":"","abbreviation":"","description":"","contact_details":"","agreement_number":"","email":"","phone_number":"","access_subnets":"","registration_code":"","homepage":"","domain":"","vat_code":"","postal":"","address":"","bank_name":"","latitude":null,"longitude":null,"bank_account":"","country":"","notification_emails":"","city":"","state":"","parish":"","street":"","house_nr":"","apartment_nr":"","household":"","project_slug_template":null,"payment_profiles":[],"customer_credit":null,"customer_unallocated_credit":null,"is_service_provider":false,"service_provider":null,"service_provider_uuid":null,"call_managing_organization_uuid":null,"billing_price_estimate":{"total":"0.0000000000","current":"0.0000000000","tax":"0.0000000000","tax_current":"0.0000000000"}}'
+        headers:
+            Allow:
+                - GET, POST, HEAD, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "1523"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Sun, 05 Jul 2026 18:49:38 GMT
+            Location:
+                - http://127.0.0.1:8000/api/customers/c1211eabbadd42efb22e6696e6ae5fdf/
+            Server:
+                - gunicorn
+            Vary:
+                - Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+        status: 201 Created
+        code: 201
+        duration: 75.7312ms
+    - id: 1
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 118
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: '{"customer":"http://127.0.0.1:8000/api/customers/c1211eabbadd42efb22e6696e6ae5fdf/","name":"tf-test-project-for-perm"}'
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token test-token-sanitized
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/projects/
+        method: POST
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 1366
+        uncompressed: false
+        body: '{"url":"http://127.0.0.1:8000/api/projects/e24c66a84be24b92837ba1690a3129ef/","uuid":"e24c66a84be24b92837ba1690a3129ef","name":"tf-test-project-for-perm","slug":"tf-test-pr","customer":"http://127.0.0.1:8000/api/customers/c1211eabbadd42efb22e6696e6ae5fdf/","customer_uuid":"c1211eabbadd42efb22e6696e6ae5fdf","customer_name":"tf-test-customer-for-perm","customer_slug":"tf-test-cu","customer_native_name":"","customer_abbreviation":"","description":"","customer_display_billing_info_in_projects":true,"created":"2026-07-05T18:49:39.013488+00:00","type":null,"type_name":null,"type_uuid":null,"backend_id":"","start_date":null,"end_date":null,"end_date_requested_by":null,"end_date_updated_at":null,"oecd_fos_2007_code":null,"oecd_fos_2007_label":null,"is_industry":false,"image":null,"resources_count":0,"project_metadata":[],"max_service_accounts":0,"kind":"default","is_removed":false,"termination_metadata":null,"staff_notes":"","grace_period_days":null,"customer_grace_period_days":null,"effective_end_date":null,"is_in_grace_period":false,"user_email_patterns":[],"user_affiliations":[],"user_identity_sources":[],"affiliation":null,"affiliation_uuid":null,"science_sub_domain":null,"project_credit":null,"marketplace_resource_count":{},"billing_price_estimate":{"total":"0.0000000000","current":"0.0000000000","tax":"0.0000000000","tax_current":"0.0000000000"}}'
+        headers:
+            Allow:
+                - GET, POST, HEAD, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "1366"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Sun, 05 Jul 2026 18:49:39 GMT
+            Location:
+                - http://127.0.0.1:8000/api/projects/e24c66a84be24b92837ba1690a3129ef/
+            Server:
+                - gunicorn
+            Vary:
+                - Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+        status: 201 Created
+        code: 201
+        duration: 78.697249ms
+    - id: 2
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 66
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: '{"user":"e2e00000000000000000000000000001","role":"PROJECT.ADMIN"}'
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token test-token-sanitized
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/projects/e24c66a84be24b92837ba1690a3129ef/add_user/
+        method: POST
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 24
+        uncompressed: false
+        body: '{"expiration_time":null}'
+        headers:
+            Allow:
+                - POST, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "24"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Sun, 05 Jul 2026 18:49:39 GMT
+            Server:
+                - gunicorn
+            Vary:
+                - Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+        status: 201 Created
+        code: 201
+        duration: 86.550252ms
+    - id: 3
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token test-token-sanitized
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/projects/e24c66a84be24b92837ba1690a3129ef/list_users/?role=PROJECT.ADMIN&user=e2e00000000000000000000000000001
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 431
+        uncompressed: false
+        body: '[{"uuid":"964dfc1b35a644cfa145755d24a359d0","created":"2026-07-05T18:49:39.191437+00:00","expiration_time":null,"role_name":"PROJECT.ADMIN","role_uuid":"6a77c375dcbe4551b7f573401d29b03d","user_email":"e2euser@example.com","user_full_name":"E2E User","user_username":"e2euser","user_uuid":"e2e00000000000000000000000000001","user_image":null,"created_by_full_name":"Admin User","created_by_uuid":"e2e00000000000000000000000000002"}]'
+        headers:
+            Allow:
+                - GET, HEAD, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "431"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Sun, 05 Jul 2026 18:49:39 GMT
+            Link:
+                - <http://127.0.0.1:8000/api/projects/e24c66a84be24b92837ba1690a3129ef/list_users/?role=PROJECT.ADMIN&user=e2e00000000000000000000000000001>; rel="first", <http://127.0.0.1:8000/api/projects/e24c66a84be24b92837ba1690a3129ef/list_users/?role=PROJECT.ADMIN&user=e2e00000000000000000000000000001>; rel="last"
+            Server:
+                - gunicorn
+            Vary:
+                - Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+            X-Result-Count:
+                - "1"
+        status: 200 OK
+        code: 200
+        duration: 58.270898ms
+    - id: 4
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token test-token-sanitized
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/customers/c1211eabbadd42efb22e6696e6ae5fdf/
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 1523
+        uncompressed: false
+        body: '{"url":"http://127.0.0.1:8000/api/customers/c1211eabbadd42efb22e6696e6ae5fdf/","uuid":"c1211eabbadd42efb22e6696e6ae5fdf","created":"2026-07-05T18:49:38.850495+00:00","organization_groups":[],"display_name":"tf-test-customer-for-perm","backend_id":"","image":null,"blocked":false,"archived":false,"display_billing_info_in_projects":true,"default_tax_percent":"0.00","accounting_start_date":"2026-07-05T18:49:38.850621+00:00","projects_count":1,"users_count":1,"sponsor_number":null,"country_name":null,"max_service_accounts":0,"project_metadata_checklist":null,"grace_period_days":null,"user_email_patterns":[],"user_affiliations":[],"user_identity_sources":[],"default_affiliations":[],"name":"tf-test-customer-for-perm","slug":"tf-test-cu","native_name":"","abbreviation":"","description":"","contact_details":"","agreement_number":"","email":"","phone_number":"","access_subnets":"","registration_code":"","homepage":"","domain":"","vat_code":"","postal":"","address":"","bank_name":"","latitude":null,"longitude":null,"bank_account":"","country":"","notification_emails":"","city":"","state":"","parish":"","street":"","house_nr":"","apartment_nr":"","household":"","project_slug_template":null,"payment_profiles":[],"customer_credit":null,"customer_unallocated_credit":null,"is_service_provider":false,"service_provider":null,"service_provider_uuid":null,"call_managing_organization_uuid":null,"billing_price_estimate":{"total":"0.0000000000","current":"0.0000000000","tax":"0.0000000000","tax_current":"0.0000000000"}}'
+        headers:
+            Allow:
+                - GET, PUT, PATCH, DELETE, HEAD, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "1523"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Sun, 05 Jul 2026 18:49:39 GMT
+            Server:
+                - gunicorn
+            Vary:
+                - Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+        status: 200 OK
+        code: 200
+        duration: 67.599404ms
+    - id: 5
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token test-token-sanitized
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/projects/e24c66a84be24b92837ba1690a3129ef/
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 1366
+        uncompressed: false
+        body: '{"url":"http://127.0.0.1:8000/api/projects/e24c66a84be24b92837ba1690a3129ef/","uuid":"e24c66a84be24b92837ba1690a3129ef","name":"tf-test-project-for-perm","slug":"tf-test-pr","customer":"http://127.0.0.1:8000/api/customers/c1211eabbadd42efb22e6696e6ae5fdf/","customer_uuid":"c1211eabbadd42efb22e6696e6ae5fdf","customer_name":"tf-test-customer-for-perm","customer_slug":"tf-test-cu","customer_native_name":"","customer_abbreviation":"","description":"","customer_display_billing_info_in_projects":true,"created":"2026-07-05T18:49:39.013488+00:00","type":null,"type_name":null,"type_uuid":null,"backend_id":"","start_date":null,"end_date":null,"end_date_requested_by":null,"end_date_updated_at":null,"oecd_fos_2007_code":null,"oecd_fos_2007_label":null,"is_industry":false,"image":null,"resources_count":0,"project_metadata":[],"max_service_accounts":0,"kind":"default","is_removed":false,"termination_metadata":null,"staff_notes":"","grace_period_days":null,"customer_grace_period_days":null,"effective_end_date":null,"is_in_grace_period":false,"user_email_patterns":[],"user_affiliations":[],"user_identity_sources":[],"affiliation":null,"affiliation_uuid":null,"science_sub_domain":null,"project_credit":null,"marketplace_resource_count":{},"billing_price_estimate":{"total":"0.0000000000","current":"0.0000000000","tax":"0.0000000000","tax_current":"0.0000000000"}}'
+        headers:
+            Allow:
+                - GET, PUT, PATCH, DELETE, HEAD, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "1366"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Sun, 05 Jul 2026 18:49:40 GMT
+            Server:
+                - gunicorn
+            Vary:
+                - Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+        status: 200 OK
+        code: 200
+        duration: 60.410076ms
+    - id: 6
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token test-token-sanitized
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/user-permissions/964dfc1b35a644cfa145755d24a359d0/
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 750
+        uncompressed: false
+        body: '{"uuid":"964dfc1b35a644cfa145755d24a359d0","user_uuid":"e2e00000000000000000000000000001","user_name":"E2E User","user_slug":"e2euser","created":"2026-07-05T18:49:39.191437+00:00","expiration_time":null,"is_active":true,"created_by_full_name":"Admin User","created_by_username":"admin","revoked_by_full_name":null,"revoked_by_username":null,"revoke_reason":"","role_name":"PROJECT.ADMIN","role_description":"Project administrator","role_uuid":"6a77c375dcbe4551b7f573401d29b03d","scope_type":"project","scope_uuid":"e24c66a84be24b92837ba1690a3129ef","scope_name":"tf-test-project-for-perm","scope_is_removed":false,"customer_uuid":"c1211eabbadd42efb22e6696e6ae5fdf","customer_name":"tf-test-customer-for-perm","resource_uuid":null,"project_uuid":null}'
+        headers:
+            Allow:
+                - GET, HEAD, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "750"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Sun, 05 Jul 2026 18:49:40 GMT
+            Server:
+                - gunicorn
+            Vary:
+                - Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+        status: 200 OK
+        code: 200
+        duration: 45.568848ms
+    - id: 7
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token test-token-sanitized
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/customers/c1211eabbadd42efb22e6696e6ae5fdf/
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 1523
+        uncompressed: false
+        body: '{"url":"http://127.0.0.1:8000/api/customers/c1211eabbadd42efb22e6696e6ae5fdf/","uuid":"c1211eabbadd42efb22e6696e6ae5fdf","created":"2026-07-05T18:49:38.850495+00:00","organization_groups":[],"display_name":"tf-test-customer-for-perm","backend_id":"","image":null,"blocked":false,"archived":false,"display_billing_info_in_projects":true,"default_tax_percent":"0.00","accounting_start_date":"2026-07-05T18:49:38.850621+00:00","projects_count":1,"users_count":1,"sponsor_number":null,"country_name":null,"max_service_accounts":0,"project_metadata_checklist":null,"grace_period_days":null,"user_email_patterns":[],"user_affiliations":[],"user_identity_sources":[],"default_affiliations":[],"name":"tf-test-customer-for-perm","slug":"tf-test-cu","native_name":"","abbreviation":"","description":"","contact_details":"","agreement_number":"","email":"","phone_number":"","access_subnets":"","registration_code":"","homepage":"","domain":"","vat_code":"","postal":"","address":"","bank_name":"","latitude":null,"longitude":null,"bank_account":"","country":"","notification_emails":"","city":"","state":"","parish":"","street":"","house_nr":"","apartment_nr":"","household":"","project_slug_template":null,"payment_profiles":[],"customer_credit":null,"customer_unallocated_credit":null,"is_service_provider":false,"service_provider":null,"service_provider_uuid":null,"call_managing_organization_uuid":null,"billing_price_estimate":{"total":"0.0000000000","current":"0.0000000000","tax":"0.0000000000","tax_current":"0.0000000000"}}'
+        headers:
+            Allow:
+                - GET, PUT, PATCH, DELETE, HEAD, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "1523"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Sun, 05 Jul 2026 18:49:40 GMT
+            Server:
+                - gunicorn
+            Vary:
+                - Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+        status: 200 OK
+        code: 200
+        duration: 55.689778ms
+    - id: 8
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token test-token-sanitized
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/projects/e24c66a84be24b92837ba1690a3129ef/
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 1366
+        uncompressed: false
+        body: '{"url":"http://127.0.0.1:8000/api/projects/e24c66a84be24b92837ba1690a3129ef/","uuid":"e24c66a84be24b92837ba1690a3129ef","name":"tf-test-project-for-perm","slug":"tf-test-pr","customer":"http://127.0.0.1:8000/api/customers/c1211eabbadd42efb22e6696e6ae5fdf/","customer_uuid":"c1211eabbadd42efb22e6696e6ae5fdf","customer_name":"tf-test-customer-for-perm","customer_slug":"tf-test-cu","customer_native_name":"","customer_abbreviation":"","description":"","customer_display_billing_info_in_projects":true,"created":"2026-07-05T18:49:39.013488+00:00","type":null,"type_name":null,"type_uuid":null,"backend_id":"","start_date":null,"end_date":null,"end_date_requested_by":null,"end_date_updated_at":null,"oecd_fos_2007_code":null,"oecd_fos_2007_label":null,"is_industry":false,"image":null,"resources_count":0,"project_metadata":[],"max_service_accounts":0,"kind":"default","is_removed":false,"termination_metadata":null,"staff_notes":"","grace_period_days":null,"customer_grace_period_days":null,"effective_end_date":null,"is_in_grace_period":false,"user_email_patterns":[],"user_affiliations":[],"user_identity_sources":[],"affiliation":null,"affiliation_uuid":null,"science_sub_domain":null,"project_credit":null,"marketplace_resource_count":{},"billing_price_estimate":{"total":"0.0000000000","current":"0.0000000000","tax":"0.0000000000","tax_current":"0.0000000000"}}'
+        headers:
+            Allow:
+                - GET, PUT, PATCH, DELETE, HEAD, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "1366"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Sun, 05 Jul 2026 18:49:40 GMT
+            Server:
+                - gunicorn
+            Vary:
+                - Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+        status: 200 OK
+        code: 200
+        duration: 42.783194ms
+    - id: 9
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token test-token-sanitized
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/user-permissions/964dfc1b35a644cfa145755d24a359d0/
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 750
+        uncompressed: false
+        body: '{"uuid":"964dfc1b35a644cfa145755d24a359d0","user_uuid":"e2e00000000000000000000000000001","user_name":"E2E User","user_slug":"e2euser","created":"2026-07-05T18:49:39.191437+00:00","expiration_time":null,"is_active":true,"created_by_full_name":"Admin User","created_by_username":"admin","revoked_by_full_name":null,"revoked_by_username":null,"revoke_reason":"","role_name":"PROJECT.ADMIN","role_description":"Project administrator","role_uuid":"6a77c375dcbe4551b7f573401d29b03d","scope_type":"project","scope_uuid":"e24c66a84be24b92837ba1690a3129ef","scope_name":"tf-test-project-for-perm","scope_is_removed":false,"customer_uuid":"c1211eabbadd42efb22e6696e6ae5fdf","customer_name":"tf-test-customer-for-perm","resource_uuid":null,"project_uuid":null}'
+        headers:
+            Allow:
+                - GET, HEAD, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "750"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Sun, 05 Jul 2026 18:49:40 GMT
+            Server:
+                - gunicorn
+            Vary:
+                - Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+        status: 200 OK
+        code: 200
+        duration: 46.48443ms
+    - id: 10
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 107
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: '{"user":"e2e00000000000000000000000000001","role":"PROJECT.ADMIN","expiration_time":"2030-01-01T00:00:00Z"}'
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token test-token-sanitized
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/projects/e24c66a84be24b92837ba1690a3129ef/update_user/
+        method: POST
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 47
+        uncompressed: false
+        body: '{"expiration_time":"2030-01-01T00:00:00+00:00"}'
+        headers:
+            Allow:
+                - POST, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "47"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Sun, 05 Jul 2026 18:49:40 GMT
+            Server:
+                - gunicorn
+            Vary:
+                - Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+        status: 200 OK
+        code: 200
+        duration: 119.969505ms
+    - id: 11
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token test-token-sanitized
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/customers/c1211eabbadd42efb22e6696e6ae5fdf/
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 1523
+        uncompressed: false
+        body: '{"url":"http://127.0.0.1:8000/api/customers/c1211eabbadd42efb22e6696e6ae5fdf/","uuid":"c1211eabbadd42efb22e6696e6ae5fdf","created":"2026-07-05T18:49:38.850495+00:00","organization_groups":[],"display_name":"tf-test-customer-for-perm","backend_id":"","image":null,"blocked":false,"archived":false,"display_billing_info_in_projects":true,"default_tax_percent":"0.00","accounting_start_date":"2026-07-05T18:49:38.850621+00:00","projects_count":1,"users_count":1,"sponsor_number":null,"country_name":null,"max_service_accounts":0,"project_metadata_checklist":null,"grace_period_days":null,"user_email_patterns":[],"user_affiliations":[],"user_identity_sources":[],"default_affiliations":[],"name":"tf-test-customer-for-perm","slug":"tf-test-cu","native_name":"","abbreviation":"","description":"","contact_details":"","agreement_number":"","email":"","phone_number":"","access_subnets":"","registration_code":"","homepage":"","domain":"","vat_code":"","postal":"","address":"","bank_name":"","latitude":null,"longitude":null,"bank_account":"","country":"","notification_emails":"","city":"","state":"","parish":"","street":"","house_nr":"","apartment_nr":"","household":"","project_slug_template":null,"payment_profiles":[],"customer_credit":null,"customer_unallocated_credit":null,"is_service_provider":false,"service_provider":null,"service_provider_uuid":null,"call_managing_organization_uuid":null,"billing_price_estimate":{"total":"0.0000000000","current":"0.0000000000","tax":"0.0000000000","tax_current":"0.0000000000"}}'
+        headers:
+            Allow:
+                - GET, PUT, PATCH, DELETE, HEAD, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "1523"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Sun, 05 Jul 2026 18:49:41 GMT
+            Server:
+                - gunicorn
+            Vary:
+                - Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+        status: 200 OK
+        code: 200
+        duration: 75.140354ms
+    - id: 12
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token test-token-sanitized
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/projects/e24c66a84be24b92837ba1690a3129ef/
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 1366
+        uncompressed: false
+        body: '{"url":"http://127.0.0.1:8000/api/projects/e24c66a84be24b92837ba1690a3129ef/","uuid":"e24c66a84be24b92837ba1690a3129ef","name":"tf-test-project-for-perm","slug":"tf-test-pr","customer":"http://127.0.0.1:8000/api/customers/c1211eabbadd42efb22e6696e6ae5fdf/","customer_uuid":"c1211eabbadd42efb22e6696e6ae5fdf","customer_name":"tf-test-customer-for-perm","customer_slug":"tf-test-cu","customer_native_name":"","customer_abbreviation":"","description":"","customer_display_billing_info_in_projects":true,"created":"2026-07-05T18:49:39.013488+00:00","type":null,"type_name":null,"type_uuid":null,"backend_id":"","start_date":null,"end_date":null,"end_date_requested_by":null,"end_date_updated_at":null,"oecd_fos_2007_code":null,"oecd_fos_2007_label":null,"is_industry":false,"image":null,"resources_count":0,"project_metadata":[],"max_service_accounts":0,"kind":"default","is_removed":false,"termination_metadata":null,"staff_notes":"","grace_period_days":null,"customer_grace_period_days":null,"effective_end_date":null,"is_in_grace_period":false,"user_email_patterns":[],"user_affiliations":[],"user_identity_sources":[],"affiliation":null,"affiliation_uuid":null,"science_sub_domain":null,"project_credit":null,"marketplace_resource_count":{},"billing_price_estimate":{"total":"0.0000000000","current":"0.0000000000","tax":"0.0000000000","tax_current":"0.0000000000"}}'
+        headers:
+            Allow:
+                - GET, PUT, PATCH, DELETE, HEAD, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "1366"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Sun, 05 Jul 2026 18:49:41 GMT
+            Server:
+                - gunicorn
+            Vary:
+                - Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+        status: 200 OK
+        code: 200
+        duration: 79.010081ms
+    - id: 13
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token test-token-sanitized
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/user-permissions/964dfc1b35a644cfa145755d24a359d0/
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 773
+        uncompressed: false
+        body: '{"uuid":"964dfc1b35a644cfa145755d24a359d0","user_uuid":"e2e00000000000000000000000000001","user_name":"E2E User","user_slug":"e2euser","created":"2026-07-05T18:49:39.191437+00:00","expiration_time":"2030-01-01T00:00:00+00:00","is_active":true,"created_by_full_name":"Admin User","created_by_username":"admin","revoked_by_full_name":null,"revoked_by_username":null,"revoke_reason":"","role_name":"PROJECT.ADMIN","role_description":"Project administrator","role_uuid":"6a77c375dcbe4551b7f573401d29b03d","scope_type":"project","scope_uuid":"e24c66a84be24b92837ba1690a3129ef","scope_name":"tf-test-project-for-perm","scope_is_removed":false,"customer_uuid":"c1211eabbadd42efb22e6696e6ae5fdf","customer_name":"tf-test-customer-for-perm","resource_uuid":null,"project_uuid":null}'
+        headers:
+            Allow:
+                - GET, HEAD, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "773"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Sun, 05 Jul 2026 18:49:41 GMT
+            Server:
+                - gunicorn
+            Vary:
+                - Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+        status: 200 OK
+        code: 200
+        duration: 52.915628ms
+    - id: 14
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 66
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: '{"user":"e2e00000000000000000000000000001","role":"PROJECT.ADMIN"}'
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token test-token-sanitized
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/projects/e24c66a84be24b92837ba1690a3129ef/delete_user/
+        method: POST
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 0
+        uncompressed: false
+        body: ""
+        headers:
+            Allow:
+                - POST, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "0"
+            Date:
+                - Sun, 05 Jul 2026 18:49:42 GMT
+            Server:
+                - gunicorn
+            Vary:
+                - Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+        status: 200 OK
+        code: 200
+        duration: 122.3753ms
+    - id: 15
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token test-token-sanitized
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/projects/e24c66a84be24b92837ba1690a3129ef/
+        method: DELETE
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 0
+        uncompressed: false
+        body: ""
+        headers:
+            Allow:
+                - GET, PUT, PATCH, DELETE, HEAD, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "0"
+            Date:
+                - Sun, 05 Jul 2026 18:49:42 GMT
+            Server:
+                - gunicorn
+            Vary:
+                - Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+        status: 204 No Content
+        code: 204
+        duration: 118.722733ms
+    - id: 16
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token test-token-sanitized
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/customers/c1211eabbadd42efb22e6696e6ae5fdf/
+        method: DELETE
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 0
+        uncompressed: false
+        body: ""
+        headers:
+            Allow:
+                - GET, PUT, PATCH, DELETE, HEAD, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "0"
+            Date:
+                - Sun, 05 Jul 2026 18:49:42 GMT
+            Server:
+                - gunicorn
+            Vary:
+                - Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+        status: 204 No Content
+        code: 204
+        duration: 168.308151ms

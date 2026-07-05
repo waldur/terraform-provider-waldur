@@ -17,6 +17,7 @@ import (
 	identity "github.com/waldur/terraform-provider-waldur/services/identity"
 	marketplace "github.com/waldur/terraform-provider-waldur/services/marketplace"
 	openstack "github.com/waldur/terraform-provider-waldur/services/openstack"
+	project "github.com/waldur/terraform-provider-waldur/services/project"
 	structure "github.com/waldur/terraform-provider-waldur/services/structure"
 )
 
@@ -128,6 +129,7 @@ func (p *waldurProvider) Resources(ctx context.Context) []func() resource.Resour
 	res = append(res, identity.GetResources()...)
 	res = append(res, marketplace.GetResources()...)
 	res = append(res, openstack.GetResources()...)
+	res = append(res, project.GetResources()...)
 	res = append(res, structure.GetResources()...)
 	return res
 }
@@ -138,6 +140,7 @@ func (p *waldurProvider) DataSources(ctx context.Context) []func() datasource.Da
 	ds = append(ds, identity.GetDataSources()...)
 	ds = append(ds, marketplace.GetDataSources()...)
 	ds = append(ds, openstack.GetDataSources()...)
+	ds = append(ds, project.GetDataSources()...)
 	ds = append(ds, structure.GetDataSources()...)
 	return ds
 }
@@ -148,6 +151,7 @@ func (p *waldurProvider) Actions(ctx context.Context) []func() action.Action {
 	acts = append(acts, identity.GetActions()...)
 	acts = append(acts, marketplace.GetActions()...)
 	acts = append(acts, openstack.GetActions()...)
+	acts = append(acts, project.GetActions()...)
 	acts = append(acts, structure.GetActions()...)
 	return acts
 }
@@ -158,6 +162,7 @@ func (p *waldurProvider) ListResources(ctx context.Context) []func() list.ListRe
 	lr = append(lr, identity.GetListResources()...)
 	lr = append(lr, marketplace.GetListResources()...)
 	lr = append(lr, openstack.GetListResources()...)
+	lr = append(lr, project.GetListResources()...)
 	lr = append(lr, structure.GetListResources()...)
 	return lr
 }

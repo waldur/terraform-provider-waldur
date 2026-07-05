@@ -57,6 +57,7 @@ provider "waldur" {
 | `waldur_openstack_floating_ip` | Manages a FloatingIp |
 | `waldur_openstack_port` | Manages a Port |
 | `waldur_identity_bridge_link` | Manages a BridgeLink |
+| `waldur_project_permission` | Manages a Permission |
 
 ## Actions
 
