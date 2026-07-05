@@ -321,6 +321,66 @@ func (r *IdentityBridgeLinkResource) Create(ctx context.Context, req resource.Cr
 	}
 
 	data.UUID = types.StringValue(data.Source.ValueString() + "/" + data.Username.ValueString())
+
+	// Nullify any unknown computed fields before saving to state
+	if data.Address.IsUnknown() {
+		data.Address = types.StringNull()
+	}
+	if data.Affiliations.IsUnknown() {
+		data.Affiliations = types.ListNull(types.StringType)
+	}
+	if data.BirthDate.IsUnknown() {
+		data.BirthDate = types.StringNull()
+	}
+	if data.CivilNumber.IsUnknown() {
+		data.CivilNumber = types.StringNull()
+	}
+	if data.CountryOfResidence.IsUnknown() {
+		data.CountryOfResidence = types.StringNull()
+	}
+	if data.EdupersonAssurance.IsUnknown() {
+		data.EdupersonAssurance = types.ListNull(types.StringType)
+	}
+	if data.Email.IsUnknown() {
+		data.Email = types.StringNull()
+	}
+	if data.FirstName.IsUnknown() {
+		data.FirstName = types.StringNull()
+	}
+	if data.Gender.IsUnknown() {
+		data.Gender = types.StringNull()
+	}
+	if data.IdentitySource.IsUnknown() {
+		data.IdentitySource = types.StringNull()
+	}
+	if data.LastName.IsUnknown() {
+		data.LastName = types.StringNull()
+	}
+	if data.Nationalities.IsUnknown() {
+		data.Nationalities = types.ListNull(types.StringType)
+	}
+	if data.Nationality.IsUnknown() {
+		data.Nationality = types.StringNull()
+	}
+	if data.Organization.IsUnknown() {
+		data.Organization = types.StringNull()
+	}
+	if data.OrganizationCountry.IsUnknown() {
+		data.OrganizationCountry = types.StringNull()
+	}
+	if data.OrganizationType.IsUnknown() {
+		data.OrganizationType = types.StringNull()
+	}
+	if data.PersonalTitle.IsUnknown() {
+		data.PersonalTitle = types.StringNull()
+	}
+	if data.PhoneNumber.IsUnknown() {
+		data.PhoneNumber = types.StringNull()
+	}
+	if data.PlaceOfBirth.IsUnknown() {
+		data.PlaceOfBirth = types.StringNull()
+	}
+
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
@@ -469,6 +529,65 @@ func (r *IdentityBridgeLinkResource) Update(ctx context.Context, req resource.Up
 			"An error occurred while updating/pushing the Identity Bridge Link: "+err.Error(),
 		)
 		return
+	}
+
+	// Nullify any unknown computed fields before saving to state
+	if data.Address.IsUnknown() {
+		data.Address = types.StringNull()
+	}
+	if data.Affiliations.IsUnknown() {
+		data.Affiliations = types.ListNull(types.StringType)
+	}
+	if data.BirthDate.IsUnknown() {
+		data.BirthDate = types.StringNull()
+	}
+	if data.CivilNumber.IsUnknown() {
+		data.CivilNumber = types.StringNull()
+	}
+	if data.CountryOfResidence.IsUnknown() {
+		data.CountryOfResidence = types.StringNull()
+	}
+	if data.EdupersonAssurance.IsUnknown() {
+		data.EdupersonAssurance = types.ListNull(types.StringType)
+	}
+	if data.Email.IsUnknown() {
+		data.Email = types.StringNull()
+	}
+	if data.FirstName.IsUnknown() {
+		data.FirstName = types.StringNull()
+	}
+	if data.Gender.IsUnknown() {
+		data.Gender = types.StringNull()
+	}
+	if data.IdentitySource.IsUnknown() {
+		data.IdentitySource = types.StringNull()
+	}
+	if data.LastName.IsUnknown() {
+		data.LastName = types.StringNull()
+	}
+	if data.Nationalities.IsUnknown() {
+		data.Nationalities = types.ListNull(types.StringType)
+	}
+	if data.Nationality.IsUnknown() {
+		data.Nationality = types.StringNull()
+	}
+	if data.Organization.IsUnknown() {
+		data.Organization = types.StringNull()
+	}
+	if data.OrganizationCountry.IsUnknown() {
+		data.OrganizationCountry = types.StringNull()
+	}
+	if data.OrganizationType.IsUnknown() {
+		data.OrganizationType = types.StringNull()
+	}
+	if data.PersonalTitle.IsUnknown() {
+		data.PersonalTitle = types.StringNull()
+	}
+	if data.PhoneNumber.IsUnknown() {
+		data.PhoneNumber = types.StringNull()
+	}
+	if data.PlaceOfBirth.IsUnknown() {
+		data.PlaceOfBirth = types.StringNull()
 	}
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
