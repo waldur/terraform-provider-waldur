@@ -14,6 +14,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/waldur/terraform-provider-waldur/internal/client"
 	core "github.com/waldur/terraform-provider-waldur/services/core"
+	identity "github.com/waldur/terraform-provider-waldur/services/identity"
 	marketplace "github.com/waldur/terraform-provider-waldur/services/marketplace"
 	openstack "github.com/waldur/terraform-provider-waldur/services/openstack"
 	structure "github.com/waldur/terraform-provider-waldur/services/structure"
@@ -124,6 +125,7 @@ func (p *waldurProvider) Configure(ctx context.Context, req provider.ConfigureRe
 func (p *waldurProvider) Resources(ctx context.Context) []func() resource.Resource {
 	var res []func() resource.Resource
 	res = append(res, core.GetResources()...)
+	res = append(res, identity.GetResources()...)
 	res = append(res, marketplace.GetResources()...)
 	res = append(res, openstack.GetResources()...)
 	res = append(res, structure.GetResources()...)
@@ -133,6 +135,7 @@ func (p *waldurProvider) Resources(ctx context.Context) []func() resource.Resour
 func (p *waldurProvider) DataSources(ctx context.Context) []func() datasource.DataSource {
 	var ds []func() datasource.DataSource
 	ds = append(ds, core.GetDataSources()...)
+	ds = append(ds, identity.GetDataSources()...)
 	ds = append(ds, marketplace.GetDataSources()...)
 	ds = append(ds, openstack.GetDataSources()...)
 	ds = append(ds, structure.GetDataSources()...)
@@ -142,6 +145,7 @@ func (p *waldurProvider) DataSources(ctx context.Context) []func() datasource.Da
 func (p *waldurProvider) Actions(ctx context.Context) []func() action.Action {
 	var acts []func() action.Action
 	acts = append(acts, core.GetActions()...)
+	acts = append(acts, identity.GetActions()...)
 	acts = append(acts, marketplace.GetActions()...)
 	acts = append(acts, openstack.GetActions()...)
 	acts = append(acts, structure.GetActions()...)
@@ -151,6 +155,7 @@ func (p *waldurProvider) Actions(ctx context.Context) []func() action.Action {
 func (p *waldurProvider) ListResources(ctx context.Context) []func() list.ListResource {
 	var lr []func() list.ListResource
 	lr = append(lr, core.GetListResources()...)
+	lr = append(lr, identity.GetListResources()...)
 	lr = append(lr, marketplace.GetListResources()...)
 	lr = append(lr, openstack.GetListResources()...)
 	lr = append(lr, structure.GetListResources()...)

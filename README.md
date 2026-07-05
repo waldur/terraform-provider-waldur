@@ -56,6 +56,7 @@ provider "waldur" {
 | `waldur_openstack_network_rbac_policy` | Manages a NetworkRbacPolicy |
 | `waldur_openstack_floating_ip` | Manages a FloatingIp |
 | `waldur_openstack_port` | Manages a Port |
+| `waldur_identity_bridge_link` | Manages a BridgeLink |
 
 ## Actions
 

@@ -1,0 +1,1709 @@
+---
+version: 2
+interactions:
+    - id: 0
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token 0840158c32fdf0930b1ba4cc0b49832747c7eb3c
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/keys/?name=my-ssh-key
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 896
+        uncompressed: false
+        body: '[{"url":"http://127.0.0.1:8000/api/keys/2fe631e03bc14da794bec5708851155d/","uuid":"2fe631e03bc14da794bec5708851155d","name":"my-ssh-key","public_key":"ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCvaWWSBuDJsVp5BKgAPhyQ7Ngq6MGCLBPuhpxEKd8vWW0XRO01r1EPFqY5tWs8poIHn8tgDzzwnb2GfdWseQQIXNKoC4YWZRcJM8IfEPI6E7i7BZwHO07yX6nxc1NpowkTXIOZFGCAGLa9/lZfNZ7D2qouX4t8HpZRsBQO/QhLvxxEddEmcGslraRgv9Pl5BJ64OFXjKaYBUaEZww/iZTnefvQKHDyCC6zEp40ChsvewpstcXZ6zd1AOBLTTjOr7FN393fa6ASTvuYbzYpRtKhiguQBghbHZ1ZeVIFaDIsX0/YzBG0IwH8WBsjNnm7e4uRYiepUqw359dXXwnZkHTH viktor@viktor-laptop","fingerprint_md5":"6f:7b:e0:85:6c:8a:03:08:42:58:5a:d5:c8:fa:ee:07","fingerprint_sha256":"SHA256:zLuF2Rx2fGuiP5Hhr+5fY7kLRj2uYAkKtwyG2FowUxs","fingerprint_sha512":"SHA512:5n97siok0X8Y6CoYYL+qzOenXVqfoGax6IOxhta2BQgikwxtPj6Zrstcka2uFp11ExLmR5F4tq6zFdf7L1zFQw","user_uuid":"2f7757b71dbc4c5e8e1d0fc4fcb09aea","is_shared":false,"type":"ssh-rsa"}]'
+        headers:
+            Allow:
+                - GET, POST, HEAD, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "896"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Thu, 05 Feb 2026 01:14:19 GMT
+            Link:
+                - <http://127.0.0.1:8000/api/keys/?name=my-ssh-key>; rel="first", <http://127.0.0.1:8000/api/keys/?name=my-ssh-key>; rel="last"
+            Server:
+                - WSGIServer/0.2 CPython/3.11.9
+            Vary:
+                - Accept, Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+            X-Result-Count:
+                - "1"
+        status: 200 OK
+        code: 200
+        duration: 20.146411ms
+    - id: 1
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token 0840158c32fdf0930b1ba4cc0b49832747c7eb3c
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/projects/?name_exact=Naked+azanide+as+an+aminating+agent+and+a+superbase
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 1355
+        uncompressed: false
+        body: '[{"url":"http://127.0.0.1:8000/api/projects/5bb355565bf5407b8b8f9110b6c105f6/","uuid":"5bb355565bf5407b8b8f9110b6c105f6","name":"Naked azanide as an aminating agent and a superbase","slug":"naked-az-1","customer":"http://127.0.0.1:8000/api/customers/8c00f072b2f5454ea17c74ad79dfecea/","customer_uuid":"8c00f072b2f5454ea17c74ad79dfecea","customer_name":"Agnes Kütt (University of Tartu)","customer_slug":"agnes-ku-1","customer_native_name":"","customer_abbreviation":"","description":"","customer_display_billing_info_in_projects":true,"created":"2024-03-14T11:53:41.322581+00:00","type":null,"type_name":null,"type_uuid":null,"backend_id":"","start_date":null,"end_date":null,"end_date_requested_by":null,"oecd_fos_2007_code":null,"oecd_fos_2007_label":null,"is_industry":false,"image":null,"resources_count":24,"max_service_accounts":0,"kind":"default","is_removed":false,"termination_metadata":null,"staff_notes":"","grace_period_days":null,"user_email_patterns":[],"user_affiliations":[],"user_identity_sources":[],"project_credit":"11.00000","marketplace_resource_count":{"06e45986252244218bd062149fc3b5b5":25,"1951da2d97014c2c8cc372bb731f72ab":1,"4588ff519260461893ab371b8fe83363":1,"6dfcdbe3c18241dc87526ef411bf6064":7,"e5a5e7651f394d10958328bbc3e967eb":9},"billing_price_estimate":{"total":0.0,"current":"0.00","tax":"0.00","tax_current":"0.00"}}]'
+        headers:
+            Allow:
+                - GET, POST, HEAD, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "1355"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Thu, 05 Feb 2026 01:14:19 GMT
+            Link:
+                - <http://127.0.0.1:8000/api/projects/?name_exact=Naked+azanide+as+an+aminating+agent+and+a+superbase>; rel="first", <http://127.0.0.1:8000/api/projects/?name_exact=Naked+azanide+as+an+aminating+agent+and+a+superbase>; rel="last"
+            Server:
+                - WSGIServer/0.2 CPython/3.11.9
+            Vary:
+                - Accept, Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+            X-Result-Count:
+                - "1"
+        status: 200 OK
+        code: 200
+        duration: 55.81769ms
+    - id: 2
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token 0840158c32fdf0930b1ba4cc0b49832747c7eb3c
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/marketplace-public-offerings/?name=Virtual+machine+in+test-vpc-1&project_uuid=5bb355565bf5407b8b8f9110b6c105f6
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 5138
+        uncompressed: false
+        body: '[{"url":"http://127.0.0.1:8000/api/marketplace-public-offerings/f0fa11dce1214697ae1f0157a799514f/","uuid":"f0fa11dce1214697ae1f0157a799514f","created":"2026-02-04T23:34:31.588102+00:00","name":"Virtual machine in test-vpc-1","slug":"virtual-ma-8","description":"","full_description":"","privacy_policy_link":"","access_url":"","endpoints":[],"software_catalogs":[],"partitions":[],"roles":[],"customer":"http://127.0.0.1:8000/api/customers/8c00f072b2f5454ea17c74ad79dfecea/","customer_uuid":"8c00f072b2f5454ea17c74ad79dfecea","customer_name":"Agnes Kütt (University of Tartu)","project":"http://127.0.0.1:8000/api/projects/5bb355565bf5407b8b8f9110b6c105f6/","project_uuid":"5bb355565bf5407b8b8f9110b6c105f6","project_name":"Naked azanide as an aminating agent and a superbase","category":"http://127.0.0.1:8000/api/marketplace-categories/e5a5e7651f394d10958328bbc3e967eb/","category_uuid":"e5a5e7651f394d10958328bbc3e967eb","category_title":"VMs","attributes":{},"options":{},"resource_options":{},"components":[{"uuid":"5b7b47e4411f40b6b69ea67317351b7d","billing_type":"limit","type":"cores","name":"Cores","description":"","measured_unit":"cores","unit_factor":1,"limit_period":"month","limit_amount":null,"article_code":"","max_value":null,"min_value":null,"max_available_limit":null,"is_boolean":false,"default_limit":null,"factor":1,"is_builtin":true,"is_prepaid":false,"overage_component":null,"min_prepaid_duration":null,"max_prepaid_duration":null},{"uuid":"b7eda6e4a917497d860857be1ca2e9dc","billing_type":"limit","type":"ram","name":"RAM","description":"","measured_unit":"GB","unit_factor":1,"limit_period":"month","limit_amount":null,"article_code":"","max_value":null,"min_value":null,"max_available_limit":null,"is_boolean":false,"default_limit":null,"factor":1024,"is_builtin":true,"is_prepaid":false,"overage_component":null,"min_prepaid_duration":null,"max_prepaid_duration":null},{"uuid":"f3db62e6f66b407ca9bcdc2aca377528","billing_type":"limit","type":"storage","name":"Storage","description":"","measured_unit":"GB","unit_factor":1,"limit_period":"month","limit_amount":null,"article_code":"","max_value":null,"min_value":null,"max_available_limit":null,"is_boolean":false,"default_limit":null,"factor":1024,"is_builtin":true,"is_prepaid":false,"overage_component":null,"min_prepaid_duration":null,"max_prepaid_duration":null}],"plugin_options":{},"state":"Active","vendor_details":"","getting_started":"","integration_guide":"","thumbnail":null,"order_count":16,"plans":[{"url":"http://127.0.0.1:8000/api/marketplace-public-offerings/d6da691c85124375bbd8445b8deac410/plans/e226e54bac864833b86a6484e979c222/","uuid":"e226e54bac864833b86a6484e979c222","name":"Default","description":"","article_code":"","max_amount":null,"archived":false,"is_active":true,"unit_price":"0.0000000000","unit":"month","init_price":0,"switch_price":0,"backend_id":"","organization_groups":[],"components":[{"type":"cores","name":"Cores","measured_unit":"cores","amount":0,"price":"0.0000000000","future_price":null,"discount_threshold":null,"discount_rate":null},{"type":"ram","name":"RAM","measured_unit":"GB","amount":0,"price":"0.0000000000","future_price":null,"discount_threshold":null,"discount_rate":null},{"type":"storage","name":"Storage","measured_unit":"GB","amount":0,"price":"0.0000000000","future_price":null,"discount_threshold":null,"discount_rate":null}],"prices":{"cores":"0E-10","ram":"0E-10","storage":"0E-10"},"future_prices":{"cores":null,"ram":null,"storage":null},"quotas":{"cores":0,"ram":0,"storage":0},"resources_count":1,"plan_type":null,"minimal_price":0}],"screenshots":[],"type":"OpenStack.Instance","shared":false,"billable":false,"scope":"http://127.0.0.1:8000/api/openstack-tenants/0301082a228348b794c527ac7133651c/","scope_uuid":"0301082a228348b794c527ac7133651c","scope_name":"test-vpc-1","scope_state":"OK","scope_error_message":"","files":[],"quotas":[{"name":"volumes_size","usage":4096,"limit":-1},{"name":"security_group_rule_count","usage":0,"limit":100},{"name":"floating_ip_count","usage":0,"limit":50},{"name":"network_count","usage":1,"limit":100},{"name":"snapshots","usage":0,"limit":10},{"name":"subnet_count","usage":1,"limit":100},{"name":"vcpu","usage":0,"limit":10},{"name":"storage","usage":0,"limit":102400000},{"name":"instances","usage":0,"limit":10},{"name":"volumes","usage":4,"limit":10},{"name":"port_count","usage":0,"limit":500},{"name":"gigabytes___DEFAULT__","usage":0,"limit":-1},{"name":"security_group_count","usage":0,"limit":10},{"name":"ram","usage":0,"limit":1024000}],"paused_reason":"","datacite_doi":"","citation_count":-1,"latitude":null,"longitude":null,"country":"","backend_id":"","organization_groups":[],"tags":[],"image":null,"total_customers":null,"total_cost":null,"total_cost_estimated":null,"parent_description":"","parent_uuid":"d6da691c85124375bbd8445b8deac410","parent_name":"MockOpenStack5","backend_metadata":{},"has_compliance_requirements":false,"billing_type_classification":"mixed","compliance_checklist":null,"user_has_consent":false,"is_accessible":true,"google_calendar_is_public":null,"google_calendar_link":null,"promotion_campaigns":[]}]'
+        headers:
+            Allow:
+                - GET, HEAD, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "5138"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Thu, 05 Feb 2026 01:14:20 GMT
+            Link:
+                - <http://127.0.0.1:8000/api/marketplace-public-offerings/?name=Virtual+machine+in+test-vpc-1&project_uuid=5bb355565bf5407b8b8f9110b6c105f6>; rel="first", <http://127.0.0.1:8000/api/marketplace-public-offerings/?name=Virtual+machine+in+test-vpc-1&project_uuid=5bb355565bf5407b8b8f9110b6c105f6>; rel="last"
+            Server:
+                - WSGIServer/0.2 CPython/3.11.9
+            Vary:
+                - Accept, Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+            X-Result-Count:
+                - "1"
+        status: 200 OK
+        code: 200
+        duration: 147.736123ms
+    - id: 3
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token 0840158c32fdf0930b1ba4cc0b49832747c7eb3c
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/openstack-flavors/?name=m1.small&tenant_uuid=0301082a228348b794c527ac7133651c
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 351
+        uncompressed: false
+        body: '[{"url":"http://127.0.0.1:8000/api/openstack-flavors/1f4f02a56fe24c488dee851f1a2aec73/","uuid":"1f4f02a56fe24c488dee851f1a2aec73","name":"m1.small","settings":"http://127.0.0.1:8000/api/service-settings/fcd6204991ae4817bb227e9b6453221f/","cores":1,"ram":2048,"disk":20480,"backend_id":"2","display_name":"m1.small (1 CPU, 2048 MB RAM, 20480 MB HDD)"}]'
+        headers:
+            Allow:
+                - GET, HEAD, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "351"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Thu, 05 Feb 2026 01:14:20 GMT
+            Link:
+                - <http://127.0.0.1:8000/api/openstack-flavors/?name=m1.small&tenant_uuid=0301082a228348b794c527ac7133651c>; rel="first", <http://127.0.0.1:8000/api/openstack-flavors/?name=m1.small&tenant_uuid=0301082a228348b794c527ac7133651c>; rel="last"
+            Server:
+                - WSGIServer/0.2 CPython/3.11.9
+            Vary:
+                - Accept, Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+            X-Result-Count:
+                - "1"
+        status: 200 OK
+        code: 200
+        duration: 40.605738ms
+    - id: 4
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token 0840158c32fdf0930b1ba4cc0b49832747c7eb3c
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/openstack-images/?name=cirros&tenant_uuid=0301082a228348b794c527ac7133651c
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 387
+        uncompressed: false
+        body: '[{"url":"http://127.0.0.1:8000/api/openstack-images/c35ea3ec361444859cdab49c8bb3c1d8/","uuid":"c35ea3ec361444859cdab49c8bb3c1d8","name":"cirros-0.6.2-x86_64","min_disk":1024,"min_ram":128,"settings":"http://127.0.0.1:8000/api/service-settings/fcd6204991ae4817bb227e9b6453221f/","backend_id":"65797693-4e26-4bb4-80f1-3913b689f73f","backend_created_at":"2026-02-04T23:19:40.255535+00:00"}]'
+        headers:
+            Allow:
+                - GET, HEAD, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "387"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Thu, 05 Feb 2026 01:14:20 GMT
+            Link:
+                - <http://127.0.0.1:8000/api/openstack-images/?name=cirros&tenant_uuid=0301082a228348b794c527ac7133651c>; rel="first", <http://127.0.0.1:8000/api/openstack-images/?name=cirros&tenant_uuid=0301082a228348b794c527ac7133651c>; rel="last"
+            Server:
+                - WSGIServer/0.2 CPython/3.11.9
+            Vary:
+                - Accept, Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+            X-Result-Count:
+                - "1"
+        status: 200 OK
+        code: 200
+        duration: 48.449289ms
+    - id: 5
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token 0840158c32fdf0930b1ba4cc0b49832747c7eb3c
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/openstack-subnets/?name=test&tenant_uuid=0301082a228348b794c527ac7133651c
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 1888
+        uncompressed: false
+        body: '[{"url":"http://127.0.0.1:8000/api/openstack-subnets/322c7f71fa654b119b808ce094ed4bfb/","uuid":"322c7f71fa654b119b808ce094ed4bfb","name":"test","description":"","service_name":"MockOpenStack5","service_settings":"http://127.0.0.1:8000/api/service-settings/fcd6204991ae4817bb227e9b6453221f/","service_settings_uuid":"fcd6204991ae4817bb227e9b6453221f","service_settings_state":"OK","service_settings_error_message":"","project":"http://127.0.0.1:8000/api/projects/5bb355565bf5407b8b8f9110b6c105f6/","project_name":"Naked azanide as an aminating agent and a superbase","project_uuid":"5bb355565bf5407b8b8f9110b6c105f6","customer":"http://127.0.0.1:8000/api/customers/8c00f072b2f5454ea17c74ad79dfecea/","customer_uuid":"8c00f072b2f5454ea17c74ad79dfecea","customer_name":"Agnes Kütt (University of Tartu)","customer_native_name":"","customer_abbreviation":"","error_message":"","error_traceback":"","resource_type":"OpenStack.SubNet","state":"OK","created":"2026-02-05T01:14:16.196086+00:00","modified":"2026-02-05T01:14:18.465764+00:00","backend_id":"07ce522e-be2e-41d2-98a1-9e683246c0c9","access_url":null,"tenant":"http://127.0.0.1:8000/api/openstack-tenants/0301082a228348b794c527ac7133651c/","tenant_name":"test-vpc-1","network":"http://127.0.0.1:8000/api/openstack-networks/75fee336c6a54ccc88ba797c90e3554e/","network_name":"test","cidr":"192.168.42.0/24","gateway_ip":"192.168.42.1","disable_gateway":false,"allocation_pools":[{"start":"192.168.42.10","end":"192.168.42.200"}],"ip_version":4,"enable_dhcp":true,"dns_nameservers":[],"host_routes":[],"is_connected":true,"marketplace_offering_uuid":null,"marketplace_offering_name":null,"marketplace_offering_plugin_options":null,"marketplace_category_uuid":null,"marketplace_category_name":null,"marketplace_resource_uuid":null,"marketplace_plan_uuid":null,"marketplace_resource_state":null,"is_usage_based":null,"is_limit_based":null}]'
+        headers:
+            Allow:
+                - GET, POST, HEAD, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "1888"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Thu, 05 Feb 2026 01:14:20 GMT
+            Link:
+                - <http://127.0.0.1:8000/api/openstack-subnets/?name=test&tenant_uuid=0301082a228348b794c527ac7133651c>; rel="first", <http://127.0.0.1:8000/api/openstack-subnets/?name=test&tenant_uuid=0301082a228348b794c527ac7133651c>; rel="last"
+            Server:
+                - WSGIServer/0.2 CPython/3.11.9
+            Vary:
+                - Accept, Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+            X-Result-Count:
+                - "1"
+        status: 200 OK
+        code: 200
+        duration: 64.733321ms
+    - id: 6
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 636
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: '{"project":"http://127.0.0.1:8000/api/projects/5bb355565bf5407b8b8f9110b6c105f6/","offering":"http://127.0.0.1:8000/api/marketplace-public-offerings/f0fa11dce1214697ae1f0157a799514f/","attributes":{"data_volume_size":1024,"flavor":"http://127.0.0.1:8000/api/openstack-flavors/1f4f02a56fe24c488dee851f1a2aec73/","image":"http://127.0.0.1:8000/api/openstack-images/c35ea3ec361444859cdab49c8bb3c1d8/","name":"test-instance-v6","ports":[{"subnet":"http://127.0.0.1:8000/api/openstack-subnets/322c7f71fa654b119b808ce094ed4bfb/"}],"ssh_public_key":"http://127.0.0.1:8000/api/keys/2fe631e03bc14da794bec5708851155d/","system_volume_size":1024}}'
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token 0840158c32fdf0930b1ba4cc0b49832747c7eb3c
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/marketplace-orders/
+        method: POST
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 2513
+        uncompressed: false
+        body: '{"offering":"http://127.0.0.1:8000/api/marketplace-public-offerings/f0fa11dce1214697ae1f0157a799514f/","offering_name":"Virtual machine in test-vpc-1","offering_uuid":"f0fa11dce1214697ae1f0157a799514f","offering_description":"","offering_image":null,"offering_thumbnail":null,"offering_type":"OpenStack.Instance","offering_shared":false,"offering_billable":false,"offering_plugin_options":{},"provider_name":"Agnes Kütt (University of Tartu)","provider_uuid":"8c00f072b2f5454ea17c74ad79dfecea","provider_slug":"agnes-ku-1","category_title":"VMs","category_uuid":"e5a5e7651f394d10958328bbc3e967eb","category_icon":"http://127.0.0.1:8000/api/media/44a76490432e48d08ccac1660de5aebb/","plan":null,"plan_unit":null,"plan_name":null,"plan_uuid":null,"plan_description":null,"attributes":{"data_volume_size":1024,"flavor":"http://127.0.0.1:8000/api/openstack-flavors/1f4f02a56fe24c488dee851f1a2aec73/","image":"http://127.0.0.1:8000/api/openstack-images/c35ea3ec361444859cdab49c8bb3c1d8/","name":"test-instance-v6","ports":[{"subnet":"http://127.0.0.1:8000/api/openstack-subnets/322c7f71fa654b119b808ce094ed4bfb/"}],"ssh_public_key":"http://127.0.0.1:8000/api/keys/2fe631e03bc14da794bec5708851155d/","system_volume_size":1024},"limits":{},"uuid":"b467789ed5dd42d48e28d3b08e50a1b7","created":"2026-02-05T01:14:20.537687+00:00","modified":"2026-02-05T01:14:21.625138+00:00","resource_uuid":null,"resource_type":null,"resource_name":"test-instance-v6","cost":null,"state":"executing","output":"","marketplace_resource_uuid":"dde4f3c6323048acbdf64bb84c22a50c","error_message":"","error_traceback":"","callback_url":null,"completed_at":null,"request_comment":null,"attachment":null,"type":"Create","start_date":null,"slug":"agnes-ku-1-85","url":"http://127.0.0.1:8000/api/marketplace-orders/b467789ed5dd42d48e28d3b08e50a1b7/","created_by":"http://127.0.0.1:8000/api/users/2f7757b71dbc4c5e8e1d0fc4fcb09aea/","created_by_username":"adminuser","created_by_full_name":"","consumer_reviewed_by":"http://127.0.0.1:8000/api/users/2f7757b71dbc4c5e8e1d0fc4fcb09aea/","consumer_reviewed_at":"2026-02-05T01:14:21.617147+00:00","consumer_reviewed_by_username":"adminuser","consumer_reviewed_by_full_name":"","project":"http://127.0.0.1:8000/api/projects/5bb355565bf5407b8b8f9110b6c105f6/","project_uuid":"5bb355565bf5407b8b8f9110b6c105f6","project_name":"Naked azanide as an aminating agent and a superbase","project_description":"","customer_name":"Agnes Kütt (University of Tartu)","customer_uuid":"8c00f072b2f5454ea17c74ad79dfecea"}'
+        headers:
+            Allow:
+                - GET, POST, HEAD, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "2513"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Thu, 05 Feb 2026 01:14:21 GMT
+            Location:
+                - http://127.0.0.1:8000/api/marketplace-orders/b467789ed5dd42d48e28d3b08e50a1b7/
+            Server:
+                - WSGIServer/0.2 CPython/3.11.9
+            Vary:
+                - Accept, Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+        status: 201 Created
+        code: 201
+        duration: 1.257908255s
+    - id: 7
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token 0840158c32fdf0930b1ba4cc0b49832747c7eb3c
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/marketplace-orders/b467789ed5dd42d48e28d3b08e50a1b7/
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 2790
+        uncompressed: false
+        body: '{"offering":"http://127.0.0.1:8000/api/marketplace-public-offerings/f0fa11dce1214697ae1f0157a799514f/","offering_name":"Virtual machine in test-vpc-1","offering_uuid":"f0fa11dce1214697ae1f0157a799514f","offering_description":"","offering_image":null,"offering_thumbnail":null,"offering_type":"OpenStack.Instance","offering_shared":false,"offering_billable":false,"offering_plugin_options":{},"provider_name":"Agnes Kütt (University of Tartu)","provider_uuid":"8c00f072b2f5454ea17c74ad79dfecea","provider_slug":"agnes-ku-1","category_title":"VMs","category_uuid":"e5a5e7651f394d10958328bbc3e967eb","category_icon":"http://127.0.0.1:8000/api/media/44a76490432e48d08ccac1660de5aebb/","plan":null,"plan_unit":null,"plan_name":null,"plan_uuid":null,"plan_description":null,"attributes":{"name":"test-instance-v6","image":"http://127.0.0.1:8000/api/openstack-images/c35ea3ec361444859cdab49c8bb3c1d8/","ports":[{"subnet":"http://127.0.0.1:8000/api/openstack-subnets/322c7f71fa654b119b808ce094ed4bfb/"}],"flavor":"http://127.0.0.1:8000/api/openstack-flavors/1f4f02a56fe24c488dee851f1a2aec73/","ssh_public_key":"http://127.0.0.1:8000/api/keys/2fe631e03bc14da794bec5708851155d/","data_volume_size":1024,"system_volume_size":1024},"limits":{},"uuid":"b467789ed5dd42d48e28d3b08e50a1b7","created":"2026-02-05T01:14:20.537687+00:00","modified":"2026-02-05T01:14:21.625138+00:00","resource_uuid":"b879dcb614a64f68b7217e6c50b5ebd1","resource_type":"OpenStack.Instance","resource_name":"test-instance-v6","cost":null,"state":"executing","output":"","marketplace_resource_uuid":"dde4f3c6323048acbdf64bb84c22a50c","error_message":"","error_traceback":"","callback_url":null,"completed_at":null,"request_comment":null,"attachment":null,"type":"Create","start_date":null,"slug":"agnes-ku-1-85","url":"http://127.0.0.1:8000/api/marketplace-orders/b467789ed5dd42d48e28d3b08e50a1b7/","consumer_reviewed_by":"adminuser","consumer_reviewed_by_full_name":"","consumer_reviewed_by_username":"adminuser","consumer_reviewed_at":"2026-02-05T01:14:21.617147+00:00","provider_reviewed_by":null,"provider_reviewed_by_full_name":null,"provider_reviewed_by_username":null,"provider_reviewed_at":null,"created_by_username":"adminuser","created_by_full_name":"","created_by_civil_number":null,"customer_name":"Agnes Kütt (University of Tartu)","customer_uuid":"8c00f072b2f5454ea17c74ad79dfecea","customer_slug":"agnes-ku-1","project_name":"Naked azanide as an aminating agent and a superbase","project_uuid":"5bb355565bf5407b8b8f9110b6c105f6","project_description":"","project_slug":"naked-az-1","old_plan_name":null,"new_plan_name":null,"old_plan_uuid":null,"new_plan_uuid":null,"old_cost_estimate":0,"new_cost_estimate":null,"can_terminate":false,"termination_comment":null,"backend_id":"","order_subtype":null,"issue":null}'
+        headers:
+            Allow:
+                - GET, PUT, PATCH, DELETE, HEAD, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "2790"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Thu, 05 Feb 2026 01:14:24 GMT
+            Server:
+                - WSGIServer/0.2 CPython/3.11.9
+            Vary:
+                - Accept, Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+        status: 200 OK
+        code: 200
+        duration: 45.648572ms
+    - id: 8
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token 0840158c32fdf0930b1ba4cc0b49832747c7eb3c
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/marketplace-orders/b467789ed5dd42d48e28d3b08e50a1b7/
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 2790
+        uncompressed: false
+        body: '{"offering":"http://127.0.0.1:8000/api/marketplace-public-offerings/f0fa11dce1214697ae1f0157a799514f/","offering_name":"Virtual machine in test-vpc-1","offering_uuid":"f0fa11dce1214697ae1f0157a799514f","offering_description":"","offering_image":null,"offering_thumbnail":null,"offering_type":"OpenStack.Instance","offering_shared":false,"offering_billable":false,"offering_plugin_options":{},"provider_name":"Agnes Kütt (University of Tartu)","provider_uuid":"8c00f072b2f5454ea17c74ad79dfecea","provider_slug":"agnes-ku-1","category_title":"VMs","category_uuid":"e5a5e7651f394d10958328bbc3e967eb","category_icon":"http://127.0.0.1:8000/api/media/44a76490432e48d08ccac1660de5aebb/","plan":null,"plan_unit":null,"plan_name":null,"plan_uuid":null,"plan_description":null,"attributes":{"name":"test-instance-v6","image":"http://127.0.0.1:8000/api/openstack-images/c35ea3ec361444859cdab49c8bb3c1d8/","ports":[{"subnet":"http://127.0.0.1:8000/api/openstack-subnets/322c7f71fa654b119b808ce094ed4bfb/"}],"flavor":"http://127.0.0.1:8000/api/openstack-flavors/1f4f02a56fe24c488dee851f1a2aec73/","ssh_public_key":"http://127.0.0.1:8000/api/keys/2fe631e03bc14da794bec5708851155d/","data_volume_size":1024,"system_volume_size":1024},"limits":{},"uuid":"b467789ed5dd42d48e28d3b08e50a1b7","created":"2026-02-05T01:14:20.537687+00:00","modified":"2026-02-05T01:14:21.625138+00:00","resource_uuid":"b879dcb614a64f68b7217e6c50b5ebd1","resource_type":"OpenStack.Instance","resource_name":"test-instance-v6","cost":null,"state":"executing","output":"","marketplace_resource_uuid":"dde4f3c6323048acbdf64bb84c22a50c","error_message":"","error_traceback":"","callback_url":null,"completed_at":null,"request_comment":null,"attachment":null,"type":"Create","start_date":null,"slug":"agnes-ku-1-85","url":"http://127.0.0.1:8000/api/marketplace-orders/b467789ed5dd42d48e28d3b08e50a1b7/","consumer_reviewed_by":"adminuser","consumer_reviewed_by_full_name":"","consumer_reviewed_by_username":"adminuser","consumer_reviewed_at":"2026-02-05T01:14:21.617147+00:00","provider_reviewed_by":null,"provider_reviewed_by_full_name":null,"provider_reviewed_by_username":null,"provider_reviewed_at":null,"created_by_username":"adminuser","created_by_full_name":"","created_by_civil_number":null,"customer_name":"Agnes Kütt (University of Tartu)","customer_uuid":"8c00f072b2f5454ea17c74ad79dfecea","customer_slug":"agnes-ku-1","project_name":"Naked azanide as an aminating agent and a superbase","project_uuid":"5bb355565bf5407b8b8f9110b6c105f6","project_description":"","project_slug":"naked-az-1","old_plan_name":null,"new_plan_name":null,"old_plan_uuid":null,"new_plan_uuid":null,"old_cost_estimate":0,"new_cost_estimate":null,"can_terminate":false,"termination_comment":null,"backend_id":"","order_subtype":null,"issue":null}'
+        headers:
+            Allow:
+                - GET, PUT, PATCH, DELETE, HEAD, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "2790"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Thu, 05 Feb 2026 01:14:29 GMT
+            Server:
+                - WSGIServer/0.2 CPython/3.11.9
+            Vary:
+                - Accept, Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+        status: 200 OK
+        code: 200
+        duration: 54.04748ms
+    - id: 9
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token 0840158c32fdf0930b1ba4cc0b49832747c7eb3c
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/marketplace-orders/b467789ed5dd42d48e28d3b08e50a1b7/
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 2790
+        uncompressed: false
+        body: '{"offering":"http://127.0.0.1:8000/api/marketplace-public-offerings/f0fa11dce1214697ae1f0157a799514f/","offering_name":"Virtual machine in test-vpc-1","offering_uuid":"f0fa11dce1214697ae1f0157a799514f","offering_description":"","offering_image":null,"offering_thumbnail":null,"offering_type":"OpenStack.Instance","offering_shared":false,"offering_billable":false,"offering_plugin_options":{},"provider_name":"Agnes Kütt (University of Tartu)","provider_uuid":"8c00f072b2f5454ea17c74ad79dfecea","provider_slug":"agnes-ku-1","category_title":"VMs","category_uuid":"e5a5e7651f394d10958328bbc3e967eb","category_icon":"http://127.0.0.1:8000/api/media/44a76490432e48d08ccac1660de5aebb/","plan":null,"plan_unit":null,"plan_name":null,"plan_uuid":null,"plan_description":null,"attributes":{"name":"test-instance-v6","image":"http://127.0.0.1:8000/api/openstack-images/c35ea3ec361444859cdab49c8bb3c1d8/","ports":[{"subnet":"http://127.0.0.1:8000/api/openstack-subnets/322c7f71fa654b119b808ce094ed4bfb/"}],"flavor":"http://127.0.0.1:8000/api/openstack-flavors/1f4f02a56fe24c488dee851f1a2aec73/","ssh_public_key":"http://127.0.0.1:8000/api/keys/2fe631e03bc14da794bec5708851155d/","data_volume_size":1024,"system_volume_size":1024},"limits":{},"uuid":"b467789ed5dd42d48e28d3b08e50a1b7","created":"2026-02-05T01:14:20.537687+00:00","modified":"2026-02-05T01:14:21.625138+00:00","resource_uuid":"b879dcb614a64f68b7217e6c50b5ebd1","resource_type":"OpenStack.Instance","resource_name":"test-instance-v6","cost":null,"state":"executing","output":"","marketplace_resource_uuid":"dde4f3c6323048acbdf64bb84c22a50c","error_message":"","error_traceback":"","callback_url":null,"completed_at":null,"request_comment":null,"attachment":null,"type":"Create","start_date":null,"slug":"agnes-ku-1-85","url":"http://127.0.0.1:8000/api/marketplace-orders/b467789ed5dd42d48e28d3b08e50a1b7/","consumer_reviewed_by":"adminuser","consumer_reviewed_by_full_name":"","consumer_reviewed_by_username":"adminuser","consumer_reviewed_at":"2026-02-05T01:14:21.617147+00:00","provider_reviewed_by":null,"provider_reviewed_by_full_name":null,"provider_reviewed_by_username":null,"provider_reviewed_at":null,"created_by_username":"adminuser","created_by_full_name":"","created_by_civil_number":null,"customer_name":"Agnes Kütt (University of Tartu)","customer_uuid":"8c00f072b2f5454ea17c74ad79dfecea","customer_slug":"agnes-ku-1","project_name":"Naked azanide as an aminating agent and a superbase","project_uuid":"5bb355565bf5407b8b8f9110b6c105f6","project_description":"","project_slug":"naked-az-1","old_plan_name":null,"new_plan_name":null,"old_plan_uuid":null,"new_plan_uuid":null,"old_cost_estimate":0,"new_cost_estimate":null,"can_terminate":false,"termination_comment":null,"backend_id":"","order_subtype":null,"issue":null}'
+        headers:
+            Allow:
+                - GET, PUT, PATCH, DELETE, HEAD, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "2790"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Thu, 05 Feb 2026 01:14:39 GMT
+            Server:
+                - WSGIServer/0.2 CPython/3.11.9
+            Vary:
+                - Accept, Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+        status: 200 OK
+        code: 200
+        duration: 57.059874ms
+    - id: 10
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token 0840158c32fdf0930b1ba4cc0b49832747c7eb3c
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/marketplace-orders/b467789ed5dd42d48e28d3b08e50a1b7/
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 2790
+        uncompressed: false
+        body: '{"offering":"http://127.0.0.1:8000/api/marketplace-public-offerings/f0fa11dce1214697ae1f0157a799514f/","offering_name":"Virtual machine in test-vpc-1","offering_uuid":"f0fa11dce1214697ae1f0157a799514f","offering_description":"","offering_image":null,"offering_thumbnail":null,"offering_type":"OpenStack.Instance","offering_shared":false,"offering_billable":false,"offering_plugin_options":{},"provider_name":"Agnes Kütt (University of Tartu)","provider_uuid":"8c00f072b2f5454ea17c74ad79dfecea","provider_slug":"agnes-ku-1","category_title":"VMs","category_uuid":"e5a5e7651f394d10958328bbc3e967eb","category_icon":"http://127.0.0.1:8000/api/media/44a76490432e48d08ccac1660de5aebb/","plan":null,"plan_unit":null,"plan_name":null,"plan_uuid":null,"plan_description":null,"attributes":{"name":"test-instance-v6","image":"http://127.0.0.1:8000/api/openstack-images/c35ea3ec361444859cdab49c8bb3c1d8/","ports":[{"subnet":"http://127.0.0.1:8000/api/openstack-subnets/322c7f71fa654b119b808ce094ed4bfb/"}],"flavor":"http://127.0.0.1:8000/api/openstack-flavors/1f4f02a56fe24c488dee851f1a2aec73/","ssh_public_key":"http://127.0.0.1:8000/api/keys/2fe631e03bc14da794bec5708851155d/","data_volume_size":1024,"system_volume_size":1024},"limits":{},"uuid":"b467789ed5dd42d48e28d3b08e50a1b7","created":"2026-02-05T01:14:20.537687+00:00","modified":"2026-02-05T01:14:21.625138+00:00","resource_uuid":"b879dcb614a64f68b7217e6c50b5ebd1","resource_type":"OpenStack.Instance","resource_name":"test-instance-v6","cost":null,"state":"executing","output":"","marketplace_resource_uuid":"dde4f3c6323048acbdf64bb84c22a50c","error_message":"","error_traceback":"","callback_url":null,"completed_at":null,"request_comment":null,"attachment":null,"type":"Create","start_date":null,"slug":"agnes-ku-1-85","url":"http://127.0.0.1:8000/api/marketplace-orders/b467789ed5dd42d48e28d3b08e50a1b7/","consumer_reviewed_by":"adminuser","consumer_reviewed_by_full_name":"","consumer_reviewed_by_username":"adminuser","consumer_reviewed_at":"2026-02-05T01:14:21.617147+00:00","provider_reviewed_by":null,"provider_reviewed_by_full_name":null,"provider_reviewed_by_username":null,"provider_reviewed_at":null,"created_by_username":"adminuser","created_by_full_name":"","created_by_civil_number":null,"customer_name":"Agnes Kütt (University of Tartu)","customer_uuid":"8c00f072b2f5454ea17c74ad79dfecea","customer_slug":"agnes-ku-1","project_name":"Naked azanide as an aminating agent and a superbase","project_uuid":"5bb355565bf5407b8b8f9110b6c105f6","project_description":"","project_slug":"naked-az-1","old_plan_name":null,"new_plan_name":null,"old_plan_uuid":null,"new_plan_uuid":null,"old_cost_estimate":0,"new_cost_estimate":null,"can_terminate":false,"termination_comment":null,"backend_id":"","order_subtype":null,"issue":null}'
+        headers:
+            Allow:
+                - GET, PUT, PATCH, DELETE, HEAD, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "2790"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Thu, 05 Feb 2026 01:14:49 GMT
+            Server:
+                - WSGIServer/0.2 CPython/3.11.9
+            Vary:
+                - Accept, Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+        status: 200 OK
+        code: 200
+        duration: 42.38464ms
+    - id: 11
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token 0840158c32fdf0930b1ba4cc0b49832747c7eb3c
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/marketplace-orders/b467789ed5dd42d48e28d3b08e50a1b7/
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 2790
+        uncompressed: false
+        body: '{"offering":"http://127.0.0.1:8000/api/marketplace-public-offerings/f0fa11dce1214697ae1f0157a799514f/","offering_name":"Virtual machine in test-vpc-1","offering_uuid":"f0fa11dce1214697ae1f0157a799514f","offering_description":"","offering_image":null,"offering_thumbnail":null,"offering_type":"OpenStack.Instance","offering_shared":false,"offering_billable":false,"offering_plugin_options":{},"provider_name":"Agnes Kütt (University of Tartu)","provider_uuid":"8c00f072b2f5454ea17c74ad79dfecea","provider_slug":"agnes-ku-1","category_title":"VMs","category_uuid":"e5a5e7651f394d10958328bbc3e967eb","category_icon":"http://127.0.0.1:8000/api/media/44a76490432e48d08ccac1660de5aebb/","plan":null,"plan_unit":null,"plan_name":null,"plan_uuid":null,"plan_description":null,"attributes":{"name":"test-instance-v6","image":"http://127.0.0.1:8000/api/openstack-images/c35ea3ec361444859cdab49c8bb3c1d8/","ports":[{"subnet":"http://127.0.0.1:8000/api/openstack-subnets/322c7f71fa654b119b808ce094ed4bfb/"}],"flavor":"http://127.0.0.1:8000/api/openstack-flavors/1f4f02a56fe24c488dee851f1a2aec73/","ssh_public_key":"http://127.0.0.1:8000/api/keys/2fe631e03bc14da794bec5708851155d/","data_volume_size":1024,"system_volume_size":1024},"limits":{},"uuid":"b467789ed5dd42d48e28d3b08e50a1b7","created":"2026-02-05T01:14:20.537687+00:00","modified":"2026-02-05T01:14:21.625138+00:00","resource_uuid":"b879dcb614a64f68b7217e6c50b5ebd1","resource_type":"OpenStack.Instance","resource_name":"test-instance-v6","cost":null,"state":"executing","output":"","marketplace_resource_uuid":"dde4f3c6323048acbdf64bb84c22a50c","error_message":"","error_traceback":"","callback_url":null,"completed_at":null,"request_comment":null,"attachment":null,"type":"Create","start_date":null,"slug":"agnes-ku-1-85","url":"http://127.0.0.1:8000/api/marketplace-orders/b467789ed5dd42d48e28d3b08e50a1b7/","consumer_reviewed_by":"adminuser","consumer_reviewed_by_full_name":"","consumer_reviewed_by_username":"adminuser","consumer_reviewed_at":"2026-02-05T01:14:21.617147+00:00","provider_reviewed_by":null,"provider_reviewed_by_full_name":null,"provider_reviewed_by_username":null,"provider_reviewed_at":null,"created_by_username":"adminuser","created_by_full_name":"","created_by_civil_number":null,"customer_name":"Agnes Kütt (University of Tartu)","customer_uuid":"8c00f072b2f5454ea17c74ad79dfecea","customer_slug":"agnes-ku-1","project_name":"Naked azanide as an aminating agent and a superbase","project_uuid":"5bb355565bf5407b8b8f9110b6c105f6","project_description":"","project_slug":"naked-az-1","old_plan_name":null,"new_plan_name":null,"old_plan_uuid":null,"new_plan_uuid":null,"old_cost_estimate":0,"new_cost_estimate":null,"can_terminate":false,"termination_comment":null,"backend_id":"","order_subtype":null,"issue":null}'
+        headers:
+            Allow:
+                - GET, PUT, PATCH, DELETE, HEAD, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "2790"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Thu, 05 Feb 2026 01:14:59 GMT
+            Server:
+                - WSGIServer/0.2 CPython/3.11.9
+            Vary:
+                - Accept, Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+        status: 200 OK
+        code: 200
+        duration: 47.205943ms
+    - id: 12
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token 0840158c32fdf0930b1ba4cc0b49832747c7eb3c
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/marketplace-orders/b467789ed5dd42d48e28d3b08e50a1b7/
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 2815
+        uncompressed: false
+        body: '{"offering":"http://127.0.0.1:8000/api/marketplace-public-offerings/f0fa11dce1214697ae1f0157a799514f/","offering_name":"Virtual machine in test-vpc-1","offering_uuid":"f0fa11dce1214697ae1f0157a799514f","offering_description":"","offering_image":null,"offering_thumbnail":null,"offering_type":"OpenStack.Instance","offering_shared":false,"offering_billable":false,"offering_plugin_options":{},"provider_name":"Agnes Kütt (University of Tartu)","provider_uuid":"8c00f072b2f5454ea17c74ad79dfecea","provider_slug":"agnes-ku-1","category_title":"VMs","category_uuid":"e5a5e7651f394d10958328bbc3e967eb","category_icon":"http://127.0.0.1:8000/api/media/44a76490432e48d08ccac1660de5aebb/","plan":null,"plan_unit":null,"plan_name":null,"plan_uuid":null,"plan_description":null,"attributes":{"name":"test-instance-v6","image":"http://127.0.0.1:8000/api/openstack-images/c35ea3ec361444859cdab49c8bb3c1d8/","ports":[{"subnet":"http://127.0.0.1:8000/api/openstack-subnets/322c7f71fa654b119b808ce094ed4bfb/"}],"flavor":"http://127.0.0.1:8000/api/openstack-flavors/1f4f02a56fe24c488dee851f1a2aec73/","ssh_public_key":"http://127.0.0.1:8000/api/keys/2fe631e03bc14da794bec5708851155d/","data_volume_size":1024,"system_volume_size":1024},"limits":{},"uuid":"b467789ed5dd42d48e28d3b08e50a1b7","created":"2026-02-05T01:14:20.537687+00:00","modified":"2026-02-05T01:15:06.268489+00:00","resource_uuid":"b879dcb614a64f68b7217e6c50b5ebd1","resource_type":"OpenStack.Instance","resource_name":"test-instance-v6","cost":null,"state":"done","output":"","marketplace_resource_uuid":"dde4f3c6323048acbdf64bb84c22a50c","error_message":"","error_traceback":"","callback_url":null,"completed_at":"2026-02-05T01:15:06.261565+00:00","request_comment":null,"attachment":null,"type":"Create","start_date":null,"slug":"agnes-ku-1-85","url":"http://127.0.0.1:8000/api/marketplace-orders/b467789ed5dd42d48e28d3b08e50a1b7/","consumer_reviewed_by":"adminuser","consumer_reviewed_by_full_name":"","consumer_reviewed_by_username":"adminuser","consumer_reviewed_at":"2026-02-05T01:14:21.617147+00:00","provider_reviewed_by":null,"provider_reviewed_by_full_name":null,"provider_reviewed_by_username":null,"provider_reviewed_at":null,"created_by_username":"adminuser","created_by_full_name":"","created_by_civil_number":null,"customer_name":"Agnes Kütt (University of Tartu)","customer_uuid":"8c00f072b2f5454ea17c74ad79dfecea","customer_slug":"agnes-ku-1","project_name":"Naked azanide as an aminating agent and a superbase","project_uuid":"5bb355565bf5407b8b8f9110b6c105f6","project_description":"","project_slug":"naked-az-1","old_plan_name":null,"new_plan_name":null,"old_plan_uuid":null,"new_plan_uuid":null,"old_cost_estimate":0,"new_cost_estimate":null,"can_terminate":false,"termination_comment":null,"backend_id":"","order_subtype":null,"issue":null}'
+        headers:
+            Allow:
+                - GET, PUT, PATCH, DELETE, HEAD, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "2815"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Thu, 05 Feb 2026 01:15:09 GMT
+            Server:
+                - WSGIServer/0.2 CPython/3.11.9
+            Vary:
+                - Accept, Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+        status: 200 OK
+        code: 200
+        duration: 44.936162ms
+    - id: 13
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token 0840158c32fdf0930b1ba4cc0b49832747c7eb3c
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/openstack-instances/b879dcb614a64f68b7217e6c50b5ebd1/
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 4005
+        uncompressed: false
+        body: '{"url":"http://127.0.0.1:8000/api/openstack-instances/b879dcb614a64f68b7217e6c50b5ebd1/","uuid":"b879dcb614a64f68b7217e6c50b5ebd1","name":"test-instance-v6","description":"","service_name":"MockOpenStack5","service_settings":"http://127.0.0.1:8000/api/service-settings/fcd6204991ae4817bb227e9b6453221f/","service_settings_uuid":"fcd6204991ae4817bb227e9b6453221f","service_settings_state":"OK","service_settings_error_message":"","project":"http://127.0.0.1:8000/api/projects/5bb355565bf5407b8b8f9110b6c105f6/","project_name":"Naked azanide as an aminating agent and a superbase","project_uuid":"5bb355565bf5407b8b8f9110b6c105f6","customer":"http://127.0.0.1:8000/api/customers/8c00f072b2f5454ea17c74ad79dfecea/","customer_uuid":"8c00f072b2f5454ea17c74ad79dfecea","customer_name":"Agnes Kütt (University of Tartu)","customer_native_name":"","customer_abbreviation":"","error_message":"","error_traceback":"","resource_type":"OpenStack.Instance","state":"OK","created":"2026-02-05T01:14:22.152947+00:00","modified":"2026-02-05T01:15:06.223769+00:00","backend_id":"94e614d3-9146-46c7-b060-c25283780c49","access_url":["10.0.0.14"],"start_time":"2026-02-05T01:15:05.739591+00:00","cores":1,"ram":2048,"disk":0,"min_ram":128,"min_disk":1024,"user_data":"","external_ips":["10.0.0.14"],"internal_ips":[""],"latitude":null,"longitude":null,"key_name":"2fe631e03bc14da794bec5708851155d-my-ssh-key","key_fingerprint":"6f:7b:e0:85:6c:8a:03:08:42:58:5a:d5:c8:fa:ee:07","image_name":"","flavor_disk":20480,"flavor_name":"m1.small","volumes":[{"url":"http://127.0.0.1:8000/api/openstack-volumes/4538c185df984545ae2e3d006304676f/","uuid":"4538c185df984545ae2e3d006304676f","name":"test-instance-v6-system","image_name":"cirros-0.6.2-x86_64","state":"OK","bootable":true,"size":1024,"device":"","resource_type":"OpenStack.Volume","type":null,"marketplace_resource_uuid":"46294045e0f849b9a809616d4ff384d3"},{"url":"http://127.0.0.1:8000/api/openstack-volumes/80e3e53b43e843cbabd63610d30d2934/","uuid":"80e3e53b43e843cbabd63610d30d2934","name":"test-instance-v6-data","image_name":"","state":"OK","bootable":false,"size":1024,"device":"","resource_type":"OpenStack.Volume","type":null,"marketplace_resource_uuid":"11ec526896a747e0ba5510952ba26449"}],"security_groups":[{"url":"http://127.0.0.1:8000/api/openstack-security-groups/15c81e39ed824005b18aa9e07966786c/","name":"default","rules":[{"ethertype":"IPv4","direction":"egress","protocol":"","from_port":-1,"to_port":-1,"cidr":null,"description":"","id":86052},{"ethertype":"IPv6","direction":"egress","protocol":"","from_port":-1,"to_port":-1,"cidr":null,"description":"","id":86053}],"description":"Default security group","state":"OK"}],"server_group":null,"floating_ips":[],"ports":[{"url":"http://127.0.0.1:8000/api/openstack-ports/ea18b6575b194824bc707a4415af424f/","fixed_ips":[{"subnet_id":"07ce522e-be2e-41d2-98a1-9e683246c0c9","ip_address":""}],"mac_address":"fa:16:3e:4f:ca:4c","subnet":"http://127.0.0.1:8000/api/openstack-subnets/322c7f71fa654b119b808ce094ed4bfb/","subnet_uuid":"322c7f71fa654b119b808ce094ed4bfb","subnet_name":"test","subnet_description":"","subnet_cidr":"192.168.42.0/24","allowed_address_pairs":[],"device_id":"","device_owner":"","security_groups":[]}],"availability_zone":null,"connect_directly_to_external_network":false,"runtime_state":"ACTIVE","action":"","action_details":{},"tenant_uuid":"0301082a228348b794c527ac7133651c","hypervisor_hostname":"compute-host-1","tenant":"http://127.0.0.1:8000/api/openstack-tenants/0301082a228348b794c527ac7133651c/","external_address":[],"rancher_cluster":null,"marketplace_offering_uuid":"f0fa11dce1214697ae1f0157a799514f","marketplace_offering_name":"Virtual machine in test-vpc-1","marketplace_offering_plugin_options":{},"marketplace_category_uuid":"e5a5e7651f394d10958328bbc3e967eb","marketplace_category_name":"VMs","marketplace_resource_uuid":"dde4f3c6323048acbdf64bb84c22a50c","marketplace_plan_uuid":null,"marketplace_resource_state":"OK","is_usage_based":false,"is_limit_based":false}'
+        headers:
+            Allow:
+                - GET, PUT, PATCH, DELETE, HEAD, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "4005"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Thu, 05 Feb 2026 01:15:09 GMT
+            Server:
+                - WSGIServer/0.2 CPython/3.11.9
+            Vary:
+                - Accept, Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+        status: 200 OK
+        code: 200
+        duration: 72.175081ms
+    - id: 14
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token 0840158c32fdf0930b1ba4cc0b49832747c7eb3c
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/keys/?name=my-ssh-key
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 896
+        uncompressed: false
+        body: '[{"url":"http://127.0.0.1:8000/api/keys/2fe631e03bc14da794bec5708851155d/","uuid":"2fe631e03bc14da794bec5708851155d","name":"my-ssh-key","public_key":"ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCvaWWSBuDJsVp5BKgAPhyQ7Ngq6MGCLBPuhpxEKd8vWW0XRO01r1EPFqY5tWs8poIHn8tgDzzwnb2GfdWseQQIXNKoC4YWZRcJM8IfEPI6E7i7BZwHO07yX6nxc1NpowkTXIOZFGCAGLa9/lZfNZ7D2qouX4t8HpZRsBQO/QhLvxxEddEmcGslraRgv9Pl5BJ64OFXjKaYBUaEZww/iZTnefvQKHDyCC6zEp40ChsvewpstcXZ6zd1AOBLTTjOr7FN393fa6ASTvuYbzYpRtKhiguQBghbHZ1ZeVIFaDIsX0/YzBG0IwH8WBsjNnm7e4uRYiepUqw359dXXwnZkHTH viktor@viktor-laptop","fingerprint_md5":"6f:7b:e0:85:6c:8a:03:08:42:58:5a:d5:c8:fa:ee:07","fingerprint_sha256":"SHA256:zLuF2Rx2fGuiP5Hhr+5fY7kLRj2uYAkKtwyG2FowUxs","fingerprint_sha512":"SHA512:5n97siok0X8Y6CoYYL+qzOenXVqfoGax6IOxhta2BQgikwxtPj6Zrstcka2uFp11ExLmR5F4tq6zFdf7L1zFQw","user_uuid":"2f7757b71dbc4c5e8e1d0fc4fcb09aea","is_shared":false,"type":"ssh-rsa"}]'
+        headers:
+            Allow:
+                - GET, POST, HEAD, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "896"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Thu, 05 Feb 2026 01:15:09 GMT
+            Link:
+                - <http://127.0.0.1:8000/api/keys/?name=my-ssh-key>; rel="first", <http://127.0.0.1:8000/api/keys/?name=my-ssh-key>; rel="last"
+            Server:
+                - WSGIServer/0.2 CPython/3.11.9
+            Vary:
+                - Accept, Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+            X-Result-Count:
+                - "1"
+        status: 200 OK
+        code: 200
+        duration: 31.088991ms
+    - id: 15
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token 0840158c32fdf0930b1ba4cc0b49832747c7eb3c
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/projects/?name_exact=Naked+azanide+as+an+aminating+agent+and+a+superbase
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 1355
+        uncompressed: false
+        body: '[{"url":"http://127.0.0.1:8000/api/projects/5bb355565bf5407b8b8f9110b6c105f6/","uuid":"5bb355565bf5407b8b8f9110b6c105f6","name":"Naked azanide as an aminating agent and a superbase","slug":"naked-az-1","customer":"http://127.0.0.1:8000/api/customers/8c00f072b2f5454ea17c74ad79dfecea/","customer_uuid":"8c00f072b2f5454ea17c74ad79dfecea","customer_name":"Agnes Kütt (University of Tartu)","customer_slug":"agnes-ku-1","customer_native_name":"","customer_abbreviation":"","description":"","customer_display_billing_info_in_projects":true,"created":"2024-03-14T11:53:41.322581+00:00","type":null,"type_name":null,"type_uuid":null,"backend_id":"","start_date":null,"end_date":null,"end_date_requested_by":null,"oecd_fos_2007_code":null,"oecd_fos_2007_label":null,"is_industry":false,"image":null,"resources_count":25,"max_service_accounts":0,"kind":"default","is_removed":false,"termination_metadata":null,"staff_notes":"","grace_period_days":null,"user_email_patterns":[],"user_affiliations":[],"user_identity_sources":[],"project_credit":"11.00000","marketplace_resource_count":{"06e45986252244218bd062149fc3b5b5":25,"1951da2d97014c2c8cc372bb731f72ab":1,"4588ff519260461893ab371b8fe83363":1,"6dfcdbe3c18241dc87526ef411bf6064":9,"e5a5e7651f394d10958328bbc3e967eb":8},"billing_price_estimate":{"total":0.0,"current":"0.00","tax":"0.00","tax_current":"0.00"}}]'
+        headers:
+            Allow:
+                - GET, POST, HEAD, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "1355"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Thu, 05 Feb 2026 01:15:09 GMT
+            Link:
+                - <http://127.0.0.1:8000/api/projects/?name_exact=Naked+azanide+as+an+aminating+agent+and+a+superbase>; rel="first", <http://127.0.0.1:8000/api/projects/?name_exact=Naked+azanide+as+an+aminating+agent+and+a+superbase>; rel="last"
+            Server:
+                - WSGIServer/0.2 CPython/3.11.9
+            Vary:
+                - Accept, Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+            X-Result-Count:
+                - "1"
+        status: 200 OK
+        code: 200
+        duration: 52.000939ms
+    - id: 16
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token 0840158c32fdf0930b1ba4cc0b49832747c7eb3c
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/marketplace-public-offerings/?name=Virtual+machine+in+test-vpc-1&project_uuid=5bb355565bf5407b8b8f9110b6c105f6
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 5138
+        uncompressed: false
+        body: '[{"url":"http://127.0.0.1:8000/api/marketplace-public-offerings/f0fa11dce1214697ae1f0157a799514f/","uuid":"f0fa11dce1214697ae1f0157a799514f","created":"2026-02-04T23:34:31.588102+00:00","name":"Virtual machine in test-vpc-1","slug":"virtual-ma-8","description":"","full_description":"","privacy_policy_link":"","access_url":"","endpoints":[],"software_catalogs":[],"partitions":[],"roles":[],"customer":"http://127.0.0.1:8000/api/customers/8c00f072b2f5454ea17c74ad79dfecea/","customer_uuid":"8c00f072b2f5454ea17c74ad79dfecea","customer_name":"Agnes Kütt (University of Tartu)","project":"http://127.0.0.1:8000/api/projects/5bb355565bf5407b8b8f9110b6c105f6/","project_uuid":"5bb355565bf5407b8b8f9110b6c105f6","project_name":"Naked azanide as an aminating agent and a superbase","category":"http://127.0.0.1:8000/api/marketplace-categories/e5a5e7651f394d10958328bbc3e967eb/","category_uuid":"e5a5e7651f394d10958328bbc3e967eb","category_title":"VMs","attributes":{},"options":{},"resource_options":{},"components":[{"uuid":"5b7b47e4411f40b6b69ea67317351b7d","billing_type":"limit","type":"cores","name":"Cores","description":"","measured_unit":"cores","unit_factor":1,"limit_period":"month","limit_amount":null,"article_code":"","max_value":null,"min_value":null,"max_available_limit":null,"is_boolean":false,"default_limit":null,"factor":1,"is_builtin":true,"is_prepaid":false,"overage_component":null,"min_prepaid_duration":null,"max_prepaid_duration":null},{"uuid":"b7eda6e4a917497d860857be1ca2e9dc","billing_type":"limit","type":"ram","name":"RAM","description":"","measured_unit":"GB","unit_factor":1,"limit_period":"month","limit_amount":null,"article_code":"","max_value":null,"min_value":null,"max_available_limit":null,"is_boolean":false,"default_limit":null,"factor":1024,"is_builtin":true,"is_prepaid":false,"overage_component":null,"min_prepaid_duration":null,"max_prepaid_duration":null},{"uuid":"f3db62e6f66b407ca9bcdc2aca377528","billing_type":"limit","type":"storage","name":"Storage","description":"","measured_unit":"GB","unit_factor":1,"limit_period":"month","limit_amount":null,"article_code":"","max_value":null,"min_value":null,"max_available_limit":null,"is_boolean":false,"default_limit":null,"factor":1024,"is_builtin":true,"is_prepaid":false,"overage_component":null,"min_prepaid_duration":null,"max_prepaid_duration":null}],"plugin_options":{},"state":"Active","vendor_details":"","getting_started":"","integration_guide":"","thumbnail":null,"order_count":19,"plans":[{"url":"http://127.0.0.1:8000/api/marketplace-public-offerings/d6da691c85124375bbd8445b8deac410/plans/e226e54bac864833b86a6484e979c222/","uuid":"e226e54bac864833b86a6484e979c222","name":"Default","description":"","article_code":"","max_amount":null,"archived":false,"is_active":true,"unit_price":"0.0000000000","unit":"month","init_price":0,"switch_price":0,"backend_id":"","organization_groups":[],"components":[{"type":"cores","name":"Cores","measured_unit":"cores","amount":0,"price":"0.0000000000","future_price":null,"discount_threshold":null,"discount_rate":null},{"type":"ram","name":"RAM","measured_unit":"GB","amount":0,"price":"0.0000000000","future_price":null,"discount_threshold":null,"discount_rate":null},{"type":"storage","name":"Storage","measured_unit":"GB","amount":0,"price":"0.0000000000","future_price":null,"discount_threshold":null,"discount_rate":null}],"prices":{"cores":"0E-10","ram":"0E-10","storage":"0E-10"},"future_prices":{"cores":null,"ram":null,"storage":null},"quotas":{"cores":0,"ram":0,"storage":0},"resources_count":1,"plan_type":null,"minimal_price":0}],"screenshots":[],"type":"OpenStack.Instance","shared":false,"billable":false,"scope":"http://127.0.0.1:8000/api/openstack-tenants/0301082a228348b794c527ac7133651c/","scope_uuid":"0301082a228348b794c527ac7133651c","scope_name":"test-vpc-1","scope_state":"OK","scope_error_message":"","files":[],"quotas":[{"name":"volumes_size","usage":6144,"limit":-1},{"name":"security_group_rule_count","usage":0,"limit":100},{"name":"floating_ip_count","usage":0,"limit":50},{"name":"network_count","usage":1,"limit":100},{"name":"snapshots","usage":0,"limit":10},{"name":"subnet_count","usage":1,"limit":100},{"name":"vcpu","usage":0,"limit":10},{"name":"storage","usage":0,"limit":102400000},{"name":"instances","usage":0,"limit":10},{"name":"volumes","usage":6,"limit":10},{"name":"port_count","usage":0,"limit":500},{"name":"gigabytes___DEFAULT__","usage":0,"limit":-1},{"name":"security_group_count","usage":0,"limit":10},{"name":"ram","usage":0,"limit":1024000}],"paused_reason":"","datacite_doi":"","citation_count":-1,"latitude":null,"longitude":null,"country":"","backend_id":"","organization_groups":[],"tags":[],"image":null,"total_customers":null,"total_cost":null,"total_cost_estimated":null,"parent_description":"","parent_uuid":"d6da691c85124375bbd8445b8deac410","parent_name":"MockOpenStack5","backend_metadata":{},"has_compliance_requirements":false,"billing_type_classification":"mixed","compliance_checklist":null,"user_has_consent":false,"is_accessible":true,"google_calendar_is_public":null,"google_calendar_link":null,"promotion_campaigns":[]}]'
+        headers:
+            Allow:
+                - GET, HEAD, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "5138"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Thu, 05 Feb 2026 01:15:10 GMT
+            Link:
+                - <http://127.0.0.1:8000/api/marketplace-public-offerings/?name=Virtual+machine+in+test-vpc-1&project_uuid=5bb355565bf5407b8b8f9110b6c105f6>; rel="first", <http://127.0.0.1:8000/api/marketplace-public-offerings/?name=Virtual+machine+in+test-vpc-1&project_uuid=5bb355565bf5407b8b8f9110b6c105f6>; rel="last"
+            Server:
+                - WSGIServer/0.2 CPython/3.11.9
+            Vary:
+                - Accept, Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+            X-Result-Count:
+                - "1"
+        status: 200 OK
+        code: 200
+        duration: 163.251906ms
+    - id: 17
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token 0840158c32fdf0930b1ba4cc0b49832747c7eb3c
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/openstack-images/?name=cirros&tenant_uuid=0301082a228348b794c527ac7133651c
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 387
+        uncompressed: false
+        body: '[{"url":"http://127.0.0.1:8000/api/openstack-images/c35ea3ec361444859cdab49c8bb3c1d8/","uuid":"c35ea3ec361444859cdab49c8bb3c1d8","name":"cirros-0.6.2-x86_64","min_disk":1024,"min_ram":128,"settings":"http://127.0.0.1:8000/api/service-settings/fcd6204991ae4817bb227e9b6453221f/","backend_id":"65797693-4e26-4bb4-80f1-3913b689f73f","backend_created_at":"2026-02-04T23:19:40.255535+00:00"}]'
+        headers:
+            Allow:
+                - GET, HEAD, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "387"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Thu, 05 Feb 2026 01:15:10 GMT
+            Link:
+                - <http://127.0.0.1:8000/api/openstack-images/?name=cirros&tenant_uuid=0301082a228348b794c527ac7133651c>; rel="first", <http://127.0.0.1:8000/api/openstack-images/?name=cirros&tenant_uuid=0301082a228348b794c527ac7133651c>; rel="last"
+            Server:
+                - WSGIServer/0.2 CPython/3.11.9
+            Vary:
+                - Accept, Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+            X-Result-Count:
+                - "1"
+        status: 200 OK
+        code: 200
+        duration: 39.200106ms
+    - id: 18
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token 0840158c32fdf0930b1ba4cc0b49832747c7eb3c
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/openstack-flavors/?name=m1.small&tenant_uuid=0301082a228348b794c527ac7133651c
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 351
+        uncompressed: false
+        body: '[{"url":"http://127.0.0.1:8000/api/openstack-flavors/1f4f02a56fe24c488dee851f1a2aec73/","uuid":"1f4f02a56fe24c488dee851f1a2aec73","name":"m1.small","settings":"http://127.0.0.1:8000/api/service-settings/fcd6204991ae4817bb227e9b6453221f/","cores":1,"ram":2048,"disk":20480,"backend_id":"2","display_name":"m1.small (1 CPU, 2048 MB RAM, 20480 MB HDD)"}]'
+        headers:
+            Allow:
+                - GET, HEAD, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "351"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Thu, 05 Feb 2026 01:15:10 GMT
+            Link:
+                - <http://127.0.0.1:8000/api/openstack-flavors/?name=m1.small&tenant_uuid=0301082a228348b794c527ac7133651c>; rel="first", <http://127.0.0.1:8000/api/openstack-flavors/?name=m1.small&tenant_uuid=0301082a228348b794c527ac7133651c>; rel="last"
+            Server:
+                - WSGIServer/0.2 CPython/3.11.9
+            Vary:
+                - Accept, Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+            X-Result-Count:
+                - "1"
+        status: 200 OK
+        code: 200
+        duration: 45.713141ms
+    - id: 19
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token 0840158c32fdf0930b1ba4cc0b49832747c7eb3c
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/openstack-subnets/?name=test&tenant_uuid=0301082a228348b794c527ac7133651c
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 1888
+        uncompressed: false
+        body: '[{"url":"http://127.0.0.1:8000/api/openstack-subnets/322c7f71fa654b119b808ce094ed4bfb/","uuid":"322c7f71fa654b119b808ce094ed4bfb","name":"test","description":"","service_name":"MockOpenStack5","service_settings":"http://127.0.0.1:8000/api/service-settings/fcd6204991ae4817bb227e9b6453221f/","service_settings_uuid":"fcd6204991ae4817bb227e9b6453221f","service_settings_state":"OK","service_settings_error_message":"","project":"http://127.0.0.1:8000/api/projects/5bb355565bf5407b8b8f9110b6c105f6/","project_name":"Naked azanide as an aminating agent and a superbase","project_uuid":"5bb355565bf5407b8b8f9110b6c105f6","customer":"http://127.0.0.1:8000/api/customers/8c00f072b2f5454ea17c74ad79dfecea/","customer_uuid":"8c00f072b2f5454ea17c74ad79dfecea","customer_name":"Agnes Kütt (University of Tartu)","customer_native_name":"","customer_abbreviation":"","error_message":"","error_traceback":"","resource_type":"OpenStack.SubNet","state":"OK","created":"2026-02-05T01:14:16.196086+00:00","modified":"2026-02-05T01:14:18.465764+00:00","backend_id":"07ce522e-be2e-41d2-98a1-9e683246c0c9","access_url":null,"tenant":"http://127.0.0.1:8000/api/openstack-tenants/0301082a228348b794c527ac7133651c/","tenant_name":"test-vpc-1","network":"http://127.0.0.1:8000/api/openstack-networks/75fee336c6a54ccc88ba797c90e3554e/","network_name":"test","cidr":"192.168.42.0/24","gateway_ip":"192.168.42.1","disable_gateway":false,"allocation_pools":[{"start":"192.168.42.10","end":"192.168.42.200"}],"ip_version":4,"enable_dhcp":true,"dns_nameservers":[],"host_routes":[],"is_connected":true,"marketplace_offering_uuid":null,"marketplace_offering_name":null,"marketplace_offering_plugin_options":null,"marketplace_category_uuid":null,"marketplace_category_name":null,"marketplace_resource_uuid":null,"marketplace_plan_uuid":null,"marketplace_resource_state":null,"is_usage_based":null,"is_limit_based":null}]'
+        headers:
+            Allow:
+                - GET, POST, HEAD, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "1888"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Thu, 05 Feb 2026 01:15:10 GMT
+            Link:
+                - <http://127.0.0.1:8000/api/openstack-subnets/?name=test&tenant_uuid=0301082a228348b794c527ac7133651c>; rel="first", <http://127.0.0.1:8000/api/openstack-subnets/?name=test&tenant_uuid=0301082a228348b794c527ac7133651c>; rel="last"
+            Server:
+                - WSGIServer/0.2 CPython/3.11.9
+            Vary:
+                - Accept, Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+            X-Result-Count:
+                - "1"
+        status: 200 OK
+        code: 200
+        duration: 68.995107ms
+    - id: 20
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token 0840158c32fdf0930b1ba4cc0b49832747c7eb3c
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/keys/?name=my-ssh-key
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 896
+        uncompressed: false
+        body: '[{"url":"http://127.0.0.1:8000/api/keys/2fe631e03bc14da794bec5708851155d/","uuid":"2fe631e03bc14da794bec5708851155d","name":"my-ssh-key","public_key":"ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCvaWWSBuDJsVp5BKgAPhyQ7Ngq6MGCLBPuhpxEKd8vWW0XRO01r1EPFqY5tWs8poIHn8tgDzzwnb2GfdWseQQIXNKoC4YWZRcJM8IfEPI6E7i7BZwHO07yX6nxc1NpowkTXIOZFGCAGLa9/lZfNZ7D2qouX4t8HpZRsBQO/QhLvxxEddEmcGslraRgv9Pl5BJ64OFXjKaYBUaEZww/iZTnefvQKHDyCC6zEp40ChsvewpstcXZ6zd1AOBLTTjOr7FN393fa6ASTvuYbzYpRtKhiguQBghbHZ1ZeVIFaDIsX0/YzBG0IwH8WBsjNnm7e4uRYiepUqw359dXXwnZkHTH viktor@viktor-laptop","fingerprint_md5":"6f:7b:e0:85:6c:8a:03:08:42:58:5a:d5:c8:fa:ee:07","fingerprint_sha256":"SHA256:zLuF2Rx2fGuiP5Hhr+5fY7kLRj2uYAkKtwyG2FowUxs","fingerprint_sha512":"SHA512:5n97siok0X8Y6CoYYL+qzOenXVqfoGax6IOxhta2BQgikwxtPj6Zrstcka2uFp11ExLmR5F4tq6zFdf7L1zFQw","user_uuid":"2f7757b71dbc4c5e8e1d0fc4fcb09aea","is_shared":false,"type":"ssh-rsa"}]'
+        headers:
+            Allow:
+                - GET, POST, HEAD, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "896"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Thu, 05 Feb 2026 01:15:10 GMT
+            Link:
+                - <http://127.0.0.1:8000/api/keys/?name=my-ssh-key>; rel="first", <http://127.0.0.1:8000/api/keys/?name=my-ssh-key>; rel="last"
+            Server:
+                - WSGIServer/0.2 CPython/3.11.9
+            Vary:
+                - Accept, Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+            X-Result-Count:
+                - "1"
+        status: 200 OK
+        code: 200
+        duration: 28.024033ms
+    - id: 21
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token 0840158c32fdf0930b1ba4cc0b49832747c7eb3c
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/projects/?name_exact=Naked+azanide+as+an+aminating+agent+and+a+superbase
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 1355
+        uncompressed: false
+        body: '[{"url":"http://127.0.0.1:8000/api/projects/5bb355565bf5407b8b8f9110b6c105f6/","uuid":"5bb355565bf5407b8b8f9110b6c105f6","name":"Naked azanide as an aminating agent and a superbase","slug":"naked-az-1","customer":"http://127.0.0.1:8000/api/customers/8c00f072b2f5454ea17c74ad79dfecea/","customer_uuid":"8c00f072b2f5454ea17c74ad79dfecea","customer_name":"Agnes Kütt (University of Tartu)","customer_slug":"agnes-ku-1","customer_native_name":"","customer_abbreviation":"","description":"","customer_display_billing_info_in_projects":true,"created":"2024-03-14T11:53:41.322581+00:00","type":null,"type_name":null,"type_uuid":null,"backend_id":"","start_date":null,"end_date":null,"end_date_requested_by":null,"oecd_fos_2007_code":null,"oecd_fos_2007_label":null,"is_industry":false,"image":null,"resources_count":25,"max_service_accounts":0,"kind":"default","is_removed":false,"termination_metadata":null,"staff_notes":"","grace_period_days":null,"user_email_patterns":[],"user_affiliations":[],"user_identity_sources":[],"project_credit":"11.00000","marketplace_resource_count":{"06e45986252244218bd062149fc3b5b5":25,"1951da2d97014c2c8cc372bb731f72ab":1,"4588ff519260461893ab371b8fe83363":1,"6dfcdbe3c18241dc87526ef411bf6064":9,"e5a5e7651f394d10958328bbc3e967eb":8},"billing_price_estimate":{"total":0.0,"current":"0.00","tax":"0.00","tax_current":"0.00"}}]'
+        headers:
+            Allow:
+                - GET, POST, HEAD, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "1355"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Thu, 05 Feb 2026 01:15:10 GMT
+            Link:
+                - <http://127.0.0.1:8000/api/projects/?name_exact=Naked+azanide+as+an+aminating+agent+and+a+superbase>; rel="first", <http://127.0.0.1:8000/api/projects/?name_exact=Naked+azanide+as+an+aminating+agent+and+a+superbase>; rel="last"
+            Server:
+                - WSGIServer/0.2 CPython/3.11.9
+            Vary:
+                - Accept, Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+            X-Result-Count:
+                - "1"
+        status: 200 OK
+        code: 200
+        duration: 50.62516ms
+    - id: 22
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token 0840158c32fdf0930b1ba4cc0b49832747c7eb3c
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/marketplace-public-offerings/?name=Virtual+machine+in+test-vpc-1&project_uuid=5bb355565bf5407b8b8f9110b6c105f6
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 5138
+        uncompressed: false
+        body: '[{"url":"http://127.0.0.1:8000/api/marketplace-public-offerings/f0fa11dce1214697ae1f0157a799514f/","uuid":"f0fa11dce1214697ae1f0157a799514f","created":"2026-02-04T23:34:31.588102+00:00","name":"Virtual machine in test-vpc-1","slug":"virtual-ma-8","description":"","full_description":"","privacy_policy_link":"","access_url":"","endpoints":[],"software_catalogs":[],"partitions":[],"roles":[],"customer":"http://127.0.0.1:8000/api/customers/8c00f072b2f5454ea17c74ad79dfecea/","customer_uuid":"8c00f072b2f5454ea17c74ad79dfecea","customer_name":"Agnes Kütt (University of Tartu)","project":"http://127.0.0.1:8000/api/projects/5bb355565bf5407b8b8f9110b6c105f6/","project_uuid":"5bb355565bf5407b8b8f9110b6c105f6","project_name":"Naked azanide as an aminating agent and a superbase","category":"http://127.0.0.1:8000/api/marketplace-categories/e5a5e7651f394d10958328bbc3e967eb/","category_uuid":"e5a5e7651f394d10958328bbc3e967eb","category_title":"VMs","attributes":{},"options":{},"resource_options":{},"components":[{"uuid":"5b7b47e4411f40b6b69ea67317351b7d","billing_type":"limit","type":"cores","name":"Cores","description":"","measured_unit":"cores","unit_factor":1,"limit_period":"month","limit_amount":null,"article_code":"","max_value":null,"min_value":null,"max_available_limit":null,"is_boolean":false,"default_limit":null,"factor":1,"is_builtin":true,"is_prepaid":false,"overage_component":null,"min_prepaid_duration":null,"max_prepaid_duration":null},{"uuid":"b7eda6e4a917497d860857be1ca2e9dc","billing_type":"limit","type":"ram","name":"RAM","description":"","measured_unit":"GB","unit_factor":1,"limit_period":"month","limit_amount":null,"article_code":"","max_value":null,"min_value":null,"max_available_limit":null,"is_boolean":false,"default_limit":null,"factor":1024,"is_builtin":true,"is_prepaid":false,"overage_component":null,"min_prepaid_duration":null,"max_prepaid_duration":null},{"uuid":"f3db62e6f66b407ca9bcdc2aca377528","billing_type":"limit","type":"storage","name":"Storage","description":"","measured_unit":"GB","unit_factor":1,"limit_period":"month","limit_amount":null,"article_code":"","max_value":null,"min_value":null,"max_available_limit":null,"is_boolean":false,"default_limit":null,"factor":1024,"is_builtin":true,"is_prepaid":false,"overage_component":null,"min_prepaid_duration":null,"max_prepaid_duration":null}],"plugin_options":{},"state":"Active","vendor_details":"","getting_started":"","integration_guide":"","thumbnail":null,"order_count":19,"plans":[{"url":"http://127.0.0.1:8000/api/marketplace-public-offerings/d6da691c85124375bbd8445b8deac410/plans/e226e54bac864833b86a6484e979c222/","uuid":"e226e54bac864833b86a6484e979c222","name":"Default","description":"","article_code":"","max_amount":null,"archived":false,"is_active":true,"unit_price":"0.0000000000","unit":"month","init_price":0,"switch_price":0,"backend_id":"","organization_groups":[],"components":[{"type":"cores","name":"Cores","measured_unit":"cores","amount":0,"price":"0.0000000000","future_price":null,"discount_threshold":null,"discount_rate":null},{"type":"ram","name":"RAM","measured_unit":"GB","amount":0,"price":"0.0000000000","future_price":null,"discount_threshold":null,"discount_rate":null},{"type":"storage","name":"Storage","measured_unit":"GB","amount":0,"price":"0.0000000000","future_price":null,"discount_threshold":null,"discount_rate":null}],"prices":{"cores":"0E-10","ram":"0E-10","storage":"0E-10"},"future_prices":{"cores":null,"ram":null,"storage":null},"quotas":{"cores":0,"ram":0,"storage":0},"resources_count":1,"plan_type":null,"minimal_price":0}],"screenshots":[],"type":"OpenStack.Instance","shared":false,"billable":false,"scope":"http://127.0.0.1:8000/api/openstack-tenants/0301082a228348b794c527ac7133651c/","scope_uuid":"0301082a228348b794c527ac7133651c","scope_name":"test-vpc-1","scope_state":"OK","scope_error_message":"","files":[],"quotas":[{"name":"volumes_size","usage":6144,"limit":-1},{"name":"security_group_rule_count","usage":0,"limit":100},{"name":"floating_ip_count","usage":0,"limit":50},{"name":"network_count","usage":1,"limit":100},{"name":"snapshots","usage":0,"limit":10},{"name":"subnet_count","usage":1,"limit":100},{"name":"vcpu","usage":0,"limit":10},{"name":"storage","usage":0,"limit":102400000},{"name":"instances","usage":0,"limit":10},{"name":"volumes","usage":6,"limit":10},{"name":"port_count","usage":0,"limit":500},{"name":"gigabytes___DEFAULT__","usage":0,"limit":-1},{"name":"security_group_count","usage":0,"limit":10},{"name":"ram","usage":0,"limit":1024000}],"paused_reason":"","datacite_doi":"","citation_count":-1,"latitude":null,"longitude":null,"country":"","backend_id":"","organization_groups":[],"tags":[],"image":null,"total_customers":null,"total_cost":null,"total_cost_estimated":null,"parent_description":"","parent_uuid":"d6da691c85124375bbd8445b8deac410","parent_name":"MockOpenStack5","backend_metadata":{},"has_compliance_requirements":false,"billing_type_classification":"mixed","compliance_checklist":null,"user_has_consent":false,"is_accessible":true,"google_calendar_is_public":null,"google_calendar_link":null,"promotion_campaigns":[]}]'
+        headers:
+            Allow:
+                - GET, HEAD, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "5138"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Thu, 05 Feb 2026 01:15:10 GMT
+            Link:
+                - <http://127.0.0.1:8000/api/marketplace-public-offerings/?name=Virtual+machine+in+test-vpc-1&project_uuid=5bb355565bf5407b8b8f9110b6c105f6>; rel="first", <http://127.0.0.1:8000/api/marketplace-public-offerings/?name=Virtual+machine+in+test-vpc-1&project_uuid=5bb355565bf5407b8b8f9110b6c105f6>; rel="last"
+            Server:
+                - WSGIServer/0.2 CPython/3.11.9
+            Vary:
+                - Accept, Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+            X-Result-Count:
+                - "1"
+        status: 200 OK
+        code: 200
+        duration: 149.231035ms
+    - id: 23
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token 0840158c32fdf0930b1ba4cc0b49832747c7eb3c
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/openstack-flavors/?name=m1.small&tenant_uuid=0301082a228348b794c527ac7133651c
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 351
+        uncompressed: false
+        body: '[{"url":"http://127.0.0.1:8000/api/openstack-flavors/1f4f02a56fe24c488dee851f1a2aec73/","uuid":"1f4f02a56fe24c488dee851f1a2aec73","name":"m1.small","settings":"http://127.0.0.1:8000/api/service-settings/fcd6204991ae4817bb227e9b6453221f/","cores":1,"ram":2048,"disk":20480,"backend_id":"2","display_name":"m1.small (1 CPU, 2048 MB RAM, 20480 MB HDD)"}]'
+        headers:
+            Allow:
+                - GET, HEAD, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "351"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Thu, 05 Feb 2026 01:15:11 GMT
+            Link:
+                - <http://127.0.0.1:8000/api/openstack-flavors/?name=m1.small&tenant_uuid=0301082a228348b794c527ac7133651c>; rel="first", <http://127.0.0.1:8000/api/openstack-flavors/?name=m1.small&tenant_uuid=0301082a228348b794c527ac7133651c>; rel="last"
+            Server:
+                - WSGIServer/0.2 CPython/3.11.9
+            Vary:
+                - Accept, Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+            X-Result-Count:
+                - "1"
+        status: 200 OK
+        code: 200
+        duration: 51.773149ms
+    - id: 24
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token 0840158c32fdf0930b1ba4cc0b49832747c7eb3c
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/openstack-images/?name=cirros&tenant_uuid=0301082a228348b794c527ac7133651c
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 387
+        uncompressed: false
+        body: '[{"url":"http://127.0.0.1:8000/api/openstack-images/c35ea3ec361444859cdab49c8bb3c1d8/","uuid":"c35ea3ec361444859cdab49c8bb3c1d8","name":"cirros-0.6.2-x86_64","min_disk":1024,"min_ram":128,"settings":"http://127.0.0.1:8000/api/service-settings/fcd6204991ae4817bb227e9b6453221f/","backend_id":"65797693-4e26-4bb4-80f1-3913b689f73f","backend_created_at":"2026-02-04T23:19:40.255535+00:00"}]'
+        headers:
+            Allow:
+                - GET, HEAD, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "387"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Thu, 05 Feb 2026 01:15:11 GMT
+            Link:
+                - <http://127.0.0.1:8000/api/openstack-images/?name=cirros&tenant_uuid=0301082a228348b794c527ac7133651c>; rel="first", <http://127.0.0.1:8000/api/openstack-images/?name=cirros&tenant_uuid=0301082a228348b794c527ac7133651c>; rel="last"
+            Server:
+                - WSGIServer/0.2 CPython/3.11.9
+            Vary:
+                - Accept, Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+            X-Result-Count:
+                - "1"
+        status: 200 OK
+        code: 200
+        duration: 58.009133ms
+    - id: 25
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token 0840158c32fdf0930b1ba4cc0b49832747c7eb3c
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/openstack-subnets/?name=test&tenant_uuid=0301082a228348b794c527ac7133651c
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 1888
+        uncompressed: false
+        body: '[{"url":"http://127.0.0.1:8000/api/openstack-subnets/322c7f71fa654b119b808ce094ed4bfb/","uuid":"322c7f71fa654b119b808ce094ed4bfb","name":"test","description":"","service_name":"MockOpenStack5","service_settings":"http://127.0.0.1:8000/api/service-settings/fcd6204991ae4817bb227e9b6453221f/","service_settings_uuid":"fcd6204991ae4817bb227e9b6453221f","service_settings_state":"OK","service_settings_error_message":"","project":"http://127.0.0.1:8000/api/projects/5bb355565bf5407b8b8f9110b6c105f6/","project_name":"Naked azanide as an aminating agent and a superbase","project_uuid":"5bb355565bf5407b8b8f9110b6c105f6","customer":"http://127.0.0.1:8000/api/customers/8c00f072b2f5454ea17c74ad79dfecea/","customer_uuid":"8c00f072b2f5454ea17c74ad79dfecea","customer_name":"Agnes Kütt (University of Tartu)","customer_native_name":"","customer_abbreviation":"","error_message":"","error_traceback":"","resource_type":"OpenStack.SubNet","state":"OK","created":"2026-02-05T01:14:16.196086+00:00","modified":"2026-02-05T01:14:18.465764+00:00","backend_id":"07ce522e-be2e-41d2-98a1-9e683246c0c9","access_url":null,"tenant":"http://127.0.0.1:8000/api/openstack-tenants/0301082a228348b794c527ac7133651c/","tenant_name":"test-vpc-1","network":"http://127.0.0.1:8000/api/openstack-networks/75fee336c6a54ccc88ba797c90e3554e/","network_name":"test","cidr":"192.168.42.0/24","gateway_ip":"192.168.42.1","disable_gateway":false,"allocation_pools":[{"start":"192.168.42.10","end":"192.168.42.200"}],"ip_version":4,"enable_dhcp":true,"dns_nameservers":[],"host_routes":[],"is_connected":true,"marketplace_offering_uuid":null,"marketplace_offering_name":null,"marketplace_offering_plugin_options":null,"marketplace_category_uuid":null,"marketplace_category_name":null,"marketplace_resource_uuid":null,"marketplace_plan_uuid":null,"marketplace_resource_state":null,"is_usage_based":null,"is_limit_based":null}]'
+        headers:
+            Allow:
+                - GET, POST, HEAD, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "1888"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Thu, 05 Feb 2026 01:15:11 GMT
+            Link:
+                - <http://127.0.0.1:8000/api/openstack-subnets/?name=test&tenant_uuid=0301082a228348b794c527ac7133651c>; rel="first", <http://127.0.0.1:8000/api/openstack-subnets/?name=test&tenant_uuid=0301082a228348b794c527ac7133651c>; rel="last"
+            Server:
+                - WSGIServer/0.2 CPython/3.11.9
+            Vary:
+                - Accept, Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+            X-Result-Count:
+                - "1"
+        status: 200 OK
+        code: 200
+        duration: 67.751747ms
+    - id: 26
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token 0840158c32fdf0930b1ba4cc0b49832747c7eb3c
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/openstack-instances/b879dcb614a64f68b7217e6c50b5ebd1/
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 4005
+        uncompressed: false
+        body: '{"url":"http://127.0.0.1:8000/api/openstack-instances/b879dcb614a64f68b7217e6c50b5ebd1/","uuid":"b879dcb614a64f68b7217e6c50b5ebd1","name":"test-instance-v6","description":"","service_name":"MockOpenStack5","service_settings":"http://127.0.0.1:8000/api/service-settings/fcd6204991ae4817bb227e9b6453221f/","service_settings_uuid":"fcd6204991ae4817bb227e9b6453221f","service_settings_state":"OK","service_settings_error_message":"","project":"http://127.0.0.1:8000/api/projects/5bb355565bf5407b8b8f9110b6c105f6/","project_name":"Naked azanide as an aminating agent and a superbase","project_uuid":"5bb355565bf5407b8b8f9110b6c105f6","customer":"http://127.0.0.1:8000/api/customers/8c00f072b2f5454ea17c74ad79dfecea/","customer_uuid":"8c00f072b2f5454ea17c74ad79dfecea","customer_name":"Agnes Kütt (University of Tartu)","customer_native_name":"","customer_abbreviation":"","error_message":"","error_traceback":"","resource_type":"OpenStack.Instance","state":"OK","created":"2026-02-05T01:14:22.152947+00:00","modified":"2026-02-05T01:15:06.223769+00:00","backend_id":"94e614d3-9146-46c7-b060-c25283780c49","access_url":["10.0.0.14"],"start_time":"2026-02-05T01:15:05.739591+00:00","cores":1,"ram":2048,"disk":0,"min_ram":128,"min_disk":1024,"user_data":"","external_ips":["10.0.0.14"],"internal_ips":[""],"latitude":null,"longitude":null,"key_name":"2fe631e03bc14da794bec5708851155d-my-ssh-key","key_fingerprint":"6f:7b:e0:85:6c:8a:03:08:42:58:5a:d5:c8:fa:ee:07","image_name":"","flavor_disk":20480,"flavor_name":"m1.small","volumes":[{"url":"http://127.0.0.1:8000/api/openstack-volumes/4538c185df984545ae2e3d006304676f/","uuid":"4538c185df984545ae2e3d006304676f","name":"test-instance-v6-system","image_name":"cirros-0.6.2-x86_64","state":"OK","bootable":true,"size":1024,"device":"","resource_type":"OpenStack.Volume","type":null,"marketplace_resource_uuid":"46294045e0f849b9a809616d4ff384d3"},{"url":"http://127.0.0.1:8000/api/openstack-volumes/80e3e53b43e843cbabd63610d30d2934/","uuid":"80e3e53b43e843cbabd63610d30d2934","name":"test-instance-v6-data","image_name":"","state":"OK","bootable":false,"size":1024,"device":"","resource_type":"OpenStack.Volume","type":null,"marketplace_resource_uuid":"11ec526896a747e0ba5510952ba26449"}],"security_groups":[{"url":"http://127.0.0.1:8000/api/openstack-security-groups/15c81e39ed824005b18aa9e07966786c/","name":"default","rules":[{"ethertype":"IPv4","direction":"egress","protocol":"","from_port":-1,"to_port":-1,"cidr":null,"description":"","id":86052},{"ethertype":"IPv6","direction":"egress","protocol":"","from_port":-1,"to_port":-1,"cidr":null,"description":"","id":86053}],"description":"Default security group","state":"OK"}],"server_group":null,"floating_ips":[],"ports":[{"url":"http://127.0.0.1:8000/api/openstack-ports/ea18b6575b194824bc707a4415af424f/","fixed_ips":[{"subnet_id":"07ce522e-be2e-41d2-98a1-9e683246c0c9","ip_address":""}],"mac_address":"fa:16:3e:4f:ca:4c","subnet":"http://127.0.0.1:8000/api/openstack-subnets/322c7f71fa654b119b808ce094ed4bfb/","subnet_uuid":"322c7f71fa654b119b808ce094ed4bfb","subnet_name":"test","subnet_description":"","subnet_cidr":"192.168.42.0/24","allowed_address_pairs":[],"device_id":"","device_owner":"","security_groups":[]}],"availability_zone":null,"connect_directly_to_external_network":false,"runtime_state":"ACTIVE","action":"","action_details":{},"tenant_uuid":"0301082a228348b794c527ac7133651c","hypervisor_hostname":"compute-host-1","tenant":"http://127.0.0.1:8000/api/openstack-tenants/0301082a228348b794c527ac7133651c/","external_address":[],"rancher_cluster":null,"marketplace_offering_uuid":"f0fa11dce1214697ae1f0157a799514f","marketplace_offering_name":"Virtual machine in test-vpc-1","marketplace_offering_plugin_options":{},"marketplace_category_uuid":"e5a5e7651f394d10958328bbc3e967eb","marketplace_category_name":"VMs","marketplace_resource_uuid":"dde4f3c6323048acbdf64bb84c22a50c","marketplace_plan_uuid":null,"marketplace_resource_state":"OK","is_usage_based":false,"is_limit_based":false}'
+        headers:
+            Allow:
+                - GET, PUT, PATCH, DELETE, HEAD, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "4005"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Thu, 05 Feb 2026 01:15:11 GMT
+            Server:
+                - WSGIServer/0.2 CPython/3.11.9
+            Vary:
+                - Accept, Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+        status: 200 OK
+        code: 200
+        duration: 72.792352ms
+    - id: 27
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token 0840158c32fdf0930b1ba4cc0b49832747c7eb3c
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/openstack-instances/b879dcb614a64f68b7217e6c50b5ebd1/
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 4005
+        uncompressed: false
+        body: '{"url":"http://127.0.0.1:8000/api/openstack-instances/b879dcb614a64f68b7217e6c50b5ebd1/","uuid":"b879dcb614a64f68b7217e6c50b5ebd1","name":"test-instance-v6","description":"","service_name":"MockOpenStack5","service_settings":"http://127.0.0.1:8000/api/service-settings/fcd6204991ae4817bb227e9b6453221f/","service_settings_uuid":"fcd6204991ae4817bb227e9b6453221f","service_settings_state":"OK","service_settings_error_message":"","project":"http://127.0.0.1:8000/api/projects/5bb355565bf5407b8b8f9110b6c105f6/","project_name":"Naked azanide as an aminating agent and a superbase","project_uuid":"5bb355565bf5407b8b8f9110b6c105f6","customer":"http://127.0.0.1:8000/api/customers/8c00f072b2f5454ea17c74ad79dfecea/","customer_uuid":"8c00f072b2f5454ea17c74ad79dfecea","customer_name":"Agnes Kütt (University of Tartu)","customer_native_name":"","customer_abbreviation":"","error_message":"","error_traceback":"","resource_type":"OpenStack.Instance","state":"OK","created":"2026-02-05T01:14:22.152947+00:00","modified":"2026-02-05T01:15:06.223769+00:00","backend_id":"94e614d3-9146-46c7-b060-c25283780c49","access_url":["10.0.0.14"],"start_time":"2026-02-05T01:15:05.739591+00:00","cores":1,"ram":2048,"disk":0,"min_ram":128,"min_disk":1024,"user_data":"","external_ips":["10.0.0.14"],"internal_ips":[""],"latitude":null,"longitude":null,"key_name":"2fe631e03bc14da794bec5708851155d-my-ssh-key","key_fingerprint":"6f:7b:e0:85:6c:8a:03:08:42:58:5a:d5:c8:fa:ee:07","image_name":"","flavor_disk":20480,"flavor_name":"m1.small","volumes":[{"url":"http://127.0.0.1:8000/api/openstack-volumes/4538c185df984545ae2e3d006304676f/","uuid":"4538c185df984545ae2e3d006304676f","name":"test-instance-v6-system","image_name":"cirros-0.6.2-x86_64","state":"OK","bootable":true,"size":1024,"device":"","resource_type":"OpenStack.Volume","type":null,"marketplace_resource_uuid":"46294045e0f849b9a809616d4ff384d3"},{"url":"http://127.0.0.1:8000/api/openstack-volumes/80e3e53b43e843cbabd63610d30d2934/","uuid":"80e3e53b43e843cbabd63610d30d2934","name":"test-instance-v6-data","image_name":"","state":"OK","bootable":false,"size":1024,"device":"","resource_type":"OpenStack.Volume","type":null,"marketplace_resource_uuid":"11ec526896a747e0ba5510952ba26449"}],"security_groups":[{"url":"http://127.0.0.1:8000/api/openstack-security-groups/15c81e39ed824005b18aa9e07966786c/","name":"default","rules":[{"ethertype":"IPv4","direction":"egress","protocol":"","from_port":-1,"to_port":-1,"cidr":null,"description":"","id":86052},{"ethertype":"IPv6","direction":"egress","protocol":"","from_port":-1,"to_port":-1,"cidr":null,"description":"","id":86053}],"description":"Default security group","state":"OK"}],"server_group":null,"floating_ips":[],"ports":[{"url":"http://127.0.0.1:8000/api/openstack-ports/ea18b6575b194824bc707a4415af424f/","fixed_ips":[{"subnet_id":"07ce522e-be2e-41d2-98a1-9e683246c0c9","ip_address":""}],"mac_address":"fa:16:3e:4f:ca:4c","subnet":"http://127.0.0.1:8000/api/openstack-subnets/322c7f71fa654b119b808ce094ed4bfb/","subnet_uuid":"322c7f71fa654b119b808ce094ed4bfb","subnet_name":"test","subnet_description":"","subnet_cidr":"192.168.42.0/24","allowed_address_pairs":[],"device_id":"","device_owner":"","security_groups":[]}],"availability_zone":null,"connect_directly_to_external_network":false,"runtime_state":"ACTIVE","action":"","action_details":{},"tenant_uuid":"0301082a228348b794c527ac7133651c","hypervisor_hostname":"compute-host-1","tenant":"http://127.0.0.1:8000/api/openstack-tenants/0301082a228348b794c527ac7133651c/","external_address":[],"rancher_cluster":null,"marketplace_offering_uuid":"f0fa11dce1214697ae1f0157a799514f","marketplace_offering_name":"Virtual machine in test-vpc-1","marketplace_offering_plugin_options":{},"marketplace_category_uuid":"e5a5e7651f394d10958328bbc3e967eb","marketplace_category_name":"VMs","marketplace_resource_uuid":"dde4f3c6323048acbdf64bb84c22a50c","marketplace_plan_uuid":null,"marketplace_resource_state":"OK","is_usage_based":false,"is_limit_based":false}'
+        headers:
+            Allow:
+                - GET, PUT, PATCH, DELETE, HEAD, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "4005"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Thu, 05 Feb 2026 01:15:11 GMT
+            Server:
+                - WSGIServer/0.2 CPython/3.11.9
+            Vary:
+                - Accept, Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+        status: 200 OK
+        code: 200
+        duration: 70.958084ms
+    - id: 28
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token 0840158c32fdf0930b1ba4cc0b49832747c7eb3c
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/openstack-instances/b879dcb614a64f68b7217e6c50b5ebd1/stop/
+        method: POST
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 31
+        uncompressed: false
+        body: '{"status":"stop was scheduled"}'
+        headers:
+            Allow:
+                - POST, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "31"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Thu, 05 Feb 2026 01:15:11 GMT
+            Server:
+                - WSGIServer/0.2 CPython/3.11.9
+            Vary:
+                - Accept, Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+        status: 202 Accepted
+        code: 202
+        duration: 125.074709ms
+    - id: 29
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token 0840158c32fdf0930b1ba4cc0b49832747c7eb3c
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/openstack-instances/b879dcb614a64f68b7217e6c50b5ebd1/
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 4023
+        uncompressed: false
+        body: '{"url":"http://127.0.0.1:8000/api/openstack-instances/b879dcb614a64f68b7217e6c50b5ebd1/","uuid":"b879dcb614a64f68b7217e6c50b5ebd1","name":"test-instance-v6","description":"","service_name":"MockOpenStack5","service_settings":"http://127.0.0.1:8000/api/service-settings/fcd6204991ae4817bb227e9b6453221f/","service_settings_uuid":"fcd6204991ae4817bb227e9b6453221f","service_settings_state":"OK","service_settings_error_message":"","project":"http://127.0.0.1:8000/api/projects/5bb355565bf5407b8b8f9110b6c105f6/","project_name":"Naked azanide as an aminating agent and a superbase","project_uuid":"5bb355565bf5407b8b8f9110b6c105f6","customer":"http://127.0.0.1:8000/api/customers/8c00f072b2f5454ea17c74ad79dfecea/","customer_uuid":"8c00f072b2f5454ea17c74ad79dfecea","customer_name":"Agnes Kütt (University of Tartu)","customer_native_name":"","customer_abbreviation":"","error_message":"","error_traceback":"","resource_type":"OpenStack.Instance","state":"UPDATE_SCHEDULED","created":"2026-02-05T01:14:22.152947+00:00","modified":"2026-02-05T01:15:11.764231+00:00","backend_id":"94e614d3-9146-46c7-b060-c25283780c49","access_url":["10.0.0.14"],"start_time":"2026-02-05T01:15:05.739591+00:00","cores":1,"ram":2048,"disk":0,"min_ram":128,"min_disk":1024,"user_data":"","external_ips":["10.0.0.14"],"internal_ips":[""],"latitude":null,"longitude":null,"key_name":"2fe631e03bc14da794bec5708851155d-my-ssh-key","key_fingerprint":"6f:7b:e0:85:6c:8a:03:08:42:58:5a:d5:c8:fa:ee:07","image_name":"","flavor_disk":20480,"flavor_name":"m1.small","volumes":[{"url":"http://127.0.0.1:8000/api/openstack-volumes/4538c185df984545ae2e3d006304676f/","uuid":"4538c185df984545ae2e3d006304676f","name":"test-instance-v6-system","image_name":"cirros-0.6.2-x86_64","state":"OK","bootable":true,"size":1024,"device":"","resource_type":"OpenStack.Volume","type":null,"marketplace_resource_uuid":"46294045e0f849b9a809616d4ff384d3"},{"url":"http://127.0.0.1:8000/api/openstack-volumes/80e3e53b43e843cbabd63610d30d2934/","uuid":"80e3e53b43e843cbabd63610d30d2934","name":"test-instance-v6-data","image_name":"","state":"OK","bootable":false,"size":1024,"device":"","resource_type":"OpenStack.Volume","type":null,"marketplace_resource_uuid":"11ec526896a747e0ba5510952ba26449"}],"security_groups":[{"url":"http://127.0.0.1:8000/api/openstack-security-groups/15c81e39ed824005b18aa9e07966786c/","name":"default","rules":[{"ethertype":"IPv4","direction":"egress","protocol":"","from_port":-1,"to_port":-1,"cidr":null,"description":"","id":86052},{"ethertype":"IPv6","direction":"egress","protocol":"","from_port":-1,"to_port":-1,"cidr":null,"description":"","id":86053}],"description":"Default security group","state":"OK"}],"server_group":null,"floating_ips":[],"ports":[{"url":"http://127.0.0.1:8000/api/openstack-ports/ea18b6575b194824bc707a4415af424f/","fixed_ips":[{"subnet_id":"07ce522e-be2e-41d2-98a1-9e683246c0c9","ip_address":""}],"mac_address":"fa:16:3e:4f:ca:4c","subnet":"http://127.0.0.1:8000/api/openstack-subnets/322c7f71fa654b119b808ce094ed4bfb/","subnet_uuid":"322c7f71fa654b119b808ce094ed4bfb","subnet_name":"test","subnet_description":"","subnet_cidr":"192.168.42.0/24","allowed_address_pairs":[],"device_id":"","device_owner":"","security_groups":[]}],"availability_zone":null,"connect_directly_to_external_network":false,"runtime_state":"ACTIVE","action":"Stop","action_details":{},"tenant_uuid":"0301082a228348b794c527ac7133651c","hypervisor_hostname":"compute-host-1","tenant":"http://127.0.0.1:8000/api/openstack-tenants/0301082a228348b794c527ac7133651c/","external_address":[],"rancher_cluster":null,"marketplace_offering_uuid":"f0fa11dce1214697ae1f0157a799514f","marketplace_offering_name":"Virtual machine in test-vpc-1","marketplace_offering_plugin_options":{},"marketplace_category_uuid":"e5a5e7651f394d10958328bbc3e967eb","marketplace_category_name":"VMs","marketplace_resource_uuid":"dde4f3c6323048acbdf64bb84c22a50c","marketplace_plan_uuid":null,"marketplace_resource_state":"OK","is_usage_based":false,"is_limit_based":false}'
+        headers:
+            Allow:
+                - GET, PUT, PATCH, DELETE, HEAD, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "4023"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Thu, 05 Feb 2026 01:15:12 GMT
+            Server:
+                - WSGIServer/0.2 CPython/3.11.9
+            Vary:
+                - Accept, Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+        status: 200 OK
+        code: 200
+        duration: 77.849528ms
+    - id: 30
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: ""
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token 0840158c32fdf0930b1ba4cc0b49832747c7eb3c
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/openstack-instances/b879dcb614a64f68b7217e6c50b5ebd1/
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 3976
+        uncompressed: false
+        body: '{"url":"http://127.0.0.1:8000/api/openstack-instances/b879dcb614a64f68b7217e6c50b5ebd1/","uuid":"b879dcb614a64f68b7217e6c50b5ebd1","name":"test-instance-v6","description":"","service_name":"MockOpenStack5","service_settings":"http://127.0.0.1:8000/api/service-settings/fcd6204991ae4817bb227e9b6453221f/","service_settings_uuid":"fcd6204991ae4817bb227e9b6453221f","service_settings_state":"OK","service_settings_error_message":"","project":"http://127.0.0.1:8000/api/projects/5bb355565bf5407b8b8f9110b6c105f6/","project_name":"Naked azanide as an aminating agent and a superbase","project_uuid":"5bb355565bf5407b8b8f9110b6c105f6","customer":"http://127.0.0.1:8000/api/customers/8c00f072b2f5454ea17c74ad79dfecea/","customer_uuid":"8c00f072b2f5454ea17c74ad79dfecea","customer_name":"Agnes Kütt (University of Tartu)","customer_native_name":"","customer_abbreviation":"","error_message":"","error_traceback":"","resource_type":"OpenStack.Instance","state":"OK","created":"2026-02-05T01:14:22.152947+00:00","modified":"2026-02-05T01:15:13.906444+00:00","backend_id":"94e614d3-9146-46c7-b060-c25283780c49","access_url":["10.0.0.14"],"start_time":null,"cores":1,"ram":2048,"disk":0,"min_ram":128,"min_disk":1024,"user_data":"","external_ips":["10.0.0.14"],"internal_ips":[""],"latitude":null,"longitude":null,"key_name":"2fe631e03bc14da794bec5708851155d-my-ssh-key","key_fingerprint":"6f:7b:e0:85:6c:8a:03:08:42:58:5a:d5:c8:fa:ee:07","image_name":"","flavor_disk":20480,"flavor_name":"m1.small","volumes":[{"url":"http://127.0.0.1:8000/api/openstack-volumes/4538c185df984545ae2e3d006304676f/","uuid":"4538c185df984545ae2e3d006304676f","name":"test-instance-v6-system","image_name":"cirros-0.6.2-x86_64","state":"OK","bootable":true,"size":1024,"device":"","resource_type":"OpenStack.Volume","type":null,"marketplace_resource_uuid":"46294045e0f849b9a809616d4ff384d3"},{"url":"http://127.0.0.1:8000/api/openstack-volumes/80e3e53b43e843cbabd63610d30d2934/","uuid":"80e3e53b43e843cbabd63610d30d2934","name":"test-instance-v6-data","image_name":"","state":"OK","bootable":false,"size":1024,"device":"","resource_type":"OpenStack.Volume","type":null,"marketplace_resource_uuid":"11ec526896a747e0ba5510952ba26449"}],"security_groups":[{"url":"http://127.0.0.1:8000/api/openstack-security-groups/15c81e39ed824005b18aa9e07966786c/","name":"default","rules":[{"ethertype":"IPv4","direction":"egress","protocol":"","from_port":-1,"to_port":-1,"cidr":null,"description":"","id":86052},{"ethertype":"IPv6","direction":"egress","protocol":"","from_port":-1,"to_port":-1,"cidr":null,"description":"","id":86053}],"description":"Default security group","state":"OK"}],"server_group":null,"floating_ips":[],"ports":[{"url":"http://127.0.0.1:8000/api/openstack-ports/ea18b6575b194824bc707a4415af424f/","fixed_ips":[{"subnet_id":"07ce522e-be2e-41d2-98a1-9e683246c0c9","ip_address":""}],"mac_address":"fa:16:3e:4f:ca:4c","subnet":"http://127.0.0.1:8000/api/openstack-subnets/322c7f71fa654b119b808ce094ed4bfb/","subnet_uuid":"322c7f71fa654b119b808ce094ed4bfb","subnet_name":"test","subnet_description":"","subnet_cidr":"192.168.42.0/24","allowed_address_pairs":[],"device_id":"","device_owner":"","security_groups":[]}],"availability_zone":null,"connect_directly_to_external_network":false,"runtime_state":"SHUTOFF","action":"","action_details":{},"tenant_uuid":"0301082a228348b794c527ac7133651c","hypervisor_hostname":"compute-host-1","tenant":"http://127.0.0.1:8000/api/openstack-tenants/0301082a228348b794c527ac7133651c/","external_address":[],"rancher_cluster":null,"marketplace_offering_uuid":"f0fa11dce1214697ae1f0157a799514f","marketplace_offering_name":"Virtual machine in test-vpc-1","marketplace_offering_plugin_options":{},"marketplace_category_uuid":"e5a5e7651f394d10958328bbc3e967eb","marketplace_category_name":"VMs","marketplace_resource_uuid":"dde4f3c6323048acbdf64bb84c22a50c","marketplace_plan_uuid":null,"marketplace_resource_state":"OK","is_usage_based":false,"is_limit_based":false}'
+        headers:
+            Allow:
+                - GET, PUT, PATCH, DELETE, HEAD, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "3976"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Thu, 05 Feb 2026 01:15:18 GMT
+            Server:
+                - WSGIServer/0.2 CPython/3.11.9
+            Vary:
+                - Accept, Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+        status: 200 OK
+        code: 200
+        duration: 68.971371ms
+    - id: 31
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 2
+        transfer_encoding: []
+        trailer: {}
+        host: 127.0.0.1:8000
+        remote_addr: ""
+        request_uri: ""
+        body: '{}'
+        form: {}
+        headers:
+            Accept:
+                - application/json
+            Authorization:
+                - Token 0840158c32fdf0930b1ba4cc0b49832747c7eb3c
+            Content-Type:
+                - application/json
+        url: http://127.0.0.1:8000/api/marketplace-resources/dde4f3c6323048acbdf64bb84c22a50c/terminate/
+        method: POST
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding: []
+        trailer: {}
+        content_length: 49
+        uncompressed: false
+        body: '{"order_uuid":"ec31255fd36a4777b373a03c72465a90"}'
+        headers:
+            Allow:
+                - POST, OPTIONS
+            Content-Language:
+                - en
+            Content-Length:
+                - "49"
+            Content-Type:
+                - application/json; charset=utf-8
+            Date:
+                - Thu, 05 Feb 2026 01:15:18 GMT
+            Server:
+                - WSGIServer/0.2 CPython/3.11.9
+            Vary:
+                - Accept, Accept-Language, Cookie, origin
+            X-Frame-Options:
+                - DENY
+        status: 200 OK
+        code: 200
+        duration: 222.479208ms
