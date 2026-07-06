@@ -7,6 +7,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
@@ -31,7 +32,28 @@ type IdentityBridgeLinkResource struct {
 // IdentityBridgeLinkResourceModel describes the resource data model.
 type IdentityBridgeLinkResourceModel struct {
 	IdentityBridgeLinkModel
-	Timeouts timeouts.Value `tfsdk:"timeouts"`
+	Address             types.String   `tfsdk:"address"`
+	Affiliations        types.List     `tfsdk:"affiliations"`
+	BirthDate           types.String   `tfsdk:"birth_date"`
+	CivilNumber         types.String   `tfsdk:"civil_number"`
+	CountryOfResidence  types.String   `tfsdk:"country_of_residence"`
+	EdupersonAssurance  types.List     `tfsdk:"eduperson_assurance"`
+	Email               types.String   `tfsdk:"email"`
+	FirstName           types.String   `tfsdk:"first_name"`
+	Gender              types.String   `tfsdk:"gender"`
+	IdentitySource      types.String   `tfsdk:"identity_source"`
+	LastName            types.String   `tfsdk:"last_name"`
+	Nationalities       types.List     `tfsdk:"nationalities"`
+	Nationality         types.String   `tfsdk:"nationality"`
+	Organization        types.String   `tfsdk:"organization"`
+	OrganizationCountry types.String   `tfsdk:"organization_country"`
+	OrganizationType    types.String   `tfsdk:"organization_type"`
+	PersonalTitle       types.String   `tfsdk:"personal_title"`
+	PhoneNumber         types.String   `tfsdk:"phone_number"`
+	PlaceOfBirth        types.String   `tfsdk:"place_of_birth"`
+	Source              types.String   `tfsdk:"source"`
+	Username            types.String   `tfsdk:"username"`
+	Timeouts            timeouts.Value `tfsdk:"timeouts"`
 }
 
 func (r *IdentityBridgeLinkResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
@@ -51,147 +73,71 @@ func (r *IdentityBridgeLinkResource) Schema(ctx context.Context, req resource.Sc
 				},
 			},
 			"address": schema.StringAttribute{
-				Optional: true,
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-
-					stringplanmodifier.UseStateForUnknown(),
-				}, MarkdownDescription: "Address"},
+				Optional: true, MarkdownDescription: "Address"},
 			"affiliations": schema.ListAttribute{
 				ElementType: types.StringType,
-				Optional:    true,
-				Computed:    true,
-				PlanModifiers: []planmodifier.List{
-
-					listplanmodifier.UseStateForUnknown(),
-				}, MarkdownDescription: "List of affiliations"},
+				Optional:    true, MarkdownDescription: "List of affiliations"},
 			"birth_date": schema.StringAttribute{
-				Optional: true,
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-
-					stringplanmodifier.UseStateForUnknown(),
-				}, MarkdownDescription: "Birth date"},
+				Optional: true, MarkdownDescription: "Birth date"},
 			"civil_number": schema.StringAttribute{
-				Optional: true,
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-
-					stringplanmodifier.UseStateForUnknown(),
-				}, MarkdownDescription: "Civil number"},
+				Optional: true, MarkdownDescription: "Civil number"},
 			"country_of_residence": schema.StringAttribute{
-				Optional: true,
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-
-					stringplanmodifier.UseStateForUnknown(),
-				}, MarkdownDescription: "Country of residence"},
+				Optional: true, MarkdownDescription: "Country of residence"},
 			"eduperson_assurance": schema.ListAttribute{
 				ElementType: types.StringType,
-				Optional:    true,
-				Computed:    true,
-				PlanModifiers: []planmodifier.List{
-
-					listplanmodifier.UseStateForUnknown(),
-				}, MarkdownDescription: "List of eduperson assurances"},
+				Optional:    true, MarkdownDescription: "List of eduperson assurances"},
 			"email": schema.StringAttribute{
-				Optional: true,
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-
-					stringplanmodifier.UseStateForUnknown(),
-				}, MarkdownDescription: "Email address"},
+				Optional: true, MarkdownDescription: "Email address"},
 			"first_name": schema.StringAttribute{
-				Optional: true,
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-
-					stringplanmodifier.UseStateForUnknown(),
-				}, MarkdownDescription: "First name"},
+				Optional: true, MarkdownDescription: "First name"},
 			"gender": schema.StringAttribute{
-				Optional: true,
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-
-					stringplanmodifier.UseStateForUnknown(),
-				}, MarkdownDescription: "Gender"},
+				Optional: true, MarkdownDescription: "Gender"},
 			"identity_source": schema.StringAttribute{
-				Optional: true,
+				Optional: true, MarkdownDescription: "Identity source"},
+			"is_created": schema.BoolAttribute{
 				Computed: true,
-				PlanModifiers: []planmodifier.String{
+				PlanModifiers: []planmodifier.Bool{
 
-					stringplanmodifier.UseStateForUnknown(),
-				}, MarkdownDescription: "Identity source"},
+					boolplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "True if the user was created, false if updated"},
 			"last_name": schema.StringAttribute{
-				Optional: true,
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-
-					stringplanmodifier.UseStateForUnknown(),
-				}, MarkdownDescription: "Last name"},
+				Optional: true, MarkdownDescription: "Last name"},
 			"nationalities": schema.ListAttribute{
 				ElementType: types.StringType,
-				Optional:    true,
-				Computed:    true,
-				PlanModifiers: []planmodifier.List{
-
-					listplanmodifier.UseStateForUnknown(),
-				}, MarkdownDescription: "List of nationalities"},
+				Optional:    true, MarkdownDescription: "List of nationalities"},
 			"nationality": schema.StringAttribute{
-				Optional: true,
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-
-					stringplanmodifier.UseStateForUnknown(),
-				}, MarkdownDescription: "Nationality"},
+				Optional: true, MarkdownDescription: "Nationality"},
 			"organization": schema.StringAttribute{
-				Optional: true,
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-
-					stringplanmodifier.UseStateForUnknown(),
-				}, MarkdownDescription: "Organization name"},
+				Optional: true, MarkdownDescription: "Organization name"},
 			"organization_country": schema.StringAttribute{
-				Optional: true,
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-
-					stringplanmodifier.UseStateForUnknown(),
-				}, MarkdownDescription: "Organization country"},
+				Optional: true, MarkdownDescription: "Organization country"},
 			"organization_type": schema.StringAttribute{
-				Optional: true,
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-
-					stringplanmodifier.UseStateForUnknown(),
-				}, MarkdownDescription: "Organization type"},
+				Optional: true, MarkdownDescription: "Organization type"},
 			"personal_title": schema.StringAttribute{
-				Optional: true,
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-
-					stringplanmodifier.UseStateForUnknown(),
-				}, MarkdownDescription: "Personal title"},
+				Optional: true, MarkdownDescription: "Personal title"},
 			"phone_number": schema.StringAttribute{
-				Optional: true,
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-
-					stringplanmodifier.UseStateForUnknown(),
-				}, MarkdownDescription: "Phone number"},
+				Optional: true, MarkdownDescription: "Phone number"},
 			"place_of_birth": schema.StringAttribute{
-				Optional: true,
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-
-					stringplanmodifier.UseStateForUnknown(),
-				}, MarkdownDescription: "Place of birth"},
+				Optional: true, MarkdownDescription: "Place of birth"},
 			"source": schema.StringAttribute{
 				Required: true,
 				PlanModifiers: []planmodifier.String{
 
 					stringplanmodifier.RequiresReplace(),
 				}, MarkdownDescription: "ISD source identifier (must match `^[a-z]+:[a-zA-Z0-9._-]+$`)"},
+			"updated_fields": schema.ListAttribute{
+				ElementType: types.StringType,
+				Computed:    true,
+				PlanModifiers: []planmodifier.List{
+
+					listplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "List of fields that were updated"},
+			"user_uuid": schema.StringAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+
+					stringplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "UUID of the created or updated user"},
 			"username": schema.StringAttribute{
 				Required: true,
 				PlanModifiers: []planmodifier.String{
@@ -311,7 +257,7 @@ func (r *IdentityBridgeLinkResource) Create(ctx context.Context, req resource.Cr
 		requestBody.PlaceOfBirth = data.PlaceOfBirth.ValueStringPointer()
 	}
 
-	_, err := r.client.Create(ctx, &requestBody)
+	apiResp, err := r.client.Create(ctx, &requestBody)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Unable to Create Identity Bridge Link",
@@ -381,6 +327,20 @@ func (r *IdentityBridgeLinkResource) Create(ctx context.Context, req resource.Cr
 		data.PlaceOfBirth = types.StringNull()
 	}
 
+	if apiResp != nil {
+		if apiResp.UUID != nil {
+			data.UserUuid = types.StringPointerValue(apiResp.UUID)
+		}
+		data.IsCreated = types.BoolPointerValue(apiResp.IsCreated)
+		if apiResp.UpdatedFields != nil {
+			val, d := types.ListValueFrom(ctx, types.StringType, *apiResp.UpdatedFields)
+			resp.Diagnostics.Append(d...)
+			data.UpdatedFields = val
+		} else {
+			data.UpdatedFields = types.ListNull(types.StringType)
+		}
+	}
+
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
@@ -446,6 +406,7 @@ func (r *IdentityBridgeLinkResource) Read(ctx context.Context, req resource.Read
 
 	// Read fields from prior state as Waldur doesn't expose bridge-specific pushed attributes directly on GET /api/users/ in a writable way
 	// Keep the existing attributes in state
+	data.UserUuid = types.StringValue(user.UUID)
 
 	// Save updated data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
@@ -522,7 +483,7 @@ func (r *IdentityBridgeLinkResource) Update(ctx context.Context, req resource.Up
 		requestBody.PlaceOfBirth = data.PlaceOfBirth.ValueStringPointer()
 	}
 
-	_, err := r.client.Create(ctx, &requestBody)
+	apiResp, err := r.client.Create(ctx, &requestBody)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Unable to Update Identity Bridge Link",
@@ -588,6 +549,10 @@ func (r *IdentityBridgeLinkResource) Update(ctx context.Context, req resource.Up
 	}
 	if data.PlaceOfBirth.IsUnknown() {
 		data.PlaceOfBirth = types.StringNull()
+	}
+
+	if apiResp != nil && apiResp.UUID != nil {
+		data.UserUuid = types.StringPointerValue(apiResp.UUID)
 	}
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)

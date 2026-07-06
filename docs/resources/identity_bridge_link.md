@@ -46,6 +46,9 @@ Identity Bridge Link resource
 ### Read-Only
 
 - `id` (String) Identity Bridge Link UUID (used as Terraform ID)
+- `is_created` (Boolean) True if the user was created, false if updated
+- `updated_fields` (List of String) List of fields that were updated
+- `user_uuid` (String) UUID of the created or updated user
 
 <a id="nestedblock--timeouts"></a>
 ### Nested Schema for `timeouts`
