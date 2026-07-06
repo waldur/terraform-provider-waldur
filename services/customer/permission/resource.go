@@ -16,40 +16,46 @@ import (
 )
 
 // Ensure provider defined types fully satisfy framework interfaces.
-var _ resource.Resource = &ProjectPermissionResource{}
-var _ resource.ResourceWithImportState = &ProjectPermissionResource{}
+var _ resource.Resource = &CustomerPermissionResource{}
+var _ resource.ResourceWithImportState = &CustomerPermissionResource{}
 
-func NewProjectPermissionResource() resource.Resource {
-	return &ProjectPermissionResource{}
+func NewCustomerPermissionResource() resource.Resource {
+	return &CustomerPermissionResource{}
 }
 
-// ProjectPermissionResource defines the resource implementation.
-type ProjectPermissionResource struct {
-	client *ProjectPermissionClient
+// CustomerPermissionResource defines the resource implementation.
+type CustomerPermissionResource struct {
+	client *CustomerPermissionClient
 }
 
-// ProjectPermissionResourceModel describes the resource data model.
-type ProjectPermissionResourceModel struct {
-	ProjectPermissionModel
+// CustomerPermissionResourceModel describes the resource data model.
+type CustomerPermissionResourceModel struct {
+	CustomerPermissionModel
 	Timeouts timeouts.Value `tfsdk:"timeouts"`
 }
 
-func (r *ProjectPermissionResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
-	resp.TypeName = req.ProviderTypeName + "_project_permission"
+func (r *CustomerPermissionResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
+	resp.TypeName = req.ProviderTypeName + "_customer_permission"
 }
 
-func (r *ProjectPermissionResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
+func (r *CustomerPermissionResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Project Permission resource",
+		MarkdownDescription: "Customer Permission resource",
 
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:            true,
-				MarkdownDescription: "Project Permission UUID (used as Terraform ID)",
+				MarkdownDescription: "Customer Permission UUID (used as Terraform ID)",
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
 			},
+			"customer": schema.StringAttribute{
+				Required: true,
+				PlanModifiers: []planmodifier.String{
+
+					stringplanmodifier.RequiresReplace(),
+				}, MarkdownDescription: "UUID of the customer"},
 			"expiration_time": schema.StringAttribute{
 				Optional: true,
 				Computed: true,
@@ -57,12 +63,6 @@ func (r *ProjectPermissionResource) Schema(ctx context.Context, req resource.Sch
 
 					stringplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "Expiration time of the role (RFC3339 format or null)"},
-			"project": schema.StringAttribute{
-				Required: true,
-				PlanModifiers: []planmodifier.String{
-
-					stringplanmodifier.RequiresReplace(),
-				}, MarkdownDescription: "UUID of the project"},
 			"role": schema.StringAttribute{
 				Required: true,
 				PlanModifiers: []planmodifier.String{
@@ -87,13 +87,13 @@ func (r *ProjectPermissionResource) Schema(ctx context.Context, req resource.Sch
 	}
 }
 
-func (r *ProjectPermissionResource) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
+func (r *CustomerPermissionResource) Configure(ctx context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
 	// Prevent panic if the provider has not been configured.
 	if req.ProviderData == nil {
 		return
 	}
 
-	r.client = &ProjectPermissionClient{}
+	r.client = &CustomerPermissionClient{}
 	if err := r.client.Configure(ctx, req.ProviderData); err != nil {
 		resp.Diagnostics.AddError(
 			"Unexpected Resource Configure Type",
@@ -103,35 +103,35 @@ func (r *ProjectPermissionResource) Configure(ctx context.Context, req resource.
 	}
 }
 
-type ProjectPermissionMutateRequest struct {
+type CustomerPermissionMutateRequest struct {
 	User           string  `json:"user"`
 	Role           string  `json:"role"`
 	ExpirationTime *string `json:"expiration_time,omitempty"`
 }
 
-type ProjectPermissionDeleteRequest struct {
+type CustomerPermissionDeleteRequest struct {
 	User string `json:"user"`
 	Role string `json:"role"`
 }
 
-func (c *ProjectPermissionClient) AddUser(ctx context.Context, scopeUUID string, req *ProjectPermissionMutateRequest) (*ProjectPermissionResponse, error) {
-	var resp ProjectPermissionResponse
-	err := c.Client.Post(ctx, fmt.Sprintf("/api/projects/%s/add_user/", scopeUUID), req, &resp)
+func (c *CustomerPermissionClient) AddUser(ctx context.Context, scopeUUID string, req *CustomerPermissionMutateRequest) (*CustomerPermissionResponse, error) {
+	var resp CustomerPermissionResponse
+	err := c.Client.Post(ctx, fmt.Sprintf("/api/customers/%s/add_user/", scopeUUID), req, &resp)
 	return &resp, err
 }
 
-func (c *ProjectPermissionClient) UpdateUser(ctx context.Context, scopeUUID string, req *ProjectPermissionMutateRequest) (*ProjectPermissionResponse, error) {
-	var resp ProjectPermissionResponse
-	err := c.Client.Post(ctx, fmt.Sprintf("/api/projects/%s/update_user/", scopeUUID), req, &resp)
+func (c *CustomerPermissionClient) UpdateUser(ctx context.Context, scopeUUID string, req *CustomerPermissionMutateRequest) (*CustomerPermissionResponse, error) {
+	var resp CustomerPermissionResponse
+	err := c.Client.Post(ctx, fmt.Sprintf("/api/customers/%s/update_user/", scopeUUID), req, &resp)
 	return &resp, err
 }
 
-func (c *ProjectPermissionClient) DeleteUser(ctx context.Context, scopeUUID string, req *ProjectPermissionDeleteRequest) error {
-	return c.Client.Post(ctx, fmt.Sprintf("/api/projects/%s/delete_user/", scopeUUID), req, nil)
+func (c *CustomerPermissionClient) DeleteUser(ctx context.Context, scopeUUID string, req *CustomerPermissionDeleteRequest) error {
+	return c.Client.Post(ctx, fmt.Sprintf("/api/customers/%s/delete_user/", scopeUUID), req, nil)
 }
 
-func (c *ProjectPermissionClient) GetUserPermission(ctx context.Context, id string) (*ProjectPermissionResponse, error) {
-	var apiResp ProjectPermissionResponse
+func (c *CustomerPermissionClient) GetUserPermission(ctx context.Context, id string) (*CustomerPermissionResponse, error) {
+	var apiResp CustomerPermissionResponse
 	err := c.Client.Get(ctx, "/api/user-permissions/{uuid}/", id, &apiResp)
 	if err != nil {
 		return nil, err
@@ -139,9 +139,9 @@ func (c *ProjectPermissionClient) GetUserPermission(ctx context.Context, id stri
 	return &apiResp, nil
 }
 
-func (c *ProjectPermissionClient) ListUsers(ctx context.Context, scopeUUID string, filter map[string]string) ([]ProjectPermissionResponse, error) {
-	var listResult []ProjectPermissionResponse
-	err := c.Client.List(ctx, fmt.Sprintf("/api/projects/%s/list_users/", scopeUUID), filter, &listResult)
+func (c *CustomerPermissionClient) ListUsers(ctx context.Context, scopeUUID string, filter map[string]string) ([]CustomerPermissionResponse, error) {
+	var listResult []CustomerPermissionResponse
+	err := c.Client.List(ctx, fmt.Sprintf("/api/customers/%s/list_users/", scopeUUID), filter, &listResult)
 	if err != nil {
 		return nil, err
 	}
@@ -157,15 +157,15 @@ func normalizeUTCTime(s *string) *string {
 	return &v
 }
 
-func (r *ProjectPermissionResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
+func (r *CustomerPermissionResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 
-	var data ProjectPermissionResourceModel
+	var data CustomerPermissionResourceModel
 	resp.Diagnostics.Append(req.Plan.Get(ctx, &data)...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
 
-	reqBody := ProjectPermissionMutateRequest{
+	reqBody := CustomerPermissionMutateRequest{
 		User: data.User.ValueString(),
 		Role: data.Role.ValueString(),
 	}
@@ -173,11 +173,11 @@ func (r *ProjectPermissionResource) Create(ctx context.Context, req resource.Cre
 		reqBody.ExpirationTime = data.ExpirationTime.ValueStringPointer()
 	}
 
-	_, err := r.client.AddUser(ctx, data.Project.ValueString(), &reqBody)
+	_, err := r.client.AddUser(ctx, data.Customer.ValueString(), &reqBody)
 	if err != nil {
 		resp.Diagnostics.AddError(
-			"Unable to Create Project Permission",
-			"An error occurred while creating the Project Permission: "+err.Error(),
+			"Unable to Create Customer Permission",
+			"An error occurred while creating the Customer Permission: "+err.Error(),
 		)
 		return
 	}
@@ -187,7 +187,7 @@ func (r *ProjectPermissionResource) Create(ctx context.Context, req resource.Cre
 		"user": data.User.ValueString(),
 		"role": data.Role.ValueString(),
 	}
-	usersList, err := r.client.ListUsers(ctx, data.Project.ValueString(), filter)
+	usersList, err := r.client.ListUsers(ctx, data.Customer.ValueString(), filter)
 	if err != nil || len(usersList) == 0 {
 		errMsg := "unknown error"
 		if err != nil {
@@ -207,8 +207,8 @@ func (r *ProjectPermissionResource) Create(ctx context.Context, req resource.Cre
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
-func (r *ProjectPermissionResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
-	var data ProjectPermissionResourceModel
+func (r *CustomerPermissionResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
+	var data CustomerPermissionResourceModel
 
 	// Read Terraform prior state data into the model
 	resp.Diagnostics.Append(req.State.Get(ctx, &data)...)
@@ -226,8 +226,8 @@ func (r *ProjectPermissionResource) Read(ctx context.Context, req resource.ReadR
 			return
 		}
 		resp.Diagnostics.AddError(
-			"Unable to Read Project Permission",
-			"An error occurred while reading the Project Permission: "+err.Error(),
+			"Unable to Read Customer Permission",
+			"An error occurred while reading the Customer Permission: "+err.Error(),
 		)
 		return
 	}
@@ -241,15 +241,15 @@ func (r *ProjectPermissionResource) Read(ctx context.Context, req resource.ReadR
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
-func (r *ProjectPermissionResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
+func (r *CustomerPermissionResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
 
-	var data ProjectPermissionResourceModel
+	var data CustomerPermissionResourceModel
 	resp.Diagnostics.Append(req.Plan.Get(ctx, &data)...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
 
-	reqBody := ProjectPermissionMutateRequest{
+	reqBody := CustomerPermissionMutateRequest{
 		User: data.User.ValueString(),
 		Role: data.Role.ValueString(),
 	}
@@ -257,11 +257,11 @@ func (r *ProjectPermissionResource) Update(ctx context.Context, req resource.Upd
 		reqBody.ExpirationTime = data.ExpirationTime.ValueStringPointer()
 	}
 
-	_, err := r.client.UpdateUser(ctx, data.Project.ValueString(), &reqBody)
+	_, err := r.client.UpdateUser(ctx, data.Customer.ValueString(), &reqBody)
 	if err != nil {
 		resp.Diagnostics.AddError(
-			"Unable to Update Project Permission",
-			"An error occurred while updating the Project Permission: "+err.Error(),
+			"Unable to Update Customer Permission",
+			"An error occurred while updating the Customer Permission: "+err.Error(),
 		)
 		return
 	}
@@ -273,29 +273,29 @@ func (r *ProjectPermissionResource) Update(ctx context.Context, req resource.Upd
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
-func (r *ProjectPermissionResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
+func (r *CustomerPermissionResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
 
-	var data ProjectPermissionResourceModel
+	var data CustomerPermissionResourceModel
 	resp.Diagnostics.Append(req.State.Get(ctx, &data)...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
 
-	reqBody := ProjectPermissionDeleteRequest{
+	reqBody := CustomerPermissionDeleteRequest{
 		User: data.User.ValueString(),
 		Role: data.Role.ValueString(),
 	}
-	err := r.client.DeleteUser(ctx, data.Project.ValueString(), &reqBody)
+	err := r.client.DeleteUser(ctx, data.Customer.ValueString(), &reqBody)
 	if err != nil {
 		resp.Diagnostics.AddError(
-			"Unable to Delete Project Permission",
-			"An error occurred while deleting the Project Permission: "+err.Error(),
+			"Unable to Delete Customer Permission",
+			"An error occurred while deleting the Customer Permission: "+err.Error(),
 		)
 		return
 	}
 }
 
-func (r *ProjectPermissionResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+func (r *CustomerPermissionResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
 
-	resp.Diagnostics.AddError("Import Not Supported", "Importing Project Permission permissions is not supported via this resource.")
+	resp.Diagnostics.AddError("Import Not Supported", "Importing Customer Permission permissions is not supported via this resource.")
 }
