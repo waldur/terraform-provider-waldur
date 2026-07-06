@@ -56,7 +56,6 @@ func testAccProjectPermissionConfig_basic() string {
 resource "waldur_structure_customer" "test" {
   name = "tf-test-customer-for-perm"
 }
-
 resource "waldur_structure_project" "test" {
   name     = "tf-test-project-for-perm"
   customer = waldur_structure_customer.test.url
@@ -75,7 +74,6 @@ func testAccProjectPermissionConfig_updated() string {
 resource "waldur_structure_customer" "test" {
   name = "tf-test-customer-for-perm"
 }
-
 resource "waldur_structure_project" "test" {
   name     = "tf-test-project-for-perm"
   customer = waldur_structure_customer.test.url

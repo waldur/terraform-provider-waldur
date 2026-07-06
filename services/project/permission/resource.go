@@ -68,7 +68,7 @@ func (r *ProjectPermissionResource) Schema(ctx context.Context, req resource.Sch
 				PlanModifiers: []planmodifier.String{
 
 					stringplanmodifier.RequiresReplace(),
-				}, MarkdownDescription: "Role name (e.g. PROJECT.ADMIN, PROJECT.MANAGER, PROJECT.MEMBER)"},
+				}, MarkdownDescription: "Role name (e.g. PROJECT.ADMIN, CUSTOMER.OWNER)"},
 			"user": schema.StringAttribute{
 				Required: true,
 				PlanModifiers: []planmodifier.String{
@@ -114,20 +114,20 @@ type ProjectPermissionDeleteRequest struct {
 	Role string `json:"role"`
 }
 
-func (c *ProjectPermissionClient) AddUser(ctx context.Context, projectUUID string, req *ProjectPermissionMutateRequest) (*ProjectPermissionResponse, error) {
+func (c *ProjectPermissionClient) AddUser(ctx context.Context, scopeUUID string, req *ProjectPermissionMutateRequest) (*ProjectPermissionResponse, error) {
 	var resp ProjectPermissionResponse
-	err := c.Client.Post(ctx, fmt.Sprintf("/api/projects/%s/add_user/", projectUUID), req, &resp)
+	err := c.Client.Post(ctx, fmt.Sprintf("/api/projects/%s/add_user/", scopeUUID), req, &resp)
 	return &resp, err
 }
 
-func (c *ProjectPermissionClient) UpdateUser(ctx context.Context, projectUUID string, req *ProjectPermissionMutateRequest) (*ProjectPermissionResponse, error) {
+func (c *ProjectPermissionClient) UpdateUser(ctx context.Context, scopeUUID string, req *ProjectPermissionMutateRequest) (*ProjectPermissionResponse, error) {
 	var resp ProjectPermissionResponse
-	err := c.Client.Post(ctx, fmt.Sprintf("/api/projects/%s/update_user/", projectUUID), req, &resp)
+	err := c.Client.Post(ctx, fmt.Sprintf("/api/projects/%s/update_user/", scopeUUID), req, &resp)
 	return &resp, err
 }
 
-func (c *ProjectPermissionClient) DeleteUser(ctx context.Context, projectUUID string, req *ProjectPermissionDeleteRequest) error {
-	return c.Client.Post(ctx, fmt.Sprintf("/api/projects/%s/delete_user/", projectUUID), req, nil)
+func (c *ProjectPermissionClient) DeleteUser(ctx context.Context, scopeUUID string, req *ProjectPermissionDeleteRequest) error {
+	return c.Client.Post(ctx, fmt.Sprintf("/api/projects/%s/delete_user/", scopeUUID), req, nil)
 }
 
 func (c *ProjectPermissionClient) GetUserPermission(ctx context.Context, id string) (*ProjectPermissionResponse, error) {
@@ -139,9 +139,9 @@ func (c *ProjectPermissionClient) GetUserPermission(ctx context.Context, id stri
 	return &apiResp, nil
 }
 
-func (c *ProjectPermissionClient) ListUsers(ctx context.Context, projectUUID string, filter map[string]string) ([]ProjectPermissionResponse, error) {
+func (c *ProjectPermissionClient) ListUsers(ctx context.Context, scopeUUID string, filter map[string]string) ([]ProjectPermissionResponse, error) {
 	var listResult []ProjectPermissionResponse
-	err := c.Client.List(ctx, fmt.Sprintf("/api/projects/%s/list_users/", projectUUID), filter, &listResult)
+	err := c.Client.List(ctx, fmt.Sprintf("/api/projects/%s/list_users/", scopeUUID), filter, &listResult)
 	if err != nil {
 		return nil, err
 	}
@@ -232,7 +232,7 @@ func (r *ProjectPermissionResource) Read(ctx context.Context, req resource.ReadR
 		return
 	}
 
-	// project, user, role are ForceNew and set by config — only refresh expiration_time
+	// scope, user, role are ForceNew and set by config — only refresh expiration_time
 	// Normalize +00:00 -> Z so Terraform doesn't see a spurious diff
 	data.ExpirationTime = common.StringPointerValue(normalizeUTCTime(apiResp.ExpirationTime))
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
@@ -297,5 +297,5 @@ func (r *ProjectPermissionResource) Delete(ctx context.Context, req resource.Del
 
 func (r *ProjectPermissionResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
 
-	resp.Diagnostics.AddError("Import Not Supported", "Importing project permissions is not supported via this resource.")
+	resp.Diagnostics.AddError("Import Not Supported", "Importing Project Permission permissions is not supported via this resource.")
 }

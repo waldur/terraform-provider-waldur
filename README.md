@@ -58,6 +58,7 @@ provider "waldur" {
 | `waldur_openstack_port` | Manages a Port |
 | `waldur_identity_bridge_link` | Manages a BridgeLink |
 | `waldur_project_permission` | Manages a Permission |
+| `waldur_customer_permission` | Manages a Permission |
 
 ## Actions
 
