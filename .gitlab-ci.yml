@@ -22,7 +22,8 @@ release:
     - echo "$GPG_PRIVATE_KEY" | gpg --batch --import
 
     # Extract the key's fingerprint
-    - export GPG_FINGERPRINT=$(gpg --with-colons --list-keys | awk -F: '$1 == "fpr" {print $10; exit}')
+    - |
+      export GPG_FINGERPRINT=$(gpg --with-colons --list-keys | awk -F: '$1 == "fpr" {print $10; exit}')
 
     # Perform a dummy signature to cache the passphrase in the GPG agent
     - echo "test" | gpg --batch --pinentry-mode loopback --passphrase "$GPG_PASSPHRASE" --local-user "$GPG_FINGERPRINT" --detach-sign -
