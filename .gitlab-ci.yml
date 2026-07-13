@@ -1,0 +1,32 @@
+stages:
+  - release
+
+release:
+  stage: release
+  image:
+    name: registry.hpc.ut.ee/mirror/goreleaser/goreleaser:latest
+    entrypoint: [""]
+  variables:
+    # Retrieve complete history for goreleaser changelog generation
+    GIT_DEPTH: 0
+  before_script:
+    # Setup non-interactive GPG signing
+    - mkdir -p ~/.gnupg
+    - chmod 700 ~/.gnupg
+    - echo "pinentry-mode loopback" >> ~/.gnupg/gpg.conf
+    - echo "allow-loopback-pinentry" >> ~/.gnupg/gpg-agent.conf
+    - gpgconf --kill gpg-agent
+    - gpg-connect-agent /bye
+    
+    # Import the private GPG key
+    - echo "$GPG_PRIVATE_KEY" | gpg --batch --import
+    
+    # Extract the key's fingerprint
+    - export GPG_FINGERPRINT=$(gpg --with-colons --list-keys | awk -F: '$1 == "fpr" {print $10; exit}')
+    
+    # Perform a dummy signature to cache the passphrase in the GPG agent
+    - echo "test" | gpg --batch --pinentry-mode loopback --passphrase "$GPG_PASSPHRASE" --local-user "$GPG_FINGERPRINT" --detach-sign -
+  script:
+    - goreleaser release --clean
+  rules:
+    - if: $CI_COMMIT_TAG =~ /^v/
