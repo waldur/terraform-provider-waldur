@@ -40,7 +40,6 @@ type MarketplaceOrderResource struct {
 type MarketplaceOrderResourceModel struct {
 	MarketplaceOrderModel
 	AcceptingTermsOfService types.Bool     `tfsdk:"accepting_terms_of_service"`
-	Attributes              types.Map      `tfsdk:"attributes"`
 	Project                 types.String   `tfsdk:"project"`
 	Timeouts                timeouts.Value `tfsdk:"timeouts"`
 }
@@ -84,10 +83,32 @@ func (r *MarketplaceOrderResource) Schema(ctx context.Context, req resource.Sche
 			"attributes": schema.MapAttribute{
 				ElementType: types.StringType,
 				Optional:    true,
+				Computed:    true,
 				PlanModifiers: []planmodifier.Map{
 
-					mapplanmodifier.RequiresReplace(),
+					mapplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "Attributes structure depends on the offering type specified in the parent object. Can also be a generic object for offerings without a specific attributes schema."},
+			"auto_approved": schema.BoolAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.Bool{
+
+					boolplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Auto Approved"},
+			"auto_approved_by_rule_uuid": schema.StringAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+
+					stringplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Auto Approved By Rule Uuid"},
+			"auto_approved_cost_limit_snapshot": schema.StringAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+
+					stringplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Auto Approved Cost Limit Snapshot",
+				Validators: []validator.String{
+					stringvalidator.RegexMatches(regexp.MustCompile(`^-?\d{0,12}(?:\.\d{0,10})?$`), ""),
+				}},
 			"backend_id": schema.StringAttribute{
 				Optional: true,
 				Computed: true,
@@ -129,6 +150,28 @@ func (r *MarketplaceOrderResource) Schema(ctx context.Context, req resource.Sche
 
 					stringplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "Completed At"},
+			"consumer_message": schema.StringAttribute{
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+
+					stringplanmodifier.RequiresReplace(),
+					stringplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Consumer Message"},
+			"consumer_message_attachment": schema.StringAttribute{
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+
+					stringplanmodifier.RequiresReplace(),
+					stringplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Consumer Message Attachment"},
+			"consumer_rejection_comment": schema.StringAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+
+					stringplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Consumer Rejection Comment"},
 			"consumer_reviewed_at": schema.StringAttribute{
 				CustomType: timetypes.RFC3339Type{},
 				Computed:   true,
@@ -169,12 +212,30 @@ func (r *MarketplaceOrderResource) Schema(ctx context.Context, req resource.Sche
 
 					stringplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "Created By Civil Number"},
+			"created_by_email": schema.StringAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+
+					stringplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Created By Email"},
 			"created_by_full_name": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 
 					stringplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "Created By Full Name"},
+			"created_by_organization": schema.StringAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+
+					stringplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Created By Organization"},
+			"created_by_organization_registry_code": schema.StringAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+
+					stringplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Company registration code of the user's organization, if known"},
 			"created_by_username": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
@@ -193,6 +254,13 @@ func (r *MarketplaceOrderResource) Schema(ctx context.Context, req resource.Sche
 
 					stringplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "Error Message"},
+			"error_updated_at": schema.StringAttribute{
+				CustomType: timetypes.RFC3339Type{},
+				Computed:   true,
+				PlanModifiers: []planmodifier.String{
+
+					stringplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Error Updated At"},
 			"fixed_price": schema.Float64Attribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.Float64{
@@ -279,6 +347,13 @@ func (r *MarketplaceOrderResource) Schema(ctx context.Context, req resource.Sche
 
 					stringplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "Offering Image"},
+			"offering_plugin_options": schema.MapAttribute{
+				ElementType: types.StringType,
+				Computed:    true,
+				PlanModifiers: []planmodifier.Map{
+
+					mapplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Public data used by specific plugin, such as storage mode for OpenStack."},
 			"offering_shared": schema.BoolAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.Bool{
@@ -333,6 +408,13 @@ func (r *MarketplaceOrderResource) Schema(ctx context.Context, req resource.Sche
 
 					stringplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "Output"},
+			"output_updated_at": schema.StringAttribute{
+				CustomType: timetypes.RFC3339Type{},
+				Computed:   true,
+				PlanModifiers: []planmodifier.String{
+
+					stringplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Output Updated At"},
 			"plan": schema.StringAttribute{
 				Optional: true,
 				Computed: true,
@@ -383,12 +465,48 @@ func (r *MarketplaceOrderResource) Schema(ctx context.Context, req resource.Sche
 
 					stringplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "Project Slug"},
+			"provider_description": schema.StringAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+
+					stringplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Provider Description"},
+			"provider_message": schema.StringAttribute{
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+
+					stringplanmodifier.RequiresReplace(),
+					stringplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Provider Message"},
+			"provider_message_attachment": schema.StringAttribute{
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+
+					stringplanmodifier.RequiresReplace(),
+					stringplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Provider Message Attachment"},
+			"provider_message_url": schema.StringAttribute{
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+
+					stringplanmodifier.RequiresReplace(),
+					stringplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Provider Message Url"},
 			"provider_name": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 
 					stringplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "Provider Name"},
+			"provider_rejection_comment": schema.StringAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+
+					stringplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Provider Rejection Comment"},
 			"provider_reviewed_at": schema.StringAttribute{
 				CustomType: timetypes.RFC3339Type{},
 				Computed:   true,
@@ -651,6 +769,9 @@ func (r *MarketplaceOrderResource) Update(ctx context.Context, req resource.Upda
 	_ = updateTimeout
 	anyChanges := false
 	requestBody := MarketplaceOrderUpdateRequest{}
+	if !data.Attributes.Equal(state.Attributes) {
+		anyChanges = true
+	}
 	if !data.Limits.Equal(state.Limits) {
 		anyChanges = true
 	}
@@ -660,6 +781,7 @@ func (r *MarketplaceOrderResource) Update(ctx context.Context, req resource.Upda
 		requestBody.StartDate = data.StartDate.ValueStringPointer()
 	}
 
+	resp.Diagnostics.Append(common.PopulateOptionalMapField(ctx, data.Attributes, &requestBody.Attributes)...)
 	resp.Diagnostics.Append(common.PopulateOptionalMapField(ctx, data.Limits, &requestBody.Limits)...)
 
 	if anyChanges {

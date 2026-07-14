@@ -24,19 +24,28 @@ description: |-
 
 Optional:
 
+- `accounting_is_running` (Boolean) Filter by whether accounting is running.
+- `affiliation_name` (String) Affiliation name
 - `backend_id` (String) ID of the backend
 - `can_admin` (Boolean) Return a list of projects where current user is admin.
 - `can_manage` (Boolean) Return a list of projects where current user is manager or a customer owner.
 - `conceal_finished_projects` (Boolean) Conceal finished projects
 - `created` (String) Created after
+- `created_before` (String) Created before
 - `customer_abbreviation` (String) Customer abbreviation
 - `customer_name` (String) Customer name
 - `customer_native_name` (String) Customer native name
 - `description` (String) Description
+- `has_affiliation` (Boolean) Filter projects that have an affiliation.
 - `include_terminated` (Boolean) Include soft-deleted (terminated) projects. Only available to staff and support users, or users with organizational roles who can see their terminated projects.
 - `is_removed` (Boolean) Is removed
 - `modified` (String) Modified after
+- `modified_before` (String) Modified before
 - `name` (String) Name
 - `name_exact` (String) Name (exact)
 - `query` (String) Filter by name, slug, UUID, backend ID or resource effective ID
+- `science_domain_uuid` (String) Science domain UUID
+- `science_sub_domain_uuid` (String) Science sub-domain UUID
 - `slug` (String) Slug
+- `user_uuid` (String) Filter by user UUID.
+- `user_uuid_with_active_role` (String) Filter projects where the given user has a role.

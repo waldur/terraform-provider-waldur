@@ -8,6 +8,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
+	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
@@ -43,6 +44,9 @@ func (d *OpenstackVolumeDataSource) Schema(ctx context.Context, req datasource.S
 				MarkdownDescription: "Openstack Volume UUID",
 			},
 			"filters": (&OpenstackVolumeFiltersModel{}).GetSchema(),
+			"action_details": schema.MapAttribute{
+				ElementType: types.StringType,
+				Computed:    true, MarkdownDescription: "Action Details"},
 			"availability_zone": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Availability zone where this volume is located"},
 			"availability_zone_name": schema.StringAttribute{
@@ -71,6 +75,8 @@ func (d *OpenstackVolumeDataSource) Schema(ctx context.Context, req datasource.S
 				Computed: true, MarkdownDescription: "Instance that this volume is attached to, if any"},
 			"instance_marketplace_uuid": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Instance Marketplace Uuid"},
+			"marketplace_offering_type": schema.StringAttribute{
+				Computed: true, MarkdownDescription: "Marketplace Offering Type"},
 			"marketplace_resource_uuid": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Marketplace Resource Uuid"},
 			"name": schema.StringAttribute{

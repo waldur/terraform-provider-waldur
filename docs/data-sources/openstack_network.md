@@ -27,9 +27,11 @@ Openstack Network data source - lookup by name or UUID
 - `description` (String) Description
 - `error_message` (String) Error Message
 - `is_external` (Boolean) Defines whether this network is external (public) or internal (private)
+- `marketplace_offering_type` (String) Marketplace Offering Type
 - `marketplace_resource_uuid` (String) Marketplace Resource Uuid
 - `mtu` (Number) The maximum transmission unit (MTU) value to address fragmentation.
 - `name` (String) Name
+- `port_security_enabled` (Boolean) Default port_security_enabled for ports on this network. When False, ports created on this network inherit disabled port security unless explicitly overridden.
 - `project` (String) Project
 - `rbac_policies` (Attributes List) Rbac Policies (see [below for nested schema](#nestedatt--rbac_policies))
 - `resource_type` (String) Resource Type
@@ -69,7 +71,6 @@ Optional:
 - `tenant` (String) Tenant URL
 - `tenant_uuid` (String) Tenant UUID
 - `type` (String) Type
-- `uuid` (String) UUID
 
 
 <a id="nestedatt--rbac_policies"></a>
@@ -78,9 +79,13 @@ Optional:
 Read-Only:
 
 - `backend_id` (String) Backend Id
+- `direction` (String) Direction
 - `network` (String) Network
 - `network_name` (String) Network Name
 - `policy_type` (String) Type of access granted - either shared access or external network access
+- `source_tenant_name` (String) Source Tenant Name
+- `source_tenant_uuid` (String) Source Tenant Uuid
+- `target_label` (String) Target Label
 - `target_tenant` (String) Target Tenant
 - `target_tenant_name` (String) Target Tenant Name
 - `url` (String) Url
@@ -99,6 +104,7 @@ Read-Only:
 - `gateway_ip` (String) IP address of the gateway for this subnet
 - `ip_version` (Number) IP protocol version (4 or 6)
 - `name` (String) Name
+- `port_security_enabled` (Boolean) Port Security Enabled
 - `uuid` (String) Uuid
 
 <a id="nestedatt--subnets--allocation_pools"></a>

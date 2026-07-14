@@ -53,14 +53,6 @@ func (c *OpenstackServerGroupClient) Get(ctx context.Context, id string) (*Opens
 	return &apiResp, nil
 }
 
-func (c *OpenstackServerGroupClient) Update(ctx context.Context, id string, req *OpenstackServerGroupUpdateRequest) (*OpenstackServerGroupResponse, error) {
-	var apiResp OpenstackServerGroupResponse
-	err := c.Client.Update(ctx, "/api/openstack-server-groups/{uuid}/", id, req, &apiResp)
-	if err != nil {
-		return nil, err
-	}
-	return &apiResp, nil
-}
 func (c *OpenstackServerGroupClient) Delete(ctx context.Context, id string) error {
 	return c.Client.Delete(ctx, "/api/openstack-server-groups/{uuid}/", id)
 }

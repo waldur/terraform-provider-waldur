@@ -21,11 +21,19 @@ type OpenstackNetworkRbacPolicyResponse struct {
 
 	BackendId *string `json:"backend_id,omitempty" tfsdk:"backend_id"`
 
+	Direction *string `json:"direction,omitempty" tfsdk:"direction"`
+
 	Network *string `json:"network" tfsdk:"network"`
 
 	NetworkName *string `json:"network_name,omitempty" tfsdk:"network_name"`
 
 	PolicyType *string `json:"policy_type,omitempty" tfsdk:"policy_type"`
+
+	SourceTenantName *string `json:"source_tenant_name,omitempty" tfsdk:"source_tenant_name"`
+
+	SourceTenantUuid *string `json:"source_tenant_uuid,omitempty" tfsdk:"source_tenant_uuid"`
+
+	TargetLabel *string `json:"target_label,omitempty" tfsdk:"target_label"`
 
 	TargetTenant *string `json:"target_tenant" tfsdk:"target_tenant"`
 

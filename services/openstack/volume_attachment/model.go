@@ -36,7 +36,6 @@ type OpenstackVolumeAttachmentFiltersModel struct {
 	SnapshotUuid         types.String `tfsdk:"snapshot_uuid"`
 	Tenant               types.String `tfsdk:"tenant"`
 	TenantUuid           types.String `tfsdk:"tenant_uuid"`
-	Uuid                 types.String `tfsdk:"uuid"`
 }
 
 func (m *OpenstackVolumeAttachmentFiltersModel) GetSchema() schema.SingleNestedAttribute {
@@ -144,16 +143,13 @@ func (m *OpenstackVolumeAttachmentFiltersModel) GetSchema() schema.SingleNestedA
 				Optional:            true,
 				MarkdownDescription: "Tenant UUID",
 			},
-			"uuid": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "UUID",
-			},
 		},
 	}
 }
 
 type OpenstackVolumeAttachmentModel struct {
 	UUID                    types.String `tfsdk:"id"`
+	ActionDetails           types.Map    `tfsdk:"action_details"`
 	AvailabilityZone        types.String `tfsdk:"availability_zone"`
 	AvailabilityZoneName    types.String `tfsdk:"availability_zone_name"`
 	BackendId               types.String `tfsdk:"backend_id"`
@@ -168,6 +164,7 @@ type OpenstackVolumeAttachmentModel struct {
 	ImageName               types.String `tfsdk:"image_name"`
 	Instance                types.String `tfsdk:"instance"`
 	InstanceMarketplaceUuid types.String `tfsdk:"instance_marketplace_uuid"`
+	MarketplaceOfferingType types.String `tfsdk:"marketplace_offering_type"`
 	MarketplaceResourceUuid types.String `tfsdk:"marketplace_resource_uuid"`
 	Name                    types.String `tfsdk:"name"`
 	Project                 types.String `tfsdk:"project"`
@@ -188,6 +185,14 @@ func (model *OpenstackVolumeAttachmentModel) CopyFrom(ctx context.Context, apiRe
 	var diags diag.Diagnostics
 
 	model.UUID = types.StringPointerValue(apiResp.UUID)
+
+	if apiResp.ActionDetails != nil {
+		valActionDetails, diagsActionDetails := types.MapValueFrom(ctx, types.StringType, apiResp.ActionDetails)
+		diags.Append(diagsActionDetails...)
+		model.ActionDetails = valActionDetails
+	} else {
+		model.ActionDetails = types.MapNull(types.StringType)
+	}
 
 	model.AvailabilityZone = common.StringPointerValue(apiResp.AvailabilityZone)
 
@@ -216,6 +221,8 @@ func (model *OpenstackVolumeAttachmentModel) CopyFrom(ctx context.Context, apiRe
 	model.Instance = common.StringPointerValue(apiResp.Instance)
 
 	model.InstanceMarketplaceUuid = common.StringPointerValue(apiResp.InstanceMarketplaceUuid)
+
+	model.MarketplaceOfferingType = common.StringPointerValue(apiResp.MarketplaceOfferingType)
 
 	model.MarketplaceResourceUuid = common.StringPointerValue(apiResp.MarketplaceResourceUuid)
 

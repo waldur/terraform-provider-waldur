@@ -47,8 +47,13 @@ resource "waldur_marketplace_order" "example" {
 - `attributes` (Map of String) Attributes structure depends on the offering type specified in the parent object. Can also be a generic object for offerings without a specific attributes schema.
 - `backend_id` (String) Backend Id
 - `callback_url` (String) Callback Url
+- `consumer_message` (String) Consumer Message
+- `consumer_message_attachment` (String) Consumer Message Attachment
 - `limits` (Map of Number) Limits
 - `plan` (String) Plan
+- `provider_message` (String) Provider Message
+- `provider_message_attachment` (String) Provider Message Attachment
+- `provider_message_url` (String) Provider Message Url
 - `request_comment` (String) Request Comment
 - `start_date` (String) Enables delayed processing of resource provisioning order.
 - `timeouts` (Block, Optional) (see [below for nested schema](#nestedblock--timeouts))
@@ -57,20 +62,28 @@ resource "waldur_marketplace_order" "example" {
 ### Read-Only
 
 - `activation_price` (Number) Activation Price
+- `auto_approved` (Boolean) Auto Approved
+- `auto_approved_by_rule_uuid` (String) Auto Approved By Rule Uuid
+- `auto_approved_cost_limit_snapshot` (String) Auto Approved Cost Limit Snapshot
 - `can_terminate` (Boolean) Can Terminate
 - `category_icon` (String) Category Icon
 - `category_uuid` (String) Category Uuid
 - `completed_at` (String) Completed At
+- `consumer_rejection_comment` (String) Consumer Rejection Comment
 - `consumer_reviewed_at` (String) Consumer Reviewed At
 - `consumer_reviewed_by` (String) Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters
 - `consumer_reviewed_by_full_name` (String) Consumer Reviewed By Full Name
 - `consumer_reviewed_by_username` (String) Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters
 - `cost` (String) Cost
 - `created_by_civil_number` (String) Created By Civil Number
+- `created_by_email` (String) Created By Email
 - `created_by_full_name` (String) Created By Full Name
+- `created_by_organization` (String) Created By Organization
+- `created_by_organization_registry_code` (String) Company registration code of the user's organization, if known
 - `created_by_username` (String) Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters
 - `customer_slug` (String) Customer Slug
 - `error_message` (String) Error Message
+- `error_updated_at` (String) Error Updated At
 - `fixed_price` (Number) Fixed Price
 - `id` (String) Marketplace Order UUID (used as Terraform ID)
 - `issue` (Attributes) Issue (see [below for nested schema](#nestedatt--issue))
@@ -81,6 +94,7 @@ resource "waldur_marketplace_order" "example" {
 - `offering_billable` (Boolean) Purchase and usage is invoiced.
 - `offering_description` (String) Offering Description
 - `offering_image` (String) Offering Image
+- `offering_plugin_options` (Map of String) Public data used by specific plugin, such as storage mode for OpenStack.
 - `offering_shared` (Boolean) Accessible to all customers.
 - `offering_thumbnail` (String) Offering Thumbnail
 - `offering_type` (String) Offering Type
@@ -90,13 +104,16 @@ resource "waldur_marketplace_order" "example" {
 - `old_plan_uuid` (String) Old Plan Uuid
 - `order_subtype` (String) Order Subtype
 - `output` (String) Output
+- `output_updated_at` (String) Output Updated At
 - `plan_description` (String) Plan Description
 - `plan_name` (String) Plan Name
 - `plan_unit` (String) Plan Unit
 - `plan_uuid` (String) Plan Uuid
 - `project_description` (String) Project Description
 - `project_slug` (String) Project Slug
+- `provider_description` (String) Provider Description
 - `provider_name` (String) Provider Name
+- `provider_rejection_comment` (String) Provider Rejection Comment
 - `provider_reviewed_at` (String) Provider Reviewed At
 - `provider_reviewed_by` (String) Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters
 - `provider_reviewed_by_full_name` (String) Provider Reviewed By Full Name

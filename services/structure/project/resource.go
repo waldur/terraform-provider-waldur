@@ -6,6 +6,7 @@ import (
 	"regexp"
 
 	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
+	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
 	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
@@ -13,6 +14,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/float64planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64planmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/mapplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
@@ -57,6 +59,108 @@ func (r *StructureProjectResource) Schema(ctx context.Context, req resource.Sche
 					stringplanmodifier.UseStateForUnknown(),
 				},
 			},
+			"affiliation": schema.SingleNestedAttribute{
+				Attributes: map[string]schema.Attribute{
+					"abbreviation": schema.StringAttribute{
+						Optional: true,
+						Computed: true,
+						PlanModifiers: []planmodifier.String{
+
+							stringplanmodifier.UseStateForUnknown(),
+						}, MarkdownDescription: "Abbreviation"},
+					"address": schema.StringAttribute{
+						Optional: true,
+						Computed: true,
+						PlanModifiers: []planmodifier.String{
+
+							stringplanmodifier.UseStateForUnknown(),
+						}, MarkdownDescription: "Address"},
+					"code": schema.StringAttribute{
+						Optional: true,
+						Computed: true,
+						PlanModifiers: []planmodifier.String{
+
+							stringplanmodifier.UseStateForUnknown(),
+						}, MarkdownDescription: "Unique short identifier, e.g. CERN, EMBL."},
+					"country": schema.StringAttribute{
+						Optional: true,
+						Computed: true,
+						PlanModifiers: []planmodifier.String{
+
+							stringplanmodifier.UseStateForUnknown(),
+						}, MarkdownDescription: "Country"},
+					"description": schema.StringAttribute{
+						Optional: true,
+						Computed: true,
+						PlanModifiers: []planmodifier.String{
+
+							stringplanmodifier.UseStateForUnknown(),
+						}, MarkdownDescription: "Description"},
+					"email": schema.StringAttribute{
+						Optional: true,
+						Computed: true,
+						PlanModifiers: []planmodifier.String{
+
+							stringplanmodifier.UseStateForUnknown(),
+						}, MarkdownDescription: "Email"},
+					"homepage": schema.StringAttribute{
+						Optional: true,
+						Computed: true,
+						PlanModifiers: []planmodifier.String{
+
+							stringplanmodifier.UseStateForUnknown(),
+						}, MarkdownDescription: "Homepage"},
+					"name": schema.StringAttribute{
+						Optional: true,
+						Computed: true,
+						PlanModifiers: []planmodifier.String{
+
+							stringplanmodifier.UseStateForUnknown(),
+						}, MarkdownDescription: "Name"},
+					"projects_count": schema.Int64Attribute{
+						Computed: true,
+						PlanModifiers: []planmodifier.Int64{
+
+							int64planmodifier.UseStateForUnknown(),
+						}, MarkdownDescription: "Number of active projects affiliated with this organization"},
+					"url": schema.StringAttribute{
+						Computed: true,
+						PlanModifiers: []planmodifier.String{
+
+							stringplanmodifier.UseStateForUnknown(),
+						}, MarkdownDescription: "Url"},
+					"uuid": schema.StringAttribute{
+						Computed: true,
+						PlanModifiers: []planmodifier.String{
+
+							stringplanmodifier.UseStateForUnknown(),
+						}, MarkdownDescription: "Uuid"},
+				},
+				Computed: true,
+				PlanModifiers: []planmodifier.Object{
+
+					objectplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Affiliation",
+			},
+			"affiliation_code": schema.StringAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+
+					stringplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Unique short identifier, e.g. CERN, EMBL."},
+			"affiliation_name": schema.StringAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+
+					stringplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Affiliation Name"},
+			"affiliation_uuid": schema.StringAttribute{
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+
+					stringplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Affiliation Uuid"},
 			"backend_id": schema.StringAttribute{
 				Optional: true,
 				Computed: true,
@@ -105,6 +209,12 @@ func (r *StructureProjectResource) Schema(ctx context.Context, req resource.Sche
 
 					boolplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "Customer Display Billing Info In Projects"},
+			"customer_grace_period_days": schema.Int64Attribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.Int64{
+
+					int64planmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Grace period days set at the customer (organization) level. Used as default when project-level is not set."},
 			"customer_slug": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
@@ -118,6 +228,12 @@ func (r *StructureProjectResource) Schema(ctx context.Context, req resource.Sche
 
 					stringplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "Project description (HTML content will be sanitized)"},
+			"effective_end_date": schema.StringAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+
+					stringplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Effective end date including grace period. After this date, project resources will be terminated."},
 			"end_date": schema.StringAttribute{
 				Optional: true,
 				Computed: true,
@@ -131,6 +247,13 @@ func (r *StructureProjectResource) Schema(ctx context.Context, req resource.Sche
 
 					stringplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "End Date Requested By"},
+			"end_date_updated_at": schema.StringAttribute{
+				CustomType: timetypes.RFC3339Type{},
+				Computed:   true,
+				PlanModifiers: []planmodifier.String{
+
+					stringplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Timestamp of the last end_date change."},
 			"grace_period_days": schema.Int64Attribute{
 				Optional: true,
 				Computed: true,
@@ -149,6 +272,12 @@ func (r *StructureProjectResource) Schema(ctx context.Context, req resource.Sche
 
 					stringplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "Image"},
+			"is_in_grace_period": schema.BoolAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.Bool{
+
+					boolplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "True if the project is past its end date but still within the grace period."},
 			"is_industry": schema.BoolAttribute{
 				Optional: true,
 				Computed: true,
@@ -207,12 +336,89 @@ func (r *StructureProjectResource) Schema(ctx context.Context, req resource.Sche
 
 					float64planmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "Project Credit"},
+			"project_metadata": schema.ListNestedAttribute{
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: map[string]schema.Attribute{
+						"answer": schema.MapAttribute{
+							ElementType: types.StringType,
+							Optional:    true,
+							Computed:    true,
+							PlanModifiers: []planmodifier.Map{
+
+								mapplanmodifier.UseStateForUnknown(),
+							}, MarkdownDescription: "Human-readable answer value; select-type option UUIDs are resolved to their labels."},
+						"question": schema.StringAttribute{
+							Optional: true,
+							Computed: true,
+							PlanModifiers: []planmodifier.String{
+
+								stringplanmodifier.UseStateForUnknown(),
+							}, MarkdownDescription: "Question description."},
+						"question_type": schema.StringAttribute{
+							Optional: true,
+							Computed: true,
+							PlanModifiers: []planmodifier.String{
+
+								stringplanmodifier.UseStateForUnknown(),
+							}, MarkdownDescription: "Question Type"},
+						"question_uuid": schema.StringAttribute{
+							Optional: true,
+							Computed: true,
+							PlanModifiers: []planmodifier.String{
+
+								stringplanmodifier.UseStateForUnknown(),
+							}, MarkdownDescription: "Question Uuid"},
+					},
+				},
+				Computed: true,
+				PlanModifiers: []planmodifier.List{
+
+					listplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Answers to the customer's project-metadata checklist (read-only).",
+			},
 			"resources_count": schema.Int64Attribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.Int64{
 
 					int64planmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "Number of active resources in this project"},
+			"science_domain_code": schema.StringAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+
+					stringplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Domain code (e.g. '1'). Auto-derived if left blank."},
+			"science_domain_name": schema.StringAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+
+					stringplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Science Domain Name"},
+			"science_domain_uuid": schema.StringAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+
+					stringplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Science Domain Uuid"},
+			"science_sub_domain": schema.StringAttribute{
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+
+					stringplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Science Sub Domain"},
+			"science_sub_domain_code": schema.StringAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+
+					stringplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Sub-domain code (e.g. '1.1'). Auto-derived from domain code if left blank."},
+			"science_sub_domain_name": schema.StringAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+
+					stringplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Science Sub Domain Name"},
 			"slug": schema.StringAttribute{
 				Optional: true,
 				Computed: true,
@@ -237,6 +443,13 @@ func (r *StructureProjectResource) Schema(ctx context.Context, req resource.Sche
 
 					stringplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "Project start date. Cannot be edited after the start date has arrived."},
+			"termination_metadata": schema.MapAttribute{
+				ElementType: types.StringType,
+				Computed:    true,
+				PlanModifiers: []planmodifier.Map{
+
+					mapplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Metadata about project termination (read-only)"},
 			"type": schema.StringAttribute{
 				Optional: true,
 				Computed: true,
@@ -299,6 +512,10 @@ func (r *StructureProjectResource) Create(ctx context.Context, req resource.Crea
 	}
 
 	requestBody := StructureProjectCreateRequest{}
+	if !data.AffiliationUuid.IsNull() && !data.AffiliationUuid.IsUnknown() {
+
+		requestBody.AffiliationUuid = data.AffiliationUuid.ValueStringPointer()
+	}
 	if !data.BackendId.IsNull() && !data.BackendId.IsUnknown() {
 
 		requestBody.BackendId = data.BackendId.ValueStringPointer()
@@ -334,6 +551,10 @@ func (r *StructureProjectResource) Create(ctx context.Context, req resource.Crea
 	if !data.OecdFos2007Code.IsNull() && !data.OecdFos2007Code.IsUnknown() {
 
 		requestBody.OecdFos2007Code = data.OecdFos2007Code.ValueStringPointer()
+	}
+	if !data.ScienceSubDomain.IsNull() && !data.ScienceSubDomain.IsUnknown() {
+
+		requestBody.ScienceSubDomain = data.ScienceSubDomain.ValueStringPointer()
 	}
 	if !data.Slug.IsNull() && !data.Slug.IsUnknown() {
 
@@ -411,6 +632,11 @@ func (r *StructureProjectResource) Update(ctx context.Context, req resource.Upda
 	var apiResp *StructureProjectResponse
 	anyChanges := false
 	requestBody := StructureProjectUpdateRequest{}
+	if !data.AffiliationUuid.IsNull() && !data.AffiliationUuid.IsUnknown() && !data.AffiliationUuid.Equal(state.AffiliationUuid) {
+		anyChanges = true
+
+		requestBody.AffiliationUuid = data.AffiliationUuid.ValueStringPointer()
+	}
 	if !data.BackendId.IsNull() && !data.BackendId.IsUnknown() && !data.BackendId.Equal(state.BackendId) {
 		anyChanges = true
 
@@ -460,6 +686,11 @@ func (r *StructureProjectResource) Update(ctx context.Context, req resource.Upda
 		anyChanges = true
 
 		requestBody.OecdFos2007Code = data.OecdFos2007Code.ValueStringPointer()
+	}
+	if !data.ScienceSubDomain.IsNull() && !data.ScienceSubDomain.IsUnknown() && !data.ScienceSubDomain.Equal(state.ScienceSubDomain) {
+		anyChanges = true
+
+		requestBody.ScienceSubDomain = data.ScienceSubDomain.ValueStringPointer()
 	}
 	if !data.Slug.IsNull() && !data.Slug.IsUnknown() && !data.Slug.Equal(state.Slug) {
 		anyChanges = true

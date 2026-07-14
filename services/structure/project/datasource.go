@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"regexp"
 
+	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
 	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
@@ -46,6 +47,39 @@ func (d *StructureProjectDataSource) Schema(ctx context.Context, req datasource.
 				MarkdownDescription: "Structure Project UUID",
 			},
 			"filters": (&StructureProjectFiltersModel{}).GetSchema(),
+			"affiliation": schema.SingleNestedAttribute{
+				Attributes: map[string]schema.Attribute{
+					"abbreviation": schema.StringAttribute{
+						Computed: true, MarkdownDescription: "Abbreviation"},
+					"address": schema.StringAttribute{
+						Computed: true, MarkdownDescription: "Address"},
+					"code": schema.StringAttribute{
+						Computed: true, MarkdownDescription: "Unique short identifier, e.g. CERN, EMBL."},
+					"country": schema.StringAttribute{
+						Computed: true, MarkdownDescription: "Country"},
+					"description": schema.StringAttribute{
+						Computed: true, MarkdownDescription: "Description"},
+					"email": schema.StringAttribute{
+						Computed: true, MarkdownDescription: "Email"},
+					"homepage": schema.StringAttribute{
+						Computed: true, MarkdownDescription: "Homepage"},
+					"name": schema.StringAttribute{
+						Computed: true, MarkdownDescription: "Name"},
+					"projects_count": schema.Int64Attribute{
+						Computed: true, MarkdownDescription: "Number of active projects affiliated with this organization"},
+					"url": schema.StringAttribute{
+						Computed: true, MarkdownDescription: "Url"},
+					"uuid": schema.StringAttribute{
+						Computed: true, MarkdownDescription: "Uuid"},
+				},
+				Computed: true, MarkdownDescription: "Affiliation",
+			},
+			"affiliation_code": schema.StringAttribute{
+				Computed: true, MarkdownDescription: "Unique short identifier, e.g. CERN, EMBL."},
+			"affiliation_name": schema.StringAttribute{
+				Computed: true, MarkdownDescription: "Affiliation Name"},
+			"affiliation_uuid": schema.StringAttribute{
+				Computed: true, MarkdownDescription: "Affiliation Uuid"},
 			"backend_id": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Backend Id"},
 			"billing_price_estimate": schema.SingleNestedAttribute{
@@ -65,14 +99,21 @@ func (d *StructureProjectDataSource) Schema(ctx context.Context, req datasource.
 				Computed: true, MarkdownDescription: "Customer"},
 			"customer_display_billing_info_in_projects": schema.BoolAttribute{
 				Computed: true, MarkdownDescription: "Customer Display Billing Info In Projects"},
+			"customer_grace_period_days": schema.Int64Attribute{
+				Computed: true, MarkdownDescription: "Grace period days set at the customer (organization) level. Used as default when project-level is not set."},
 			"customer_slug": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Customer Slug"},
 			"description": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Project description (HTML content will be sanitized)"},
+			"effective_end_date": schema.StringAttribute{
+				Computed: true, MarkdownDescription: "Effective end date including grace period. After this date, project resources will be terminated."},
 			"end_date": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Project end date. Setting this field requires DELETE_PROJECT permission."},
 			"end_date_requested_by": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "End Date Requested By"},
+			"end_date_updated_at": schema.StringAttribute{
+				CustomType: timetypes.RFC3339Type{},
+				Computed:   true, MarkdownDescription: "Timestamp of the last end_date change."},
 			"grace_period_days": schema.Int64Attribute{
 				Computed: true, MarkdownDescription: "Number of extra days after project end date before resources are terminated. Overrides customer-level setting.",
 				Validators: []validator.Int64{
@@ -81,6 +122,8 @@ func (d *StructureProjectDataSource) Schema(ctx context.Context, req datasource.
 				}},
 			"image": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Image"},
+			"is_in_grace_period": schema.BoolAttribute{
+				Computed: true, MarkdownDescription: "True if the project is past its end date but still within the grace period."},
 			"is_industry": schema.BoolAttribute{
 				Computed: true, MarkdownDescription: "Is Industry"},
 			"is_removed": schema.BoolAttribute{
@@ -104,8 +147,36 @@ func (d *StructureProjectDataSource) Schema(ctx context.Context, req datasource.
 				Computed: true, MarkdownDescription: "Human-readable label for the OECD FOS 2007 classification code"},
 			"project_credit": schema.Float64Attribute{
 				Computed: true, MarkdownDescription: "Project Credit"},
+			"project_metadata": schema.ListNestedAttribute{
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: map[string]schema.Attribute{
+						"answer": schema.MapAttribute{
+							ElementType: types.StringType,
+							Computed:    true, MarkdownDescription: "Human-readable answer value; select-type option UUIDs are resolved to their labels."},
+						"question": schema.StringAttribute{
+							Computed: true, MarkdownDescription: "Question description."},
+						"question_type": schema.StringAttribute{
+							Computed: true, MarkdownDescription: "Question Type"},
+						"question_uuid": schema.StringAttribute{
+							Computed: true, MarkdownDescription: "Question Uuid"},
+					},
+				},
+				Computed: true, MarkdownDescription: "Answers to the customer's project-metadata checklist (read-only).",
+			},
 			"resources_count": schema.Int64Attribute{
 				Computed: true, MarkdownDescription: "Number of active resources in this project"},
+			"science_domain_code": schema.StringAttribute{
+				Computed: true, MarkdownDescription: "Domain code (e.g. '1'). Auto-derived if left blank."},
+			"science_domain_name": schema.StringAttribute{
+				Computed: true, MarkdownDescription: "Science Domain Name"},
+			"science_domain_uuid": schema.StringAttribute{
+				Computed: true, MarkdownDescription: "Science Domain Uuid"},
+			"science_sub_domain": schema.StringAttribute{
+				Computed: true, MarkdownDescription: "Science Sub Domain"},
+			"science_sub_domain_code": schema.StringAttribute{
+				Computed: true, MarkdownDescription: "Sub-domain code (e.g. '1.1'). Auto-derived from domain code if left blank."},
+			"science_sub_domain_name": schema.StringAttribute{
+				Computed: true, MarkdownDescription: "Science Sub Domain Name"},
 			"slug": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "URL-friendly identifier. Only editable by staff users.",
 				Validators: []validator.String{
@@ -115,6 +186,9 @@ func (d *StructureProjectDataSource) Schema(ctx context.Context, req datasource.
 				Computed: true, MarkdownDescription: "Internal notes visible only to staff and support users (HTML content will be sanitized)"},
 			"start_date": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Project start date. Cannot be edited after the start date has arrived."},
+			"termination_metadata": schema.MapAttribute{
+				ElementType: types.StringType,
+				Computed:    true, MarkdownDescription: "Metadata about project termination (read-only)"},
 			"type": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Type"},
 			"type_name": schema.StringAttribute{

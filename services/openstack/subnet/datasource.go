@@ -87,6 +87,8 @@ func (d *OpenstackSubnetDataSource) Schema(ctx context.Context, req datasource.S
 				Computed: true, MarkdownDescription: "IP protocol version (4 or 6)"},
 			"is_connected": schema.BoolAttribute{
 				Computed: true, MarkdownDescription: "Is subnet connected to the default tenant router."},
+			"marketplace_offering_type": schema.StringAttribute{
+				Computed: true, MarkdownDescription: "Marketplace Offering Type"},
 			"marketplace_resource_uuid": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Marketplace Resource Uuid"},
 			"name": schema.StringAttribute{
@@ -95,6 +97,8 @@ func (d *OpenstackSubnetDataSource) Schema(ctx context.Context, req datasource.S
 				Computed: true, MarkdownDescription: "Network to which this subnet belongs"},
 			"network_name": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Network Name"},
+			"port_security_enabled": schema.BoolAttribute{
+				Computed: true, MarkdownDescription: "Port Security Enabled"},
 			"project": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Project"},
 			"resource_type": schema.StringAttribute{

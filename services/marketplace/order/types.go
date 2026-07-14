@@ -35,9 +35,14 @@ type MarketplaceOrderCreateLimitsRequest struct {
 }
 
 type MarketplaceOrderUpdateRequest struct {
+	Attributes map[string]interface{} `json:"attributes,omitempty" tfsdk:"attributes"`
+
 	Limits map[string]int64 `json:"limits,omitempty" tfsdk:"limits"`
 
 	StartDate *string `json:"start_date,omitempty" tfsdk:"start_date"`
+}
+
+type MarketplaceOrderUpdateAttributesRequest struct {
 }
 
 type MarketplaceOrderUpdateLimitsRequest struct {
@@ -49,6 +54,14 @@ type MarketplaceOrderResponse struct {
 	ActivationPrice common.FlexibleNumber `json:"activation_price,omitempty" tfsdk:"activation_price"`
 
 	Attachment *string `json:"attachment,omitempty" tfsdk:"attachment"`
+
+	Attributes map[string]string `json:"attributes,omitempty" tfsdk:"attributes"`
+
+	AutoApproved *bool `json:"auto_approved,omitempty" tfsdk:"auto_approved"`
+
+	AutoApprovedByRuleUuid *string `json:"auto_approved_by_rule_uuid,omitempty" tfsdk:"auto_approved_by_rule_uuid"`
+
+	AutoApprovedCostLimitSnapshot *string `json:"auto_approved_cost_limit_snapshot,omitempty" tfsdk:"auto_approved_cost_limit_snapshot"`
 
 	BackendId *string `json:"backend_id,omitempty" tfsdk:"backend_id"`
 
@@ -62,6 +75,12 @@ type MarketplaceOrderResponse struct {
 
 	CompletedAt *string `json:"completed_at,omitempty" tfsdk:"completed_at"`
 
+	ConsumerMessage *string `json:"consumer_message,omitempty" tfsdk:"consumer_message"`
+
+	ConsumerMessageAttachment *string `json:"consumer_message_attachment,omitempty" tfsdk:"consumer_message_attachment"`
+
+	ConsumerRejectionComment *string `json:"consumer_rejection_comment,omitempty" tfsdk:"consumer_rejection_comment"`
+
 	ConsumerReviewedAt *string `json:"consumer_reviewed_at,omitempty" tfsdk:"consumer_reviewed_at"`
 
 	ConsumerReviewedBy *string `json:"consumer_reviewed_by,omitempty" tfsdk:"consumer_reviewed_by"`
@@ -74,13 +93,21 @@ type MarketplaceOrderResponse struct {
 
 	CreatedByCivilNumber *string `json:"created_by_civil_number,omitempty" tfsdk:"created_by_civil_number"`
 
+	CreatedByEmail *string `json:"created_by_email,omitempty" tfsdk:"created_by_email"`
+
 	CreatedByFullName *string `json:"created_by_full_name,omitempty" tfsdk:"created_by_full_name"`
+
+	CreatedByOrganization *string `json:"created_by_organization,omitempty" tfsdk:"created_by_organization"`
+
+	CreatedByOrganizationRegistryCode *string `json:"created_by_organization_registry_code,omitempty" tfsdk:"created_by_organization_registry_code"`
 
 	CreatedByUsername *string `json:"created_by_username,omitempty" tfsdk:"created_by_username"`
 
 	CustomerSlug *string `json:"customer_slug,omitempty" tfsdk:"customer_slug"`
 
 	ErrorMessage *string `json:"error_message,omitempty" tfsdk:"error_message"`
+
+	ErrorUpdatedAt *string `json:"error_updated_at,omitempty" tfsdk:"error_updated_at"`
 
 	FixedPrice common.FlexibleNumber `json:"fixed_price,omitempty" tfsdk:"fixed_price"`
 
@@ -104,6 +131,8 @@ type MarketplaceOrderResponse struct {
 
 	OfferingImage *string `json:"offering_image,omitempty" tfsdk:"offering_image"`
 
+	OfferingPluginOptions map[string]interface{} `json:"offering_plugin_options,omitempty" tfsdk:"offering_plugin_options"`
+
 	OfferingShared *bool `json:"offering_shared,omitempty" tfsdk:"offering_shared"`
 
 	OfferingThumbnail *string `json:"offering_thumbnail,omitempty" tfsdk:"offering_thumbnail"`
@@ -122,6 +151,8 @@ type MarketplaceOrderResponse struct {
 
 	Output *string `json:"output,omitempty" tfsdk:"output"`
 
+	OutputUpdatedAt *string `json:"output_updated_at,omitempty" tfsdk:"output_updated_at"`
+
 	Plan *string `json:"plan,omitempty" tfsdk:"plan"`
 
 	PlanDescription *string `json:"plan_description,omitempty" tfsdk:"plan_description"`
@@ -136,7 +167,17 @@ type MarketplaceOrderResponse struct {
 
 	ProjectSlug *string `json:"project_slug,omitempty" tfsdk:"project_slug"`
 
+	ProviderDescription *string `json:"provider_description,omitempty" tfsdk:"provider_description"`
+
+	ProviderMessage *string `json:"provider_message,omitempty" tfsdk:"provider_message"`
+
+	ProviderMessageAttachment *string `json:"provider_message_attachment,omitempty" tfsdk:"provider_message_attachment"`
+
+	ProviderMessageUrl *string `json:"provider_message_url,omitempty" tfsdk:"provider_message_url"`
+
 	ProviderName *string `json:"provider_name,omitempty" tfsdk:"provider_name"`
+
+	ProviderRejectionComment *string `json:"provider_rejection_comment,omitempty" tfsdk:"provider_rejection_comment"`
 
 	ProviderReviewedAt *string `json:"provider_reviewed_at,omitempty" tfsdk:"provider_reviewed_at"`
 
@@ -171,6 +212,9 @@ type MarketplaceOrderResponse struct {
 	Url *string `json:"url,omitempty" tfsdk:"url"`
 }
 
+type MarketplaceOrderAttributesResponse struct {
+}
+
 type MarketplaceOrderIssueResponse struct {
 	Key *string `json:"key,omitempty" tfsdk:"key"`
 
@@ -178,6 +222,9 @@ type MarketplaceOrderIssueResponse struct {
 }
 
 type MarketplaceOrderLimitsResponse struct {
+}
+
+type MarketplaceOrderOfferingPluginOptionsResponse struct {
 }
 
 func (r *MarketplaceOrderResponse) GetState() string {

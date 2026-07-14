@@ -12,6 +12,7 @@ import (
 )
 
 type OpenstackImageFiltersModel struct {
+	IsRescueImage      types.Bool   `tfsdk:"is_rescue_image"`
 	Name               types.String `tfsdk:"name"`
 	NameExact          types.String `tfsdk:"name_exact"`
 	OfferingUuid       types.String `tfsdk:"offering_uuid"`
@@ -27,6 +28,10 @@ func (m *OpenstackImageFiltersModel) GetSchema() schema.SingleNestedAttribute {
 		Optional:            true,
 		MarkdownDescription: "Filter parameters for querying Openstack Image",
 		Attributes: map[string]schema.Attribute{
+			"is_rescue_image": schema.BoolAttribute{
+				Optional:            true,
+				MarkdownDescription: "Filter to images usable as Nova rescue images.",
+			},
 			"name": schema.StringAttribute{
 				Optional:            true,
 				MarkdownDescription: "Name",
@@ -67,6 +72,9 @@ type OpenstackImageModel struct {
 	UUID             types.String      `tfsdk:"id"`
 	BackendCreatedAt timetypes.RFC3339 `tfsdk:"backend_created_at"`
 	BackendId        types.String      `tfsdk:"backend_id"`
+	HwRescueBus      types.String      `tfsdk:"hw_rescue_bus"`
+	HwRescueDevice   types.String      `tfsdk:"hw_rescue_device"`
+	IsRescueImage    types.Bool        `tfsdk:"is_rescue_image"`
 	MinDisk          types.Int64       `tfsdk:"min_disk"`
 	MinRam           types.Int64       `tfsdk:"min_ram"`
 	Name             types.String      `tfsdk:"name"`
@@ -85,6 +93,12 @@ func (model *OpenstackImageModel) CopyFrom(ctx context.Context, apiResp Openstac
 	model.BackendCreatedAt = valBackendCreatedAt
 
 	model.BackendId = common.StringPointerValue(apiResp.BackendId)
+
+	model.HwRescueBus = common.StringPointerValue(apiResp.HwRescueBus)
+
+	model.HwRescueDevice = common.StringPointerValue(apiResp.HwRescueDevice)
+
+	model.IsRescueImage = types.BoolPointerValue(apiResp.IsRescueImage)
 
 	model.MinDisk = types.Int64PointerValue(apiResp.MinDisk)
 

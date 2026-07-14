@@ -40,7 +40,6 @@ type OpenstackFloatingIpFiltersModel struct {
 	ServiceSettingsUuid  types.String `tfsdk:"service_settings_uuid"`
 	Tenant               types.String `tfsdk:"tenant"`
 	TenantUuid           types.String `tfsdk:"tenant_uuid"`
-	Uuid                 types.String `tfsdk:"uuid"`
 }
 
 func (m *OpenstackFloatingIpFiltersModel) GetSchema() schema.SingleNestedAttribute {
@@ -132,10 +131,6 @@ func (m *OpenstackFloatingIpFiltersModel) GetSchema() schema.SingleNestedAttribu
 				Optional:            true,
 				MarkdownDescription: "Tenant UUID",
 			},
-			"uuid": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "UUID",
-			},
 		},
 	}
 }
@@ -151,6 +146,7 @@ type OpenstackFloatingIpModel struct {
 	ExternalAddress         types.String `tfsdk:"external_address"`
 	InstanceUrl             types.String `tfsdk:"instance_url"`
 	InstanceUuid            types.String `tfsdk:"instance_uuid"`
+	MarketplaceOfferingType types.String `tfsdk:"marketplace_offering_type"`
 	MarketplaceResourceUuid types.String `tfsdk:"marketplace_resource_uuid"`
 	Name                    types.String `tfsdk:"name"`
 	Port                    types.String `tfsdk:"port"`
@@ -188,6 +184,8 @@ func (model *OpenstackFloatingIpModel) CopyFrom(ctx context.Context, apiResp Ope
 	model.InstanceUrl = common.StringPointerValue(apiResp.InstanceUrl)
 
 	model.InstanceUuid = common.StringPointerValue(apiResp.InstanceUuid)
+
+	model.MarketplaceOfferingType = common.StringPointerValue(apiResp.MarketplaceOfferingType)
 
 	model.MarketplaceResourceUuid = common.StringPointerValue(apiResp.MarketplaceResourceUuid)
 

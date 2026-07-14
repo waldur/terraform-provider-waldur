@@ -157,6 +157,12 @@ func (r *OpenstackSubnetResource) Schema(ctx context.Context, req resource.Schem
 
 					boolplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "Is subnet connected to the default tenant router."},
+			"marketplace_offering_type": schema.StringAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+
+					stringplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Marketplace Offering Type"},
 			"marketplace_resource_uuid": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
@@ -177,6 +183,12 @@ func (r *OpenstackSubnetResource) Schema(ctx context.Context, req resource.Schem
 
 					stringplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "Network Name"},
+			"port_security_enabled": schema.BoolAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.Bool{
+
+					boolplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Port Security Enabled"},
 			"project": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{

@@ -49,4 +49,3 @@ Optional:
 - `snapshot_uuid` (String) Snapshot UUID
 - `tenant` (String) Tenant URL
 - `tenant_uuid` (String) Tenant UUID
-- `uuid` (String) UUID

@@ -45,7 +45,7 @@ resource "waldur_openstack_server_group" "example" {
 ### Optional
 
 - `description` (String) Description
-- `policy` (String) Server group policy determining the rules for scheduling servers in this group
+- `policy` (String) affinity — all instances are placed on the same hypervisor. anti-affinity — all instances are placed on different hypervisors. soft-affinity — instances are placed on the same hypervisor if possible, but not enforced. soft-anti-affinity — instances are placed on different hypervisors if possible, but not enforced.
 - `timeouts` (Block, Optional) (see [below for nested schema](#nestedblock--timeouts))
 
 ### Read-Only
@@ -56,6 +56,7 @@ resource "waldur_openstack_server_group" "example" {
 - `error_message` (String) Error Message
 - `id` (String) Openstack Server Group UUID (used as Terraform ID)
 - `instances` (Attributes List) Instances (see [below for nested schema](#nestedatt--instances))
+- `marketplace_offering_type` (String) Marketplace Offering Type
 - `marketplace_resource_uuid` (String) Marketplace Resource Uuid
 - `project` (String) Project
 - `resource_type` (String) Resource Type

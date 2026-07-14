@@ -57,6 +57,12 @@ func (r *OpenstackNetworkRbacPolicyResource) Schema(ctx context.Context, req res
 
 					stringplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "Backend Id"},
+			"direction": schema.StringAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+
+					stringplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Direction"},
 			"network": schema.StringAttribute{
 				Required: true, MarkdownDescription: "Network"},
 			"network_name": schema.StringAttribute{
@@ -72,6 +78,24 @@ func (r *OpenstackNetworkRbacPolicyResource) Schema(ctx context.Context, req res
 
 					stringplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "Type of access granted - either shared access or external network access"},
+			"source_tenant_name": schema.StringAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+
+					stringplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Source Tenant Name"},
+			"source_tenant_uuid": schema.StringAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+
+					stringplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Source Tenant Uuid"},
+			"target_label": schema.StringAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+
+					stringplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Target Label"},
 			"target_tenant": schema.StringAttribute{
 				Required: true, MarkdownDescription: "Target Tenant"},
 			"target_tenant_name": schema.StringAttribute{

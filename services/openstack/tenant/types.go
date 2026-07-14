@@ -85,7 +85,13 @@ type OpenstackTenantResponse struct {
 
 	ExternalNetworkId *string `json:"external_network_id,omitempty" tfsdk:"external_network_id"`
 
+	ExternalNetworkRefName *string `json:"external_network_ref_name,omitempty" tfsdk:"external_network_ref_name"`
+
+	ExternalNetworkRefUuid *string `json:"external_network_ref_uuid,omitempty" tfsdk:"external_network_ref_uuid"`
+
 	InternalNetworkId *string `json:"internal_network_id,omitempty" tfsdk:"internal_network_id"`
+
+	MarketplaceOfferingType *string `json:"marketplace_offering_type,omitempty" tfsdk:"marketplace_offering_type"`
 
 	MarketplaceResourceUuid *string `json:"marketplace_resource_uuid,omitempty" tfsdk:"marketplace_resource_uuid"`
 

@@ -28,9 +28,10 @@ Openstack Server Group data source - lookup by name or UUID
 - `display_name` (String) Display Name
 - `error_message` (String) Error Message
 - `instances` (Attributes List) Instances (see [below for nested schema](#nestedatt--instances))
+- `marketplace_offering_type` (String) Marketplace Offering Type
 - `marketplace_resource_uuid` (String) Marketplace Resource Uuid
 - `name` (String) Name
-- `policy` (String) Server group policy determining the rules for scheduling servers in this group
+- `policy` (String) affinity — all instances are placed on the same hypervisor. anti-affinity — all instances are placed on different hypervisors. soft-affinity — instances are placed on the same hypervisor if possible, but not enforced. soft-anti-affinity — instances are placed on different hypervisors if possible, but not enforced.
 - `project` (String) Project
 - `resource_type` (String) Resource Type
 - `state` (String) State
@@ -62,7 +63,6 @@ Optional:
 - `service_settings_uuid` (String) Service settings UUID
 - `tenant` (String) Tenant URL
 - `tenant_uuid` (String) Tenant UUID
-- `uuid` (String) UUID
 
 
 <a id="nestedatt--instances"></a>

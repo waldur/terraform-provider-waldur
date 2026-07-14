@@ -10,6 +10,12 @@ type OpenstackImageResponse struct {
 
 	BackendId *string `json:"backend_id" tfsdk:"backend_id"`
 
+	HwRescueBus *string `json:"hw_rescue_bus,omitempty" tfsdk:"hw_rescue_bus"`
+
+	HwRescueDevice *string `json:"hw_rescue_device,omitempty" tfsdk:"hw_rescue_device"`
+
+	IsRescueImage *bool `json:"is_rescue_image" tfsdk:"is_rescue_image"`
+
 	MinDisk *int64 `json:"min_disk,omitempty" tfsdk:"min_disk"`
 
 	MinRam *int64 `json:"min_ram,omitempty" tfsdk:"min_ram"`

@@ -29,7 +29,10 @@ Openstack Tenant data source - lookup by name or UUID
 - `description` (String) Description
 - `error_message` (String) Error Message
 - `external_network_id` (String) ID of external network connected to OpenStack tenant
+- `external_network_ref_name` (String) External Network Ref Name
+- `external_network_ref_uuid` (String) External Network Ref Uuid
 - `internal_network_id` (String) ID of internal network in OpenStack tenant
+- `marketplace_offering_type` (String) Marketplace Offering Type
 - `marketplace_resource_uuid` (String) Marketplace Resource Uuid
 - `name` (String) Name
 - `project` (String) Project URL
@@ -62,7 +65,6 @@ Optional:
 - `project_uuid` (String) Project UUID
 - `service_settings_name` (String) Service settings name
 - `service_settings_uuid` (String) Service settings UUID
-- `uuid` (String) UUID
 
 
 <a id="nestedatt--quotas"></a>

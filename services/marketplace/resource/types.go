@@ -22,6 +22,13 @@ type MarketplaceResourceUpdateLimitsActionRequest struct {
 type MarketplaceResourceCreateLimitsRequest struct {
 }
 
+type MarketplaceResourceUpdateOptionsActionRequest struct {
+	Options map[string]interface{} `json:"options"`
+}
+
+type MarketplaceResourceCreateOptionsRequest struct {
+}
+
 type MarketplaceResourceResponse struct {
 	UUID *string `json:"uuid"`
 
@@ -47,6 +54,8 @@ type MarketplaceResourceResponse struct {
 
 	EndDateRequestedBy *string `json:"end_date_requested_by,omitempty" tfsdk:"end_date_requested_by"`
 
+	EndDateUpdatedAt *string `json:"end_date_updated_at,omitempty" tfsdk:"end_date_updated_at"`
+
 	Endpoints *[]common.NestedEndpoint `json:"endpoints,omitempty" tfsdk:"endpoints"`
 
 	ErrorMessage *string `json:"error_message,omitempty" tfsdk:"error_message"`
@@ -71,6 +80,8 @@ type MarketplaceResourceResponse struct {
 
 	OfferingImage *string `json:"offering_image,omitempty" tfsdk:"offering_image"`
 
+	OfferingPluginOptions map[string]interface{} `json:"offering_plugin_options,omitempty" tfsdk:"offering_plugin_options"`
+
 	OfferingShared *bool `json:"offering_shared,omitempty" tfsdk:"offering_shared"`
 
 	OfferingSlug *string `json:"offering_slug,omitempty" tfsdk:"offering_slug"`
@@ -82,6 +93,8 @@ type MarketplaceResourceResponse struct {
 	OfferingType *string `json:"offering_type,omitempty" tfsdk:"offering_type"`
 
 	OfferingUuid *string `json:"offering_uuid,omitempty" tfsdk:"offering_uuid"`
+
+	Options map[string]interface{} `json:"options,omitempty" tfsdk:"options"`
 
 	OrderInProgress *MarketplaceResourceOrderInProgressResponse `json:"order_in_progress,omitempty" tfsdk:"order_in_progress"`
 
@@ -111,11 +124,17 @@ type MarketplaceResourceResponse struct {
 
 	ProjectDescription *string `json:"project_description,omitempty" tfsdk:"project_description"`
 
+	ProjectEffectiveEndDate *string `json:"project_effective_end_date,omitempty" tfsdk:"project_effective_end_date"`
+
 	ProjectEndDate *string `json:"project_end_date,omitempty" tfsdk:"project_end_date"`
 
 	ProjectEndDateRequestedBy *string `json:"project_end_date_requested_by,omitempty" tfsdk:"project_end_date_requested_by"`
 
+	ProjectIsInGracePeriod *bool `json:"project_is_in_grace_period,omitempty" tfsdk:"project_is_in_grace_period"`
+
 	ProjectSlug *string `json:"project_slug,omitempty" tfsdk:"project_slug"`
+
+	ProviderDescription *string `json:"provider_description,omitempty" tfsdk:"provider_description"`
 
 	ProviderName *string `json:"provider_name,omitempty" tfsdk:"provider_name"`
 
@@ -188,17 +207,27 @@ type MarketplaceResourceOfferingComponentsResponse struct {
 
 	MaxPrepaidDuration *int64 `json:"max_prepaid_duration,omitempty" tfsdk:"max_prepaid_duration"`
 
+	MaxRenewalDuration *int64 `json:"max_renewal_duration,omitempty" tfsdk:"max_renewal_duration"`
+
 	MaxValue *int64 `json:"max_value,omitempty" tfsdk:"max_value"`
 
 	MeasuredUnit *string `json:"measured_unit,omitempty" tfsdk:"measured_unit"`
 
 	MinPrepaidDuration *int64 `json:"min_prepaid_duration,omitempty" tfsdk:"min_prepaid_duration"`
 
+	MinRenewalDuration *int64 `json:"min_renewal_duration,omitempty" tfsdk:"min_renewal_duration"`
+
 	MinValue *int64 `json:"min_value,omitempty" tfsdk:"min_value"`
 
 	Name *string `json:"name,omitempty" tfsdk:"name"`
 
+	OfferingUuid *string `json:"offering_uuid,omitempty" tfsdk:"offering_uuid"`
+
 	OverageComponent *string `json:"overage_component,omitempty" tfsdk:"overage_component"`
+
+	PrepaidDurationStep *int64 `json:"prepaid_duration_step,omitempty" tfsdk:"prepaid_duration_step"`
+
+	RenewalDurationStep *int64 `json:"renewal_duration_step,omitempty" tfsdk:"renewal_duration_step"`
 
 	Type *string `json:"type,omitempty" tfsdk:"type"`
 
@@ -207,10 +236,24 @@ type MarketplaceResourceOfferingComponentsResponse struct {
 	Uuid *string `json:"uuid,omitempty" tfsdk:"uuid"`
 }
 
+type MarketplaceResourceOfferingPluginOptionsResponse struct {
+}
+
+type MarketplaceResourceOptionsResponse struct {
+}
+
 type MarketplaceResourceOrderInProgressResponse struct {
 	ActivationPrice common.FlexibleNumber `json:"activation_price,omitempty" tfsdk:"activation_price"`
 
 	Attachment *string `json:"attachment,omitempty" tfsdk:"attachment"`
+
+	Attributes map[string]interface{} `json:"attributes,omitempty" tfsdk:"attributes"`
+
+	AutoApproved *bool `json:"auto_approved,omitempty" tfsdk:"auto_approved"`
+
+	AutoApprovedByRuleUuid *string `json:"auto_approved_by_rule_uuid,omitempty" tfsdk:"auto_approved_by_rule_uuid"`
+
+	AutoApprovedCostLimitSnapshot *string `json:"auto_approved_cost_limit_snapshot,omitempty" tfsdk:"auto_approved_cost_limit_snapshot"`
 
 	BackendId *string `json:"backend_id,omitempty" tfsdk:"backend_id"`
 
@@ -224,6 +267,12 @@ type MarketplaceResourceOrderInProgressResponse struct {
 
 	CompletedAt *string `json:"completed_at,omitempty" tfsdk:"completed_at"`
 
+	ConsumerMessage *string `json:"consumer_message,omitempty" tfsdk:"consumer_message"`
+
+	ConsumerMessageAttachment *string `json:"consumer_message_attachment,omitempty" tfsdk:"consumer_message_attachment"`
+
+	ConsumerRejectionComment *string `json:"consumer_rejection_comment,omitempty" tfsdk:"consumer_rejection_comment"`
+
 	ConsumerReviewedAt *string `json:"consumer_reviewed_at,omitempty" tfsdk:"consumer_reviewed_at"`
 
 	ConsumerReviewedBy *string `json:"consumer_reviewed_by,omitempty" tfsdk:"consumer_reviewed_by"`
@@ -236,13 +285,21 @@ type MarketplaceResourceOrderInProgressResponse struct {
 
 	CreatedByCivilNumber *string `json:"created_by_civil_number,omitempty" tfsdk:"created_by_civil_number"`
 
+	CreatedByEmail *string `json:"created_by_email,omitempty" tfsdk:"created_by_email"`
+
 	CreatedByFullName *string `json:"created_by_full_name,omitempty" tfsdk:"created_by_full_name"`
+
+	CreatedByOrganization *string `json:"created_by_organization,omitempty" tfsdk:"created_by_organization"`
+
+	CreatedByOrganizationRegistryCode *string `json:"created_by_organization_registry_code,omitempty" tfsdk:"created_by_organization_registry_code"`
 
 	CreatedByUsername *string `json:"created_by_username,omitempty" tfsdk:"created_by_username"`
 
 	CustomerSlug *string `json:"customer_slug,omitempty" tfsdk:"customer_slug"`
 
 	ErrorMessage *string `json:"error_message,omitempty" tfsdk:"error_message"`
+
+	ErrorUpdatedAt *string `json:"error_updated_at,omitempty" tfsdk:"error_updated_at"`
 
 	FixedPrice common.FlexibleNumber `json:"fixed_price,omitempty" tfsdk:"fixed_price"`
 
@@ -266,6 +323,8 @@ type MarketplaceResourceOrderInProgressResponse struct {
 
 	OfferingImage *string `json:"offering_image,omitempty" tfsdk:"offering_image"`
 
+	OfferingPluginOptions map[string]interface{} `json:"offering_plugin_options,omitempty" tfsdk:"offering_plugin_options"`
+
 	OfferingShared *bool `json:"offering_shared,omitempty" tfsdk:"offering_shared"`
 
 	OfferingThumbnail *string `json:"offering_thumbnail,omitempty" tfsdk:"offering_thumbnail"`
@@ -284,6 +343,8 @@ type MarketplaceResourceOrderInProgressResponse struct {
 
 	Output *string `json:"output,omitempty" tfsdk:"output"`
 
+	OutputUpdatedAt *string `json:"output_updated_at,omitempty" tfsdk:"output_updated_at"`
+
 	Plan *string `json:"plan,omitempty" tfsdk:"plan"`
 
 	PlanDescription *string `json:"plan_description,omitempty" tfsdk:"plan_description"`
@@ -298,7 +359,17 @@ type MarketplaceResourceOrderInProgressResponse struct {
 
 	ProjectSlug *string `json:"project_slug,omitempty" tfsdk:"project_slug"`
 
+	ProviderDescription *string `json:"provider_description,omitempty" tfsdk:"provider_description"`
+
+	ProviderMessage *string `json:"provider_message,omitempty" tfsdk:"provider_message"`
+
+	ProviderMessageAttachment *string `json:"provider_message_attachment,omitempty" tfsdk:"provider_message_attachment"`
+
+	ProviderMessageUrl *string `json:"provider_message_url,omitempty" tfsdk:"provider_message_url"`
+
 	ProviderName *string `json:"provider_name,omitempty" tfsdk:"provider_name"`
+
+	ProviderRejectionComment *string `json:"provider_rejection_comment,omitempty" tfsdk:"provider_rejection_comment"`
 
 	ProviderReviewedAt *string `json:"provider_reviewed_at,omitempty" tfsdk:"provider_reviewed_at"`
 
@@ -335,6 +406,9 @@ type MarketplaceResourceOrderInProgressResponse struct {
 	Uuid *string `json:"uuid,omitempty" tfsdk:"uuid"`
 }
 
+type MarketplaceResourceOrderInProgressAttributesResponse struct {
+}
+
 type MarketplaceResourceOrderInProgressIssueResponse struct {
 	Key *string `json:"key,omitempty" tfsdk:"key"`
 
@@ -342,6 +416,9 @@ type MarketplaceResourceOrderInProgressIssueResponse struct {
 }
 
 type MarketplaceResourceOrderInProgressLimitsResponse struct {
+}
+
+type MarketplaceResourceOrderInProgressOfferingPluginOptionsResponse struct {
 }
 
 type MarketplaceResourceRenewalDateResponse struct {

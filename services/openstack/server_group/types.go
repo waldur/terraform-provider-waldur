@@ -12,14 +12,6 @@ type OpenstackServerGroupCreateRequest struct {
 	Policy *string `json:"policy,omitempty" tfsdk:"policy"`
 }
 
-type OpenstackServerGroupUpdateRequest struct {
-	Description *string `json:"description,omitempty" tfsdk:"description"`
-
-	Name *string `json:"name,omitempty" tfsdk:"name"`
-
-	Policy *string `json:"policy,omitempty" tfsdk:"policy"`
-}
-
 type OpenstackServerGroupResponse struct {
 	UUID *string `json:"uuid"`
 
@@ -34,6 +26,8 @@ type OpenstackServerGroupResponse struct {
 	ErrorMessage *string `json:"error_message,omitempty" tfsdk:"error_message"`
 
 	Instances *[]common.OpenStackNestedInstance `json:"instances,omitempty" tfsdk:"instances"`
+
+	MarketplaceOfferingType *string `json:"marketplace_offering_type,omitempty" tfsdk:"marketplace_offering_type"`
 
 	MarketplaceResourceUuid *string `json:"marketplace_resource_uuid,omitempty" tfsdk:"marketplace_resource_uuid"`
 

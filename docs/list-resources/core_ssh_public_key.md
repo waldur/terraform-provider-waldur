@@ -25,12 +25,13 @@ description: |-
 Optional:
 
 - `created` (String) Created after
+- `created_before` (String) Created before
 - `fingerprint_md5` (String) Fingerprint md5
 - `fingerprint_sha256` (String) Fingerprint sha256
 - `fingerprint_sha512` (String) Fingerprint sha512
 - `is_shared` (Boolean) Is shared
 - `modified` (String) Modified after
+- `modified_before` (String) Modified before
 - `name` (String) Name
 - `name_exact` (String) Name (exact)
 - `user_uuid` (String) User UUID
-- `uuid` (String) UUID

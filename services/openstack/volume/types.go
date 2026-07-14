@@ -53,6 +53,8 @@ type OpenstackVolumeRetypeActionRequest struct {
 type OpenstackVolumeResponse struct {
 	UUID *string `json:"uuid"`
 
+	ActionDetails map[string]interface{} `json:"action_details,omitempty" tfsdk:"action_details"`
+
 	AvailabilityZone *string `json:"availability_zone,omitempty" tfsdk:"availability_zone"`
 
 	AvailabilityZoneName *string `json:"availability_zone_name,omitempty" tfsdk:"availability_zone_name"`
@@ -81,6 +83,8 @@ type OpenstackVolumeResponse struct {
 
 	InstanceMarketplaceUuid *string `json:"instance_marketplace_uuid,omitempty" tfsdk:"instance_marketplace_uuid"`
 
+	MarketplaceOfferingType *string `json:"marketplace_offering_type,omitempty" tfsdk:"marketplace_offering_type"`
+
 	MarketplaceResourceUuid *string `json:"marketplace_resource_uuid,omitempty" tfsdk:"marketplace_resource_uuid"`
 
 	Name *string `json:"name" tfsdk:"name"`
@@ -106,6 +110,9 @@ type OpenstackVolumeResponse struct {
 	TypeName *string `json:"type_name,omitempty" tfsdk:"type_name"`
 
 	Url *string `json:"url,omitempty" tfsdk:"url"`
+}
+
+type OpenstackVolumeActionDetailsResponse struct {
 }
 
 func (r *OpenstackVolumeResponse) GetState() string {

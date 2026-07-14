@@ -33,6 +33,7 @@ Openstack Port data source - lookup by name or UUID
 - `fixed_ips` (Attributes List) Fixed Ips (see [below for nested schema](#nestedatt--fixed_ips))
 - `floating_ips` (Set of String) Floating Ips
 - `mac_address` (String) MAC address of the port
+- `marketplace_offering_type` (String) Marketplace Offering Type
 - `marketplace_resource_uuid` (String) Marketplace Resource Uuid
 - `name` (String) Name
 - `network` (String) Network to which this port belongs

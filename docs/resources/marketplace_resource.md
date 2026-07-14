@@ -64,23 +64,26 @@ resource "waldur_marketplace_resource" "example" {
 - `description` (String) Description
 - `effective_id` (String) Effective Id
 - `end_date_requested_by` (String) End Date Requested By
+- `end_date_updated_at` (String) Timestamp of the last end_date change.
 - `endpoints` (Attributes List) Endpoints (see [below for nested schema](#nestedatt--endpoints))
 - `error_message` (String) Error Message
 - `id` (String) Marketplace Resource UUID (used as Terraform ID)
 - `last_sync` (String) Last Sync
-- `limit_usage` (Map of Number) Limit Usage
+- `limit_usage` (Map of Number) Dictionary mapping limit-based component types to their consumed usage. For monthly periods, maps from current_usages; for longer periods, aggregates historical usage.
 - `limits` (Map of Number) Limits
 - `offering_backend_id` (String) Offering Backend Id
 - `offering_billable` (Boolean) Purchase and usage is invoiced.
 - `offering_components` (Attributes List) Offering Components (see [below for nested schema](#nestedatt--offering_components))
 - `offering_description` (String) Offering Description
 - `offering_image` (String) Offering Image
+- `offering_plugin_options` (Map of String) Public data used by specific plugin, such as storage mode for OpenStack.
 - `offering_shared` (Boolean) Accessible to all customers.
 - `offering_slug` (String) Offering Slug
 - `offering_state` (String) Offering State
 - `offering_thumbnail` (String) Offering Thumbnail
 - `offering_type` (String) Offering Type
 - `offering_uuid` (String) Offering Uuid
+- `options` (Map of String) Options
 - `order_in_progress` (Attributes) Order In Progress (see [below for nested schema](#nestedatt--order_in_progress))
 - `parent_name` (String) Parent Name
 - `parent_offering_name` (String) Parent Offering Name
@@ -93,9 +96,12 @@ resource "waldur_marketplace_resource" "example" {
 - `plan_uuid` (String) Plan Uuid
 - `project` (String) Project
 - `project_description` (String) Project Description
+- `project_effective_end_date` (String) Effective project end date including grace period. After this date, resources will be terminated.
 - `project_end_date` (String) The date is inclusive. Once reached, all project resource will be scheduled for termination.
 - `project_end_date_requested_by` (String) Project End Date Requested By
+- `project_is_in_grace_period` (Boolean) True if the project is past its end date but still within the grace period.
 - `project_slug` (String) Project Slug
+- `provider_description` (String) Provider Description
 - `provider_name` (String) Provider Name
 - `provider_slug` (String) Provider Slug
 - `provider_uuid` (String) Provider Uuid
@@ -148,12 +154,16 @@ Optional:
 - `limit_period` (String) Limit Period
 - `max_available_limit` (Number) Max Available Limit
 - `max_prepaid_duration` (Number) Max Prepaid Duration
+- `max_renewal_duration` (Number) Maximum number of months allowed for a renewal.
 - `max_value` (Number) Max Value
 - `measured_unit` (String) Unit of measurement, for example, GB.
 - `min_prepaid_duration` (Number) Min Prepaid Duration
+- `min_renewal_duration` (Number) Minimum number of months allowed for a renewal.
 - `min_value` (Number) Min Value
 - `name` (String) Display name for the measured unit, for example, Floating IP.
 - `overage_component` (String) Overage Component
+- `prepaid_duration_step` (Number) Step size in months for the initial prepaid duration at order creation. If set, only multiples of this value (starting from min_prepaid_duration) are valid. Defaults to 1 (any value between min and max).
+- `renewal_duration_step` (Number) Step size in months for renewal. Only multiples of this value (starting from min_renewal_duration) are valid. Defaults to 1.
 - `type` (String) Unique internal name of the measured unit, for example floating_ip.
 - `unit_factor` (Number) The conversion factor from backend units to measured_unit
 
@@ -161,6 +171,7 @@ Read-Only:
 
 - `factor` (Number) Factor
 - `is_builtin` (Boolean) Is Builtin
+- `offering_uuid` (String) Offering Uuid
 - `uuid` (String) Uuid
 
 
@@ -170,11 +181,17 @@ Read-Only:
 Optional:
 
 - `attachment` (String) Attachment
+- `attributes` (Map of String) Attributes
 - `backend_id` (String) Backend Id
 - `callback_url` (String) Callback Url
+- `consumer_message` (String) Consumer Message
+- `consumer_message_attachment` (String) Consumer Message Attachment
 - `limits` (Map of Number) Limits
 - `offering` (String) Offering
 - `plan` (String) Plan
+- `provider_message` (String) Provider Message
+- `provider_message_attachment` (String) Provider Message Attachment
+- `provider_message_url` (String) Provider Message Url
 - `request_comment` (String) Request Comment
 - `start_date` (String) Enables delayed processing of resource provisioning order.
 - `type` (String) Type
@@ -182,20 +199,28 @@ Optional:
 Read-Only:
 
 - `activation_price` (Number) Activation Price
+- `auto_approved` (Boolean) Auto Approved
+- `auto_approved_by_rule_uuid` (String) Auto Approved By Rule Uuid
+- `auto_approved_cost_limit_snapshot` (String) Auto Approved Cost Limit Snapshot
 - `can_terminate` (Boolean) Can Terminate
 - `category_icon` (String) Category Icon
 - `category_uuid` (String) Category Uuid
 - `completed_at` (String) Completed At
+- `consumer_rejection_comment` (String) Consumer Rejection Comment
 - `consumer_reviewed_at` (String) Consumer Reviewed At
 - `consumer_reviewed_by` (String) Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters
 - `consumer_reviewed_by_full_name` (String) Consumer Reviewed By Full Name
 - `consumer_reviewed_by_username` (String) Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters
 - `cost` (String) Cost
 - `created_by_civil_number` (String) Created By Civil Number
+- `created_by_email` (String) Created By Email
 - `created_by_full_name` (String) Created By Full Name
+- `created_by_organization` (String) Created By Organization
+- `created_by_organization_registry_code` (String) Company registration code of the user's organization, if known
 - `created_by_username` (String) Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters
 - `customer_slug` (String) Customer Slug
 - `error_message` (String) Error Message
+- `error_updated_at` (String) Error Updated At
 - `fixed_price` (Number) Fixed Price
 - `issue` (Attributes) Issue (see [below for nested schema](#nestedatt--order_in_progress--issue))
 - `marketplace_resource_uuid` (String) Marketplace Resource Uuid
@@ -205,6 +230,7 @@ Read-Only:
 - `offering_billable` (Boolean) Purchase and usage is invoiced.
 - `offering_description` (String) Offering Description
 - `offering_image` (String) Offering Image
+- `offering_plugin_options` (Map of String) Public data used by specific plugin, such as storage mode for OpenStack.
 - `offering_shared` (Boolean) Accessible to all customers.
 - `offering_thumbnail` (String) Offering Thumbnail
 - `offering_type` (String) Offering Type
@@ -214,13 +240,16 @@ Read-Only:
 - `old_plan_uuid` (String) Old Plan Uuid
 - `order_subtype` (String) Order Subtype
 - `output` (String) Output
+- `output_updated_at` (String) Output Updated At
 - `plan_description` (String) Plan Description
 - `plan_name` (String) Plan Name
 - `plan_unit` (String) Plan Unit
 - `plan_uuid` (String) Plan Uuid
 - `project_description` (String) Project Description
 - `project_slug` (String) Project Slug
+- `provider_description` (String) Provider Description
 - `provider_name` (String) Provider Name
+- `provider_rejection_comment` (String) Provider Rejection Comment
 - `provider_reviewed_at` (String) Provider Reviewed At
 - `provider_reviewed_by` (String) Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters
 - `provider_reviewed_by_full_name` (String) Provider Reviewed By Full Name

@@ -69,6 +69,8 @@ type OpenstackPortResponse struct {
 
 	MacAddress *string `json:"mac_address,omitempty" tfsdk:"mac_address"`
 
+	MarketplaceOfferingType *string `json:"marketplace_offering_type,omitempty" tfsdk:"marketplace_offering_type"`
+
 	MarketplaceResourceUuid *string `json:"marketplace_resource_uuid,omitempty" tfsdk:"marketplace_resource_uuid"`
 
 	Name *string `json:"name" tfsdk:"name"`

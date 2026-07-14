@@ -13,6 +13,7 @@ import (
 )
 
 type OpenstackNetworkRbacPolicyFiltersModel struct {
+	Direction        types.String `tfsdk:"direction"`
 	Network          types.String `tfsdk:"network"`
 	NetworkUuid      types.String `tfsdk:"network_uuid"`
 	PolicyType       types.String `tfsdk:"policy_type"`
@@ -27,6 +28,14 @@ func (m *OpenstackNetworkRbacPolicyFiltersModel) GetSchema() schema.SingleNested
 		Optional:            true,
 		MarkdownDescription: "Filter parameters for querying Openstack Network Rbac Policy",
 		Attributes: map[string]schema.Attribute{
+			"direction": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Direction relative to the requesting user",
+
+				Validators: []validator.String{
+					stringvalidator.OneOf("all", "inbound", "outbound"),
+				},
+			},
 			"network": schema.StringAttribute{
 				Optional:            true,
 				MarkdownDescription: "Network URL",
@@ -40,7 +49,7 @@ func (m *OpenstackNetworkRbacPolicyFiltersModel) GetSchema() schema.SingleNested
 				MarkdownDescription: "Type of access granted - either shared access or external network access",
 
 				Validators: []validator.String{
-					stringvalidator.OneOf("access_as_external", "access_as_shared"),
+					stringvalidator.OneOf("access_as_shared", "access_as_external"),
 				},
 			},
 			"target_tenant": schema.StringAttribute{
@@ -66,9 +75,13 @@ func (m *OpenstackNetworkRbacPolicyFiltersModel) GetSchema() schema.SingleNested
 type OpenstackNetworkRbacPolicyModel struct {
 	UUID             types.String `tfsdk:"id"`
 	BackendId        types.String `tfsdk:"backend_id"`
+	Direction        types.String `tfsdk:"direction"`
 	Network          types.String `tfsdk:"network"`
 	NetworkName      types.String `tfsdk:"network_name"`
 	PolicyType       types.String `tfsdk:"policy_type"`
+	SourceTenantName types.String `tfsdk:"source_tenant_name"`
+	SourceTenantUuid types.String `tfsdk:"source_tenant_uuid"`
+	TargetLabel      types.String `tfsdk:"target_label"`
 	TargetTenant     types.String `tfsdk:"target_tenant"`
 	TargetTenantName types.String `tfsdk:"target_tenant_name"`
 	Url              types.String `tfsdk:"url"`
@@ -82,11 +95,19 @@ func (model *OpenstackNetworkRbacPolicyModel) CopyFrom(ctx context.Context, apiR
 
 	model.BackendId = common.StringPointerValue(apiResp.BackendId)
 
+	model.Direction = common.StringPointerValue(apiResp.Direction)
+
 	model.Network = common.StringPointerValue(apiResp.Network)
 
 	model.NetworkName = common.StringPointerValue(apiResp.NetworkName)
 
 	model.PolicyType = common.StringPointerValue(apiResp.PolicyType)
+
+	model.SourceTenantName = common.StringPointerValue(apiResp.SourceTenantName)
+
+	model.SourceTenantUuid = common.StringPointerValue(apiResp.SourceTenantUuid)
+
+	model.TargetLabel = common.StringPointerValue(apiResp.TargetLabel)
 
 	model.TargetTenant = common.StringPointerValue(apiResp.TargetTenant)
 

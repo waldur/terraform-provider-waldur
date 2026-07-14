@@ -69,6 +69,8 @@ type OpenstackSubnetResponse struct {
 
 	IsConnected *bool `json:"is_connected,omitempty" tfsdk:"is_connected"`
 
+	MarketplaceOfferingType *string `json:"marketplace_offering_type,omitempty" tfsdk:"marketplace_offering_type"`
+
 	MarketplaceResourceUuid *string `json:"marketplace_resource_uuid,omitempty" tfsdk:"marketplace_resource_uuid"`
 
 	Name *string `json:"name" tfsdk:"name"`
@@ -76,6 +78,8 @@ type OpenstackSubnetResponse struct {
 	Network *string `json:"network" tfsdk:"network"`
 
 	NetworkName *string `json:"network_name,omitempty" tfsdk:"network_name"`
+
+	PortSecurityEnabled *bool `json:"port_security_enabled,omitempty" tfsdk:"port_security_enabled"`
 
 	Project *string `json:"project,omitempty" tfsdk:"project"`
 

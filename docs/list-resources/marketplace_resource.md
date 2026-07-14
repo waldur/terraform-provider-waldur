@@ -28,15 +28,19 @@ Optional:
 - `category_uuid` (String) Category UUID
 - `component_count` (Number) Filter by exact number of components
 - `created` (String) Created after
+- `created_before` (String) Created before
 - `customer` (String) Customer URL
 - `customer_uuid` (String) Customer UUID
 - `downscaled` (Boolean) Downscaled
+- `flavor_name` (String) Flavor name
 - `has_terminate_date` (Boolean) Has termination date
+- `image_name` (String) Image name
 - `is_attached` (Boolean) Filter by attached state
 - `lexis_links_supported` (Boolean) LEXIS links supported
 - `limit_based` (Boolean) Filter by limit-based offerings
 - `limit_component_count` (Number) Filter by exact number of limit-based components
 - `modified` (String) Modified after
+- `modified_before` (String) Modified before
 - `name` (String) Name
 - `name_exact` (String) Name (exact)
 - `offering` (String) Offering
@@ -52,9 +56,12 @@ Optional:
 - `project_uuid` (String) Project UUID
 - `provider_uuid` (String) Provider UUID
 - `query` (String) Search by resource UUID, name, slug, backend ID, effective ID, IPs or hypervisor
+- `resource_attributes` (String) Resource attributes (JSON)
 - `restrict_member_access` (Boolean) Restrict member access
 - `runtime_state` (String) Runtime state
+- `scope` (String) Filter by scope URL.
 - `service_manager_uuid` (String) Service manager UUID
+- `slug` (String) Slug
 - `usage_based` (Boolean) Filter by usage-based offerings
 - `visible_to_providers` (Boolean) Include only resources visible to service providers
 - `visible_to_username` (String) Visible to username

@@ -33,6 +33,7 @@ resource "waldur_structure_project" "example" {
 
 ### Optional
 
+- `affiliation_uuid` (String) Affiliation Uuid
 - `backend_id` (String) Backend Id
 - `description` (String) Project description (HTML content will be sanitized)
 - `end_date` (String) Project end date. Setting this field requires DELETE_PROJECT permission.
@@ -41,6 +42,7 @@ resource "waldur_structure_project" "example" {
 - `is_industry` (Boolean) Is Industry
 - `kind` (String) Kind
 - `oecd_fos_2007_code` (String) Oecd Fos 2007 Code
+- `science_sub_domain` (String) Science Sub Domain
 - `slug` (String) URL-friendly identifier. Only editable by staff users.
 - `staff_notes` (String) Internal notes visible only to staff and support users (HTML content will be sanitized)
 - `start_date` (String) Project start date. Cannot be edited after the start date has arrived.
@@ -49,17 +51,31 @@ resource "waldur_structure_project" "example" {
 
 ### Read-Only
 
+- `affiliation` (Attributes) Affiliation (see [below for nested schema](#nestedatt--affiliation))
+- `affiliation_code` (String) Unique short identifier, e.g. CERN, EMBL.
+- `affiliation_name` (String) Affiliation Name
 - `billing_price_estimate` (Attributes) Billing Price Estimate (see [below for nested schema](#nestedatt--billing_price_estimate))
 - `customer_display_billing_info_in_projects` (Boolean) Customer Display Billing Info In Projects
+- `customer_grace_period_days` (Number) Grace period days set at the customer (organization) level. Used as default when project-level is not set.
 - `customer_slug` (String) Customer Slug
+- `effective_end_date` (String) Effective end date including grace period. After this date, project resources will be terminated.
 - `end_date_requested_by` (String) End Date Requested By
+- `end_date_updated_at` (String) Timestamp of the last end_date change.
 - `id` (String) Structure Project UUID (used as Terraform ID)
+- `is_in_grace_period` (Boolean) True if the project is past its end date but still within the grace period.
 - `is_removed` (Boolean) Is Removed
 - `marketplace_resource_count` (Map of Number) Marketplace Resource Count
 - `max_service_accounts` (Number) Maximum number of service accounts allowed
 - `oecd_fos_2007_label` (String) Human-readable label for the OECD FOS 2007 classification code
 - `project_credit` (Number) Project Credit
+- `project_metadata` (Attributes List) Answers to the customer's project-metadata checklist (read-only). (see [below for nested schema](#nestedatt--project_metadata))
 - `resources_count` (Number) Number of active resources in this project
+- `science_domain_code` (String) Domain code (e.g. '1'). Auto-derived if left blank.
+- `science_domain_name` (String) Science Domain Name
+- `science_domain_uuid` (String) Science Domain Uuid
+- `science_sub_domain_code` (String) Sub-domain code (e.g. '1.1'). Auto-derived from domain code if left blank.
+- `science_sub_domain_name` (String) Science Sub Domain Name
+- `termination_metadata` (Map of String) Metadata about project termination (read-only)
 - `type_name` (String) Type Name
 - `type_uuid` (String) Type Uuid
 - `url` (String) Url
@@ -74,6 +90,27 @@ Optional:
 - `update` (String) A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
 
 
+<a id="nestedatt--affiliation"></a>
+### Nested Schema for `affiliation`
+
+Optional:
+
+- `abbreviation` (String) Abbreviation
+- `address` (String) Address
+- `code` (String) Unique short identifier, e.g. CERN, EMBL.
+- `country` (String) Country
+- `description` (String) Description
+- `email` (String) Email
+- `homepage` (String) Homepage
+- `name` (String) Name
+
+Read-Only:
+
+- `projects_count` (Number) Number of active projects affiliated with this organization
+- `url` (String) Url
+- `uuid` (String) Uuid
+
+
 <a id="nestedatt--billing_price_estimate"></a>
 ### Nested Schema for `billing_price_estimate`
 
@@ -83,3 +120,14 @@ Read-Only:
 - `tax` (Number) Tax
 - `tax_current` (Number) Tax Current
 - `total` (Number) Total
+
+
+<a id="nestedatt--project_metadata"></a>
+### Nested Schema for `project_metadata`
+
+Optional:
+
+- `answer` (Map of String) Human-readable answer value; select-type option UUIDs are resolved to their labels.
+- `question` (String) Question description.
+- `question_type` (String) Question Type
+- `question_uuid` (String) Question Uuid

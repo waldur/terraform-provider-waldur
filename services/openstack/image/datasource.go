@@ -49,6 +49,12 @@ func (d *OpenstackImageDataSource) Schema(ctx context.Context, req datasource.Sc
 				Computed:   true, MarkdownDescription: "Backend Created At"},
 			"backend_id": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Backend Id"},
+			"hw_rescue_bus": schema.StringAttribute{
+				Computed: true, MarkdownDescription: "Glance hw_rescue_bus property (scsi/virtio/ide/usb)."},
+			"hw_rescue_device": schema.StringAttribute{
+				Computed: true, MarkdownDescription: "Glance hw_rescue_device property (cdrom/disk/floppy)."},
+			"is_rescue_image": schema.BoolAttribute{
+				Computed: true, MarkdownDescription: "Is Rescue Image"},
 			"min_disk": schema.Int64Attribute{
 				Computed: true, MarkdownDescription: "Minimum disk size in MiB",
 				Validators: []validator.Int64{

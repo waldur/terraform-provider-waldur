@@ -24,6 +24,9 @@ Openstack Image data source - lookup by name or UUID
 
 - `backend_created_at` (String) Backend Created At
 - `backend_id` (String) Backend Id
+- `hw_rescue_bus` (String) Glance hw_rescue_bus property (scsi/virtio/ide/usb).
+- `hw_rescue_device` (String) Glance hw_rescue_device property (cdrom/disk/floppy).
+- `is_rescue_image` (Boolean) Is Rescue Image
 - `min_disk` (Number) Minimum disk size in MiB
 - `min_ram` (Number) Minimum memory size in MiB
 - `name` (String) Name
@@ -35,6 +38,7 @@ Openstack Image data source - lookup by name or UUID
 
 Optional:
 
+- `is_rescue_image` (Boolean) Filter to images usable as Nova rescue images.
 - `name` (String) Name
 - `name_exact` (String) Name (exact)
 - `offering_uuid` (String) Offering UUID

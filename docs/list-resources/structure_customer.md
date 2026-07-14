@@ -25,10 +25,15 @@ description: |-
 Optional:
 
 - `abbreviation` (String) Abbreviation
+- `accounting_is_running` (Boolean) Filter by whether accounting is running.
 - `agreement_number` (String) Agreement number
 - `archived` (Boolean) Archived
 - `backend_id` (String) ID of the backend
 - `contact_details` (String) Contact details
+- `current_user_has_project_create_permission` (Boolean) Return a list of customers where current user has project create permission.
+- `has_resources` (String) Filter by customers with resources.
+- `is_call_managing_organization` (Boolean) Filter by customers that are call managing organizations.
+- `is_service_provider` (Boolean) Filter by customers that are service providers.
 - `name` (String) Name
 - `name_exact` (String) Name (exact)
 - `native_name` (String) Native name
@@ -36,3 +41,6 @@ Optional:
 - `owned_by_current_user` (Boolean) Return a list of customers where current user is owner.
 - `query` (String) Filter by name, native name, abbreviation, domain, UUID, registration code or agreement number
 - `registration_code` (String) Registration code
+- `service_provider_uuid` (String) Filter by service provider UUID.
+- `slug` (String) Slug
+- `user_uuid` (String) Filter by user UUID.

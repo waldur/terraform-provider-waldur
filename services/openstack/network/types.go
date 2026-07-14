@@ -33,11 +33,15 @@ type OpenstackNetworkResponse struct {
 
 	IsExternal *bool `json:"is_external,omitempty" tfsdk:"is_external"`
 
+	MarketplaceOfferingType *string `json:"marketplace_offering_type,omitempty" tfsdk:"marketplace_offering_type"`
+
 	MarketplaceResourceUuid *string `json:"marketplace_resource_uuid,omitempty" tfsdk:"marketplace_resource_uuid"`
 
 	Mtu *int64 `json:"mtu,omitempty" tfsdk:"mtu"`
 
 	Name *string `json:"name" tfsdk:"name"`
+
+	PortSecurityEnabled *bool `json:"port_security_enabled,omitempty" tfsdk:"port_security_enabled"`
 
 	Project *string `json:"project,omitempty" tfsdk:"project"`
 
@@ -65,11 +69,19 @@ type OpenstackNetworkResponse struct {
 type OpenstackNetworkRbacPoliciesResponse struct {
 	BackendId *string `json:"backend_id,omitempty" tfsdk:"backend_id"`
 
+	Direction *string `json:"direction,omitempty" tfsdk:"direction"`
+
 	Network *string `json:"network,omitempty" tfsdk:"network"`
 
 	NetworkName *string `json:"network_name,omitempty" tfsdk:"network_name"`
 
 	PolicyType *string `json:"policy_type,omitempty" tfsdk:"policy_type"`
+
+	SourceTenantName *string `json:"source_tenant_name,omitempty" tfsdk:"source_tenant_name"`
+
+	SourceTenantUuid *string `json:"source_tenant_uuid,omitempty" tfsdk:"source_tenant_uuid"`
+
+	TargetLabel *string `json:"target_label,omitempty" tfsdk:"target_label"`
 
 	TargetTenant *string `json:"target_tenant,omitempty" tfsdk:"target_tenant"`
 
@@ -94,6 +106,8 @@ type OpenstackNetworkSubnetsResponse struct {
 	IpVersion *int64 `json:"ip_version,omitempty" tfsdk:"ip_version"`
 
 	Name *string `json:"name,omitempty" tfsdk:"name"`
+
+	PortSecurityEnabled *bool `json:"port_security_enabled,omitempty" tfsdk:"port_security_enabled"`
 
 	Uuid *string `json:"uuid,omitempty" tfsdk:"uuid"`
 }

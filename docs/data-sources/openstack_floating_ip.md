@@ -31,6 +31,7 @@ Openstack Floating Ip data source - lookup by name or UUID
 - `external_address` (String) Optional address that maps to floating IP's address in external networks
 - `instance_url` (String) Instance Url
 - `instance_uuid` (String) Instance Uuid
+- `marketplace_offering_type` (String) Marketplace Offering Type
 - `marketplace_resource_uuid` (String) Marketplace Resource Uuid
 - `name` (String) Name
 - `port` (String) Port
@@ -70,7 +71,6 @@ Optional:
 - `service_settings_uuid` (String) Service settings UUID
 - `tenant` (String) Tenant URL
 - `tenant_uuid` (String) Tenant UUID
-- `uuid` (String) UUID
 
 
 <a id="nestedatt--port_fixed_ips"></a>

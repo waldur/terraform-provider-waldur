@@ -32,11 +32,13 @@ resource "waldur_structure_customer" "example" {
 - `accounting_start_date` (String) Accounting Start Date
 - `address` (String) Address
 - `agreement_number` (String) Agreement Number
+- `apartment_nr` (String) Apartment Nr
 - `archived` (Boolean) Archived
 - `backend_id` (String) Organization identifier in another application.
 - `bank_account` (String) Bank Account
 - `bank_name` (String) Bank Name
 - `blocked` (Boolean) Blocked
+- `city` (String) City
 - `contact_details` (String) Contact Details
 - `country` (String) Country code (ISO 3166-1 alpha-2)
 - `default_tax_percent` (String) Default Tax Percent
@@ -46,16 +48,22 @@ resource "waldur_structure_customer" "example" {
 - `email` (String) Email
 - `grace_period_days` (Number) Number of extra days after project end date before resources are terminated
 - `homepage` (String) Homepage
+- `house_nr` (String) House Nr
+- `household` (String) Household
 - `image` (String) Image
 - `max_service_accounts` (Number) Maximum number of service accounts allowed
 - `native_name` (String) Native Name
 - `notification_emails` (String) Comma-separated list of notification email addresses
+- `parish` (String) Parish
 - `phone_number` (String) Phone Number
 - `postal` (String) Postal
 - `project_metadata_checklist` (String) Checklist to be used for project metadata validation in this organization
+- `project_slug_template` (String) Template for project slugs. Supports: {customer_slug}, {project_name}, {year}, {month}, {counter}, {counter_padded}. Default: slugified project name
 - `registration_code` (String) Registration Code
 - `slug` (String) URL-friendly identifier. Only editable by staff users.
 - `sponsor_number` (Number) External ID of the sponsor covering the costs
+- `state` (String) State
+- `street` (String) Street
 - `timeouts` (Block, Optional) (see [below for nested schema](#nestedblock--timeouts))
 - `vat_code` (String) VAT number
 
@@ -66,6 +74,7 @@ resource "waldur_structure_customer" "example" {
 - `country_name` (String) Human-readable country name
 - `customer_credit` (Number) Customer Credit
 - `customer_unallocated_credit` (Number) Customer Unallocated Credit
+- `default_affiliations` (Attributes List) Affiliations offered to project creators of this organization. (see [below for nested schema](#nestedatt--default_affiliations))
 - `display_name` (String) Display name of the organization (includes native name if available)
 - `id` (String) Structure Customer UUID (used as Terraform ID)
 - `is_service_provider` (Boolean) Is Service Provider
@@ -96,6 +105,27 @@ Read-Only:
 - `tax` (Number) Tax
 - `tax_current` (Number) Tax Current
 - `total` (Number) Total
+
+
+<a id="nestedatt--default_affiliations"></a>
+### Nested Schema for `default_affiliations`
+
+Optional:
+
+- `abbreviation` (String) Abbreviation
+- `address` (String) Address
+- `code` (String) Unique short identifier, e.g. CERN, EMBL.
+- `country` (String) Country
+- `description` (String) Description
+- `email` (String) Email
+- `homepage` (String) Homepage
+- `name` (String) Name
+
+Read-Only:
+
+- `projects_count` (Number) Number of active projects affiliated with this organization
+- `url` (String) Url
+- `uuid` (String) Uuid
 
 
 <a id="nestedatt--organization_groups"></a>

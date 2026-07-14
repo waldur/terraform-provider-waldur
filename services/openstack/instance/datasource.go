@@ -47,12 +47,17 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 				MarkdownDescription: "Openstack Instance UUID",
 			},
 			"filters": (&OpenstackInstanceFiltersModel{}).GetSchema(),
+			"action_details": schema.MapAttribute{
+				ElementType: types.StringType,
+				Computed:    true, MarkdownDescription: "Details about ongoing or completed actions"},
 			"availability_zone": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Availability zone where this instance is located"},
 			"availability_zone_name": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Name of the availability zone where instance is located"},
 			"backend_id": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Instance ID in the OpenStack backend"},
+			"config_drive": schema.BoolAttribute{
+				Computed: true, MarkdownDescription: "Force config drive on or off for this instance. If null, the tenant-wide default from service settings is used."},
 			"connect_directly_to_external_network": schema.BoolAttribute{
 				Computed: true, MarkdownDescription: "If True, instance will be connected directly to external network"},
 			"cores": schema.Int64Attribute{
@@ -124,6 +129,8 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 				Computed: true, MarkdownDescription: "Key Fingerprint"},
 			"key_name": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Key Name"},
+			"marketplace_offering_type": schema.StringAttribute{
+				Computed: true, MarkdownDescription: "Marketplace Offering Type"},
 			"marketplace_resource_uuid": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Marketplace Resource Uuid"},
 			"min_disk": schema.Int64Attribute{
@@ -148,6 +155,8 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 						},
 						"port": schema.StringAttribute{
 							Computed: true, MarkdownDescription: "Port"},
+						"port_security_enabled": schema.BoolAttribute{
+							Computed: true, MarkdownDescription: "If True, security groups and rules will be applied to this port"},
 						"subnet": schema.StringAttribute{
 							Computed: true, MarkdownDescription: "Subnet to which this port belongs"},
 						"allowed_address_pairs": schema.ListNestedAttribute{
@@ -176,6 +185,8 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 										Computed: true, MarkdownDescription: "Description"},
 									"error_message": schema.StringAttribute{
 										Computed: true, MarkdownDescription: "Error Message"},
+									"marketplace_offering_type": schema.StringAttribute{
+										Computed: true, MarkdownDescription: "Marketplace Offering Type"},
 									"marketplace_resource_uuid": schema.StringAttribute{
 										Computed: true, MarkdownDescription: "Marketplace Resource Uuid"},
 									"name": schema.StringAttribute{
@@ -204,7 +215,7 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 												"id": schema.Int64Attribute{
 													Computed: true, MarkdownDescription: "Id"},
 												"protocol": schema.StringAttribute{
-													Computed: true, MarkdownDescription: "The network protocol (TCP, UDP, ICMP, or empty for any protocol)"},
+													Computed: true, MarkdownDescription: "Network protocol: 'tcp', 'udp', 'icmp', empty (any) or an IANA protocol number 0-255 (e.g. '112' for VRRP)."},
 												"remote_group": schema.StringAttribute{
 													Computed: true, MarkdownDescription: "Remote security group that this rule references, if any"},
 												"remote_group_name": schema.StringAttribute{
@@ -299,7 +310,7 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 									"id": schema.Int64Attribute{
 										Computed: true, MarkdownDescription: "Id"},
 									"protocol": schema.StringAttribute{
-										Computed: true, MarkdownDescription: "The network protocol (TCP, UDP, ICMP, or empty for any protocol)"},
+										Computed: true, MarkdownDescription: "Network protocol: 'tcp', 'udp', 'icmp', empty (any) or an IANA protocol number 0-255 (e.g. '112' for VRRP)."},
 									"remote_group_name": schema.StringAttribute{
 										Computed: true, MarkdownDescription: "Remote Group Name"},
 									"remote_group_uuid": schema.StringAttribute{

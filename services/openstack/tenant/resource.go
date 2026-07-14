@@ -117,6 +117,18 @@ func (r *OpenstackTenantResource) Schema(ctx context.Context, req resource.Schem
 
 					stringplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "ID of external network connected to OpenStack tenant"},
+			"external_network_ref_name": schema.StringAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+
+					stringplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "External Network Ref Name"},
+			"external_network_ref_uuid": schema.StringAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+
+					stringplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "External Network Ref Uuid"},
 			"internal_network_id": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
@@ -130,6 +142,12 @@ func (r *OpenstackTenantResource) Schema(ctx context.Context, req resource.Schem
 
 					mapplanmodifier.RequiresReplace(),
 				}, MarkdownDescription: "Resource limits"},
+			"marketplace_offering_type": schema.StringAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+
+					stringplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Marketplace Offering Type"},
 			"marketplace_resource_uuid": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
@@ -219,7 +237,7 @@ func (r *OpenstackTenantResource) Schema(ctx context.Context, req resource.Schem
 											int64validator.AtMost(65535),
 										}},
 									"protocol": schema.StringAttribute{
-										Optional: true, MarkdownDescription: "The network protocol (TCP, UDP, ICMP, or empty for any protocol)"},
+										Optional: true, MarkdownDescription: "Network protocol: 'tcp', 'udp', 'icmp', empty (any) or an IANA protocol number 0-255 (e.g. '112' for VRRP)."},
 									"remote_group": schema.StringAttribute{
 										Optional: true, MarkdownDescription: "Remote security group that this rule references, if any"},
 									"to_port": schema.Int64Attribute{
@@ -345,11 +363,20 @@ func (r *OpenstackTenantResource) resolveUnknownAttributes(data *OpenstackTenant
 	if data.ExternalNetworkId.IsUnknown() {
 		data.ExternalNetworkId = types.StringNull()
 	}
+	if data.ExternalNetworkRefName.IsUnknown() {
+		data.ExternalNetworkRefName = types.StringNull()
+	}
+	if data.ExternalNetworkRefUuid.IsUnknown() {
+		data.ExternalNetworkRefUuid = types.StringNull()
+	}
 	if data.InternalNetworkId.IsUnknown() {
 		data.InternalNetworkId = types.StringNull()
 	}
 	if data.Limits.IsUnknown() {
 		data.Limits = types.MapNull(types.Float64Type)
+	}
+	if data.MarketplaceOfferingType.IsUnknown() {
+		data.MarketplaceOfferingType = types.StringNull()
 	}
 	if data.MarketplaceResourceUuid.IsUnknown() {
 		data.MarketplaceResourceUuid = types.StringNull()

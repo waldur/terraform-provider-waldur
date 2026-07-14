@@ -24,6 +24,7 @@ description: |-
 
 Optional:
 
+- `direction` (String) Direction relative to the requesting user
 - `network` (String) Network URL
 - `network_uuid` (String) Network UUID
 - `policy_type` (String) Type of access granted - either shared access or external network access

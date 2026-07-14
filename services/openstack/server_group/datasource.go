@@ -64,12 +64,14 @@ func (d *OpenstackServerGroupDataSource) Schema(ctx context.Context, req datasou
 				},
 				Computed: true, MarkdownDescription: "Instances",
 			},
+			"marketplace_offering_type": schema.StringAttribute{
+				Computed: true, MarkdownDescription: "Marketplace Offering Type"},
 			"marketplace_resource_uuid": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Marketplace Resource Uuid"},
 			"name": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Name"},
 			"policy": schema.StringAttribute{
-				Computed: true, MarkdownDescription: "Server group policy determining the rules for scheduling servers in this group"},
+				Computed: true, MarkdownDescription: "affinity — all instances are placed on the same hypervisor. anti-affinity — all instances are placed on different hypervisors. soft-affinity — instances are placed on the same hypervisor if possible, but not enforced. soft-anti-affinity — instances are placed on different hypervisors if possible, but not enforced."},
 			"project": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Project"},
 			"resource_type": schema.StringAttribute{

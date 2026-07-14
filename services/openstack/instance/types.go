@@ -18,6 +18,8 @@ type OpenstackInstanceCreateRequest struct {
 type OpenstackInstanceCreateAttributes struct {
 	AvailabilityZone *string `json:"availability_zone,omitempty"`
 
+	ConfigDrive *bool `json:"config_drive,omitempty"`
+
 	ConnectDirectlyToExternalNetwork *bool `json:"connect_directly_to_external_network,omitempty"`
 
 	DataVolumeSize *int64 `json:"data_volume_size,omitempty"`
@@ -99,11 +101,15 @@ func (r OpenstackInstanceUpdateSecurityGroupsActionRequest) MarshalJSON() ([]byt
 type OpenstackInstanceResponse struct {
 	UUID *string `json:"uuid"`
 
+	ActionDetails map[string]interface{} `json:"action_details,omitempty" tfsdk:"action_details"`
+
 	AvailabilityZone *string `json:"availability_zone,omitempty" tfsdk:"availability_zone"`
 
 	AvailabilityZoneName *string `json:"availability_zone_name,omitempty" tfsdk:"availability_zone_name"`
 
 	BackendId *string `json:"backend_id,omitempty" tfsdk:"backend_id"`
+
+	ConfigDrive *bool `json:"config_drive,omitempty" tfsdk:"config_drive"`
 
 	ConnectDirectlyToExternalNetwork *bool `json:"connect_directly_to_external_network,omitempty" tfsdk:"connect_directly_to_external_network"`
 
@@ -136,6 +142,8 @@ type OpenstackInstanceResponse struct {
 	KeyFingerprint *string `json:"key_fingerprint,omitempty" tfsdk:"key_fingerprint"`
 
 	KeyName *string `json:"key_name,omitempty" tfsdk:"key_name"`
+
+	MarketplaceOfferingType *string `json:"marketplace_offering_type,omitempty" tfsdk:"marketplace_offering_type"`
 
 	MarketplaceResourceUuid *string `json:"marketplace_resource_uuid,omitempty" tfsdk:"marketplace_resource_uuid"`
 
@@ -176,6 +184,9 @@ type OpenstackInstanceResponse struct {
 	Volumes *[]common.OpenStackNestedVolume `json:"volumes,omitempty" tfsdk:"volumes"`
 }
 
+type OpenstackInstanceActionDetailsResponse struct {
+}
+
 type OpenstackInstanceFloatingIpsResponse struct {
 	IpAddress *string `json:"ip_address,omitempty" tfsdk:"ip_address"`
 
@@ -210,6 +221,8 @@ type OpenstackInstancePortsResponse struct {
 	FixedIps *[]common.OpenStackFixedIpRequest `json:"fixed_ips,omitempty" tfsdk:"fixed_ips"`
 
 	Port *string `json:"port,omitempty" tfsdk:"port"`
+
+	PortSecurityEnabled *bool `json:"port_security_enabled,omitempty" tfsdk:"port_security_enabled"`
 
 	Subnet *string `json:"subnet,omitempty" tfsdk:"subnet"`
 
@@ -252,6 +265,8 @@ type OpenstackInstancePortsSecurityGroupsResponse struct {
 	Description *string `json:"description,omitempty" tfsdk:"description"`
 
 	ErrorMessage *string `json:"error_message,omitempty" tfsdk:"error_message"`
+
+	MarketplaceOfferingType *string `json:"marketplace_offering_type,omitempty" tfsdk:"marketplace_offering_type"`
 
 	MarketplaceResourceUuid *string `json:"marketplace_resource_uuid,omitempty" tfsdk:"marketplace_resource_uuid"`
 

@@ -76,6 +76,13 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 					stringplanmodifier.UseStateForUnknown(),
 				},
 			},
+			"action_details": schema.MapAttribute{
+				ElementType: types.StringType,
+				Computed:    true,
+				PlanModifiers: []planmodifier.Map{
+
+					mapplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Details about ongoing or completed actions"},
 			"availability_zone": schema.StringAttribute{
 				Optional: true,
 				Computed: true,
@@ -96,6 +103,14 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 
 					stringplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "Instance ID in the OpenStack backend"},
+			"config_drive": schema.BoolAttribute{
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.Bool{
+
+					boolplanmodifier.RequiresReplace(),
+					boolplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Force config drive on or off for this instance. If null, the tenant-wide default from service settings is used."},
 			"connect_directly_to_external_network": schema.BoolAttribute{
 				Optional: true,
 				Computed: true,
@@ -345,6 +360,12 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 
 					mapplanmodifier.RequiresReplace(),
 				}, MarkdownDescription: "Resource limits"},
+			"marketplace_offering_type": schema.StringAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+
+					stringplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Marketplace Offering Type"},
 			"marketplace_resource_uuid": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
@@ -398,6 +419,8 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 						},
 						"port": schema.StringAttribute{
 							Optional: true, MarkdownDescription: "Port"},
+						"port_security_enabled": schema.BoolAttribute{
+							Optional: true, MarkdownDescription: "If True, security groups and rules will be applied to this port"},
 						"subnet": schema.StringAttribute{
 							Optional: true,
 							Computed: true,
@@ -469,6 +492,12 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 
 											stringplanmodifier.UseStateForUnknown(),
 										}, MarkdownDescription: "Error Message"},
+									"marketplace_offering_type": schema.StringAttribute{
+										Computed: true,
+										PlanModifiers: []planmodifier.String{
+
+											stringplanmodifier.UseStateForUnknown(),
+										}, MarkdownDescription: "Marketplace Offering Type"},
 									"marketplace_resource_uuid": schema.StringAttribute{
 										Computed: true,
 										PlanModifiers: []planmodifier.String{
@@ -548,7 +577,7 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 													PlanModifiers: []planmodifier.String{
 
 														stringplanmodifier.UseStateForUnknown(),
-													}, MarkdownDescription: "The network protocol (TCP, UDP, ICMP, or empty for any protocol)"},
+													}, MarkdownDescription: "Network protocol: 'tcp', 'udp', 'icmp', empty (any) or an IANA protocol number 0-255 (e.g. '112' for VRRP)."},
 												"remote_group": schema.StringAttribute{
 													Optional: true,
 													Computed: true,
@@ -798,7 +827,7 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 										PlanModifiers: []planmodifier.String{
 
 											stringplanmodifier.UseStateForUnknown(),
-										}, MarkdownDescription: "The network protocol (TCP, UDP, ICMP, or empty for any protocol)"},
+										}, MarkdownDescription: "Network protocol: 'tcp', 'udp', 'icmp', empty (any) or an IANA protocol number 0-255 (e.g. '112' for VRRP)."},
 									"remote_group_name": schema.StringAttribute{
 										Computed: true,
 										PlanModifiers: []planmodifier.String{
@@ -1071,6 +1100,9 @@ func (r *OpenstackInstanceResource) Configure(ctx context.Context, req resource.
 // are set to explicit null values instead of remaining "Unknown".
 func (r *OpenstackInstanceResource) resolveUnknownAttributes(data *OpenstackInstanceResourceModel) {
 	// Iterate over all model fields to handle Unknown values
+	if data.ActionDetails.IsUnknown() {
+		data.ActionDetails = types.MapNull(types.StringType)
+	}
 	if data.AvailabilityZone.IsUnknown() {
 		data.AvailabilityZone = types.StringNull()
 	}
@@ -1079,6 +1111,9 @@ func (r *OpenstackInstanceResource) resolveUnknownAttributes(data *OpenstackInst
 	}
 	if data.BackendId.IsUnknown() {
 		data.BackendId = types.StringNull()
+	}
+	if data.ConfigDrive.IsUnknown() {
+		data.ConfigDrive = types.BoolNull()
 	}
 	if data.ConnectDirectlyToExternalNetwork.IsUnknown() {
 		data.ConnectDirectlyToExternalNetwork = types.BoolNull()
@@ -1151,6 +1186,9 @@ func (r *OpenstackInstanceResource) resolveUnknownAttributes(data *OpenstackInst
 	}
 	if data.Limits.IsUnknown() {
 		data.Limits = types.MapNull(types.Float64Type)
+	}
+	if data.MarketplaceOfferingType.IsUnknown() {
+		data.MarketplaceOfferingType = types.StringNull()
 	}
 	if data.MarketplaceResourceUuid.IsUnknown() {
 		data.MarketplaceResourceUuid = types.StringNull()
@@ -1245,6 +1283,9 @@ func (r *OpenstackInstanceResource) Create(ctx context.Context, req resource.Cre
 	attributes := OpenstackInstanceCreateAttributes{}
 	if !data.AvailabilityZone.IsNull() && !data.AvailabilityZone.IsUnknown() {
 		attributes.AvailabilityZone = data.AvailabilityZone.ValueStringPointer()
+	}
+	if !data.ConfigDrive.IsNull() && !data.ConfigDrive.IsUnknown() {
+		attributes.ConfigDrive = data.ConfigDrive.ValueBoolPointer()
 	}
 	if !data.ConnectDirectlyToExternalNetwork.IsNull() && !data.ConnectDirectlyToExternalNetwork.IsUnknown() {
 		attributes.ConnectDirectlyToExternalNetwork = data.ConnectDirectlyToExternalNetwork.ValueBoolPointer()

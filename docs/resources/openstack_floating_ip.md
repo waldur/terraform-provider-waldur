@@ -55,6 +55,7 @@ resource "waldur_openstack_floating_ip" "example" {
 - `id` (String) Openstack Floating Ip UUID (used as Terraform ID)
 - `instance_url` (String) Instance Url
 - `instance_uuid` (String) Instance Uuid
+- `marketplace_offering_type` (String) Marketplace Offering Type
 - `marketplace_resource_uuid` (String) Marketplace Resource Uuid
 - `name` (String) Name
 - `port` (String) Port

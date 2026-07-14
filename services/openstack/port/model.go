@@ -136,6 +136,7 @@ type OpenstackPortModel struct {
 	FixedIps                types.List   `tfsdk:"fixed_ips"`
 	FloatingIps             types.Set    `tfsdk:"floating_ips"`
 	MacAddress              types.String `tfsdk:"mac_address"`
+	MarketplaceOfferingType types.String `tfsdk:"marketplace_offering_type"`
 	MarketplaceResourceUuid types.String `tfsdk:"marketplace_resource_uuid"`
 	Name                    types.String `tfsdk:"name"`
 	Network                 types.String `tfsdk:"network"`
@@ -198,6 +199,8 @@ func (model *OpenstackPortModel) CopyFrom(ctx context.Context, apiResp Openstack
 	}
 
 	model.MacAddress = common.StringPointerValue(apiResp.MacAddress)
+
+	model.MarketplaceOfferingType = common.StringPointerValue(apiResp.MarketplaceOfferingType)
 
 	model.MarketplaceResourceUuid = common.StringPointerValue(apiResp.MarketplaceResourceUuid)
 

@@ -59,6 +59,8 @@ func (d *OpenstackFloatingIpDataSource) Schema(ctx context.Context, req datasour
 				Computed: true, MarkdownDescription: "Instance Url"},
 			"instance_uuid": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Instance Uuid"},
+			"marketplace_offering_type": schema.StringAttribute{
+				Computed: true, MarkdownDescription: "Marketplace Offering Type"},
 			"marketplace_resource_uuid": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Marketplace Resource Uuid"},
 			"name": schema.StringAttribute{

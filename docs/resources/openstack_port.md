@@ -81,6 +81,7 @@ resource "waldur_openstack_port" "example" {
 - `error_message` (String) Error Message
 - `floating_ips` (Set of String) Floating Ips
 - `id` (String) Openstack Port UUID (used as Terraform ID)
+- `marketplace_offering_type` (String) Marketplace Offering Type
 - `marketplace_resource_uuid` (String) Marketplace Resource Uuid
 - `network_name` (String) Network Name
 - `network_uuid` (String) Network Uuid

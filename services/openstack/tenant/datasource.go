@@ -55,8 +55,14 @@ func (d *OpenstackTenantDataSource) Schema(ctx context.Context, req datasource.S
 				Computed: true, MarkdownDescription: "Error Message"},
 			"external_network_id": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "ID of external network connected to OpenStack tenant"},
+			"external_network_ref_name": schema.StringAttribute{
+				Computed: true, MarkdownDescription: "External Network Ref Name"},
+			"external_network_ref_uuid": schema.StringAttribute{
+				Computed: true, MarkdownDescription: "External Network Ref Uuid"},
 			"internal_network_id": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "ID of internal network in OpenStack tenant"},
+			"marketplace_offering_type": schema.StringAttribute{
+				Computed: true, MarkdownDescription: "Marketplace Offering Type"},
 			"marketplace_resource_uuid": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Marketplace Resource Uuid"},
 			"name": schema.StringAttribute{

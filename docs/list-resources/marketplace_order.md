@@ -28,8 +28,10 @@ Optional:
 - `can_approve_as_provider` (Boolean) Can approve as provider
 - `category_uuid` (String) Category UUID
 - `created` (String) Created after
+- `created_before` (String) Created before
 - `customer_uuid` (String) Customer UUID
 - `modified` (String) Modified after
+- `modified_before` (String) Modified before
 - `offering` (String) Offering
 - `offering_uuid` (String) Offering UUID
 - `parent_offering_uuid` (String) UUID of the parent offering
@@ -40,3 +42,5 @@ Optional:
 - `resource_name` (String) Resource name
 - `resource_uuid` (String) Resource UUID
 - `service_manager_uuid` (String) Service manager UUID
+- `slug` (String) Slug
+- `was_auto_approved` (Boolean) Auto-approved

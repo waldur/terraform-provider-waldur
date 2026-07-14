@@ -76,8 +76,10 @@ resource "waldur_openstack_subnet" "example" {
 - `id` (String) Openstack Subnet UUID (used as Terraform ID)
 - `ip_version` (Number) IP protocol version (4 or 6)
 - `is_connected` (Boolean) Is subnet connected to the default tenant router.
+- `marketplace_offering_type` (String) Marketplace Offering Type
 - `marketplace_resource_uuid` (String) Marketplace Resource Uuid
 - `network_name` (String) Network Name
+- `port_security_enabled` (Boolean) Port Security Enabled
 - `project` (String) Project
 - `resource_type` (String) Resource Type
 - `state` (String) State

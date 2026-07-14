@@ -86,6 +86,7 @@ resource "waldur_openstack_instance" "example" {
 ### Optional
 
 - `availability_zone` (String) Availability zone where this instance is located
+- `config_drive` (Boolean) Force config drive on or off for this instance. If null, the tenant-wide default from service settings is used.
 - `connect_directly_to_external_network` (Boolean) If True, instance will be connected directly to external network
 - `data_volume_size` (Number) Size of the data volume in MiB. Minimum size is 1024 MiB (1 GiB)
 - `data_volume_type` (String) Volume type for the data volume
@@ -107,6 +108,7 @@ resource "waldur_openstack_instance" "example" {
 
 ### Read-Only
 
+- `action_details` (Map of String) Details about ongoing or completed actions
 - `availability_zone_name` (String) Name of the availability zone where instance is located
 - `backend_id` (String) Instance ID in the OpenStack backend
 - `cores` (Number) Number of cores in a VM
@@ -123,6 +125,7 @@ resource "waldur_openstack_instance" "example" {
 - `internal_ips` (List of String) Internal Ips
 - `key_fingerprint` (String) Key Fingerprint
 - `key_name` (String) Key Name
+- `marketplace_offering_type` (String) Marketplace Offering Type
 - `marketplace_resource_uuid` (String) Marketplace Resource Uuid
 - `min_disk` (Number) Minimum disk size in MiB
 - `min_ram` (Number) Minimum memory size in MiB
@@ -144,6 +147,7 @@ Optional:
 
 - `fixed_ips` (Attributes List) Fixed Ips (see [below for nested schema](#nestedatt--ports--fixed_ips))
 - `port` (String) Port
+- `port_security_enabled` (Boolean) If True, security groups and rules will be applied to this port
 - `subnet` (String) Subnet to which this port belongs
 
 Read-Only:
@@ -190,6 +194,7 @@ Read-Only:
 - `backend_id` (String) Backend Id
 - `customer` (String) Customer
 - `error_message` (String) Error Message
+- `marketplace_offering_type` (String) Marketplace Offering Type
 - `marketplace_resource_uuid` (String) Marketplace Resource Uuid
 - `project` (String) Project
 - `resource_type` (String) Resource Type
@@ -210,7 +215,7 @@ Optional:
 - `direction` (String) Traffic direction - either 'ingress' (incoming) or 'egress' (outgoing)
 - `ethertype` (String) IP protocol version - either 'IPv4' or 'IPv6'
 - `from_port` (Number) Starting port number in the range (1-65535)
-- `protocol` (String) The network protocol (TCP, UDP, ICMP, or empty for any protocol)
+- `protocol` (String) Network protocol: 'tcp', 'udp', 'icmp', empty (any) or an IANA protocol number 0-255 (e.g. '112' for VRRP).
 - `remote_group` (String) Remote security group that this rule references, if any
 - `to_port` (Number) Ending port number in the range (1-65535)
 
@@ -289,7 +294,7 @@ Optional:
 - `direction` (String) Traffic direction - either 'ingress' (incoming) or 'egress' (outgoing)
 - `ethertype` (String) IP protocol version - either 'IPv4' or 'IPv6'
 - `from_port` (Number) Starting port number in the range (1-65535)
-- `protocol` (String) The network protocol (TCP, UDP, ICMP, or empty for any protocol)
+- `protocol` (String) Network protocol: 'tcp', 'udp', 'icmp', empty (any) or an IANA protocol number 0-255 (e.g. '112' for VRRP).
 - `to_port` (Number) Ending port number in the range (1-65535)
 
 Read-Only:

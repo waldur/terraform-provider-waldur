@@ -73,8 +73,11 @@ data "waldur_marketplace_offering" "offering" {
 - `default_volume_type_name` (String) Volume type name to use when creating volumes.
 - `error_message` (String) Error Message
 - `external_network_id` (String) ID of external network connected to OpenStack tenant
+- `external_network_ref_name` (String) External Network Ref Name
+- `external_network_ref_uuid` (String) External Network Ref Uuid
 - `id` (String) Openstack Tenant UUID (used as Terraform ID)
 - `internal_network_id` (String) ID of internal network in OpenStack tenant
+- `marketplace_offering_type` (String) Marketplace Offering Type
 - `marketplace_resource_uuid` (String) Marketplace Resource Uuid
 - `quotas` (Attributes List) Quotas (see [below for nested schema](#nestedatt--quotas))
 - `resource_type` (String) Resource Type
@@ -105,7 +108,7 @@ Optional:
 - `direction` (String) Traffic direction - either 'ingress' (incoming) or 'egress' (outgoing)
 - `ethertype` (String) IP protocol version - either 'IPv4' or 'IPv6'
 - `from_port` (Number) Starting port number in the range (1-65535)
-- `protocol` (String) The network protocol (TCP, UDP, ICMP, or empty for any protocol)
+- `protocol` (String) Network protocol: 'tcp', 'udp', 'icmp', empty (any) or an IANA protocol number 0-255 (e.g. '112' for VRRP).
 - `remote_group` (String) Remote security group that this rule references, if any
 - `to_port` (Number) Ending port number in the range (1-65535)
 

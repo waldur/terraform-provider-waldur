@@ -23,9 +23,13 @@ Openstack Network Rbac Policy data source - lookup by name or UUID
 ### Read-Only
 
 - `backend_id` (String) Backend Id
+- `direction` (String) Direction
 - `network` (String) Network
 - `network_name` (String) Network Name
 - `policy_type` (String) Type of access granted - either shared access or external network access
+- `source_tenant_name` (String) Source Tenant Name
+- `source_tenant_uuid` (String) Source Tenant Uuid
+- `target_label` (String) Target Label
 - `target_tenant` (String) Target Tenant
 - `target_tenant_name` (String) Target Tenant Name
 - `url` (String) Url
@@ -35,6 +39,7 @@ Openstack Network Rbac Policy data source - lookup by name or UUID
 
 Optional:
 
+- `direction` (String) Direction relative to the requesting user
 - `network` (String) Network URL
 - `network_uuid` (String) Network UUID
 - `policy_type` (String) Type of access granted - either shared access or external network access

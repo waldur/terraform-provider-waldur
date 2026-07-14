@@ -35,10 +35,12 @@ Openstack Subnet data source - lookup by name or UUID
 - `host_routes` (Attributes List) Host Routes (see [below for nested schema](#nestedatt--host_routes))
 - `ip_version` (Number) IP protocol version (4 or 6)
 - `is_connected` (Boolean) Is subnet connected to the default tenant router.
+- `marketplace_offering_type` (String) Marketplace Offering Type
 - `marketplace_resource_uuid` (String) Marketplace Resource Uuid
 - `name` (String) Name
 - `network` (String) Network to which this subnet belongs
 - `network_name` (String) Network Name
+- `port_security_enabled` (Boolean) Port Security Enabled
 - `project` (String) Project
 - `resource_type` (String) Resource Type
 - `state` (String) State
@@ -75,7 +77,6 @@ Optional:
 - `service_settings_uuid` (String) Service settings UUID
 - `tenant` (String) Tenant URL
 - `tenant_uuid` (String) Tenant UUID
-- `uuid` (String) UUID
 
 
 <a id="nestedatt--allocation_pools"></a>

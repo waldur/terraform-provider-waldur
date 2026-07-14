@@ -27,6 +27,7 @@ Structure Customer data source - lookup by name or UUID
 - `accounting_start_date` (String) Accounting Start Date
 - `address` (String) Address
 - `agreement_number` (String) Agreement Number
+- `apartment_nr` (String) Apartment Nr
 - `archived` (Boolean) Archived
 - `backend_id` (String) Organization identifier in another application.
 - `bank_account` (String) Bank Account
@@ -34,11 +35,13 @@ Structure Customer data source - lookup by name or UUID
 - `billing_price_estimate` (Attributes) Billing Price Estimate (see [below for nested schema](#nestedatt--billing_price_estimate))
 - `blocked` (Boolean) Blocked
 - `call_managing_organization_uuid` (String) Call Managing Organization Uuid
+- `city` (String) City
 - `contact_details` (String) Contact Details
 - `country` (String) Country code (ISO 3166-1 alpha-2)
 - `country_name` (String) Human-readable country name
 - `customer_credit` (Number) Customer Credit
 - `customer_unallocated_credit` (Number) Customer Unallocated Credit
+- `default_affiliations` (Attributes List) Affiliations offered to project creators of this organization. (see [below for nested schema](#nestedatt--default_affiliations))
 - `default_tax_percent` (String) Default Tax Percent
 - `description` (String) Description
 - `display_billing_info_in_projects` (Boolean) Display Billing Info In Projects
@@ -47,6 +50,8 @@ Structure Customer data source - lookup by name or UUID
 - `email` (String) Email
 - `grace_period_days` (Number) Number of extra days after project end date before resources are terminated
 - `homepage` (String) Homepage
+- `house_nr` (String) House Nr
+- `household` (String) Household
 - `image` (String) Image
 - `is_service_provider` (Boolean) Is Service Provider
 - `max_service_accounts` (Number) Maximum number of service accounts allowed
@@ -54,16 +59,20 @@ Structure Customer data source - lookup by name or UUID
 - `native_name` (String) Native Name
 - `notification_emails` (String) Comma-separated list of notification email addresses
 - `organization_groups` (Attributes List) Organization groups this customer belongs to (see [below for nested schema](#nestedatt--organization_groups))
+- `parish` (String) Parish
 - `payment_profiles` (Attributes List) Payment Profiles (see [below for nested schema](#nestedatt--payment_profiles))
 - `phone_number` (String) Phone Number
 - `postal` (String) Postal
 - `project_metadata_checklist` (String) Checklist to be used for project metadata validation in this organization
+- `project_slug_template` (String) Template for project slugs. Supports: {customer_slug}, {project_name}, {year}, {month}, {counter}, {counter_padded}. Default: slugified project name
 - `projects_count` (Number) Number of projects in this organization
 - `registration_code` (String) Registration Code
 - `service_provider` (String) Service Provider
 - `service_provider_uuid` (String) Service Provider Uuid
 - `slug` (String) URL-friendly identifier. Only editable by staff users.
 - `sponsor_number` (Number) External ID of the sponsor covering the costs
+- `state` (String) State
+- `street` (String) Street
 - `url` (String) Url
 - `users_count` (Number) Number of users with access to this organization
 - `vat_code` (String) VAT number
@@ -74,10 +83,15 @@ Structure Customer data source - lookup by name or UUID
 Optional:
 
 - `abbreviation` (String) Abbreviation
+- `accounting_is_running` (Boolean) Filter by whether accounting is running.
 - `agreement_number` (String) Agreement number
 - `archived` (Boolean) Archived
 - `backend_id` (String) ID of the backend
 - `contact_details` (String) Contact details
+- `current_user_has_project_create_permission` (Boolean) Return a list of customers where current user has project create permission.
+- `has_resources` (String) Filter by customers with resources.
+- `is_call_managing_organization` (Boolean) Filter by customers that are call managing organizations.
+- `is_service_provider` (Boolean) Filter by customers that are service providers.
 - `name` (String) Name
 - `name_exact` (String) Name (exact)
 - `native_name` (String) Native name
@@ -85,6 +99,9 @@ Optional:
 - `owned_by_current_user` (Boolean) Return a list of customers where current user is owner.
 - `query` (String) Filter by name, native name, abbreviation, domain, UUID, registration code or agreement number
 - `registration_code` (String) Registration code
+- `service_provider_uuid` (String) Filter by service provider UUID.
+- `slug` (String) Slug
+- `user_uuid` (String) Filter by user UUID.
 
 
 <a id="nestedatt--billing_price_estimate"></a>
@@ -96,6 +113,24 @@ Read-Only:
 - `tax` (Number) Tax
 - `tax_current` (Number) Tax Current
 - `total` (Number) Total
+
+
+<a id="nestedatt--default_affiliations"></a>
+### Nested Schema for `default_affiliations`
+
+Read-Only:
+
+- `abbreviation` (String) Abbreviation
+- `address` (String) Address
+- `code` (String) Unique short identifier, e.g. CERN, EMBL.
+- `country` (String) Country
+- `description` (String) Description
+- `email` (String) Email
+- `homepage` (String) Homepage
+- `name` (String) Name
+- `projects_count` (Number) Number of active projects affiliated with this organization
+- `url` (String) Url
+- `uuid` (String) Uuid
 
 
 <a id="nestedatt--organization_groups"></a>

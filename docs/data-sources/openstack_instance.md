@@ -22,9 +22,11 @@ Openstack Instance data source - lookup by name or UUID
 
 ### Read-Only
 
+- `action_details` (Map of String) Details about ongoing or completed actions
 - `availability_zone` (String) Availability zone where this instance is located
 - `availability_zone_name` (String) Name of the availability zone where instance is located
 - `backend_id` (String) Instance ID in the OpenStack backend
+- `config_drive` (Boolean) Force config drive on or off for this instance. If null, the tenant-wide default from service settings is used.
 - `connect_directly_to_external_network` (Boolean) If True, instance will be connected directly to external network
 - `cores` (Number) Number of cores in a VM
 - `customer` (String) Customer
@@ -41,6 +43,7 @@ Openstack Instance data source - lookup by name or UUID
 - `internal_ips` (List of String) Internal Ips
 - `key_fingerprint` (String) Key Fingerprint
 - `key_name` (String) Key Name
+- `marketplace_offering_type` (String) Marketplace Offering Type
 - `marketplace_resource_uuid` (String) Marketplace Resource Uuid
 - `min_disk` (Number) Minimum disk size in MiB
 - `min_ram` (Number) Minimum memory size in MiB
@@ -88,7 +91,6 @@ Optional:
 - `service_settings_uuid` (String) Service settings UUID
 - `tenant` (String) Tenant URL
 - `tenant_uuid` (String) Tenant UUID
-- `uuid` (String) UUID
 
 
 <a id="nestedatt--floating_ips"></a>
@@ -129,6 +131,7 @@ Read-Only:
 - `fixed_ips` (Attributes List) Fixed Ips (see [below for nested schema](#nestedatt--ports--fixed_ips))
 - `mac_address` (String) MAC address of the port
 - `port` (String) Port
+- `port_security_enabled` (Boolean) If True, security groups and rules will be applied to this port
 - `security_groups` (Attributes Set) Security Groups (see [below for nested schema](#nestedatt--ports--security_groups))
 - `subnet` (String) Subnet to which this port belongs
 - `subnet_cidr` (String) IPv4 network address in CIDR format (e.g. 192.168.0.0/24)
@@ -163,6 +166,7 @@ Read-Only:
 - `customer` (String) Customer
 - `description` (String) Description
 - `error_message` (String) Error Message
+- `marketplace_offering_type` (String) Marketplace Offering Type
 - `marketplace_resource_uuid` (String) Marketplace Resource Uuid
 - `name` (String) Name
 - `project` (String) Project
@@ -186,7 +190,7 @@ Read-Only:
 - `ethertype` (String) IP protocol version - either 'IPv4' or 'IPv6'
 - `from_port` (Number) Starting port number in the range (1-65535)
 - `id` (Number) Id
-- `protocol` (String) The network protocol (TCP, UDP, ICMP, or empty for any protocol)
+- `protocol` (String) Network protocol: 'tcp', 'udp', 'icmp', empty (any) or an IANA protocol number 0-255 (e.g. '112' for VRRP).
 - `remote_group` (String) Remote security group that this rule references, if any
 - `remote_group_name` (String) Remote Group Name
 - `remote_group_uuid` (String) Remote Group Uuid
@@ -227,7 +231,7 @@ Read-Only:
 - `ethertype` (String) IP protocol version - either 'IPv4' or 'IPv6'
 - `from_port` (Number) Starting port number in the range (1-65535)
 - `id` (Number) Id
-- `protocol` (String) The network protocol (TCP, UDP, ICMP, or empty for any protocol)
+- `protocol` (String) Network protocol: 'tcp', 'udp', 'icmp', empty (any) or an IANA protocol number 0-255 (e.g. '112' for VRRP).
 - `remote_group_name` (String) Remote Group Name
 - `remote_group_uuid` (String) Remote Group Uuid
 - `to_port` (Number) Ending port number in the range (1-65535)

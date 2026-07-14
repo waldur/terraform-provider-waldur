@@ -131,6 +131,13 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 
 					stringplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "End Date Requested By"},
+			"end_date_updated_at": schema.StringAttribute{
+				CustomType: timetypes.RFC3339Type{},
+				Computed:   true,
+				PlanModifiers: []planmodifier.String{
+
+					stringplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Timestamp of the last end_date change."},
 			"endpoints": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
@@ -181,7 +188,7 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 				PlanModifiers: []planmodifier.Map{
 
 					mapplanmodifier.UseStateForUnknown(),
-				}, MarkdownDescription: "Limit Usage"},
+				}, MarkdownDescription: "Dictionary mapping limit-based component types to their consumed usage. For monthly periods, maps from current_usages; for longer periods, aggregates historical usage."},
 			"limits": schema.MapAttribute{
 				ElementType: types.Int64Type,
 				Computed:    true,
@@ -320,6 +327,17 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 								int64validator.AtLeast(-2147483648),
 								int64validator.AtMost(2147483647),
 							}},
+						"max_renewal_duration": schema.Int64Attribute{
+							Optional: true,
+							Computed: true,
+							PlanModifiers: []planmodifier.Int64{
+
+								int64planmodifier.UseStateForUnknown(),
+							}, MarkdownDescription: "Maximum number of months allowed for a renewal.",
+							Validators: []validator.Int64{
+								int64validator.AtLeast(0),
+								int64validator.AtMost(2147483647),
+							}},
 						"max_value": schema.Int64Attribute{
 							Optional: true,
 							Computed: true,
@@ -349,6 +367,17 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 								int64validator.AtLeast(-2147483648),
 								int64validator.AtMost(2147483647),
 							}},
+						"min_renewal_duration": schema.Int64Attribute{
+							Optional: true,
+							Computed: true,
+							PlanModifiers: []planmodifier.Int64{
+
+								int64planmodifier.UseStateForUnknown(),
+							}, MarkdownDescription: "Minimum number of months allowed for a renewal.",
+							Validators: []validator.Int64{
+								int64validator.AtLeast(0),
+								int64validator.AtMost(2147483647),
+							}},
 						"min_value": schema.Int64Attribute{
 							Optional: true,
 							Computed: true,
@@ -367,6 +396,12 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 
 								stringplanmodifier.UseStateForUnknown(),
 							}, MarkdownDescription: "Display name for the measured unit, for example, Floating IP."},
+						"offering_uuid": schema.StringAttribute{
+							Computed: true,
+							PlanModifiers: []planmodifier.String{
+
+								stringplanmodifier.UseStateForUnknown(),
+							}, MarkdownDescription: "Offering Uuid"},
 						"overage_component": schema.StringAttribute{
 							Optional: true,
 							Computed: true,
@@ -374,6 +409,28 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 
 								stringplanmodifier.UseStateForUnknown(),
 							}, MarkdownDescription: "Overage Component"},
+						"prepaid_duration_step": schema.Int64Attribute{
+							Optional: true,
+							Computed: true,
+							PlanModifiers: []planmodifier.Int64{
+
+								int64planmodifier.UseStateForUnknown(),
+							}, MarkdownDescription: "Step size in months for the initial prepaid duration at order creation. If set, only multiples of this value (starting from min_prepaid_duration) are valid. Defaults to 1 (any value between min and max).",
+							Validators: []validator.Int64{
+								int64validator.AtLeast(0),
+								int64validator.AtMost(2147483647),
+							}},
+						"renewal_duration_step": schema.Int64Attribute{
+							Optional: true,
+							Computed: true,
+							PlanModifiers: []planmodifier.Int64{
+
+								int64planmodifier.UseStateForUnknown(),
+							}, MarkdownDescription: "Step size in months for renewal. Only multiples of this value (starting from min_renewal_duration) are valid. Defaults to 1.",
+							Validators: []validator.Int64{
+								int64validator.AtLeast(0),
+								int64validator.AtMost(2147483647),
+							}},
 						"type": schema.StringAttribute{
 							Optional: true,
 							Computed: true,
@@ -421,6 +478,13 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 
 					stringplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "Offering Image"},
+			"offering_plugin_options": schema.MapAttribute{
+				ElementType: types.StringType,
+				Computed:    true,
+				PlanModifiers: []planmodifier.Map{
+
+					mapplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Public data used by specific plugin, such as storage mode for OpenStack."},
 			"offering_shared": schema.BoolAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.Bool{
@@ -457,6 +521,13 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 
 					stringplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "Offering Uuid"},
+			"options": schema.MapAttribute{
+				ElementType: types.StringType,
+				Computed:    true,
+				PlanModifiers: []planmodifier.Map{
+
+					mapplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Options"},
 			"order_in_progress": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
 					"activation_price": schema.Float64Attribute{
@@ -472,6 +543,35 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 
 							stringplanmodifier.UseStateForUnknown(),
 						}, MarkdownDescription: "Attachment"},
+					"attributes": schema.MapAttribute{
+						ElementType: types.StringType,
+						Optional:    true,
+						Computed:    true,
+						PlanModifiers: []planmodifier.Map{
+
+							mapplanmodifier.UseStateForUnknown(),
+						}, MarkdownDescription: "Attributes"},
+					"auto_approved": schema.BoolAttribute{
+						Computed: true,
+						PlanModifiers: []planmodifier.Bool{
+
+							boolplanmodifier.UseStateForUnknown(),
+						}, MarkdownDescription: "Auto Approved"},
+					"auto_approved_by_rule_uuid": schema.StringAttribute{
+						Computed: true,
+						PlanModifiers: []planmodifier.String{
+
+							stringplanmodifier.UseStateForUnknown(),
+						}, MarkdownDescription: "Auto Approved By Rule Uuid"},
+					"auto_approved_cost_limit_snapshot": schema.StringAttribute{
+						Computed: true,
+						PlanModifiers: []planmodifier.String{
+
+							stringplanmodifier.UseStateForUnknown(),
+						}, MarkdownDescription: "Auto Approved Cost Limit Snapshot",
+						Validators: []validator.String{
+							stringvalidator.RegexMatches(regexp.MustCompile(`^-?\d{0,12}(?:\.\d{0,10})?$`), ""),
+						}},
 					"backend_id": schema.StringAttribute{
 						Optional: true,
 						Computed: true,
@@ -511,6 +611,26 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 
 							stringplanmodifier.UseStateForUnknown(),
 						}, MarkdownDescription: "Completed At"},
+					"consumer_message": schema.StringAttribute{
+						Optional: true,
+						Computed: true,
+						PlanModifiers: []planmodifier.String{
+
+							stringplanmodifier.UseStateForUnknown(),
+						}, MarkdownDescription: "Consumer Message"},
+					"consumer_message_attachment": schema.StringAttribute{
+						Optional: true,
+						Computed: true,
+						PlanModifiers: []planmodifier.String{
+
+							stringplanmodifier.UseStateForUnknown(),
+						}, MarkdownDescription: "Consumer Message Attachment"},
+					"consumer_rejection_comment": schema.StringAttribute{
+						Computed: true,
+						PlanModifiers: []planmodifier.String{
+
+							stringplanmodifier.UseStateForUnknown(),
+						}, MarkdownDescription: "Consumer Rejection Comment"},
 					"consumer_reviewed_at": schema.StringAttribute{
 						CustomType: timetypes.RFC3339Type{},
 						Computed:   true,
@@ -551,12 +671,30 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 
 							stringplanmodifier.UseStateForUnknown(),
 						}, MarkdownDescription: "Created By Civil Number"},
+					"created_by_email": schema.StringAttribute{
+						Computed: true,
+						PlanModifiers: []planmodifier.String{
+
+							stringplanmodifier.UseStateForUnknown(),
+						}, MarkdownDescription: "Created By Email"},
 					"created_by_full_name": schema.StringAttribute{
 						Computed: true,
 						PlanModifiers: []planmodifier.String{
 
 							stringplanmodifier.UseStateForUnknown(),
 						}, MarkdownDescription: "Created By Full Name"},
+					"created_by_organization": schema.StringAttribute{
+						Computed: true,
+						PlanModifiers: []planmodifier.String{
+
+							stringplanmodifier.UseStateForUnknown(),
+						}, MarkdownDescription: "Created By Organization"},
+					"created_by_organization_registry_code": schema.StringAttribute{
+						Computed: true,
+						PlanModifiers: []planmodifier.String{
+
+							stringplanmodifier.UseStateForUnknown(),
+						}, MarkdownDescription: "Company registration code of the user's organization, if known"},
 					"created_by_username": schema.StringAttribute{
 						Computed: true,
 						PlanModifiers: []planmodifier.String{
@@ -575,6 +713,13 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 
 							stringplanmodifier.UseStateForUnknown(),
 						}, MarkdownDescription: "Error Message"},
+					"error_updated_at": schema.StringAttribute{
+						CustomType: timetypes.RFC3339Type{},
+						Computed:   true,
+						PlanModifiers: []planmodifier.String{
+
+							stringplanmodifier.UseStateForUnknown(),
+						}, MarkdownDescription: "Error Updated At"},
 					"fixed_price": schema.Float64Attribute{
 						Computed: true,
 						PlanModifiers: []planmodifier.Float64{
@@ -662,6 +807,13 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 
 							stringplanmodifier.UseStateForUnknown(),
 						}, MarkdownDescription: "Offering Image"},
+					"offering_plugin_options": schema.MapAttribute{
+						ElementType: types.StringType,
+						Computed:    true,
+						PlanModifiers: []planmodifier.Map{
+
+							mapplanmodifier.UseStateForUnknown(),
+						}, MarkdownDescription: "Public data used by specific plugin, such as storage mode for OpenStack."},
 					"offering_shared": schema.BoolAttribute{
 						Computed: true,
 						PlanModifiers: []planmodifier.Bool{
@@ -716,6 +868,13 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 
 							stringplanmodifier.UseStateForUnknown(),
 						}, MarkdownDescription: "Output"},
+					"output_updated_at": schema.StringAttribute{
+						CustomType: timetypes.RFC3339Type{},
+						Computed:   true,
+						PlanModifiers: []planmodifier.String{
+
+							stringplanmodifier.UseStateForUnknown(),
+						}, MarkdownDescription: "Output Updated At"},
 					"plan": schema.StringAttribute{
 						Optional: true,
 						Computed: true,
@@ -759,12 +918,45 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 
 							stringplanmodifier.UseStateForUnknown(),
 						}, MarkdownDescription: "Project Slug"},
+					"provider_description": schema.StringAttribute{
+						Computed: true,
+						PlanModifiers: []planmodifier.String{
+
+							stringplanmodifier.UseStateForUnknown(),
+						}, MarkdownDescription: "Provider Description"},
+					"provider_message": schema.StringAttribute{
+						Optional: true,
+						Computed: true,
+						PlanModifiers: []planmodifier.String{
+
+							stringplanmodifier.UseStateForUnknown(),
+						}, MarkdownDescription: "Provider Message"},
+					"provider_message_attachment": schema.StringAttribute{
+						Optional: true,
+						Computed: true,
+						PlanModifiers: []planmodifier.String{
+
+							stringplanmodifier.UseStateForUnknown(),
+						}, MarkdownDescription: "Provider Message Attachment"},
+					"provider_message_url": schema.StringAttribute{
+						Optional: true,
+						Computed: true,
+						PlanModifiers: []planmodifier.String{
+
+							stringplanmodifier.UseStateForUnknown(),
+						}, MarkdownDescription: "Provider Message Url"},
 					"provider_name": schema.StringAttribute{
 						Computed: true,
 						PlanModifiers: []planmodifier.String{
 
 							stringplanmodifier.UseStateForUnknown(),
 						}, MarkdownDescription: "Provider Name"},
+					"provider_rejection_comment": schema.StringAttribute{
+						Computed: true,
+						PlanModifiers: []planmodifier.String{
+
+							stringplanmodifier.UseStateForUnknown(),
+						}, MarkdownDescription: "Provider Rejection Comment"},
 					"provider_reviewed_at": schema.StringAttribute{
 						CustomType: timetypes.RFC3339Type{},
 						Computed:   true,
@@ -963,6 +1155,12 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 
 					stringplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "Project Description"},
+			"project_effective_end_date": schema.StringAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+
+					stringplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Effective project end date including grace period. After this date, resources will be terminated."},
 			"project_end_date": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
@@ -975,12 +1173,24 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 
 					stringplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "Project End Date Requested By"},
+			"project_is_in_grace_period": schema.BoolAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.Bool{
+
+					boolplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "True if the project is past its end date but still within the grace period."},
 			"project_slug": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 
 					stringplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "Project Slug"},
+			"provider_description": schema.StringAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+
+					stringplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Provider Description"},
 			"provider_name": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
@@ -1218,6 +1428,26 @@ func (r *MarketplaceResourceResource) Update(ctx context.Context, req resource.U
 		// Execute the Action
 		if err := r.client.UpdateLimits(ctx, data.UUID.ValueString(), &req); err != nil {
 			resp.Diagnostics.AddError("RPC Action Failed: update_limits", err.Error())
+			return
+		}
+		// Wait for the resource to return to OK state
+		_, err := common.WaitForResource(ctx, func(ctx context.Context) (*MarketplaceResourceResponse, error) {
+			return r.client.Get(ctx, data.UUID.ValueString())
+		}, updateTimeout)
+		if err != nil {
+			resp.Diagnostics.AddError("Wait for RPC action failed", err.Error())
+			return
+		}
+		state = data
+	}
+	if !data.Options.Equal(state.Options) {
+		// Convert Terraform value to API payload for the specific action
+		var req MarketplaceResourceUpdateOptionsActionRequest
+		resp.Diagnostics.Append(common.PopulateMapField(ctx, data.Options, &req.Options)...)
+
+		// Execute the Action
+		if err := r.client.UpdateOptions(ctx, data.UUID.ValueString(), &req); err != nil {
+			resp.Diagnostics.AddError("RPC Action Failed: update_options", err.Error())
 			return
 		}
 		// Wait for the resource to return to OK state

@@ -26,6 +26,7 @@ Openstack Security Group data source - lookup by name or UUID
 - `customer` (String) Customer
 - `description` (String) Description
 - `error_message` (String) Error Message
+- `marketplace_offering_type` (String) Marketplace Offering Type
 - `marketplace_resource_uuid` (String) Marketplace Resource Uuid
 - `name` (String) Name
 - `project` (String) Project
@@ -61,7 +62,6 @@ Optional:
 - `service_settings_uuid` (String) Service settings UUID
 - `tenant` (String) Tenant URL
 - `tenant_uuid` (String) Tenant UUID
-- `uuid` (String) UUID
 
 
 <a id="nestedatt--rules"></a>
@@ -75,7 +75,7 @@ Read-Only:
 - `ethertype` (String) IP protocol version - either 'IPv4' or 'IPv6'
 - `from_port` (Number) Starting port number in the range (1-65535)
 - `id` (Number) Id
-- `protocol` (String) The network protocol (TCP, UDP, ICMP, or empty for any protocol)
+- `protocol` (String) Network protocol: 'tcp', 'udp', 'icmp', empty (any) or an IANA protocol number 0-255 (e.g. '112' for VRRP).
 - `remote_group` (String) Remote security group that this rule references, if any
 - `remote_group_name` (String) Remote Group Name
 - `remote_group_uuid` (String) Remote Group Uuid

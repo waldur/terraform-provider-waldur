@@ -72,6 +72,7 @@ resource "waldur_openstack_security_group" "example" {
 - `customer` (String) Customer
 - `error_message` (String) Error Message
 - `id` (String) Openstack Security Group UUID (used as Terraform ID)
+- `marketplace_offering_type` (String) Marketplace Offering Type
 - `marketplace_resource_uuid` (String) Marketplace Resource Uuid
 - `project` (String) Project
 - `resource_type` (String) Resource Type
@@ -90,7 +91,7 @@ Optional:
 - `direction` (String) Traffic direction - either 'ingress' (incoming) or 'egress' (outgoing)
 - `ethertype` (String) IP protocol version - either 'IPv4' or 'IPv6'
 - `from_port` (Number) Starting port number in the range (1-65535)
-- `protocol` (String) The network protocol (TCP, UDP, ICMP, or empty for any protocol)
+- `protocol` (String) Network protocol: 'tcp', 'udp', 'icmp', empty (any) or an IANA protocol number 0-255 (e.g. '112' for VRRP).
 - `remote_group` (String) Remote security group that this rule references, if any
 - `to_port` (Number) Ending port number in the range (1-65535)
 

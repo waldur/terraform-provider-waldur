@@ -52,8 +52,10 @@ resource "waldur_openstack_network" "example" {
 - `error_message` (String) Error Message
 - `id` (String) Openstack Network UUID (used as Terraform ID)
 - `is_external` (Boolean) Defines whether this network is external (public) or internal (private)
+- `marketplace_offering_type` (String) Marketplace Offering Type
 - `marketplace_resource_uuid` (String) Marketplace Resource Uuid
 - `mtu` (Number) The maximum transmission unit (MTU) value to address fragmentation.
+- `port_security_enabled` (Boolean) Default port_security_enabled for ports on this network. When False, ports created on this network inherit disabled port security unless explicitly overridden.
 - `project` (String) Project
 - `rbac_policies` (Attributes List) Rbac Policies (see [below for nested schema](#nestedatt--rbac_policies))
 - `resource_type` (String) Resource Type
@@ -87,7 +89,11 @@ Optional:
 Read-Only:
 
 - `backend_id` (String) Backend Id
+- `direction` (String) Direction
 - `network_name` (String) Network Name
+- `source_tenant_name` (String) Source Tenant Name
+- `source_tenant_uuid` (String) Source Tenant Uuid
+- `target_label` (String) Target Label
 - `target_tenant_name` (String) Target Tenant Name
 - `url` (String) Url
 - `uuid` (String) Uuid
@@ -108,6 +114,7 @@ Optional:
 Read-Only:
 
 - `allocation_pools` (Attributes List) Allocation Pools (see [below for nested schema](#nestedatt--subnets--allocation_pools))
+- `port_security_enabled` (Boolean) Port Security Enabled
 - `uuid` (String) Uuid
 
 <a id="nestedatt--subnets--allocation_pools"></a>

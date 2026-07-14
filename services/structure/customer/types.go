@@ -15,6 +15,8 @@ type StructureCustomerCreateRequest struct {
 
 	AgreementNumber *string `json:"agreement_number,omitempty" tfsdk:"agreement_number"`
 
+	ApartmentNr *string `json:"apartment_nr,omitempty" tfsdk:"apartment_nr"`
+
 	Archived *bool `json:"archived,omitempty" tfsdk:"archived"`
 
 	BackendId *string `json:"backend_id,omitempty" tfsdk:"backend_id"`
@@ -24,6 +26,8 @@ type StructureCustomerCreateRequest struct {
 	BankName *string `json:"bank_name,omitempty" tfsdk:"bank_name"`
 
 	Blocked *bool `json:"blocked,omitempty" tfsdk:"blocked"`
+
+	City *string `json:"city,omitempty" tfsdk:"city"`
 
 	ContactDetails *string `json:"contact_details,omitempty" tfsdk:"contact_details"`
 
@@ -43,6 +47,10 @@ type StructureCustomerCreateRequest struct {
 
 	Homepage *string `json:"homepage,omitempty" tfsdk:"homepage"`
 
+	HouseNr *string `json:"house_nr,omitempty" tfsdk:"house_nr"`
+
+	Household *string `json:"household,omitempty" tfsdk:"household"`
+
 	Image *string `json:"image,omitempty" tfsdk:"image"`
 
 	MaxServiceAccounts *int64 `json:"max_service_accounts,omitempty" tfsdk:"max_service_accounts"`
@@ -53,17 +61,23 @@ type StructureCustomerCreateRequest struct {
 
 	NotificationEmails *string `json:"notification_emails,omitempty" tfsdk:"notification_emails"`
 
+	Parish *string `json:"parish,omitempty" tfsdk:"parish"`
+
 	PhoneNumber *string `json:"phone_number,omitempty" tfsdk:"phone_number"`
 
 	Postal *string `json:"postal,omitempty" tfsdk:"postal"`
 
 	ProjectMetadataChecklist *string `json:"project_metadata_checklist,omitempty" tfsdk:"project_metadata_checklist"`
 
+	ProjectSlugTemplate *string `json:"project_slug_template,omitempty" tfsdk:"project_slug_template"`
+
 	RegistrationCode *string `json:"registration_code,omitempty" tfsdk:"registration_code"`
 
 	Slug *string `json:"slug,omitempty" tfsdk:"slug"`
 
 	SponsorNumber *int64 `json:"sponsor_number,omitempty" tfsdk:"sponsor_number"`
+
+	Street *string `json:"street,omitempty" tfsdk:"street"`
 
 	VatCode *string `json:"vat_code,omitempty" tfsdk:"vat_code"`
 }
@@ -79,6 +93,8 @@ type StructureCustomerUpdateRequest struct {
 
 	AgreementNumber *string `json:"agreement_number,omitempty" tfsdk:"agreement_number"`
 
+	ApartmentNr *string `json:"apartment_nr,omitempty" tfsdk:"apartment_nr"`
+
 	Archived *bool `json:"archived,omitempty" tfsdk:"archived"`
 
 	BackendId *string `json:"backend_id,omitempty" tfsdk:"backend_id"`
@@ -88,6 +104,8 @@ type StructureCustomerUpdateRequest struct {
 	BankName *string `json:"bank_name,omitempty" tfsdk:"bank_name"`
 
 	Blocked *bool `json:"blocked,omitempty" tfsdk:"blocked"`
+
+	City *string `json:"city,omitempty" tfsdk:"city"`
 
 	ContactDetails *string `json:"contact_details,omitempty" tfsdk:"contact_details"`
 
@@ -107,6 +125,10 @@ type StructureCustomerUpdateRequest struct {
 
 	Homepage *string `json:"homepage,omitempty" tfsdk:"homepage"`
 
+	HouseNr *string `json:"house_nr,omitempty" tfsdk:"house_nr"`
+
+	Household *string `json:"household,omitempty" tfsdk:"household"`
+
 	Image *string `json:"image,omitempty" tfsdk:"image"`
 
 	MaxServiceAccounts *int64 `json:"max_service_accounts,omitempty" tfsdk:"max_service_accounts"`
@@ -117,17 +139,23 @@ type StructureCustomerUpdateRequest struct {
 
 	NotificationEmails *string `json:"notification_emails,omitempty" tfsdk:"notification_emails"`
 
+	Parish *string `json:"parish,omitempty" tfsdk:"parish"`
+
 	PhoneNumber *string `json:"phone_number,omitempty" tfsdk:"phone_number"`
 
 	Postal *string `json:"postal,omitempty" tfsdk:"postal"`
 
 	ProjectMetadataChecklist *string `json:"project_metadata_checklist,omitempty" tfsdk:"project_metadata_checklist"`
 
+	ProjectSlugTemplate *string `json:"project_slug_template,omitempty" tfsdk:"project_slug_template"`
+
 	RegistrationCode *string `json:"registration_code,omitempty" tfsdk:"registration_code"`
 
 	Slug *string `json:"slug,omitempty" tfsdk:"slug"`
 
 	SponsorNumber *int64 `json:"sponsor_number,omitempty" tfsdk:"sponsor_number"`
+
+	Street *string `json:"street,omitempty" tfsdk:"street"`
 
 	VatCode *string `json:"vat_code,omitempty" tfsdk:"vat_code"`
 }
@@ -145,6 +173,8 @@ type StructureCustomerResponse struct {
 
 	AgreementNumber *string `json:"agreement_number,omitempty" tfsdk:"agreement_number"`
 
+	ApartmentNr *string `json:"apartment_nr,omitempty" tfsdk:"apartment_nr"`
+
 	Archived *bool `json:"archived,omitempty" tfsdk:"archived"`
 
 	BackendId *string `json:"backend_id,omitempty" tfsdk:"backend_id"`
@@ -159,6 +189,8 @@ type StructureCustomerResponse struct {
 
 	CallManagingOrganizationUuid *string `json:"call_managing_organization_uuid,omitempty" tfsdk:"call_managing_organization_uuid"`
 
+	City *string `json:"city,omitempty" tfsdk:"city"`
+
 	ContactDetails *string `json:"contact_details,omitempty" tfsdk:"contact_details"`
 
 	Country *string `json:"country,omitempty" tfsdk:"country"`
@@ -168,6 +200,8 @@ type StructureCustomerResponse struct {
 	CustomerCredit common.FlexibleNumber `json:"customer_credit,omitempty" tfsdk:"customer_credit"`
 
 	CustomerUnallocatedCredit common.FlexibleNumber `json:"customer_unallocated_credit,omitempty" tfsdk:"customer_unallocated_credit"`
+
+	DefaultAffiliations *[]common.AffiliatedOrganization `json:"default_affiliations,omitempty" tfsdk:"default_affiliations"`
 
 	DefaultTaxPercent *string `json:"default_tax_percent,omitempty" tfsdk:"default_tax_percent"`
 
@@ -185,6 +219,10 @@ type StructureCustomerResponse struct {
 
 	Homepage *string `json:"homepage,omitempty" tfsdk:"homepage"`
 
+	HouseNr *string `json:"house_nr,omitempty" tfsdk:"house_nr"`
+
+	Household *string `json:"household,omitempty" tfsdk:"household"`
+
 	Image *string `json:"image,omitempty" tfsdk:"image"`
 
 	IsServiceProvider *bool `json:"is_service_provider,omitempty" tfsdk:"is_service_provider"`
@@ -199,6 +237,8 @@ type StructureCustomerResponse struct {
 
 	OrganizationGroups *[]common.OrganizationGroup `json:"organization_groups,omitempty" tfsdk:"organization_groups"`
 
+	Parish *string `json:"parish,omitempty" tfsdk:"parish"`
+
 	PaymentProfiles *[]common.PaymentProfile `json:"payment_profiles,omitempty" tfsdk:"payment_profiles"`
 
 	PhoneNumber *string `json:"phone_number,omitempty" tfsdk:"phone_number"`
@@ -206,6 +246,8 @@ type StructureCustomerResponse struct {
 	Postal *string `json:"postal,omitempty" tfsdk:"postal"`
 
 	ProjectMetadataChecklist *string `json:"project_metadata_checklist,omitempty" tfsdk:"project_metadata_checklist"`
+
+	ProjectSlugTemplate *string `json:"project_slug_template,omitempty" tfsdk:"project_slug_template"`
 
 	ProjectsCount *int64 `json:"projects_count,omitempty" tfsdk:"projects_count"`
 
@@ -219,11 +261,15 @@ type StructureCustomerResponse struct {
 
 	SponsorNumber *int64 `json:"sponsor_number,omitempty" tfsdk:"sponsor_number"`
 
+	Street *string `json:"street,omitempty" tfsdk:"street"`
+
 	Url *string `json:"url,omitempty" tfsdk:"url"`
 
 	UsersCount *int64 `json:"users_count,omitempty" tfsdk:"users_count"`
 
 	VatCode *string `json:"vat_code,omitempty" tfsdk:"vat_code"`
+
+	State *string `json:"state,omitempty" tfsdk:"state"`
 }
 
 type StructureCustomerBillingPriceEstimateResponse struct {
@@ -234,6 +280,30 @@ type StructureCustomerBillingPriceEstimateResponse struct {
 	TaxCurrent common.FlexibleNumber `json:"tax_current,omitempty" tfsdk:"tax_current"`
 
 	Total common.FlexibleNumber `json:"total,omitempty" tfsdk:"total"`
+}
+
+type StructureCustomerDefaultAffiliationsResponse struct {
+	Abbreviation *string `json:"abbreviation,omitempty" tfsdk:"abbreviation"`
+
+	Address *string `json:"address,omitempty" tfsdk:"address"`
+
+	Code *string `json:"code,omitempty" tfsdk:"code"`
+
+	Country *string `json:"country,omitempty" tfsdk:"country"`
+
+	Description *string `json:"description,omitempty" tfsdk:"description"`
+
+	Email *string `json:"email,omitempty" tfsdk:"email"`
+
+	Homepage *string `json:"homepage,omitempty" tfsdk:"homepage"`
+
+	Name *string `json:"name,omitempty" tfsdk:"name"`
+
+	ProjectsCount *int64 `json:"projects_count,omitempty" tfsdk:"projects_count"`
+
+	Url *string `json:"url,omitempty" tfsdk:"url"`
+
+	Uuid *string `json:"uuid,omitempty" tfsdk:"uuid"`
 }
 
 type StructureCustomerOrganizationGroupsResponse struct {
@@ -281,6 +351,9 @@ type StructureCustomerPaymentProfilesAttributesResponse struct {
 }
 
 func (r *StructureCustomerResponse) GetState() string {
+	if r.State != nil {
+		return *r.State
+	}
 	return "OK"
 }
 

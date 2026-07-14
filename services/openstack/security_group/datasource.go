@@ -51,6 +51,8 @@ func (d *OpenstackSecurityGroupDataSource) Schema(ctx context.Context, req datas
 				Computed: true, MarkdownDescription: "Description"},
 			"error_message": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Error Message"},
+			"marketplace_offering_type": schema.StringAttribute{
+				Computed: true, MarkdownDescription: "Marketplace Offering Type"},
 			"marketplace_resource_uuid": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Marketplace Resource Uuid"},
 			"name": schema.StringAttribute{
@@ -77,7 +79,7 @@ func (d *OpenstackSecurityGroupDataSource) Schema(ctx context.Context, req datas
 								int64validator.AtMost(65535),
 							}},
 						"protocol": schema.StringAttribute{
-							Computed: true, MarkdownDescription: "The network protocol (TCP, UDP, ICMP, or empty for any protocol)"},
+							Computed: true, MarkdownDescription: "Network protocol: 'tcp', 'udp', 'icmp', empty (any) or an IANA protocol number 0-255 (e.g. '112' for VRRP)."},
 						"remote_group": schema.StringAttribute{
 							Computed: true, MarkdownDescription: "Remote security group that this rule references, if any"},
 						"to_port": schema.Int64Attribute{

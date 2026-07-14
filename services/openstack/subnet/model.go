@@ -49,7 +49,6 @@ type OpenstackSubnetFiltersModel struct {
 	ServiceSettingsUuid  types.String `tfsdk:"service_settings_uuid"`
 	Tenant               types.String `tfsdk:"tenant"`
 	TenantUuid           types.String `tfsdk:"tenant_uuid"`
-	Uuid                 types.String `tfsdk:"uuid"`
 }
 
 func (m *OpenstackSubnetFiltersModel) GetSchema() schema.SingleNestedAttribute {
@@ -153,10 +152,6 @@ func (m *OpenstackSubnetFiltersModel) GetSchema() schema.SingleNestedAttribute {
 				Optional:            true,
 				MarkdownDescription: "Tenant UUID",
 			},
-			"uuid": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "UUID",
-			},
 		},
 	}
 }
@@ -176,10 +171,12 @@ type OpenstackSubnetModel struct {
 	HostRoutes              types.List   `tfsdk:"host_routes"`
 	IpVersion               types.Int64  `tfsdk:"ip_version"`
 	IsConnected             types.Bool   `tfsdk:"is_connected"`
+	MarketplaceOfferingType types.String `tfsdk:"marketplace_offering_type"`
 	MarketplaceResourceUuid types.String `tfsdk:"marketplace_resource_uuid"`
 	Name                    types.String `tfsdk:"name"`
 	Network                 types.String `tfsdk:"network"`
 	NetworkName             types.String `tfsdk:"network_name"`
+	PortSecurityEnabled     types.Bool   `tfsdk:"port_security_enabled"`
 	Project                 types.String `tfsdk:"project"`
 	ResourceType            types.String `tfsdk:"resource_type"`
 	State                   types.String `tfsdk:"state"`
@@ -238,6 +235,8 @@ func (model *OpenstackSubnetModel) CopyFrom(ctx context.Context, apiResp Opensta
 
 	model.IsConnected = types.BoolPointerValue(apiResp.IsConnected)
 
+	model.MarketplaceOfferingType = common.StringPointerValue(apiResp.MarketplaceOfferingType)
+
 	model.MarketplaceResourceUuid = common.StringPointerValue(apiResp.MarketplaceResourceUuid)
 
 	model.Name = common.StringPointerValue(apiResp.Name)
@@ -245,6 +244,8 @@ func (model *OpenstackSubnetModel) CopyFrom(ctx context.Context, apiResp Opensta
 	model.Network = common.StringPointerValue(apiResp.Network)
 
 	model.NetworkName = common.StringPointerValue(apiResp.NetworkName)
+
+	model.PortSecurityEnabled = types.BoolPointerValue(apiResp.PortSecurityEnabled)
 
 	model.Project = common.StringPointerValue(apiResp.Project)
 

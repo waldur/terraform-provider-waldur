@@ -79,6 +79,12 @@ func (r *OpenstackSecurityGroupResource) Schema(ctx context.Context, req resourc
 
 					stringplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "Error Message"},
+			"marketplace_offering_type": schema.StringAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+
+					stringplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Marketplace Offering Type"},
 			"marketplace_resource_uuid": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
@@ -151,7 +157,7 @@ func (r *OpenstackSecurityGroupResource) Schema(ctx context.Context, req resourc
 
 								stringplanmodifier.UseStateForUnknown(),
 								common.UnknownIfNullModifier{},
-							}, MarkdownDescription: "The network protocol (TCP, UDP, ICMP, or empty for any protocol)"},
+							}, MarkdownDescription: "Network protocol: 'tcp', 'udp', 'icmp', empty (any) or an IANA protocol number 0-255 (e.g. '112' for VRRP)."},
 						"remote_group": schema.StringAttribute{
 							Optional: true,
 							Computed: true,

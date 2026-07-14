@@ -46,4 +46,3 @@ Optional:
 - `tenant` (String) Tenant URL
 - `tenant_uuid` (String) Tenant UUID
 - `type` (String) Type
-- `uuid` (String) UUID

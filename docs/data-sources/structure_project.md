@@ -22,16 +22,24 @@ Structure Project data source - lookup by name or UUID
 
 ### Read-Only
 
+- `affiliation` (Attributes) Affiliation (see [below for nested schema](#nestedatt--affiliation))
+- `affiliation_code` (String) Unique short identifier, e.g. CERN, EMBL.
+- `affiliation_name` (String) Affiliation Name
+- `affiliation_uuid` (String) Affiliation Uuid
 - `backend_id` (String) Backend Id
 - `billing_price_estimate` (Attributes) Billing Price Estimate (see [below for nested schema](#nestedatt--billing_price_estimate))
 - `customer` (String) Customer
 - `customer_display_billing_info_in_projects` (Boolean) Customer Display Billing Info In Projects
+- `customer_grace_period_days` (Number) Grace period days set at the customer (organization) level. Used as default when project-level is not set.
 - `customer_slug` (String) Customer Slug
 - `description` (String) Project description (HTML content will be sanitized)
+- `effective_end_date` (String) Effective end date including grace period. After this date, project resources will be terminated.
 - `end_date` (String) Project end date. Setting this field requires DELETE_PROJECT permission.
 - `end_date_requested_by` (String) End Date Requested By
+- `end_date_updated_at` (String) Timestamp of the last end_date change.
 - `grace_period_days` (Number) Number of extra days after project end date before resources are terminated. Overrides customer-level setting.
 - `image` (String) Image
+- `is_in_grace_period` (Boolean) True if the project is past its end date but still within the grace period.
 - `is_industry` (Boolean) Is Industry
 - `is_removed` (Boolean) Is Removed
 - `kind` (String) Kind
@@ -41,10 +49,18 @@ Structure Project data source - lookup by name or UUID
 - `oecd_fos_2007_code` (String) Oecd Fos 2007 Code
 - `oecd_fos_2007_label` (String) Human-readable label for the OECD FOS 2007 classification code
 - `project_credit` (Number) Project Credit
+- `project_metadata` (Attributes List) Answers to the customer's project-metadata checklist (read-only). (see [below for nested schema](#nestedatt--project_metadata))
 - `resources_count` (Number) Number of active resources in this project
+- `science_domain_code` (String) Domain code (e.g. '1'). Auto-derived if left blank.
+- `science_domain_name` (String) Science Domain Name
+- `science_domain_uuid` (String) Science Domain Uuid
+- `science_sub_domain` (String) Science Sub Domain
+- `science_sub_domain_code` (String) Sub-domain code (e.g. '1.1'). Auto-derived from domain code if left blank.
+- `science_sub_domain_name` (String) Science Sub Domain Name
 - `slug` (String) URL-friendly identifier. Only editable by staff users.
 - `staff_notes` (String) Internal notes visible only to staff and support users (HTML content will be sanitized)
 - `start_date` (String) Project start date. Cannot be edited after the start date has arrived.
+- `termination_metadata` (Map of String) Metadata about project termination (read-only)
 - `type` (String) Type
 - `type_name` (String) Type Name
 - `type_uuid` (String) Type Uuid
@@ -55,22 +71,49 @@ Structure Project data source - lookup by name or UUID
 
 Optional:
 
+- `accounting_is_running` (Boolean) Filter by whether accounting is running.
+- `affiliation_name` (String) Affiliation name
 - `backend_id` (String) ID of the backend
 - `can_admin` (Boolean) Return a list of projects where current user is admin.
 - `can_manage` (Boolean) Return a list of projects where current user is manager or a customer owner.
 - `conceal_finished_projects` (Boolean) Conceal finished projects
 - `created` (String) Created after
+- `created_before` (String) Created before
 - `customer_abbreviation` (String) Customer abbreviation
 - `customer_name` (String) Customer name
 - `customer_native_name` (String) Customer native name
 - `description` (String) Description
+- `has_affiliation` (Boolean) Filter projects that have an affiliation.
 - `include_terminated` (Boolean) Include soft-deleted (terminated) projects. Only available to staff and support users, or users with organizational roles who can see their terminated projects.
 - `is_removed` (Boolean) Is removed
 - `modified` (String) Modified after
+- `modified_before` (String) Modified before
 - `name` (String) Name
 - `name_exact` (String) Name (exact)
 - `query` (String) Filter by name, slug, UUID, backend ID or resource effective ID
+- `science_domain_uuid` (String) Science domain UUID
+- `science_sub_domain_uuid` (String) Science sub-domain UUID
 - `slug` (String) Slug
+- `user_uuid` (String) Filter by user UUID.
+- `user_uuid_with_active_role` (String) Filter projects where the given user has a role.
+
+
+<a id="nestedatt--affiliation"></a>
+### Nested Schema for `affiliation`
+
+Read-Only:
+
+- `abbreviation` (String) Abbreviation
+- `address` (String) Address
+- `code` (String) Unique short identifier, e.g. CERN, EMBL.
+- `country` (String) Country
+- `description` (String) Description
+- `email` (String) Email
+- `homepage` (String) Homepage
+- `name` (String) Name
+- `projects_count` (Number) Number of active projects affiliated with this organization
+- `url` (String) Url
+- `uuid` (String) Uuid
 
 
 <a id="nestedatt--billing_price_estimate"></a>
@@ -82,3 +125,14 @@ Read-Only:
 - `tax` (Number) Tax
 - `tax_current` (Number) Tax Current
 - `total` (Number) Total
+
+
+<a id="nestedatt--project_metadata"></a>
+### Nested Schema for `project_metadata`
+
+Read-Only:
+
+- `answer` (Map of String) Human-readable answer value; select-type option UUIDs are resolved to their labels.
+- `question` (String) Question description.
+- `question_type` (String) Question Type
+- `question_uuid` (String) Question Uuid

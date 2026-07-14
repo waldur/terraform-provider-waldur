@@ -38,7 +38,6 @@ type OpenstackServerGroupFiltersModel struct {
 	ServiceSettingsUuid  types.String `tfsdk:"service_settings_uuid"`
 	Tenant               types.String `tfsdk:"tenant"`
 	TenantUuid           types.String `tfsdk:"tenant_uuid"`
-	Uuid                 types.String `tfsdk:"uuid"`
 }
 
 func (m *OpenstackServerGroupFiltersModel) GetSchema() schema.SingleNestedAttribute {
@@ -118,10 +117,6 @@ func (m *OpenstackServerGroupFiltersModel) GetSchema() schema.SingleNestedAttrib
 				Optional:            true,
 				MarkdownDescription: "Tenant UUID",
 			},
-			"uuid": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "UUID",
-			},
 		},
 	}
 }
@@ -134,6 +129,7 @@ type OpenstackServerGroupModel struct {
 	DisplayName             types.String `tfsdk:"display_name"`
 	ErrorMessage            types.String `tfsdk:"error_message"`
 	Instances               types.List   `tfsdk:"instances"`
+	MarketplaceOfferingType types.String `tfsdk:"marketplace_offering_type"`
 	MarketplaceResourceUuid types.String `tfsdk:"marketplace_resource_uuid"`
 	Name                    types.String `tfsdk:"name"`
 	Policy                  types.String `tfsdk:"policy"`
@@ -169,6 +165,8 @@ func (model *OpenstackServerGroupModel) CopyFrom(ctx context.Context, apiResp Op
 	} else {
 		model.Instances = types.ListNull(OpenStackNestedInstanceType())
 	}
+
+	model.MarketplaceOfferingType = common.StringPointerValue(apiResp.MarketplaceOfferingType)
 
 	model.MarketplaceResourceUuid = common.StringPointerValue(apiResp.MarketplaceResourceUuid)
 

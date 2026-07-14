@@ -43,12 +43,20 @@ func (d *OpenstackNetworkRbacPolicyDataSource) Schema(ctx context.Context, req d
 			"filters": (&OpenstackNetworkRbacPolicyFiltersModel{}).GetSchema(),
 			"backend_id": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Backend Id"},
+			"direction": schema.StringAttribute{
+				Computed: true, MarkdownDescription: "Direction"},
 			"network": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Network"},
 			"network_name": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Network Name"},
 			"policy_type": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Type of access granted - either shared access or external network access"},
+			"source_tenant_name": schema.StringAttribute{
+				Computed: true, MarkdownDescription: "Source Tenant Name"},
+			"source_tenant_uuid": schema.StringAttribute{
+				Computed: true, MarkdownDescription: "Source Tenant Uuid"},
+			"target_label": schema.StringAttribute{
+				Computed: true, MarkdownDescription: "Target Label"},
 			"target_tenant": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Target Tenant"},
 			"target_tenant_name": schema.StringAttribute{

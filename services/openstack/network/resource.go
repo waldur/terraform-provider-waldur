@@ -86,6 +86,12 @@ func (r *OpenstackNetworkResource) Schema(ctx context.Context, req resource.Sche
 
 					boolplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "Defines whether this network is external (public) or internal (private)"},
+			"marketplace_offering_type": schema.StringAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+
+					stringplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Marketplace Offering Type"},
 			"marketplace_resource_uuid": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
@@ -100,6 +106,12 @@ func (r *OpenstackNetworkResource) Schema(ctx context.Context, req resource.Sche
 				}, MarkdownDescription: "The maximum transmission unit (MTU) value to address fragmentation."},
 			"name": schema.StringAttribute{
 				Required: true, MarkdownDescription: "Name"},
+			"port_security_enabled": schema.BoolAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.Bool{
+
+					boolplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Default port_security_enabled for ports on this network. When False, ports created on this network inherit disabled port security unless explicitly overridden."},
 			"project": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
@@ -115,6 +127,12 @@ func (r *OpenstackNetworkResource) Schema(ctx context.Context, req resource.Sche
 
 								stringplanmodifier.UseStateForUnknown(),
 							}, MarkdownDescription: "Backend Id"},
+						"direction": schema.StringAttribute{
+							Computed: true,
+							PlanModifiers: []planmodifier.String{
+
+								stringplanmodifier.UseStateForUnknown(),
+							}, MarkdownDescription: "Direction"},
 						"network": schema.StringAttribute{
 							Optional: true,
 							Computed: true,
@@ -135,6 +153,24 @@ func (r *OpenstackNetworkResource) Schema(ctx context.Context, req resource.Sche
 
 								stringplanmodifier.UseStateForUnknown(),
 							}, MarkdownDescription: "Type of access granted - either shared access or external network access"},
+						"source_tenant_name": schema.StringAttribute{
+							Computed: true,
+							PlanModifiers: []planmodifier.String{
+
+								stringplanmodifier.UseStateForUnknown(),
+							}, MarkdownDescription: "Source Tenant Name"},
+						"source_tenant_uuid": schema.StringAttribute{
+							Computed: true,
+							PlanModifiers: []planmodifier.String{
+
+								stringplanmodifier.UseStateForUnknown(),
+							}, MarkdownDescription: "Source Tenant Uuid"},
+						"target_label": schema.StringAttribute{
+							Computed: true,
+							PlanModifiers: []planmodifier.String{
+
+								stringplanmodifier.UseStateForUnknown(),
+							}, MarkdownDescription: "Target Label"},
 						"target_tenant": schema.StringAttribute{
 							Optional: true,
 							Computed: true,
@@ -260,6 +296,12 @@ func (r *OpenstackNetworkResource) Schema(ctx context.Context, req resource.Sche
 
 								stringplanmodifier.UseStateForUnknown(),
 							}, MarkdownDescription: "Name"},
+						"port_security_enabled": schema.BoolAttribute{
+							Computed: true,
+							PlanModifiers: []planmodifier.Bool{
+
+								boolplanmodifier.UseStateForUnknown(),
+							}, MarkdownDescription: "Port Security Enabled"},
 						"uuid": schema.StringAttribute{
 							Computed: true,
 							PlanModifiers: []planmodifier.String{

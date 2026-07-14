@@ -63,8 +63,12 @@ resource "waldur_openstack_network_rbac_policy" "example" {
 ### Read-Only
 
 - `backend_id` (String) Backend Id
+- `direction` (String) Direction
 - `id` (String) Openstack Network Rbac Policy UUID (used as Terraform ID)
 - `network_name` (String) Network Name
+- `source_tenant_name` (String) Source Tenant Name
+- `source_tenant_uuid` (String) Source Tenant Uuid
+- `target_label` (String) Target Label
 - `target_tenant_name` (String) Target Tenant Name
 - `url` (String) Url
 

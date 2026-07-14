@@ -55,7 +55,6 @@ type OpenstackTenantFiltersModel struct {
 	ProjectUuid          types.String `tfsdk:"project_uuid"`
 	ServiceSettingsName  types.String `tfsdk:"service_settings_name"`
 	ServiceSettingsUuid  types.String `tfsdk:"service_settings_uuid"`
-	Uuid                 types.String `tfsdk:"uuid"`
 }
 
 func (m *OpenstackTenantFiltersModel) GetSchema() schema.SingleNestedAttribute {
@@ -127,10 +126,6 @@ func (m *OpenstackTenantFiltersModel) GetSchema() schema.SingleNestedAttribute {
 				Optional:            true,
 				MarkdownDescription: "Service settings UUID",
 			},
-			"uuid": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "UUID",
-			},
 		},
 	}
 }
@@ -144,7 +139,10 @@ type OpenstackTenantModel struct {
 	Description                 types.String `tfsdk:"description"`
 	ErrorMessage                types.String `tfsdk:"error_message"`
 	ExternalNetworkId           types.String `tfsdk:"external_network_id"`
+	ExternalNetworkRefName      types.String `tfsdk:"external_network_ref_name"`
+	ExternalNetworkRefUuid      types.String `tfsdk:"external_network_ref_uuid"`
 	InternalNetworkId           types.String `tfsdk:"internal_network_id"`
+	MarketplaceOfferingType     types.String `tfsdk:"marketplace_offering_type"`
 	MarketplaceResourceUuid     types.String `tfsdk:"marketplace_resource_uuid"`
 	Name                        types.String `tfsdk:"name"`
 	Project                     types.String `tfsdk:"project"`
@@ -177,7 +175,13 @@ func (model *OpenstackTenantModel) CopyFrom(ctx context.Context, apiResp Opensta
 
 	model.ExternalNetworkId = common.StringPointerValue(apiResp.ExternalNetworkId)
 
+	model.ExternalNetworkRefName = common.StringPointerValue(apiResp.ExternalNetworkRefName)
+
+	model.ExternalNetworkRefUuid = common.StringPointerValue(apiResp.ExternalNetworkRefUuid)
+
 	model.InternalNetworkId = common.StringPointerValue(apiResp.InternalNetworkId)
+
+	model.MarketplaceOfferingType = common.StringPointerValue(apiResp.MarketplaceOfferingType)
 
 	model.MarketplaceResourceUuid = common.StringPointerValue(apiResp.MarketplaceResourceUuid)
 

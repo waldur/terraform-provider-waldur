@@ -83,6 +83,8 @@ func (d *OpenstackPortDataSource) Schema(ctx context.Context, req datasource.Sch
 				Computed:    true, MarkdownDescription: "Floating Ips"},
 			"mac_address": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "MAC address of the port"},
+			"marketplace_offering_type": schema.StringAttribute{
+				Computed: true, MarkdownDescription: "Marketplace Offering Type"},
 			"marketplace_resource_uuid": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Marketplace Resource Uuid"},
 			"name": schema.StringAttribute{

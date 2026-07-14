@@ -33,6 +33,8 @@ type OpenstackFloatingIpResponse struct {
 
 	InstanceUuid *string `json:"instance_uuid,omitempty" tfsdk:"instance_uuid"`
 
+	MarketplaceOfferingType *string `json:"marketplace_offering_type,omitempty" tfsdk:"marketplace_offering_type"`
+
 	MarketplaceResourceUuid *string `json:"marketplace_resource_uuid,omitempty" tfsdk:"marketplace_resource_uuid"`
 
 	Name *string `json:"name,omitempty" tfsdk:"name"`

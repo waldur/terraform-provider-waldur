@@ -12,15 +12,16 @@ import (
 
 type CoreSshPublicKeyFiltersModel struct {
 	Created           types.String `tfsdk:"created"`
+	CreatedBefore     types.String `tfsdk:"created_before"`
 	FingerprintMd5    types.String `tfsdk:"fingerprint_md5"`
 	FingerprintSha256 types.String `tfsdk:"fingerprint_sha256"`
 	FingerprintSha512 types.String `tfsdk:"fingerprint_sha512"`
 	IsShared          types.Bool   `tfsdk:"is_shared"`
 	Modified          types.String `tfsdk:"modified"`
+	ModifiedBefore    types.String `tfsdk:"modified_before"`
 	Name              types.String `tfsdk:"name"`
 	NameExact         types.String `tfsdk:"name_exact"`
 	UserUuid          types.String `tfsdk:"user_uuid"`
-	Uuid              types.String `tfsdk:"uuid"`
 }
 
 func (m *CoreSshPublicKeyFiltersModel) GetSchema() schema.SingleNestedAttribute {
@@ -31,6 +32,10 @@ func (m *CoreSshPublicKeyFiltersModel) GetSchema() schema.SingleNestedAttribute 
 			"created": schema.StringAttribute{
 				Optional:            true,
 				MarkdownDescription: "Created after",
+			},
+			"created_before": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Created before",
 			},
 			"fingerprint_md5": schema.StringAttribute{
 				Optional:            true,
@@ -52,6 +57,10 @@ func (m *CoreSshPublicKeyFiltersModel) GetSchema() schema.SingleNestedAttribute 
 				Optional:            true,
 				MarkdownDescription: "Modified after",
 			},
+			"modified_before": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Modified before",
+			},
 			"name": schema.StringAttribute{
 				Optional:            true,
 				MarkdownDescription: "Name",
@@ -63,10 +72,6 @@ func (m *CoreSshPublicKeyFiltersModel) GetSchema() schema.SingleNestedAttribute 
 			"user_uuid": schema.StringAttribute{
 				Optional:            true,
 				MarkdownDescription: "User UUID",
-			},
-			"uuid": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "UUID",
 			},
 		},
 	}
