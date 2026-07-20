@@ -76,6 +76,7 @@ resource "waldur_structure_customer" "example" {
 - `customer_unallocated_credit` (Number) Customer Unallocated Credit
 - `default_affiliations` (Attributes List) Affiliations offered to project creators of this organization. (see [below for nested schema](#nestedatt--default_affiliations))
 - `display_name` (String) Display name of the organization (includes native name if available)
+- `has_affiliate_links` (Boolean) Has Affiliate Links
 - `id` (String) Structure Customer UUID (used as Terraform ID)
 - `is_service_provider` (Boolean) Is Service Provider
 - `organization_groups` (Attributes List) Organization groups this customer belongs to (see [below for nested schema](#nestedatt--organization_groups))

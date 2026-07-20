@@ -35,6 +35,7 @@ Marketplace Offering data source - lookup by name or UUID
 - `country` (String) Country code (ISO 3166-1 alpha-2)
 - `customer` (String) Customer
 - `datacite_doi` (String) Datacite Doi
+- `default_access_subnets` (Attributes List) Default Access Subnets (see [below for nested schema](#nestedatt--default_access_subnets))
 - `description` (String) Description
 - `documentation_url` (String) Documentation Url
 - `effective_available_limits` (List of String) Effective Available Limits
@@ -95,6 +96,7 @@ Marketplace Offering data source - lookup by name or UUID
 
 Optional:
 
+- `accessible` (Boolean) Only offerings the current user can order
 - `accessible_via_calls` (Boolean) Accessible via calls
 - `allowed_customer_uuid` (String) Allowed customer UUID
 - `attributes` (String) Offering attributes (JSON)
@@ -162,6 +164,16 @@ Read-Only:
 - `renewal_duration_step` (Number) Step size in months for renewal. Only multiples of this value (starting from min_renewal_duration) are valid. Defaults to 1.
 - `type` (String) Unique internal name of the measured unit, for example floating_ip.
 - `unit_factor` (Number) The conversion factor from backend units to measured_unit
+- `uuid` (String) Uuid
+
+
+<a id="nestedatt--default_access_subnets"></a>
+### Nested Schema for `default_access_subnets`
+
+Read-Only:
+
+- `description` (String) Description
+- `inet` (String) Inet
 - `uuid` (String) Uuid
 
 
@@ -269,10 +281,9 @@ Read-Only:
 Read-Only:
 
 - `amount` (Number) Amount
+- `discount_aggregation` (String) Whether the volume discount is computed on a single resource's usage or aggregated across all of the customer's resources of this offering.
 - `discount_description` (String) Discount Description
-- `discount_rate` (Number) Discount rate in percentage.
-- `discount_threshold` (Number) Minimum amount to be eligible for discount.
-- `discounted_price` (String) Discounted Price
+- `discount_formula` (String) Volume discount formula evaluated with the billed quantity bound to `usage`; returns a discount percentage (clamped to 0-100). Empty means no discount. Example: '10 if usage >= 100 else 0'.
 - `future_price` (String) Future Price
 - `measured_unit` (String) Unit of measurement, for example, GB.
 - `name` (String) Display name for the measured unit, for example, Floating IP.
@@ -300,11 +311,14 @@ Read-Only:
 
 Read-Only:
 
+- `action_on_usage_limit` (String) If set to 'pause' or 'downscale', resources are automatically paused or downscaled when reported usage in the current period reaches a component's limit_amount, and the restriction is lifted when usage drops below the limit again (e.g. a new billing period or a raised limit).
+- `auto_approve_for_roles` (List of String) List of project or organization role names (e.g. 'PROJECT.MANAGER') whose orders skip consumer review for this offering. The creator must hold the role on the target project or its organization. Independent of restricted_to_roles (which governs visibility/ordering) and of the ORDER.APPROVE permission. Provider review and purchase-order requirements still apply. Only staff can change this option.
 - `auto_approve_in_service_provider_projects` (Boolean) Skip approval of public offering belonging to the same organization under which the request is done
 - `auto_approve_marketplace_script` (Boolean) If set to False, all orders require manual provider approval, including for service provider owners and staff
 - `auto_approve_remote_orders` (Boolean) If set to True, an order can be processed without approval
 - `auto_ok_resource_projects` (Boolean) If set to True, newly-created resource projects are immediately transitioned from CREATING to OK on save, bypassing the provider/site-agent reconciliation callback. Use for offerings that have no external backend to reconcile against.
 - `backend_id_display_label` (String) Label used by UI for showing value of the backend_id
+- `billing_source` (String) Source for OpenStack instance compute ComponentUsage: 'quota' (flavor-derived Nova quota, default) or 'placement' (Placement allocations; also bills VGPU/PCI/custom resource classes).
 - `can_restore_resource` (Boolean) If set to True, resource can be restored.
 - `conceal_billing_data` (Boolean) If set to True, pricing and components tab would be concealed.
 - `create_orders_on_resource_option_change` (Boolean) If set to True, create orders when options of related resources are changed.
@@ -313,27 +327,29 @@ Read-Only:
 - `default_resource_termination_offset_in_days` (Number) If set, it will be used as a default resource termination offset in days
 - `deployment_mode` (String) Rancher deployment mode
 - `disable_autoapprove` (Boolean) If set to True, orders for this offering will always require manual approval, overriding auto_approve_in_service_provider_projects
+- `disable_grace_period` (Boolean) If set to True, this offering's resources ignore the project grace period and are terminated on the project end date. Only staff can change this option.
 - `disabled_resource_actions` (List of String) List of disabled marketplace resource actions for this offering.
+- `emit_display_name` (Boolean) Emit the user's full name as a GLAuth displayName custom attribute (rendered to LDAP displayName).
+- `emit_waldur_username` (Boolean) Emit the Waldur username as a GLAuth waldurUsername custom attribute, alongside the generated POSIX login name.
 - `enable_display_of_order_actions_for_service_provider` (Boolean) Enable display of order actions for service provider
 - `enable_issues_for_membership_changes` (Boolean) Enable issues for membership changes
+- `enable_posix_account` (Boolean) Manage a POSIX/LDAP account (UID, GID, home directory, login shell and GLAuth exposure) for this offering's users. Disable for offerings that only need a username.
 - `enable_provider_consumer_messaging` (Boolean) If set to True, service providers can send messages with attachments to consumers on pending orders, and consumers can respond.
 - `enable_purchase_order_upload` (Boolean) If set to True, users will be able to upload purchase orders.
 - `enable_resource_projects` (Boolean) Enable sub-project management within resources.
 - `expose_inference_playground` (Boolean) Show an in-browser inference playground action for resources of this offering (for offerings whose resources expose an OpenAI-compatible endpoint).
 - `flavors_regex` (String) Regular expression to limit flavors list
+- `gid_source` (String) Where each offering user's primary GID comes from: the POSIX ID pool (default), or the user's primary_gid attribute.
 - `heappe_cluster_id` (String) HEAppE cluster id
 - `heappe_local_base_path` (String) HEAppE local base path
 - `heappe_url` (String) HEAppE url
 - `heappe_username` (String) HEAppE username
 - `highlight_backend_id_display` (Boolean) Defines if backend_id should be shown more prominently by the UI
 - `homedir_prefix` (String) GLAuth homedir prefix
-- `initial_primarygroup_number` (Number) GLAuth initial primary group number
-- `initial_rolegroup_number` (Number) GLAuth initial gid for role-aware groups (one per (resource|resource-project, role) tuple). Must leave at least 50000 gids of headroom above initial_usergroup_number to avoid collisions.
-- `initial_uidnumber` (Number) GLAuth initial uidnumber
-- `initial_usergroup_number` (Number) GLAuth initial usergroup number
 - `is_resource_termination_date_required` (Boolean) If set to True, resource termination date is required
 - `latest_date_for_resource_termination` (String) If set, it will be used as a latest date for resource termination. Format: YYYY-MM-DD
 - `lbaas_enabled` (Boolean) If True, Octavia LBaaS (load balancers) is intended to be available for tenants from this offering.
+- `login_shell` (String) Default login shell assigned to GLAuth/LDAP accounts.
 - `managed_rancher_load_balancer_data_volume_size_gb` (Number) Data volume size in GB for managed Rancher load balancer
 - `managed_rancher_load_balancer_data_volume_type_name` (String) Data volume type name for managed Rancher load balancer
 - `managed_rancher_load_balancer_flavor_name` (String) Flavor name for managed Rancher load balancer
@@ -372,6 +388,7 @@ Read-Only:
 - `resource_slug_max_length` (Number) Maximum length of auto-generated resource slugs derived from the resource name, overriding the default of 10 characters (up to 40). Ignored when a resource slug template is set.
 - `resource_slug_template` (String) Template for resource slugs, overriding the default 10-character slugified name. Available variables: {customer_slug}, {project_slug}, {project_name}, {offering_slug}, {year}, {month}, {counter}, {counter_padded}. Default: slugified resource name (max 10 characters).
 - `restrict_deletion_with_active_resources` (Boolean) If set to True, offering cannot be deleted while it has non-terminated resources.
+- `restricted_to_roles` (List of String) List of project or organization role names (e.g. 'PROJECT.MANAGER') allowed to view and order this offering. When set, the offering is hidden from the catalog for other users and they cannot create orders for it. Whether their orders skip consumer review still depends on the role having the order-approval permission.
 - `scratch_project_directory` (String) HEAppE scratch project directory
 - `service_provider_can_create_offering_user` (Boolean) Service provider can create offering user
 - `slurm_periodic_policy_enabled` (Boolean) Enable SLURM periodic usage policy configuration. When enabled, allows configuring QoS-based threshold enforcement, carryover logic, and fairshare decay for site-agent managed SLURM offerings.
@@ -379,6 +396,7 @@ Read-Only:
 - `storage_mode` (String) Storage mode for OpenStack offering
 - `supports_downscaling` (Boolean) If set to True, it will be possible to downscale resources
 - `supports_pausing` (Boolean) If set to True, it will be possible to pause resources
+- `uid_source` (String) Where each offering user's UID comes from: allocated from the POSIX ID pool (default), or taken from the user's uid_number attribute (e.g. an OIDC claim). Pair 'user_attribute' with a GID-only pool to avoid UID collisions.
 - `unique_resource_per_attribute` (String) Attribute name to enforce uniqueness per value. E.g., 'storage_data_type' ensures only one resource per storage type per project.
 - `usage_poll_interval_minutes` (Number) Interval in minutes between usage polling for this offering (default: 60)
 - `username_anonymized_prefix` (String) GLAuth prefix for anonymized usernames

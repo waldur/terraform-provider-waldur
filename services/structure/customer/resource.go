@@ -354,6 +354,12 @@ func (r *StructureCustomerResource) Schema(ctx context.Context, req resource.Sch
 					int64validator.AtLeast(0),
 					int64validator.AtMost(2147483647),
 				}},
+			"has_affiliate_links": schema.BoolAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.Bool{
+
+					boolplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Has Affiliate Links"},
 			"homepage": schema.StringAttribute{
 				Optional: true,
 				Computed: true,

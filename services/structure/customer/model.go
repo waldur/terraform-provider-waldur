@@ -208,6 +208,7 @@ type StructureCustomerModel struct {
 	Domain                       types.String      `tfsdk:"domain"`
 	Email                        types.String      `tfsdk:"email"`
 	GracePeriodDays              types.Int64       `tfsdk:"grace_period_days"`
+	HasAffiliateLinks            types.Bool        `tfsdk:"has_affiliate_links"`
 	Homepage                     types.String      `tfsdk:"homepage"`
 	HouseNr                      types.String      `tfsdk:"house_nr"`
 	Household                    types.String      `tfsdk:"household"`
@@ -310,6 +311,8 @@ func (model *StructureCustomerModel) CopyFrom(ctx context.Context, apiResp Struc
 	model.Email = common.StringPointerValue(apiResp.Email)
 
 	model.GracePeriodDays = types.Int64PointerValue(apiResp.GracePeriodDays)
+
+	model.HasAffiliateLinks = types.BoolPointerValue(apiResp.HasAffiliateLinks)
 
 	model.Homepage = common.StringPointerValue(apiResp.Homepage)
 

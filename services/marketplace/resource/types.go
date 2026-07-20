@@ -146,6 +146,8 @@ type MarketplaceResourceResponse struct {
 
 	Report *[]common.ReportSection `json:"report,omitempty" tfsdk:"report"`
 
+	ResourceEffectiveEndDate *string `json:"resource_effective_end_date,omitempty" tfsdk:"resource_effective_end_date"`
+
 	ResourceType *string `json:"resource_type,omitempty" tfsdk:"resource_type"`
 
 	ResourceUuid *string `json:"resource_uuid,omitempty" tfsdk:"resource_uuid"`
@@ -159,6 +161,8 @@ type MarketplaceResourceResponse struct {
 	State *string `json:"state,omitempty" tfsdk:"state"`
 
 	Url *string `json:"url,omitempty" tfsdk:"url"`
+
+	UsageLimitRestriction *string `json:"usage_limit_restriction,omitempty" tfsdk:"usage_limit_restriction"`
 
 	UserRequiresReconsent *bool `json:"user_requires_reconsent,omitempty" tfsdk:"user_requires_reconsent"`
 
@@ -291,7 +295,13 @@ type MarketplaceResourceOrderInProgressResponse struct {
 
 	CreatedByOrganization *string `json:"created_by_organization,omitempty" tfsdk:"created_by_organization"`
 
+	CreatedByOrganizationAddress *string `json:"created_by_organization_address,omitempty" tfsdk:"created_by_organization_address"`
+
+	CreatedByOrganizationCountry *string `json:"created_by_organization_country,omitempty" tfsdk:"created_by_organization_country"`
+
 	CreatedByOrganizationRegistryCode *string `json:"created_by_organization_registry_code,omitempty" tfsdk:"created_by_organization_registry_code"`
+
+	CreatedByOrganizationVatCode *string `json:"created_by_organization_vat_code,omitempty" tfsdk:"created_by_organization_vat_code"`
 
 	CreatedByUsername *string `json:"created_by_username,omitempty" tfsdk:"created_by_username"`
 

@@ -1,5 +1,45 @@
 # Changelog
 
+## 2026-07-20
+
+### ⚠️ Breaking changes
+
+- `marketplace_offering`: removed attribute `plans.components.discount_rate`
+- `marketplace_offering`: removed attribute `plans.components.discount_threshold`
+- `marketplace_offering`: removed attribute `plans.components.discounted_price`
+- `marketplace_offering`: removed attribute `plugin_options.initial_primarygroup_number`
+- `marketplace_offering`: removed attribute `plugin_options.initial_rolegroup_number`
+- `marketplace_offering`: removed attribute `plugin_options.initial_uidnumber`
+- `marketplace_offering`: removed attribute `plugin_options.initial_usergroup_number`
+- `openstack_port`: attribute `allowed_address_pairs.ip_address` is now computed (read-only)
+
+### Added
+
+- `marketplace_offering`: new attribute `default_access_subnets`
+- `marketplace_offering`: new attribute `plans.components.discount_aggregation`
+- `marketplace_offering`: new attribute `plans.components.discount_formula`
+- `marketplace_offering`: new attribute `plugin_options.action_on_usage_limit`
+- `marketplace_offering`: new attribute `plugin_options.auto_approve_for_roles`
+- `marketplace_offering`: new attribute `plugin_options.billing_source`
+- `marketplace_offering`: new attribute `plugin_options.disable_grace_period`
+- `marketplace_offering`: new attribute `plugin_options.emit_display_name`
+- `marketplace_offering`: new attribute `plugin_options.emit_waldur_username`
+- `marketplace_offering`: new attribute `plugin_options.enable_posix_account`
+- `marketplace_offering`: new attribute `plugin_options.gid_source`
+- `marketplace_offering`: new attribute `plugin_options.login_shell`
+- `marketplace_offering`: new attribute `plugin_options.restricted_to_roles`
+- `marketplace_offering`: new attribute `plugin_options.uid_source`
+- `marketplace_order`: new attribute `created_by_organization_address`
+- `marketplace_order`: new attribute `created_by_organization_country`
+- `marketplace_order`: new attribute `created_by_organization_vat_code`
+- `marketplace_resource`: new attribute `order_in_progress.created_by_organization_address`
+- `marketplace_resource`: new attribute `order_in_progress.created_by_organization_country`
+- `marketplace_resource`: new attribute `order_in_progress.created_by_organization_vat_code`
+- `marketplace_resource`: new attribute `resource_effective_end_date`
+- `marketplace_resource`: new attribute `usage_limit_restriction`
+- `openstack_instance`: new attribute `ports.allowed_address_pairs.ip_address`
+- `structure_customer`: new attribute `has_affiliate_links`
+
 ## 2026-07-14
 
 ### Added

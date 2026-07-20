@@ -37,7 +37,7 @@ Marketplace Resource data source - lookup by name or UUID
 - `endpoints` (Attributes List) Endpoints (see [below for nested schema](#nestedatt--endpoints))
 - `error_message` (String) Error Message
 - `last_sync` (String) Last Sync
-- `limit_usage` (Map of Number) Dictionary mapping limit-based component types to their consumed usage. For monthly periods, maps from current_usages; for longer periods, aggregates historical usage.
+- `limit_usage` (Map of Number) Dictionary mapping limit-based component types to their consumed usage. Sums the ComponentUsage rows of the component's current period (the monthly billing period unless the component defines a longer limit_period), i.e. the period's high-watermark rather than the instantaneous current_usages value.
 - `limits` (Map of Number) Limits
 - `name` (String) Name
 - `offering` (String) Offering
@@ -68,7 +68,7 @@ Marketplace Resource data source - lookup by name or UUID
 - `plan_uuid` (String) Plan Uuid
 - `project` (String) Project
 - `project_description` (String) Project Description
-- `project_effective_end_date` (String) Effective project end date including grace period. After this date, resources will be terminated.
+- `project_effective_end_date` (String) Effective project end date including grace period. After this date, resources are terminated, except resources of offerings that disable the grace period — those are terminated on the raw project end date.
 - `project_end_date` (String) The date is inclusive. Once reached, all project resource will be scheduled for termination.
 - `project_end_date_requested_by` (String) Project End Date Requested By
 - `project_is_in_grace_period` (Boolean) True if the project is past its end date but still within the grace period.
@@ -79,6 +79,7 @@ Marketplace Resource data source - lookup by name or UUID
 - `provider_uuid` (String) Provider Uuid
 - `renewal_date` (Map of String) Renewal Date
 - `report` (Attributes List) Report (see [below for nested schema](#nestedatt--report))
+- `resource_effective_end_date` (String) The date this resource is scheduled to terminate: the earliest of its own end date and the project-driven termination date (the raw project end date if the offering disables the grace period, otherwise the effective with-grace end date).
 - `resource_type` (String) Resource Type
 - `resource_uuid` (String) Resource Uuid
 - `restrict_member_access` (Boolean) Restrict Member Access
@@ -86,6 +87,7 @@ Marketplace Resource data source - lookup by name or UUID
 - `slug` (String) URL-friendly identifier. Only editable by staff users.
 - `state` (String) State
 - `url` (String) Url
+- `usage_limit_restriction` (String) Which restriction (paused or downscaled) was automatically applied because reported usage reached a component limit. Empty when no such restriction is active. Used so the automatic lift never clears a restriction that was set for another reason.
 - `user_requires_reconsent` (Boolean) Check if the current user needs to re-consent for this resource's offering.
 - `username` (String) Username
 
@@ -209,7 +211,10 @@ Read-Only:
 - `created_by_email` (String) Created By Email
 - `created_by_full_name` (String) Created By Full Name
 - `created_by_organization` (String) Created By Organization
+- `created_by_organization_address` (String) Postal address of the user's organization
+- `created_by_organization_country` (String) Created By Organization Country
 - `created_by_organization_registry_code` (String) Company registration code of the user's organization, if known
+- `created_by_organization_vat_code` (String) VAT code of the user's organization
 - `created_by_username` (String) Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters
 - `customer_slug` (String) Customer Slug
 - `error_message` (String) Error Message

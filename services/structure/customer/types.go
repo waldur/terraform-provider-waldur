@@ -217,6 +217,8 @@ type StructureCustomerResponse struct {
 
 	GracePeriodDays *int64 `json:"grace_period_days,omitempty" tfsdk:"grace_period_days"`
 
+	HasAffiliateLinks *bool `json:"has_affiliate_links,omitempty" tfsdk:"has_affiliate_links"`
+
 	Homepage *string `json:"homepage,omitempty" tfsdk:"homepage"`
 
 	HouseNr *string `json:"house_nr,omitempty" tfsdk:"house_nr"`

@@ -129,6 +129,14 @@ type NestedEndpoint struct {
 	Uuid *string `json:"uuid,omitempty" tfsdk:"uuid"`
 }
 
+type NestedOfferingAccessSubnet struct {
+	Description *string `json:"description,omitempty" tfsdk:"description"`
+
+	Inet *string `json:"inet,omitempty" tfsdk:"inet"`
+
+	Uuid *string `json:"uuid,omitempty" tfsdk:"uuid"`
+}
+
 type NestedOfferingFile struct {
 	File *string `json:"file,omitempty" tfsdk:"file"`
 
@@ -186,13 +194,11 @@ type NestedPartition struct {
 type NestedPlanComponent struct {
 	Amount *int64 `json:"amount,omitempty" tfsdk:"amount"`
 
+	DiscountAggregation *string `json:"discount_aggregation,omitempty" tfsdk:"discount_aggregation"`
+
 	DiscountDescription *string `json:"discount_description,omitempty" tfsdk:"discount_description"`
 
-	DiscountRate *int64 `json:"discount_rate,omitempty" tfsdk:"discount_rate"`
-
-	DiscountThreshold *int64 `json:"discount_threshold,omitempty" tfsdk:"discount_threshold"`
-
-	DiscountedPrice *string `json:"discounted_price,omitempty" tfsdk:"discounted_price"`
+	DiscountFormula *string `json:"discount_formula,omitempty" tfsdk:"discount_formula"`
 
 	FuturePrice *string `json:"future_price,omitempty" tfsdk:"future_price"`
 
@@ -366,6 +372,8 @@ type OfferingComponent struct {
 }
 
 type OpenStackAllowedAddressPair struct {
+	IpAddress *string `json:"ip_address,omitempty" tfsdk:"ip_address"`
+
 	MacAddress *string `json:"mac_address,omitempty" tfsdk:"mac_address"`
 }
 
@@ -678,7 +686,13 @@ type OrderDetails struct {
 
 	CreatedByOrganization *string `json:"created_by_organization,omitempty" tfsdk:"created_by_organization"`
 
+	CreatedByOrganizationAddress *string `json:"created_by_organization_address,omitempty" tfsdk:"created_by_organization_address"`
+
+	CreatedByOrganizationCountry *string `json:"created_by_organization_country,omitempty" tfsdk:"created_by_organization_country"`
+
 	CreatedByOrganizationRegistryCode *string `json:"created_by_organization_registry_code,omitempty" tfsdk:"created_by_organization_registry_code"`
+
+	CreatedByOrganizationVatCode *string `json:"created_by_organization_vat_code,omitempty" tfsdk:"created_by_organization_vat_code"`
 
 	CreatedByUsername *string `json:"created_by_username,omitempty" tfsdk:"created_by_username"`
 

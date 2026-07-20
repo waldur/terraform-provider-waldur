@@ -157,7 +157,10 @@ type MarketplaceOrderModel struct {
 	CreatedByEmail                    types.String      `tfsdk:"created_by_email"`
 	CreatedByFullName                 types.String      `tfsdk:"created_by_full_name"`
 	CreatedByOrganization             types.String      `tfsdk:"created_by_organization"`
+	CreatedByOrganizationAddress      types.String      `tfsdk:"created_by_organization_address"`
+	CreatedByOrganizationCountry      types.String      `tfsdk:"created_by_organization_country"`
 	CreatedByOrganizationRegistryCode types.String      `tfsdk:"created_by_organization_registry_code"`
+	CreatedByOrganizationVatCode      types.String      `tfsdk:"created_by_organization_vat_code"`
 	CreatedByUsername                 types.String      `tfsdk:"created_by_username"`
 	CustomerSlug                      types.String      `tfsdk:"customer_slug"`
 	ErrorMessage                      types.String      `tfsdk:"error_message"`
@@ -279,7 +282,13 @@ func (model *MarketplaceOrderModel) CopyFrom(ctx context.Context, apiResp Market
 
 	model.CreatedByOrganization = common.StringPointerValue(apiResp.CreatedByOrganization)
 
+	model.CreatedByOrganizationAddress = common.StringPointerValue(apiResp.CreatedByOrganizationAddress)
+
+	model.CreatedByOrganizationCountry = common.StringPointerValue(apiResp.CreatedByOrganizationCountry)
+
 	model.CreatedByOrganizationRegistryCode = common.StringPointerValue(apiResp.CreatedByOrganizationRegistryCode)
+
+	model.CreatedByOrganizationVatCode = common.StringPointerValue(apiResp.CreatedByOrganizationVatCode)
 
 	model.CreatedByUsername = common.StringPointerValue(apiResp.CreatedByUsername)
 

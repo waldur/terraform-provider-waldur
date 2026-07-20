@@ -254,6 +254,8 @@ type OpenstackInstancePortsFixedIpsResponse struct {
 }
 
 type OpenstackInstancePortsAllowedAddressPairsResponse struct {
+	IpAddress *string `json:"ip_address,omitempty" tfsdk:"ip_address"`
+
 	MacAddress *string `json:"mac_address,omitempty" tfsdk:"mac_address"`
 }
 

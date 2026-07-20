@@ -36,6 +36,8 @@ type MarketplaceOfferingResponse struct {
 
 	DataciteDoi *string `json:"datacite_doi,omitempty" tfsdk:"datacite_doi"`
 
+	DefaultAccessSubnets *[]common.NestedOfferingAccessSubnet `json:"default_access_subnets,omitempty" tfsdk:"default_access_subnets"`
+
 	Description *string `json:"description,omitempty" tfsdk:"description"`
 
 	DocumentationUrl *string `json:"documentation_url,omitempty" tfsdk:"documentation_url"`
@@ -202,6 +204,14 @@ type MarketplaceOfferingComponentsResponse struct {
 	Uuid *string `json:"uuid,omitempty" tfsdk:"uuid"`
 }
 
+type MarketplaceOfferingDefaultAccessSubnetsResponse struct {
+	Description *string `json:"description,omitempty" tfsdk:"description"`
+
+	Inet *string `json:"inet,omitempty" tfsdk:"inet"`
+
+	Uuid *string `json:"uuid,omitempty" tfsdk:"uuid"`
+}
+
 type MarketplaceOfferingEndpointsResponse struct {
 	Name *string `json:"name,omitempty" tfsdk:"name"`
 
@@ -334,13 +344,11 @@ type MarketplaceOfferingPlansResponse struct {
 type MarketplaceOfferingPlansComponentsResponse struct {
 	Amount *int64 `json:"amount,omitempty" tfsdk:"amount"`
 
+	DiscountAggregation *string `json:"discount_aggregation,omitempty" tfsdk:"discount_aggregation"`
+
 	DiscountDescription *string `json:"discount_description,omitempty" tfsdk:"discount_description"`
 
-	DiscountRate *int64 `json:"discount_rate,omitempty" tfsdk:"discount_rate"`
-
-	DiscountThreshold *int64 `json:"discount_threshold,omitempty" tfsdk:"discount_threshold"`
-
-	DiscountedPrice *string `json:"discounted_price,omitempty" tfsdk:"discounted_price"`
+	DiscountFormula *string `json:"discount_formula,omitempty" tfsdk:"discount_formula"`
 
 	FuturePrice *string `json:"future_price,omitempty" tfsdk:"future_price"`
 
@@ -379,6 +387,10 @@ type MarketplaceOfferingPlansQuotasResponse struct {
 }
 
 type MarketplaceOfferingPluginOptionsResponse struct {
+	ActionOnUsageLimit *string `json:"action_on_usage_limit,omitempty" tfsdk:"action_on_usage_limit"`
+
+	AutoApproveForRoles *[]string `json:"auto_approve_for_roles,omitempty" tfsdk:"auto_approve_for_roles"`
+
 	AutoApproveInServiceProviderProjects *bool `json:"auto_approve_in_service_provider_projects,omitempty" tfsdk:"auto_approve_in_service_provider_projects"`
 
 	AutoApproveMarketplaceScript *bool `json:"auto_approve_marketplace_script,omitempty" tfsdk:"auto_approve_marketplace_script"`
@@ -388,6 +400,8 @@ type MarketplaceOfferingPluginOptionsResponse struct {
 	AutoOkResourceProjects *bool `json:"auto_ok_resource_projects,omitempty" tfsdk:"auto_ok_resource_projects"`
 
 	BackendIdDisplayLabel *string `json:"backend_id_display_label,omitempty" tfsdk:"backend_id_display_label"`
+
+	BillingSource *string `json:"billing_source,omitempty" tfsdk:"billing_source"`
 
 	CanRestoreResource *bool `json:"can_restore_resource,omitempty" tfsdk:"can_restore_resource"`
 
@@ -405,11 +419,19 @@ type MarketplaceOfferingPluginOptionsResponse struct {
 
 	DisableAutoapprove *bool `json:"disable_autoapprove,omitempty" tfsdk:"disable_autoapprove"`
 
+	DisableGracePeriod *bool `json:"disable_grace_period,omitempty" tfsdk:"disable_grace_period"`
+
 	DisabledResourceActions *[]string `json:"disabled_resource_actions,omitempty" tfsdk:"disabled_resource_actions"`
+
+	EmitDisplayName *bool `json:"emit_display_name,omitempty" tfsdk:"emit_display_name"`
+
+	EmitWaldurUsername *bool `json:"emit_waldur_username,omitempty" tfsdk:"emit_waldur_username"`
 
 	EnableDisplayOfOrderActionsForServiceProvider *bool `json:"enable_display_of_order_actions_for_service_provider,omitempty" tfsdk:"enable_display_of_order_actions_for_service_provider"`
 
 	EnableIssuesForMembershipChanges *bool `json:"enable_issues_for_membership_changes,omitempty" tfsdk:"enable_issues_for_membership_changes"`
+
+	EnablePosixAccount *bool `json:"enable_posix_account,omitempty" tfsdk:"enable_posix_account"`
 
 	EnableProviderConsumerMessaging *bool `json:"enable_provider_consumer_messaging,omitempty" tfsdk:"enable_provider_consumer_messaging"`
 
@@ -420,6 +442,8 @@ type MarketplaceOfferingPluginOptionsResponse struct {
 	ExposeInferencePlayground *bool `json:"expose_inference_playground,omitempty" tfsdk:"expose_inference_playground"`
 
 	FlavorsRegex *string `json:"flavors_regex,omitempty" tfsdk:"flavors_regex"`
+
+	GidSource *string `json:"gid_source,omitempty" tfsdk:"gid_source"`
 
 	HeappeClusterId *string `json:"heappe_cluster_id,omitempty" tfsdk:"heappe_cluster_id"`
 
@@ -433,19 +457,13 @@ type MarketplaceOfferingPluginOptionsResponse struct {
 
 	HomedirPrefix *string `json:"homedir_prefix,omitempty" tfsdk:"homedir_prefix"`
 
-	InitialPrimarygroupNumber *int64 `json:"initial_primarygroup_number,omitempty" tfsdk:"initial_primarygroup_number"`
-
-	InitialRolegroupNumber *int64 `json:"initial_rolegroup_number,omitempty" tfsdk:"initial_rolegroup_number"`
-
-	InitialUidnumber *int64 `json:"initial_uidnumber,omitempty" tfsdk:"initial_uidnumber"`
-
-	InitialUsergroupNumber *int64 `json:"initial_usergroup_number,omitempty" tfsdk:"initial_usergroup_number"`
-
 	IsResourceTerminationDateRequired *bool `json:"is_resource_termination_date_required,omitempty" tfsdk:"is_resource_termination_date_required"`
 
 	LatestDateForResourceTermination *string `json:"latest_date_for_resource_termination,omitempty" tfsdk:"latest_date_for_resource_termination"`
 
 	LbaasEnabled *bool `json:"lbaas_enabled,omitempty" tfsdk:"lbaas_enabled"`
+
+	LoginShell *string `json:"login_shell,omitempty" tfsdk:"login_shell"`
 
 	ManagedRancherLoadBalancerDataVolumeSizeGb *int64 `json:"managed_rancher_load_balancer_data_volume_size_gb,omitempty" tfsdk:"managed_rancher_load_balancer_data_volume_size_gb"`
 
@@ -523,6 +541,8 @@ type MarketplaceOfferingPluginOptionsResponse struct {
 
 	RestrictDeletionWithActiveResources *bool `json:"restrict_deletion_with_active_resources,omitempty" tfsdk:"restrict_deletion_with_active_resources"`
 
+	RestrictedToRoles *[]string `json:"restricted_to_roles,omitempty" tfsdk:"restricted_to_roles"`
+
 	ScratchProjectDirectory *string `json:"scratch_project_directory,omitempty" tfsdk:"scratch_project_directory"`
 
 	ServiceProviderCanCreateOfferingUser *bool `json:"service_provider_can_create_offering_user,omitempty" tfsdk:"service_provider_can_create_offering_user"`
@@ -536,6 +556,8 @@ type MarketplaceOfferingPluginOptionsResponse struct {
 	SupportsDownscaling *bool `json:"supports_downscaling,omitempty" tfsdk:"supports_downscaling"`
 
 	SupportsPausing *bool `json:"supports_pausing,omitempty" tfsdk:"supports_pausing"`
+
+	UidSource *string `json:"uid_source,omitempty" tfsdk:"uid_source"`
 
 	UniqueResourcePerAttribute *string `json:"unique_resource_per_attribute,omitempty" tfsdk:"unique_resource_per_attribute"`
 
