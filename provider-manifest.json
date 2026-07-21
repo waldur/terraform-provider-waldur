@@ -8724,13 +8724,6 @@
           "computed": false,
           "attributes": [
             {
-              "name": "answer",
-              "type": "types.Map",
-              "required": false,
-              "optional": false,
-              "computed": true
-            },
-            {
               "name": "question",
               "type": "types.String",
               "required": false,

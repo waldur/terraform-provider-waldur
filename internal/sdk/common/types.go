@@ -863,15 +863,11 @@ type PaymentProfileAttributes struct {
 }
 
 type ProjectMetadataAnswer struct {
-	Answer map[string]interface{} `json:"answer,omitempty" tfsdk:"answer"`
-
 	Question *string `json:"question,omitempty" tfsdk:"question"`
 
 	QuestionType *string `json:"question_type,omitempty" tfsdk:"question_type"`
 
 	QuestionUuid *string `json:"question_uuid,omitempty" tfsdk:"question_uuid"`
-}
-type ProjectMetadataAnswerAnswer struct {
 }
 
 type Quota struct {

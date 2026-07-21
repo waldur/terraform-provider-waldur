@@ -4,6 +4,12 @@
 
 ### ⚠️ Breaking changes
 
+- `structure_project`: removed attribute `project_metadata.answer`
+
+## 2026-07-21
+
+### ⚠️ Breaking changes
+
 - `structure_customer`: attribute `customer_credit` type changed from `types.Float64` to `types.String`
 - `structure_customer`: attribute `customer_unallocated_credit` type changed from `types.Float64` to `types.String`
 - `structure_customer`: attribute `payment_profiles.attributes.contract_sum` type changed from `types.Int64` to `types.String`
