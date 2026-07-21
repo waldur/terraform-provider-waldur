@@ -197,9 +197,9 @@ type StructureCustomerResponse struct {
 
 	CountryName *string `json:"country_name,omitempty" tfsdk:"country_name"`
 
-	CustomerCredit common.FlexibleNumber `json:"customer_credit,omitempty" tfsdk:"customer_credit"`
+	CustomerCredit *string `json:"customer_credit,omitempty" tfsdk:"customer_credit"`
 
-	CustomerUnallocatedCredit common.FlexibleNumber `json:"customer_unallocated_credit,omitempty" tfsdk:"customer_unallocated_credit"`
+	CustomerUnallocatedCredit *string `json:"customer_unallocated_credit,omitempty" tfsdk:"customer_unallocated_credit"`
 
 	DefaultAffiliations *[]common.AffiliatedOrganization `json:"default_affiliations,omitempty" tfsdk:"default_affiliations"`
 
@@ -347,7 +347,7 @@ type StructureCustomerPaymentProfilesResponse struct {
 type StructureCustomerPaymentProfilesAttributesResponse struct {
 	AgreementNumber *string `json:"agreement_number,omitempty" tfsdk:"agreement_number"`
 
-	ContractSum *int64 `json:"contract_sum,omitempty" tfsdk:"contract_sum"`
+	ContractSum *string `json:"contract_sum,omitempty" tfsdk:"contract_sum"`
 
 	EndDate *string `json:"end_date,omitempty" tfsdk:"end_date"`
 }

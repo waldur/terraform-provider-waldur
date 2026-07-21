@@ -857,7 +857,7 @@ type PaymentProfile struct {
 type PaymentProfileAttributes struct {
 	AgreementNumber *string `json:"agreement_number,omitempty" tfsdk:"agreement_number"`
 
-	ContractSum *int64 `json:"contract_sum,omitempty" tfsdk:"contract_sum"`
+	ContractSum *string `json:"contract_sum,omitempty" tfsdk:"contract_sum"`
 
 	EndDate *string `json:"end_date,omitempty" tfsdk:"end_date"`
 }

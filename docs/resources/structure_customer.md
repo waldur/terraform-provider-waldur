@@ -72,8 +72,8 @@ resource "waldur_structure_customer" "example" {
 - `billing_price_estimate` (Attributes) Billing Price Estimate (see [below for nested schema](#nestedatt--billing_price_estimate))
 - `call_managing_organization_uuid` (String) Call Managing Organization Uuid
 - `country_name` (String) Human-readable country name
-- `customer_credit` (Number) Customer Credit
-- `customer_unallocated_credit` (Number) Customer Unallocated Credit
+- `customer_credit` (String) Customer Credit
+- `customer_unallocated_credit` (String) Customer Unallocated Credit
 - `default_affiliations` (Attributes List) Affiliations offered to project creators of this organization. (see [below for nested schema](#nestedatt--default_affiliations))
 - `display_name` (String) Display name of the organization (includes native name if available)
 - `has_affiliate_links` (Boolean) Has Affiliate Links
@@ -170,5 +170,5 @@ Read-Only:
 Optional:
 
 - `agreement_number` (String) Agreement Number
-- `contract_sum` (Number) Contract Sum
+- `contract_sum` (String) Contract Sum
 - `end_date` (String) End Date

@@ -39,8 +39,8 @@ Structure Customer data source - lookup by name or UUID
 - `contact_details` (String) Contact Details
 - `country` (String) Country code (ISO 3166-1 alpha-2)
 - `country_name` (String) Human-readable country name
-- `customer_credit` (Number) Customer Credit
-- `customer_unallocated_credit` (Number) Customer Unallocated Credit
+- `customer_credit` (String) Customer Credit
+- `customer_unallocated_credit` (String) Customer Unallocated Credit
 - `default_affiliations` (Attributes List) Affiliations offered to project creators of this organization. (see [below for nested schema](#nestedatt--default_affiliations))
 - `default_tax_percent` (String) Default Tax Percent
 - `description` (String) Description
@@ -169,5 +169,5 @@ Read-Only:
 Read-Only:
 
 - `agreement_number` (String) Agreement Number
-- `contract_sum` (Number) Contract Sum
+- `contract_sum` (String) Contract Sum
 - `end_date` (String) End Date

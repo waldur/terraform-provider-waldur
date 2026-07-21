@@ -7931,14 +7931,14 @@
         },
         {
           "name": "customer_credit",
-          "type": "types.Float64",
+          "type": "types.String",
           "required": false,
           "optional": true,
           "computed": false
         },
         {
           "name": "customer_unallocated_credit",
-          "type": "types.Float64",
+          "type": "types.String",
           "required": false,
           "optional": true,
           "computed": false
@@ -8236,7 +8236,7 @@
                 },
                 {
                   "name": "contract_sum",
-                  "type": "types.Int64",
+                  "type": "types.String",
                   "required": false,
                   "optional": false,
                   "computed": true
