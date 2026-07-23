@@ -146,6 +146,8 @@ func (d *StructureCustomerDataSource) Schema(ctx context.Context, req datasource
 					int64validator.AtLeast(0),
 					int64validator.AtMost(2147483647),
 				}},
+			"has_active_helpdesk": schema.BoolAttribute{
+				Computed: true, MarkdownDescription: "Has Active Helpdesk"},
 			"has_affiliate_links": schema.BoolAttribute{
 				Computed: true, MarkdownDescription: "Has Affiliate Links"},
 			"homepage": schema.StringAttribute{

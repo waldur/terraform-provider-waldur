@@ -49,6 +49,7 @@ Structure Customer data source - lookup by name or UUID
 - `domain` (String) Domain
 - `email` (String) Email
 - `grace_period_days` (Number) Number of extra days after project end date before resources are terminated
+- `has_active_helpdesk` (Boolean) Has Active Helpdesk
 - `has_affiliate_links` (Boolean) Has Affiliate Links
 - `homepage` (String) Homepage
 - `house_nr` (String) House Nr

@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-07-23
+
+### Added
+
+- `structure_customer`: new attribute `has_active_helpdesk`
+
 ## 2026-07-21
 
 ### ⚠️ Breaking changes
