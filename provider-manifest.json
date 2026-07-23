@@ -1377,6 +1377,13 @@
               "computed": false
             },
             {
+              "name": "conceal_subnet_restricted_resources",
+              "type": "types.Bool",
+              "required": false,
+              "optional": true,
+              "computed": false
+            },
+            {
               "name": "create_orders_on_resource_option_change",
               "type": "types.Bool",
               "required": false,
@@ -1476,6 +1483,13 @@
             },
             {
               "name": "enable_purchase_order_upload",
+              "type": "types.Bool",
+              "required": false,
+              "optional": true,
+              "computed": false
+            },
+            {
+              "name": "enable_resource_access_subnets",
               "type": "types.Bool",
               "required": false,
               "optional": true,
@@ -1799,6 +1813,13 @@
             {
               "name": "resource_project_role_map",
               "type": "types.Map",
+              "required": false,
+              "optional": true,
+              "computed": false
+            },
+            {
+              "name": "resource_projects_limit_policy",
+              "type": "types.String",
               "required": false,
               "optional": true,
               "computed": false

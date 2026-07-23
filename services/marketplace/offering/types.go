@@ -407,6 +407,8 @@ type MarketplaceOfferingPluginOptionsResponse struct {
 
 	ConcealBillingData *bool `json:"conceal_billing_data,omitempty" tfsdk:"conceal_billing_data"`
 
+	ConcealSubnetRestrictedResources *bool `json:"conceal_subnet_restricted_resources,omitempty" tfsdk:"conceal_subnet_restricted_resources"`
+
 	CreateOrdersOnResourceOptionChange *bool `json:"create_orders_on_resource_option_change,omitempty" tfsdk:"create_orders_on_resource_option_change"`
 
 	CreateOrdersOnResourceProjectChange *bool `json:"create_orders_on_resource_project_change,omitempty" tfsdk:"create_orders_on_resource_project_change"`
@@ -436,6 +438,8 @@ type MarketplaceOfferingPluginOptionsResponse struct {
 	EnableProviderConsumerMessaging *bool `json:"enable_provider_consumer_messaging,omitempty" tfsdk:"enable_provider_consumer_messaging"`
 
 	EnablePurchaseOrderUpload *bool `json:"enable_purchase_order_upload,omitempty" tfsdk:"enable_purchase_order_upload"`
+
+	EnableResourceAccessSubnets *bool `json:"enable_resource_access_subnets,omitempty" tfsdk:"enable_resource_access_subnets"`
 
 	EnableResourceProjects *bool `json:"enable_resource_projects,omitempty" tfsdk:"enable_resource_projects"`
 
@@ -528,6 +532,8 @@ type MarketplaceOfferingPluginOptionsResponse struct {
 	ResourceProjectRoleGroupTemplate *string `json:"resource_project_role_group_template,omitempty" tfsdk:"resource_project_role_group_template"`
 
 	ResourceProjectRoleMap map[string]string `json:"resource_project_role_map,omitempty" tfsdk:"resource_project_role_map"`
+
+	ResourceProjectsLimitPolicy *string `json:"resource_projects_limit_policy,omitempty" tfsdk:"resource_projects_limit_policy"`
 
 	ResourceProjectsLimitsRequired *bool `json:"resource_projects_limits_required,omitempty" tfsdk:"resource_projects_limits_required"`
 

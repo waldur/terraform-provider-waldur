@@ -4,6 +4,14 @@
 
 ### Added
 
+- `marketplace_offering`: new attribute `plugin_options.conceal_subnet_restricted_resources`
+- `marketplace_offering`: new attribute `plugin_options.enable_resource_access_subnets`
+- `marketplace_offering`: new attribute `plugin_options.resource_projects_limit_policy`
+
+## 2026-07-23
+
+### Added
+
 - `structure_customer`: new attribute `has_active_helpdesk`
 
 ## 2026-07-21

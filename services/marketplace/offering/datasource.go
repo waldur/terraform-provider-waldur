@@ -539,6 +539,8 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 						Computed: true, MarkdownDescription: "If set to True, resource can be restored."},
 					"conceal_billing_data": schema.BoolAttribute{
 						Computed: true, MarkdownDescription: "If set to True, pricing and components tab would be concealed."},
+					"conceal_subnet_restricted_resources": schema.BoolAttribute{
+						Computed: true, MarkdownDescription: "If set to True, a resource of this offering that has access subnets is hidden from the consumer API unless the caller's IP is in the resource's allow-list. Staff and support are exempt; resources without any subnet stay visible."},
 					"create_orders_on_resource_option_change": schema.BoolAttribute{
 						Computed: true, MarkdownDescription: "If set to True, create orders when options of related resources are changed."},
 					"create_orders_on_resource_project_change": schema.BoolAttribute{
@@ -577,6 +579,8 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 						Computed: true, MarkdownDescription: "If set to True, service providers can send messages with attachments to consumers on pending orders, and consumers can respond."},
 					"enable_purchase_order_upload": schema.BoolAttribute{
 						Computed: true, MarkdownDescription: "If set to True, users will be able to upload purchase orders."},
+					"enable_resource_access_subnets": schema.BoolAttribute{
+						Computed: true, MarkdownDescription: "If set to True, an Access subnets tab is shown on resource detail pages, letting consumers curate the IPs allowed to reach the backend entity. The list is advisory data for external firewalls."},
 					"enable_resource_projects": schema.BoolAttribute{
 						Computed: true, MarkdownDescription: "Enable sub-project management within resources."},
 					"expose_inference_playground": schema.BoolAttribute{
@@ -686,6 +690,8 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 					"resource_project_role_map": schema.MapAttribute{
 						ElementType: types.StringType,
 						Computed:    true, MarkdownDescription: "Mapping of Waldur role names (on ResourceProject scope) to emitted role tokens. Same semantics as resource_role_map."},
+					"resource_projects_limit_policy": schema.StringAttribute{
+						Computed: true, MarkdownDescription: "How parent resource limits are enforced on child resource projects: 'none' (accepted as-is, default), 'per_project' (each resource project limit must be within the parent resource limit), or 'aggregate' (the sum of all resource project limits must be within the parent limit)."},
 					"resource_projects_limits_required": schema.BoolAttribute{
 						Computed: true, MarkdownDescription: "If set to True, every limit-billing component declared by the offering must have a value when creating or updating a resource project. Use this for backends that reject projects without resource quotas (e.g. the rancher-keycloak-operator's project-level resourceQuota.limit cap)."},
 					"resource_role_group_template": schema.StringAttribute{
