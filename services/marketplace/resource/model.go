@@ -383,6 +383,7 @@ type MarketplaceResourceModel struct {
 	EndDateUpdatedAt          timetypes.RFC3339 `tfsdk:"end_date_updated_at"`
 	Endpoints                 types.List        `tfsdk:"endpoints"`
 	ErrorMessage              types.String      `tfsdk:"error_message"`
+	HasApiKeys                types.Bool        `tfsdk:"has_api_keys"`
 	LastSync                  timetypes.RFC3339 `tfsdk:"last_sync"`
 	LimitUsage                types.Map         `tfsdk:"limit_usage"`
 	Limits                    types.Map         `tfsdk:"limits"`
@@ -486,6 +487,8 @@ func (model *MarketplaceResourceModel) CopyFrom(ctx context.Context, apiResp Mar
 	}
 
 	model.ErrorMessage = common.StringPointerValue(apiResp.ErrorMessage)
+
+	model.HasApiKeys = types.BoolPointerValue(apiResp.HasApiKeys)
 
 	valLastSync, diagsLastSync := timetypes.NewRFC3339PointerValue(apiResp.LastSync)
 	diags.Append(diagsLastSync...)

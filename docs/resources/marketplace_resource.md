@@ -67,6 +67,7 @@ resource "waldur_marketplace_resource" "example" {
 - `end_date_updated_at` (String) Timestamp of the last end_date change.
 - `endpoints` (Attributes List) Endpoints (see [below for nested schema](#nestedatt--endpoints))
 - `error_message` (String) Error Message
+- `has_api_keys` (Boolean) Whether the resource owns any API keys, so the portal can offer key management without knowing which backend serves the resource.
 - `id` (String) Marketplace Resource UUID (used as Terraform ID)
 - `last_sync` (String) Last Sync
 - `limit_usage` (Map of Number) Dictionary mapping limit-based component types to their consumed usage. Sums the ComponentUsage rows of the component's current period (the monthly billing period unless the component defines a longer limit_period), i.e. the period's high-watermark rather than the instantaneous current_usages value.

@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-07-26
+
+### Added
+
+- `marketplace_resource`: new attribute `has_api_keys`
+
 ## 2026-07-23
 
 ### Added

@@ -3166,6 +3166,13 @@
           "computed": false
         },
         {
+          "name": "has_api_keys",
+          "type": "types.Bool",
+          "required": false,
+          "optional": true,
+          "computed": false
+        },
+        {
           "name": "last_sync",
           "type": "types.String",
           "required": false,

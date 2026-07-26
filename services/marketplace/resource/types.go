@@ -60,6 +60,8 @@ type MarketplaceResourceResponse struct {
 
 	ErrorMessage *string `json:"error_message,omitempty" tfsdk:"error_message"`
 
+	HasApiKeys *bool `json:"has_api_keys,omitempty" tfsdk:"has_api_keys"`
+
 	LastSync *string `json:"last_sync,omitempty" tfsdk:"last_sync"`
 
 	LimitUsage map[string]float64 `json:"limit_usage,omitempty" tfsdk:"limit_usage"`
