@@ -334,6 +334,7 @@ Read-Only:
 - `emit_waldur_username` (Boolean) Emit the Waldur username as a GLAuth waldurUsername custom attribute, alongside the generated POSIX login name.
 - `enable_display_of_order_actions_for_service_provider` (Boolean) Enable display of order actions for service provider
 - `enable_issues_for_membership_changes` (Boolean) Enable issues for membership changes
+- `enable_membership_sync_status` (Boolean) Enable per-member sync status reporting by the site agent: team views show whether each role grant has propagated to the provider backend, and providers can trigger a resync.
 - `enable_posix_account` (Boolean) Manage a POSIX/LDAP account (UID, GID, home directory, login shell and GLAuth exposure) for this offering's users. Disable for offerings that only need a username.
 - `enable_provider_consumer_messaging` (Boolean) If set to True, service providers can send messages with attachments to consumers on pending orders, and consumers can respond.
 - `enable_purchase_order_upload` (Boolean) If set to True, users will be able to upload purchase orders.

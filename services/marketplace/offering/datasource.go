@@ -573,6 +573,8 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 						Computed: true, MarkdownDescription: "Enable display of order actions for service provider"},
 					"enable_issues_for_membership_changes": schema.BoolAttribute{
 						Computed: true, MarkdownDescription: "Enable issues for membership changes"},
+					"enable_membership_sync_status": schema.BoolAttribute{
+						Computed: true, MarkdownDescription: "Enable per-member sync status reporting by the site agent: team views show whether each role grant has propagated to the provider backend, and providers can trigger a resync."},
 					"enable_posix_account": schema.BoolAttribute{
 						Computed: true, MarkdownDescription: "Manage a POSIX/LDAP account (UID, GID, home directory, login shell and GLAuth exposure) for this offering's users. Disable for offerings that only need a username."},
 					"enable_provider_consumer_messaging": schema.BoolAttribute{

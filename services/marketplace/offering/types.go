@@ -433,6 +433,8 @@ type MarketplaceOfferingPluginOptionsResponse struct {
 
 	EnableIssuesForMembershipChanges *bool `json:"enable_issues_for_membership_changes,omitempty" tfsdk:"enable_issues_for_membership_changes"`
 
+	EnableMembershipSyncStatus *bool `json:"enable_membership_sync_status,omitempty" tfsdk:"enable_membership_sync_status"`
+
 	EnablePosixAccount *bool `json:"enable_posix_account,omitempty" tfsdk:"enable_posix_account"`
 
 	EnableProviderConsumerMessaging *bool `json:"enable_provider_consumer_messaging,omitempty" tfsdk:"enable_provider_consumer_messaging"`

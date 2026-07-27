@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-07-27
+
+### Added
+
+- `marketplace_offering`: new attribute `plugin_options.enable_membership_sync_status`
+
 ## 2026-07-26
 
 ### Added

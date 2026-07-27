@@ -1468,6 +1468,13 @@
               "computed": false
             },
             {
+              "name": "enable_membership_sync_status",
+              "type": "types.Bool",
+              "required": false,
+              "optional": true,
+              "computed": false
+            },
+            {
               "name": "enable_posix_account",
               "type": "types.Bool",
               "required": false,
