@@ -252,6 +252,7 @@ type MarketplaceOfferingModel struct {
 	ProfileUuid               types.String `tfsdk:"profile_uuid"`
 	Project                   types.String `tfsdk:"project"`
 	PromotionCampaigns        types.List   `tfsdk:"promotion_campaigns"`
+	QosProfiles               types.List   `tfsdk:"qos_profiles"`
 	Quotas                    types.List   `tfsdk:"quotas"`
 	ResourceOptions           types.Object `tfsdk:"resource_options"`
 	Scope                     types.String `tfsdk:"scope"`
@@ -526,8 +527,14 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 			"partition_name":      types.StringType,
 			"priority_tier":       types.Int64Type,
 			"qos":                 types.StringType,
-			"req_resv":            types.BoolType,
-			"uuid":                types.StringType,
+			"qos_options": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+				"is_default": types.BoolType,
+				"qos":        types.StringType,
+				"qos_name":   types.StringType,
+				"uuid":       types.StringType,
+			}}},
+			"req_resv": types.BoolType,
+			"uuid":     types.StringType,
 		}}, apiResp.Partitions)
 		diags.Append(diagsPartitions...)
 		model.Partitions = valPartitions
@@ -554,8 +561,14 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 			"partition_name":      types.StringType,
 			"priority_tier":       types.Int64Type,
 			"qos":                 types.StringType,
-			"req_resv":            types.BoolType,
-			"uuid":                types.StringType,
+			"qos_options": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
+				"is_default": types.BoolType,
+				"qos":        types.StringType,
+				"qos_name":   types.StringType,
+				"uuid":       types.StringType,
+			}}},
+			"req_resv": types.BoolType,
+			"uuid":     types.StringType,
 		}})
 	}
 
@@ -678,6 +691,7 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 			"enable_purchase_order_upload":                          types.BoolType,
 			"enable_resource_access_subnets":                        types.BoolType,
 			"enable_resource_projects":                              types.BoolType,
+			"enforce_qos":                                           types.BoolType,
 			"expose_inference_playground":                           types.BoolType,
 			"flavors_regex":                                         types.StringType,
 			"gid_source":                                            types.StringType,
@@ -777,6 +791,7 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 			"enable_purchase_order_upload":                          types.BoolType,
 			"enable_resource_access_subnets":                        types.BoolType,
 			"enable_resource_projects":                              types.BoolType,
+			"enforce_qos":                                           types.BoolType,
 			"expose_inference_playground":                           types.BoolType,
 			"flavors_regex":                                         types.StringType,
 			"gid_source":                                            types.StringType,
@@ -880,6 +895,46 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 			"start_date":       types.StringType,
 			"stock":            types.Int64Type,
 			"uuid":             types.StringType,
+		}})
+	}
+
+	if apiResp.QosProfiles != nil {
+		valQosProfiles, diagsQosProfiles := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+			"default_time":      types.Int64Type,
+			"description":       types.StringType,
+			"flags":             types.StringType,
+			"grace_time":        types.Int64Type,
+			"grp_tres":          types.StringType,
+			"max_nodes":         types.Int64Type,
+			"max_time":          types.Int64Type,
+			"max_tres_per_job":  types.StringType,
+			"max_tres_per_node": types.StringType,
+			"max_tres_per_user": types.StringType,
+			"min_nodes":         types.Int64Type,
+			"min_tres_per_job":  types.StringType,
+			"name":              types.StringType,
+			"priority":          types.Int64Type,
+			"uuid":              types.StringType,
+		}}, apiResp.QosProfiles)
+		diags.Append(diagsQosProfiles...)
+		model.QosProfiles = valQosProfiles
+	} else {
+		model.QosProfiles = types.ListNull(types.ObjectType{AttrTypes: map[string]attr.Type{
+			"default_time":      types.Int64Type,
+			"description":       types.StringType,
+			"flags":             types.StringType,
+			"grace_time":        types.Int64Type,
+			"grp_tres":          types.StringType,
+			"max_nodes":         types.Int64Type,
+			"max_time":          types.Int64Type,
+			"max_tres_per_job":  types.StringType,
+			"max_tres_per_node": types.StringType,
+			"max_tres_per_user": types.StringType,
+			"min_nodes":         types.Int64Type,
+			"min_tres_per_job":  types.StringType,
+			"name":              types.StringType,
+			"priority":          types.Int64Type,
+			"uuid":              types.StringType,
 		}})
 	}
 

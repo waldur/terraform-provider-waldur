@@ -69,6 +69,7 @@ Marketplace Offering data source - lookup by name or UUID
 - `profile_uuid` (String) Profile Uuid
 - `project` (String) Project
 - `promotion_campaigns` (Attributes List) Promotion Campaigns (see [below for nested schema](#nestedatt--promotion_campaigns))
+- `qos_profiles` (Attributes List) Qos Profiles (see [below for nested schema](#nestedatt--qos_profiles))
 - `quotas` (Attributes List) Quotas (see [below for nested schema](#nestedatt--quotas))
 - `resource_options` (Attributes) Resource Options (see [below for nested schema](#nestedatt--resource_options))
 - `scope` (String) Scope
@@ -245,8 +246,20 @@ Read-Only:
 - `partition_name` (String) Name of the SLURM partition
 - `priority_tier` (Number) Priority tier for scheduling and preemption
 - `qos` (String) Quality of Service (QOS) name
+- `qos_options` (Attributes List) Qos Options (see [below for nested schema](#nestedatt--partitions--qos_options))
 - `req_resv` (Boolean) Require reservation for job allocation
 - `uuid` (String) Uuid
+
+<a id="nestedatt--partitions--qos_options"></a>
+### Nested Schema for `partitions.qos_options`
+
+Read-Only:
+
+- `is_default` (Boolean) Default QOS for this partition (seeds SLURM DefaultQOS).
+- `qos` (String) Qos
+- `qos_name` (String) Qos Name
+- `uuid` (String) Uuid
+
 
 
 <a id="nestedatt--plans"></a>
@@ -340,6 +353,7 @@ Read-Only:
 - `enable_purchase_order_upload` (Boolean) If set to True, users will be able to upload purchase orders.
 - `enable_resource_access_subnets` (Boolean) If set to True, an Access subnets tab is shown on resource detail pages, letting consumers curate the IPs allowed to reach the backend entity. The list is advisory data for external firewalls.
 - `enable_resource_projects` (Boolean) Enable sub-project management within resources.
+- `enforce_qos` (Boolean) When enabled, the site agent enforces the offering's QoS selection by granting the chosen QoS on the SLURM association (QosLevel/DefaultQOS). When disabled (default), QoS is informational only — profiles are shown and the selection is recorded on the resource, but the agent does not touch SLURM QoS. The agent config may override this per deployment.
 - `expose_inference_playground` (Boolean) Show an in-browser inference playground action for resources of this offering (for offerings whose resources expose an OpenAI-compatible endpoint).
 - `flavors_regex` (String) Regular expression to limit flavors list
 - `gid_source` (String) Where each offering user's primary GID comes from: the POSIX ID pool (default), or the user's primary_gid attribute.
@@ -421,6 +435,28 @@ Read-Only:
 - `service_provider` (String) Service Provider
 - `start_date` (String) Starting from this date, the campaign is active.
 - `stock` (Number) Stock
+- `uuid` (String) Uuid
+
+
+<a id="nestedatt--qos_profiles"></a>
+### Nested Schema for `qos_profiles`
+
+Read-Only:
+
+- `default_time` (Number) Default time limit in minutes
+- `description` (String) Description
+- `flags` (String) Comma-separated QOS flags (e.g. DenyOnLimit, OverPartQOS)
+- `grace_time` (Number) Preemption grace time in seconds
+- `grp_tres` (String) Aggregate TRES the QOS may allocate at once (GrpTRES)
+- `max_nodes` (Number) Maximum nodes per job
+- `max_time` (Number) Maximum wall time in minutes
+- `max_tres_per_job` (String) Max TRES per job (MaxTRESPerJob)
+- `max_tres_per_node` (String) Max TRES per node (MaxTRESPerNode)
+- `max_tres_per_user` (String) Max TRES per user (MaxTRESPerUser)
+- `min_nodes` (Number) Minimum nodes per job
+- `min_tres_per_job` (String) Min TRES per job (MinTRESPerJob)
+- `name` (String) Name of the SLURM QOS.
+- `priority` (Number) Scheduling priority
 - `uuid` (String) Uuid
 
 

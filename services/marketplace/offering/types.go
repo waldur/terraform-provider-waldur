@@ -104,6 +104,8 @@ type MarketplaceOfferingResponse struct {
 
 	PromotionCampaigns *[]common.NestedCampaign `json:"promotion_campaigns,omitempty" tfsdk:"promotion_campaigns"`
 
+	QosProfiles *[]common.NestedQoS `json:"qos_profiles,omitempty" tfsdk:"qos_profiles"`
+
 	Quotas *[]common.Quota `json:"quotas,omitempty" tfsdk:"quotas"`
 
 	ResourceOptions *MarketplaceOfferingResourceOptionsResponse `json:"resource_options,omitempty" tfsdk:"resource_options"`
@@ -294,7 +296,19 @@ type MarketplaceOfferingPartitionsResponse struct {
 
 	Qos *string `json:"qos,omitempty" tfsdk:"qos"`
 
+	QosOptions *[]common.NestedPartitionQoS `json:"qos_options,omitempty" tfsdk:"qos_options"`
+
 	ReqResv *bool `json:"req_resv,omitempty" tfsdk:"req_resv"`
+
+	Uuid *string `json:"uuid,omitempty" tfsdk:"uuid"`
+}
+
+type MarketplaceOfferingPartitionsQosOptionsResponse struct {
+	IsDefault *bool `json:"is_default,omitempty" tfsdk:"is_default"`
+
+	Qos *string `json:"qos,omitempty" tfsdk:"qos"`
+
+	QosName *string `json:"qos_name,omitempty" tfsdk:"qos_name"`
 
 	Uuid *string `json:"uuid,omitempty" tfsdk:"uuid"`
 }
@@ -444,6 +458,8 @@ type MarketplaceOfferingPluginOptionsResponse struct {
 	EnableResourceAccessSubnets *bool `json:"enable_resource_access_subnets,omitempty" tfsdk:"enable_resource_access_subnets"`
 
 	EnableResourceProjects *bool `json:"enable_resource_projects,omitempty" tfsdk:"enable_resource_projects"`
+
+	EnforceQos *bool `json:"enforce_qos,omitempty" tfsdk:"enforce_qos"`
 
 	ExposeInferencePlayground *bool `json:"expose_inference_playground,omitempty" tfsdk:"expose_inference_playground"`
 
@@ -600,6 +616,38 @@ type MarketplaceOfferingPromotionCampaignsResponse struct {
 	StartDate *string `json:"start_date,omitempty" tfsdk:"start_date"`
 
 	Stock *int64 `json:"stock,omitempty" tfsdk:"stock"`
+
+	Uuid *string `json:"uuid,omitempty" tfsdk:"uuid"`
+}
+
+type MarketplaceOfferingQosProfilesResponse struct {
+	DefaultTime *int64 `json:"default_time,omitempty" tfsdk:"default_time"`
+
+	Description *string `json:"description,omitempty" tfsdk:"description"`
+
+	Flags *string `json:"flags,omitempty" tfsdk:"flags"`
+
+	GraceTime *int64 `json:"grace_time,omitempty" tfsdk:"grace_time"`
+
+	GrpTres *string `json:"grp_tres,omitempty" tfsdk:"grp_tres"`
+
+	MaxNodes *int64 `json:"max_nodes,omitempty" tfsdk:"max_nodes"`
+
+	MaxTime *int64 `json:"max_time,omitempty" tfsdk:"max_time"`
+
+	MaxTresPerJob *string `json:"max_tres_per_job,omitempty" tfsdk:"max_tres_per_job"`
+
+	MaxTresPerNode *string `json:"max_tres_per_node,omitempty" tfsdk:"max_tres_per_node"`
+
+	MaxTresPerUser *string `json:"max_tres_per_user,omitempty" tfsdk:"max_tres_per_user"`
+
+	MinNodes *int64 `json:"min_nodes,omitempty" tfsdk:"min_nodes"`
+
+	MinTresPerJob *string `json:"min_tres_per_job,omitempty" tfsdk:"min_tres_per_job"`
+
+	Name *string `json:"name,omitempty" tfsdk:"name"`
+
+	Priority *int64 `json:"priority,omitempty" tfsdk:"priority"`
 
 	Uuid *string `json:"uuid,omitempty" tfsdk:"uuid"`
 }

@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026-07-28
+
+### Added
+
+- `marketplace_offering`: new attribute `partitions.qos_options`
+- `marketplace_offering`: new attribute `plugin_options.enforce_qos`
+- `marketplace_offering`: new attribute `qos_profiles`
+
 ## 2026-07-27
 
 ### Added

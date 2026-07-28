@@ -186,7 +186,19 @@ type NestedPartition struct {
 
 	Qos *string `json:"qos,omitempty" tfsdk:"qos"`
 
+	QosOptions *[]NestedPartitionQoS `json:"qos_options,omitempty" tfsdk:"qos_options"`
+
 	ReqResv *bool `json:"req_resv,omitempty" tfsdk:"req_resv"`
+
+	Uuid *string `json:"uuid,omitempty" tfsdk:"uuid"`
+}
+
+type NestedPartitionQoS struct {
+	IsDefault *bool `json:"is_default,omitempty" tfsdk:"is_default"`
+
+	Qos *string `json:"qos,omitempty" tfsdk:"qos"`
+
+	QosName *string `json:"qos_name,omitempty" tfsdk:"qos_name"`
 
 	Uuid *string `json:"uuid,omitempty" tfsdk:"uuid"`
 }
@@ -209,6 +221,38 @@ type NestedPlanComponent struct {
 	Price *string `json:"price,omitempty" tfsdk:"price"`
 
 	Type *string `json:"type,omitempty" tfsdk:"type"`
+}
+
+type NestedQoS struct {
+	DefaultTime *int64 `json:"default_time,omitempty" tfsdk:"default_time"`
+
+	Description *string `json:"description,omitempty" tfsdk:"description"`
+
+	Flags *string `json:"flags,omitempty" tfsdk:"flags"`
+
+	GraceTime *int64 `json:"grace_time,omitempty" tfsdk:"grace_time"`
+
+	GrpTres *string `json:"grp_tres,omitempty" tfsdk:"grp_tres"`
+
+	MaxNodes *int64 `json:"max_nodes,omitempty" tfsdk:"max_nodes"`
+
+	MaxTime *int64 `json:"max_time,omitempty" tfsdk:"max_time"`
+
+	MaxTresPerJob *string `json:"max_tres_per_job,omitempty" tfsdk:"max_tres_per_job"`
+
+	MaxTresPerNode *string `json:"max_tres_per_node,omitempty" tfsdk:"max_tres_per_node"`
+
+	MaxTresPerUser *string `json:"max_tres_per_user,omitempty" tfsdk:"max_tres_per_user"`
+
+	MinNodes *int64 `json:"min_nodes,omitempty" tfsdk:"min_nodes"`
+
+	MinTresPerJob *string `json:"min_tres_per_job,omitempty" tfsdk:"min_tres_per_job"`
+
+	Name *string `json:"name,omitempty" tfsdk:"name"`
+
+	Priority *int64 `json:"priority,omitempty" tfsdk:"priority"`
+
+	Uuid *string `json:"uuid,omitempty" tfsdk:"uuid"`
 }
 
 type NestedScreenshot struct {

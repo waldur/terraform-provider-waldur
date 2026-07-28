@@ -1012,6 +1012,43 @@
               "computed": false
             },
             {
+              "name": "qos_options",
+              "type": "types.List\u003cobject\u003e",
+              "required": false,
+              "optional": true,
+              "computed": false,
+              "attributes": [
+                {
+                  "name": "is_default",
+                  "type": "types.Bool",
+                  "required": false,
+                  "optional": true,
+                  "computed": false
+                },
+                {
+                  "name": "qos",
+                  "type": "types.String",
+                  "required": false,
+                  "optional": true,
+                  "computed": false
+                },
+                {
+                  "name": "qos_name",
+                  "type": "types.String",
+                  "required": false,
+                  "optional": true,
+                  "computed": false
+                },
+                {
+                  "name": "uuid",
+                  "type": "types.String",
+                  "required": false,
+                  "optional": true,
+                  "computed": false
+                }
+              ]
+            },
+            {
               "name": "req_resv",
               "type": "types.Bool",
               "required": false,
@@ -1504,6 +1541,13 @@
             },
             {
               "name": "enable_resource_projects",
+              "type": "types.Bool",
+              "required": false,
+              "optional": true,
+              "computed": false
+            },
+            {
+              "name": "enforce_qos",
               "type": "types.Bool",
               "required": false,
               "optional": true,
@@ -2059,6 +2103,120 @@
             },
             {
               "name": "stock",
+              "type": "types.Int64",
+              "required": false,
+              "optional": true,
+              "computed": false
+            },
+            {
+              "name": "uuid",
+              "type": "types.String",
+              "required": false,
+              "optional": true,
+              "computed": false
+            }
+          ]
+        },
+        {
+          "name": "qos_profiles",
+          "type": "types.List\u003cobject\u003e",
+          "required": false,
+          "optional": true,
+          "computed": false,
+          "attributes": [
+            {
+              "name": "default_time",
+              "type": "types.Int64",
+              "required": false,
+              "optional": true,
+              "computed": false
+            },
+            {
+              "name": "description",
+              "type": "types.String",
+              "required": false,
+              "optional": true,
+              "computed": false
+            },
+            {
+              "name": "flags",
+              "type": "types.String",
+              "required": false,
+              "optional": true,
+              "computed": false
+            },
+            {
+              "name": "grace_time",
+              "type": "types.Int64",
+              "required": false,
+              "optional": true,
+              "computed": false
+            },
+            {
+              "name": "grp_tres",
+              "type": "types.String",
+              "required": false,
+              "optional": true,
+              "computed": false
+            },
+            {
+              "name": "max_nodes",
+              "type": "types.Int64",
+              "required": false,
+              "optional": true,
+              "computed": false
+            },
+            {
+              "name": "max_time",
+              "type": "types.Int64",
+              "required": false,
+              "optional": true,
+              "computed": false
+            },
+            {
+              "name": "max_tres_per_job",
+              "type": "types.String",
+              "required": false,
+              "optional": true,
+              "computed": false
+            },
+            {
+              "name": "max_tres_per_node",
+              "type": "types.String",
+              "required": false,
+              "optional": true,
+              "computed": false
+            },
+            {
+              "name": "max_tres_per_user",
+              "type": "types.String",
+              "required": false,
+              "optional": true,
+              "computed": false
+            },
+            {
+              "name": "min_nodes",
+              "type": "types.Int64",
+              "required": false,
+              "optional": true,
+              "computed": false
+            },
+            {
+              "name": "min_tres_per_job",
+              "type": "types.String",
+              "required": false,
+              "optional": true,
+              "computed": false
+            },
+            {
+              "name": "name",
+              "type": "types.String",
+              "required": false,
+              "optional": true,
+              "computed": false
+            },
+            {
+              "name": "priority",
               "type": "types.Int64",
               "required": false,
               "optional": true,

@@ -394,6 +394,21 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 							}},
 						"qos": schema.StringAttribute{
 							Computed: true, MarkdownDescription: "Quality of Service (QOS) name"},
+						"qos_options": schema.ListNestedAttribute{
+							NestedObject: schema.NestedAttributeObject{
+								Attributes: map[string]schema.Attribute{
+									"is_default": schema.BoolAttribute{
+										Computed: true, MarkdownDescription: "Default QOS for this partition (seeds SLURM DefaultQOS)."},
+									"qos": schema.StringAttribute{
+										Computed: true, MarkdownDescription: "Qos"},
+									"qos_name": schema.StringAttribute{
+										Computed: true, MarkdownDescription: "Qos Name"},
+									"uuid": schema.StringAttribute{
+										Computed: true, MarkdownDescription: "Uuid"},
+								},
+							},
+							Computed: true, MarkdownDescription: "Qos Options",
+						},
 						"req_resv": schema.BoolAttribute{
 							Computed: true, MarkdownDescription: "Require reservation for job allocation"},
 						"uuid": schema.StringAttribute{
@@ -585,6 +600,8 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 						Computed: true, MarkdownDescription: "If set to True, an Access subnets tab is shown on resource detail pages, letting consumers curate the IPs allowed to reach the backend entity. The list is advisory data for external firewalls."},
 					"enable_resource_projects": schema.BoolAttribute{
 						Computed: true, MarkdownDescription: "Enable sub-project management within resources."},
+					"enforce_qos": schema.BoolAttribute{
+						Computed: true, MarkdownDescription: "When enabled, the site agent enforces the offering's QoS selection by granting the chosen QoS on the SLURM association (QosLevel/DefaultQOS). When disabled (default), QoS is informational only — profiles are shown and the selection is recorded on the resource, but the agent does not touch SLURM QoS. The agent config may override this per deployment."},
 					"expose_inference_playground": schema.BoolAttribute{
 						Computed: true, MarkdownDescription: "Show an in-browser inference playground action for resources of this offering (for offerings whose resources expose an OpenAI-compatible endpoint)."},
 					"flavors_regex": schema.StringAttribute{
@@ -797,6 +814,70 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 					},
 				},
 				Computed: true, MarkdownDescription: "Promotion Campaigns",
+			},
+			"qos_profiles": schema.ListNestedAttribute{
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: map[string]schema.Attribute{
+						"default_time": schema.Int64Attribute{
+							Computed: true, MarkdownDescription: "Default time limit in minutes",
+							Validators: []validator.Int64{
+								int64validator.AtLeast(0),
+								int64validator.AtMost(2147483647),
+							}},
+						"description": schema.StringAttribute{
+							Computed: true, MarkdownDescription: "Description"},
+						"flags": schema.StringAttribute{
+							Computed: true, MarkdownDescription: "Comma-separated QOS flags (e.g. DenyOnLimit, OverPartQOS)"},
+						"grace_time": schema.Int64Attribute{
+							Computed: true, MarkdownDescription: "Preemption grace time in seconds",
+							Validators: []validator.Int64{
+								int64validator.AtLeast(0),
+								int64validator.AtMost(2147483647),
+							}},
+						"grp_tres": schema.StringAttribute{
+							Computed: true, MarkdownDescription: "Aggregate TRES the QOS may allocate at once (GrpTRES)"},
+						"max_nodes": schema.Int64Attribute{
+							Computed: true, MarkdownDescription: "Maximum nodes per job",
+							Validators: []validator.Int64{
+								int64validator.AtLeast(0),
+								int64validator.AtMost(2147483647),
+							}},
+						"max_time": schema.Int64Attribute{
+							Computed: true, MarkdownDescription: "Maximum wall time in minutes",
+							Validators: []validator.Int64{
+								int64validator.AtLeast(0),
+								int64validator.AtMost(2147483647),
+							}},
+						"max_tres_per_job": schema.StringAttribute{
+							Computed: true, MarkdownDescription: "Max TRES per job (MaxTRESPerJob)"},
+						"max_tres_per_node": schema.StringAttribute{
+							Computed: true, MarkdownDescription: "Max TRES per node (MaxTRESPerNode)"},
+						"max_tres_per_user": schema.StringAttribute{
+							Computed: true, MarkdownDescription: "Max TRES per user (MaxTRESPerUser)"},
+						"min_nodes": schema.Int64Attribute{
+							Computed: true, MarkdownDescription: "Minimum nodes per job",
+							Validators: []validator.Int64{
+								int64validator.AtLeast(0),
+								int64validator.AtMost(2147483647),
+							}},
+						"min_tres_per_job": schema.StringAttribute{
+							Computed: true, MarkdownDescription: "Min TRES per job (MinTRESPerJob)"},
+						"name": schema.StringAttribute{
+							Computed: true, MarkdownDescription: "Name of the SLURM QOS.",
+							Validators: []validator.String{
+								stringvalidator.RegexMatches(regexp.MustCompile(`^\d+$`), ""),
+							}},
+						"priority": schema.Int64Attribute{
+							Computed: true, MarkdownDescription: "Scheduling priority",
+							Validators: []validator.Int64{
+								int64validator.AtLeast(0),
+								int64validator.AtMost(2147483647),
+							}},
+						"uuid": schema.StringAttribute{
+							Computed: true, MarkdownDescription: "Uuid"},
+					},
+				},
+				Computed: true, MarkdownDescription: "Qos Profiles",
 			},
 			"quotas": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
