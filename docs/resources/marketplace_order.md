@@ -79,7 +79,10 @@ resource "waldur_marketplace_order" "example" {
 - `created_by_email` (String) Created By Email
 - `created_by_full_name` (String) Created By Full Name
 - `created_by_organization` (String) Created By Organization
+- `created_by_organization_address` (String) Postal address of the user's organization
+- `created_by_organization_country` (String) Created By Organization Country
 - `created_by_organization_registry_code` (String) Company registration code of the user's organization, if known
+- `created_by_organization_vat_code` (String) VAT code of the user's organization
 - `created_by_username` (String) Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters
 - `customer_slug` (String) Customer Slug
 - `error_message` (String) Error Message

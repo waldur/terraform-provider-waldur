@@ -4,6 +4,59 @@
 
 ### ⚠️ Breaking changes
 
+- `marketplace_offering`: removed attribute `plans.components.discount_rate`
+- `marketplace_offering`: removed attribute `plans.components.discount_threshold`
+- `marketplace_offering`: removed attribute `plans.components.discounted_price`
+- `marketplace_offering`: removed attribute `plugin_options.initial_primarygroup_number`
+- `marketplace_offering`: removed attribute `plugin_options.initial_rolegroup_number`
+- `marketplace_offering`: removed attribute `plugin_options.initial_uidnumber`
+- `marketplace_offering`: removed attribute `plugin_options.initial_usergroup_number`
+- `openstack_port`: attribute `allowed_address_pairs.ip_address` is now computed (read-only)
+- `structure_customer`: attribute `customer_credit` type changed from `types.Float64` to `types.String`
+- `structure_customer`: attribute `customer_unallocated_credit` type changed from `types.Float64` to `types.String`
+- `structure_customer`: attribute `payment_profiles.attributes.contract_sum` type changed from `types.Int64` to `types.String`
+- `structure_project`: removed attribute `project_metadata.answer`
+
+### Added
+
+- `marketplace_offering`: new attribute `default_access_subnets`
+- `marketplace_offering`: new attribute `partitions.qos_options`
+- `marketplace_offering`: new attribute `plans.components.discount_aggregation`
+- `marketplace_offering`: new attribute `plans.components.discount_formula`
+- `marketplace_offering`: new attribute `plugin_options.action_on_usage_limit`
+- `marketplace_offering`: new attribute `plugin_options.auto_approve_for_roles`
+- `marketplace_offering`: new attribute `plugin_options.billing_source`
+- `marketplace_offering`: new attribute `plugin_options.conceal_subnet_restricted_resources`
+- `marketplace_offering`: new attribute `plugin_options.disable_grace_period`
+- `marketplace_offering`: new attribute `plugin_options.emit_display_name`
+- `marketplace_offering`: new attribute `plugin_options.emit_waldur_username`
+- `marketplace_offering`: new attribute `plugin_options.enable_membership_sync_status`
+- `marketplace_offering`: new attribute `plugin_options.enable_posix_account`
+- `marketplace_offering`: new attribute `plugin_options.enable_resource_access_subnets`
+- `marketplace_offering`: new attribute `plugin_options.enforce_qos`
+- `marketplace_offering`: new attribute `plugin_options.gid_source`
+- `marketplace_offering`: new attribute `plugin_options.login_shell`
+- `marketplace_offering`: new attribute `plugin_options.resource_projects_limit_policy`
+- `marketplace_offering`: new attribute `plugin_options.restricted_to_roles`
+- `marketplace_offering`: new attribute `plugin_options.uid_source`
+- `marketplace_offering`: new attribute `qos_profiles`
+- `marketplace_order`: new attribute `created_by_organization_address`
+- `marketplace_order`: new attribute `created_by_organization_country`
+- `marketplace_order`: new attribute `created_by_organization_vat_code`
+- `marketplace_resource`: new attribute `has_api_keys`
+- `marketplace_resource`: new attribute `order_in_progress.created_by_organization_address`
+- `marketplace_resource`: new attribute `order_in_progress.created_by_organization_country`
+- `marketplace_resource`: new attribute `order_in_progress.created_by_organization_vat_code`
+- `marketplace_resource`: new attribute `resource_effective_end_date`
+- `marketplace_resource`: new attribute `usage_limit_restriction`
+- `openstack_instance`: new attribute `ports.allowed_address_pairs.ip_address`
+- `structure_customer`: new attribute `has_active_helpdesk`
+- `structure_customer`: new attribute `has_affiliate_links`
+
+## 2026-08-03
+
+### ⚠️ Breaking changes
+
 - `marketplace_offering`: removed attribute `default_access_subnets`
 - `marketplace_offering`: removed attribute `partitions.qos_options`
 - `marketplace_offering`: removed attribute `plans.components.discount_aggregation`

@@ -64,7 +64,12 @@ func (r *OpenstackPortResource) Schema(ctx context.Context, req resource.SchemaR
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"ip_address": schema.StringAttribute{
-							Optional: true, MarkdownDescription: "Ip Address"},
+							Optional: true,
+							Computed: true,
+							PlanModifiers: []planmodifier.String{
+
+								stringplanmodifier.UseStateForUnknown(),
+							}, MarkdownDescription: "Ip Address"},
 						"mac_address": schema.StringAttribute{
 							Optional: true,
 							Computed: true,

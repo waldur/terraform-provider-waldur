@@ -230,12 +230,30 @@ func (r *MarketplaceOrderResource) Schema(ctx context.Context, req resource.Sche
 
 					stringplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "Created By Organization"},
+			"created_by_organization_address": schema.StringAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+
+					stringplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Postal address of the user's organization"},
+			"created_by_organization_country": schema.StringAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+
+					stringplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Created By Organization Country"},
 			"created_by_organization_registry_code": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 
 					stringplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "Company registration code of the user's organization, if known"},
+			"created_by_organization_vat_code": schema.StringAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+
+					stringplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "VAT code of the user's organization"},
 			"created_by_username": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
