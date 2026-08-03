@@ -75,10 +75,7 @@ func OrderInProgressType() types.ObjectType {
 		"created_by_email":                      types.StringType,
 		"created_by_full_name":                  types.StringType,
 		"created_by_organization":               types.StringType,
-		"created_by_organization_address":       types.StringType,
-		"created_by_organization_country":       types.StringType,
 		"created_by_organization_registry_code": types.StringType,
-		"created_by_organization_vat_code":      types.StringType,
 		"created_by_username":                   types.StringType,
 		"customer_slug":                         types.StringType,
 		"error_message":                         types.StringType,
@@ -383,7 +380,6 @@ type MarketplaceResourceModel struct {
 	EndDateUpdatedAt          timetypes.RFC3339 `tfsdk:"end_date_updated_at"`
 	Endpoints                 types.List        `tfsdk:"endpoints"`
 	ErrorMessage              types.String      `tfsdk:"error_message"`
-	HasApiKeys                types.Bool        `tfsdk:"has_api_keys"`
 	LastSync                  timetypes.RFC3339 `tfsdk:"last_sync"`
 	LimitUsage                types.Map         `tfsdk:"limit_usage"`
 	Limits                    types.Map         `tfsdk:"limits"`
@@ -427,7 +423,6 @@ type MarketplaceResourceModel struct {
 	ProviderUuid              types.String      `tfsdk:"provider_uuid"`
 	RenewalDate               types.Map         `tfsdk:"renewal_date"`
 	Report                    types.List        `tfsdk:"report"`
-	ResourceEffectiveEndDate  types.String      `tfsdk:"resource_effective_end_date"`
 	ResourceType              types.String      `tfsdk:"resource_type"`
 	ResourceUuid              types.String      `tfsdk:"resource_uuid"`
 	RestrictMemberAccess      types.Bool        `tfsdk:"restrict_member_access"`
@@ -435,7 +430,6 @@ type MarketplaceResourceModel struct {
 	Slug                      types.String      `tfsdk:"slug"`
 	State                     types.String      `tfsdk:"state"`
 	Url                       types.String      `tfsdk:"url"`
-	UsageLimitRestriction     types.String      `tfsdk:"usage_limit_restriction"`
 	UserRequiresReconsent     types.Bool        `tfsdk:"user_requires_reconsent"`
 	Username                  types.String      `tfsdk:"username"`
 }
@@ -487,8 +481,6 @@ func (model *MarketplaceResourceModel) CopyFrom(ctx context.Context, apiResp Mar
 	}
 
 	model.ErrorMessage = common.StringPointerValue(apiResp.ErrorMessage)
-
-	model.HasApiKeys = types.BoolPointerValue(apiResp.HasApiKeys)
 
 	valLastSync, diagsLastSync := timetypes.NewRFC3339PointerValue(apiResp.LastSync)
 	diags.Append(diagsLastSync...)
@@ -626,8 +618,6 @@ func (model *MarketplaceResourceModel) CopyFrom(ctx context.Context, apiResp Mar
 		model.Report = types.ListNull(ReportSectionType())
 	}
 
-	model.ResourceEffectiveEndDate = common.StringPointerValue(apiResp.ResourceEffectiveEndDate)
-
 	model.ResourceType = common.StringPointerValue(apiResp.ResourceType)
 
 	model.ResourceUuid = common.StringPointerValue(apiResp.ResourceUuid)
@@ -641,8 +631,6 @@ func (model *MarketplaceResourceModel) CopyFrom(ctx context.Context, apiResp Mar
 	model.State = common.StringPointerValue(apiResp.State)
 
 	model.Url = common.StringPointerValue(apiResp.Url)
-
-	model.UsageLimitRestriction = common.StringPointerValue(apiResp.UsageLimitRestriction)
 
 	model.UserRequiresReconsent = types.BoolPointerValue(apiResp.UserRequiresReconsent)
 

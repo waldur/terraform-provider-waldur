@@ -132,6 +132,7 @@ Read-Only:
 
 Read-Only:
 
+- `answer` (Map of String) Human-readable answer value; select-type option UUIDs are resolved to their labels.
 - `question` (String) Question description.
 - `question_type` (String) Question Type
 - `question_uuid` (String) Question Uuid

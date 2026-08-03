@@ -99,13 +99,7 @@ type MarketplaceOrderResponse struct {
 
 	CreatedByOrganization *string `json:"created_by_organization,omitempty" tfsdk:"created_by_organization"`
 
-	CreatedByOrganizationAddress *string `json:"created_by_organization_address,omitempty" tfsdk:"created_by_organization_address"`
-
-	CreatedByOrganizationCountry *string `json:"created_by_organization_country,omitempty" tfsdk:"created_by_organization_country"`
-
 	CreatedByOrganizationRegistryCode *string `json:"created_by_organization_registry_code,omitempty" tfsdk:"created_by_organization_registry_code"`
-
-	CreatedByOrganizationVatCode *string `json:"created_by_organization_vat_code,omitempty" tfsdk:"created_by_organization_vat_code"`
 
 	CreatedByUsername *string `json:"created_by_username,omitempty" tfsdk:"created_by_username"`
 

@@ -1,8 +1,6 @@
 package port
 
 import (
-	"encoding/json"
-
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
@@ -37,11 +35,7 @@ type OpenstackPortUpdateRequest struct {
 }
 
 type OpenstackPortUpdateSecurityGroupsActionRequest struct {
-	SecurityGroups []common.OpenStackPortNestedSecurityGroupRequest `json:"-"`
-}
-
-func (r OpenstackPortUpdateSecurityGroupsActionRequest) MarshalJSON() ([]byte, error) {
-	return json.Marshal(r.SecurityGroups)
+	SecurityGroups []common.OpenStackPortNestedSecurityGroupRequest `json:"security_groups"`
 }
 
 type OpenstackPortResponse struct {

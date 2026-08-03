@@ -37,6 +37,7 @@ func BillingPriceEstimateType() types.ObjectType {
 }
 func ProjectMetadataAnswerType() types.ObjectType {
 	return types.ObjectType{AttrTypes: map[string]attr.Type{
+		"answer":        types.MapType{ElemType: types.StringType},
 		"question":      types.StringType,
 		"question_type": types.StringType,
 		"question_uuid": types.StringType,

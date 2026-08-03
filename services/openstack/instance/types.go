@@ -1,8 +1,6 @@
 package instance
 
 import (
-	"encoding/json"
-
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
@@ -75,27 +73,15 @@ type OpenstackInstanceUpdateRequest struct {
 }
 
 type OpenstackInstanceUpdateFloatingIpsActionRequest struct {
-	FloatingIps []common.OpenStackCreateFloatingIPRequest `json:"-"`
-}
-
-func (r OpenstackInstanceUpdateFloatingIpsActionRequest) MarshalJSON() ([]byte, error) {
-	return json.Marshal(r.FloatingIps)
+	FloatingIps []common.OpenStackCreateFloatingIPRequest `json:"floating_ips"`
 }
 
 type OpenstackInstanceUpdatePortsActionRequest struct {
-	Ports []common.OpenStackCreateInstancePortRequest `json:"-"`
-}
-
-func (r OpenstackInstanceUpdatePortsActionRequest) MarshalJSON() ([]byte, error) {
-	return json.Marshal(r.Ports)
+	Ports []common.OpenStackCreateInstancePortRequest `json:"ports"`
 }
 
 type OpenstackInstanceUpdateSecurityGroupsActionRequest struct {
-	SecurityGroups []common.OpenStackSecurityGroupHyperlinkRequest `json:"-"`
-}
-
-func (r OpenstackInstanceUpdateSecurityGroupsActionRequest) MarshalJSON() ([]byte, error) {
-	return json.Marshal(r.SecurityGroups)
+	SecurityGroups []common.OpenStackSecurityGroupHyperlinkRequest `json:"security_groups"`
 }
 
 type OpenstackInstanceResponse struct {
@@ -254,8 +240,6 @@ type OpenstackInstancePortsFixedIpsResponse struct {
 }
 
 type OpenstackInstancePortsAllowedAddressPairsResponse struct {
-	IpAddress *string `json:"ip_address,omitempty" tfsdk:"ip_address"`
-
 	MacAddress *string `json:"mac_address,omitempty" tfsdk:"mac_address"`
 }
 

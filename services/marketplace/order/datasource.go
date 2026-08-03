@@ -103,14 +103,8 @@ func (d *MarketplaceOrderDataSource) Schema(ctx context.Context, req datasource.
 				Computed: true, MarkdownDescription: "Created By Full Name"},
 			"created_by_organization": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Created By Organization"},
-			"created_by_organization_address": schema.StringAttribute{
-				Computed: true, MarkdownDescription: "Postal address of the user's organization"},
-			"created_by_organization_country": schema.StringAttribute{
-				Computed: true, MarkdownDescription: "Created By Organization Country"},
 			"created_by_organization_registry_code": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Company registration code of the user's organization, if known"},
-			"created_by_organization_vat_code": schema.StringAttribute{
-				Computed: true, MarkdownDescription: "VAT code of the user's organization"},
 			"created_by_username": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters"},
 			"customer_slug": schema.StringAttribute{

@@ -88,14 +88,12 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 			},
 			"error_message": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Error Message"},
-			"has_api_keys": schema.BoolAttribute{
-				Computed: true, MarkdownDescription: "Whether the resource owns any API keys, so the portal can offer key management without knowing which backend serves the resource."},
 			"last_sync": schema.StringAttribute{
 				CustomType: timetypes.RFC3339Type{},
 				Computed:   true, MarkdownDescription: "Last Sync"},
 			"limit_usage": schema.MapAttribute{
 				ElementType: types.Float64Type,
-				Computed:    true, MarkdownDescription: "Dictionary mapping limit-based component types to their consumed usage. Sums the ComponentUsage rows of the component's current period (the monthly billing period unless the component defines a longer limit_period), i.e. the period's high-watermark rather than the instantaneous current_usages value."},
+				Computed:    true, MarkdownDescription: "Dictionary mapping limit-based component types to their consumed usage. For monthly periods, maps from current_usages; for longer periods, aggregates historical usage."},
 			"limits": schema.MapAttribute{
 				ElementType: types.Int64Type,
 				Computed:    true, MarkdownDescription: "Limits"},
@@ -301,14 +299,8 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 						Computed: true, MarkdownDescription: "Created By Full Name"},
 					"created_by_organization": schema.StringAttribute{
 						Computed: true, MarkdownDescription: "Created By Organization"},
-					"created_by_organization_address": schema.StringAttribute{
-						Computed: true, MarkdownDescription: "Postal address of the user's organization"},
-					"created_by_organization_country": schema.StringAttribute{
-						Computed: true, MarkdownDescription: "Created By Organization Country"},
 					"created_by_organization_registry_code": schema.StringAttribute{
 						Computed: true, MarkdownDescription: "Company registration code of the user's organization, if known"},
-					"created_by_organization_vat_code": schema.StringAttribute{
-						Computed: true, MarkdownDescription: "VAT code of the user's organization"},
 					"created_by_username": schema.StringAttribute{
 						Computed: true, MarkdownDescription: "Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters"},
 					"customer_slug": schema.StringAttribute{
@@ -469,7 +461,7 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 			"project_description": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Project Description"},
 			"project_effective_end_date": schema.StringAttribute{
-				Computed: true, MarkdownDescription: "Effective project end date including grace period. After this date, resources are terminated, except resources of offerings that disable the grace period — those are terminated on the raw project end date."},
+				Computed: true, MarkdownDescription: "Effective project end date including grace period. After this date, resources will be terminated."},
 			"project_end_date": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "The date is inclusive. Once reached, all project resource will be scheduled for termination."},
 			"project_end_date_requested_by": schema.StringAttribute{
@@ -500,8 +492,6 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 				},
 				Computed: true, MarkdownDescription: "Report",
 			},
-			"resource_effective_end_date": schema.StringAttribute{
-				Computed: true, MarkdownDescription: "The date this resource is scheduled to terminate: the earliest of its own end date and the project-driven termination date (the raw project end date if the offering disables the grace period, otherwise the effective with-grace end date)."},
 			"resource_type": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Resource Type"},
 			"resource_uuid": schema.StringAttribute{
@@ -519,8 +509,6 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 				Computed: true, MarkdownDescription: "State"},
 			"url": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Url"},
-			"usage_limit_restriction": schema.StringAttribute{
-				Computed: true, MarkdownDescription: "Which restriction (paused or downscaled) was automatically applied because reported usage reached a component limit. Empty when no such restriction is active. Used so the automatic lift never clears a restriction that was set for another reason."},
 			"user_requires_reconsent": schema.BoolAttribute{
 				Computed: true, MarkdownDescription: "Check if the current user needs to re-consent for this resource's offering."},
 			"username": schema.StringAttribute{

@@ -28,7 +28,6 @@ func NestedSecurityGroupRuleType() types.ObjectType {
 }
 func OpenStackAllowedAddressPairType() types.ObjectType {
 	return types.ObjectType{AttrTypes: map[string]attr.Type{
-		"ip_address":  types.StringType,
 		"mac_address": types.StringType,
 	}}
 }

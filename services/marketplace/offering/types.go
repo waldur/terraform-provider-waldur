@@ -36,8 +36,6 @@ type MarketplaceOfferingResponse struct {
 
 	DataciteDoi *string `json:"datacite_doi,omitempty" tfsdk:"datacite_doi"`
 
-	DefaultAccessSubnets *[]common.NestedOfferingAccessSubnet `json:"default_access_subnets,omitempty" tfsdk:"default_access_subnets"`
-
 	Description *string `json:"description,omitempty" tfsdk:"description"`
 
 	DocumentationUrl *string `json:"documentation_url,omitempty" tfsdk:"documentation_url"`
@@ -103,8 +101,6 @@ type MarketplaceOfferingResponse struct {
 	Project *string `json:"project,omitempty" tfsdk:"project"`
 
 	PromotionCampaigns *[]common.NestedCampaign `json:"promotion_campaigns,omitempty" tfsdk:"promotion_campaigns"`
-
-	QosProfiles *[]common.NestedQoS `json:"qos_profiles,omitempty" tfsdk:"qos_profiles"`
 
 	Quotas *[]common.Quota `json:"quotas,omitempty" tfsdk:"quotas"`
 
@@ -206,14 +202,6 @@ type MarketplaceOfferingComponentsResponse struct {
 	Uuid *string `json:"uuid,omitempty" tfsdk:"uuid"`
 }
 
-type MarketplaceOfferingDefaultAccessSubnetsResponse struct {
-	Description *string `json:"description,omitempty" tfsdk:"description"`
-
-	Inet *string `json:"inet,omitempty" tfsdk:"inet"`
-
-	Uuid *string `json:"uuid,omitempty" tfsdk:"uuid"`
-}
-
 type MarketplaceOfferingEndpointsResponse struct {
 	Name *string `json:"name,omitempty" tfsdk:"name"`
 
@@ -296,19 +284,7 @@ type MarketplaceOfferingPartitionsResponse struct {
 
 	Qos *string `json:"qos,omitempty" tfsdk:"qos"`
 
-	QosOptions *[]common.NestedPartitionQoS `json:"qos_options,omitempty" tfsdk:"qos_options"`
-
 	ReqResv *bool `json:"req_resv,omitempty" tfsdk:"req_resv"`
-
-	Uuid *string `json:"uuid,omitempty" tfsdk:"uuid"`
-}
-
-type MarketplaceOfferingPartitionsQosOptionsResponse struct {
-	IsDefault *bool `json:"is_default,omitempty" tfsdk:"is_default"`
-
-	Qos *string `json:"qos,omitempty" tfsdk:"qos"`
-
-	QosName *string `json:"qos_name,omitempty" tfsdk:"qos_name"`
 
 	Uuid *string `json:"uuid,omitempty" tfsdk:"uuid"`
 }
@@ -358,11 +334,13 @@ type MarketplaceOfferingPlansResponse struct {
 type MarketplaceOfferingPlansComponentsResponse struct {
 	Amount *int64 `json:"amount,omitempty" tfsdk:"amount"`
 
-	DiscountAggregation *string `json:"discount_aggregation,omitempty" tfsdk:"discount_aggregation"`
-
 	DiscountDescription *string `json:"discount_description,omitempty" tfsdk:"discount_description"`
 
-	DiscountFormula *string `json:"discount_formula,omitempty" tfsdk:"discount_formula"`
+	DiscountRate *int64 `json:"discount_rate,omitempty" tfsdk:"discount_rate"`
+
+	DiscountThreshold *int64 `json:"discount_threshold,omitempty" tfsdk:"discount_threshold"`
+
+	DiscountedPrice *string `json:"discounted_price,omitempty" tfsdk:"discounted_price"`
 
 	FuturePrice *string `json:"future_price,omitempty" tfsdk:"future_price"`
 
@@ -401,10 +379,6 @@ type MarketplaceOfferingPlansQuotasResponse struct {
 }
 
 type MarketplaceOfferingPluginOptionsResponse struct {
-	ActionOnUsageLimit *string `json:"action_on_usage_limit,omitempty" tfsdk:"action_on_usage_limit"`
-
-	AutoApproveForRoles *[]string `json:"auto_approve_for_roles,omitempty" tfsdk:"auto_approve_for_roles"`
-
 	AutoApproveInServiceProviderProjects *bool `json:"auto_approve_in_service_provider_projects,omitempty" tfsdk:"auto_approve_in_service_provider_projects"`
 
 	AutoApproveMarketplaceScript *bool `json:"auto_approve_marketplace_script,omitempty" tfsdk:"auto_approve_marketplace_script"`
@@ -415,13 +389,9 @@ type MarketplaceOfferingPluginOptionsResponse struct {
 
 	BackendIdDisplayLabel *string `json:"backend_id_display_label,omitempty" tfsdk:"backend_id_display_label"`
 
-	BillingSource *string `json:"billing_source,omitempty" tfsdk:"billing_source"`
-
 	CanRestoreResource *bool `json:"can_restore_resource,omitempty" tfsdk:"can_restore_resource"`
 
 	ConcealBillingData *bool `json:"conceal_billing_data,omitempty" tfsdk:"conceal_billing_data"`
-
-	ConcealSubnetRestrictedResources *bool `json:"conceal_subnet_restricted_resources,omitempty" tfsdk:"conceal_subnet_restricted_resources"`
 
 	CreateOrdersOnResourceOptionChange *bool `json:"create_orders_on_resource_option_change,omitempty" tfsdk:"create_orders_on_resource_option_change"`
 
@@ -435,37 +405,21 @@ type MarketplaceOfferingPluginOptionsResponse struct {
 
 	DisableAutoapprove *bool `json:"disable_autoapprove,omitempty" tfsdk:"disable_autoapprove"`
 
-	DisableGracePeriod *bool `json:"disable_grace_period,omitempty" tfsdk:"disable_grace_period"`
-
 	DisabledResourceActions *[]string `json:"disabled_resource_actions,omitempty" tfsdk:"disabled_resource_actions"`
-
-	EmitDisplayName *bool `json:"emit_display_name,omitempty" tfsdk:"emit_display_name"`
-
-	EmitWaldurUsername *bool `json:"emit_waldur_username,omitempty" tfsdk:"emit_waldur_username"`
 
 	EnableDisplayOfOrderActionsForServiceProvider *bool `json:"enable_display_of_order_actions_for_service_provider,omitempty" tfsdk:"enable_display_of_order_actions_for_service_provider"`
 
 	EnableIssuesForMembershipChanges *bool `json:"enable_issues_for_membership_changes,omitempty" tfsdk:"enable_issues_for_membership_changes"`
 
-	EnableMembershipSyncStatus *bool `json:"enable_membership_sync_status,omitempty" tfsdk:"enable_membership_sync_status"`
-
-	EnablePosixAccount *bool `json:"enable_posix_account,omitempty" tfsdk:"enable_posix_account"`
-
 	EnableProviderConsumerMessaging *bool `json:"enable_provider_consumer_messaging,omitempty" tfsdk:"enable_provider_consumer_messaging"`
 
 	EnablePurchaseOrderUpload *bool `json:"enable_purchase_order_upload,omitempty" tfsdk:"enable_purchase_order_upload"`
 
-	EnableResourceAccessSubnets *bool `json:"enable_resource_access_subnets,omitempty" tfsdk:"enable_resource_access_subnets"`
-
 	EnableResourceProjects *bool `json:"enable_resource_projects,omitempty" tfsdk:"enable_resource_projects"`
-
-	EnforceQos *bool `json:"enforce_qos,omitempty" tfsdk:"enforce_qos"`
 
 	ExposeInferencePlayground *bool `json:"expose_inference_playground,omitempty" tfsdk:"expose_inference_playground"`
 
 	FlavorsRegex *string `json:"flavors_regex,omitempty" tfsdk:"flavors_regex"`
-
-	GidSource *string `json:"gid_source,omitempty" tfsdk:"gid_source"`
 
 	HeappeClusterId *string `json:"heappe_cluster_id,omitempty" tfsdk:"heappe_cluster_id"`
 
@@ -479,13 +433,19 @@ type MarketplaceOfferingPluginOptionsResponse struct {
 
 	HomedirPrefix *string `json:"homedir_prefix,omitempty" tfsdk:"homedir_prefix"`
 
+	InitialPrimarygroupNumber *int64 `json:"initial_primarygroup_number,omitempty" tfsdk:"initial_primarygroup_number"`
+
+	InitialRolegroupNumber *int64 `json:"initial_rolegroup_number,omitempty" tfsdk:"initial_rolegroup_number"`
+
+	InitialUidnumber *int64 `json:"initial_uidnumber,omitempty" tfsdk:"initial_uidnumber"`
+
+	InitialUsergroupNumber *int64 `json:"initial_usergroup_number,omitempty" tfsdk:"initial_usergroup_number"`
+
 	IsResourceTerminationDateRequired *bool `json:"is_resource_termination_date_required,omitempty" tfsdk:"is_resource_termination_date_required"`
 
 	LatestDateForResourceTermination *string `json:"latest_date_for_resource_termination,omitempty" tfsdk:"latest_date_for_resource_termination"`
 
 	LbaasEnabled *bool `json:"lbaas_enabled,omitempty" tfsdk:"lbaas_enabled"`
-
-	LoginShell *string `json:"login_shell,omitempty" tfsdk:"login_shell"`
 
 	ManagedRancherLoadBalancerDataVolumeSizeGb *int64 `json:"managed_rancher_load_balancer_data_volume_size_gb,omitempty" tfsdk:"managed_rancher_load_balancer_data_volume_size_gb"`
 
@@ -551,8 +511,6 @@ type MarketplaceOfferingPluginOptionsResponse struct {
 
 	ResourceProjectRoleMap map[string]string `json:"resource_project_role_map,omitempty" tfsdk:"resource_project_role_map"`
 
-	ResourceProjectsLimitPolicy *string `json:"resource_projects_limit_policy,omitempty" tfsdk:"resource_projects_limit_policy"`
-
 	ResourceProjectsLimitsRequired *bool `json:"resource_projects_limits_required,omitempty" tfsdk:"resource_projects_limits_required"`
 
 	ResourceRoleGroupTemplate *string `json:"resource_role_group_template,omitempty" tfsdk:"resource_role_group_template"`
@@ -564,8 +522,6 @@ type MarketplaceOfferingPluginOptionsResponse struct {
 	ResourceSlugTemplate *string `json:"resource_slug_template,omitempty" tfsdk:"resource_slug_template"`
 
 	RestrictDeletionWithActiveResources *bool `json:"restrict_deletion_with_active_resources,omitempty" tfsdk:"restrict_deletion_with_active_resources"`
-
-	RestrictedToRoles *[]string `json:"restricted_to_roles,omitempty" tfsdk:"restricted_to_roles"`
 
 	ScratchProjectDirectory *string `json:"scratch_project_directory,omitempty" tfsdk:"scratch_project_directory"`
 
@@ -580,8 +536,6 @@ type MarketplaceOfferingPluginOptionsResponse struct {
 	SupportsDownscaling *bool `json:"supports_downscaling,omitempty" tfsdk:"supports_downscaling"`
 
 	SupportsPausing *bool `json:"supports_pausing,omitempty" tfsdk:"supports_pausing"`
-
-	UidSource *string `json:"uid_source,omitempty" tfsdk:"uid_source"`
 
 	UniqueResourcePerAttribute *string `json:"unique_resource_per_attribute,omitempty" tfsdk:"unique_resource_per_attribute"`
 
@@ -616,38 +570,6 @@ type MarketplaceOfferingPromotionCampaignsResponse struct {
 	StartDate *string `json:"start_date,omitempty" tfsdk:"start_date"`
 
 	Stock *int64 `json:"stock,omitempty" tfsdk:"stock"`
-
-	Uuid *string `json:"uuid,omitempty" tfsdk:"uuid"`
-}
-
-type MarketplaceOfferingQosProfilesResponse struct {
-	DefaultTime *int64 `json:"default_time,omitempty" tfsdk:"default_time"`
-
-	Description *string `json:"description,omitempty" tfsdk:"description"`
-
-	Flags *string `json:"flags,omitempty" tfsdk:"flags"`
-
-	GraceTime *int64 `json:"grace_time,omitempty" tfsdk:"grace_time"`
-
-	GrpTres *string `json:"grp_tres,omitempty" tfsdk:"grp_tres"`
-
-	MaxNodes *int64 `json:"max_nodes,omitempty" tfsdk:"max_nodes"`
-
-	MaxTime *int64 `json:"max_time,omitempty" tfsdk:"max_time"`
-
-	MaxTresPerJob *string `json:"max_tres_per_job,omitempty" tfsdk:"max_tres_per_job"`
-
-	MaxTresPerNode *string `json:"max_tres_per_node,omitempty" tfsdk:"max_tres_per_node"`
-
-	MaxTresPerUser *string `json:"max_tres_per_user,omitempty" tfsdk:"max_tres_per_user"`
-
-	MinNodes *int64 `json:"min_nodes,omitempty" tfsdk:"min_nodes"`
-
-	MinTresPerJob *string `json:"min_tres_per_job,omitempty" tfsdk:"min_tres_per_job"`
-
-	Name *string `json:"name,omitempty" tfsdk:"name"`
-
-	Priority *int64 `json:"priority,omitempty" tfsdk:"priority"`
 
 	Uuid *string `json:"uuid,omitempty" tfsdk:"uuid"`
 }
