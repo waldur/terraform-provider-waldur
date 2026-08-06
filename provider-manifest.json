@@ -749,6 +749,13 @@
           "computed": false
         },
         {
+          "name": "open_for_proposals",
+          "type": "types.Bool",
+          "required": false,
+          "optional": true,
+          "computed": false
+        },
+        {
           "name": "options",
           "type": "types.Object",
           "required": false,

@@ -54,6 +54,7 @@ Marketplace Offering data source - lookup by name or UUID
 - `offering_group` (String) Offering Group
 - `offering_group_title` (String) Offering Group Title
 - `offering_group_uuid` (String) Offering Group Uuid
+- `open_for_proposals` (Boolean) Open For Proposals
 - `options` (Attributes) Options (see [below for nested schema](#nestedatt--options))
 - `order_count` (Number) Order Count
 - `organization_groups` (Attributes List) Organization Groups (see [below for nested schema](#nestedatt--organization_groups))
@@ -98,13 +99,14 @@ Marketplace Offering data source - lookup by name or UUID
 Optional:
 
 - `accessible` (Boolean) Only offerings the current user can order
-- `accessible_via_calls` (Boolean) Accessible via calls
+- `accessible_via_calls` (Boolean) Deprecated: offerings accepted on an active call, regardless of whether a proposal can actually be submitted for them. Use open_for_proposals instead.
 - `allowed_customer_uuid` (String) Allowed customer UUID
 - `attributes` (String) Offering attributes (JSON)
 - `billable` (Boolean) Billable
 - `can_create_offering_user` (Boolean) Can create offering user
 - `category_group_uuid` (String) Category group UUID
 - `category_uuid` (String) Category UUID
+- `consumer_customer_uuid` (String) Consumer customer UUID
 - `created` (String) Created after
 - `created_before` (String) Created before
 - `customer` (String) Customer URL
@@ -118,6 +120,7 @@ Optional:
 - `name` (String) Name
 - `name_exact` (String) Name (exact)
 - `offering_group_uuid` (String) Offering group UUID
+- `open_for_proposals` (Boolean) Offerings that can be requested through a call right now: accepted on an active call with a round that is open, and covered by a resource template when the call defines any.
 - `organization_group_uuid` (String) Organization group UUID
 - `parent_uuid` (String) Parent offering UUID
 - `project_uuid` (String) Project UUID

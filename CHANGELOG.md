@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-08-06
+
+### Added
+
+- `marketplace_offering`: new attribute `open_for_proposals`
+
 ## 2026-08-03
 
 ### ⚠️ Breaking changes

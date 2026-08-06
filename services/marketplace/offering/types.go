@@ -74,6 +74,8 @@ type MarketplaceOfferingResponse struct {
 
 	OfferingGroupUuid *string `json:"offering_group_uuid,omitempty" tfsdk:"offering_group_uuid"`
 
+	OpenForProposals *bool `json:"open_for_proposals,omitempty" tfsdk:"open_for_proposals"`
+
 	Options *MarketplaceOfferingOptionsResponse `json:"options,omitempty" tfsdk:"options"`
 
 	OrderCount *int64 `json:"order_count,omitempty" tfsdk:"order_count"`

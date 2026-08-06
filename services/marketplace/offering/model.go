@@ -20,6 +20,7 @@ type MarketplaceOfferingFiltersModel struct {
 	CanCreateOfferingUser   types.Bool   `tfsdk:"can_create_offering_user"`
 	CategoryGroupUuid       types.String `tfsdk:"category_group_uuid"`
 	CategoryUuid            types.String `tfsdk:"category_uuid"`
+	ConsumerCustomerUuid    types.String `tfsdk:"consumer_customer_uuid"`
 	Created                 types.String `tfsdk:"created"`
 	CreatedBefore           types.String `tfsdk:"created_before"`
 	Customer                types.String `tfsdk:"customer"`
@@ -33,6 +34,7 @@ type MarketplaceOfferingFiltersModel struct {
 	Name                    types.String `tfsdk:"name"`
 	NameExact               types.String `tfsdk:"name_exact"`
 	OfferingGroupUuid       types.String `tfsdk:"offering_group_uuid"`
+	OpenForProposals        types.Bool   `tfsdk:"open_for_proposals"`
 	OrganizationGroupUuid   types.String `tfsdk:"organization_group_uuid"`
 	ParentUuid              types.String `tfsdk:"parent_uuid"`
 	ProjectUuid             types.String `tfsdk:"project_uuid"`
@@ -61,7 +63,7 @@ func (m *MarketplaceOfferingFiltersModel) GetSchema() schema.SingleNestedAttribu
 			},
 			"accessible_via_calls": schema.BoolAttribute{
 				Optional:            true,
-				MarkdownDescription: "Accessible via calls",
+				MarkdownDescription: "Deprecated: offerings accepted on an active call, regardless of whether a proposal can actually be submitted for them. Use open_for_proposals instead.",
 			},
 			"allowed_customer_uuid": schema.StringAttribute{
 				Optional:            true,
@@ -86,6 +88,10 @@ func (m *MarketplaceOfferingFiltersModel) GetSchema() schema.SingleNestedAttribu
 			"category_uuid": schema.StringAttribute{
 				Optional:            true,
 				MarkdownDescription: "Category UUID",
+			},
+			"consumer_customer_uuid": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Consumer customer UUID",
 			},
 			"created": schema.StringAttribute{
 				Optional:            true,
@@ -138,6 +144,10 @@ func (m *MarketplaceOfferingFiltersModel) GetSchema() schema.SingleNestedAttribu
 			"offering_group_uuid": schema.StringAttribute{
 				Optional:            true,
 				MarkdownDescription: "Offering group UUID",
+			},
+			"open_for_proposals": schema.BoolAttribute{
+				Optional:            true,
+				MarkdownDescription: "Offerings that can be requested through a call right now: accepted on an active call with a round that is open, and covered by a resource template when the call defines any.",
 			},
 			"organization_group_uuid": schema.StringAttribute{
 				Optional:            true,
@@ -237,6 +247,7 @@ type MarketplaceOfferingModel struct {
 	OfferingGroup             types.String `tfsdk:"offering_group"`
 	OfferingGroupTitle        types.String `tfsdk:"offering_group_title"`
 	OfferingGroupUuid         types.String `tfsdk:"offering_group_uuid"`
+	OpenForProposals          types.Bool   `tfsdk:"open_for_proposals"`
 	Options                   types.Object `tfsdk:"options"`
 	OrderCount                types.Int64  `tfsdk:"order_count"`
 	OrganizationGroups        types.List   `tfsdk:"organization_groups"`
@@ -457,6 +468,8 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 	model.OfferingGroupTitle = common.StringPointerValue(apiResp.OfferingGroupTitle)
 
 	model.OfferingGroupUuid = common.StringPointerValue(apiResp.OfferingGroupUuid)
+
+	model.OpenForProposals = types.BoolPointerValue(apiResp.OpenForProposals)
 
 	if apiResp.Options != nil {
 		valOptions, diagsOptions := types.ObjectValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{

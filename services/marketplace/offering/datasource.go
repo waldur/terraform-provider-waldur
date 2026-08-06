@@ -254,6 +254,8 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 				Computed: true, MarkdownDescription: "Offering Group Title"},
 			"offering_group_uuid": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Offering Group Uuid"},
+			"open_for_proposals": schema.BoolAttribute{
+				Computed: true, MarkdownDescription: "Open For Proposals"},
 			"options": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
 					"options": schema.MapAttribute{
