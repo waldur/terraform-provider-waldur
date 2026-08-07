@@ -209,6 +209,7 @@ Read-Only:
 - `category_icon` (String) Category Icon
 - `category_uuid` (String) Category Uuid
 - `completed_at` (String) Completed At
+- `consumer_message_updated_at` (String) Consumer Message Updated At
 - `consumer_rejection_comment` (String) Consumer Rejection Comment
 - `consumer_reviewed_at` (String) Consumer Reviewed At
 - `consumer_reviewed_by` (String) Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters
@@ -254,6 +255,7 @@ Read-Only:
 - `project_description` (String) Project Description
 - `project_slug` (String) Project Slug
 - `provider_description` (String) Provider Description
+- `provider_message_updated_at` (String) Provider Message Updated At
 - `provider_name` (String) Provider Name
 - `provider_rejection_comment` (String) Provider Rejection Comment
 - `provider_reviewed_at` (String) Provider Reviewed At

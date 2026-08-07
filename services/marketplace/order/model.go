@@ -147,6 +147,7 @@ type MarketplaceOrderModel struct {
 	CompletedAt                       timetypes.RFC3339 `tfsdk:"completed_at"`
 	ConsumerMessage                   types.String      `tfsdk:"consumer_message"`
 	ConsumerMessageAttachment         types.String      `tfsdk:"consumer_message_attachment"`
+	ConsumerMessageUpdatedAt          timetypes.RFC3339 `tfsdk:"consumer_message_updated_at"`
 	ConsumerRejectionComment          types.String      `tfsdk:"consumer_rejection_comment"`
 	ConsumerReviewedAt                timetypes.RFC3339 `tfsdk:"consumer_reviewed_at"`
 	ConsumerReviewedBy                types.String      `tfsdk:"consumer_reviewed_by"`
@@ -197,6 +198,7 @@ type MarketplaceOrderModel struct {
 	ProviderDescription               types.String      `tfsdk:"provider_description"`
 	ProviderMessage                   types.String      `tfsdk:"provider_message"`
 	ProviderMessageAttachment         types.String      `tfsdk:"provider_message_attachment"`
+	ProviderMessageUpdatedAt          timetypes.RFC3339 `tfsdk:"provider_message_updated_at"`
 	ProviderMessageUrl                types.String      `tfsdk:"provider_message_url"`
 	ProviderName                      types.String      `tfsdk:"provider_name"`
 	ProviderRejectionComment          types.String      `tfsdk:"provider_rejection_comment"`
@@ -259,6 +261,10 @@ func (model *MarketplaceOrderModel) CopyFrom(ctx context.Context, apiResp Market
 	model.ConsumerMessage = common.StringPointerValue(apiResp.ConsumerMessage)
 
 	model.ConsumerMessageAttachment = common.StringPointerValue(apiResp.ConsumerMessageAttachment)
+
+	valConsumerMessageUpdatedAt, diagsConsumerMessageUpdatedAt := timetypes.NewRFC3339PointerValue(apiResp.ConsumerMessageUpdatedAt)
+	diags.Append(diagsConsumerMessageUpdatedAt...)
+	model.ConsumerMessageUpdatedAt = valConsumerMessageUpdatedAt
 
 	model.ConsumerRejectionComment = common.StringPointerValue(apiResp.ConsumerRejectionComment)
 
@@ -383,6 +389,10 @@ func (model *MarketplaceOrderModel) CopyFrom(ctx context.Context, apiResp Market
 	model.ProviderMessage = common.StringPointerValue(apiResp.ProviderMessage)
 
 	model.ProviderMessageAttachment = common.StringPointerValue(apiResp.ProviderMessageAttachment)
+
+	valProviderMessageUpdatedAt, diagsProviderMessageUpdatedAt := timetypes.NewRFC3339PointerValue(apiResp.ProviderMessageUpdatedAt)
+	diags.Append(diagsProviderMessageUpdatedAt...)
+	model.ProviderMessageUpdatedAt = valProviderMessageUpdatedAt
 
 	model.ProviderMessageUrl = common.StringPointerValue(apiResp.ProviderMessageUrl)
 

@@ -631,6 +631,13 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 
 							stringplanmodifier.UseStateForUnknown(),
 						}, MarkdownDescription: "Consumer Message Attachment"},
+					"consumer_message_updated_at": schema.StringAttribute{
+						CustomType: timetypes.RFC3339Type{},
+						Computed:   true,
+						PlanModifiers: []planmodifier.String{
+
+							stringplanmodifier.UseStateForUnknown(),
+						}, MarkdownDescription: "Consumer Message Updated At"},
 					"consumer_rejection_comment": schema.StringAttribute{
 						Computed: true,
 						PlanModifiers: []planmodifier.String{
@@ -962,6 +969,13 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 
 							stringplanmodifier.UseStateForUnknown(),
 						}, MarkdownDescription: "Provider Message Attachment"},
+					"provider_message_updated_at": schema.StringAttribute{
+						CustomType: timetypes.RFC3339Type{},
+						Computed:   true,
+						PlanModifiers: []planmodifier.String{
+
+							stringplanmodifier.UseStateForUnknown(),
+						}, MarkdownDescription: "Provider Message Updated At"},
 					"provider_message_url": schema.StringAttribute{
 						Optional: true,
 						Computed: true,

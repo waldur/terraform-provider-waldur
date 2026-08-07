@@ -1,5 +1,14 @@
 # Changelog
 
+## 2026-08-07
+
+### Added
+
+- `marketplace_order`: new attribute `consumer_message_updated_at`
+- `marketplace_order`: new attribute `provider_message_updated_at`
+- `marketplace_resource`: new attribute `order_in_progress.consumer_message_updated_at`
+- `marketplace_resource`: new attribute `order_in_progress.provider_message_updated_at`
+
 ## 2026-08-06
 
 ### Added

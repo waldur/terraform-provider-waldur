@@ -36,6 +36,7 @@ Marketplace Order data source - lookup by name or UUID
 - `completed_at` (String) Completed At
 - `consumer_message` (String) Consumer Message
 - `consumer_message_attachment` (String) Consumer Message Attachment
+- `consumer_message_updated_at` (String) Consumer Message Updated At
 - `consumer_rejection_comment` (String) Consumer Rejection Comment
 - `consumer_reviewed_at` (String) Consumer Reviewed At
 - `consumer_reviewed_by` (String) Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters
@@ -86,6 +87,7 @@ Marketplace Order data source - lookup by name or UUID
 - `provider_description` (String) Provider Description
 - `provider_message` (String) Provider Message
 - `provider_message_attachment` (String) Provider Message Attachment
+- `provider_message_updated_at` (String) Provider Message Updated At
 - `provider_message_url` (String) Provider Message Url
 - `provider_name` (String) Provider Name
 - `provider_rejection_comment` (String) Provider Rejection Comment

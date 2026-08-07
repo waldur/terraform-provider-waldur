@@ -277,6 +277,9 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 						Computed: true, MarkdownDescription: "Consumer Message"},
 					"consumer_message_attachment": schema.StringAttribute{
 						Computed: true, MarkdownDescription: "Consumer Message Attachment"},
+					"consumer_message_updated_at": schema.StringAttribute{
+						CustomType: timetypes.RFC3339Type{},
+						Computed:   true, MarkdownDescription: "Consumer Message Updated At"},
 					"consumer_rejection_comment": schema.StringAttribute{
 						Computed: true, MarkdownDescription: "Consumer Rejection Comment"},
 					"consumer_reviewed_at": schema.StringAttribute{
@@ -395,6 +398,9 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 						Computed: true, MarkdownDescription: "Provider Message"},
 					"provider_message_attachment": schema.StringAttribute{
 						Computed: true, MarkdownDescription: "Provider Message Attachment"},
+					"provider_message_updated_at": schema.StringAttribute{
+						CustomType: timetypes.RFC3339Type{},
+						Computed:   true, MarkdownDescription: "Provider Message Updated At"},
 					"provider_message_url": schema.StringAttribute{
 						Computed: true, MarkdownDescription: "Provider Message Url"},
 					"provider_name": schema.StringAttribute{

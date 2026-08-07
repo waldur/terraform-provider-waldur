@@ -2706,6 +2706,13 @@
           "computed": true
         },
         {
+          "name": "consumer_message_updated_at",
+          "type": "types.String",
+          "required": false,
+          "optional": true,
+          "computed": false
+        },
+        {
           "name": "consumer_rejection_comment",
           "type": "types.String",
           "required": false,
@@ -3077,6 +3084,13 @@
           "required": false,
           "optional": false,
           "computed": true
+        },
+        {
+          "name": "provider_message_updated_at",
+          "type": "types.String",
+          "required": false,
+          "optional": true,
+          "computed": false
         },
         {
           "name": "provider_message_url",
@@ -3760,6 +3774,13 @@
               "computed": true
             },
             {
+              "name": "consumer_message_updated_at",
+              "type": "types.String",
+              "required": false,
+              "optional": true,
+              "computed": false
+            },
+            {
               "name": "consumer_rejection_comment",
               "type": "types.String",
               "required": false,
@@ -4124,6 +4145,13 @@
               "required": false,
               "optional": false,
               "computed": true
+            },
+            {
+              "name": "provider_message_updated_at",
+              "type": "types.String",
+              "required": false,
+              "optional": true,
+              "computed": false
             },
             {
               "name": "provider_message_url",

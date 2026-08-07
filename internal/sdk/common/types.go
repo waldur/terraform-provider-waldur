@@ -710,6 +710,8 @@ type OrderDetails struct {
 
 	ConsumerMessageAttachment *string `json:"consumer_message_attachment,omitempty" tfsdk:"consumer_message_attachment"`
 
+	ConsumerMessageUpdatedAt *string `json:"consumer_message_updated_at,omitempty" tfsdk:"consumer_message_updated_at"`
+
 	ConsumerRejectionComment *string `json:"consumer_rejection_comment,omitempty" tfsdk:"consumer_rejection_comment"`
 
 	ConsumerReviewedAt *string `json:"consumer_reviewed_at,omitempty" tfsdk:"consumer_reviewed_at"`
@@ -809,6 +811,8 @@ type OrderDetails struct {
 	ProviderMessage *string `json:"provider_message,omitempty" tfsdk:"provider_message"`
 
 	ProviderMessageAttachment *string `json:"provider_message_attachment,omitempty" tfsdk:"provider_message_attachment"`
+
+	ProviderMessageUpdatedAt *string `json:"provider_message_updated_at,omitempty" tfsdk:"provider_message_updated_at"`
 
 	ProviderMessageUrl *string `json:"provider_message_url,omitempty" tfsdk:"provider_message_url"`
 
