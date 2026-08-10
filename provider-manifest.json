@@ -1547,6 +1547,13 @@
               "computed": false
             },
             {
+              "name": "enable_resource_end_date_change_requests",
+              "type": "types.Bool",
+              "required": false,
+              "optional": true,
+              "computed": false
+            },
+            {
               "name": "enable_resource_projects",
               "type": "types.Bool",
               "required": false,

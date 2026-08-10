@@ -459,6 +459,8 @@ type MarketplaceOfferingPluginOptionsResponse struct {
 
 	EnableResourceAccessSubnets *bool `json:"enable_resource_access_subnets,omitempty" tfsdk:"enable_resource_access_subnets"`
 
+	EnableResourceEndDateChangeRequests *bool `json:"enable_resource_end_date_change_requests,omitempty" tfsdk:"enable_resource_end_date_change_requests"`
+
 	EnableResourceProjects *bool `json:"enable_resource_projects,omitempty" tfsdk:"enable_resource_projects"`
 
 	EnforceQos *bool `json:"enforce_qos,omitempty" tfsdk:"enforce_qos"`

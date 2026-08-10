@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-08-10
+
+### Added
+
+- `marketplace_offering`: new attribute `plugin_options.enable_resource_end_date_change_requests`
+
 ## 2026-08-07
 
 ### Added

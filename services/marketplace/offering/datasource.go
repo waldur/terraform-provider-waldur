@@ -600,6 +600,8 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 						Computed: true, MarkdownDescription: "If set to True, users will be able to upload purchase orders."},
 					"enable_resource_access_subnets": schema.BoolAttribute{
 						Computed: true, MarkdownDescription: "If set to True, an Access subnets tab is shown on resource detail pages, letting consumers curate the IPs allowed to reach the backend entity. The list is advisory data for external firewalls."},
+					"enable_resource_end_date_change_requests": schema.BoolAttribute{
+						Computed: true, MarkdownDescription: "If set to True, users without RESOURCE.SET_END_DATE can request an end date change, and holders of that permission approve or reject. Approval writes the date directly; no order is created. Requests are published as events so an external approval system can decide instead. Not applicable to prepaid offerings, which extend through renewal instead."},
 					"enable_resource_projects": schema.BoolAttribute{
 						Computed: true, MarkdownDescription: "Enable sub-project management within resources."},
 					"enforce_qos": schema.BoolAttribute{
