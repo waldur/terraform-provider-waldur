@@ -501,8 +501,8 @@ Read-Only:
 Read-Only:
 
 - `catalog` (Attributes) Catalog (see [below for nested schema](#nestedatt--software_catalogs--catalog))
-- `enabled_cpu_family` (Map of String) List of enabled CPU families: ['x86_64', 'aarch64']
-- `enabled_cpu_microarchitectures` (Map of String) List of enabled CPU microarchitectures: ['generic', 'zen3']
+- `enabled_cpu_family` (List of String) List of enabled CPU families: ['x86_64', 'aarch64']
+- `enabled_cpu_microarchitectures` (List of String) List of enabled CPU microarchitectures: ['generic', 'zen3']
 - `package_count` (Number) Package Count
 - `partition` (Attributes) Partition (see [below for nested schema](#nestedatt--software_catalogs--partition))
 - `uuid` (String) Uuid

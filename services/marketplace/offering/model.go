@@ -1025,8 +1025,8 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 				"uuid":        types.StringType,
 				"version":     types.StringType,
 			}},
-			"enabled_cpu_family":             types.MapType{ElemType: types.StringType},
-			"enabled_cpu_microarchitectures": types.MapType{ElemType: types.StringType},
+			"enabled_cpu_family":             types.ListType{ElemType: types.StringType},
+			"enabled_cpu_microarchitectures": types.ListType{ElemType: types.StringType},
 			"package_count":                  types.Int64Type,
 			"partition": types.ObjectType{AttrTypes: map[string]attr.Type{
 				"cpu_arch":       types.StringType,
@@ -1048,8 +1048,8 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 				"uuid":        types.StringType,
 				"version":     types.StringType,
 			}},
-			"enabled_cpu_family":             types.MapType{ElemType: types.StringType},
-			"enabled_cpu_microarchitectures": types.MapType{ElemType: types.StringType},
+			"enabled_cpu_family":             types.ListType{ElemType: types.StringType},
+			"enabled_cpu_microarchitectures": types.ListType{ElemType: types.StringType},
 			"package_count":                  types.Int64Type,
 			"partition": types.ObjectType{AttrTypes: map[string]attr.Type{
 				"cpu_arch":       types.StringType,

@@ -957,10 +957,10 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 							},
 							Computed: true, MarkdownDescription: "Catalog",
 						},
-						"enabled_cpu_family": schema.MapAttribute{
+						"enabled_cpu_family": schema.ListAttribute{
 							ElementType: types.StringType,
 							Computed:    true, MarkdownDescription: "List of enabled CPU families: ['x86_64', 'aarch64']"},
-						"enabled_cpu_microarchitectures": schema.MapAttribute{
+						"enabled_cpu_microarchitectures": schema.ListAttribute{
 							ElementType: types.StringType,
 							Computed:    true, MarkdownDescription: "List of enabled CPU microarchitectures: ['generic', 'zen3']"},
 						"package_count": schema.Int64Attribute{

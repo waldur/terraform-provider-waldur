@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-08-11
+
+### ⚠️ Breaking changes
+
+- `marketplace_offering`: attribute `software_catalogs.enabled_cpu_family` type changed from `types.Map` to `types.List<string>`
+- `marketplace_offering`: attribute `software_catalogs.enabled_cpu_microarchitectures` type changed from `types.Map` to `types.List<string>`
+
 ## 2026-08-10
 
 ### Added

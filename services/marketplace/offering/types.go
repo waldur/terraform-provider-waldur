@@ -688,9 +688,9 @@ type MarketplaceOfferingScreenshotsResponse struct {
 type MarketplaceOfferingSoftwareCatalogsResponse struct {
 	Catalog *MarketplaceOfferingSoftwareCatalogsCatalogResponse `json:"catalog,omitempty" tfsdk:"catalog"`
 
-	EnabledCpuFamily map[string]interface{} `json:"enabled_cpu_family,omitempty" tfsdk:"enabled_cpu_family"`
+	EnabledCpuFamily *[]string `json:"enabled_cpu_family,omitempty" tfsdk:"enabled_cpu_family"`
 
-	EnabledCpuMicroarchitectures map[string]interface{} `json:"enabled_cpu_microarchitectures,omitempty" tfsdk:"enabled_cpu_microarchitectures"`
+	EnabledCpuMicroarchitectures *[]string `json:"enabled_cpu_microarchitectures,omitempty" tfsdk:"enabled_cpu_microarchitectures"`
 
 	PackageCount *int64 `json:"package_count,omitempty" tfsdk:"package_count"`
 
@@ -707,12 +707,6 @@ type MarketplaceOfferingSoftwareCatalogsCatalogResponse struct {
 	Uuid *string `json:"uuid,omitempty" tfsdk:"uuid"`
 
 	Version *string `json:"version,omitempty" tfsdk:"version"`
-}
-
-type MarketplaceOfferingSoftwareCatalogsEnabledCpuFamilyResponse struct {
-}
-
-type MarketplaceOfferingSoftwareCatalogsEnabledCpuMicroarchitecturesResponse struct {
 }
 
 type MarketplaceOfferingSoftwareCatalogsPartitionResponse struct {

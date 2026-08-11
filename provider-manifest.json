@@ -2437,14 +2437,14 @@
             },
             {
               "name": "enabled_cpu_family",
-              "type": "types.Map",
+              "type": "types.List\u003cstring\u003e",
               "required": false,
               "optional": true,
               "computed": false
             },
             {
               "name": "enabled_cpu_microarchitectures",
-              "type": "types.Map",
+              "type": "types.List\u003cstring\u003e",
               "required": false,
               "optional": true,
               "computed": false
