@@ -575,6 +575,8 @@ type MarketplaceOfferingPluginOptionsResponse struct {
 
 	ServiceProviderCanCreateOfferingUser *bool `json:"service_provider_can_create_offering_user,omitempty" tfsdk:"service_provider_can_create_offering_user"`
 
+	ShowSshKeyLossWarning *bool `json:"show_ssh_key_loss_warning,omitempty" tfsdk:"show_ssh_key_loss_warning"`
+
 	SlurmPeriodicPolicyEnabled *bool `json:"slurm_periodic_policy_enabled,omitempty" tfsdk:"slurm_periodic_policy_enabled"`
 
 	SnapshotSizeLimitGb *int64 `json:"snapshot_size_limit_gb,omitempty" tfsdk:"snapshot_size_limit_gb"`

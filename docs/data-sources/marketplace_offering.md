@@ -413,6 +413,7 @@ Read-Only:
 - `restricted_to_roles` (List of String) List of project or organization role names (e.g. 'PROJECT.MANAGER') allowed to view and order this offering. When set, the offering is hidden from the catalog for other users and they cannot create orders for it. Whether their orders skip consumer review still depends on the role having the order-approval permission.
 - `scratch_project_directory` (String) HEAppE scratch project directory
 - `service_provider_can_create_offering_user` (Boolean) Service provider can create offering user
+- `show_ssh_key_loss_warning` (Boolean) Show a warning about unrecoverable loss of the SSH private key on the OpenStack instance order form.
 - `slurm_periodic_policy_enabled` (Boolean) Enable SLURM periodic usage policy configuration. When enabled, allows configuring QoS-based threshold enforcement, carryover logic, and fairshare decay for site-agent managed SLURM offerings.
 - `snapshot_size_limit_gb` (Number) Default limit for snapshot size in GB
 - `storage_mode` (String) Storage mode for OpenStack offering

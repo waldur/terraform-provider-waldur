@@ -739,6 +739,8 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 						Computed: true, MarkdownDescription: "HEAppE scratch project directory"},
 					"service_provider_can_create_offering_user": schema.BoolAttribute{
 						Computed: true, MarkdownDescription: "Service provider can create offering user"},
+					"show_ssh_key_loss_warning": schema.BoolAttribute{
+						Computed: true, MarkdownDescription: "Show a warning about unrecoverable loss of the SSH private key on the OpenStack instance order form."},
 					"slurm_periodic_policy_enabled": schema.BoolAttribute{
 						Computed: true, MarkdownDescription: "Enable SLURM periodic usage policy configuration. When enabled, allows configuring QoS-based threshold enforcement, carryover logic, and fairshare decay for site-agent managed SLURM offerings."},
 					"snapshot_size_limit_gb": schema.Int64Attribute{

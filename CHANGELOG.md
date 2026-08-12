@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-08-12
+
+### Added
+
+- `marketplace_offering`: new attribute `plugin_options.show_ssh_key_loss_warning`
+
 ## 2026-08-11
 
 ### ⚠️ Breaking changes

@@ -1953,6 +1953,13 @@
               "computed": false
             },
             {
+              "name": "show_ssh_key_loss_warning",
+              "type": "types.Bool",
+              "required": false,
+              "optional": true,
+              "computed": false
+            },
+            {
               "name": "slurm_periodic_policy_enabled",
               "type": "types.Bool",
               "required": false,
