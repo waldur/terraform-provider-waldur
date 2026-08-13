@@ -709,10 +709,6 @@ func (r *MarketplaceOrderResource) Create(ctx context.Context, req resource.Crea
 
 		requestBody.StartDate = data.StartDate.ValueStringPointer()
 	}
-	if !data.Type.IsNull() && !data.Type.IsUnknown() {
-
-		requestBody.Type = data.Type.ValueStringPointer()
-	}
 	resp.Diagnostics.Append(common.PopulateOptionalMapField(ctx, data.Attributes, &requestBody.Attributes)...)
 	resp.Diagnostics.Append(common.PopulateOptionalMapField(ctx, data.Limits, &requestBody.Limits)...)
 

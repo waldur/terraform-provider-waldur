@@ -24,8 +24,6 @@ type MarketplaceOrderCreateRequest struct {
 	Slug *string `json:"slug,omitempty" tfsdk:"slug"`
 
 	StartDate *string `json:"start_date,omitempty" tfsdk:"start_date"`
-
-	Type *string `json:"type,omitempty" tfsdk:"type"`
 }
 
 type MarketplaceOrderCreateAttributesRequest struct {
