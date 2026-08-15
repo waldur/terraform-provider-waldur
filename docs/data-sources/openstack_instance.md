@@ -61,7 +61,7 @@ Openstack Instance data source - lookup by name or UUID
 - `tenant` (String) The OpenStack tenant to create the instance in
 - `tenant_uuid` (String) UUID of the OpenStack tenant
 - `url` (String) Url
-- `user_data` (String) Additional data that will be added to instance on provisioning
+- `user_data` (String) Cloud-init user data passed to the instance on provisioning. SECURITY: this value is stored and transmitted in plain text — it is kept unencrypted in Waldur's database, forwarded to OpenStack where any process on the instance can read it via the metadata service, and it may appear in logs. Do NOT put unencrypted secrets (passwords, private keys, API tokens) here; reference a secrets manager or inject them through an encrypted channel instead.
 - `volumes` (Attributes List) List of volumes attached to the instance (see [below for nested schema](#nestedatt--volumes))
 
 <a id="nestedatt--filters"></a>
@@ -145,6 +145,7 @@ Read-Only:
 
 Read-Only:
 
+- `ip_address` (String) Ip Address
 - `mac_address` (String) Mac Address
 
 

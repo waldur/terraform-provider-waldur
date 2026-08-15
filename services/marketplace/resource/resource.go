@@ -175,6 +175,12 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 
 					stringplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "Error Message"},
+			"has_api_keys": schema.BoolAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.Bool{
+
+					boolplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Whether the resource owns any API keys, so the portal can offer key management without knowing which backend serves the resource."},
 			"last_sync": schema.StringAttribute{
 				CustomType: timetypes.RFC3339Type{},
 				Computed:   true,
@@ -188,7 +194,7 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 				PlanModifiers: []planmodifier.Map{
 
 					mapplanmodifier.UseStateForUnknown(),
-				}, MarkdownDescription: "Dictionary mapping limit-based component types to their consumed usage. For monthly periods, maps from current_usages; for longer periods, aggregates historical usage."},
+				}, MarkdownDescription: "Dictionary mapping limit-based component types to their consumed usage. Sums the ComponentUsage rows of the component's current period (the monthly billing period unless the component defines a longer limit_period), i.e. the period's high-watermark rather than the instantaneous current_usages value."},
 			"limits": schema.MapAttribute{
 				ElementType: types.Int64Type,
 				Computed:    true,
@@ -625,6 +631,13 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 
 							stringplanmodifier.UseStateForUnknown(),
 						}, MarkdownDescription: "Consumer Message Attachment"},
+					"consumer_message_updated_at": schema.StringAttribute{
+						CustomType: timetypes.RFC3339Type{},
+						Computed:   true,
+						PlanModifiers: []planmodifier.String{
+
+							stringplanmodifier.UseStateForUnknown(),
+						}, MarkdownDescription: "Consumer Message Updated At"},
 					"consumer_rejection_comment": schema.StringAttribute{
 						Computed: true,
 						PlanModifiers: []planmodifier.String{
@@ -689,12 +702,30 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 
 							stringplanmodifier.UseStateForUnknown(),
 						}, MarkdownDescription: "Created By Organization"},
+					"created_by_organization_address": schema.StringAttribute{
+						Computed: true,
+						PlanModifiers: []planmodifier.String{
+
+							stringplanmodifier.UseStateForUnknown(),
+						}, MarkdownDescription: "Postal address of the user's organization"},
+					"created_by_organization_country": schema.StringAttribute{
+						Computed: true,
+						PlanModifiers: []planmodifier.String{
+
+							stringplanmodifier.UseStateForUnknown(),
+						}, MarkdownDescription: "Created By Organization Country"},
 					"created_by_organization_registry_code": schema.StringAttribute{
 						Computed: true,
 						PlanModifiers: []planmodifier.String{
 
 							stringplanmodifier.UseStateForUnknown(),
 						}, MarkdownDescription: "Company registration code of the user's organization, if known"},
+					"created_by_organization_vat_code": schema.StringAttribute{
+						Computed: true,
+						PlanModifiers: []planmodifier.String{
+
+							stringplanmodifier.UseStateForUnknown(),
+						}, MarkdownDescription: "VAT code of the user's organization"},
 					"created_by_username": schema.StringAttribute{
 						Computed: true,
 						PlanModifiers: []planmodifier.String{
@@ -938,6 +969,13 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 
 							stringplanmodifier.UseStateForUnknown(),
 						}, MarkdownDescription: "Provider Message Attachment"},
+					"provider_message_updated_at": schema.StringAttribute{
+						CustomType: timetypes.RFC3339Type{},
+						Computed:   true,
+						PlanModifiers: []planmodifier.String{
+
+							stringplanmodifier.UseStateForUnknown(),
+						}, MarkdownDescription: "Provider Message Updated At"},
 					"provider_message_url": schema.StringAttribute{
 						Optional: true,
 						Computed: true,
@@ -1160,7 +1198,7 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 				PlanModifiers: []planmodifier.String{
 
 					stringplanmodifier.UseStateForUnknown(),
-				}, MarkdownDescription: "Effective project end date including grace period. After this date, resources will be terminated."},
+				}, MarkdownDescription: "Effective project end date including grace period. After this date, resources are terminated, except resources of offerings that disable the grace period — those are terminated on the raw project end date."},
 			"project_end_date": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
@@ -1241,6 +1279,12 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 					listplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "Report",
 			},
+			"resource_effective_end_date": schema.StringAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+
+					stringplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "The date this resource is scheduled to terminate: the earliest of its own end date and the project-driven termination date (the raw project end date if the offering disables the grace period, otherwise the effective with-grace end date)."},
 			"resource_type": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
@@ -1288,6 +1332,12 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 
 					stringplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "Url"},
+			"usage_limit_restriction": schema.StringAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+
+					stringplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Which restriction (paused or downscaled) was automatically applied because reported usage reached a component limit. Empty when no such restriction is active. Used so the automatic lift never clears a restriction that was set for another reason."},
 			"user_requires_reconsent": schema.BoolAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.Bool{
