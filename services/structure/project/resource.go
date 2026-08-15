@@ -339,14 +339,6 @@ func (r *StructureProjectResource) Schema(ctx context.Context, req resource.Sche
 			"project_metadata": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
-						"answer": schema.MapAttribute{
-							ElementType: types.StringType,
-							Optional:    true,
-							Computed:    true,
-							PlanModifiers: []planmodifier.Map{
-
-								mapplanmodifier.UseStateForUnknown(),
-							}, MarkdownDescription: "Human-readable answer value; select-type option UUIDs are resolved to their labels."},
 						"question": schema.StringAttribute{
 							Optional: true,
 							Computed: true,

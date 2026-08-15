@@ -166,6 +166,13 @@ func (r *MarketplaceOrderResource) Schema(ctx context.Context, req resource.Sche
 					stringplanmodifier.RequiresReplace(),
 					stringplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "Consumer Message Attachment"},
+			"consumer_message_updated_at": schema.StringAttribute{
+				CustomType: timetypes.RFC3339Type{},
+				Computed:   true,
+				PlanModifiers: []planmodifier.String{
+
+					stringplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Consumer Message Updated At"},
 			"consumer_rejection_comment": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
@@ -230,12 +237,30 @@ func (r *MarketplaceOrderResource) Schema(ctx context.Context, req resource.Sche
 
 					stringplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "Created By Organization"},
+			"created_by_organization_address": schema.StringAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+
+					stringplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Postal address of the user's organization"},
+			"created_by_organization_country": schema.StringAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+
+					stringplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Created By Organization Country"},
 			"created_by_organization_registry_code": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 
 					stringplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "Company registration code of the user's organization, if known"},
+			"created_by_organization_vat_code": schema.StringAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+
+					stringplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "VAT code of the user's organization"},
 			"created_by_username": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
@@ -487,6 +512,13 @@ func (r *MarketplaceOrderResource) Schema(ctx context.Context, req resource.Sche
 					stringplanmodifier.RequiresReplace(),
 					stringplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "Provider Message Attachment"},
+			"provider_message_updated_at": schema.StringAttribute{
+				CustomType: timetypes.RFC3339Type{},
+				Computed:   true,
+				PlanModifiers: []planmodifier.String{
+
+					stringplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Provider Message Updated At"},
 			"provider_message_url": schema.StringAttribute{
 				Optional: true,
 				Computed: true,
@@ -676,10 +708,6 @@ func (r *MarketplaceOrderResource) Create(ctx context.Context, req resource.Crea
 	if !data.StartDate.IsNull() && !data.StartDate.IsUnknown() {
 
 		requestBody.StartDate = data.StartDate.ValueStringPointer()
-	}
-	if !data.Type.IsNull() && !data.Type.IsUnknown() {
-
-		requestBody.Type = data.Type.ValueStringPointer()
 	}
 	resp.Diagnostics.Append(common.PopulateOptionalMapField(ctx, data.Attributes, &requestBody.Attributes)...)
 	resp.Diagnostics.Append(common.PopulateOptionalMapField(ctx, data.Limits, &requestBody.Limits)...)

@@ -200,16 +200,11 @@ type StructureProjectMarketplaceResourceCountResponse struct {
 }
 
 type StructureProjectProjectMetadataResponse struct {
-	Answer map[string]interface{} `json:"answer,omitempty" tfsdk:"answer"`
-
 	Question *string `json:"question,omitempty" tfsdk:"question"`
 
 	QuestionType *string `json:"question_type,omitempty" tfsdk:"question_type"`
 
 	QuestionUuid *string `json:"question_uuid,omitempty" tfsdk:"question_uuid"`
-}
-
-type StructureProjectProjectMetadataAnswerResponse struct {
 }
 
 type StructureProjectTerminationMetadataResponse struct {

@@ -92,9 +92,9 @@ func (d *StructureCustomerDataSource) Schema(ctx context.Context, req datasource
 				Computed: true, MarkdownDescription: "Country code (ISO 3166-1 alpha-2)"},
 			"country_name": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Human-readable country name"},
-			"customer_credit": schema.Float64Attribute{
+			"customer_credit": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Customer Credit"},
-			"customer_unallocated_credit": schema.Float64Attribute{
+			"customer_unallocated_credit": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Customer Unallocated Credit"},
 			"default_affiliations": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
@@ -146,6 +146,10 @@ func (d *StructureCustomerDataSource) Schema(ctx context.Context, req datasource
 					int64validator.AtLeast(0),
 					int64validator.AtMost(2147483647),
 				}},
+			"has_active_helpdesk": schema.BoolAttribute{
+				Computed: true, MarkdownDescription: "Has Active Helpdesk"},
+			"has_affiliate_links": schema.BoolAttribute{
+				Computed: true, MarkdownDescription: "Has Affiliate Links"},
 			"homepage": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Homepage"},
 			"house_nr": schema.StringAttribute{
@@ -198,7 +202,7 @@ func (d *StructureCustomerDataSource) Schema(ctx context.Context, req datasource
 							Attributes: map[string]schema.Attribute{
 								"agreement_number": schema.StringAttribute{
 									Computed: true, MarkdownDescription: "Agreement Number"},
-								"contract_sum": schema.Int64Attribute{
+								"contract_sum": schema.StringAttribute{
 									Computed: true, MarkdownDescription: "Contract Sum"},
 								"end_date": schema.StringAttribute{
 									Computed: true, MarkdownDescription: "End Date"},

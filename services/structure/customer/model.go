@@ -62,7 +62,7 @@ func PaymentProfileType() types.ObjectType {
 func PaymentProfileAttributesType() types.ObjectType {
 	return types.ObjectType{AttrTypes: map[string]attr.Type{
 		"agreement_number": types.StringType,
-		"contract_sum":     types.Int64Type,
+		"contract_sum":     types.StringType,
 		"end_date":         types.StringType,
 	}}
 }
@@ -198,8 +198,8 @@ type StructureCustomerModel struct {
 	ContactDetails               types.String      `tfsdk:"contact_details"`
 	Country                      types.String      `tfsdk:"country"`
 	CountryName                  types.String      `tfsdk:"country_name"`
-	CustomerCredit               types.Float64     `tfsdk:"customer_credit"`
-	CustomerUnallocatedCredit    types.Float64     `tfsdk:"customer_unallocated_credit"`
+	CustomerCredit               types.String      `tfsdk:"customer_credit"`
+	CustomerUnallocatedCredit    types.String      `tfsdk:"customer_unallocated_credit"`
 	DefaultAffiliations          types.List        `tfsdk:"default_affiliations"`
 	DefaultTaxPercent            types.String      `tfsdk:"default_tax_percent"`
 	Description                  types.String      `tfsdk:"description"`
@@ -208,6 +208,8 @@ type StructureCustomerModel struct {
 	Domain                       types.String      `tfsdk:"domain"`
 	Email                        types.String      `tfsdk:"email"`
 	GracePeriodDays              types.Int64       `tfsdk:"grace_period_days"`
+	HasActiveHelpdesk            types.Bool        `tfsdk:"has_active_helpdesk"`
+	HasAffiliateLinks            types.Bool        `tfsdk:"has_affiliate_links"`
 	Homepage                     types.String      `tfsdk:"homepage"`
 	HouseNr                      types.String      `tfsdk:"house_nr"`
 	Household                    types.String      `tfsdk:"household"`
@@ -285,9 +287,9 @@ func (model *StructureCustomerModel) CopyFrom(ctx context.Context, apiResp Struc
 
 	model.CountryName = common.StringPointerValue(apiResp.CountryName)
 
-	model.CustomerCredit = types.Float64PointerValue(apiResp.CustomerCredit.Float64Ptr())
+	model.CustomerCredit = common.StringPointerValue(apiResp.CustomerCredit)
 
-	model.CustomerUnallocatedCredit = types.Float64PointerValue(apiResp.CustomerUnallocatedCredit.Float64Ptr())
+	model.CustomerUnallocatedCredit = common.StringPointerValue(apiResp.CustomerUnallocatedCredit)
 
 	if apiResp.DefaultAffiliations != nil {
 		valDefaultAffiliations, diagsDefaultAffiliations := types.ListValueFrom(ctx, AffiliatedOrganizationType(), apiResp.DefaultAffiliations)
@@ -310,6 +312,10 @@ func (model *StructureCustomerModel) CopyFrom(ctx context.Context, apiResp Struc
 	model.Email = common.StringPointerValue(apiResp.Email)
 
 	model.GracePeriodDays = types.Int64PointerValue(apiResp.GracePeriodDays)
+
+	model.HasActiveHelpdesk = types.BoolPointerValue(apiResp.HasActiveHelpdesk)
+
+	model.HasAffiliateLinks = types.BoolPointerValue(apiResp.HasAffiliateLinks)
 
 	model.Homepage = common.StringPointerValue(apiResp.Homepage)
 

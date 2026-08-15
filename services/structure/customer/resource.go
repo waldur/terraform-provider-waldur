@@ -202,17 +202,17 @@ func (r *StructureCustomerResource) Schema(ctx context.Context, req resource.Sch
 
 					stringplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "Human-readable country name"},
-			"customer_credit": schema.Float64Attribute{
+			"customer_credit": schema.StringAttribute{
 				Computed: true,
-				PlanModifiers: []planmodifier.Float64{
+				PlanModifiers: []planmodifier.String{
 
-					float64planmodifier.UseStateForUnknown(),
+					stringplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "Customer Credit"},
-			"customer_unallocated_credit": schema.Float64Attribute{
+			"customer_unallocated_credit": schema.StringAttribute{
 				Computed: true,
-				PlanModifiers: []planmodifier.Float64{
+				PlanModifiers: []planmodifier.String{
 
-					float64planmodifier.UseStateForUnknown(),
+					stringplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "Customer Unallocated Credit"},
 			"default_affiliations": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
@@ -354,6 +354,18 @@ func (r *StructureCustomerResource) Schema(ctx context.Context, req resource.Sch
 					int64validator.AtLeast(0),
 					int64validator.AtMost(2147483647),
 				}},
+			"has_active_helpdesk": schema.BoolAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.Bool{
+
+					boolplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Has Active Helpdesk"},
+			"has_affiliate_links": schema.BoolAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.Bool{
+
+					boolplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Has Affiliate Links"},
 			"homepage": schema.StringAttribute{
 				Optional: true,
 				Computed: true,
@@ -489,12 +501,12 @@ func (r *StructureCustomerResource) Schema(ctx context.Context, req resource.Sch
 
 										stringplanmodifier.UseStateForUnknown(),
 									}, MarkdownDescription: "Agreement Number"},
-								"contract_sum": schema.Int64Attribute{
+								"contract_sum": schema.StringAttribute{
 									Optional: true,
 									Computed: true,
-									PlanModifiers: []planmodifier.Int64{
+									PlanModifiers: []planmodifier.String{
 
-										int64planmodifier.UseStateForUnknown(),
+										stringplanmodifier.UseStateForUnknown(),
 									}, MarkdownDescription: "Contract Sum"},
 								"end_date": schema.StringAttribute{
 									Optional: true,
