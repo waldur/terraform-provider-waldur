@@ -150,6 +150,9 @@ func (d *StructureProjectDataSource) Schema(ctx context.Context, req datasource.
 			"project_metadata": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
+						"answer": schema.MapAttribute{
+							ElementType: types.StringType,
+							Computed:    true, MarkdownDescription: "Human-readable answer value; select-type option UUIDs are resolved to their labels."},
 						"question": schema.StringAttribute{
 							Computed: true, MarkdownDescription: "Question description."},
 						"question_type": schema.StringAttribute{

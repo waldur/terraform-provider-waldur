@@ -67,10 +67,9 @@ resource "waldur_marketplace_resource" "example" {
 - `end_date_updated_at` (String) Timestamp of the last end_date change.
 - `endpoints` (Attributes List) Endpoints (see [below for nested schema](#nestedatt--endpoints))
 - `error_message` (String) Error Message
-- `has_api_keys` (Boolean) Whether the resource owns any API keys, so the portal can offer key management without knowing which backend serves the resource.
 - `id` (String) Marketplace Resource UUID (used as Terraform ID)
 - `last_sync` (String) Last Sync
-- `limit_usage` (Map of Number) Dictionary mapping limit-based component types to their consumed usage. Sums the ComponentUsage rows of the component's current period (the monthly billing period unless the component defines a longer limit_period), i.e. the period's high-watermark rather than the instantaneous current_usages value.
+- `limit_usage` (Map of Number) Dictionary mapping limit-based component types to their consumed usage. For monthly periods, maps from current_usages; for longer periods, aggregates historical usage.
 - `limits` (Map of Number) Limits
 - `offering_backend_id` (String) Offering Backend Id
 - `offering_billable` (Boolean) Purchase and usage is invoiced.
@@ -97,7 +96,7 @@ resource "waldur_marketplace_resource" "example" {
 - `plan_uuid` (String) Plan Uuid
 - `project` (String) Project
 - `project_description` (String) Project Description
-- `project_effective_end_date` (String) Effective project end date including grace period. After this date, resources are terminated, except resources of offerings that disable the grace period — those are terminated on the raw project end date.
+- `project_effective_end_date` (String) Effective project end date including grace period. After this date, resources will be terminated.
 - `project_end_date` (String) The date is inclusive. Once reached, all project resource will be scheduled for termination.
 - `project_end_date_requested_by` (String) Project End Date Requested By
 - `project_is_in_grace_period` (Boolean) True if the project is past its end date but still within the grace period.
@@ -108,14 +107,12 @@ resource "waldur_marketplace_resource" "example" {
 - `provider_uuid` (String) Provider Uuid
 - `renewal_date` (Map of String) Renewal Date
 - `report` (Attributes List) Report (see [below for nested schema](#nestedatt--report))
-- `resource_effective_end_date` (String) The date this resource is scheduled to terminate: the earliest of its own end date and the project-driven termination date (the raw project end date if the offering disables the grace period, otherwise the effective with-grace end date).
 - `resource_type` (String) Resource Type
 - `resource_uuid` (String) Resource Uuid
 - `restrict_member_access` (Boolean) Restrict Member Access
 - `scope` (String) Scope
 - `state` (String) State
 - `url` (String) Url
-- `usage_limit_restriction` (String) Which restriction (paused or downscaled) was automatically applied because reported usage reached a component limit. Empty when no such restriction is active. Used so the automatic lift never clears a restriction that was set for another reason.
 - `user_requires_reconsent` (Boolean) Check if the current user needs to re-consent for this resource's offering.
 - `username` (String) Username
 
@@ -209,7 +206,6 @@ Read-Only:
 - `category_icon` (String) Category Icon
 - `category_uuid` (String) Category Uuid
 - `completed_at` (String) Completed At
-- `consumer_message_updated_at` (String) Consumer Message Updated At
 - `consumer_rejection_comment` (String) Consumer Rejection Comment
 - `consumer_reviewed_at` (String) Consumer Reviewed At
 - `consumer_reviewed_by` (String) Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters
@@ -220,10 +216,7 @@ Read-Only:
 - `created_by_email` (String) Created By Email
 - `created_by_full_name` (String) Created By Full Name
 - `created_by_organization` (String) Created By Organization
-- `created_by_organization_address` (String) Postal address of the user's organization
-- `created_by_organization_country` (String) Created By Organization Country
 - `created_by_organization_registry_code` (String) Company registration code of the user's organization, if known
-- `created_by_organization_vat_code` (String) VAT code of the user's organization
 - `created_by_username` (String) Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters
 - `customer_slug` (String) Customer Slug
 - `error_message` (String) Error Message
@@ -255,7 +248,6 @@ Read-Only:
 - `project_description` (String) Project Description
 - `project_slug` (String) Project Slug
 - `provider_description` (String) Provider Description
-- `provider_message_updated_at` (String) Provider Message Updated At
 - `provider_name` (String) Provider Name
 - `provider_rejection_comment` (String) Provider Rejection Comment
 - `provider_reviewed_at` (String) Provider Reviewed At

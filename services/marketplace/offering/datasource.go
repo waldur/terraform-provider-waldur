@@ -184,19 +184,6 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 				Computed: true, MarkdownDescription: "Customer"},
 			"datacite_doi": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Datacite Doi"},
-			"default_access_subnets": schema.ListNestedAttribute{
-				NestedObject: schema.NestedAttributeObject{
-					Attributes: map[string]schema.Attribute{
-						"description": schema.StringAttribute{
-							Computed: true, MarkdownDescription: "Description"},
-						"inet": schema.StringAttribute{
-							Computed: true, MarkdownDescription: "Inet"},
-						"uuid": schema.StringAttribute{
-							Computed: true, MarkdownDescription: "Uuid"},
-					},
-				},
-				Computed: true, MarkdownDescription: "Default Access Subnets",
-			},
 			"description": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Description"},
 			"documentation_url": schema.StringAttribute{
@@ -254,8 +241,6 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 				Computed: true, MarkdownDescription: "Offering Group Title"},
 			"offering_group_uuid": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Offering Group Uuid"},
-			"open_for_proposals": schema.BoolAttribute{
-				Computed: true, MarkdownDescription: "Open For Proposals"},
 			"options": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
 					"options": schema.MapAttribute{
@@ -396,21 +381,6 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 							}},
 						"qos": schema.StringAttribute{
 							Computed: true, MarkdownDescription: "Quality of Service (QOS) name"},
-						"qos_options": schema.ListNestedAttribute{
-							NestedObject: schema.NestedAttributeObject{
-								Attributes: map[string]schema.Attribute{
-									"is_default": schema.BoolAttribute{
-										Computed: true, MarkdownDescription: "Default QOS for this partition (seeds SLURM DefaultQOS)."},
-									"qos": schema.StringAttribute{
-										Computed: true, MarkdownDescription: "Qos"},
-									"qos_name": schema.StringAttribute{
-										Computed: true, MarkdownDescription: "Qos Name"},
-									"uuid": schema.StringAttribute{
-										Computed: true, MarkdownDescription: "Uuid"},
-								},
-							},
-							Computed: true, MarkdownDescription: "Qos Options",
-						},
 						"req_resv": schema.BoolAttribute{
 							Computed: true, MarkdownDescription: "Require reservation for job allocation"},
 						"uuid": schema.StringAttribute{
@@ -439,12 +409,25 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 											int64validator.AtLeast(0),
 											int64validator.AtMost(2147483647),
 										}},
-									"discount_aggregation": schema.StringAttribute{
-										Computed: true, MarkdownDescription: "Whether the volume discount is computed on a single resource's usage or aggregated across all of the customer's resources of this offering."},
 									"discount_description": schema.StringAttribute{
 										Computed: true, MarkdownDescription: "Discount Description"},
-									"discount_formula": schema.StringAttribute{
-										Computed: true, MarkdownDescription: "Volume discount formula evaluated with the billed quantity bound to `usage`; returns a discount percentage (clamped to 0-100). Empty means no discount. Example: '10 if usage >= 100 else 0'."},
+									"discount_rate": schema.Int64Attribute{
+										Computed: true, MarkdownDescription: "Discount rate in percentage.",
+										Validators: []validator.Int64{
+											int64validator.AtLeast(0),
+											int64validator.AtMost(2147483647),
+										}},
+									"discount_threshold": schema.Int64Attribute{
+										Computed: true, MarkdownDescription: "Minimum amount to be eligible for discount.",
+										Validators: []validator.Int64{
+											int64validator.AtLeast(0),
+											int64validator.AtMost(2147483647),
+										}},
+									"discounted_price": schema.StringAttribute{
+										Computed: true, MarkdownDescription: "Discounted Price",
+										Validators: []validator.String{
+											stringvalidator.RegexMatches(regexp.MustCompile(`^-?\d{0,12}(?:\.\d{0,10})?$`), ""),
+										}},
 									"future_price": schema.StringAttribute{
 										Computed: true, MarkdownDescription: "Future Price",
 										Validators: []validator.String{
@@ -535,11 +518,6 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 			},
 			"plugin_options": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
-					"action_on_usage_limit": schema.StringAttribute{
-						Computed: true, MarkdownDescription: "If set to 'pause' or 'downscale', resources are automatically paused or downscaled when reported usage in the current period reaches a component's limit_amount, and the restriction is lifted when usage drops below the limit again (e.g. a new billing period or a raised limit)."},
-					"auto_approve_for_roles": schema.ListAttribute{
-						ElementType: types.StringType,
-						Computed:    true, MarkdownDescription: "List of project or organization role names (e.g. 'PROJECT.MANAGER') whose orders skip consumer review for this offering. The creator must hold the role on the target project or its organization. Independent of restricted_to_roles (which governs visibility/ordering) and of the ORDER.APPROVE permission. Provider review and purchase-order requirements still apply. Only staff can change this option."},
 					"auto_approve_in_service_provider_projects": schema.BoolAttribute{
 						Computed: true, MarkdownDescription: "Skip approval of public offering belonging to the same organization under which the request is done"},
 					"auto_approve_marketplace_script": schema.BoolAttribute{
@@ -550,14 +528,10 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 						Computed: true, MarkdownDescription: "If set to True, newly-created resource projects are immediately transitioned from CREATING to OK on save, bypassing the provider/site-agent reconciliation callback. Use for offerings that have no external backend to reconcile against."},
 					"backend_id_display_label": schema.StringAttribute{
 						Computed: true, MarkdownDescription: "Label used by UI for showing value of the backend_id"},
-					"billing_source": schema.StringAttribute{
-						Computed: true, MarkdownDescription: "Source for OpenStack instance compute ComponentUsage: 'quota' (flavor-derived Nova quota, default) or 'placement' (Placement allocations; also bills VGPU/PCI/custom resource classes)."},
 					"can_restore_resource": schema.BoolAttribute{
 						Computed: true, MarkdownDescription: "If set to True, resource can be restored."},
 					"conceal_billing_data": schema.BoolAttribute{
 						Computed: true, MarkdownDescription: "If set to True, pricing and components tab would be concealed."},
-					"conceal_subnet_restricted_resources": schema.BoolAttribute{
-						Computed: true, MarkdownDescription: "If set to True, a resource of this offering that has access subnets is hidden from the consumer API unless the caller's IP is in the resource's allow-list. Staff and support are exempt; resources without any subnet stay visible."},
 					"create_orders_on_resource_option_change": schema.BoolAttribute{
 						Computed: true, MarkdownDescription: "If set to True, create orders when options of related resources are changed."},
 					"create_orders_on_resource_project_change": schema.BoolAttribute{
@@ -577,41 +551,23 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 						Computed: true, MarkdownDescription: "Rancher deployment mode"},
 					"disable_autoapprove": schema.BoolAttribute{
 						Computed: true, MarkdownDescription: "If set to True, orders for this offering will always require manual approval, overriding auto_approve_in_service_provider_projects"},
-					"disable_grace_period": schema.BoolAttribute{
-						Computed: true, MarkdownDescription: "If set to True, this offering's resources ignore the project grace period and are terminated on the project end date. Only staff can change this option."},
 					"disabled_resource_actions": schema.ListAttribute{
 						ElementType: types.StringType,
 						Computed:    true, MarkdownDescription: "List of disabled marketplace resource actions for this offering."},
-					"emit_display_name": schema.BoolAttribute{
-						Computed: true, MarkdownDescription: "Emit the user's full name as a GLAuth displayName custom attribute (rendered to LDAP displayName)."},
-					"emit_waldur_username": schema.BoolAttribute{
-						Computed: true, MarkdownDescription: "Emit the Waldur username as a GLAuth waldurUsername custom attribute, alongside the generated POSIX login name."},
 					"enable_display_of_order_actions_for_service_provider": schema.BoolAttribute{
 						Computed: true, MarkdownDescription: "Enable display of order actions for service provider"},
 					"enable_issues_for_membership_changes": schema.BoolAttribute{
 						Computed: true, MarkdownDescription: "Enable issues for membership changes"},
-					"enable_membership_sync_status": schema.BoolAttribute{
-						Computed: true, MarkdownDescription: "Enable per-member sync status reporting by the site agent: team views show whether each role grant has propagated to the provider backend, and providers can trigger a resync."},
-					"enable_posix_account": schema.BoolAttribute{
-						Computed: true, MarkdownDescription: "Manage a POSIX/LDAP account (UID, GID, home directory, login shell and GLAuth exposure) for this offering's users. Disable for offerings that only need a username."},
 					"enable_provider_consumer_messaging": schema.BoolAttribute{
 						Computed: true, MarkdownDescription: "If set to True, service providers can send messages with attachments to consumers on pending orders, and consumers can respond."},
 					"enable_purchase_order_upload": schema.BoolAttribute{
 						Computed: true, MarkdownDescription: "If set to True, users will be able to upload purchase orders."},
-					"enable_resource_access_subnets": schema.BoolAttribute{
-						Computed: true, MarkdownDescription: "If set to True, an Access subnets tab is shown on resource detail pages, letting consumers curate the IPs allowed to reach the backend entity. The list is advisory data for external firewalls."},
-					"enable_resource_end_date_change_requests": schema.BoolAttribute{
-						Computed: true, MarkdownDescription: "If set to True, users without RESOURCE.SET_END_DATE can request an end date change, and holders of that permission approve or reject. Approval writes the date directly; no order is created. Requests are published as events so an external approval system can decide instead. Not applicable to prepaid offerings, which extend through renewal instead."},
 					"enable_resource_projects": schema.BoolAttribute{
 						Computed: true, MarkdownDescription: "Enable sub-project management within resources."},
-					"enforce_qos": schema.BoolAttribute{
-						Computed: true, MarkdownDescription: "When enabled, the site agent enforces the offering's QoS selection by granting the chosen QoS on the SLURM association (QosLevel/DefaultQOS). When disabled (default), QoS is informational only — profiles are shown and the selection is recorded on the resource, but the agent does not touch SLURM QoS. The agent config may override this per deployment."},
 					"expose_inference_playground": schema.BoolAttribute{
 						Computed: true, MarkdownDescription: "Show an in-browser inference playground action for resources of this offering (for offerings whose resources expose an OpenAI-compatible endpoint)."},
 					"flavors_regex": schema.StringAttribute{
 						Computed: true, MarkdownDescription: "Regular expression to limit flavors list"},
-					"gid_source": schema.StringAttribute{
-						Computed: true, MarkdownDescription: "Where each offering user's primary GID comes from: the POSIX ID pool (default), or the user's primary_gid attribute."},
 					"heappe_cluster_id": schema.StringAttribute{
 						Computed: true, MarkdownDescription: "HEAppE cluster id"},
 					"heappe_local_base_path": schema.StringAttribute{
@@ -624,14 +580,32 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 						Computed: true, MarkdownDescription: "Defines if backend_id should be shown more prominently by the UI"},
 					"homedir_prefix": schema.StringAttribute{
 						Computed: true, MarkdownDescription: "GLAuth homedir prefix"},
+					"initial_primarygroup_number": schema.Int64Attribute{
+						Computed: true, MarkdownDescription: "GLAuth initial primary group number",
+						Validators: []validator.Int64{
+							int64validator.AtLeast(0),
+						}},
+					"initial_rolegroup_number": schema.Int64Attribute{
+						Computed: true, MarkdownDescription: "GLAuth initial gid for role-aware groups (one per (resource|resource-project, role) tuple). Must leave at least 50000 gids of headroom above initial_usergroup_number to avoid collisions.",
+						Validators: []validator.Int64{
+							int64validator.AtLeast(0),
+						}},
+					"initial_uidnumber": schema.Int64Attribute{
+						Computed: true, MarkdownDescription: "GLAuth initial uidnumber",
+						Validators: []validator.Int64{
+							int64validator.AtLeast(0),
+						}},
+					"initial_usergroup_number": schema.Int64Attribute{
+						Computed: true, MarkdownDescription: "GLAuth initial usergroup number",
+						Validators: []validator.Int64{
+							int64validator.AtLeast(0),
+						}},
 					"is_resource_termination_date_required": schema.BoolAttribute{
 						Computed: true, MarkdownDescription: "If set to True, resource termination date is required"},
 					"latest_date_for_resource_termination": schema.StringAttribute{
 						Computed: true, MarkdownDescription: "If set, it will be used as a latest date for resource termination. Format: YYYY-MM-DD"},
 					"lbaas_enabled": schema.BoolAttribute{
 						Computed: true, MarkdownDescription: "If True, Octavia LBaaS (load balancers) is intended to be available for tenants from this offering."},
-					"login_shell": schema.StringAttribute{
-						Computed: true, MarkdownDescription: "Default login shell assigned to GLAuth/LDAP accounts."},
 					"managed_rancher_load_balancer_data_volume_size_gb": schema.Int64Attribute{
 						Computed: true, MarkdownDescription: "Data volume size in GB for managed Rancher load balancer"},
 					"managed_rancher_load_balancer_data_volume_type_name": schema.StringAttribute{
@@ -713,8 +687,6 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 					"resource_project_role_map": schema.MapAttribute{
 						ElementType: types.StringType,
 						Computed:    true, MarkdownDescription: "Mapping of Waldur role names (on ResourceProject scope) to emitted role tokens. Same semantics as resource_role_map."},
-					"resource_projects_limit_policy": schema.StringAttribute{
-						Computed: true, MarkdownDescription: "How parent resource limits are enforced on child resource projects: 'none' (accepted as-is, default), 'per_project' (each resource project limit must be within the parent resource limit), or 'aggregate' (the sum of all resource project limits must be within the parent limit)."},
 					"resource_projects_limits_required": schema.BoolAttribute{
 						Computed: true, MarkdownDescription: "If set to True, every limit-billing component declared by the offering must have a value when creating or updating a resource project. Use this for backends that reject projects without resource quotas (e.g. the rancher-keycloak-operator's project-level resourceQuota.limit cap)."},
 					"resource_role_group_template": schema.StringAttribute{
@@ -732,15 +704,10 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 						Computed: true, MarkdownDescription: "Template for resource slugs, overriding the default 10-character slugified name. Available variables: {customer_slug}, {project_slug}, {project_name}, {offering_slug}, {year}, {month}, {counter}, {counter_padded}. Default: slugified resource name (max 10 characters)."},
 					"restrict_deletion_with_active_resources": schema.BoolAttribute{
 						Computed: true, MarkdownDescription: "If set to True, offering cannot be deleted while it has non-terminated resources."},
-					"restricted_to_roles": schema.ListAttribute{
-						ElementType: types.StringType,
-						Computed:    true, MarkdownDescription: "List of project or organization role names (e.g. 'PROJECT.MANAGER') allowed to view and order this offering. When set, the offering is hidden from the catalog for other users and they cannot create orders for it. Whether their orders skip consumer review still depends on the role having the order-approval permission."},
 					"scratch_project_directory": schema.StringAttribute{
 						Computed: true, MarkdownDescription: "HEAppE scratch project directory"},
 					"service_provider_can_create_offering_user": schema.BoolAttribute{
 						Computed: true, MarkdownDescription: "Service provider can create offering user"},
-					"show_ssh_key_loss_warning": schema.BoolAttribute{
-						Computed: true, MarkdownDescription: "Show a warning about unrecoverable loss of the SSH private key on the OpenStack instance order form."},
 					"slurm_periodic_policy_enabled": schema.BoolAttribute{
 						Computed: true, MarkdownDescription: "Enable SLURM periodic usage policy configuration. When enabled, allows configuring QoS-based threshold enforcement, carryover logic, and fairshare decay for site-agent managed SLURM offerings."},
 					"snapshot_size_limit_gb": schema.Int64Attribute{
@@ -754,8 +721,6 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 						Computed: true, MarkdownDescription: "If set to True, it will be possible to downscale resources"},
 					"supports_pausing": schema.BoolAttribute{
 						Computed: true, MarkdownDescription: "If set to True, it will be possible to pause resources"},
-					"uid_source": schema.StringAttribute{
-						Computed: true, MarkdownDescription: "Where each offering user's UID comes from: allocated from the POSIX ID pool (default), or taken from the user's uid_number attribute (e.g. an OIDC claim). Pair 'user_attribute' with a GID-only pool to avoid UID collisions."},
 					"unique_resource_per_attribute": schema.StringAttribute{
 						Computed: true, MarkdownDescription: "Attribute name to enforce uniqueness per value. E.g., 'storage_data_type' ensures only one resource per storage type per project."},
 					"usage_poll_interval_minutes": schema.Int64Attribute{
@@ -820,70 +785,6 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 					},
 				},
 				Computed: true, MarkdownDescription: "Promotion Campaigns",
-			},
-			"qos_profiles": schema.ListNestedAttribute{
-				NestedObject: schema.NestedAttributeObject{
-					Attributes: map[string]schema.Attribute{
-						"default_time": schema.Int64Attribute{
-							Computed: true, MarkdownDescription: "Default time limit in minutes",
-							Validators: []validator.Int64{
-								int64validator.AtLeast(0),
-								int64validator.AtMost(2147483647),
-							}},
-						"description": schema.StringAttribute{
-							Computed: true, MarkdownDescription: "Description"},
-						"flags": schema.StringAttribute{
-							Computed: true, MarkdownDescription: "Comma-separated QOS flags (e.g. DenyOnLimit, OverPartQOS)"},
-						"grace_time": schema.Int64Attribute{
-							Computed: true, MarkdownDescription: "Preemption grace time in seconds",
-							Validators: []validator.Int64{
-								int64validator.AtLeast(0),
-								int64validator.AtMost(2147483647),
-							}},
-						"grp_tres": schema.StringAttribute{
-							Computed: true, MarkdownDescription: "Aggregate TRES the QOS may allocate at once (GrpTRES)"},
-						"max_nodes": schema.Int64Attribute{
-							Computed: true, MarkdownDescription: "Maximum nodes per job",
-							Validators: []validator.Int64{
-								int64validator.AtLeast(0),
-								int64validator.AtMost(2147483647),
-							}},
-						"max_time": schema.Int64Attribute{
-							Computed: true, MarkdownDescription: "Maximum wall time in minutes",
-							Validators: []validator.Int64{
-								int64validator.AtLeast(0),
-								int64validator.AtMost(2147483647),
-							}},
-						"max_tres_per_job": schema.StringAttribute{
-							Computed: true, MarkdownDescription: "Max TRES per job (MaxTRESPerJob)"},
-						"max_tres_per_node": schema.StringAttribute{
-							Computed: true, MarkdownDescription: "Max TRES per node (MaxTRESPerNode)"},
-						"max_tres_per_user": schema.StringAttribute{
-							Computed: true, MarkdownDescription: "Max TRES per user (MaxTRESPerUser)"},
-						"min_nodes": schema.Int64Attribute{
-							Computed: true, MarkdownDescription: "Minimum nodes per job",
-							Validators: []validator.Int64{
-								int64validator.AtLeast(0),
-								int64validator.AtMost(2147483647),
-							}},
-						"min_tres_per_job": schema.StringAttribute{
-							Computed: true, MarkdownDescription: "Min TRES per job (MinTRESPerJob)"},
-						"name": schema.StringAttribute{
-							Computed: true, MarkdownDescription: "Name of the SLURM QOS.",
-							Validators: []validator.String{
-								stringvalidator.RegexMatches(regexp.MustCompile(`^\d+$`), ""),
-							}},
-						"priority": schema.Int64Attribute{
-							Computed: true, MarkdownDescription: "Scheduling priority",
-							Validators: []validator.Int64{
-								int64validator.AtLeast(0),
-								int64validator.AtMost(2147483647),
-							}},
-						"uuid": schema.StringAttribute{
-							Computed: true, MarkdownDescription: "Uuid"},
-					},
-				},
-				Computed: true, MarkdownDescription: "Qos Profiles",
 			},
 			"quotas": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
@@ -959,10 +860,10 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 							},
 							Computed: true, MarkdownDescription: "Catalog",
 						},
-						"enabled_cpu_family": schema.ListAttribute{
+						"enabled_cpu_family": schema.MapAttribute{
 							ElementType: types.StringType,
 							Computed:    true, MarkdownDescription: "List of enabled CPU families: ['x86_64', 'aarch64']"},
-						"enabled_cpu_microarchitectures": schema.ListAttribute{
+						"enabled_cpu_microarchitectures": schema.MapAttribute{
 							ElementType: types.StringType,
 							Computed:    true, MarkdownDescription: "List of enabled CPU microarchitectures: ['generic', 'zen3']"},
 						"package_count": schema.Int64Attribute{

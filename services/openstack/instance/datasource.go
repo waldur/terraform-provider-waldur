@@ -162,8 +162,6 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 						"allowed_address_pairs": schema.ListNestedAttribute{
 							NestedObject: schema.NestedAttributeObject{
 								Attributes: map[string]schema.Attribute{
-									"ip_address": schema.StringAttribute{
-										Computed: true, MarkdownDescription: "Ip Address"},
 									"mac_address": schema.StringAttribute{
 										Computed: true, MarkdownDescription: "Mac Address"},
 								},
@@ -358,7 +356,7 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 			"url": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Url"},
 			"user_data": schema.StringAttribute{
-				Computed: true, MarkdownDescription: "Cloud-init user data passed to the instance on provisioning. SECURITY: this value is stored and transmitted in plain text — it is kept unencrypted in Waldur's database, forwarded to OpenStack where any process on the instance can read it via the metadata service, and it may appear in logs. Do NOT put unencrypted secrets (passwords, private keys, API tokens) here; reference a secrets manager or inject them through an encrypted channel instead."},
+				Computed: true, MarkdownDescription: "Additional data that will be added to instance on provisioning"},
 			"volumes": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{

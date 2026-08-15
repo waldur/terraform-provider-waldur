@@ -147,7 +147,6 @@ type MarketplaceOrderModel struct {
 	CompletedAt                       timetypes.RFC3339 `tfsdk:"completed_at"`
 	ConsumerMessage                   types.String      `tfsdk:"consumer_message"`
 	ConsumerMessageAttachment         types.String      `tfsdk:"consumer_message_attachment"`
-	ConsumerMessageUpdatedAt          timetypes.RFC3339 `tfsdk:"consumer_message_updated_at"`
 	ConsumerRejectionComment          types.String      `tfsdk:"consumer_rejection_comment"`
 	ConsumerReviewedAt                timetypes.RFC3339 `tfsdk:"consumer_reviewed_at"`
 	ConsumerReviewedBy                types.String      `tfsdk:"consumer_reviewed_by"`
@@ -158,10 +157,7 @@ type MarketplaceOrderModel struct {
 	CreatedByEmail                    types.String      `tfsdk:"created_by_email"`
 	CreatedByFullName                 types.String      `tfsdk:"created_by_full_name"`
 	CreatedByOrganization             types.String      `tfsdk:"created_by_organization"`
-	CreatedByOrganizationAddress      types.String      `tfsdk:"created_by_organization_address"`
-	CreatedByOrganizationCountry      types.String      `tfsdk:"created_by_organization_country"`
 	CreatedByOrganizationRegistryCode types.String      `tfsdk:"created_by_organization_registry_code"`
-	CreatedByOrganizationVatCode      types.String      `tfsdk:"created_by_organization_vat_code"`
 	CreatedByUsername                 types.String      `tfsdk:"created_by_username"`
 	CustomerSlug                      types.String      `tfsdk:"customer_slug"`
 	ErrorMessage                      types.String      `tfsdk:"error_message"`
@@ -198,7 +194,6 @@ type MarketplaceOrderModel struct {
 	ProviderDescription               types.String      `tfsdk:"provider_description"`
 	ProviderMessage                   types.String      `tfsdk:"provider_message"`
 	ProviderMessageAttachment         types.String      `tfsdk:"provider_message_attachment"`
-	ProviderMessageUpdatedAt          timetypes.RFC3339 `tfsdk:"provider_message_updated_at"`
 	ProviderMessageUrl                types.String      `tfsdk:"provider_message_url"`
 	ProviderName                      types.String      `tfsdk:"provider_name"`
 	ProviderRejectionComment          types.String      `tfsdk:"provider_rejection_comment"`
@@ -262,10 +257,6 @@ func (model *MarketplaceOrderModel) CopyFrom(ctx context.Context, apiResp Market
 
 	model.ConsumerMessageAttachment = common.StringPointerValue(apiResp.ConsumerMessageAttachment)
 
-	valConsumerMessageUpdatedAt, diagsConsumerMessageUpdatedAt := timetypes.NewRFC3339PointerValue(apiResp.ConsumerMessageUpdatedAt)
-	diags.Append(diagsConsumerMessageUpdatedAt...)
-	model.ConsumerMessageUpdatedAt = valConsumerMessageUpdatedAt
-
 	model.ConsumerRejectionComment = common.StringPointerValue(apiResp.ConsumerRejectionComment)
 
 	valConsumerReviewedAt, diagsConsumerReviewedAt := timetypes.NewRFC3339PointerValue(apiResp.ConsumerReviewedAt)
@@ -288,13 +279,7 @@ func (model *MarketplaceOrderModel) CopyFrom(ctx context.Context, apiResp Market
 
 	model.CreatedByOrganization = common.StringPointerValue(apiResp.CreatedByOrganization)
 
-	model.CreatedByOrganizationAddress = common.StringPointerValue(apiResp.CreatedByOrganizationAddress)
-
-	model.CreatedByOrganizationCountry = common.StringPointerValue(apiResp.CreatedByOrganizationCountry)
-
 	model.CreatedByOrganizationRegistryCode = common.StringPointerValue(apiResp.CreatedByOrganizationRegistryCode)
-
-	model.CreatedByOrganizationVatCode = common.StringPointerValue(apiResp.CreatedByOrganizationVatCode)
 
 	model.CreatedByUsername = common.StringPointerValue(apiResp.CreatedByUsername)
 
@@ -389,10 +374,6 @@ func (model *MarketplaceOrderModel) CopyFrom(ctx context.Context, apiResp Market
 	model.ProviderMessage = common.StringPointerValue(apiResp.ProviderMessage)
 
 	model.ProviderMessageAttachment = common.StringPointerValue(apiResp.ProviderMessageAttachment)
-
-	valProviderMessageUpdatedAt, diagsProviderMessageUpdatedAt := timetypes.NewRFC3339PointerValue(apiResp.ProviderMessageUpdatedAt)
-	diags.Append(diagsProviderMessageUpdatedAt...)
-	model.ProviderMessageUpdatedAt = valProviderMessageUpdatedAt
 
 	model.ProviderMessageUrl = common.StringPointerValue(apiResp.ProviderMessageUrl)
 

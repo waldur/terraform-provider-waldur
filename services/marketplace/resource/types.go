@@ -60,8 +60,6 @@ type MarketplaceResourceResponse struct {
 
 	ErrorMessage *string `json:"error_message,omitempty" tfsdk:"error_message"`
 
-	HasApiKeys *bool `json:"has_api_keys,omitempty" tfsdk:"has_api_keys"`
-
 	LastSync *string `json:"last_sync,omitempty" tfsdk:"last_sync"`
 
 	LimitUsage map[string]float64 `json:"limit_usage,omitempty" tfsdk:"limit_usage"`
@@ -148,8 +146,6 @@ type MarketplaceResourceResponse struct {
 
 	Report *[]common.ReportSection `json:"report,omitempty" tfsdk:"report"`
 
-	ResourceEffectiveEndDate *string `json:"resource_effective_end_date,omitempty" tfsdk:"resource_effective_end_date"`
-
 	ResourceType *string `json:"resource_type,omitempty" tfsdk:"resource_type"`
 
 	ResourceUuid *string `json:"resource_uuid,omitempty" tfsdk:"resource_uuid"`
@@ -163,8 +159,6 @@ type MarketplaceResourceResponse struct {
 	State *string `json:"state,omitempty" tfsdk:"state"`
 
 	Url *string `json:"url,omitempty" tfsdk:"url"`
-
-	UsageLimitRestriction *string `json:"usage_limit_restriction,omitempty" tfsdk:"usage_limit_restriction"`
 
 	UserRequiresReconsent *bool `json:"user_requires_reconsent,omitempty" tfsdk:"user_requires_reconsent"`
 
@@ -277,8 +271,6 @@ type MarketplaceResourceOrderInProgressResponse struct {
 
 	ConsumerMessageAttachment *string `json:"consumer_message_attachment,omitempty" tfsdk:"consumer_message_attachment"`
 
-	ConsumerMessageUpdatedAt *string `json:"consumer_message_updated_at,omitempty" tfsdk:"consumer_message_updated_at"`
-
 	ConsumerRejectionComment *string `json:"consumer_rejection_comment,omitempty" tfsdk:"consumer_rejection_comment"`
 
 	ConsumerReviewedAt *string `json:"consumer_reviewed_at,omitempty" tfsdk:"consumer_reviewed_at"`
@@ -299,13 +291,7 @@ type MarketplaceResourceOrderInProgressResponse struct {
 
 	CreatedByOrganization *string `json:"created_by_organization,omitempty" tfsdk:"created_by_organization"`
 
-	CreatedByOrganizationAddress *string `json:"created_by_organization_address,omitempty" tfsdk:"created_by_organization_address"`
-
-	CreatedByOrganizationCountry *string `json:"created_by_organization_country,omitempty" tfsdk:"created_by_organization_country"`
-
 	CreatedByOrganizationRegistryCode *string `json:"created_by_organization_registry_code,omitempty" tfsdk:"created_by_organization_registry_code"`
-
-	CreatedByOrganizationVatCode *string `json:"created_by_organization_vat_code,omitempty" tfsdk:"created_by_organization_vat_code"`
 
 	CreatedByUsername *string `json:"created_by_username,omitempty" tfsdk:"created_by_username"`
 
@@ -378,8 +364,6 @@ type MarketplaceResourceOrderInProgressResponse struct {
 	ProviderMessage *string `json:"provider_message,omitempty" tfsdk:"provider_message"`
 
 	ProviderMessageAttachment *string `json:"provider_message_attachment,omitempty" tfsdk:"provider_message_attachment"`
-
-	ProviderMessageUpdatedAt *string `json:"provider_message_updated_at,omitempty" tfsdk:"provider_message_updated_at"`
 
 	ProviderMessageUrl *string `json:"provider_message_url,omitempty" tfsdk:"provider_message_url"`
 

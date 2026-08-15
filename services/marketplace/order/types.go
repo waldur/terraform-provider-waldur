@@ -24,6 +24,8 @@ type MarketplaceOrderCreateRequest struct {
 	Slug *string `json:"slug,omitempty" tfsdk:"slug"`
 
 	StartDate *string `json:"start_date,omitempty" tfsdk:"start_date"`
+
+	Type *string `json:"type,omitempty" tfsdk:"type"`
 }
 
 type MarketplaceOrderCreateAttributesRequest struct {
@@ -77,8 +79,6 @@ type MarketplaceOrderResponse struct {
 
 	ConsumerMessageAttachment *string `json:"consumer_message_attachment,omitempty" tfsdk:"consumer_message_attachment"`
 
-	ConsumerMessageUpdatedAt *string `json:"consumer_message_updated_at,omitempty" tfsdk:"consumer_message_updated_at"`
-
 	ConsumerRejectionComment *string `json:"consumer_rejection_comment,omitempty" tfsdk:"consumer_rejection_comment"`
 
 	ConsumerReviewedAt *string `json:"consumer_reviewed_at,omitempty" tfsdk:"consumer_reviewed_at"`
@@ -99,13 +99,7 @@ type MarketplaceOrderResponse struct {
 
 	CreatedByOrganization *string `json:"created_by_organization,omitempty" tfsdk:"created_by_organization"`
 
-	CreatedByOrganizationAddress *string `json:"created_by_organization_address,omitempty" tfsdk:"created_by_organization_address"`
-
-	CreatedByOrganizationCountry *string `json:"created_by_organization_country,omitempty" tfsdk:"created_by_organization_country"`
-
 	CreatedByOrganizationRegistryCode *string `json:"created_by_organization_registry_code,omitempty" tfsdk:"created_by_organization_registry_code"`
-
-	CreatedByOrganizationVatCode *string `json:"created_by_organization_vat_code,omitempty" tfsdk:"created_by_organization_vat_code"`
 
 	CreatedByUsername *string `json:"created_by_username,omitempty" tfsdk:"created_by_username"`
 
@@ -178,8 +172,6 @@ type MarketplaceOrderResponse struct {
 	ProviderMessage *string `json:"provider_message,omitempty" tfsdk:"provider_message"`
 
 	ProviderMessageAttachment *string `json:"provider_message_attachment,omitempty" tfsdk:"provider_message_attachment"`
-
-	ProviderMessageUpdatedAt *string `json:"provider_message_updated_at,omitempty" tfsdk:"provider_message_updated_at"`
 
 	ProviderMessageUrl *string `json:"provider_message_url,omitempty" tfsdk:"provider_message_url"`
 

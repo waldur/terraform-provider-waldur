@@ -79,9 +79,6 @@ func (d *MarketplaceOrderDataSource) Schema(ctx context.Context, req datasource.
 				Computed: true, MarkdownDescription: "Consumer Message"},
 			"consumer_message_attachment": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Consumer Message Attachment"},
-			"consumer_message_updated_at": schema.StringAttribute{
-				CustomType: timetypes.RFC3339Type{},
-				Computed:   true, MarkdownDescription: "Consumer Message Updated At"},
 			"consumer_rejection_comment": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Consumer Rejection Comment"},
 			"consumer_reviewed_at": schema.StringAttribute{
@@ -106,14 +103,8 @@ func (d *MarketplaceOrderDataSource) Schema(ctx context.Context, req datasource.
 				Computed: true, MarkdownDescription: "Created By Full Name"},
 			"created_by_organization": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Created By Organization"},
-			"created_by_organization_address": schema.StringAttribute{
-				Computed: true, MarkdownDescription: "Postal address of the user's organization"},
-			"created_by_organization_country": schema.StringAttribute{
-				Computed: true, MarkdownDescription: "Created By Organization Country"},
 			"created_by_organization_registry_code": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Company registration code of the user's organization, if known"},
-			"created_by_organization_vat_code": schema.StringAttribute{
-				Computed: true, MarkdownDescription: "VAT code of the user's organization"},
 			"created_by_username": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters"},
 			"customer_slug": schema.StringAttribute{
@@ -200,9 +191,6 @@ func (d *MarketplaceOrderDataSource) Schema(ctx context.Context, req datasource.
 				Computed: true, MarkdownDescription: "Provider Message"},
 			"provider_message_attachment": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Provider Message Attachment"},
-			"provider_message_updated_at": schema.StringAttribute{
-				CustomType: timetypes.RFC3339Type{},
-				Computed:   true, MarkdownDescription: "Provider Message Updated At"},
 			"provider_message_url": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Provider Message Url"},
 			"provider_name": schema.StringAttribute{
