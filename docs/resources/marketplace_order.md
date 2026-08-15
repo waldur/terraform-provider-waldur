@@ -69,6 +69,7 @@ resource "waldur_marketplace_order" "example" {
 - `category_icon` (String) Category Icon
 - `category_uuid` (String) Category Uuid
 - `completed_at` (String) Completed At
+- `consumer_message_updated_at` (String) Consumer Message Updated At
 - `consumer_rejection_comment` (String) Consumer Rejection Comment
 - `consumer_reviewed_at` (String) Consumer Reviewed At
 - `consumer_reviewed_by` (String) Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters
@@ -79,7 +80,10 @@ resource "waldur_marketplace_order" "example" {
 - `created_by_email` (String) Created By Email
 - `created_by_full_name` (String) Created By Full Name
 - `created_by_organization` (String) Created By Organization
+- `created_by_organization_address` (String) Postal address of the user's organization
+- `created_by_organization_country` (String) Created By Organization Country
 - `created_by_organization_registry_code` (String) Company registration code of the user's organization, if known
+- `created_by_organization_vat_code` (String) VAT code of the user's organization
 - `created_by_username` (String) Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters
 - `customer_slug` (String) Customer Slug
 - `error_message` (String) Error Message
@@ -112,6 +116,7 @@ resource "waldur_marketplace_order" "example" {
 - `project_description` (String) Project Description
 - `project_slug` (String) Project Slug
 - `provider_description` (String) Provider Description
+- `provider_message_updated_at` (String) Provider Message Updated At
 - `provider_name` (String) Provider Name
 - `provider_rejection_comment` (String) Provider Rejection Comment
 - `provider_reviewed_at` (String) Provider Reviewed At

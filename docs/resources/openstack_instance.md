@@ -104,7 +104,7 @@ resource "waldur_openstack_instance" "example" {
 - `start_date` (String) Order start date
 - `system_volume_type` (String) Volume type for the system volume
 - `timeouts` (Block, Optional) (see [below for nested schema](#nestedblock--timeouts))
-- `user_data` (String) Additional data that will be added to instance on provisioning
+- `user_data` (String) Cloud-init user data passed to the instance on provisioning. SECURITY: this value is stored and transmitted in plain text — it is kept unencrypted in Waldur's database, forwarded to OpenStack where any process on the instance can read it via the metadata service, and it may appear in logs. Do NOT put unencrypted secrets (passwords, private keys, API tokens) here; reference a secrets manager or inject them through an encrypted channel instead.
 
 ### Read-Only
 
@@ -177,6 +177,7 @@ Required:
 
 Optional:
 
+- `ip_address` (String) Ip Address
 - `mac_address` (String) Mac Address
 
 

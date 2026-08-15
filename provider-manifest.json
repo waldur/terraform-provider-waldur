@@ -554,6 +554,36 @@
           "computed": false
         },
         {
+          "name": "default_access_subnets",
+          "type": "types.List\u003cobject\u003e",
+          "required": false,
+          "optional": true,
+          "computed": false,
+          "attributes": [
+            {
+              "name": "description",
+              "type": "types.String",
+              "required": false,
+              "optional": true,
+              "computed": false
+            },
+            {
+              "name": "inet",
+              "type": "types.String",
+              "required": false,
+              "optional": true,
+              "computed": false
+            },
+            {
+              "name": "uuid",
+              "type": "types.String",
+              "required": false,
+              "optional": true,
+              "computed": false
+            }
+          ]
+        },
+        {
           "name": "description",
           "type": "types.String",
           "required": false,
@@ -714,6 +744,13 @@
         {
           "name": "offering_group_uuid",
           "type": "types.String",
+          "required": false,
+          "optional": true,
+          "computed": false
+        },
+        {
+          "name": "open_for_proposals",
+          "type": "types.Bool",
           "required": false,
           "optional": true,
           "computed": false
@@ -982,6 +1019,43 @@
               "computed": false
             },
             {
+              "name": "qos_options",
+              "type": "types.List\u003cobject\u003e",
+              "required": false,
+              "optional": true,
+              "computed": false,
+              "attributes": [
+                {
+                  "name": "is_default",
+                  "type": "types.Bool",
+                  "required": false,
+                  "optional": true,
+                  "computed": false
+                },
+                {
+                  "name": "qos",
+                  "type": "types.String",
+                  "required": false,
+                  "optional": true,
+                  "computed": false
+                },
+                {
+                  "name": "qos_name",
+                  "type": "types.String",
+                  "required": false,
+                  "optional": true,
+                  "computed": false
+                },
+                {
+                  "name": "uuid",
+                  "type": "types.String",
+                  "required": false,
+                  "optional": true,
+                  "computed": false
+                }
+              ]
+            },
+            {
               "name": "req_resv",
               "type": "types.Bool",
               "required": false,
@@ -1047,6 +1121,13 @@
                   "computed": false
                 },
                 {
+                  "name": "discount_aggregation",
+                  "type": "types.String",
+                  "required": false,
+                  "optional": true,
+                  "computed": false
+                },
+                {
                   "name": "discount_description",
                   "type": "types.String",
                   "required": false,
@@ -1054,21 +1135,7 @@
                   "computed": false
                 },
                 {
-                  "name": "discount_rate",
-                  "type": "types.Int64",
-                  "required": false,
-                  "optional": true,
-                  "computed": false
-                },
-                {
-                  "name": "discount_threshold",
-                  "type": "types.Int64",
-                  "required": false,
-                  "optional": true,
-                  "computed": false
-                },
-                {
-                  "name": "discounted_price",
+                  "name": "discount_formula",
                   "type": "types.String",
                   "required": false,
                   "optional": true,
@@ -1284,6 +1351,20 @@
           "computed": false,
           "attributes": [
             {
+              "name": "action_on_usage_limit",
+              "type": "types.String",
+              "required": false,
+              "optional": true,
+              "computed": false
+            },
+            {
+              "name": "auto_approve_for_roles",
+              "type": "types.List\u003cstring\u003e",
+              "required": false,
+              "optional": true,
+              "computed": false
+            },
+            {
               "name": "auto_approve_in_service_provider_projects",
               "type": "types.Bool",
               "required": false,
@@ -1319,6 +1400,13 @@
               "computed": false
             },
             {
+              "name": "billing_source",
+              "type": "types.String",
+              "required": false,
+              "optional": true,
+              "computed": false
+            },
+            {
               "name": "can_restore_resource",
               "type": "types.Bool",
               "required": false,
@@ -1327,6 +1415,13 @@
             },
             {
               "name": "conceal_billing_data",
+              "type": "types.Bool",
+              "required": false,
+              "optional": true,
+              "computed": false
+            },
+            {
+              "name": "conceal_subnet_restricted_resources",
               "type": "types.Bool",
               "required": false,
               "optional": true,
@@ -1375,8 +1470,29 @@
               "computed": false
             },
             {
+              "name": "disable_grace_period",
+              "type": "types.Bool",
+              "required": false,
+              "optional": true,
+              "computed": false
+            },
+            {
               "name": "disabled_resource_actions",
               "type": "types.List\u003cstring\u003e",
+              "required": false,
+              "optional": true,
+              "computed": false
+            },
+            {
+              "name": "emit_display_name",
+              "type": "types.Bool",
+              "required": false,
+              "optional": true,
+              "computed": false
+            },
+            {
+              "name": "emit_waldur_username",
+              "type": "types.Bool",
               "required": false,
               "optional": true,
               "computed": false
@@ -1390,6 +1506,20 @@
             },
             {
               "name": "enable_issues_for_membership_changes",
+              "type": "types.Bool",
+              "required": false,
+              "optional": true,
+              "computed": false
+            },
+            {
+              "name": "enable_membership_sync_status",
+              "type": "types.Bool",
+              "required": false,
+              "optional": true,
+              "computed": false
+            },
+            {
+              "name": "enable_posix_account",
               "type": "types.Bool",
               "required": false,
               "optional": true,
@@ -1410,7 +1540,28 @@
               "computed": false
             },
             {
+              "name": "enable_resource_access_subnets",
+              "type": "types.Bool",
+              "required": false,
+              "optional": true,
+              "computed": false
+            },
+            {
+              "name": "enable_resource_end_date_change_requests",
+              "type": "types.Bool",
+              "required": false,
+              "optional": true,
+              "computed": false
+            },
+            {
               "name": "enable_resource_projects",
+              "type": "types.Bool",
+              "required": false,
+              "optional": true,
+              "computed": false
+            },
+            {
+              "name": "enforce_qos",
               "type": "types.Bool",
               "required": false,
               "optional": true,
@@ -1425,6 +1576,13 @@
             },
             {
               "name": "flavors_regex",
+              "type": "types.String",
+              "required": false,
+              "optional": true,
+              "computed": false
+            },
+            {
+              "name": "gid_source",
               "type": "types.String",
               "required": false,
               "optional": true,
@@ -1473,34 +1631,6 @@
               "computed": false
             },
             {
-              "name": "initial_primarygroup_number",
-              "type": "types.Int64",
-              "required": false,
-              "optional": true,
-              "computed": false
-            },
-            {
-              "name": "initial_rolegroup_number",
-              "type": "types.Int64",
-              "required": false,
-              "optional": true,
-              "computed": false
-            },
-            {
-              "name": "initial_uidnumber",
-              "type": "types.Int64",
-              "required": false,
-              "optional": true,
-              "computed": false
-            },
-            {
-              "name": "initial_usergroup_number",
-              "type": "types.Int64",
-              "required": false,
-              "optional": true,
-              "computed": false
-            },
-            {
               "name": "is_resource_termination_date_required",
               "type": "types.Bool",
               "required": false,
@@ -1517,6 +1647,13 @@
             {
               "name": "lbaas_enabled",
               "type": "types.Bool",
+              "required": false,
+              "optional": true,
+              "computed": false
+            },
+            {
+              "name": "login_shell",
+              "type": "types.String",
               "required": false,
               "optional": true,
               "computed": false
@@ -1746,6 +1883,13 @@
               "computed": false
             },
             {
+              "name": "resource_projects_limit_policy",
+              "type": "types.String",
+              "required": false,
+              "optional": true,
+              "computed": false
+            },
+            {
               "name": "resource_projects_limits_required",
               "type": "types.Bool",
               "required": false,
@@ -1788,6 +1932,13 @@
               "computed": false
             },
             {
+              "name": "restricted_to_roles",
+              "type": "types.List\u003cstring\u003e",
+              "required": false,
+              "optional": true,
+              "computed": false
+            },
+            {
               "name": "scratch_project_directory",
               "type": "types.String",
               "required": false,
@@ -1796,6 +1947,13 @@
             },
             {
               "name": "service_provider_can_create_offering_user",
+              "type": "types.Bool",
+              "required": false,
+              "optional": true,
+              "computed": false
+            },
+            {
+              "name": "show_ssh_key_loss_warning",
               "type": "types.Bool",
               "required": false,
               "optional": true,
@@ -1832,6 +1990,13 @@
             {
               "name": "supports_pausing",
               "type": "types.Bool",
+              "required": false,
+              "optional": true,
+              "computed": false
+            },
+            {
+              "name": "uid_source",
+              "type": "types.String",
               "required": false,
               "optional": true,
               "computed": false
@@ -1959,6 +2124,120 @@
             },
             {
               "name": "stock",
+              "type": "types.Int64",
+              "required": false,
+              "optional": true,
+              "computed": false
+            },
+            {
+              "name": "uuid",
+              "type": "types.String",
+              "required": false,
+              "optional": true,
+              "computed": false
+            }
+          ]
+        },
+        {
+          "name": "qos_profiles",
+          "type": "types.List\u003cobject\u003e",
+          "required": false,
+          "optional": true,
+          "computed": false,
+          "attributes": [
+            {
+              "name": "default_time",
+              "type": "types.Int64",
+              "required": false,
+              "optional": true,
+              "computed": false
+            },
+            {
+              "name": "description",
+              "type": "types.String",
+              "required": false,
+              "optional": true,
+              "computed": false
+            },
+            {
+              "name": "flags",
+              "type": "types.String",
+              "required": false,
+              "optional": true,
+              "computed": false
+            },
+            {
+              "name": "grace_time",
+              "type": "types.Int64",
+              "required": false,
+              "optional": true,
+              "computed": false
+            },
+            {
+              "name": "grp_tres",
+              "type": "types.String",
+              "required": false,
+              "optional": true,
+              "computed": false
+            },
+            {
+              "name": "max_nodes",
+              "type": "types.Int64",
+              "required": false,
+              "optional": true,
+              "computed": false
+            },
+            {
+              "name": "max_time",
+              "type": "types.Int64",
+              "required": false,
+              "optional": true,
+              "computed": false
+            },
+            {
+              "name": "max_tres_per_job",
+              "type": "types.String",
+              "required": false,
+              "optional": true,
+              "computed": false
+            },
+            {
+              "name": "max_tres_per_node",
+              "type": "types.String",
+              "required": false,
+              "optional": true,
+              "computed": false
+            },
+            {
+              "name": "max_tres_per_user",
+              "type": "types.String",
+              "required": false,
+              "optional": true,
+              "computed": false
+            },
+            {
+              "name": "min_nodes",
+              "type": "types.Int64",
+              "required": false,
+              "optional": true,
+              "computed": false
+            },
+            {
+              "name": "min_tres_per_job",
+              "type": "types.String",
+              "required": false,
+              "optional": true,
+              "computed": false
+            },
+            {
+              "name": "name",
+              "type": "types.String",
+              "required": false,
+              "optional": true,
+              "computed": false
+            },
+            {
+              "name": "priority",
               "type": "types.Int64",
               "required": false,
               "optional": true,
@@ -2165,14 +2444,14 @@
             },
             {
               "name": "enabled_cpu_family",
-              "type": "types.Map",
+              "type": "types.List\u003cstring\u003e",
               "required": false,
               "optional": true,
               "computed": false
             },
             {
               "name": "enabled_cpu_microarchitectures",
-              "type": "types.Map",
+              "type": "types.List\u003cstring\u003e",
               "required": false,
               "optional": true,
               "computed": false
@@ -2441,6 +2720,13 @@
           "computed": true
         },
         {
+          "name": "consumer_message_updated_at",
+          "type": "types.String",
+          "required": false,
+          "optional": true,
+          "computed": false
+        },
+        {
           "name": "consumer_rejection_comment",
           "type": "types.String",
           "required": false,
@@ -2511,7 +2797,28 @@
           "computed": false
         },
         {
+          "name": "created_by_organization_address",
+          "type": "types.String",
+          "required": false,
+          "optional": true,
+          "computed": false
+        },
+        {
+          "name": "created_by_organization_country",
+          "type": "types.String",
+          "required": false,
+          "optional": true,
+          "computed": false
+        },
+        {
           "name": "created_by_organization_registry_code",
+          "type": "types.String",
+          "required": false,
+          "optional": true,
+          "computed": false
+        },
+        {
+          "name": "created_by_organization_vat_code",
           "type": "types.String",
           "required": false,
           "optional": true,
@@ -2793,6 +3100,13 @@
           "computed": true
         },
         {
+          "name": "provider_message_updated_at",
+          "type": "types.String",
+          "required": false,
+          "optional": true,
+          "computed": false
+        },
+        {
           "name": "provider_message_url",
           "type": "types.String",
           "required": false,
@@ -3047,6 +3361,13 @@
         {
           "name": "error_message",
           "type": "types.String",
+          "required": false,
+          "optional": true,
+          "computed": false
+        },
+        {
+          "name": "has_api_keys",
+          "type": "types.Bool",
           "required": false,
           "optional": true,
           "computed": false
@@ -3467,6 +3788,13 @@
               "computed": true
             },
             {
+              "name": "consumer_message_updated_at",
+              "type": "types.String",
+              "required": false,
+              "optional": true,
+              "computed": false
+            },
+            {
               "name": "consumer_rejection_comment",
               "type": "types.String",
               "required": false,
@@ -3537,7 +3865,28 @@
               "computed": false
             },
             {
+              "name": "created_by_organization_address",
+              "type": "types.String",
+              "required": false,
+              "optional": true,
+              "computed": false
+            },
+            {
+              "name": "created_by_organization_country",
+              "type": "types.String",
+              "required": false,
+              "optional": true,
+              "computed": false
+            },
+            {
               "name": "created_by_organization_registry_code",
+              "type": "types.String",
+              "required": false,
+              "optional": true,
+              "computed": false
+            },
+            {
+              "name": "created_by_organization_vat_code",
               "type": "types.String",
               "required": false,
               "optional": true,
@@ -3810,6 +4159,13 @@
               "required": false,
               "optional": false,
               "computed": true
+            },
+            {
+              "name": "provider_message_updated_at",
+              "type": "types.String",
+              "required": false,
+              "optional": true,
+              "computed": false
             },
             {
               "name": "provider_message_url",
@@ -4138,6 +4494,13 @@
           ]
         },
         {
+          "name": "resource_effective_end_date",
+          "type": "types.String",
+          "required": false,
+          "optional": true,
+          "computed": false
+        },
+        {
           "name": "resource_type",
           "type": "types.String",
           "required": false,
@@ -4181,6 +4544,13 @@
         },
         {
           "name": "url",
+          "type": "types.String",
+          "required": false,
+          "optional": true,
+          "computed": false
+        },
+        {
+          "name": "usage_limit_restriction",
           "type": "types.String",
           "required": false,
           "optional": true,
@@ -4900,6 +5270,13 @@
               "optional": true,
               "computed": false,
               "attributes": [
+                {
+                  "name": "ip_address",
+                  "type": "types.String",
+                  "required": false,
+                  "optional": false,
+                  "computed": true
+                },
                 {
                   "name": "mac_address",
                   "type": "types.String",
@@ -6016,8 +6393,8 @@
               "name": "ip_address",
               "type": "types.String",
               "required": false,
-              "optional": true,
-              "computed": false
+              "optional": false,
+              "computed": true
             },
             {
               "name": "mac_address",
@@ -7796,14 +8173,14 @@
         },
         {
           "name": "customer_credit",
-          "type": "types.Float64",
+          "type": "types.String",
           "required": false,
           "optional": true,
           "computed": false
         },
         {
           "name": "customer_unallocated_credit",
-          "type": "types.Float64",
+          "type": "types.String",
           "required": false,
           "optional": true,
           "computed": false
@@ -7942,6 +8319,20 @@
           "required": false,
           "optional": false,
           "computed": true
+        },
+        {
+          "name": "has_active_helpdesk",
+          "type": "types.Bool",
+          "required": false,
+          "optional": true,
+          "computed": false
+        },
+        {
+          "name": "has_affiliate_links",
+          "type": "types.Bool",
+          "required": false,
+          "optional": true,
+          "computed": false
         },
         {
           "name": "homepage",
@@ -8094,7 +8485,7 @@
                 },
                 {
                   "name": "contract_sum",
-                  "type": "types.Int64",
+                  "type": "types.String",
                   "required": false,
                   "optional": false,
                   "computed": true
@@ -8581,13 +8972,6 @@
           "optional": true,
           "computed": false,
           "attributes": [
-            {
-              "name": "answer",
-              "type": "types.Map",
-              "required": false,
-              "optional": false,
-              "computed": true
-            },
             {
               "name": "question",
               "type": "types.String",

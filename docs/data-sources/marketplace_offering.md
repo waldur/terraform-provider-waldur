@@ -35,6 +35,7 @@ Marketplace Offering data source - lookup by name or UUID
 - `country` (String) Country code (ISO 3166-1 alpha-2)
 - `customer` (String) Customer
 - `datacite_doi` (String) Datacite Doi
+- `default_access_subnets` (Attributes List) Default Access Subnets (see [below for nested schema](#nestedatt--default_access_subnets))
 - `description` (String) Description
 - `documentation_url` (String) Documentation Url
 - `effective_available_limits` (List of String) Effective Available Limits
@@ -53,6 +54,7 @@ Marketplace Offering data source - lookup by name or UUID
 - `offering_group` (String) Offering Group
 - `offering_group_title` (String) Offering Group Title
 - `offering_group_uuid` (String) Offering Group Uuid
+- `open_for_proposals` (Boolean) Open For Proposals
 - `options` (Attributes) Options (see [below for nested schema](#nestedatt--options))
 - `order_count` (Number) Order Count
 - `organization_groups` (Attributes List) Organization Groups (see [below for nested schema](#nestedatt--organization_groups))
@@ -68,6 +70,7 @@ Marketplace Offering data source - lookup by name or UUID
 - `profile_uuid` (String) Profile Uuid
 - `project` (String) Project
 - `promotion_campaigns` (Attributes List) Promotion Campaigns (see [below for nested schema](#nestedatt--promotion_campaigns))
+- `qos_profiles` (Attributes List) Qos Profiles (see [below for nested schema](#nestedatt--qos_profiles))
 - `quotas` (Attributes List) Quotas (see [below for nested schema](#nestedatt--quotas))
 - `resource_options` (Attributes) Resource Options (see [below for nested schema](#nestedatt--resource_options))
 - `scope` (String) Scope
@@ -95,13 +98,15 @@ Marketplace Offering data source - lookup by name or UUID
 
 Optional:
 
-- `accessible_via_calls` (Boolean) Accessible via calls
+- `accessible` (Boolean) Only offerings the current user can order
+- `accessible_via_calls` (Boolean) Deprecated: offerings accepted on an active call, regardless of whether a proposal can actually be submitted for them. Use open_for_proposals instead.
 - `allowed_customer_uuid` (String) Allowed customer UUID
 - `attributes` (String) Offering attributes (JSON)
 - `billable` (Boolean) Billable
 - `can_create_offering_user` (Boolean) Can create offering user
 - `category_group_uuid` (String) Category group UUID
 - `category_uuid` (String) Category UUID
+- `consumer_customer_uuid` (String) Consumer customer UUID
 - `created` (String) Created after
 - `created_before` (String) Created before
 - `customer` (String) Customer URL
@@ -115,6 +120,7 @@ Optional:
 - `name` (String) Name
 - `name_exact` (String) Name (exact)
 - `offering_group_uuid` (String) Offering group UUID
+- `open_for_proposals` (Boolean) Offerings that can be requested through a call right now: accepted on an active call with a round that is open, and covered by a resource template when the call defines any.
 - `organization_group_uuid` (String) Organization group UUID
 - `parent_uuid` (String) Parent offering UUID
 - `project_uuid` (String) Project UUID
@@ -162,6 +168,16 @@ Read-Only:
 - `renewal_duration_step` (Number) Step size in months for renewal. Only multiples of this value (starting from min_renewal_duration) are valid. Defaults to 1.
 - `type` (String) Unique internal name of the measured unit, for example floating_ip.
 - `unit_factor` (Number) The conversion factor from backend units to measured_unit
+- `uuid` (String) Uuid
+
+
+<a id="nestedatt--default_access_subnets"></a>
+### Nested Schema for `default_access_subnets`
+
+Read-Only:
+
+- `description` (String) Description
+- `inet` (String) Inet
 - `uuid` (String) Uuid
 
 
@@ -233,8 +249,20 @@ Read-Only:
 - `partition_name` (String) Name of the SLURM partition
 - `priority_tier` (Number) Priority tier for scheduling and preemption
 - `qos` (String) Quality of Service (QOS) name
+- `qos_options` (Attributes List) Qos Options (see [below for nested schema](#nestedatt--partitions--qos_options))
 - `req_resv` (Boolean) Require reservation for job allocation
 - `uuid` (String) Uuid
+
+<a id="nestedatt--partitions--qos_options"></a>
+### Nested Schema for `partitions.qos_options`
+
+Read-Only:
+
+- `is_default` (Boolean) Default QOS for this partition (seeds SLURM DefaultQOS).
+- `qos` (String) Qos
+- `qos_name` (String) Qos Name
+- `uuid` (String) Uuid
+
 
 
 <a id="nestedatt--plans"></a>
@@ -269,10 +297,9 @@ Read-Only:
 Read-Only:
 
 - `amount` (Number) Amount
+- `discount_aggregation` (String) Whether the volume discount is computed on a single resource's usage or aggregated across all of the customer's resources of this offering.
 - `discount_description` (String) Discount Description
-- `discount_rate` (Number) Discount rate in percentage.
-- `discount_threshold` (Number) Minimum amount to be eligible for discount.
-- `discounted_price` (String) Discounted Price
+- `discount_formula` (String) Volume discount formula evaluated with the billed quantity bound to `usage`; returns a discount percentage (clamped to 0-100). Empty means no discount. Example: '10 if usage >= 100 else 0'.
 - `future_price` (String) Future Price
 - `measured_unit` (String) Unit of measurement, for example, GB.
 - `name` (String) Display name for the measured unit, for example, Floating IP.
@@ -300,40 +327,50 @@ Read-Only:
 
 Read-Only:
 
+- `action_on_usage_limit` (String) If set to 'pause' or 'downscale', resources are automatically paused or downscaled when reported usage in the current period reaches a component's limit_amount, and the restriction is lifted when usage drops below the limit again (e.g. a new billing period or a raised limit).
+- `auto_approve_for_roles` (List of String) List of project or organization role names (e.g. 'PROJECT.MANAGER') whose orders skip consumer review for this offering. The creator must hold the role on the target project or its organization. Independent of restricted_to_roles (which governs visibility/ordering) and of the ORDER.APPROVE permission. Provider review and purchase-order requirements still apply. Only staff can change this option.
 - `auto_approve_in_service_provider_projects` (Boolean) Skip approval of public offering belonging to the same organization under which the request is done
 - `auto_approve_marketplace_script` (Boolean) If set to False, all orders require manual provider approval, including for service provider owners and staff
 - `auto_approve_remote_orders` (Boolean) If set to True, an order can be processed without approval
 - `auto_ok_resource_projects` (Boolean) If set to True, newly-created resource projects are immediately transitioned from CREATING to OK on save, bypassing the provider/site-agent reconciliation callback. Use for offerings that have no external backend to reconcile against.
 - `backend_id_display_label` (String) Label used by UI for showing value of the backend_id
+- `billing_source` (String) Source for OpenStack instance compute ComponentUsage: 'quota' (flavor-derived Nova quota, default) or 'placement' (Placement allocations; also bills VGPU/PCI/custom resource classes).
 - `can_restore_resource` (Boolean) If set to True, resource can be restored.
 - `conceal_billing_data` (Boolean) If set to True, pricing and components tab would be concealed.
+- `conceal_subnet_restricted_resources` (Boolean) If set to True, a resource of this offering that has access subnets is hidden from the consumer API unless the caller's IP is in the resource's allow-list. Staff and support are exempt; resources without any subnet stay visible.
 - `create_orders_on_resource_option_change` (Boolean) If set to True, create orders when options of related resources are changed.
 - `create_orders_on_resource_project_change` (Boolean) If set to True, create orders when resource projects are created, updated or deleted.
 - `default_internal_network_mtu` (Number) If set, it will be used as a default MTU for the first network in a tenant
 - `default_resource_termination_offset_in_days` (Number) If set, it will be used as a default resource termination offset in days
 - `deployment_mode` (String) Rancher deployment mode
 - `disable_autoapprove` (Boolean) If set to True, orders for this offering will always require manual approval, overriding auto_approve_in_service_provider_projects
+- `disable_grace_period` (Boolean) If set to True, this offering's resources ignore the project grace period and are terminated on the project end date. Only staff can change this option.
 - `disabled_resource_actions` (List of String) List of disabled marketplace resource actions for this offering.
+- `emit_display_name` (Boolean) Emit the user's full name as a GLAuth displayName custom attribute (rendered to LDAP displayName).
+- `emit_waldur_username` (Boolean) Emit the Waldur username as a GLAuth waldurUsername custom attribute, alongside the generated POSIX login name.
 - `enable_display_of_order_actions_for_service_provider` (Boolean) Enable display of order actions for service provider
 - `enable_issues_for_membership_changes` (Boolean) Enable issues for membership changes
+- `enable_membership_sync_status` (Boolean) Enable per-member sync status reporting by the site agent: team views show whether each role grant has propagated to the provider backend, and providers can trigger a resync.
+- `enable_posix_account` (Boolean) Manage a POSIX/LDAP account (UID, GID, home directory, login shell and GLAuth exposure) for this offering's users. Disable for offerings that only need a username.
 - `enable_provider_consumer_messaging` (Boolean) If set to True, service providers can send messages with attachments to consumers on pending orders, and consumers can respond.
 - `enable_purchase_order_upload` (Boolean) If set to True, users will be able to upload purchase orders.
+- `enable_resource_access_subnets` (Boolean) If set to True, an Access subnets tab is shown on resource detail pages, letting consumers curate the IPs allowed to reach the backend entity. The list is advisory data for external firewalls.
+- `enable_resource_end_date_change_requests` (Boolean) If set to True, users without RESOURCE.SET_END_DATE can request an end date change, and holders of that permission approve or reject. Approval writes the date directly; no order is created. Requests are published as events so an external approval system can decide instead. Not applicable to prepaid offerings, which extend through renewal instead.
 - `enable_resource_projects` (Boolean) Enable sub-project management within resources.
+- `enforce_qos` (Boolean) When enabled, the site agent enforces the offering's QoS selection by granting the chosen QoS on the SLURM association (QosLevel/DefaultQOS). When disabled (default), QoS is informational only — profiles are shown and the selection is recorded on the resource, but the agent does not touch SLURM QoS. The agent config may override this per deployment.
 - `expose_inference_playground` (Boolean) Show an in-browser inference playground action for resources of this offering (for offerings whose resources expose an OpenAI-compatible endpoint).
 - `flavors_regex` (String) Regular expression to limit flavors list
+- `gid_source` (String) Where each offering user's primary GID comes from: the POSIX ID pool (default), or the user's primary_gid attribute.
 - `heappe_cluster_id` (String) HEAppE cluster id
 - `heappe_local_base_path` (String) HEAppE local base path
 - `heappe_url` (String) HEAppE url
 - `heappe_username` (String) HEAppE username
 - `highlight_backend_id_display` (Boolean) Defines if backend_id should be shown more prominently by the UI
 - `homedir_prefix` (String) GLAuth homedir prefix
-- `initial_primarygroup_number` (Number) GLAuth initial primary group number
-- `initial_rolegroup_number` (Number) GLAuth initial gid for role-aware groups (one per (resource|resource-project, role) tuple). Must leave at least 50000 gids of headroom above initial_usergroup_number to avoid collisions.
-- `initial_uidnumber` (Number) GLAuth initial uidnumber
-- `initial_usergroup_number` (Number) GLAuth initial usergroup number
 - `is_resource_termination_date_required` (Boolean) If set to True, resource termination date is required
 - `latest_date_for_resource_termination` (String) If set, it will be used as a latest date for resource termination. Format: YYYY-MM-DD
 - `lbaas_enabled` (Boolean) If True, Octavia LBaaS (load balancers) is intended to be available for tenants from this offering.
+- `login_shell` (String) Default login shell assigned to GLAuth/LDAP accounts.
 - `managed_rancher_load_balancer_data_volume_size_gb` (Number) Data volume size in GB for managed Rancher load balancer
 - `managed_rancher_load_balancer_data_volume_type_name` (String) Data volume type name for managed Rancher load balancer
 - `managed_rancher_load_balancer_flavor_name` (String) Flavor name for managed Rancher load balancer
@@ -366,19 +403,23 @@ Read-Only:
 - `resource_name_pattern` (String) Python format string for generating resource names. Available variables: {customer_name}, {customer_slug}, {project_name}, {project_slug}, {offering_name}, {offering_slug}, {plan_name}, {counter}, {attributes[KEY]}.
 - `resource_project_role_group_template` (String) string.Template for resource-project-scope role group names. Adds ${rp_uuid}, ${rp_uuid_short}, ${project_name} to the variables available for resource-scope templates.
 - `resource_project_role_map` (Map of String) Mapping of Waldur role names (on ResourceProject scope) to emitted role tokens. Same semantics as resource_role_map.
+- `resource_projects_limit_policy` (String) How parent resource limits are enforced on child resource projects: 'none' (accepted as-is, default), 'per_project' (each resource project limit must be within the parent resource limit), or 'aggregate' (the sum of all resource project limits must be within the parent limit).
 - `resource_projects_limits_required` (Boolean) If set to True, every limit-billing component declared by the offering must have a value when creating or updating a resource project. Use this for backends that reject projects without resource quotas (e.g. the rancher-keycloak-operator's project-level resourceQuota.limit cap).
 - `resource_role_group_template` (String) string.Template for resource-scope role group names. Variables: ${role_name}, ${resource_slug}, ${customer_slug}, ${project_slug}.
 - `resource_role_map` (Map of String) Mapping of Waldur role names (on Resource scope) to emitted role tokens used in group name rendering. Roles outside the map are skipped. Example: {"PI": "admin", "Member": "member"}.
 - `resource_slug_max_length` (Number) Maximum length of auto-generated resource slugs derived from the resource name, overriding the default of 10 characters (up to 40). Ignored when a resource slug template is set.
 - `resource_slug_template` (String) Template for resource slugs, overriding the default 10-character slugified name. Available variables: {customer_slug}, {project_slug}, {project_name}, {offering_slug}, {year}, {month}, {counter}, {counter_padded}. Default: slugified resource name (max 10 characters).
 - `restrict_deletion_with_active_resources` (Boolean) If set to True, offering cannot be deleted while it has non-terminated resources.
+- `restricted_to_roles` (List of String) List of project or organization role names (e.g. 'PROJECT.MANAGER') allowed to view and order this offering. When set, the offering is hidden from the catalog for other users and they cannot create orders for it. Whether their orders skip consumer review still depends on the role having the order-approval permission.
 - `scratch_project_directory` (String) HEAppE scratch project directory
 - `service_provider_can_create_offering_user` (Boolean) Service provider can create offering user
+- `show_ssh_key_loss_warning` (Boolean) Show a warning about unrecoverable loss of the SSH private key on the OpenStack instance order form.
 - `slurm_periodic_policy_enabled` (Boolean) Enable SLURM periodic usage policy configuration. When enabled, allows configuring QoS-based threshold enforcement, carryover logic, and fairshare decay for site-agent managed SLURM offerings.
 - `snapshot_size_limit_gb` (Number) Default limit for snapshot size in GB
 - `storage_mode` (String) Storage mode for OpenStack offering
 - `supports_downscaling` (Boolean) If set to True, it will be possible to downscale resources
 - `supports_pausing` (Boolean) If set to True, it will be possible to pause resources
+- `uid_source` (String) Where each offering user's UID comes from: allocated from the POSIX ID pool (default), or taken from the user's uid_number attribute (e.g. an OIDC claim). Pair 'user_attribute' with a GID-only pool to avoid UID collisions.
 - `unique_resource_per_attribute` (String) Attribute name to enforce uniqueness per value. E.g., 'storage_data_type' ensures only one resource per storage type per project.
 - `usage_poll_interval_minutes` (Number) Interval in minutes between usage polling for this offering (default: 60)
 - `username_anonymized_prefix` (String) GLAuth prefix for anonymized usernames
@@ -399,6 +440,28 @@ Read-Only:
 - `service_provider` (String) Service Provider
 - `start_date` (String) Starting from this date, the campaign is active.
 - `stock` (Number) Stock
+- `uuid` (String) Uuid
+
+
+<a id="nestedatt--qos_profiles"></a>
+### Nested Schema for `qos_profiles`
+
+Read-Only:
+
+- `default_time` (Number) Default time limit in minutes
+- `description` (String) Description
+- `flags` (String) Comma-separated QOS flags (e.g. DenyOnLimit, OverPartQOS)
+- `grace_time` (Number) Preemption grace time in seconds
+- `grp_tres` (String) Aggregate TRES the QOS may allocate at once (GrpTRES)
+- `max_nodes` (Number) Maximum nodes per job
+- `max_time` (Number) Maximum wall time in minutes
+- `max_tres_per_job` (String) Max TRES per job (MaxTRESPerJob)
+- `max_tres_per_node` (String) Max TRES per node (MaxTRESPerNode)
+- `max_tres_per_user` (String) Max TRES per user (MaxTRESPerUser)
+- `min_nodes` (Number) Minimum nodes per job
+- `min_tres_per_job` (String) Min TRES per job (MinTRESPerJob)
+- `name` (String) Name of the SLURM QOS.
+- `priority` (Number) Scheduling priority
 - `uuid` (String) Uuid
 
 
@@ -439,8 +502,8 @@ Read-Only:
 Read-Only:
 
 - `catalog` (Attributes) Catalog (see [below for nested schema](#nestedatt--software_catalogs--catalog))
-- `enabled_cpu_family` (Map of String) List of enabled CPU families: ['x86_64', 'aarch64']
-- `enabled_cpu_microarchitectures` (Map of String) List of enabled CPU microarchitectures: ['generic', 'zen3']
+- `enabled_cpu_family` (List of String) List of enabled CPU families: ['x86_64', 'aarch64']
+- `enabled_cpu_microarchitectures` (List of String) List of enabled CPU microarchitectures: ['generic', 'zen3']
 - `package_count` (Number) Package Count
 - `partition` (Attributes) Partition (see [below for nested schema](#nestedatt--software_catalogs--partition))
 - `uuid` (String) Uuid
