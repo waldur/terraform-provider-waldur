@@ -4,6 +4,14 @@
 
 ### Added
 
+- `marketplace_offering`: new attribute `scope_resource_name`
+- `marketplace_offering`: new attribute `scope_resource_uuid`
+- `marketplace_offering`: new attribute `scope_resource`
+
+## 2026-08-19
+
+### Added
+
 - `structure_project`: new attribute `display_credit_reports`
 
 ## 2026-08-12
