@@ -8854,6 +8854,13 @@
           "computed": true
         },
         {
+          "name": "display_credit_reports",
+          "type": "types.Bool",
+          "required": false,
+          "optional": false,
+          "computed": true
+        },
+        {
           "name": "effective_end_date",
           "type": "types.String",
           "required": false,

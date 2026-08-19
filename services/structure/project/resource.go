@@ -228,6 +228,13 @@ func (r *StructureProjectResource) Schema(ctx context.Context, req resource.Sche
 
 					stringplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "Project description (HTML content will be sanitized)"},
+			"display_credit_reports": schema.BoolAttribute{
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.Bool{
+
+					boolplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Show credit and usage analytics widgets on this project's dashboard."},
 			"effective_end_date": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
@@ -518,6 +525,10 @@ func (r *StructureProjectResource) Create(ctx context.Context, req resource.Crea
 
 		requestBody.Description = data.Description.ValueStringPointer()
 	}
+	if !data.DisplayCreditReports.IsNull() && !data.DisplayCreditReports.IsUnknown() {
+
+		requestBody.DisplayCreditReports = data.DisplayCreditReports.ValueBoolPointer()
+	}
 	if !data.EndDate.IsNull() && !data.EndDate.IsUnknown() {
 
 		requestBody.EndDate = data.EndDate.ValueStringPointer()
@@ -643,6 +654,11 @@ func (r *StructureProjectResource) Update(ctx context.Context, req resource.Upda
 		anyChanges = true
 
 		requestBody.Description = data.Description.ValueStringPointer()
+	}
+	if !data.DisplayCreditReports.IsNull() && !data.DisplayCreditReports.IsUnknown() && !data.DisplayCreditReports.Equal(state.DisplayCreditReports) {
+		anyChanges = true
+
+		requestBody.DisplayCreditReports = data.DisplayCreditReports.ValueBoolPointer()
 	}
 	if !data.EndDate.IsNull() && !data.EndDate.IsUnknown() && !data.EndDate.Equal(state.EndDate) {
 		anyChanges = true
