@@ -137,7 +137,7 @@ type MarketplaceOrderResponse struct {
 
 	OfferingImage *string `json:"offering_image,omitempty" tfsdk:"offering_image"`
 
-	OfferingPluginOptions map[string]interface{} `json:"offering_plugin_options,omitempty" tfsdk:"offering_plugin_options"`
+	OfferingPluginOptions common.JSONStringMap `json:"offering_plugin_options,omitempty" tfsdk:"offering_plugin_options"`
 
 	OfferingShared *bool `json:"offering_shared,omitempty" tfsdk:"offering_shared"`
 

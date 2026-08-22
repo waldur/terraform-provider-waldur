@@ -1,6 +1,7 @@
 package common
 
 import (
+	"bytes"
 	"encoding/json"
 	"strconv"
 	"strings"
@@ -96,4 +97,52 @@ func (f *FlexibleNumber) Float64Ptr() *float64 {
 	}
 	v := float64(*f)
 	return &v
+}
+
+// JSONStringMap holds an API map whose values are not guaranteed to be strings.
+// The Waldur API returns several maps keyed by an arbitrary name whose values are
+// objects or arrays -- for example an offering's `options.options`, where each entry
+// is an order-form field descriptor. Terraform represents these as map(string), and
+// the Plugin Framework cannot reflect a map[string]interface{} holding objects into a
+// StringType element, so decoding into a plain map[string]interface{} fails with
+// "cannot use type map[string]interface {} as schema type basetypes.StringType".
+//
+// Values that are already JSON strings are kept verbatim; everything else is stored
+// as compact JSON, which practitioners can decode with jsondecode(). Compacting
+// matters because these land in Computed attributes: storing the server's raw bytes
+// would turn a cosmetic whitespace change in the API response into a Terraform diff.
+type JSONStringMap map[string]string
+
+// UnmarshalJSON implements the json.Unmarshaler interface.
+func (m *JSONStringMap) UnmarshalJSON(data []byte) error {
+	// A JSON null must leave the map nil: the generated mappers key off
+	// `if apiResp.X != nil` to decide between a value and types.MapNull, so
+	// decoding null into an empty map would turn a null attribute into {}.
+	if len(data) == 0 || string(bytes.TrimSpace(data)) == "null" {
+		return nil
+	}
+
+	var raw map[string]json.RawMessage
+	if err := json.Unmarshal(data, &raw); err != nil {
+		return err
+	}
+
+	out := make(JSONStringMap, len(raw))
+	for key, value := range raw {
+		// A JSON string is stored as-is, so maps that were already string-valued
+		// round-trip unchanged.
+		var s string
+		if err := json.Unmarshal(value, &s); err == nil {
+			out[key] = s
+			continue
+		}
+		var compact bytes.Buffer
+		if err := json.Compact(&compact, value); err != nil {
+			return err
+		}
+		out[key] = compact.String()
+	}
+
+	*m = out
+	return nil
 }

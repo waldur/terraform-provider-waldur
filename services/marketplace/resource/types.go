@@ -32,7 +32,7 @@ type MarketplaceResourceCreateOptionsRequest struct {
 type MarketplaceResourceResponse struct {
 	UUID *string `json:"uuid"`
 
-	Attributes map[string]interface{} `json:"attributes,omitempty" tfsdk:"attributes"`
+	Attributes common.JSONStringMap `json:"attributes,omitempty" tfsdk:"attributes"`
 
 	BackendId *string `json:"backend_id,omitempty" tfsdk:"backend_id"`
 
@@ -82,7 +82,7 @@ type MarketplaceResourceResponse struct {
 
 	OfferingImage *string `json:"offering_image,omitempty" tfsdk:"offering_image"`
 
-	OfferingPluginOptions map[string]interface{} `json:"offering_plugin_options,omitempty" tfsdk:"offering_plugin_options"`
+	OfferingPluginOptions common.JSONStringMap `json:"offering_plugin_options,omitempty" tfsdk:"offering_plugin_options"`
 
 	OfferingShared *bool `json:"offering_shared,omitempty" tfsdk:"offering_shared"`
 
@@ -96,7 +96,7 @@ type MarketplaceResourceResponse struct {
 
 	OfferingUuid *string `json:"offering_uuid,omitempty" tfsdk:"offering_uuid"`
 
-	Options map[string]interface{} `json:"options,omitempty" tfsdk:"options"`
+	Options common.JSONStringMap `json:"options,omitempty" tfsdk:"options"`
 
 	OrderInProgress *MarketplaceResourceOrderInProgressResponse `json:"order_in_progress,omitempty" tfsdk:"order_in_progress"`
 
@@ -253,7 +253,7 @@ type MarketplaceResourceOrderInProgressResponse struct {
 
 	Attachment *string `json:"attachment,omitempty" tfsdk:"attachment"`
 
-	Attributes map[string]interface{} `json:"attributes,omitempty" tfsdk:"attributes"`
+	Attributes common.JSONStringMap `json:"attributes,omitempty" tfsdk:"attributes"`
 
 	AutoApproved *bool `json:"auto_approved,omitempty" tfsdk:"auto_approved"`
 
@@ -337,7 +337,7 @@ type MarketplaceResourceOrderInProgressResponse struct {
 
 	OfferingImage *string `json:"offering_image,omitempty" tfsdk:"offering_image"`
 
-	OfferingPluginOptions map[string]interface{} `json:"offering_plugin_options,omitempty" tfsdk:"offering_plugin_options"`
+	OfferingPluginOptions common.JSONStringMap `json:"offering_plugin_options,omitempty" tfsdk:"offering_plugin_options"`
 
 	OfferingShared *bool `json:"offering_shared,omitempty" tfsdk:"offering_shared"`
 

@@ -1,5 +1,9 @@
 package volume_attachment
 
+import (
+	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
+)
+
 type OpenstackVolumeAttachmentCreateRequest struct {
 	Device *string `json:"device,omitempty" tfsdk:"device"`
 
@@ -11,7 +15,7 @@ type OpenstackVolumeAttachmentCreateRequest struct {
 type OpenstackVolumeAttachmentResponse struct {
 	UUID *string `json:"uuid"`
 
-	ActionDetails map[string]interface{} `json:"action_details,omitempty" tfsdk:"action_details"`
+	ActionDetails common.JSONStringMap `json:"action_details,omitempty" tfsdk:"action_details"`
 
 	AvailabilityZone *string `json:"availability_zone,omitempty" tfsdk:"availability_zone"`
 

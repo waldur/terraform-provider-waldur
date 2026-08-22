@@ -13,8 +13,6 @@ type StructureProjectCreateRequest struct {
 
 	Description *string `json:"description,omitempty" tfsdk:"description"`
 
-	DisplayCreditReports *bool `json:"display_credit_reports,omitempty" tfsdk:"display_credit_reports"`
-
 	EndDate *string `json:"end_date,omitempty" tfsdk:"end_date"`
 
 	GracePeriodDays *int64 `json:"grace_period_days,omitempty" tfsdk:"grace_period_days"`
@@ -48,8 +46,6 @@ type StructureProjectUpdateRequest struct {
 	Customer *string `json:"customer,omitempty" tfsdk:"customer"`
 
 	Description *string `json:"description,omitempty" tfsdk:"description"`
-
-	DisplayCreditReports *bool `json:"display_credit_reports,omitempty" tfsdk:"display_credit_reports"`
 
 	EndDate *string `json:"end_date,omitempty" tfsdk:"end_date"`
 
@@ -100,8 +96,6 @@ type StructureProjectResponse struct {
 	CustomerSlug *string `json:"customer_slug,omitempty" tfsdk:"customer_slug"`
 
 	Description *string `json:"description,omitempty" tfsdk:"description"`
-
-	DisplayCreditReports *bool `json:"display_credit_reports,omitempty" tfsdk:"display_credit_reports"`
 
 	EffectiveEndDate *string `json:"effective_end_date,omitempty" tfsdk:"effective_end_date"`
 
@@ -157,7 +151,7 @@ type StructureProjectResponse struct {
 
 	StartDate *string `json:"start_date,omitempty" tfsdk:"start_date"`
 
-	TerminationMetadata map[string]interface{} `json:"termination_metadata,omitempty" tfsdk:"termination_metadata"`
+	TerminationMetadata common.JSONStringMap `json:"termination_metadata,omitempty" tfsdk:"termination_metadata"`
 
 	Type *string `json:"type,omitempty" tfsdk:"type"`
 

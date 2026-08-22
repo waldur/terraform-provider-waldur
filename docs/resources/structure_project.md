@@ -36,7 +36,6 @@ resource "waldur_structure_project" "example" {
 - `affiliation_uuid` (String) Affiliation Uuid
 - `backend_id` (String) Backend Id
 - `description` (String) Project description (HTML content will be sanitized)
-- `display_credit_reports` (Boolean) Show credit and usage analytics widgets on this project's dashboard.
 - `end_date` (String) Project end date. Setting this field requires DELETE_PROJECT permission.
 - `grace_period_days` (Number) Number of extra days after project end date before resources are terminated. Overrides customer-level setting.
 - `image` (String) Image

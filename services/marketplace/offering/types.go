@@ -10,7 +10,7 @@ type MarketplaceOfferingCreateRequest struct {
 type MarketplaceOfferingResponse struct {
 	UUID *string `json:"uuid"`
 
-	Attributes map[string]interface{} `json:"attributes,omitempty" tfsdk:"attributes"`
+	Attributes common.JSONStringMap `json:"attributes,omitempty" tfsdk:"attributes"`
 
 	BackendId *string `json:"backend_id,omitempty" tfsdk:"backend_id"`
 
@@ -117,12 +117,6 @@ type MarketplaceOfferingResponse struct {
 	ScopeErrorMessage *string `json:"scope_error_message,omitempty" tfsdk:"scope_error_message"`
 
 	ScopeName *string `json:"scope_name,omitempty" tfsdk:"scope_name"`
-
-	ScopeResource *string `json:"scope_resource,omitempty" tfsdk:"scope_resource"`
-
-	ScopeResourceName *string `json:"scope_resource_name,omitempty" tfsdk:"scope_resource_name"`
-
-	ScopeResourceUuid *string `json:"scope_resource_uuid,omitempty" tfsdk:"scope_resource_uuid"`
 
 	ScopeState *string `json:"scope_state,omitempty" tfsdk:"scope_state"`
 
@@ -237,7 +231,7 @@ type MarketplaceOfferingFilesResponse struct {
 }
 
 type MarketplaceOfferingOptionsResponse struct {
-	Options map[string]interface{} `json:"options,omitempty" tfsdk:"options"`
+	Options common.JSONStringMap `json:"options,omitempty" tfsdk:"options"`
 
 	Order *[]string `json:"order,omitempty" tfsdk:"order"`
 }
@@ -673,7 +667,7 @@ type MarketplaceOfferingQuotasResponse struct {
 }
 
 type MarketplaceOfferingResourceOptionsResponse struct {
-	Options map[string]interface{} `json:"options,omitempty" tfsdk:"options"`
+	Options common.JSONStringMap `json:"options,omitempty" tfsdk:"options"`
 
 	Order *[]string `json:"order,omitempty" tfsdk:"order"`
 }
