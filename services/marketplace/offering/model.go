@@ -269,6 +269,9 @@ type MarketplaceOfferingModel struct {
 	Scope                     types.String `tfsdk:"scope"`
 	ScopeErrorMessage         types.String `tfsdk:"scope_error_message"`
 	ScopeName                 types.String `tfsdk:"scope_name"`
+	ScopeResource             types.String `tfsdk:"scope_resource"`
+	ScopeResourceName         types.String `tfsdk:"scope_resource_name"`
+	ScopeResourceUuid         types.String `tfsdk:"scope_resource_uuid"`
 	ScopeState                types.String `tfsdk:"scope_state"`
 	ScopeUuid                 types.String `tfsdk:"scope_uuid"`
 	Screenshots               types.List   `tfsdk:"screenshots"`
@@ -990,6 +993,12 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 	model.ScopeErrorMessage = common.StringPointerValue(apiResp.ScopeErrorMessage)
 
 	model.ScopeName = common.StringPointerValue(apiResp.ScopeName)
+
+	model.ScopeResource = common.StringPointerValue(apiResp.ScopeResource)
+
+	model.ScopeResourceName = common.StringPointerValue(apiResp.ScopeResourceName)
+
+	model.ScopeResourceUuid = common.StringPointerValue(apiResp.ScopeResourceUuid)
 
 	model.ScopeState = common.StringPointerValue(apiResp.ScopeState)
 

@@ -105,6 +105,8 @@ func (d *StructureProjectDataSource) Schema(ctx context.Context, req datasource.
 				Computed: true, MarkdownDescription: "Customer Slug"},
 			"description": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Project description (HTML content will be sanitized)"},
+			"display_credit_reports": schema.BoolAttribute{
+				Computed: true, MarkdownDescription: "Show credit and usage analytics widgets on this project's dashboard."},
 			"effective_end_date": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Effective end date including grace period. After this date, project resources will be terminated."},
 			"end_date": schema.StringAttribute{
