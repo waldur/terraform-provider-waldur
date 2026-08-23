@@ -7,25 +7,69 @@ release:
     name: registry.hpc.ut.ee/mirror/goreleaser/goreleaser:latest
     entrypoint: [""]
   variables:
-    # Retrieve complete history for goreleaser changelog generation
+    # goreleaser needs the tag and its history to resolve .Version
     GIT_DEPTH: 0
+    # The GitHub repository the Terraform Registry watches. goreleaser publishes
+    # the release there; see the `release.github` block in .goreleaser.yml.
+    GITHUB_REPO: waldur/terraform-provider-waldur
   before_script:
+    # Fail fast and legibly on unset credentials. Without this the job dies much
+    # later with "gpg: no valid OpenPGP data found", which reads like a corrupt
+    # key rather than a missing CI/CD variable.
+    - |
+      missing=""
+      [ -n "$GPG_PRIVATE_KEY" ] || missing="$missing GPG_PRIVATE_KEY"
+      [ -n "$GPG_PASSPHRASE" ] || missing="$missing GPG_PASSPHRASE"
+      [ -n "$GITHUB_TOKEN" ]   || missing="$missing GITHUB_TOKEN"
+      if [ -n "$missing" ]; then
+        echo "ERROR: no value for CI/CD variable(s):$missing" >&2
+        echo "" >&2
+        echo "The variable may be absent, or present but not exposed to this job." >&2
+        echo "A *protected* variable only reaches pipelines running on a protected" >&2
+        echo "branch or a protected tag. This job runs on tag $CI_COMMIT_TAG, so if" >&2
+        echo "no tag pattern is protected the value arrives empty and gpg later" >&2
+        echo "fails with the misleading 'no valid OpenPGP data found'." >&2
+        echo "Check Settings -> CI/CD -> Variables *and* Settings -> Repository ->" >&2
+        echo "Protected tags (protect v* to match this job's rules)." >&2
+        echo "" >&2
+        echo "GPG_PRIVATE_KEY must also not be masked -- masking requires" >&2
+        echo "single-line values and mangles the armored block. Use an unmasked" >&2
+        echo "variable, a File-type variable, or store the key base64-encoded" >&2
+        echo "(this job accepts either form)." >&2
+        echo "GITHUB_TOKEN needs 'contents: write' on $GITHUB_REPO, because the" >&2
+        echo "Terraform Registry only ingests GitHub releases." >&2
+        exit 1
+      fi
+
     # The goreleaser image ships gpg and gpgconf but not the gpg-agent binary,
     # so `gpg-connect-agent /bye` below fails with "probably not installed" and
-    # the release never gets as far as signing. Install the full gnupg suite
-    # first. This is what stopped the v8.1.0 and v8.1.2 providers publishing.
+    # the release never gets as far as signing. This is what stopped the v8.1.0
+    # and v8.1.2 providers publishing. curl is needed further down and is not in
+    # the image either, so install whatever is missing in one go.
     - |
-      if ! command -v gpg-agent >/dev/null 2>&1; then
+      need=""
+      command -v gpg-agent >/dev/null 2>&1 || need="$need gnupg"
+      command -v curl      >/dev/null 2>&1 || need="$need curl"
+      if [ -n "$need" ]; then
+        echo "Installing:$need"
         if command -v apk >/dev/null 2>&1; then
-          apk add --no-cache gnupg
+          apk add --no-cache $need
         elif command -v apt-get >/dev/null 2>&1; then
-          apt-get update && apt-get install -y --no-install-recommends gnupg
+          apt-get update && apt-get install -y --no-install-recommends $need
         else
-          echo "ERROR: no supported package manager to install gnupg" >&2
+          echo "ERROR: no supported package manager to install:$need" >&2
           exit 1
         fi
       fi
       gpg-agent --version | head -n 1
+      curl --version | head -n 1
+
+      # The builds and the `go mod tidy` hook run with whatever Go the image
+      # carries; the old GitHub Actions path pinned it from go.mod. Surface the
+      # version so a toolchain mismatch is obvious in the log rather than an
+      # opaque build failure.
+      go version || true
+      echo "go.mod requires: $(awk '/^go /{print $2; exit}' go.mod)"
 
     # Setup non-interactive GPG signing
     - mkdir -p ~/.gnupg
@@ -35,8 +79,21 @@ release:
     - gpgconf --kill gpg-agent
     - gpg-connect-agent /bye
 
-    # Import the private GPG key
-    - echo "$GPG_PRIVATE_KEY" | gpg --batch --import
+    # Import the private GPG key. Accept both the armored form and a base64
+    # blob, since GitLab variable masking requires single-line values.
+    - |
+      if printf '%s' "$GPG_PRIVATE_KEY" | grep -q 'BEGIN PGP PRIVATE KEY BLOCK'; then
+        printf '%s\n' "$GPG_PRIVATE_KEY" | gpg --batch --import
+      else
+        printf '%s' "$GPG_PRIVATE_KEY" | base64 -d 2>/dev/null | gpg --batch --import
+      fi
+
+      if ! gpg --list-secret-keys --with-colons | grep -q '^sec:'; then
+        echo "ERROR: no secret key present after import." >&2
+        echo "GPG_PRIVATE_KEY is empty, truncated, or not a private key block." >&2
+        echo "Export it with: gpg --armor --export-secret-keys <key-id>" >&2
+        exit 1
+      fi
 
     # Extract the key's fingerprint
     - |
@@ -44,6 +101,28 @@ release:
 
     # Perform a dummy signature to cache the passphrase in the GPG agent
     - echo "test" | gpg --batch --pinentry-mode loopback --passphrase "$GPG_PASSPHRASE" --local-user "$GPG_FINGERPRINT" --detach-sign -
+
+    # This tag is pushed to GitLab and reaches GitHub by repository mirroring,
+    # which is fast but not instant. If goreleaser publishes before the tag has
+    # arrived, GitHub creates it from the default branch and the release points
+    # at the wrong tree. Wait for it.
+    - |
+      echo "Waiting for $CI_COMMIT_TAG to mirror to github.com/$GITHUB_REPO ..."
+      for attempt in $(seq 1 30); do
+        code=$(curl -s -o /dev/null -w '%{http_code}' \
+          -H "Authorization: Bearer $GITHUB_TOKEN" \
+          "https://api.github.com/repos/$GITHUB_REPO/git/refs/tags/$CI_COMMIT_TAG")
+        if [ "$code" = "200" ]; then
+          echo "Tag present on GitHub after ${attempt} attempt(s)."
+          break
+        fi
+        if [ "$attempt" = "30" ]; then
+          echo "ERROR: $CI_COMMIT_TAG never appeared on GitHub (last HTTP $code)." >&2
+          echo "Check the push mirror on the GitLab project before retrying." >&2
+          exit 1
+        fi
+        sleep 5
+      done
   script:
     - goreleaser release --clean
   rules:

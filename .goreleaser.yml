@@ -1,6 +1,14 @@
 # Visit https://goreleaser.com for documentation on how to customize this
 # behavior.
 version: 2
+
+# The Terraform Registry only ingests GitHub releases, but this pipeline runs on
+# GitLab, so goreleaser would otherwise infer the forge from the origin remote
+# and publish a GitLab release that the Registry never sees. Pin the forge
+# explicitly: GITLAB_TOKEN is set group-wide for the deploy job, and goreleaser
+# errors out when it can see two forge tokens at once.
+force_token: github
+
 before:
   hooks:
     # this is just an example and not a requirement for provider building/publishing
@@ -55,6 +63,15 @@ signs:
       - "--detach-sign"
       - "${artifact}"
 release:
+  # Overrides the owner/name goreleaser would extract from the origin remote,
+  # which under GitLab CI points at the GitLab project rather than the mirror
+  # the Registry watches.
+  github:
+    owner: waldur
+    name: terraform-provider-waldur
+  # Default is false, which would present an rc as the latest stable release.
+  # "auto" marks it from the tag, e.g. v8.1.3-rc.2.
+  prerelease: auto
   extra_files:
     - glob: 'terraform-registry-manifest.json'
       name_template: 'terraform-provider-waldur_{{ .Version }}_manifest.json'
