@@ -193,6 +193,7 @@ type StructureProjectModel struct {
 	CustomerGracePeriodDays              types.Int64       `tfsdk:"customer_grace_period_days"`
 	CustomerSlug                         types.String      `tfsdk:"customer_slug"`
 	Description                          types.String      `tfsdk:"description"`
+	DisplayCreditReports                 types.Bool        `tfsdk:"display_credit_reports"`
 	EffectiveEndDate                     types.String      `tfsdk:"effective_end_date"`
 	EndDate                              types.String      `tfsdk:"end_date"`
 	EndDateRequestedBy                   types.String      `tfsdk:"end_date_requested_by"`
@@ -266,6 +267,8 @@ func (model *StructureProjectModel) CopyFrom(ctx context.Context, apiResp Struct
 	model.CustomerSlug = common.StringPointerValue(apiResp.CustomerSlug)
 
 	model.Description = common.StringPointerValue(apiResp.Description)
+
+	model.DisplayCreditReports = types.BoolPointerValue(apiResp.DisplayCreditReports)
 
 	model.EffectiveEndDate = common.StringPointerValue(apiResp.EffectiveEndDate)
 
