@@ -915,12 +915,6 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 				Computed: true, MarkdownDescription: "Scope Error Message"},
 			"scope_name": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Scope Name"},
-			"scope_resource": schema.StringAttribute{
-				Computed: true, MarkdownDescription: "Scope Resource"},
-			"scope_resource_name": schema.StringAttribute{
-				Computed: true, MarkdownDescription: "Scope Resource Name"},
-			"scope_resource_uuid": schema.StringAttribute{
-				Computed: true, MarkdownDescription: "Scope Resource Uuid"},
 			"scope_state": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Scope State"},
 			"scope_uuid": schema.StringAttribute{

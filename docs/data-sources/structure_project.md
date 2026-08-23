@@ -33,7 +33,6 @@ Structure Project data source - lookup by name or UUID
 - `customer_grace_period_days` (Number) Grace period days set at the customer (organization) level. Used as default when project-level is not set.
 - `customer_slug` (String) Customer Slug
 - `description` (String) Project description (HTML content will be sanitized)
-- `display_credit_reports` (Boolean) Show credit and usage analytics widgets on this project's dashboard.
 - `effective_end_date` (String) Effective end date including grace period. After this date, project resources will be terminated.
 - `end_date` (String) Project end date. Setting this field requires DELETE_PROJECT permission.
 - `end_date_requested_by` (String) End Date Requested By

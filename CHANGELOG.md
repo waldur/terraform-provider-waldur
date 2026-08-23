@@ -1,5 +1,14 @@
 # Changelog
 
+## 2026-08-23
+
+### ⚠️ Breaking changes
+
+- `marketplace_offering`: removed attribute `scope_resource_name`
+- `marketplace_offering`: removed attribute `scope_resource_uuid`
+- `marketplace_offering`: removed attribute `scope_resource`
+- `structure_project`: removed attribute `display_credit_reports`
+
 ## 2026-08-22
 
 ### Added

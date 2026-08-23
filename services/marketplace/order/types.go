@@ -53,7 +53,7 @@ type MarketplaceOrderResponse struct {
 
 	Attachment *string `json:"attachment,omitempty" tfsdk:"attachment"`
 
-	Attributes map[string]string `json:"attributes,omitempty" tfsdk:"attributes"`
+	Attributes common.JSONStringMap `json:"attributes,omitempty" tfsdk:"attributes"`
 
 	AutoApproved *bool `json:"auto_approved,omitempty" tfsdk:"auto_approved"`
 
