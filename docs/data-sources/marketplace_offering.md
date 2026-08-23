@@ -76,6 +76,9 @@ Marketplace Offering data source - lookup by name or UUID
 - `scope` (String) Scope
 - `scope_error_message` (String) Scope Error Message
 - `scope_name` (String) Scope Name
+- `scope_resource` (String) Scope Resource
+- `scope_resource_name` (String) Scope Resource Name
+- `scope_resource_uuid` (String) Scope Resource Uuid
 - `scope_state` (String) Scope State
 - `scope_uuid` (String) Scope Uuid
 - `screenshots` (Attributes List) Screenshots (see [below for nested schema](#nestedatt--screenshots))
