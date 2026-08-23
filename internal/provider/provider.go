@@ -52,6 +52,27 @@ func (p *waldurProvider) Metadata(ctx context.Context, req provider.MetadataRequ
 
 func (p *waldurProvider) Schema(ctx context.Context, req provider.SchemaRequest, resp *provider.SchemaResponse) {
 	resp.Schema = schema.Schema{
+		// Rendered as the provider's Overview page on the Terraform Registry, and
+		// stripped of markup to become the `description:` in its front matter,
+		// which is what registry search results show. Without it tfplugindocs
+		// emits an empty description and no body under the heading -- which is
+		// why the Overview has been blank since the first release.
+		//
+		// Keep this as flowing prose. tfplugindocs strips markdown for the front
+		// matter without preserving item boundaries, so a bullet list here comes
+		// out as one run-on sentence in search results.
+		MarkdownDescription: "Manage [Waldur](https://waldur.com/) resources with Terraform. " +
+			"Waldur is an open source platform for managing hybrid cloud " +
+			"infrastructure and running a service marketplace, and this provider drives its " +
+			"REST API, so anything the portal exposes can be described as code.\n\n" +
+			"It covers organisational structure (customers, projects, users and role " +
+			"assignments), marketplace ordering and the resources those orders produce, and " +
+			"the OpenStack estate behind them -- tenants, networks, subnets, instances, " +
+			"volumes and security groups.\n\n" +
+			"Configure it with the URL of your Waldur deployment and an " +
+			"API token, either inline or through the `WALDUR_API_URL` and " +
+			"`WALDUR_ACCESS_TOKEN` environment variables. Tokens are issued from your user " +
+			"profile in the portal.",
 		Attributes: map[string]schema.Attribute{
 			"endpoint": schema.StringAttribute{
 				MarkdownDescription: "Waldur API endpoint URL. Can also be set via the `WALDUR_API_URL` environment variable.",
