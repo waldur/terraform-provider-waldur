@@ -347,7 +347,7 @@ Read-Only:
 - `default_internal_network_mtu` (Number) If set, it will be used as a default MTU for the first network in a tenant
 - `default_resource_termination_offset_in_days` (Number) If set, it will be used as a default resource termination offset in days
 - `deployment_mode` (String) Rancher deployment mode
-- `disable_autoapprove` (Boolean) If set to True, orders for this offering will always require manual approval, overriding auto_approve_in_service_provider_projects
+- `disable_autoapprove` (Boolean) If set to True, orders for this offering will always require manual consumer approval, overriding every other consumer-side auto-approve mechanism (auto_approve_in_service_provider_projects, auto_approve_for_roles, project auto-approval rules, and the ORDER.APPROVE permission). Termination orders, staff users and provider approval are not affected
 - `disable_grace_period` (Boolean) If set to True, this offering's resources ignore the project grace period and are terminated on the project end date. Only staff can change this option.
 - `disabled_resource_actions` (List of String) List of disabled marketplace resource actions for this offering.
 - `emit_display_name` (Boolean) Emit the user's full name as a GLAuth displayName custom attribute (rendered to LDAP displayName).
