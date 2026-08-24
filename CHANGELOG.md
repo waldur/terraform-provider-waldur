@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-08-24
+
+### Added
+
+- `marketplace_offering`: new attribute `user_has_offering_user`
+
 ## 2026-08-23
 
 ### Added

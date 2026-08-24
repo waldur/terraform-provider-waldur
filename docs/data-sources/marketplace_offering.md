@@ -94,6 +94,7 @@ Marketplace Offering data source - lookup by name or UUID
 - `type` (String) Type
 - `url` (String) Url
 - `user_has_consent` (Boolean) User Has Consent
+- `user_has_offering_user` (Boolean) User Has Offering User
 - `vendor_details` (String) Vendor Details
 
 <a id="nestedatt--filters"></a>

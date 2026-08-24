@@ -2624,6 +2624,13 @@
           "computed": false
         },
         {
+          "name": "user_has_offering_user",
+          "type": "types.Bool",
+          "required": false,
+          "optional": true,
+          "computed": false
+        },
+        {
           "name": "vendor_details",
           "type": "types.String",
           "required": false,

@@ -1027,6 +1027,8 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 				Computed: true, MarkdownDescription: "Url"},
 			"user_has_consent": schema.BoolAttribute{
 				Computed: true, MarkdownDescription: "User Has Consent"},
+			"user_has_offering_user": schema.BoolAttribute{
+				Computed: true, MarkdownDescription: "User Has Offering User"},
 			"vendor_details": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Vendor Details"},
 		},

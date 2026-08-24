@@ -154,6 +154,8 @@ type MarketplaceOfferingResponse struct {
 
 	UserHasConsent *bool `json:"user_has_consent,omitempty" tfsdk:"user_has_consent"`
 
+	UserHasOfferingUser *bool `json:"user_has_offering_user,omitempty" tfsdk:"user_has_offering_user"`
+
 	VendorDetails *string `json:"vendor_details,omitempty" tfsdk:"vendor_details"`
 }
 

@@ -287,6 +287,7 @@ type MarketplaceOfferingModel struct {
 	Type                      types.String `tfsdk:"type"`
 	Url                       types.String `tfsdk:"url"`
 	UserHasConsent            types.Bool   `tfsdk:"user_has_consent"`
+	UserHasOfferingUser       types.Bool   `tfsdk:"user_has_offering_user"`
 	VendorDetails             types.String `tfsdk:"vendor_details"`
 }
 
@@ -1103,6 +1104,8 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 	model.Url = common.StringPointerValue(apiResp.Url)
 
 	model.UserHasConsent = types.BoolPointerValue(apiResp.UserHasConsent)
+
+	model.UserHasOfferingUser = types.BoolPointerValue(apiResp.UserHasOfferingUser)
 
 	model.VendorDetails = common.StringPointerValue(apiResp.VendorDetails)
 
