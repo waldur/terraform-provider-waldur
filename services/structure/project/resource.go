@@ -9,6 +9,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
 	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/boolplanmodifier"
@@ -228,13 +229,6 @@ func (r *StructureProjectResource) Schema(ctx context.Context, req resource.Sche
 
 					stringplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "Project description (HTML content will be sanitized)"},
-			"display_credit_reports": schema.BoolAttribute{
-				Optional: true,
-				Computed: true,
-				PlanModifiers: []planmodifier.Bool{
-
-					boolplanmodifier.UseStateForUnknown(),
-				}, MarkdownDescription: "Show credit and usage analytics widgets on this project's dashboard."},
 			"effective_end_date": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
@@ -525,10 +519,6 @@ func (r *StructureProjectResource) Create(ctx context.Context, req resource.Crea
 
 		requestBody.Description = data.Description.ValueStringPointer()
 	}
-	if !data.DisplayCreditReports.IsNull() && !data.DisplayCreditReports.IsUnknown() {
-
-		requestBody.DisplayCreditReports = data.DisplayCreditReports.ValueBoolPointer()
-	}
 	if !data.EndDate.IsNull() && !data.EndDate.IsUnknown() {
 
 		requestBody.EndDate = data.EndDate.ValueStringPointer()
@@ -654,11 +644,6 @@ func (r *StructureProjectResource) Update(ctx context.Context, req resource.Upda
 		anyChanges = true
 
 		requestBody.Description = data.Description.ValueStringPointer()
-	}
-	if !data.DisplayCreditReports.IsNull() && !data.DisplayCreditReports.IsUnknown() && !data.DisplayCreditReports.Equal(state.DisplayCreditReports) {
-		anyChanges = true
-
-		requestBody.DisplayCreditReports = data.DisplayCreditReports.ValueBoolPointer()
 	}
 	if !data.EndDate.IsNull() && !data.EndDate.IsUnknown() && !data.EndDate.Equal(state.EndDate) {
 		anyChanges = true
@@ -801,6 +786,12 @@ func (r *StructureProjectResource) ImportState(ctx context.Context, req resource
 	if resp.Diagnostics.HasError() {
 		return
 	}
-
+	data.Timeouts = timeouts.Value{
+		Object: types.ObjectNull(map[string]attr.Type{
+			"create": types.StringType,
+			"update": types.StringType,
+			"delete": types.StringType,
+		}),
+	}
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }

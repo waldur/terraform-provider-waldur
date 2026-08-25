@@ -118,12 +118,6 @@ type MarketplaceOfferingResponse struct {
 
 	ScopeName *string `json:"scope_name,omitempty" tfsdk:"scope_name"`
 
-	ScopeResource *string `json:"scope_resource,omitempty" tfsdk:"scope_resource"`
-
-	ScopeResourceName *string `json:"scope_resource_name,omitempty" tfsdk:"scope_resource_name"`
-
-	ScopeResourceUuid *string `json:"scope_resource_uuid,omitempty" tfsdk:"scope_resource_uuid"`
-
 	ScopeState *string `json:"scope_state,omitempty" tfsdk:"scope_state"`
 
 	ScopeUuid *string `json:"scope_uuid,omitempty" tfsdk:"scope_uuid"`
@@ -153,8 +147,6 @@ type MarketplaceOfferingResponse struct {
 	Url *string `json:"url,omitempty" tfsdk:"url"`
 
 	UserHasConsent *bool `json:"user_has_consent,omitempty" tfsdk:"user_has_consent"`
-
-	UserHasOfferingUser *bool `json:"user_has_offering_user,omitempty" tfsdk:"user_has_offering_user"`
 
 	VendorDetails *string `json:"vendor_details,omitempty" tfsdk:"vendor_details"`
 }

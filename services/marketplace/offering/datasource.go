@@ -576,7 +576,7 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 					"deployment_mode": schema.StringAttribute{
 						Computed: true, MarkdownDescription: "Rancher deployment mode"},
 					"disable_autoapprove": schema.BoolAttribute{
-						Computed: true, MarkdownDescription: "If set to True, orders for this offering will always require manual consumer approval, overriding every other consumer-side auto-approve mechanism (auto_approve_in_service_provider_projects, auto_approve_for_roles, project auto-approval rules, and the ORDER.APPROVE permission). Termination orders, staff users and provider approval are not affected"},
+						Computed: true, MarkdownDescription: "If set to True, orders for this offering will always require manual approval, overriding auto_approve_in_service_provider_projects"},
 					"disable_grace_period": schema.BoolAttribute{
 						Computed: true, MarkdownDescription: "If set to True, this offering's resources ignore the project grace period and are terminated on the project end date. Only staff can change this option."},
 					"disabled_resource_actions": schema.ListAttribute{
@@ -915,12 +915,6 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 				Computed: true, MarkdownDescription: "Scope Error Message"},
 			"scope_name": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Scope Name"},
-			"scope_resource": schema.StringAttribute{
-				Computed: true, MarkdownDescription: "Scope Resource"},
-			"scope_resource_name": schema.StringAttribute{
-				Computed: true, MarkdownDescription: "Scope Resource Name"},
-			"scope_resource_uuid": schema.StringAttribute{
-				Computed: true, MarkdownDescription: "Scope Resource Uuid"},
 			"scope_state": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Scope State"},
 			"scope_uuid": schema.StringAttribute{
@@ -1027,8 +1021,6 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 				Computed: true, MarkdownDescription: "Url"},
 			"user_has_consent": schema.BoolAttribute{
 				Computed: true, MarkdownDescription: "User Has Consent"},
-			"user_has_offering_user": schema.BoolAttribute{
-				Computed: true, MarkdownDescription: "User Has Offering User"},
 			"vendor_details": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Vendor Details"},
 		},

@@ -269,9 +269,6 @@ type MarketplaceOfferingModel struct {
 	Scope                     types.String `tfsdk:"scope"`
 	ScopeErrorMessage         types.String `tfsdk:"scope_error_message"`
 	ScopeName                 types.String `tfsdk:"scope_name"`
-	ScopeResource             types.String `tfsdk:"scope_resource"`
-	ScopeResourceName         types.String `tfsdk:"scope_resource_name"`
-	ScopeResourceUuid         types.String `tfsdk:"scope_resource_uuid"`
 	ScopeState                types.String `tfsdk:"scope_state"`
 	ScopeUuid                 types.String `tfsdk:"scope_uuid"`
 	Screenshots               types.List   `tfsdk:"screenshots"`
@@ -287,7 +284,6 @@ type MarketplaceOfferingModel struct {
 	Type                      types.String `tfsdk:"type"`
 	Url                       types.String `tfsdk:"url"`
 	UserHasConsent            types.Bool   `tfsdk:"user_has_consent"`
-	UserHasOfferingUser       types.Bool   `tfsdk:"user_has_offering_user"`
 	VendorDetails             types.String `tfsdk:"vendor_details"`
 }
 
@@ -995,12 +991,6 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 
 	model.ScopeName = common.StringPointerValue(apiResp.ScopeName)
 
-	model.ScopeResource = common.StringPointerValue(apiResp.ScopeResource)
-
-	model.ScopeResourceName = common.StringPointerValue(apiResp.ScopeResourceName)
-
-	model.ScopeResourceUuid = common.StringPointerValue(apiResp.ScopeResourceUuid)
-
 	model.ScopeState = common.StringPointerValue(apiResp.ScopeState)
 
 	model.ScopeUuid = common.StringPointerValue(apiResp.ScopeUuid)
@@ -1104,8 +1094,6 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 	model.Url = common.StringPointerValue(apiResp.Url)
 
 	model.UserHasConsent = types.BoolPointerValue(apiResp.UserHasConsent)
-
-	model.UserHasOfferingUser = types.BoolPointerValue(apiResp.UserHasOfferingUser)
 
 	model.VendorDetails = common.StringPointerValue(apiResp.VendorDetails)
 

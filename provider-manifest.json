@@ -2327,27 +2327,6 @@
           "computed": false
         },
         {
-          "name": "scope_resource",
-          "type": "types.String",
-          "required": false,
-          "optional": true,
-          "computed": false
-        },
-        {
-          "name": "scope_resource_name",
-          "type": "types.String",
-          "required": false,
-          "optional": true,
-          "computed": false
-        },
-        {
-          "name": "scope_resource_uuid",
-          "type": "types.String",
-          "required": false,
-          "optional": true,
-          "computed": false
-        },
-        {
           "name": "scope_state",
           "type": "types.String",
           "required": false,
@@ -2618,13 +2597,6 @@
         },
         {
           "name": "user_has_consent",
-          "type": "types.Bool",
-          "required": false,
-          "optional": true,
-          "computed": false
-        },
-        {
-          "name": "user_has_offering_user",
           "type": "types.Bool",
           "required": false,
           "optional": true,
@@ -8877,13 +8849,6 @@
         {
           "name": "description",
           "type": "types.String",
-          "required": false,
-          "optional": false,
-          "computed": true
-        },
-        {
-          "name": "display_credit_reports",
-          "type": "types.Bool",
           "required": false,
           "optional": false,
           "computed": true
