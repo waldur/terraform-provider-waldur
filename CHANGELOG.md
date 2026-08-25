@@ -2,6 +2,15 @@
 
 ## 2026-08-25
 
+### Added
+
+- `marketplace_offering`: new attribute `scope_resource_name`
+- `marketplace_offering`: new attribute `scope_resource_uuid`
+- `marketplace_offering`: new attribute `scope_resource`
+- `marketplace_offering`: new attribute `user_has_offering_user`
+
+## 2026-08-25
+
 ### ⚠️ Breaking changes
 
 - `marketplace_offering`: removed attribute `scope_resource_name`
