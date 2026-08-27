@@ -55,6 +55,10 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 				Computed: true, MarkdownDescription: "Purchase and usage is invoiced."},
 			"billing_type_classification": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Classify offering components by billing type. Returns 'limit_only', 'usage_only', or 'mixed'."},
+			"can_update_integration": schema.BoolAttribute{
+				Computed: true, MarkdownDescription: "Can Update Integration"},
+			"can_update_options": schema.BoolAttribute{
+				Computed: true, MarkdownDescription: "Can Update Options"},
 			"category": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Category"},
 			"category_uuid": schema.StringAttribute{

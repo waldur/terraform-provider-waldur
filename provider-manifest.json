@@ -307,6 +307,20 @@
           "computed": false
         },
         {
+          "name": "can_update_integration",
+          "type": "types.Bool",
+          "required": false,
+          "optional": true,
+          "computed": false
+        },
+        {
+          "name": "can_update_options",
+          "type": "types.Bool",
+          "required": false,
+          "optional": true,
+          "computed": false
+        },
+        {
           "name": "category",
           "type": "types.String",
           "required": false,

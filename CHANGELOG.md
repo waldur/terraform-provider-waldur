@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-08-27
+
+### Added
+
+- `marketplace_offering`: new attribute `can_update_integration`
+- `marketplace_offering`: new attribute `can_update_options`
+
 ## 2026-08-25
 
 ### Added

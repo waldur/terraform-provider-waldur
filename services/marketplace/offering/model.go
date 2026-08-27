@@ -219,6 +219,8 @@ type MarketplaceOfferingModel struct {
 	BackendId                 types.String `tfsdk:"backend_id"`
 	Billable                  types.Bool   `tfsdk:"billable"`
 	BillingTypeClassification types.String `tfsdk:"billing_type_classification"`
+	CanUpdateIntegration      types.Bool   `tfsdk:"can_update_integration"`
+	CanUpdateOptions          types.Bool   `tfsdk:"can_update_options"`
 	Category                  types.String `tfsdk:"category"`
 	CategoryUuid              types.String `tfsdk:"category_uuid"`
 	CitationCount             types.Int64  `tfsdk:"citation_count"`
@@ -310,6 +312,10 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 	model.Billable = types.BoolPointerValue(apiResp.Billable)
 
 	model.BillingTypeClassification = common.StringPointerValue(apiResp.BillingTypeClassification)
+
+	model.CanUpdateIntegration = types.BoolPointerValue(apiResp.CanUpdateIntegration)
+
+	model.CanUpdateOptions = types.BoolPointerValue(apiResp.CanUpdateOptions)
 
 	model.Category = common.StringPointerValue(apiResp.Category)
 

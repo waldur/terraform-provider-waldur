@@ -26,6 +26,8 @@ Marketplace Offering data source - lookup by name or UUID
 - `backend_id` (String) Backend Id
 - `billable` (Boolean) Purchase and usage is invoiced.
 - `billing_type_classification` (String) Classify offering components by billing type. Returns 'limit_only', 'usage_only', or 'mixed'.
+- `can_update_integration` (Boolean) Can Update Integration
+- `can_update_options` (Boolean) Can Update Options
 - `category` (String) Category
 - `category_uuid` (String) Category Uuid
 - `citation_count` (Number) Number of citations of a DOI

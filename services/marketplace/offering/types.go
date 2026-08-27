@@ -18,6 +18,10 @@ type MarketplaceOfferingResponse struct {
 
 	BillingTypeClassification *string `json:"billing_type_classification,omitempty" tfsdk:"billing_type_classification"`
 
+	CanUpdateIntegration *bool `json:"can_update_integration,omitempty" tfsdk:"can_update_integration"`
+
+	CanUpdateOptions *bool `json:"can_update_options,omitempty" tfsdk:"can_update_options"`
+
 	Category *string `json:"category,omitempty" tfsdk:"category"`
 
 	CategoryUuid *string `json:"category_uuid,omitempty" tfsdk:"category_uuid"`
