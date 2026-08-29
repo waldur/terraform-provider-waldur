@@ -310,7 +310,6 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 							}, MarkdownDescription: "Uuid"},
 					},
 				},
-				Optional: true,
 				Computed: true,
 				PlanModifiers: []planmodifier.Set{
 
@@ -500,6 +499,12 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 
 											stringplanmodifier.UseStateForUnknown(),
 										}, MarkdownDescription: "Error Message"},
+									"instance_count": schema.Int64Attribute{
+										Computed: true,
+										PlanModifiers: []planmodifier.Int64{
+
+											int64planmodifier.UseStateForUnknown(),
+										}, MarkdownDescription: "Number of instances the security group is attached to. It is annotated by the security group endpoints only, so it is null when the group is rendered as a nested object."},
 									"marketplace_offering_type": schema.StringAttribute{
 										Computed: true,
 										PlanModifiers: []planmodifier.String{

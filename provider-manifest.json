@@ -5422,6 +5422,13 @@
                   "computed": false
                 },
                 {
+                  "name": "instance_count",
+                  "type": "types.Int64",
+                  "required": false,
+                  "optional": true,
+                  "computed": false
+                },
+                {
                   "name": "marketplace_offering_type",
                   "type": "types.String",
                   "required": false,
@@ -6697,6 +6704,13 @@
         {
           "name": "error_message",
           "type": "types.String",
+          "required": false,
+          "optional": true,
+          "computed": false
+        },
+        {
+          "name": "instance_count",
+          "type": "types.Int64",
           "required": false,
           "optional": true,
           "computed": false

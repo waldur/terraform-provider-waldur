@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-08-29
+
+### Added
+
+- `openstack_instance`: new attribute `ports.security_groups.instance_count`
+- `openstack_security_group`: new attribute `instance_count`
+
 ## 2026-08-27
 
 ### Added

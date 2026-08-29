@@ -94,7 +94,6 @@ resource "waldur_openstack_instance" "example" {
 - `delete_volumes` (Boolean) Termination attribute
 - `description` (String) Description
 - `end_date` (String) Order end date
-- `floating_ips` (Attributes Set) Floating IPs to assign to the instance (see [below for nested schema](#nestedatt--floating_ips))
 - `limits` (Map of Number) Resource limits
 - `plan` (String) Plan URL
 - `release_floating_ips` (Boolean) Termination attribute
@@ -119,6 +118,7 @@ resource "waldur_openstack_instance" "example" {
 - `external_ips` (List of String) External Ips
 - `flavor_disk` (Number) Flavor disk size in MiB
 - `flavor_name` (String) Name of the flavor used by this instance
+- `floating_ips` (Attributes Set) Floating IPs to assign to the instance (see [below for nested schema](#nestedatt--floating_ips))
 - `hypervisor_hostname` (String) Name of the hypervisor hosting this instance
 - `id` (String) Openstack Instance UUID (used as Terraform ID)
 - `image_name` (String) Image Name
@@ -195,6 +195,7 @@ Read-Only:
 - `backend_id` (String) Backend Id
 - `customer` (String) Customer
 - `error_message` (String) Error Message
+- `instance_count` (Number) Number of instances the security group is attached to. It is annotated by the security group endpoints only, so it is null when the group is rendered as a nested object.
 - `marketplace_offering_type` (String) Marketplace Offering Type
 - `marketplace_resource_uuid` (String) Marketplace Resource Uuid
 - `project` (String) Project
@@ -239,39 +240,6 @@ Required:
 Optional:
 
 - `volume_type` (String) Volume Type
-
-
-<a id="nestedatt--floating_ips"></a>
-### Nested Schema for `floating_ips`
-
-Required:
-
-- `subnet` (String) Subnet
-
-Optional:
-
-- `ip_address` (String) Existing floating IP address in selected OpenStack tenant to be assigned to new virtual machine
-
-Read-Only:
-
-- `address` (String) The public IPv4 address of the floating IP
-- `port_fixed_ips` (Attributes List) Port Fixed Ips (see [below for nested schema](#nestedatt--floating_ips--port_fixed_ips))
-- `port_mac_address` (String) MAC address of the port
-- `subnet_cidr` (String) IPv4 network address in CIDR format (e.g. 192.168.0.0/24)
-- `subnet_description` (String) Subnet Description
-- `subnet_name` (String) Subnet Name
-- `subnet_uuid` (String) Subnet Uuid
-- `url` (String) Url
-- `uuid` (String) Uuid
-
-<a id="nestedatt--floating_ips--port_fixed_ips"></a>
-### Nested Schema for `floating_ips.port_fixed_ips`
-
-Optional:
-
-- `ip_address` (String) IP address to assign to the port
-- `subnet_id` (String) ID of the subnet in which to assign the IP address
-
 
 
 <a id="nestedatt--security_groups"></a>
@@ -325,6 +293,39 @@ Optional:
 - `create` (String) A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
 - `delete` (String) A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs.
 - `update` (String) A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
+
+
+<a id="nestedatt--floating_ips"></a>
+### Nested Schema for `floating_ips`
+
+Required:
+
+- `subnet` (String) Subnet
+
+Optional:
+
+- `ip_address` (String) Existing floating IP address in selected OpenStack tenant to be assigned to new virtual machine
+
+Read-Only:
+
+- `address` (String) The public IPv4 address of the floating IP
+- `port_fixed_ips` (Attributes List) Port Fixed Ips (see [below for nested schema](#nestedatt--floating_ips--port_fixed_ips))
+- `port_mac_address` (String) MAC address of the port
+- `subnet_cidr` (String) IPv4 network address in CIDR format (e.g. 192.168.0.0/24)
+- `subnet_description` (String) Subnet Description
+- `subnet_name` (String) Subnet Name
+- `subnet_uuid` (String) Subnet Uuid
+- `url` (String) Url
+- `uuid` (String) Uuid
+
+<a id="nestedatt--floating_ips--port_fixed_ips"></a>
+### Nested Schema for `floating_ips.port_fixed_ips`
+
+Optional:
+
+- `ip_address` (String) IP address to assign to the port
+- `subnet_id` (String) ID of the subnet in which to assign the IP address
+
 
 
 <a id="nestedatt--rancher_cluster"></a>

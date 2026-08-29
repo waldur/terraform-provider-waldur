@@ -26,6 +26,7 @@ Openstack Security Group data source - lookup by name or UUID
 - `customer` (String) Customer
 - `description` (String) Description
 - `error_message` (String) Error Message
+- `instance_count` (Number) Number of instances the security group is attached to. It is annotated by the security group endpoints only, so it is null when the group is rendered as a nested object.
 - `marketplace_offering_type` (String) Marketplace Offering Type
 - `marketplace_resource_uuid` (String) Marketplace Resource Uuid
 - `name` (String) Name
