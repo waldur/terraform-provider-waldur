@@ -1224,6 +1224,12 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 
 					stringplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "Project Slug"},
+			"project_start_date": schema.StringAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+
+					stringplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Project Start Date"},
 			"provider_description": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{

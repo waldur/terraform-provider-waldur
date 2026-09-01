@@ -4478,6 +4478,13 @@
           "computed": false
         },
         {
+          "name": "project_start_date",
+          "type": "types.String",
+          "required": false,
+          "optional": true,
+          "computed": false
+        },
+        {
           "name": "provider_description",
           "type": "types.String",
           "required": false,

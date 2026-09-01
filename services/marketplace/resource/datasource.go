@@ -484,6 +484,8 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 				Computed: true, MarkdownDescription: "True if the project is past its end date but still within the grace period."},
 			"project_slug": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Project Slug"},
+			"project_start_date": schema.StringAttribute{
+				Computed: true, MarkdownDescription: "Project Start Date"},
 			"provider_description": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Provider Description"},
 			"provider_name": schema.StringAttribute{

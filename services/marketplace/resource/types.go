@@ -136,6 +136,8 @@ type MarketplaceResourceResponse struct {
 
 	ProjectSlug *string `json:"project_slug,omitempty" tfsdk:"project_slug"`
 
+	ProjectStartDate *string `json:"project_start_date,omitempty" tfsdk:"project_start_date"`
+
 	ProviderDescription *string `json:"provider_description,omitempty" tfsdk:"provider_description"`
 
 	ProviderName *string `json:"provider_name,omitempty" tfsdk:"provider_name"`

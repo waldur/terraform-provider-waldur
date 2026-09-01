@@ -423,6 +423,7 @@ type MarketplaceResourceModel struct {
 	ProjectEndDateRequestedBy types.String      `tfsdk:"project_end_date_requested_by"`
 	ProjectIsInGracePeriod    types.Bool        `tfsdk:"project_is_in_grace_period"`
 	ProjectSlug               types.String      `tfsdk:"project_slug"`
+	ProjectStartDate          types.String      `tfsdk:"project_start_date"`
 	ProviderDescription       types.String      `tfsdk:"provider_description"`
 	ProviderName              types.String      `tfsdk:"provider_name"`
 	ProviderSlug              types.String      `tfsdk:"provider_slug"`
@@ -603,6 +604,8 @@ func (model *MarketplaceResourceModel) CopyFrom(ctx context.Context, apiResp Mar
 	model.ProjectIsInGracePeriod = types.BoolPointerValue(apiResp.ProjectIsInGracePeriod)
 
 	model.ProjectSlug = common.StringPointerValue(apiResp.ProjectSlug)
+
+	model.ProjectStartDate = common.StringPointerValue(apiResp.ProjectStartDate)
 
 	model.ProviderDescription = common.StringPointerValue(apiResp.ProviderDescription)
 

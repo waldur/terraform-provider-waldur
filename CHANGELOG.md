@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-09-01
+
+### Added
+
+- `marketplace_resource`: new attribute `project_start_date`
+
 ## 2026-08-29
 
 ### Added

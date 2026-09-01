@@ -102,6 +102,7 @@ resource "waldur_marketplace_resource" "example" {
 - `project_end_date_requested_by` (String) Project End Date Requested By
 - `project_is_in_grace_period` (Boolean) True if the project is past its end date but still within the grace period.
 - `project_slug` (String) Project Slug
+- `project_start_date` (String) Project Start Date
 - `provider_description` (String) Provider Description
 - `provider_name` (String) Provider Name
 - `provider_slug` (String) Provider Slug
