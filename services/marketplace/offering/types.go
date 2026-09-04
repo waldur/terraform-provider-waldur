@@ -334,6 +334,8 @@ type MarketplaceOfferingPlansResponse struct {
 
 	BackendId *string `json:"backend_id,omitempty" tfsdk:"backend_id"`
 
+	BillingMode *string `json:"billing_mode,omitempty" tfsdk:"billing_mode"`
+
 	Components *[]common.NestedPlanComponent `json:"components,omitempty" tfsdk:"components"`
 
 	Description *string `json:"description,omitempty" tfsdk:"description"`
@@ -372,6 +374,8 @@ type MarketplaceOfferingPlansResponse struct {
 type MarketplaceOfferingPlansComponentsResponse struct {
 	Amount *int64 `json:"amount,omitempty" tfsdk:"amount"`
 
+	BillingType *string `json:"billing_type,omitempty" tfsdk:"billing_type"`
+
 	DiscountAggregation *string `json:"discount_aggregation,omitempty" tfsdk:"discount_aggregation"`
 
 	DiscountDescription *string `json:"discount_description,omitempty" tfsdk:"discount_description"`
@@ -379,6 +383,10 @@ type MarketplaceOfferingPlansComponentsResponse struct {
 	DiscountFormula *string `json:"discount_formula,omitempty" tfsdk:"discount_formula"`
 
 	FuturePrice *string `json:"future_price,omitempty" tfsdk:"future_price"`
+
+	IsPrepaid *bool `json:"is_prepaid,omitempty" tfsdk:"is_prepaid"`
+
+	LimitPeriod *string `json:"limit_period,omitempty" tfsdk:"limit_period"`
 
 	MeasuredUnit *string `json:"measured_unit,omitempty" tfsdk:"measured_unit"`
 

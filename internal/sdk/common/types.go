@@ -58,6 +58,8 @@ type BasePublicPlan struct {
 
 	BackendId *string `json:"backend_id,omitempty" tfsdk:"backend_id"`
 
+	BillingMode *string `json:"billing_mode,omitempty" tfsdk:"billing_mode"`
+
 	Components *[]NestedPlanComponent `json:"components,omitempty" tfsdk:"components"`
 
 	Description *string `json:"description,omitempty" tfsdk:"description"`
@@ -206,6 +208,8 @@ type NestedPartitionQoS struct {
 type NestedPlanComponent struct {
 	Amount *int64 `json:"amount,omitempty" tfsdk:"amount"`
 
+	BillingType *string `json:"billing_type,omitempty" tfsdk:"billing_type"`
+
 	DiscountAggregation *string `json:"discount_aggregation,omitempty" tfsdk:"discount_aggregation"`
 
 	DiscountDescription *string `json:"discount_description,omitempty" tfsdk:"discount_description"`
@@ -213,6 +217,10 @@ type NestedPlanComponent struct {
 	DiscountFormula *string `json:"discount_formula,omitempty" tfsdk:"discount_formula"`
 
 	FuturePrice *string `json:"future_price,omitempty" tfsdk:"future_price"`
+
+	IsPrepaid *bool `json:"is_prepaid,omitempty" tfsdk:"is_prepaid"`
+
+	LimitPeriod *string `json:"limit_period,omitempty" tfsdk:"limit_period"`
 
 	MeasuredUnit *string `json:"measured_unit,omitempty" tfsdk:"measured_unit"`
 
@@ -756,6 +764,8 @@ type OrderDetails struct {
 
 	NewCostEstimate *string `json:"new_cost_estimate,omitempty" tfsdk:"new_cost_estimate"`
 
+	NewPlanBillingMode *string `json:"new_plan_billing_mode,omitempty" tfsdk:"new_plan_billing_mode"`
+
 	NewPlanName *string `json:"new_plan_name,omitempty" tfsdk:"new_plan_name"`
 
 	NewPlanUuid *string `json:"new_plan_uuid,omitempty" tfsdk:"new_plan_uuid"`
@@ -779,6 +789,8 @@ type OrderDetails struct {
 	OfferingUuid *string `json:"offering_uuid,omitempty" tfsdk:"offering_uuid"`
 
 	OldCostEstimate FlexibleNumber `json:"old_cost_estimate,omitempty" tfsdk:"old_cost_estimate"`
+
+	OldPlanBillingMode *string `json:"old_plan_billing_mode,omitempty" tfsdk:"old_plan_billing_mode"`
 
 	OldPlanName *string `json:"old_plan_name,omitempty" tfsdk:"old_plan_name"`
 

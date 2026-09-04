@@ -144,6 +144,8 @@ func (d *MarketplaceOrderDataSource) Schema(ctx context.Context, req datasource.
 				Validators: []validator.String{
 					stringvalidator.RegexMatches(regexp.MustCompile(`^-?\d{0,12}(?:\.\d{0,10})?$`), ""),
 				}},
+			"new_plan_billing_mode": schema.StringAttribute{
+				Computed: true, MarkdownDescription: "New Plan Billing Mode"},
 			"new_plan_name": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "New Plan Name"},
 			"new_plan_uuid": schema.StringAttribute{
@@ -169,6 +171,8 @@ func (d *MarketplaceOrderDataSource) Schema(ctx context.Context, req datasource.
 				Computed: true, MarkdownDescription: "Offering Uuid"},
 			"old_cost_estimate": schema.Float64Attribute{
 				Computed: true, MarkdownDescription: "Old Cost Estimate"},
+			"old_plan_billing_mode": schema.StringAttribute{
+				Computed: true, MarkdownDescription: "Old Plan Billing Mode"},
 			"old_plan_name": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Old Plan Name"},
 			"old_plan_uuid": schema.StringAttribute{

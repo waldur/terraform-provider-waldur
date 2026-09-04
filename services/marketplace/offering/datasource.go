@@ -434,6 +434,8 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 							Computed: true, MarkdownDescription: "Article Code"},
 						"backend_id": schema.StringAttribute{
 							Computed: true, MarkdownDescription: "Backend Id"},
+						"billing_mode": schema.StringAttribute{
+							Computed: true, MarkdownDescription: "How the offering's builtin components are billed under this plan. Custom components keep their own accounting type."},
 						"components": schema.ListNestedAttribute{
 							NestedObject: schema.NestedAttributeObject{
 								Attributes: map[string]schema.Attribute{
@@ -443,6 +445,8 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 											int64validator.AtLeast(0),
 											int64validator.AtMost(2147483647),
 										}},
+									"billing_type": schema.StringAttribute{
+										Computed: true, MarkdownDescription: "Billing Type"},
 									"discount_aggregation": schema.StringAttribute{
 										Computed: true, MarkdownDescription: "Whether the volume discount is computed on a single resource's usage or aggregated across all of the customer's resources of this offering."},
 									"discount_description": schema.StringAttribute{
@@ -454,8 +458,12 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 										Validators: []validator.String{
 											stringvalidator.RegexMatches(regexp.MustCompile(`^-?\d{0,12}(?:\.\d{0,10})?$`), ""),
 										}},
+									"is_prepaid": schema.BoolAttribute{
+										Computed: true, MarkdownDescription: "Is Prepaid"},
+									"limit_period": schema.StringAttribute{
+										Computed: true, MarkdownDescription: "Limit Period"},
 									"measured_unit": schema.StringAttribute{
-										Computed: true, MarkdownDescription: "Unit of measurement, for example, GB."},
+										Computed: true, MarkdownDescription: "Measured Unit"},
 									"name": schema.StringAttribute{
 										Computed: true, MarkdownDescription: "Display name for the measured unit, for example, Floating IP."},
 									"price": schema.StringAttribute{

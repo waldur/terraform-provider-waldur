@@ -171,6 +171,7 @@ type MarketplaceOrderModel struct {
 	Limits                            types.Map         `tfsdk:"limits"`
 	MarketplaceResourceUuid           types.String      `tfsdk:"marketplace_resource_uuid"`
 	NewCostEstimate                   types.String      `tfsdk:"new_cost_estimate"`
+	NewPlanBillingMode                types.String      `tfsdk:"new_plan_billing_mode"`
 	NewPlanName                       types.String      `tfsdk:"new_plan_name"`
 	NewPlanUuid                       types.String      `tfsdk:"new_plan_uuid"`
 	Offering                          types.String      `tfsdk:"offering"`
@@ -183,6 +184,7 @@ type MarketplaceOrderModel struct {
 	OfferingType                      types.String      `tfsdk:"offering_type"`
 	OfferingUuid                      types.String      `tfsdk:"offering_uuid"`
 	OldCostEstimate                   types.Float64     `tfsdk:"old_cost_estimate"`
+	OldPlanBillingMode                types.String      `tfsdk:"old_plan_billing_mode"`
 	OldPlanName                       types.String      `tfsdk:"old_plan_name"`
 	OldPlanUuid                       types.String      `tfsdk:"old_plan_uuid"`
 	OrderSubtype                      types.String      `tfsdk:"order_subtype"`
@@ -328,6 +330,8 @@ func (model *MarketplaceOrderModel) CopyFrom(ctx context.Context, apiResp Market
 
 	model.NewCostEstimate = common.StringPointerValue(apiResp.NewCostEstimate)
 
+	model.NewPlanBillingMode = common.StringPointerValue(apiResp.NewPlanBillingMode)
+
 	model.NewPlanName = common.StringPointerValue(apiResp.NewPlanName)
 
 	model.NewPlanUuid = common.StringPointerValue(apiResp.NewPlanUuid)
@@ -357,6 +361,8 @@ func (model *MarketplaceOrderModel) CopyFrom(ctx context.Context, apiResp Market
 	model.OfferingUuid = common.StringPointerValue(apiResp.OfferingUuid)
 
 	model.OldCostEstimate = types.Float64PointerValue(apiResp.OldCostEstimate.Float64Ptr())
+
+	model.OldPlanBillingMode = common.StringPointerValue(apiResp.OldPlanBillingMode)
 
 	model.OldPlanName = common.StringPointerValue(apiResp.OldPlanName)
 

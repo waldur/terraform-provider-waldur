@@ -1121,6 +1121,13 @@
               "computed": false
             },
             {
+              "name": "billing_mode",
+              "type": "types.String",
+              "required": false,
+              "optional": true,
+              "computed": false
+            },
+            {
               "name": "components",
               "type": "types.List\u003cobject\u003e",
               "required": false,
@@ -1130,6 +1137,13 @@
                 {
                   "name": "amount",
                   "type": "types.Int64",
+                  "required": false,
+                  "optional": true,
+                  "computed": false
+                },
+                {
+                  "name": "billing_type",
+                  "type": "types.String",
                   "required": false,
                   "optional": true,
                   "computed": false
@@ -1157,6 +1171,20 @@
                 },
                 {
                   "name": "future_price",
+                  "type": "types.String",
+                  "required": false,
+                  "optional": true,
+                  "computed": false
+                },
+                {
+                  "name": "is_prepaid",
+                  "type": "types.Bool",
+                  "required": false,
+                  "optional": true,
+                  "computed": false
+                },
+                {
+                  "name": "limit_period",
                   "type": "types.String",
                   "required": false,
                   "optional": true,
@@ -2946,6 +2974,13 @@
           "computed": false
         },
         {
+          "name": "new_plan_billing_mode",
+          "type": "types.String",
+          "required": false,
+          "optional": true,
+          "computed": false
+        },
+        {
           "name": "new_plan_name",
           "type": "types.String",
           "required": false,
@@ -3025,6 +3060,13 @@
         {
           "name": "old_cost_estimate",
           "type": "types.Float64",
+          "required": false,
+          "optional": true,
+          "computed": false
+        },
+        {
+          "name": "old_plan_billing_mode",
+          "type": "types.String",
           "required": false,
           "optional": true,
           "computed": false
@@ -4014,6 +4056,13 @@
               "computed": false
             },
             {
+              "name": "new_plan_billing_mode",
+              "type": "types.String",
+              "required": false,
+              "optional": true,
+              "computed": false
+            },
+            {
               "name": "new_plan_name",
               "type": "types.String",
               "required": false,
@@ -4093,6 +4142,13 @@
             {
               "name": "old_cost_estimate",
               "type": "types.Float64",
+              "required": false,
+              "optional": true,
+              "computed": false
+            },
+            {
+              "name": "old_plan_billing_mode",
+              "type": "types.String",
               "required": false,
               "optional": true,
               "computed": false

@@ -227,6 +227,7 @@ Read-Only:
 - `limits` (Map of Number) Limits
 - `marketplace_resource_uuid` (String) Marketplace Resource Uuid
 - `new_cost_estimate` (String) New Cost Estimate
+- `new_plan_billing_mode` (String) New Plan Billing Mode
 - `new_plan_name` (String) New Plan Name
 - `new_plan_uuid` (String) New Plan Uuid
 - `offering` (String) Offering
@@ -239,6 +240,7 @@ Read-Only:
 - `offering_type` (String) Offering Type
 - `offering_uuid` (String) Offering Uuid
 - `old_cost_estimate` (Number) Old Cost Estimate
+- `old_plan_billing_mode` (String) Old Plan Billing Mode
 - `old_plan_name` (String) Old Plan Name
 - `old_plan_uuid` (String) Old Plan Uuid
 - `order_subtype` (String) Order Subtype

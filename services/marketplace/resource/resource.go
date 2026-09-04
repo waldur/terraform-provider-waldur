@@ -802,6 +802,12 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 						Validators: []validator.String{
 							stringvalidator.RegexMatches(regexp.MustCompile(`^-?\d{0,12}(?:\.\d{0,10})?$`), ""),
 						}},
+					"new_plan_billing_mode": schema.StringAttribute{
+						Computed: true,
+						PlanModifiers: []planmodifier.String{
+
+							stringplanmodifier.UseStateForUnknown(),
+						}, MarkdownDescription: "New Plan Billing Mode"},
 					"new_plan_name": schema.StringAttribute{
 						Computed: true,
 						PlanModifiers: []planmodifier.String{
@@ -876,6 +882,12 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 
 							float64planmodifier.UseStateForUnknown(),
 						}, MarkdownDescription: "Old Cost Estimate"},
+					"old_plan_billing_mode": schema.StringAttribute{
+						Computed: true,
+						PlanModifiers: []planmodifier.String{
+
+							stringplanmodifier.UseStateForUnknown(),
+						}, MarkdownDescription: "Old Plan Billing Mode"},
 					"old_plan_name": schema.StringAttribute{
 						Computed: true,
 						PlanModifiers: []planmodifier.String{

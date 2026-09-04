@@ -1,5 +1,18 @@
 # Changelog
 
+## 2026-09-04
+
+### Added
+
+- `marketplace_offering`: new attribute `plans.billing_mode`
+- `marketplace_offering`: new attribute `plans.components.billing_type`
+- `marketplace_offering`: new attribute `plans.components.is_prepaid`
+- `marketplace_offering`: new attribute `plans.components.limit_period`
+- `marketplace_order`: new attribute `new_plan_billing_mode`
+- `marketplace_order`: new attribute `old_plan_billing_mode`
+- `marketplace_resource`: new attribute `order_in_progress.new_plan_billing_mode`
+- `marketplace_resource`: new attribute `order_in_progress.old_plan_billing_mode`
+
 ## 2026-09-01
 
 ### Added

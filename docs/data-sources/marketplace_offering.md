@@ -279,6 +279,7 @@ Read-Only:
 - `archived` (Boolean) Forbids creation of new resources.
 - `article_code` (String) Article Code
 - `backend_id` (String) Backend Id
+- `billing_mode` (String) How the offering's builtin components are billed under this plan. Custom components keep their own accounting type.
 - `components` (Attributes List) Components (see [below for nested schema](#nestedatt--plans--components))
 - `description` (String) Description
 - `future_prices` (Map of String) Future Prices
@@ -303,11 +304,14 @@ Read-Only:
 Read-Only:
 
 - `amount` (Number) Amount
+- `billing_type` (String) Billing Type
 - `discount_aggregation` (String) Whether the volume discount is computed on a single resource's usage or aggregated across all of the customer's resources of this offering.
 - `discount_description` (String) Discount Description
 - `discount_formula` (String) Volume discount formula evaluated with the billed quantity bound to `usage`; returns a discount percentage (clamped to 0-100). Empty means no discount. Example: '10 if usage >= 100 else 0'.
 - `future_price` (String) Future Price
-- `measured_unit` (String) Unit of measurement, for example, GB.
+- `is_prepaid` (Boolean) Is Prepaid
+- `limit_period` (String) Limit Period
+- `measured_unit` (String) Measured Unit
 - `name` (String) Display name for the measured unit, for example, Floating IP.
 - `price` (String) Price
 - `type` (String) Unique internal name of the measured unit, for example floating_ip.
