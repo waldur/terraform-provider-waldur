@@ -162,7 +162,7 @@ Read-Only:
 - `description` (String) Description
 - `factor` (Number) Factor
 - `is_boolean` (Boolean) Is Boolean
-- `is_builtin` (Boolean) Is Builtin
+- `is_builtin` (Boolean) The API's older name for ``billed_per_plan``. It used to ask the plugin registry whether this component's type is one the plugin declares, which left out the OpenStack per-volume-type quotas: they are created by the volume type sync rather than declared, so the API called them provider components while the billing resolver treated them as builtin. Reading the stored flag makes the two agree.
 - `is_prepaid` (Boolean) Is Prepaid
 - `limit_amount` (Number) Limit Amount
 - `limit_period` (String) Limit Period

@@ -130,7 +130,7 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 						"is_boolean": schema.BoolAttribute{
 							Computed: true, MarkdownDescription: "Is Boolean"},
 						"is_builtin": schema.BoolAttribute{
-							Computed: true, MarkdownDescription: "Is Builtin"},
+							Computed: true, MarkdownDescription: "The API's older name for ``billed_per_plan``. It used to ask the plugin registry whether this component's type is one the plugin declares, which left out the OpenStack per-volume-type quotas: they are created by the volume type sync rather than declared, so the API called them provider components while the billing resolver treated them as builtin. Reading the stored flag makes the two agree."},
 						"is_prepaid": schema.BoolAttribute{
 							Computed: true, MarkdownDescription: "Is Prepaid"},
 						"limit_amount": schema.Int64Attribute{

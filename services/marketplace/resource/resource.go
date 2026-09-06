@@ -286,7 +286,7 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 							PlanModifiers: []planmodifier.Bool{
 
 								boolplanmodifier.UseStateForUnknown(),
-							}, MarkdownDescription: "Is Builtin"},
+							}, MarkdownDescription: "The API's older name for ``billed_per_plan``. It used to ask the plugin registry whether this component's type is one the plugin declares, which left out the OpenStack per-volume-type quotas: they are created by the volume type sync rather than declared, so the API called them provider components while the billing resolver treated them as builtin. Reading the stored flag makes the two agree."},
 						"is_prepaid": schema.BoolAttribute{
 							Optional: true,
 							Computed: true,
