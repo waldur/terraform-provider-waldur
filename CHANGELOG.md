@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-09-07
+
+### Added
+
+- `marketplace_offering`: new attribute `billing_period_applies`
+
 ## 2026-09-04
 
 ### Added

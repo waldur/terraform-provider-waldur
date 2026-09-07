@@ -53,6 +53,9 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 				Computed: true, MarkdownDescription: "Backend Id"},
 			"billable": schema.BoolAttribute{
 				Computed: true, MarkdownDescription: "Purchase and usage is invoiced."},
+			"billing_period_applies": schema.MapAttribute{
+				ElementType: types.BoolType,
+				Computed:    true, MarkdownDescription: "Per plan billing mode, whether a plan's billing period changes what is invoiced. False means every component of this offering would price a quantity of its own under that mode, so the period is inert on the invoice."},
 			"billing_type_classification": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Classify offering components by billing type. Returns 'limit_only', 'usage_only', or 'mixed'."},
 			"can_update_integration": schema.BoolAttribute{
