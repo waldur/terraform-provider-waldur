@@ -11,7 +11,7 @@ type MarketplaceOrderCreateRequest struct {
 
 	CallbackUrl *string `json:"callback_url,omitempty" tfsdk:"callback_url"`
 
-	Limits map[string]int64 `json:"limits,omitempty" tfsdk:"limits"`
+	Limits map[string]float64 `json:"limits,omitempty" tfsdk:"limits"`
 
 	Offering *string `json:"offering" tfsdk:"offering"`
 
@@ -35,7 +35,7 @@ type MarketplaceOrderCreateLimitsRequest struct {
 type MarketplaceOrderUpdateRequest struct {
 	Attributes map[string]interface{} `json:"attributes,omitempty" tfsdk:"attributes"`
 
-	Limits map[string]int64 `json:"limits,omitempty" tfsdk:"limits"`
+	Limits map[string]float64 `json:"limits,omitempty" tfsdk:"limits"`
 
 	StartDate *string `json:"start_date,omitempty" tfsdk:"start_date"`
 }
@@ -119,7 +119,7 @@ type MarketplaceOrderResponse struct {
 
 	Issue *MarketplaceOrderIssueResponse `json:"issue,omitempty" tfsdk:"issue"`
 
-	Limits map[string]int64 `json:"limits,omitempty" tfsdk:"limits"`
+	Limits map[string]float64 `json:"limits,omitempty" tfsdk:"limits"`
 
 	MarketplaceResourceUuid *string `json:"marketplace_resource_uuid,omitempty" tfsdk:"marketplace_resource_uuid"`
 

@@ -315,7 +315,7 @@ func (r *MarketplaceOrderResource) Schema(ctx context.Context, req resource.Sche
 				}, MarkdownDescription: "Issue",
 			},
 			"limits": schema.MapAttribute{
-				ElementType: types.Int64Type,
+				ElementType: types.Float64Type,
 				Optional:    true,
 				Computed:    true,
 				PlanModifiers: []planmodifier.Map{

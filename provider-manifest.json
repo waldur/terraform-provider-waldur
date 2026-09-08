@@ -378,7 +378,7 @@
             },
             {
               "name": "default_limit",
-              "type": "types.Int64",
+              "type": "types.Float64",
               "required": false,
               "optional": true,
               "computed": false
@@ -420,6 +420,13 @@
             },
             {
               "name": "limit_amount",
+              "type": "types.Float64",
+              "required": false,
+              "optional": true,
+              "computed": false
+            },
+            {
+              "name": "limit_decimal_places",
               "type": "types.Int64",
               "required": false,
               "optional": true,
@@ -434,7 +441,7 @@
             },
             {
               "name": "max_available_limit",
-              "type": "types.Int64",
+              "type": "types.Float64",
               "required": false,
               "optional": true,
               "computed": false
@@ -455,7 +462,7 @@
             },
             {
               "name": "max_value",
-              "type": "types.Int64",
+              "type": "types.Float64",
               "required": false,
               "optional": true,
               "computed": false
@@ -483,7 +490,7 @@
             },
             {
               "name": "min_value",
-              "type": "types.Int64",
+              "type": "types.Float64",
               "required": false,
               "optional": true,
               "computed": false
@@ -3535,7 +3542,7 @@
             },
             {
               "name": "default_limit",
-              "type": "types.Int64",
+              "type": "types.Float64",
               "required": false,
               "optional": false,
               "computed": true
@@ -3577,6 +3584,13 @@
             },
             {
               "name": "limit_amount",
+              "type": "types.Float64",
+              "required": false,
+              "optional": false,
+              "computed": true
+            },
+            {
+              "name": "limit_decimal_places",
               "type": "types.Int64",
               "required": false,
               "optional": false,
@@ -3591,7 +3605,7 @@
             },
             {
               "name": "max_available_limit",
-              "type": "types.Int64",
+              "type": "types.Float64",
               "required": false,
               "optional": false,
               "computed": true
@@ -3612,7 +3626,7 @@
             },
             {
               "name": "max_value",
-              "type": "types.Int64",
+              "type": "types.Float64",
               "required": false,
               "optional": false,
               "computed": true
@@ -3640,7 +3654,7 @@
             },
             {
               "name": "min_value",
-              "type": "types.Int64",
+              "type": "types.Float64",
               "required": false,
               "optional": false,
               "computed": true
@@ -7267,6 +7281,27 @@
         },
         {
           "name": "resource_type",
+          "type": "types.String",
+          "required": false,
+          "optional": true,
+          "computed": false
+        },
+        {
+          "name": "router",
+          "type": "types.String",
+          "required": false,
+          "optional": false,
+          "computed": true
+        },
+        {
+          "name": "router_name",
+          "type": "types.String",
+          "required": false,
+          "optional": true,
+          "computed": false
+        },
+        {
+          "name": "router_uuid",
           "type": "types.String",
           "required": false,
           "optional": true,

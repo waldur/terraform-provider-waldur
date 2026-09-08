@@ -176,7 +176,7 @@ type MarketplaceOfferingComponentsResponse struct {
 
 	BillingType *string `json:"billing_type,omitempty" tfsdk:"billing_type"`
 
-	DefaultLimit *int64 `json:"default_limit,omitempty" tfsdk:"default_limit"`
+	DefaultLimit common.FlexibleNumber `json:"default_limit,omitempty" tfsdk:"default_limit"`
 
 	Description *string `json:"description,omitempty" tfsdk:"description"`
 
@@ -188,17 +188,19 @@ type MarketplaceOfferingComponentsResponse struct {
 
 	IsPrepaid *bool `json:"is_prepaid,omitempty" tfsdk:"is_prepaid"`
 
-	LimitAmount *int64 `json:"limit_amount,omitempty" tfsdk:"limit_amount"`
+	LimitAmount common.FlexibleNumber `json:"limit_amount,omitempty" tfsdk:"limit_amount"`
+
+	LimitDecimalPlaces *int64 `json:"limit_decimal_places,omitempty" tfsdk:"limit_decimal_places"`
 
 	LimitPeriod *string `json:"limit_period,omitempty" tfsdk:"limit_period"`
 
-	MaxAvailableLimit *int64 `json:"max_available_limit,omitempty" tfsdk:"max_available_limit"`
+	MaxAvailableLimit common.FlexibleNumber `json:"max_available_limit,omitempty" tfsdk:"max_available_limit"`
 
 	MaxPrepaidDuration *int64 `json:"max_prepaid_duration,omitempty" tfsdk:"max_prepaid_duration"`
 
 	MaxRenewalDuration *int64 `json:"max_renewal_duration,omitempty" tfsdk:"max_renewal_duration"`
 
-	MaxValue *int64 `json:"max_value,omitempty" tfsdk:"max_value"`
+	MaxValue common.FlexibleNumber `json:"max_value,omitempty" tfsdk:"max_value"`
 
 	MeasuredUnit *string `json:"measured_unit,omitempty" tfsdk:"measured_unit"`
 
@@ -206,7 +208,7 @@ type MarketplaceOfferingComponentsResponse struct {
 
 	MinRenewalDuration *int64 `json:"min_renewal_duration,omitempty" tfsdk:"min_renewal_duration"`
 
-	MinValue *int64 `json:"min_value,omitempty" tfsdk:"min_value"`
+	MinValue common.FlexibleNumber `json:"min_value,omitempty" tfsdk:"min_value"`
 
 	Name *string `json:"name,omitempty" tfsdk:"name"`
 

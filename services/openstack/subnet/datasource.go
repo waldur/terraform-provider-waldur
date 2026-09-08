@@ -103,6 +103,12 @@ func (d *OpenstackSubnetDataSource) Schema(ctx context.Context, req datasource.S
 				Computed: true, MarkdownDescription: "Project"},
 			"resource_type": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Resource Type"},
+			"router": schema.StringAttribute{
+				Computed: true, MarkdownDescription: "Router to attach the subnet to. Optional: when omitted Waldur picks a router of the tenant itself. Cannot be changed here afterwards -- use the router's add/remove interface actions."},
+			"router_name": schema.StringAttribute{
+				Computed: true, MarkdownDescription: "Router Name"},
+			"router_uuid": schema.StringAttribute{
+				Computed: true, MarkdownDescription: "Router Uuid"},
 			"state": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "State"},
 			"tenant": schema.StringAttribute{

@@ -7,6 +7,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
 	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
+	"github.com/hashicorp/terraform-plugin-framework-validators/float64validator"
 	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
@@ -197,7 +198,7 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 					mapplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "Dictionary mapping limit-based component types to their consumed usage. Sums the ComponentUsage rows of the component's current period (the monthly billing period unless the component defines a longer limit_period), i.e. the period's high-watermark rather than the instantaneous current_usages value."},
 			"limits": schema.MapAttribute{
-				ElementType: types.Int64Type,
+				ElementType: types.Float64Type,
 				Computed:    true,
 				PlanModifiers: []planmodifier.Map{
 
@@ -250,16 +251,16 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 							Validators: []validator.String{
 								stringvalidator.OneOf("fixed", "usage", "limit", "one", "few"),
 							}},
-						"default_limit": schema.Int64Attribute{
+						"default_limit": schema.Float64Attribute{
 							Optional: true,
 							Computed: true,
-							PlanModifiers: []planmodifier.Int64{
+							PlanModifiers: []planmodifier.Float64{
 
-								int64planmodifier.UseStateForUnknown(),
+								float64planmodifier.UseStateForUnknown(),
 							}, MarkdownDescription: "Default Limit",
-							Validators: []validator.Int64{
-								int64validator.AtLeast(-2147483648),
-								int64validator.AtMost(2147483647),
+							Validators: []validator.Float64{
+								float64validator.AtLeast(-1e+18),
+								float64validator.AtMost(1e+18),
 							}},
 						"description": schema.StringAttribute{
 							Optional: true,
@@ -294,16 +295,27 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 
 								boolplanmodifier.UseStateForUnknown(),
 							}, MarkdownDescription: "Is Prepaid"},
-						"limit_amount": schema.Int64Attribute{
+						"limit_amount": schema.Float64Attribute{
+							Optional: true,
+							Computed: true,
+							PlanModifiers: []planmodifier.Float64{
+
+								float64planmodifier.UseStateForUnknown(),
+							}, MarkdownDescription: "Limit Amount",
+							Validators: []validator.Float64{
+								float64validator.AtLeast(-1e+18),
+								float64validator.AtMost(1e+18),
+							}},
+						"limit_decimal_places": schema.Int64Attribute{
 							Optional: true,
 							Computed: true,
 							PlanModifiers: []planmodifier.Int64{
 
 								int64planmodifier.UseStateForUnknown(),
-							}, MarkdownDescription: "Limit Amount",
+							}, MarkdownDescription: "Number of decimal places accepted for this component's limit. 0 keeps the limit integer-only.",
 							Validators: []validator.Int64{
-								int64validator.AtLeast(-2147483648),
-								int64validator.AtMost(2147483647),
+								int64validator.AtLeast(0),
+								int64validator.AtMost(2),
 							}},
 						"limit_period": schema.StringAttribute{
 							Optional: true,
@@ -312,16 +324,16 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 
 								stringplanmodifier.UseStateForUnknown(),
 							}, MarkdownDescription: "Limit Period"},
-						"max_available_limit": schema.Int64Attribute{
+						"max_available_limit": schema.Float64Attribute{
 							Optional: true,
 							Computed: true,
-							PlanModifiers: []planmodifier.Int64{
+							PlanModifiers: []planmodifier.Float64{
 
-								int64planmodifier.UseStateForUnknown(),
+								float64planmodifier.UseStateForUnknown(),
 							}, MarkdownDescription: "Max Available Limit",
-							Validators: []validator.Int64{
-								int64validator.AtLeast(-2147483648),
-								int64validator.AtMost(2147483647),
+							Validators: []validator.Float64{
+								float64validator.AtLeast(-1e+18),
+								float64validator.AtMost(1e+18),
 							}},
 						"max_prepaid_duration": schema.Int64Attribute{
 							Optional: true,
@@ -345,16 +357,16 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 								int64validator.AtLeast(0),
 								int64validator.AtMost(2147483647),
 							}},
-						"max_value": schema.Int64Attribute{
+						"max_value": schema.Float64Attribute{
 							Optional: true,
 							Computed: true,
-							PlanModifiers: []planmodifier.Int64{
+							PlanModifiers: []planmodifier.Float64{
 
-								int64planmodifier.UseStateForUnknown(),
+								float64planmodifier.UseStateForUnknown(),
 							}, MarkdownDescription: "Max Value",
-							Validators: []validator.Int64{
-								int64validator.AtLeast(-2147483648),
-								int64validator.AtMost(2147483647),
+							Validators: []validator.Float64{
+								float64validator.AtLeast(-1e+18),
+								float64validator.AtMost(1e+18),
 							}},
 						"measured_unit": schema.StringAttribute{
 							Optional: true,
@@ -385,16 +397,16 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 								int64validator.AtLeast(0),
 								int64validator.AtMost(2147483647),
 							}},
-						"min_value": schema.Int64Attribute{
+						"min_value": schema.Float64Attribute{
 							Optional: true,
 							Computed: true,
-							PlanModifiers: []planmodifier.Int64{
+							PlanModifiers: []planmodifier.Float64{
 
-								int64planmodifier.UseStateForUnknown(),
+								float64planmodifier.UseStateForUnknown(),
 							}, MarkdownDescription: "Min Value",
-							Validators: []validator.Int64{
-								int64validator.AtLeast(-2147483648),
-								int64validator.AtMost(2147483647),
+							Validators: []validator.Float64{
+								float64validator.AtLeast(-1e+18),
+								float64validator.AtMost(1e+18),
 							}},
 						"name": schema.StringAttribute{
 							Optional: true,
@@ -780,7 +792,7 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 						}, MarkdownDescription: "Issue",
 					},
 					"limits": schema.MapAttribute{
-						ElementType: types.Int64Type,
+						ElementType: types.Float64Type,
 						Optional:    true,
 						Computed:    true,
 						PlanModifiers: []planmodifier.Map{

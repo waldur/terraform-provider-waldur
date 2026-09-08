@@ -1,5 +1,28 @@
 # Changelog
 
+## 2026-09-08
+
+### ⚠️ Breaking changes
+
+- `marketplace_offering`: attribute `components.default_limit` type changed from `types.Int64` to `types.Float64`
+- `marketplace_offering`: attribute `components.limit_amount` type changed from `types.Int64` to `types.Float64`
+- `marketplace_offering`: attribute `components.max_available_limit` type changed from `types.Int64` to `types.Float64`
+- `marketplace_offering`: attribute `components.max_value` type changed from `types.Int64` to `types.Float64`
+- `marketplace_offering`: attribute `components.min_value` type changed from `types.Int64` to `types.Float64`
+- `marketplace_resource`: attribute `offering_components.default_limit` type changed from `types.Int64` to `types.Float64`
+- `marketplace_resource`: attribute `offering_components.limit_amount` type changed from `types.Int64` to `types.Float64`
+- `marketplace_resource`: attribute `offering_components.max_available_limit` type changed from `types.Int64` to `types.Float64`
+- `marketplace_resource`: attribute `offering_components.max_value` type changed from `types.Int64` to `types.Float64`
+- `marketplace_resource`: attribute `offering_components.min_value` type changed from `types.Int64` to `types.Float64`
+
+### Added
+
+- `marketplace_offering`: new attribute `components.limit_decimal_places`
+- `marketplace_resource`: new attribute `offering_components.limit_decimal_places`
+- `openstack_subnet`: new attribute `router_name`
+- `openstack_subnet`: new attribute `router_uuid`
+- `openstack_subnet`: new attribute `router`
+
 ## 2026-09-07
 
 ### Added

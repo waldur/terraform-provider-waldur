@@ -319,11 +319,11 @@ func (model *MarketplaceOrderModel) CopyFrom(ctx context.Context, apiResp Market
 	}
 
 	if apiResp.Limits != nil {
-		valLimits, diagsLimits := types.MapValueFrom(ctx, types.Int64Type, apiResp.Limits)
+		valLimits, diagsLimits := types.MapValueFrom(ctx, types.Float64Type, apiResp.Limits)
 		diags.Append(diagsLimits...)
 		model.Limits = valLimits
 	} else {
-		model.Limits = types.MapNull(types.Int64Type)
+		model.Limits = types.MapNull(types.Float64Type)
 	}
 
 	model.MarketplaceResourceUuid = common.StringPointerValue(apiResp.MarketplaceResourceUuid)
