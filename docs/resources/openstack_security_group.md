@@ -72,6 +72,7 @@ resource "waldur_openstack_security_group" "example" {
 - `customer` (String) Customer
 - `error_message` (String) Error Message
 - `id` (String) Openstack Security Group UUID (used as Terraform ID)
+- `instance_count` (Number) Number of instances the security group is attached to. It is annotated by the security group endpoints only, so it is null when the group is rendered as a nested object.
 - `marketplace_offering_type` (String) Marketplace Offering Type
 - `marketplace_resource_uuid` (String) Marketplace Resource Uuid
 - `project` (String) Project

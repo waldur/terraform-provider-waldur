@@ -87,6 +87,8 @@ Optional:
 - `project_uuid` (String) Project UUID
 - `query` (String) Search by name, internal IP, or external IP
 - `runtime_state` (String) Runtime state
+- `security_group` (String) Security group URL
+- `security_group_uuid` (String) Security group UUID
 - `service_settings_name` (String) Service settings name
 - `service_settings_uuid` (String) Service settings UUID
 - `tenant` (String) Tenant URL
@@ -167,6 +169,7 @@ Read-Only:
 - `customer` (String) Customer
 - `description` (String) Description
 - `error_message` (String) Error Message
+- `instance_count` (Number) Number of instances the security group is attached to. It is annotated by the security group endpoints only, so it is null when the group is rendered as a nested object.
 - `marketplace_offering_type` (String) Marketplace Offering Type
 - `marketplace_resource_uuid` (String) Marketplace Resource Uuid
 - `name` (String) Name

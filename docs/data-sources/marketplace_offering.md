@@ -25,7 +25,10 @@ Marketplace Offering data source - lookup by name or UUID
 - `attributes` (Map of String) Attributes
 - `backend_id` (String) Backend Id
 - `billable` (Boolean) Purchase and usage is invoiced.
+- `billing_period_applies` (Map of Boolean) Per plan billing mode, whether a plan's billing period changes what is invoiced. False means every component of this offering would price a quantity of its own under that mode, so the period is inert on the invoice.
 - `billing_type_classification` (String) Classify offering components by billing type. Returns 'limit_only', 'usage_only', or 'mixed'.
+- `can_update_integration` (Boolean) Can Update Integration
+- `can_update_options` (Boolean) Can Update Options
 - `category` (String) Category
 - `category_uuid` (String) Category Uuid
 - `citation_count` (Number) Number of citations of a DOI
@@ -76,6 +79,9 @@ Marketplace Offering data source - lookup by name or UUID
 - `scope` (String) Scope
 - `scope_error_message` (String) Scope Error Message
 - `scope_name` (String) Scope Name
+- `scope_resource` (String) Scope Resource
+- `scope_resource_name` (String) Scope Resource Name
+- `scope_resource_uuid` (String) Scope Resource Uuid
 - `scope_state` (String) Scope State
 - `scope_uuid` (String) Scope Uuid
 - `screenshots` (Attributes List) Screenshots (see [below for nested schema](#nestedatt--screenshots))
@@ -91,6 +97,7 @@ Marketplace Offering data source - lookup by name or UUID
 - `type` (String) Type
 - `url` (String) Url
 - `user_has_consent` (Boolean) User Has Consent
+- `user_has_offering_user` (Boolean) User Has Offering User
 - `vendor_details` (String) Vendor Details
 
 <a id="nestedatt--filters"></a>
@@ -149,9 +156,10 @@ Read-Only:
 - `description` (String) Description
 - `factor` (Number) Factor
 - `is_boolean` (Boolean) Is Boolean
-- `is_builtin` (Boolean) Is Builtin
+- `is_builtin` (Boolean) The API's older name for ``billed_per_plan``. It used to ask the plugin registry whether this component's type is one the plugin declares, which left out the OpenStack per-volume-type quotas: they are created by the volume type sync rather than declared, so the API called them provider components while the billing resolver treated them as builtin. Reading the stored flag makes the two agree.
 - `is_prepaid` (Boolean) Is Prepaid
 - `limit_amount` (Number) Limit Amount
+- `limit_decimal_places` (Number) Number of decimal places accepted for this component's limit. 0 keeps the limit integer-only.
 - `limit_period` (String) Limit Period
 - `max_available_limit` (Number) Max Available Limit
 - `max_prepaid_duration` (Number) Max Prepaid Duration
@@ -273,6 +281,7 @@ Read-Only:
 - `archived` (Boolean) Forbids creation of new resources.
 - `article_code` (String) Article Code
 - `backend_id` (String) Backend Id
+- `billing_mode` (String) How the offering's builtin components are billed under this plan. Custom components keep their own accounting type.
 - `components` (Attributes List) Components (see [below for nested schema](#nestedatt--plans--components))
 - `description` (String) Description
 - `future_prices` (Map of String) Future Prices
@@ -297,11 +306,14 @@ Read-Only:
 Read-Only:
 
 - `amount` (Number) Amount
+- `billing_type` (String) Billing Type
 - `discount_aggregation` (String) Whether the volume discount is computed on a single resource's usage or aggregated across all of the customer's resources of this offering.
 - `discount_description` (String) Discount Description
 - `discount_formula` (String) Volume discount formula evaluated with the billed quantity bound to `usage`; returns a discount percentage (clamped to 0-100). Empty means no discount. Example: '10 if usage >= 100 else 0'.
 - `future_price` (String) Future Price
-- `measured_unit` (String) Unit of measurement, for example, GB.
+- `is_prepaid` (Boolean) Is Prepaid
+- `limit_period` (String) Limit Period
+- `measured_unit` (String) Measured Unit
 - `name` (String) Display name for the measured unit, for example, Floating IP.
 - `price` (String) Price
 - `type` (String) Unique internal name of the measured unit, for example floating_ip.
@@ -343,7 +355,7 @@ Read-Only:
 - `default_internal_network_mtu` (Number) If set, it will be used as a default MTU for the first network in a tenant
 - `default_resource_termination_offset_in_days` (Number) If set, it will be used as a default resource termination offset in days
 - `deployment_mode` (String) Rancher deployment mode
-- `disable_autoapprove` (Boolean) If set to True, orders for this offering will always require manual approval, overriding auto_approve_in_service_provider_projects
+- `disable_autoapprove` (Boolean) If set to True, orders for this offering will always require manual consumer approval, overriding every other consumer-side auto-approve mechanism (auto_approve_in_service_provider_projects, auto_approve_for_roles, project auto-approval rules, and the ORDER.APPROVE permission). Termination orders, staff users and provider approval are not affected
 - `disable_grace_period` (Boolean) If set to True, this offering's resources ignore the project grace period and are terminated on the project end date. Only staff can change this option.
 - `disabled_resource_actions` (List of String) List of disabled marketplace resource actions for this offering.
 - `emit_display_name` (Boolean) Emit the user's full name as a GLAuth displayName custom attribute (rendered to LDAP displayName).

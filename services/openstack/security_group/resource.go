@@ -80,6 +80,12 @@ func (r *OpenstackSecurityGroupResource) Schema(ctx context.Context, req resourc
 
 					stringplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "Error Message"},
+			"instance_count": schema.Int64Attribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.Int64{
+
+					int64planmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Number of instances the security group is attached to. It is annotated by the security group endpoints only, so it is null when the group is rendered as a nested object."},
 			"marketplace_offering_type": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{

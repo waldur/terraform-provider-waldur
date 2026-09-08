@@ -4,6 +4,47 @@
 
 ### ⚠️ Breaking changes
 
+- `marketplace_offering`: attribute `components.default_limit` type changed from `types.Int64` to `types.Float64`
+- `marketplace_offering`: attribute `components.limit_amount` type changed from `types.Int64` to `types.Float64`
+- `marketplace_offering`: attribute `components.max_available_limit` type changed from `types.Int64` to `types.Float64`
+- `marketplace_offering`: attribute `components.max_value` type changed from `types.Int64` to `types.Float64`
+- `marketplace_offering`: attribute `components.min_value` type changed from `types.Int64` to `types.Float64`
+- `marketplace_resource`: attribute `offering_components.default_limit` type changed from `types.Int64` to `types.Float64`
+- `marketplace_resource`: attribute `offering_components.limit_amount` type changed from `types.Int64` to `types.Float64`
+- `marketplace_resource`: attribute `offering_components.max_available_limit` type changed from `types.Int64` to `types.Float64`
+- `marketplace_resource`: attribute `offering_components.max_value` type changed from `types.Int64` to `types.Float64`
+- `marketplace_resource`: attribute `offering_components.min_value` type changed from `types.Int64` to `types.Float64`
+
+### Added
+
+- `marketplace_offering`: new attribute `billing_period_applies`
+- `marketplace_offering`: new attribute `can_update_integration`
+- `marketplace_offering`: new attribute `can_update_options`
+- `marketplace_offering`: new attribute `components.limit_decimal_places`
+- `marketplace_offering`: new attribute `plans.billing_mode`
+- `marketplace_offering`: new attribute `plans.components.billing_type`
+- `marketplace_offering`: new attribute `plans.components.is_prepaid`
+- `marketplace_offering`: new attribute `plans.components.limit_period`
+- `marketplace_offering`: new attribute `scope_resource_name`
+- `marketplace_offering`: new attribute `scope_resource_uuid`
+- `marketplace_offering`: new attribute `scope_resource`
+- `marketplace_offering`: new attribute `user_has_offering_user`
+- `marketplace_order`: new attribute `new_plan_billing_mode`
+- `marketplace_order`: new attribute `old_plan_billing_mode`
+- `marketplace_resource`: new attribute `offering_components.limit_decimal_places`
+- `marketplace_resource`: new attribute `order_in_progress.new_plan_billing_mode`
+- `marketplace_resource`: new attribute `order_in_progress.old_plan_billing_mode`
+- `marketplace_resource`: new attribute `project_start_date`
+- `openstack_instance`: new attribute `ports.security_groups.instance_count`
+- `openstack_security_group`: new attribute `instance_count`
+- `openstack_subnet`: new attribute `router_name`
+- `openstack_subnet`: new attribute `router_uuid`
+- `openstack_subnet`: new attribute `router`
+
+## 2026-09-08
+
+### ⚠️ Breaking changes
+
 - `marketplace_offering`: attribute `components.default_limit` type changed from `types.Float64` to `types.Int64`
 - `marketplace_offering`: attribute `components.limit_amount` type changed from `types.Float64` to `types.Int64`
 - `marketplace_offering`: attribute `components.max_available_limit` type changed from `types.Float64` to `types.Int64`

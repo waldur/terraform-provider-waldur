@@ -16,7 +16,13 @@ type MarketplaceOfferingResponse struct {
 
 	Billable *bool `json:"billable,omitempty" tfsdk:"billable"`
 
+	BillingPeriodApplies map[string]interface{} `json:"billing_period_applies,omitempty" tfsdk:"billing_period_applies"`
+
 	BillingTypeClassification *string `json:"billing_type_classification,omitempty" tfsdk:"billing_type_classification"`
+
+	CanUpdateIntegration *bool `json:"can_update_integration,omitempty" tfsdk:"can_update_integration"`
+
+	CanUpdateOptions *bool `json:"can_update_options,omitempty" tfsdk:"can_update_options"`
 
 	Category *string `json:"category,omitempty" tfsdk:"category"`
 
@@ -118,6 +124,12 @@ type MarketplaceOfferingResponse struct {
 
 	ScopeName *string `json:"scope_name,omitempty" tfsdk:"scope_name"`
 
+	ScopeResource *string `json:"scope_resource,omitempty" tfsdk:"scope_resource"`
+
+	ScopeResourceName *string `json:"scope_resource_name,omitempty" tfsdk:"scope_resource_name"`
+
+	ScopeResourceUuid *string `json:"scope_resource_uuid,omitempty" tfsdk:"scope_resource_uuid"`
+
 	ScopeState *string `json:"scope_state,omitempty" tfsdk:"scope_state"`
 
 	ScopeUuid *string `json:"scope_uuid,omitempty" tfsdk:"scope_uuid"`
@@ -148,10 +160,15 @@ type MarketplaceOfferingResponse struct {
 
 	UserHasConsent *bool `json:"user_has_consent,omitempty" tfsdk:"user_has_consent"`
 
+	UserHasOfferingUser *bool `json:"user_has_offering_user,omitempty" tfsdk:"user_has_offering_user"`
+
 	VendorDetails *string `json:"vendor_details,omitempty" tfsdk:"vendor_details"`
 }
 
 type MarketplaceOfferingAttributesResponse struct {
+}
+
+type MarketplaceOfferingBillingPeriodAppliesResponse struct {
 }
 
 type MarketplaceOfferingComponentsResponse struct {
@@ -159,7 +176,7 @@ type MarketplaceOfferingComponentsResponse struct {
 
 	BillingType *string `json:"billing_type,omitempty" tfsdk:"billing_type"`
 
-	DefaultLimit *int64 `json:"default_limit,omitempty" tfsdk:"default_limit"`
+	DefaultLimit common.FlexibleNumber `json:"default_limit,omitempty" tfsdk:"default_limit"`
 
 	Description *string `json:"description,omitempty" tfsdk:"description"`
 
@@ -171,17 +188,19 @@ type MarketplaceOfferingComponentsResponse struct {
 
 	IsPrepaid *bool `json:"is_prepaid,omitempty" tfsdk:"is_prepaid"`
 
-	LimitAmount *int64 `json:"limit_amount,omitempty" tfsdk:"limit_amount"`
+	LimitAmount common.FlexibleNumber `json:"limit_amount,omitempty" tfsdk:"limit_amount"`
+
+	LimitDecimalPlaces *int64 `json:"limit_decimal_places,omitempty" tfsdk:"limit_decimal_places"`
 
 	LimitPeriod *string `json:"limit_period,omitempty" tfsdk:"limit_period"`
 
-	MaxAvailableLimit *int64 `json:"max_available_limit,omitempty" tfsdk:"max_available_limit"`
+	MaxAvailableLimit common.FlexibleNumber `json:"max_available_limit,omitempty" tfsdk:"max_available_limit"`
 
 	MaxPrepaidDuration *int64 `json:"max_prepaid_duration,omitempty" tfsdk:"max_prepaid_duration"`
 
 	MaxRenewalDuration *int64 `json:"max_renewal_duration,omitempty" tfsdk:"max_renewal_duration"`
 
-	MaxValue *int64 `json:"max_value,omitempty" tfsdk:"max_value"`
+	MaxValue common.FlexibleNumber `json:"max_value,omitempty" tfsdk:"max_value"`
 
 	MeasuredUnit *string `json:"measured_unit,omitempty" tfsdk:"measured_unit"`
 
@@ -189,7 +208,7 @@ type MarketplaceOfferingComponentsResponse struct {
 
 	MinRenewalDuration *int64 `json:"min_renewal_duration,omitempty" tfsdk:"min_renewal_duration"`
 
-	MinValue *int64 `json:"min_value,omitempty" tfsdk:"min_value"`
+	MinValue common.FlexibleNumber `json:"min_value,omitempty" tfsdk:"min_value"`
 
 	Name *string `json:"name,omitempty" tfsdk:"name"`
 
@@ -322,6 +341,8 @@ type MarketplaceOfferingPlansResponse struct {
 
 	BackendId *string `json:"backend_id,omitempty" tfsdk:"backend_id"`
 
+	BillingMode *string `json:"billing_mode,omitempty" tfsdk:"billing_mode"`
+
 	Components *[]common.NestedPlanComponent `json:"components,omitempty" tfsdk:"components"`
 
 	Description *string `json:"description,omitempty" tfsdk:"description"`
@@ -360,6 +381,8 @@ type MarketplaceOfferingPlansResponse struct {
 type MarketplaceOfferingPlansComponentsResponse struct {
 	Amount *int64 `json:"amount,omitempty" tfsdk:"amount"`
 
+	BillingType *string `json:"billing_type,omitempty" tfsdk:"billing_type"`
+
 	DiscountAggregation *string `json:"discount_aggregation,omitempty" tfsdk:"discount_aggregation"`
 
 	DiscountDescription *string `json:"discount_description,omitempty" tfsdk:"discount_description"`
@@ -367,6 +390,10 @@ type MarketplaceOfferingPlansComponentsResponse struct {
 	DiscountFormula *string `json:"discount_formula,omitempty" tfsdk:"discount_formula"`
 
 	FuturePrice *string `json:"future_price,omitempty" tfsdk:"future_price"`
+
+	IsPrepaid *bool `json:"is_prepaid,omitempty" tfsdk:"is_prepaid"`
+
+	LimitPeriod *string `json:"limit_period,omitempty" tfsdk:"limit_period"`
 
 	MeasuredUnit *string `json:"measured_unit,omitempty" tfsdk:"measured_unit"`
 

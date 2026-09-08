@@ -187,6 +187,8 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 										Computed: true, MarkdownDescription: "Description"},
 									"error_message": schema.StringAttribute{
 										Computed: true, MarkdownDescription: "Error Message"},
+									"instance_count": schema.Int64Attribute{
+										Computed: true, MarkdownDescription: "Number of instances the security group is attached to. It is annotated by the security group endpoints only, so it is null when the group is rendered as a nested object."},
 									"marketplace_offering_type": schema.StringAttribute{
 										Computed: true, MarkdownDescription: "Marketplace Offering Type"},
 									"marketplace_resource_uuid": schema.StringAttribute{
