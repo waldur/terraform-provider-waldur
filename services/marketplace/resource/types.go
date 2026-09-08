@@ -66,7 +66,7 @@ type MarketplaceResourceResponse struct {
 
 	LimitUsage map[string]float64 `json:"limit_usage,omitempty" tfsdk:"limit_usage"`
 
-	Limits map[string]float64 `json:"limits,omitempty" tfsdk:"limits"`
+	Limits map[string]int64 `json:"limits,omitempty" tfsdk:"limits"`
 
 	Name *string `json:"name,omitempty" tfsdk:"name"`
 
@@ -136,8 +136,6 @@ type MarketplaceResourceResponse struct {
 
 	ProjectSlug *string `json:"project_slug,omitempty" tfsdk:"project_slug"`
 
-	ProjectStartDate *string `json:"project_start_date,omitempty" tfsdk:"project_start_date"`
-
 	ProviderDescription *string `json:"provider_description,omitempty" tfsdk:"provider_description"`
 
 	ProviderName *string `json:"provider_name,omitempty" tfsdk:"provider_name"`
@@ -195,7 +193,7 @@ type MarketplaceResourceOfferingComponentsResponse struct {
 
 	BillingType *string `json:"billing_type,omitempty" tfsdk:"billing_type"`
 
-	DefaultLimit common.FlexibleNumber `json:"default_limit,omitempty" tfsdk:"default_limit"`
+	DefaultLimit *int64 `json:"default_limit,omitempty" tfsdk:"default_limit"`
 
 	Description *string `json:"description,omitempty" tfsdk:"description"`
 
@@ -207,19 +205,17 @@ type MarketplaceResourceOfferingComponentsResponse struct {
 
 	IsPrepaid *bool `json:"is_prepaid,omitempty" tfsdk:"is_prepaid"`
 
-	LimitAmount common.FlexibleNumber `json:"limit_amount,omitempty" tfsdk:"limit_amount"`
-
-	LimitDecimalPlaces *int64 `json:"limit_decimal_places,omitempty" tfsdk:"limit_decimal_places"`
+	LimitAmount *int64 `json:"limit_amount,omitempty" tfsdk:"limit_amount"`
 
 	LimitPeriod *string `json:"limit_period,omitempty" tfsdk:"limit_period"`
 
-	MaxAvailableLimit common.FlexibleNumber `json:"max_available_limit,omitempty" tfsdk:"max_available_limit"`
+	MaxAvailableLimit *int64 `json:"max_available_limit,omitempty" tfsdk:"max_available_limit"`
 
 	MaxPrepaidDuration *int64 `json:"max_prepaid_duration,omitempty" tfsdk:"max_prepaid_duration"`
 
 	MaxRenewalDuration *int64 `json:"max_renewal_duration,omitempty" tfsdk:"max_renewal_duration"`
 
-	MaxValue common.FlexibleNumber `json:"max_value,omitempty" tfsdk:"max_value"`
+	MaxValue *int64 `json:"max_value,omitempty" tfsdk:"max_value"`
 
 	MeasuredUnit *string `json:"measured_unit,omitempty" tfsdk:"measured_unit"`
 
@@ -227,7 +223,7 @@ type MarketplaceResourceOfferingComponentsResponse struct {
 
 	MinRenewalDuration *int64 `json:"min_renewal_duration,omitempty" tfsdk:"min_renewal_duration"`
 
-	MinValue common.FlexibleNumber `json:"min_value,omitempty" tfsdk:"min_value"`
+	MinValue *int64 `json:"min_value,omitempty" tfsdk:"min_value"`
 
 	Name *string `json:"name,omitempty" tfsdk:"name"`
 
@@ -323,13 +319,11 @@ type MarketplaceResourceOrderInProgressResponse struct {
 
 	Issue *MarketplaceResourceOrderInProgressIssueResponse `json:"issue,omitempty" tfsdk:"issue"`
 
-	Limits map[string]float64 `json:"limits,omitempty" tfsdk:"limits"`
+	Limits map[string]int64 `json:"limits,omitempty" tfsdk:"limits"`
 
 	MarketplaceResourceUuid *string `json:"marketplace_resource_uuid,omitempty" tfsdk:"marketplace_resource_uuid"`
 
 	NewCostEstimate *string `json:"new_cost_estimate,omitempty" tfsdk:"new_cost_estimate"`
-
-	NewPlanBillingMode *string `json:"new_plan_billing_mode,omitempty" tfsdk:"new_plan_billing_mode"`
 
 	NewPlanName *string `json:"new_plan_name,omitempty" tfsdk:"new_plan_name"`
 
@@ -354,8 +348,6 @@ type MarketplaceResourceOrderInProgressResponse struct {
 	OfferingUuid *string `json:"offering_uuid,omitempty" tfsdk:"offering_uuid"`
 
 	OldCostEstimate common.FlexibleNumber `json:"old_cost_estimate,omitempty" tfsdk:"old_cost_estimate"`
-
-	OldPlanBillingMode *string `json:"old_plan_billing_mode,omitempty" tfsdk:"old_plan_billing_mode"`
 
 	OldPlanName *string `json:"old_plan_name,omitempty" tfsdk:"old_plan_name"`
 

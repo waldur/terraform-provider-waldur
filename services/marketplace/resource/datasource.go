@@ -6,7 +6,6 @@ import (
 	"regexp"
 
 	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
-	"github.com/hashicorp/terraform-plugin-framework-validators/float64validator"
 	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
@@ -98,7 +97,7 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 				ElementType: types.Float64Type,
 				Computed:    true, MarkdownDescription: "Dictionary mapping limit-based component types to their consumed usage. Sums the ComponentUsage rows of the component's current period (the monthly billing period unless the component defines a longer limit_period), i.e. the period's high-watermark rather than the instantaneous current_usages value."},
 			"limits": schema.MapAttribute{
-				ElementType: types.Float64Type,
+				ElementType: types.Int64Type,
 				Computed:    true, MarkdownDescription: "Limits"},
 			"name": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Name"},
@@ -118,11 +117,11 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 							Validators: []validator.String{
 								stringvalidator.OneOf("fixed", "usage", "limit", "one", "few"),
 							}},
-						"default_limit": schema.Float64Attribute{
+						"default_limit": schema.Int64Attribute{
 							Computed: true, MarkdownDescription: "Default Limit",
-							Validators: []validator.Float64{
-								float64validator.AtLeast(-1e+18),
-								float64validator.AtMost(1e+18),
+							Validators: []validator.Int64{
+								int64validator.AtLeast(-2147483648),
+								int64validator.AtMost(2147483647),
 							}},
 						"description": schema.StringAttribute{
 							Computed: true, MarkdownDescription: "Description"},
@@ -131,28 +130,22 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 						"is_boolean": schema.BoolAttribute{
 							Computed: true, MarkdownDescription: "Is Boolean"},
 						"is_builtin": schema.BoolAttribute{
-							Computed: true, MarkdownDescription: "The API's older name for ``billed_per_plan``. It used to ask the plugin registry whether this component's type is one the plugin declares, which left out the OpenStack per-volume-type quotas: they are created by the volume type sync rather than declared, so the API called them provider components while the billing resolver treated them as builtin. Reading the stored flag makes the two agree."},
+							Computed: true, MarkdownDescription: "Is Builtin"},
 						"is_prepaid": schema.BoolAttribute{
 							Computed: true, MarkdownDescription: "Is Prepaid"},
-						"limit_amount": schema.Float64Attribute{
+						"limit_amount": schema.Int64Attribute{
 							Computed: true, MarkdownDescription: "Limit Amount",
-							Validators: []validator.Float64{
-								float64validator.AtLeast(-1e+18),
-								float64validator.AtMost(1e+18),
-							}},
-						"limit_decimal_places": schema.Int64Attribute{
-							Computed: true, MarkdownDescription: "Number of decimal places accepted for this component's limit. 0 keeps the limit integer-only.",
 							Validators: []validator.Int64{
-								int64validator.AtLeast(0),
-								int64validator.AtMost(2),
+								int64validator.AtLeast(-2147483648),
+								int64validator.AtMost(2147483647),
 							}},
 						"limit_period": schema.StringAttribute{
 							Computed: true, MarkdownDescription: "Limit Period"},
-						"max_available_limit": schema.Float64Attribute{
+						"max_available_limit": schema.Int64Attribute{
 							Computed: true, MarkdownDescription: "Max Available Limit",
-							Validators: []validator.Float64{
-								float64validator.AtLeast(-1e+18),
-								float64validator.AtMost(1e+18),
+							Validators: []validator.Int64{
+								int64validator.AtLeast(-2147483648),
+								int64validator.AtMost(2147483647),
 							}},
 						"max_prepaid_duration": schema.Int64Attribute{
 							Computed: true, MarkdownDescription: "Max Prepaid Duration",
@@ -166,11 +159,11 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 								int64validator.AtLeast(0),
 								int64validator.AtMost(2147483647),
 							}},
-						"max_value": schema.Float64Attribute{
+						"max_value": schema.Int64Attribute{
 							Computed: true, MarkdownDescription: "Max Value",
-							Validators: []validator.Float64{
-								float64validator.AtLeast(-1e+18),
-								float64validator.AtMost(1e+18),
+							Validators: []validator.Int64{
+								int64validator.AtLeast(-2147483648),
+								int64validator.AtMost(2147483647),
 							}},
 						"measured_unit": schema.StringAttribute{
 							Computed: true, MarkdownDescription: "Unit of measurement, for example, GB."},
@@ -186,11 +179,11 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 								int64validator.AtLeast(0),
 								int64validator.AtMost(2147483647),
 							}},
-						"min_value": schema.Float64Attribute{
+						"min_value": schema.Int64Attribute{
 							Computed: true, MarkdownDescription: "Min Value",
-							Validators: []validator.Float64{
-								float64validator.AtLeast(-1e+18),
-								float64validator.AtMost(1e+18),
+							Validators: []validator.Int64{
+								int64validator.AtLeast(-2147483648),
+								int64validator.AtMost(2147483647),
 							}},
 						"name": schema.StringAttribute{
 							Computed: true, MarkdownDescription: "Display name for the measured unit, for example, Floating IP."},
@@ -340,7 +333,7 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 						Computed: true, MarkdownDescription: "Issue",
 					},
 					"limits": schema.MapAttribute{
-						ElementType: types.Float64Type,
+						ElementType: types.Int64Type,
 						Computed:    true, MarkdownDescription: "Limits"},
 					"marketplace_resource_uuid": schema.StringAttribute{
 						Computed: true, MarkdownDescription: "Marketplace Resource Uuid"},
@@ -349,8 +342,6 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 						Validators: []validator.String{
 							stringvalidator.RegexMatches(regexp.MustCompile(`^-?\d{0,12}(?:\.\d{0,10})?$`), ""),
 						}},
-					"new_plan_billing_mode": schema.StringAttribute{
-						Computed: true, MarkdownDescription: "New Plan Billing Mode"},
 					"new_plan_name": schema.StringAttribute{
 						Computed: true, MarkdownDescription: "New Plan Name"},
 					"new_plan_uuid": schema.StringAttribute{
@@ -376,8 +367,6 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 						Computed: true, MarkdownDescription: "Offering Uuid"},
 					"old_cost_estimate": schema.Float64Attribute{
 						Computed: true, MarkdownDescription: "Old Cost Estimate"},
-					"old_plan_billing_mode": schema.StringAttribute{
-						Computed: true, MarkdownDescription: "Old Plan Billing Mode"},
 					"old_plan_name": schema.StringAttribute{
 						Computed: true, MarkdownDescription: "Old Plan Name"},
 					"old_plan_uuid": schema.StringAttribute{
@@ -495,8 +484,6 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 				Computed: true, MarkdownDescription: "True if the project is past its end date but still within the grace period."},
 			"project_slug": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Project Slug"},
-			"project_start_date": schema.StringAttribute{
-				Computed: true, MarkdownDescription: "Project Start Date"},
 			"provider_description": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Provider Description"},
 			"provider_name": schema.StringAttribute{

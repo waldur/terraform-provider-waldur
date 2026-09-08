@@ -218,10 +218,7 @@ type MarketplaceOfferingModel struct {
 	Attributes                types.Map    `tfsdk:"attributes"`
 	BackendId                 types.String `tfsdk:"backend_id"`
 	Billable                  types.Bool   `tfsdk:"billable"`
-	BillingPeriodApplies      types.Map    `tfsdk:"billing_period_applies"`
 	BillingTypeClassification types.String `tfsdk:"billing_type_classification"`
-	CanUpdateIntegration      types.Bool   `tfsdk:"can_update_integration"`
-	CanUpdateOptions          types.Bool   `tfsdk:"can_update_options"`
 	Category                  types.String `tfsdk:"category"`
 	CategoryUuid              types.String `tfsdk:"category_uuid"`
 	CitationCount             types.Int64  `tfsdk:"citation_count"`
@@ -272,9 +269,6 @@ type MarketplaceOfferingModel struct {
 	Scope                     types.String `tfsdk:"scope"`
 	ScopeErrorMessage         types.String `tfsdk:"scope_error_message"`
 	ScopeName                 types.String `tfsdk:"scope_name"`
-	ScopeResource             types.String `tfsdk:"scope_resource"`
-	ScopeResourceName         types.String `tfsdk:"scope_resource_name"`
-	ScopeResourceUuid         types.String `tfsdk:"scope_resource_uuid"`
 	ScopeState                types.String `tfsdk:"scope_state"`
 	ScopeUuid                 types.String `tfsdk:"scope_uuid"`
 	Screenshots               types.List   `tfsdk:"screenshots"`
@@ -290,7 +284,6 @@ type MarketplaceOfferingModel struct {
 	Type                      types.String `tfsdk:"type"`
 	Url                       types.String `tfsdk:"url"`
 	UserHasConsent            types.Bool   `tfsdk:"user_has_consent"`
-	UserHasOfferingUser       types.Bool   `tfsdk:"user_has_offering_user"`
 	VendorDetails             types.String `tfsdk:"vendor_details"`
 }
 
@@ -312,19 +305,7 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 
 	model.Billable = types.BoolPointerValue(apiResp.Billable)
 
-	if apiResp.BillingPeriodApplies != nil {
-		valBillingPeriodApplies, diagsBillingPeriodApplies := types.MapValueFrom(ctx, types.BoolType, apiResp.BillingPeriodApplies)
-		diags.Append(diagsBillingPeriodApplies...)
-		model.BillingPeriodApplies = valBillingPeriodApplies
-	} else {
-		model.BillingPeriodApplies = types.MapNull(types.BoolType)
-	}
-
 	model.BillingTypeClassification = common.StringPointerValue(apiResp.BillingTypeClassification)
-
-	model.CanUpdateIntegration = types.BoolPointerValue(apiResp.CanUpdateIntegration)
-
-	model.CanUpdateOptions = types.BoolPointerValue(apiResp.CanUpdateOptions)
 
 	model.Category = common.StringPointerValue(apiResp.Category)
 
@@ -338,23 +319,22 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 		valComponents, diagsComponents := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
 			"article_code":          types.StringType,
 			"billing_type":          types.StringType,
-			"default_limit":         types.Float64Type,
+			"default_limit":         types.Int64Type,
 			"description":           types.StringType,
 			"factor":                types.Int64Type,
 			"is_boolean":            types.BoolType,
 			"is_builtin":            types.BoolType,
 			"is_prepaid":            types.BoolType,
-			"limit_amount":          types.Float64Type,
-			"limit_decimal_places":  types.Int64Type,
+			"limit_amount":          types.Int64Type,
 			"limit_period":          types.StringType,
-			"max_available_limit":   types.Float64Type,
+			"max_available_limit":   types.Int64Type,
 			"max_prepaid_duration":  types.Int64Type,
 			"max_renewal_duration":  types.Int64Type,
-			"max_value":             types.Float64Type,
+			"max_value":             types.Int64Type,
 			"measured_unit":         types.StringType,
 			"min_prepaid_duration":  types.Int64Type,
 			"min_renewal_duration":  types.Int64Type,
-			"min_value":             types.Float64Type,
+			"min_value":             types.Int64Type,
 			"name":                  types.StringType,
 			"offering_uuid":         types.StringType,
 			"overage_component":     types.StringType,
@@ -370,23 +350,22 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 		model.Components = types.ListNull(types.ObjectType{AttrTypes: map[string]attr.Type{
 			"article_code":          types.StringType,
 			"billing_type":          types.StringType,
-			"default_limit":         types.Float64Type,
+			"default_limit":         types.Int64Type,
 			"description":           types.StringType,
 			"factor":                types.Int64Type,
 			"is_boolean":            types.BoolType,
 			"is_builtin":            types.BoolType,
 			"is_prepaid":            types.BoolType,
-			"limit_amount":          types.Float64Type,
-			"limit_decimal_places":  types.Int64Type,
+			"limit_amount":          types.Int64Type,
 			"limit_period":          types.StringType,
-			"max_available_limit":   types.Float64Type,
+			"max_available_limit":   types.Int64Type,
 			"max_prepaid_duration":  types.Int64Type,
 			"max_renewal_duration":  types.Int64Type,
-			"max_value":             types.Float64Type,
+			"max_value":             types.Int64Type,
 			"measured_unit":         types.StringType,
 			"min_prepaid_duration":  types.Int64Type,
 			"min_renewal_duration":  types.Int64Type,
-			"min_value":             types.Float64Type,
+			"min_value":             types.Int64Type,
 			"name":                  types.StringType,
 			"offering_uuid":         types.StringType,
 			"overage_component":     types.StringType,
@@ -613,16 +592,12 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 			"archived":     types.BoolType,
 			"article_code": types.StringType,
 			"backend_id":   types.StringType,
-			"billing_mode": types.StringType,
 			"components": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
 				"amount":               types.Int64Type,
-				"billing_type":         types.StringType,
 				"discount_aggregation": types.StringType,
 				"discount_description": types.StringType,
 				"discount_formula":     types.StringType,
 				"future_price":         types.StringType,
-				"is_prepaid":           types.BoolType,
-				"limit_period":         types.StringType,
 				"measured_unit":        types.StringType,
 				"name":                 types.StringType,
 				"price":                types.StringType,
@@ -660,16 +635,12 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 			"archived":     types.BoolType,
 			"article_code": types.StringType,
 			"backend_id":   types.StringType,
-			"billing_mode": types.StringType,
 			"components": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
 				"amount":               types.Int64Type,
-				"billing_type":         types.StringType,
 				"discount_aggregation": types.StringType,
 				"discount_description": types.StringType,
 				"discount_formula":     types.StringType,
 				"future_price":         types.StringType,
-				"is_prepaid":           types.BoolType,
-				"limit_period":         types.StringType,
 				"measured_unit":        types.StringType,
 				"name":                 types.StringType,
 				"price":                types.StringType,
@@ -1020,12 +991,6 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 
 	model.ScopeName = common.StringPointerValue(apiResp.ScopeName)
 
-	model.ScopeResource = common.StringPointerValue(apiResp.ScopeResource)
-
-	model.ScopeResourceName = common.StringPointerValue(apiResp.ScopeResourceName)
-
-	model.ScopeResourceUuid = common.StringPointerValue(apiResp.ScopeResourceUuid)
-
 	model.ScopeState = common.StringPointerValue(apiResp.ScopeState)
 
 	model.ScopeUuid = common.StringPointerValue(apiResp.ScopeUuid)
@@ -1129,8 +1094,6 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 	model.Url = common.StringPointerValue(apiResp.Url)
 
 	model.UserHasConsent = types.BoolPointerValue(apiResp.UserHasConsent)
-
-	model.UserHasOfferingUser = types.BoolPointerValue(apiResp.UserHasOfferingUser)
 
 	model.VendorDetails = common.StringPointerValue(apiResp.VendorDetails)
 

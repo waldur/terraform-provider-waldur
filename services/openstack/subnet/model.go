@@ -179,9 +179,6 @@ type OpenstackSubnetModel struct {
 	PortSecurityEnabled     types.Bool   `tfsdk:"port_security_enabled"`
 	Project                 types.String `tfsdk:"project"`
 	ResourceType            types.String `tfsdk:"resource_type"`
-	Router                  types.String `tfsdk:"router"`
-	RouterName              types.String `tfsdk:"router_name"`
-	RouterUuid              types.String `tfsdk:"router_uuid"`
 	State                   types.String `tfsdk:"state"`
 	Tenant                  types.String `tfsdk:"tenant"`
 	TenantName              types.String `tfsdk:"tenant_name"`
@@ -253,12 +250,6 @@ func (model *OpenstackSubnetModel) CopyFrom(ctx context.Context, apiResp Opensta
 	model.Project = common.StringPointerValue(apiResp.Project)
 
 	model.ResourceType = common.StringPointerValue(apiResp.ResourceType)
-
-	model.Router = common.StringPointerValue(apiResp.Router)
-
-	model.RouterName = common.StringPointerValue(apiResp.RouterName)
-
-	model.RouterUuid = common.StringPointerValue(apiResp.RouterUuid)
 
 	model.State = common.StringPointerValue(apiResp.State)
 

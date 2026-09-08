@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"regexp"
 
-	"github.com/hashicorp/terraform-plugin-framework-validators/float64validator"
 	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
@@ -54,15 +53,8 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 				Computed: true, MarkdownDescription: "Backend Id"},
 			"billable": schema.BoolAttribute{
 				Computed: true, MarkdownDescription: "Purchase and usage is invoiced."},
-			"billing_period_applies": schema.MapAttribute{
-				ElementType: types.BoolType,
-				Computed:    true, MarkdownDescription: "Per plan billing mode, whether a plan's billing period changes what is invoiced. False means every component of this offering would price a quantity of its own under that mode, so the period is inert on the invoice."},
 			"billing_type_classification": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Classify offering components by billing type. Returns 'limit_only', 'usage_only', or 'mixed'."},
-			"can_update_integration": schema.BoolAttribute{
-				Computed: true, MarkdownDescription: "Can Update Integration"},
-			"can_update_options": schema.BoolAttribute{
-				Computed: true, MarkdownDescription: "Can Update Options"},
 			"category": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Category"},
 			"category_uuid": schema.StringAttribute{
@@ -81,11 +73,11 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 							Validators: []validator.String{
 								stringvalidator.OneOf("fixed", "usage", "limit", "one", "few"),
 							}},
-						"default_limit": schema.Float64Attribute{
+						"default_limit": schema.Int64Attribute{
 							Computed: true, MarkdownDescription: "Default Limit",
-							Validators: []validator.Float64{
-								float64validator.AtLeast(-1e+18),
-								float64validator.AtMost(1e+18),
+							Validators: []validator.Int64{
+								int64validator.AtLeast(-2147483648),
+								int64validator.AtMost(2147483647),
 							}},
 						"description": schema.StringAttribute{
 							Computed: true, MarkdownDescription: "Description"},
@@ -94,28 +86,22 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 						"is_boolean": schema.BoolAttribute{
 							Computed: true, MarkdownDescription: "Is Boolean"},
 						"is_builtin": schema.BoolAttribute{
-							Computed: true, MarkdownDescription: "The API's older name for ``billed_per_plan``. It used to ask the plugin registry whether this component's type is one the plugin declares, which left out the OpenStack per-volume-type quotas: they are created by the volume type sync rather than declared, so the API called them provider components while the billing resolver treated them as builtin. Reading the stored flag makes the two agree."},
+							Computed: true, MarkdownDescription: "Is Builtin"},
 						"is_prepaid": schema.BoolAttribute{
 							Computed: true, MarkdownDescription: "Is Prepaid"},
-						"limit_amount": schema.Float64Attribute{
+						"limit_amount": schema.Int64Attribute{
 							Computed: true, MarkdownDescription: "Limit Amount",
-							Validators: []validator.Float64{
-								float64validator.AtLeast(-1e+18),
-								float64validator.AtMost(1e+18),
-							}},
-						"limit_decimal_places": schema.Int64Attribute{
-							Computed: true, MarkdownDescription: "Number of decimal places accepted for this component's limit. 0 keeps the limit integer-only.",
 							Validators: []validator.Int64{
-								int64validator.AtLeast(0),
-								int64validator.AtMost(2),
+								int64validator.AtLeast(-2147483648),
+								int64validator.AtMost(2147483647),
 							}},
 						"limit_period": schema.StringAttribute{
 							Computed: true, MarkdownDescription: "Limit Period"},
-						"max_available_limit": schema.Float64Attribute{
+						"max_available_limit": schema.Int64Attribute{
 							Computed: true, MarkdownDescription: "Max Available Limit",
-							Validators: []validator.Float64{
-								float64validator.AtLeast(-1e+18),
-								float64validator.AtMost(1e+18),
+							Validators: []validator.Int64{
+								int64validator.AtLeast(-2147483648),
+								int64validator.AtMost(2147483647),
 							}},
 						"max_prepaid_duration": schema.Int64Attribute{
 							Computed: true, MarkdownDescription: "Max Prepaid Duration",
@@ -129,11 +115,11 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 								int64validator.AtLeast(0),
 								int64validator.AtMost(2147483647),
 							}},
-						"max_value": schema.Float64Attribute{
+						"max_value": schema.Int64Attribute{
 							Computed: true, MarkdownDescription: "Max Value",
-							Validators: []validator.Float64{
-								float64validator.AtLeast(-1e+18),
-								float64validator.AtMost(1e+18),
+							Validators: []validator.Int64{
+								int64validator.AtLeast(-2147483648),
+								int64validator.AtMost(2147483647),
 							}},
 						"measured_unit": schema.StringAttribute{
 							Computed: true, MarkdownDescription: "Unit of measurement, for example, GB."},
@@ -149,11 +135,11 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 								int64validator.AtLeast(0),
 								int64validator.AtMost(2147483647),
 							}},
-						"min_value": schema.Float64Attribute{
+						"min_value": schema.Int64Attribute{
 							Computed: true, MarkdownDescription: "Min Value",
-							Validators: []validator.Float64{
-								float64validator.AtLeast(-1e+18),
-								float64validator.AtMost(1e+18),
+							Validators: []validator.Int64{
+								int64validator.AtLeast(-2147483648),
+								int64validator.AtMost(2147483647),
 							}},
 						"name": schema.StringAttribute{
 							Computed: true, MarkdownDescription: "Display name for the measured unit, for example, Floating IP."},
@@ -444,8 +430,6 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 							Computed: true, MarkdownDescription: "Article Code"},
 						"backend_id": schema.StringAttribute{
 							Computed: true, MarkdownDescription: "Backend Id"},
-						"billing_mode": schema.StringAttribute{
-							Computed: true, MarkdownDescription: "How the offering's builtin components are billed under this plan. Custom components keep their own accounting type."},
 						"components": schema.ListNestedAttribute{
 							NestedObject: schema.NestedAttributeObject{
 								Attributes: map[string]schema.Attribute{
@@ -455,8 +439,6 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 											int64validator.AtLeast(0),
 											int64validator.AtMost(2147483647),
 										}},
-									"billing_type": schema.StringAttribute{
-										Computed: true, MarkdownDescription: "Billing Type"},
 									"discount_aggregation": schema.StringAttribute{
 										Computed: true, MarkdownDescription: "Whether the volume discount is computed on a single resource's usage or aggregated across all of the customer's resources of this offering."},
 									"discount_description": schema.StringAttribute{
@@ -468,12 +450,8 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 										Validators: []validator.String{
 											stringvalidator.RegexMatches(regexp.MustCompile(`^-?\d{0,12}(?:\.\d{0,10})?$`), ""),
 										}},
-									"is_prepaid": schema.BoolAttribute{
-										Computed: true, MarkdownDescription: "Is Prepaid"},
-									"limit_period": schema.StringAttribute{
-										Computed: true, MarkdownDescription: "Limit Period"},
 									"measured_unit": schema.StringAttribute{
-										Computed: true, MarkdownDescription: "Measured Unit"},
+										Computed: true, MarkdownDescription: "Unit of measurement, for example, GB."},
 									"name": schema.StringAttribute{
 										Computed: true, MarkdownDescription: "Display name for the measured unit, for example, Floating IP."},
 									"price": schema.StringAttribute{
@@ -598,7 +576,7 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 					"deployment_mode": schema.StringAttribute{
 						Computed: true, MarkdownDescription: "Rancher deployment mode"},
 					"disable_autoapprove": schema.BoolAttribute{
-						Computed: true, MarkdownDescription: "If set to True, orders for this offering will always require manual consumer approval, overriding every other consumer-side auto-approve mechanism (auto_approve_in_service_provider_projects, auto_approve_for_roles, project auto-approval rules, and the ORDER.APPROVE permission). Termination orders, staff users and provider approval are not affected"},
+						Computed: true, MarkdownDescription: "If set to True, orders for this offering will always require manual approval, overriding auto_approve_in_service_provider_projects"},
 					"disable_grace_period": schema.BoolAttribute{
 						Computed: true, MarkdownDescription: "If set to True, this offering's resources ignore the project grace period and are terminated on the project end date. Only staff can change this option."},
 					"disabled_resource_actions": schema.ListAttribute{
@@ -937,12 +915,6 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 				Computed: true, MarkdownDescription: "Scope Error Message"},
 			"scope_name": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Scope Name"},
-			"scope_resource": schema.StringAttribute{
-				Computed: true, MarkdownDescription: "Scope Resource"},
-			"scope_resource_name": schema.StringAttribute{
-				Computed: true, MarkdownDescription: "Scope Resource Name"},
-			"scope_resource_uuid": schema.StringAttribute{
-				Computed: true, MarkdownDescription: "Scope Resource Uuid"},
 			"scope_state": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Scope State"},
 			"scope_uuid": schema.StringAttribute{
@@ -1049,8 +1021,6 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 				Computed: true, MarkdownDescription: "Url"},
 			"user_has_consent": schema.BoolAttribute{
 				Computed: true, MarkdownDescription: "User Has Consent"},
-			"user_has_offering_user": schema.BoolAttribute{
-				Computed: true, MarkdownDescription: "User Has Offering User"},
 			"vendor_details": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Vendor Details"},
 		},

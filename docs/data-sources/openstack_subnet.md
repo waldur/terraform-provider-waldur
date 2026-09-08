@@ -43,9 +43,6 @@ Openstack Subnet data source - lookup by name or UUID
 - `port_security_enabled` (Boolean) Port Security Enabled
 - `project` (String) Project
 - `resource_type` (String) Resource Type
-- `router` (String) Router to attach the subnet to. Optional: when omitted Waldur picks a router of the tenant itself. Cannot be changed here afterwards -- use the router's add/remove interface actions.
-- `router_name` (String) Router Name
-- `router_uuid` (String) Router Uuid
 - `state` (String) State
 - `tenant` (String) Tenant
 - `tenant_name` (String) Tenant Name

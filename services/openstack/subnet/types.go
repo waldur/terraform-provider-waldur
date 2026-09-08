@@ -20,8 +20,6 @@ type OpenstackSubnetCreateRequest struct {
 	HostRoutes *[]common.OpenStackStaticRouteRequest `json:"host_routes,omitempty" tfsdk:"host_routes"`
 
 	Name *string `json:"name" tfsdk:"name"`
-
-	Router *string `json:"router,omitempty" tfsdk:"router"`
 }
 
 type OpenstackSubnetUpdateRequest struct {
@@ -40,8 +38,6 @@ type OpenstackSubnetUpdateRequest struct {
 	HostRoutes *[]common.OpenStackStaticRouteRequest `json:"host_routes,omitempty" tfsdk:"host_routes"`
 
 	Name *string `json:"name,omitempty" tfsdk:"name"`
-
-	Router *string `json:"router,omitempty" tfsdk:"router"`
 }
 
 type OpenstackSubnetResponse struct {
@@ -88,12 +84,6 @@ type OpenstackSubnetResponse struct {
 	Project *string `json:"project,omitempty" tfsdk:"project"`
 
 	ResourceType *string `json:"resource_type,omitempty" tfsdk:"resource_type"`
-
-	Router *string `json:"router,omitempty" tfsdk:"router"`
-
-	RouterName *string `json:"router_name,omitempty" tfsdk:"router_name"`
-
-	RouterUuid *string `json:"router_uuid,omitempty" tfsdk:"router_uuid"`
 
 	State *string `json:"state,omitempty" tfsdk:"state"`
 

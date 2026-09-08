@@ -202,25 +202,6 @@ func (r *OpenstackSubnetResource) Schema(ctx context.Context, req resource.Schem
 
 					stringplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "Resource Type"},
-			"router": schema.StringAttribute{
-				Optional: true,
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-
-					stringplanmodifier.UseStateForUnknown(),
-				}, MarkdownDescription: "Router to attach the subnet to. Optional: when omitted Waldur picks a router of the tenant itself. Cannot be changed here afterwards -- use the router's add/remove interface actions."},
-			"router_name": schema.StringAttribute{
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-
-					stringplanmodifier.UseStateForUnknown(),
-				}, MarkdownDescription: "Router Name"},
-			"router_uuid": schema.StringAttribute{
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-
-					stringplanmodifier.UseStateForUnknown(),
-				}, MarkdownDescription: "Router Uuid"},
 			"state": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
@@ -300,10 +281,6 @@ func (r *OpenstackSubnetResource) Create(ctx context.Context, req resource.Creat
 	}
 
 	requestBody.Name = data.Name.ValueStringPointer()
-	if !data.Router.IsNull() && !data.Router.IsUnknown() {
-
-		requestBody.Router = data.Router.ValueStringPointer()
-	}
 	resp.Diagnostics.Append(common.PopulateOptionalSliceField(ctx, data.AllocationPools, &requestBody.AllocationPools)...)
 	resp.Diagnostics.Append(common.PopulateOptionalSliceField(ctx, data.DnsNameservers, &requestBody.DnsNameservers)...)
 	resp.Diagnostics.Append(common.PopulateOptionalSliceField(ctx, data.HostRoutes, &requestBody.HostRoutes)...)
@@ -420,11 +397,6 @@ func (r *OpenstackSubnetResource) Update(ctx context.Context, req resource.Updat
 		anyChanges = true
 
 		requestBody.Name = data.Name.ValueStringPointer()
-	}
-	if !data.Router.IsNull() && !data.Router.IsUnknown() && !data.Router.Equal(state.Router) {
-		anyChanges = true
-
-		requestBody.Router = data.Router.ValueStringPointer()
 	}
 
 	resp.Diagnostics.Append(common.PopulateOptionalSliceField(ctx, data.AllocationPools, &requestBody.AllocationPools)...)

@@ -74,7 +74,6 @@ Marketplace Resource data source - lookup by name or UUID
 - `project_end_date_requested_by` (String) Project End Date Requested By
 - `project_is_in_grace_period` (Boolean) True if the project is past its end date but still within the grace period.
 - `project_slug` (String) Project Slug
-- `project_start_date` (String) Project Start Date
 - `provider_description` (String) Provider Description
 - `provider_name` (String) Provider Name
 - `provider_slug` (String) Provider Slug
@@ -162,10 +161,9 @@ Read-Only:
 - `description` (String) Description
 - `factor` (Number) Factor
 - `is_boolean` (Boolean) Is Boolean
-- `is_builtin` (Boolean) The API's older name for ``billed_per_plan``. It used to ask the plugin registry whether this component's type is one the plugin declares, which left out the OpenStack per-volume-type quotas: they are created by the volume type sync rather than declared, so the API called them provider components while the billing resolver treated them as builtin. Reading the stored flag makes the two agree.
+- `is_builtin` (Boolean) Is Builtin
 - `is_prepaid` (Boolean) Is Prepaid
 - `limit_amount` (Number) Limit Amount
-- `limit_decimal_places` (Number) Number of decimal places accepted for this component's limit. 0 keeps the limit integer-only.
 - `limit_period` (String) Limit Period
 - `max_available_limit` (Number) Max Available Limit
 - `max_prepaid_duration` (Number) Max Prepaid Duration
@@ -228,7 +226,6 @@ Read-Only:
 - `limits` (Map of Number) Limits
 - `marketplace_resource_uuid` (String) Marketplace Resource Uuid
 - `new_cost_estimate` (String) New Cost Estimate
-- `new_plan_billing_mode` (String) New Plan Billing Mode
 - `new_plan_name` (String) New Plan Name
 - `new_plan_uuid` (String) New Plan Uuid
 - `offering` (String) Offering
@@ -241,7 +238,6 @@ Read-Only:
 - `offering_type` (String) Offering Type
 - `offering_uuid` (String) Offering Uuid
 - `old_cost_estimate` (Number) Old Cost Estimate
-- `old_plan_billing_mode` (String) Old Plan Billing Mode
 - `old_plan_name` (String) Old Plan Name
 - `old_plan_uuid` (String) Old Plan Uuid
 - `order_subtype` (String) Order Subtype

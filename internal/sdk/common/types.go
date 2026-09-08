@@ -58,8 +58,6 @@ type BasePublicPlan struct {
 
 	BackendId *string `json:"backend_id,omitempty" tfsdk:"backend_id"`
 
-	BillingMode *string `json:"billing_mode,omitempty" tfsdk:"billing_mode"`
-
 	Components *[]NestedPlanComponent `json:"components,omitempty" tfsdk:"components"`
 
 	Description *string `json:"description,omitempty" tfsdk:"description"`
@@ -208,8 +206,6 @@ type NestedPartitionQoS struct {
 type NestedPlanComponent struct {
 	Amount *int64 `json:"amount,omitempty" tfsdk:"amount"`
 
-	BillingType *string `json:"billing_type,omitempty" tfsdk:"billing_type"`
-
 	DiscountAggregation *string `json:"discount_aggregation,omitempty" tfsdk:"discount_aggregation"`
 
 	DiscountDescription *string `json:"discount_description,omitempty" tfsdk:"discount_description"`
@@ -217,10 +213,6 @@ type NestedPlanComponent struct {
 	DiscountFormula *string `json:"discount_formula,omitempty" tfsdk:"discount_formula"`
 
 	FuturePrice *string `json:"future_price,omitempty" tfsdk:"future_price"`
-
-	IsPrepaid *bool `json:"is_prepaid,omitempty" tfsdk:"is_prepaid"`
-
-	LimitPeriod *string `json:"limit_period,omitempty" tfsdk:"limit_period"`
 
 	MeasuredUnit *string `json:"measured_unit,omitempty" tfsdk:"measured_unit"`
 
@@ -370,7 +362,7 @@ type OfferingComponent struct {
 
 	BillingType *string `json:"billing_type,omitempty" tfsdk:"billing_type"`
 
-	DefaultLimit FlexibleNumber `json:"default_limit,omitempty" tfsdk:"default_limit"`
+	DefaultLimit *int64 `json:"default_limit,omitempty" tfsdk:"default_limit"`
 
 	Description *string `json:"description,omitempty" tfsdk:"description"`
 
@@ -382,19 +374,17 @@ type OfferingComponent struct {
 
 	IsPrepaid *bool `json:"is_prepaid,omitempty" tfsdk:"is_prepaid"`
 
-	LimitAmount FlexibleNumber `json:"limit_amount,omitempty" tfsdk:"limit_amount"`
-
-	LimitDecimalPlaces *int64 `json:"limit_decimal_places,omitempty" tfsdk:"limit_decimal_places"`
+	LimitAmount *int64 `json:"limit_amount,omitempty" tfsdk:"limit_amount"`
 
 	LimitPeriod *string `json:"limit_period,omitempty" tfsdk:"limit_period"`
 
-	MaxAvailableLimit FlexibleNumber `json:"max_available_limit,omitempty" tfsdk:"max_available_limit"`
+	MaxAvailableLimit *int64 `json:"max_available_limit,omitempty" tfsdk:"max_available_limit"`
 
 	MaxPrepaidDuration *int64 `json:"max_prepaid_duration,omitempty" tfsdk:"max_prepaid_duration"`
 
 	MaxRenewalDuration *int64 `json:"max_renewal_duration,omitempty" tfsdk:"max_renewal_duration"`
 
-	MaxValue FlexibleNumber `json:"max_value,omitempty" tfsdk:"max_value"`
+	MaxValue *int64 `json:"max_value,omitempty" tfsdk:"max_value"`
 
 	MeasuredUnit *string `json:"measured_unit,omitempty" tfsdk:"measured_unit"`
 
@@ -402,7 +392,7 @@ type OfferingComponent struct {
 
 	MinRenewalDuration *int64 `json:"min_renewal_duration,omitempty" tfsdk:"min_renewal_duration"`
 
-	MinValue FlexibleNumber `json:"min_value,omitempty" tfsdk:"min_value"`
+	MinValue *int64 `json:"min_value,omitempty" tfsdk:"min_value"`
 
 	Name *string `json:"name,omitempty" tfsdk:"name"`
 
@@ -575,8 +565,6 @@ type OpenStackSecurityGroup struct {
 	Description *string `json:"description,omitempty" tfsdk:"description"`
 
 	ErrorMessage *string `json:"error_message,omitempty" tfsdk:"error_message"`
-
-	InstanceCount *int64 `json:"instance_count,omitempty" tfsdk:"instance_count"`
 
 	MarketplaceOfferingType *string `json:"marketplace_offering_type,omitempty" tfsdk:"marketplace_offering_type"`
 
@@ -760,13 +748,11 @@ type OrderDetails struct {
 
 	Issue *OrderDetailsIssue `json:"issue,omitempty" tfsdk:"issue"`
 
-	Limits map[string]float64 `json:"limits,omitempty" tfsdk:"limits"`
+	Limits map[string]int64 `json:"limits,omitempty" tfsdk:"limits"`
 
 	MarketplaceResourceUuid *string `json:"marketplace_resource_uuid,omitempty" tfsdk:"marketplace_resource_uuid"`
 
 	NewCostEstimate *string `json:"new_cost_estimate,omitempty" tfsdk:"new_cost_estimate"`
-
-	NewPlanBillingMode *string `json:"new_plan_billing_mode,omitempty" tfsdk:"new_plan_billing_mode"`
 
 	NewPlanName *string `json:"new_plan_name,omitempty" tfsdk:"new_plan_name"`
 
@@ -791,8 +777,6 @@ type OrderDetails struct {
 	OfferingUuid *string `json:"offering_uuid,omitempty" tfsdk:"offering_uuid"`
 
 	OldCostEstimate FlexibleNumber `json:"old_cost_estimate,omitempty" tfsdk:"old_cost_estimate"`
-
-	OldPlanBillingMode *string `json:"old_plan_billing_mode,omitempty" tfsdk:"old_plan_billing_mode"`
 
 	OldPlanName *string `json:"old_plan_name,omitempty" tfsdk:"old_plan_name"`
 
