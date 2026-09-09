@@ -66,6 +66,7 @@ resource "waldur_openstack_subnet" "example" {
 - `gateway_ip` (String) IP address of the gateway for this subnet
 - `host_routes` (Attributes List) Host Routes (see [below for nested schema](#nestedatt--host_routes))
 - `router` (String) Router to attach the subnet to. Optional: when omitted Waldur picks a router of the tenant itself. Cannot be changed here afterwards -- use the router's add/remove interface actions.
+- `skip_router_connection` (Boolean) Create the subnet without attaching it to a router. Off by default, so an omitted field behaves exactly as before: Waldur attaches the subnet to a router of the tenant.
 - `timeouts` (Block, Optional) (see [below for nested schema](#nestedblock--timeouts))
 
 ### Read-Only

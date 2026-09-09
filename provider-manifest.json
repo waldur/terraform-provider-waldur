@@ -7308,6 +7308,13 @@
           "computed": false
         },
         {
+          "name": "skip_router_connection",
+          "type": "types.Bool",
+          "required": false,
+          "optional": true,
+          "computed": false
+        },
+        {
           "name": "state",
           "type": "types.String",
           "required": false,

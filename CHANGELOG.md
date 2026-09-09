@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-09-09
+
+### Added
+
+- `openstack_subnet`: new attribute `skip_router_connection`
+
 ## 2026-09-08
 
 ### ⚠️ Breaking changes

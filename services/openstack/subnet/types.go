@@ -22,6 +22,8 @@ type OpenstackSubnetCreateRequest struct {
 	Name *string `json:"name" tfsdk:"name"`
 
 	Router *string `json:"router,omitempty" tfsdk:"router"`
+
+	SkipRouterConnection *bool `json:"skip_router_connection,omitempty" tfsdk:"skip_router_connection"`
 }
 
 type OpenstackSubnetUpdateRequest struct {
@@ -42,6 +44,8 @@ type OpenstackSubnetUpdateRequest struct {
 	Name *string `json:"name,omitempty" tfsdk:"name"`
 
 	Router *string `json:"router,omitempty" tfsdk:"router"`
+
+	SkipRouterConnection *bool `json:"skip_router_connection,omitempty" tfsdk:"skip_router_connection"`
 }
 
 type OpenstackSubnetResponse struct {

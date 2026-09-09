@@ -35,7 +35,8 @@ type OpenstackSubnetResource struct {
 // OpenstackSubnetResourceModel describes the resource data model.
 type OpenstackSubnetResourceModel struct {
 	OpenstackSubnetModel
-	Timeouts timeouts.Value `tfsdk:"timeouts"`
+	SkipRouterConnection types.Bool     `tfsdk:"skip_router_connection"`
+	Timeouts             timeouts.Value `tfsdk:"timeouts"`
 }
 
 func (r *OpenstackSubnetResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
@@ -221,6 +222,8 @@ func (r *OpenstackSubnetResource) Schema(ctx context.Context, req resource.Schem
 
 					stringplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "Router Uuid"},
+			"skip_router_connection": schema.BoolAttribute{
+				Optional: true, MarkdownDescription: "Create the subnet without attaching it to a router. Off by default, so an omitted field behaves exactly as before: Waldur attaches the subnet to a router of the tenant."},
 			"state": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
@@ -303,6 +306,10 @@ func (r *OpenstackSubnetResource) Create(ctx context.Context, req resource.Creat
 	if !data.Router.IsNull() && !data.Router.IsUnknown() {
 
 		requestBody.Router = data.Router.ValueStringPointer()
+	}
+	if !data.SkipRouterConnection.IsNull() && !data.SkipRouterConnection.IsUnknown() {
+
+		requestBody.SkipRouterConnection = data.SkipRouterConnection.ValueBoolPointer()
 	}
 	resp.Diagnostics.Append(common.PopulateOptionalSliceField(ctx, data.AllocationPools, &requestBody.AllocationPools)...)
 	resp.Diagnostics.Append(common.PopulateOptionalSliceField(ctx, data.DnsNameservers, &requestBody.DnsNameservers)...)
@@ -425,6 +432,11 @@ func (r *OpenstackSubnetResource) Update(ctx context.Context, req resource.Updat
 		anyChanges = true
 
 		requestBody.Router = data.Router.ValueStringPointer()
+	}
+	if !data.SkipRouterConnection.IsNull() && !data.SkipRouterConnection.IsUnknown() && !data.SkipRouterConnection.Equal(state.SkipRouterConnection) {
+		anyChanges = true
+
+		requestBody.SkipRouterConnection = data.SkipRouterConnection.ValueBoolPointer()
 	}
 
 	resp.Diagnostics.Append(common.PopulateOptionalSliceField(ctx, data.AllocationPools, &requestBody.AllocationPools)...)
