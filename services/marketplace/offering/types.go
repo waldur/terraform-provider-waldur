@@ -430,6 +430,8 @@ type MarketplaceOfferingPlansQuotasResponse struct {
 }
 
 type MarketplaceOfferingPluginOptionsResponse struct {
+	AccountScope *string `json:"account_scope,omitempty" tfsdk:"account_scope"`
+
 	ActionOnUsageLimit *string `json:"action_on_usage_limit,omitempty" tfsdk:"action_on_usage_limit"`
 
 	AutoApproveForRoles *[]string `json:"auto_approve_for_roles,omitempty" tfsdk:"auto_approve_for_roles"`

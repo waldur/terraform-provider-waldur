@@ -1407,6 +1407,13 @@
           "computed": false,
           "attributes": [
             {
+              "name": "account_scope",
+              "type": "types.String",
+              "required": false,
+              "optional": true,
+              "computed": false
+            },
+            {
               "name": "action_on_usage_limit",
               "type": "types.String",
               "required": false,

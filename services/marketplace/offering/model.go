@@ -704,6 +704,7 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 
 	if apiResp.PluginOptions != nil {
 		valPluginOptions, diagsPluginOptions := types.ObjectValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+			"account_scope":                                         types.StringType,
 			"action_on_usage_limit":                                 types.StringType,
 			"auto_approve_for_roles":                                types.ListType{ElemType: types.StringType},
 			"auto_approve_in_service_provider_projects":             types.BoolType,
@@ -806,6 +807,7 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 		model.PluginOptions = valPluginOptions
 	} else {
 		model.PluginOptions = types.ObjectNull(types.ObjectType{AttrTypes: map[string]attr.Type{
+			"account_scope":                                         types.StringType,
 			"action_on_usage_limit":                                 types.StringType,
 			"auto_approve_for_roles":                                types.ListType{ElemType: types.StringType},
 			"auto_approve_in_service_provider_projects":             types.BoolType,

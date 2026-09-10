@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-09-10
+
+### Added
+
+- `marketplace_offering`: new attribute `plugin_options.account_scope`
+
 ## 2026-09-09
 
 ### Added

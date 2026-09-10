@@ -339,6 +339,7 @@ Read-Only:
 
 Read-Only:
 
+- `account_scope` (String) Where this offering's accounts are held, overriding the service provider's own account_scope. 'offering' keeps one account per offering (the historical behaviour); 'provider' shares one account per user across the provider's offerings. Omit to inherit.
 - `action_on_usage_limit` (String) If set to 'pause' or 'downscale', resources are automatically paused or downscaled when reported usage in the current period reaches a component's limit_amount, and the restriction is lifted when usage drops below the limit again (e.g. a new billing period or a raised limit).
 - `auto_approve_for_roles` (List of String) List of project or organization role names (e.g. 'PROJECT.MANAGER') whose orders skip consumer review for this offering. The creator must hold the role on the target project or its organization. Independent of restricted_to_roles (which governs visibility/ordering) and of the ORDER.APPROVE permission. Provider review and purchase-order requirements still apply. Only staff can change this option.
 - `auto_approve_in_service_provider_projects` (Boolean) Skip approval of public offering belonging to the same organization under which the request is done
