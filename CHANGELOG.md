@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-09-12
+
+### Added
+
+- `marketplace_offering`: new attribute `billing_mode_components`
+
 ## 2026-09-10
 
 ### Added

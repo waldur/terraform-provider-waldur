@@ -300,6 +300,13 @@
           "computed": false
         },
         {
+          "name": "billing_mode_components",
+          "type": "types.Map",
+          "required": false,
+          "optional": true,
+          "computed": false
+        },
+        {
           "name": "billing_period_applies",
           "type": "types.Map",
           "required": false,

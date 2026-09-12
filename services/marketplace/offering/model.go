@@ -218,6 +218,7 @@ type MarketplaceOfferingModel struct {
 	Attributes                types.Map    `tfsdk:"attributes"`
 	BackendId                 types.String `tfsdk:"backend_id"`
 	Billable                  types.Bool   `tfsdk:"billable"`
+	BillingModeComponents     types.Map    `tfsdk:"billing_mode_components"`
 	BillingPeriodApplies      types.Map    `tfsdk:"billing_period_applies"`
 	BillingTypeClassification types.String `tfsdk:"billing_type_classification"`
 	CanUpdateIntegration      types.Bool   `tfsdk:"can_update_integration"`
@@ -311,6 +312,14 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 	model.BackendId = common.StringPointerValue(apiResp.BackendId)
 
 	model.Billable = types.BoolPointerValue(apiResp.Billable)
+
+	if apiResp.BillingModeComponents != nil {
+		valBillingModeComponents, diagsBillingModeComponents := types.MapValueFrom(ctx, types.StringType, apiResp.BillingModeComponents)
+		diags.Append(diagsBillingModeComponents...)
+		model.BillingModeComponents = valBillingModeComponents
+	} else {
+		model.BillingModeComponents = types.MapNull(types.StringType)
+	}
 
 	if apiResp.BillingPeriodApplies != nil {
 		valBillingPeriodApplies, diagsBillingPeriodApplies := types.MapValueFrom(ctx, types.BoolType, apiResp.BillingPeriodApplies)

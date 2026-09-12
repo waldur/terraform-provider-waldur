@@ -25,6 +25,7 @@ Marketplace Offering data source - lookup by name or UUID
 - `attributes` (Map of String) Attributes
 - `backend_id` (String) Backend Id
 - `billable` (Boolean) Purchase and usage is invoiced.
+- `billing_mode_components` (Map of String) Per plan billing mode, every component of this offering as a plan in that mode would bill it: billing type, measured unit, prepaid flag and limit period.
 - `billing_period_applies` (Map of Boolean) Per plan billing mode, whether a plan's billing period changes what is invoiced. False means every component of this offering would price a quantity of its own under that mode, so the period is inert on the invoice.
 - `billing_type_classification` (String) Classify offering components by billing type. Returns 'limit_only', 'usage_only', or 'mixed'.
 - `can_update_integration` (Boolean) Can Update Integration

@@ -16,6 +16,8 @@ type MarketplaceOfferingResponse struct {
 
 	Billable *bool `json:"billable,omitempty" tfsdk:"billable"`
 
+	BillingModeComponents common.JSONStringMap `json:"billing_mode_components,omitempty" tfsdk:"billing_mode_components"`
+
 	BillingPeriodApplies map[string]interface{} `json:"billing_period_applies,omitempty" tfsdk:"billing_period_applies"`
 
 	BillingTypeClassification *string `json:"billing_type_classification,omitempty" tfsdk:"billing_type_classification"`
@@ -166,6 +168,9 @@ type MarketplaceOfferingResponse struct {
 }
 
 type MarketplaceOfferingAttributesResponse struct {
+}
+
+type MarketplaceOfferingBillingModeComponentsResponse struct {
 }
 
 type MarketplaceOfferingBillingPeriodAppliesResponse struct {
