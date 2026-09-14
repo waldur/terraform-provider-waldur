@@ -1624,6 +1624,13 @@
               "computed": false
             },
             {
+              "name": "enable_resource_limit_change_requests",
+              "type": "types.Bool",
+              "required": false,
+              "optional": true,
+              "computed": false
+            },
+            {
               "name": "enable_resource_projects",
               "type": "types.Bool",
               "required": false,
@@ -8546,6 +8553,13 @@
         },
         {
           "name": "is_service_provider",
+          "type": "types.Bool",
+          "required": false,
+          "optional": true,
+          "computed": false
+        },
+        {
+          "name": "is_service_provider_manager_only",
           "type": "types.Bool",
           "required": false,
           "optional": true,

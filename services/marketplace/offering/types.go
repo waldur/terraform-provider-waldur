@@ -495,6 +495,8 @@ type MarketplaceOfferingPluginOptionsResponse struct {
 
 	EnableResourceEndDateChangeRequests *bool `json:"enable_resource_end_date_change_requests,omitempty" tfsdk:"enable_resource_end_date_change_requests"`
 
+	EnableResourceLimitChangeRequests *bool `json:"enable_resource_limit_change_requests,omitempty" tfsdk:"enable_resource_limit_change_requests"`
+
 	EnableResourceProjects *bool `json:"enable_resource_projects,omitempty" tfsdk:"enable_resource_projects"`
 
 	EnforceQos *bool `json:"enforce_qos,omitempty" tfsdk:"enforce_qos"`

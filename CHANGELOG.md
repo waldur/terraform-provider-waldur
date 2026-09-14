@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-09-14
+
+### Added
+
+- `marketplace_offering`: new attribute `plugin_options.enable_resource_limit_change_requests`
+- `structure_customer`: new attribute `is_service_provider_manager_only`
+
 ## 2026-09-12
 
 ### Added

@@ -231,6 +231,8 @@ type StructureCustomerResponse struct {
 
 	IsServiceProvider *bool `json:"is_service_provider,omitempty" tfsdk:"is_service_provider"`
 
+	IsServiceProviderManagerOnly *bool `json:"is_service_provider_manager_only,omitempty" tfsdk:"is_service_provider_manager_only"`
+
 	MaxServiceAccounts *int64 `json:"max_service_accounts,omitempty" tfsdk:"max_service_accounts"`
 
 	Name *string `json:"name" tfsdk:"name"`

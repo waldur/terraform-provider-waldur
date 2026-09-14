@@ -215,6 +215,7 @@ type StructureCustomerModel struct {
 	Household                    types.String      `tfsdk:"household"`
 	Image                        types.String      `tfsdk:"image"`
 	IsServiceProvider            types.Bool        `tfsdk:"is_service_provider"`
+	IsServiceProviderManagerOnly types.Bool        `tfsdk:"is_service_provider_manager_only"`
 	MaxServiceAccounts           types.Int64       `tfsdk:"max_service_accounts"`
 	Name                         types.String      `tfsdk:"name"`
 	NativeName                   types.String      `tfsdk:"native_name"`
@@ -326,6 +327,8 @@ func (model *StructureCustomerModel) CopyFrom(ctx context.Context, apiResp Struc
 	model.Image = common.StringPointerValue(apiResp.Image)
 
 	model.IsServiceProvider = types.BoolPointerValue(apiResp.IsServiceProvider)
+
+	model.IsServiceProviderManagerOnly = types.BoolPointerValue(apiResp.IsServiceProviderManagerOnly)
 
 	model.MaxServiceAccounts = types.Int64PointerValue(apiResp.MaxServiceAccounts)
 
