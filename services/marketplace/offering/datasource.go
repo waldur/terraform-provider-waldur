@@ -792,7 +792,7 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 							int64validator.AtMost(1440),
 						}},
 					"username_anonymized_prefix": schema.StringAttribute{
-						Computed: true, MarkdownDescription: "GLAuth prefix for anonymized usernames"},
+						Computed: true, MarkdownDescription: "Prefix for anonymized usernames; the name is the prefix followed by the account's POSIX UID"},
 					"username_generation_policy": schema.StringAttribute{
 						Computed: true, MarkdownDescription: "GLAuth username generation policy"},
 				},

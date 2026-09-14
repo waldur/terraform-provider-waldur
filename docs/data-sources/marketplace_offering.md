@@ -436,7 +436,7 @@ Read-Only:
 - `uid_source` (String) Where each offering user's UID comes from: allocated from the POSIX ID pool (default), or taken from the user's uid_number attribute (e.g. an OIDC claim). Pair 'user_attribute' with a GID-only pool to avoid UID collisions.
 - `unique_resource_per_attribute` (String) Attribute name to enforce uniqueness per value. E.g., 'storage_data_type' ensures only one resource per storage type per project.
 - `usage_poll_interval_minutes` (Number) Interval in minutes between usage polling for this offering (default: 60)
-- `username_anonymized_prefix` (String) GLAuth prefix for anonymized usernames
+- `username_anonymized_prefix` (String) Prefix for anonymized usernames; the name is the prefix followed by the account's POSIX UID
 - `username_generation_policy` (String) GLAuth username generation policy
 
 
