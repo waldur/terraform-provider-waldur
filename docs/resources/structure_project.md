@@ -68,7 +68,7 @@ resource "waldur_structure_project" "example" {
 - `max_service_accounts` (Number) Maximum number of service accounts allowed
 - `oecd_fos_2007_label` (String) Human-readable label for the OECD FOS 2007 classification code
 - `project_credit` (Number) Project Credit
-- `project_metadata` (Attributes List) Answers to the customer's project-metadata checklist (read-only). (see [below for nested schema](#nestedatt--project_metadata))
+- `project_metadata` (Attributes List) Answers to the customer's project-metadata checklist (read-only): the latest answer per question. (see [below for nested schema](#nestedatt--project_metadata))
 - `resources_count` (Number) Number of active resources in this project
 - `science_domain_code` (String) Domain code (e.g. '1'). Auto-derived if left blank.
 - `science_domain_name` (String) Science Domain Name
