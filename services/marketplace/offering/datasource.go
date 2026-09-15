@@ -47,6 +47,101 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 				MarkdownDescription: "Marketplace Offering UUID",
 			},
 			"filters": (&MarketplaceOfferingFiltersModel{}).GetSchema(),
+			"account_settings": schema.SingleNestedAttribute{
+				Attributes: map[string]schema.Attribute{
+					"account_scope": schema.SingleNestedAttribute{
+						Attributes: map[string]schema.Attribute{
+							"inherited": schema.SingleNestedAttribute{
+								Attributes: map[string]schema.Attribute{
+									"source": schema.StringAttribute{
+										Computed: true, MarkdownDescription: "Where the value comes from: the offering's own plugin option, the service provider's account options, or the built-in default."},
+									"value": schema.StringAttribute{
+										Computed: true, MarkdownDescription: "The value the setting resolves to."},
+								},
+								Computed: true, MarkdownDescription: "What the setting resolves to without the offering's own value: the service provider's, else the built-in default. Removing the offering's override leads to it.",
+							},
+							"source": schema.StringAttribute{
+								Computed: true, MarkdownDescription: "Where the value comes from: the offering's own plugin option, the service provider's account options, or the built-in default."},
+							"value": schema.StringAttribute{
+								Computed: true, MarkdownDescription: "The value the setting resolves to."},
+						},
+						Computed: true, MarkdownDescription: "Account Scope",
+					},
+					"homedir_prefix": schema.SingleNestedAttribute{
+						Attributes: map[string]schema.Attribute{
+							"inherited": schema.SingleNestedAttribute{
+								Attributes: map[string]schema.Attribute{
+									"source": schema.StringAttribute{
+										Computed: true, MarkdownDescription: "Where the value comes from: the offering's own plugin option, the service provider's account options, or the built-in default."},
+									"value": schema.StringAttribute{
+										Computed: true, MarkdownDescription: "The value the setting resolves to."},
+								},
+								Computed: true, MarkdownDescription: "What the setting resolves to without the offering's own value: the service provider's, else the built-in default. Removing the offering's override leads to it.",
+							},
+							"source": schema.StringAttribute{
+								Computed: true, MarkdownDescription: "Where the value comes from: the offering's own plugin option, the service provider's account options, or the built-in default."},
+							"value": schema.StringAttribute{
+								Computed: true, MarkdownDescription: "The value the setting resolves to."},
+						},
+						Computed: true, MarkdownDescription: "Homedir Prefix",
+					},
+					"login_shell": schema.SingleNestedAttribute{
+						Attributes: map[string]schema.Attribute{
+							"inherited": schema.SingleNestedAttribute{
+								Attributes: map[string]schema.Attribute{
+									"source": schema.StringAttribute{
+										Computed: true, MarkdownDescription: "Where the value comes from: the offering's own plugin option, the service provider's account options, or the built-in default."},
+									"value": schema.StringAttribute{
+										Computed: true, MarkdownDescription: "The value the setting resolves to."},
+								},
+								Computed: true, MarkdownDescription: "What the setting resolves to without the offering's own value: the service provider's, else the built-in default. Removing the offering's override leads to it.",
+							},
+							"source": schema.StringAttribute{
+								Computed: true, MarkdownDescription: "Where the value comes from: the offering's own plugin option, the service provider's account options, or the built-in default."},
+							"value": schema.StringAttribute{
+								Computed: true, MarkdownDescription: "The value the setting resolves to."},
+						},
+						Computed: true, MarkdownDescription: "Login Shell",
+					},
+					"username_anonymized_prefix": schema.SingleNestedAttribute{
+						Attributes: map[string]schema.Attribute{
+							"inherited": schema.SingleNestedAttribute{
+								Attributes: map[string]schema.Attribute{
+									"source": schema.StringAttribute{
+										Computed: true, MarkdownDescription: "Where the value comes from: the offering's own plugin option, the service provider's account options, or the built-in default."},
+									"value": schema.StringAttribute{
+										Computed: true, MarkdownDescription: "The value the setting resolves to."},
+								},
+								Computed: true, MarkdownDescription: "What the setting resolves to without the offering's own value: the service provider's, else the built-in default. Removing the offering's override leads to it.",
+							},
+							"source": schema.StringAttribute{
+								Computed: true, MarkdownDescription: "Where the value comes from: the offering's own plugin option, the service provider's account options, or the built-in default."},
+							"value": schema.StringAttribute{
+								Computed: true, MarkdownDescription: "The value the setting resolves to."},
+						},
+						Computed: true, MarkdownDescription: "Username Anonymized Prefix",
+					},
+					"username_generation_policy": schema.SingleNestedAttribute{
+						Attributes: map[string]schema.Attribute{
+							"inherited": schema.SingleNestedAttribute{
+								Attributes: map[string]schema.Attribute{
+									"source": schema.StringAttribute{
+										Computed: true, MarkdownDescription: "Where the value comes from: the offering's own plugin option, the service provider's account options, or the built-in default."},
+									"value": schema.StringAttribute{
+										Computed: true, MarkdownDescription: "The value the setting resolves to."},
+								},
+								Computed: true, MarkdownDescription: "What the setting resolves to without the offering's own value: the service provider's, else the built-in default. Removing the offering's override leads to it.",
+							},
+							"source": schema.StringAttribute{
+								Computed: true, MarkdownDescription: "Where the value comes from: the offering's own plugin option, the service provider's account options, or the built-in default."},
+							"value": schema.StringAttribute{
+								Computed: true, MarkdownDescription: "The value the setting resolves to."},
+						},
+						Computed: true, MarkdownDescription: "Username Generation Policy",
+					},
+				},
+				Computed: true, MarkdownDescription: "Account Settings",
+			},
 			"attributes": schema.MapAttribute{
 				ElementType: types.StringType,
 				Computed:    true, MarkdownDescription: "Attributes"},
@@ -561,7 +656,7 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 			"plugin_options": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
 					"account_scope": schema.StringAttribute{
-						Computed: true, MarkdownDescription: "Where this offering's accounts are held, overriding the service provider's own account_scope. 'offering' keeps one account per offering (the historical behaviour); 'provider' shares one account per user across the provider's offerings. Omit to inherit."},
+						Computed: true, MarkdownDescription: "Where accounts are held: 'offering' keeps one account per offering (the historical behaviour); 'provider' shares one account per user across the provider's offerings."},
 					"action_on_usage_limit": schema.StringAttribute{
 						Computed: true, MarkdownDescription: "If set to 'pause' or 'downscale', resources are automatically paused or downscaled when reported usage in the current period reaches a component's limit_amount, and the restriction is lifted when usage drops below the limit again (e.g. a new billing period or a raised limit)."},
 					"auto_approve_for_roles": schema.ListAttribute{
@@ -654,7 +749,7 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 					"highlight_backend_id_display": schema.BoolAttribute{
 						Computed: true, MarkdownDescription: "Defines if backend_id should be shown more prominently by the UI"},
 					"homedir_prefix": schema.StringAttribute{
-						Computed: true, MarkdownDescription: "GLAuth homedir prefix"},
+						Computed: true, MarkdownDescription: "Prefix of each account's home directory; the username follows."},
 					"is_resource_termination_date_required": schema.BoolAttribute{
 						Computed: true, MarkdownDescription: "If set to True, resource termination date is required"},
 					"latest_date_for_resource_termination": schema.StringAttribute{
@@ -662,7 +757,7 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 					"lbaas_enabled": schema.BoolAttribute{
 						Computed: true, MarkdownDescription: "If True, Octavia LBaaS (load balancers) is intended to be available for tenants from this offering."},
 					"login_shell": schema.StringAttribute{
-						Computed: true, MarkdownDescription: "Default login shell assigned to GLAuth/LDAP accounts."},
+						Computed: true, MarkdownDescription: "Login shell assigned to GLAuth/LDAP accounts."},
 					"managed_rancher_load_balancer_data_volume_size_gb": schema.Int64Attribute{
 						Computed: true, MarkdownDescription: "Data volume size in GB for managed Rancher load balancer"},
 					"managed_rancher_load_balancer_data_volume_type_name": schema.StringAttribute{
@@ -796,9 +891,9 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 							int64validator.AtMost(1440),
 						}},
 					"username_anonymized_prefix": schema.StringAttribute{
-						Computed: true, MarkdownDescription: "Prefix for anonymized usernames; the name is the prefix followed by the account's POSIX UID"},
+						Computed: true, MarkdownDescription: "Prefix for anonymized usernames; the name is the prefix followed by the account's POSIX UID."},
 					"username_generation_policy": schema.StringAttribute{
-						Computed: true, MarkdownDescription: "GLAuth username generation policy"},
+						Computed: true, MarkdownDescription: "How the usernames of offering users are generated."},
 				},
 				Computed: true, MarkdownDescription: "Plugin Options",
 			},

@@ -72,6 +72,8 @@ type MarketplaceResourceResponse struct {
 
 	Offering *string `json:"offering,omitempty" tfsdk:"offering"`
 
+	OfferingAccountSettings *MarketplaceResourceOfferingAccountSettingsResponse `json:"offering_account_settings,omitempty" tfsdk:"offering_account_settings"`
+
 	OfferingBackendId *string `json:"offering_backend_id,omitempty" tfsdk:"offering_backend_id"`
 
 	OfferingBillable *bool `json:"offering_billable,omitempty" tfsdk:"offering_billable"`
@@ -188,6 +190,88 @@ type MarketplaceResourceLimitUsageResponse struct {
 }
 
 type MarketplaceResourceLimitsResponse struct {
+}
+
+type MarketplaceResourceOfferingAccountSettingsResponse struct {
+	AccountScope *common.AccountSetting `json:"account_scope,omitempty" tfsdk:"account_scope"`
+
+	HomedirPrefix *common.AccountSetting `json:"homedir_prefix,omitempty" tfsdk:"homedir_prefix"`
+
+	LoginShell *common.AccountSetting `json:"login_shell,omitempty" tfsdk:"login_shell"`
+
+	UsernameAnonymizedPrefix *common.AccountSetting `json:"username_anonymized_prefix,omitempty" tfsdk:"username_anonymized_prefix"`
+
+	UsernameGenerationPolicy *common.AccountSetting `json:"username_generation_policy,omitempty" tfsdk:"username_generation_policy"`
+}
+
+type MarketplaceResourceOfferingAccountSettingsAccountScopeResponse struct {
+	Inherited *MarketplaceResourceOfferingAccountSettingsAccountScopeInheritedResponse `json:"inherited,omitempty" tfsdk:"inherited"`
+
+	Source *string `json:"source,omitempty" tfsdk:"source"`
+
+	Value *string `json:"value,omitempty" tfsdk:"value"`
+}
+
+type MarketplaceResourceOfferingAccountSettingsAccountScopeInheritedResponse struct {
+	Source *string `json:"source,omitempty" tfsdk:"source"`
+
+	Value *string `json:"value,omitempty" tfsdk:"value"`
+}
+
+type MarketplaceResourceOfferingAccountSettingsHomedirPrefixResponse struct {
+	Inherited *MarketplaceResourceOfferingAccountSettingsHomedirPrefixInheritedResponse `json:"inherited,omitempty" tfsdk:"inherited"`
+
+	Source *string `json:"source,omitempty" tfsdk:"source"`
+
+	Value *string `json:"value,omitempty" tfsdk:"value"`
+}
+
+type MarketplaceResourceOfferingAccountSettingsHomedirPrefixInheritedResponse struct {
+	Source *string `json:"source,omitempty" tfsdk:"source"`
+
+	Value *string `json:"value,omitempty" tfsdk:"value"`
+}
+
+type MarketplaceResourceOfferingAccountSettingsLoginShellResponse struct {
+	Inherited *MarketplaceResourceOfferingAccountSettingsLoginShellInheritedResponse `json:"inherited,omitempty" tfsdk:"inherited"`
+
+	Source *string `json:"source,omitempty" tfsdk:"source"`
+
+	Value *string `json:"value,omitempty" tfsdk:"value"`
+}
+
+type MarketplaceResourceOfferingAccountSettingsLoginShellInheritedResponse struct {
+	Source *string `json:"source,omitempty" tfsdk:"source"`
+
+	Value *string `json:"value,omitempty" tfsdk:"value"`
+}
+
+type MarketplaceResourceOfferingAccountSettingsUsernameAnonymizedPrefixResponse struct {
+	Inherited *MarketplaceResourceOfferingAccountSettingsUsernameAnonymizedPrefixInheritedResponse `json:"inherited,omitempty" tfsdk:"inherited"`
+
+	Source *string `json:"source,omitempty" tfsdk:"source"`
+
+	Value *string `json:"value,omitempty" tfsdk:"value"`
+}
+
+type MarketplaceResourceOfferingAccountSettingsUsernameAnonymizedPrefixInheritedResponse struct {
+	Source *string `json:"source,omitempty" tfsdk:"source"`
+
+	Value *string `json:"value,omitempty" tfsdk:"value"`
+}
+
+type MarketplaceResourceOfferingAccountSettingsUsernameGenerationPolicyResponse struct {
+	Inherited *MarketplaceResourceOfferingAccountSettingsUsernameGenerationPolicyInheritedResponse `json:"inherited,omitempty" tfsdk:"inherited"`
+
+	Source *string `json:"source,omitempty" tfsdk:"source"`
+
+	Value *string `json:"value,omitempty" tfsdk:"value"`
+}
+
+type MarketplaceResourceOfferingAccountSettingsUsernameGenerationPolicyInheritedResponse struct {
+	Source *string `json:"source,omitempty" tfsdk:"source"`
+
+	Value *string `json:"value,omitempty" tfsdk:"value"`
 }
 
 type MarketplaceResourceOfferingComponentsResponse struct {
@@ -408,6 +492,8 @@ type MarketplaceResourceOrderInProgressResponse struct {
 	ProviderUuid *string `json:"provider_uuid,omitempty" tfsdk:"provider_uuid"`
 
 	RequestComment *string `json:"request_comment,omitempty" tfsdk:"request_comment"`
+
+	ResourceEndDate *string `json:"resource_end_date,omitempty" tfsdk:"resource_end_date"`
 
 	ResourceName *string `json:"resource_name,omitempty" tfsdk:"resource_name"`
 

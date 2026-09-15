@@ -170,6 +170,8 @@ type OpenstackSubnetModel struct {
 	GatewayIp               types.String `tfsdk:"gateway_ip"`
 	HostRoutes              types.List   `tfsdk:"host_routes"`
 	IpVersion               types.Int64  `tfsdk:"ip_version"`
+	Ipv6AddressMode         types.String `tfsdk:"ipv6_address_mode"`
+	Ipv6RaMode              types.String `tfsdk:"ipv6_ra_mode"`
 	IsConnected             types.Bool   `tfsdk:"is_connected"`
 	MarketplaceOfferingType types.String `tfsdk:"marketplace_offering_type"`
 	MarketplaceResourceUuid types.String `tfsdk:"marketplace_resource_uuid"`
@@ -235,6 +237,10 @@ func (model *OpenstackSubnetModel) CopyFrom(ctx context.Context, apiResp Opensta
 	}
 
 	model.IpVersion = types.Int64PointerValue(apiResp.IpVersion)
+
+	model.Ipv6AddressMode = common.StringPointerValue(apiResp.Ipv6AddressMode)
+
+	model.Ipv6RaMode = common.StringPointerValue(apiResp.Ipv6RaMode)
 
 	model.IsConnected = types.BoolPointerValue(apiResp.IsConnected)
 

@@ -211,6 +211,7 @@ type MarketplaceOrderModel struct {
 	ProviderSlug                      types.String      `tfsdk:"provider_slug"`
 	ProviderUuid                      types.String      `tfsdk:"provider_uuid"`
 	RequestComment                    types.String      `tfsdk:"request_comment"`
+	ResourceEndDate                   types.String      `tfsdk:"resource_end_date"`
 	ResourceName                      types.String      `tfsdk:"resource_name"`
 	ResourceType                      types.String      `tfsdk:"resource_type"`
 	ResourceUuid                      types.String      `tfsdk:"resource_uuid"`
@@ -421,6 +422,8 @@ func (model *MarketplaceOrderModel) CopyFrom(ctx context.Context, apiResp Market
 	model.ProviderUuid = common.StringPointerValue(apiResp.ProviderUuid)
 
 	model.RequestComment = common.StringPointerValue(apiResp.RequestComment)
+
+	model.ResourceEndDate = common.StringPointerValue(apiResp.ResourceEndDate)
 
 	model.ResourceName = common.StringPointerValue(apiResp.ResourceName)
 

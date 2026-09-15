@@ -12,11 +12,33 @@ import (
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
+func AccountSettingType() types.ObjectType {
+	return types.ObjectType{AttrTypes: map[string]attr.Type{
+		"inherited": OfferingAccountSettingsAccountScopeInheritedType(),
+		"source":    types.StringType,
+		"value":     types.StringType,
+	}}
+}
 func NestedEndpointType() types.ObjectType {
 	return types.ObjectType{AttrTypes: map[string]attr.Type{
 		"name": types.StringType,
 		"url":  types.StringType,
 		"uuid": types.StringType,
+	}}
+}
+func OfferingAccountSettingsType() types.ObjectType {
+	return types.ObjectType{AttrTypes: map[string]attr.Type{
+		"account_scope":              AccountSettingType(),
+		"homedir_prefix":             AccountSettingType(),
+		"login_shell":                AccountSettingType(),
+		"username_anonymized_prefix": AccountSettingType(),
+		"username_generation_policy": AccountSettingType(),
+	}}
+}
+func OfferingAccountSettingsAccountScopeInheritedType() types.ObjectType {
+	return types.ObjectType{AttrTypes: map[string]attr.Type{
+		"source": types.StringType,
+		"value":  types.StringType,
 	}}
 }
 func OfferingComponentType() types.ObjectType {
@@ -130,6 +152,7 @@ func OrderInProgressType() types.ObjectType {
 		"provider_slug":                         types.StringType,
 		"provider_uuid":                         types.StringType,
 		"request_comment":                       types.StringType,
+		"resource_end_date":                     types.StringType,
 		"resource_name":                         types.StringType,
 		"resource_type":                         types.StringType,
 		"resource_uuid":                         types.StringType,
@@ -394,6 +417,7 @@ type MarketplaceResourceModel struct {
 	Limits                    types.Map         `tfsdk:"limits"`
 	Name                      types.String      `tfsdk:"name"`
 	Offering                  types.String      `tfsdk:"offering"`
+	OfferingAccountSettings   types.Object      `tfsdk:"offering_account_settings"`
 	OfferingBackendId         types.String      `tfsdk:"offering_backend_id"`
 	OfferingBillable          types.Bool        `tfsdk:"offering_billable"`
 	OfferingComponents        types.List        `tfsdk:"offering_components"`
@@ -519,6 +543,14 @@ func (model *MarketplaceResourceModel) CopyFrom(ctx context.Context, apiResp Mar
 	model.Name = common.StringPointerValue(apiResp.Name)
 
 	model.Offering = common.StringPointerValue(apiResp.Offering)
+
+	if apiResp.OfferingAccountSettings != nil {
+		valOfferingAccountSettings, diagsOfferingAccountSettings := types.ObjectValueFrom(ctx, OfferingAccountSettingsType().AttrTypes, *apiResp.OfferingAccountSettings)
+		diags.Append(diagsOfferingAccountSettings...)
+		model.OfferingAccountSettings = valOfferingAccountSettings
+	} else {
+		model.OfferingAccountSettings = types.ObjectNull(OfferingAccountSettingsType().AttrTypes)
+	}
 
 	model.OfferingBackendId = common.StringPointerValue(apiResp.OfferingBackendId)
 

@@ -283,7 +283,7 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 							PlanModifiers: []planmodifier.String{
 
 								stringplanmodifier.UseStateForUnknown(),
-							}, MarkdownDescription: "IPv4 network address in CIDR format (e.g. 192.168.0.0/24)"},
+							}, MarkdownDescription: "Network address in CIDR format (e.g. 192.168.0.0/24 or 2001:db8::/64)"},
 						"subnet_description": schema.StringAttribute{
 							Computed: true,
 							PlanModifiers: []planmodifier.String{
@@ -679,7 +679,7 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 							PlanModifiers: []planmodifier.String{
 
 								stringplanmodifier.UseStateForUnknown(),
-							}, MarkdownDescription: "IPv4 network address in CIDR format (e.g. 192.168.0.0/24)"},
+							}, MarkdownDescription: "Network address in CIDR format (e.g. 192.168.0.0/24 or 2001:db8::/64)"},
 						"subnet_description": schema.StringAttribute{
 							Computed: true,
 							PlanModifiers: []planmodifier.String{

@@ -105,7 +105,7 @@ Read-Only:
 - `port_fixed_ips` (Attributes List) Port Fixed Ips (see [below for nested schema](#nestedatt--floating_ips--port_fixed_ips))
 - `port_mac_address` (String) MAC address of the port
 - `subnet` (String) Subnet
-- `subnet_cidr` (String) IPv4 network address in CIDR format (e.g. 192.168.0.0/24)
+- `subnet_cidr` (String) Network address in CIDR format (e.g. 192.168.0.0/24 or 2001:db8::/64)
 - `subnet_description` (String) Subnet Description
 - `subnet_name` (String) Subnet Name
 - `subnet_uuid` (String) Subnet Uuid
@@ -136,7 +136,7 @@ Read-Only:
 - `port_security_enabled` (Boolean) If True, security groups and rules will be applied to this port
 - `security_groups` (Attributes Set) Security Groups (see [below for nested schema](#nestedatt--ports--security_groups))
 - `subnet` (String) Subnet to which this port belongs
-- `subnet_cidr` (String) IPv4 network address in CIDR format (e.g. 192.168.0.0/24)
+- `subnet_cidr` (String) Network address in CIDR format (e.g. 192.168.0.0/24 or 2001:db8::/64)
 - `subnet_description` (String) Subnet Description
 - `subnet_name` (String) Subnet Name
 - `subnet_uuid` (String) Subnet Uuid

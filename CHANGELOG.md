@@ -4,6 +4,19 @@
 
 ### Added
 
+- `marketplace_offering`: new attribute `account_settings`
+- `marketplace_order`: new attribute `resource_end_date`
+- `marketplace_resource`: new attribute `offering_account_settings`
+- `marketplace_resource`: new attribute `order_in_progress.resource_end_date`
+- `openstack_network`: new attribute `subnets.ipv6_address_mode`
+- `openstack_network`: new attribute `subnets.ipv6_ra_mode`
+- `openstack_subnet`: new attribute `ipv6_address_mode`
+- `openstack_subnet`: new attribute `ipv6_ra_mode`
+
+## 2026-09-15
+
+### Added
+
 - `marketplace_offering`: new attribute `plugin_options.heappe_identifier`
 
 ## 2026-09-14

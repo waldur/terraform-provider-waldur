@@ -219,6 +219,255 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 					stringplanmodifier.RequiresReplace(),
 					stringplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "Offering"},
+			"offering_account_settings": schema.SingleNestedAttribute{
+				Attributes: map[string]schema.Attribute{
+					"account_scope": schema.SingleNestedAttribute{
+						Attributes: map[string]schema.Attribute{
+							"inherited": schema.SingleNestedAttribute{
+								Attributes: map[string]schema.Attribute{
+									"source": schema.StringAttribute{
+										Optional: true,
+										Computed: true,
+										PlanModifiers: []planmodifier.String{
+
+											stringplanmodifier.UseStateForUnknown(),
+										}, MarkdownDescription: "Where the value comes from: the offering's own plugin option, the service provider's account options, or the built-in default."},
+									"value": schema.StringAttribute{
+										Optional: true,
+										Computed: true,
+										PlanModifiers: []planmodifier.String{
+
+											stringplanmodifier.UseStateForUnknown(),
+										}, MarkdownDescription: "The value the setting resolves to."},
+								},
+								Optional: true,
+								Computed: true,
+								PlanModifiers: []planmodifier.Object{
+
+									objectplanmodifier.UseStateForUnknown(),
+								}, MarkdownDescription: "What the setting resolves to without the offering's own value: the service provider's, else the built-in default. Removing the offering's override leads to it.",
+							},
+							"source": schema.StringAttribute{
+								Optional: true,
+								Computed: true,
+								PlanModifiers: []planmodifier.String{
+
+									stringplanmodifier.UseStateForUnknown(),
+								}, MarkdownDescription: "Where the value comes from: the offering's own plugin option, the service provider's account options, or the built-in default."},
+							"value": schema.StringAttribute{
+								Optional: true,
+								Computed: true,
+								PlanModifiers: []planmodifier.String{
+
+									stringplanmodifier.UseStateForUnknown(),
+								}, MarkdownDescription: "The value the setting resolves to."},
+						},
+						Optional: true,
+						Computed: true,
+						PlanModifiers: []planmodifier.Object{
+
+							objectplanmodifier.UseStateForUnknown(),
+						}, MarkdownDescription: "Account Scope",
+					},
+					"homedir_prefix": schema.SingleNestedAttribute{
+						Attributes: map[string]schema.Attribute{
+							"inherited": schema.SingleNestedAttribute{
+								Attributes: map[string]schema.Attribute{
+									"source": schema.StringAttribute{
+										Optional: true,
+										Computed: true,
+										PlanModifiers: []planmodifier.String{
+
+											stringplanmodifier.UseStateForUnknown(),
+										}, MarkdownDescription: "Where the value comes from: the offering's own plugin option, the service provider's account options, or the built-in default."},
+									"value": schema.StringAttribute{
+										Optional: true,
+										Computed: true,
+										PlanModifiers: []planmodifier.String{
+
+											stringplanmodifier.UseStateForUnknown(),
+										}, MarkdownDescription: "The value the setting resolves to."},
+								},
+								Optional: true,
+								Computed: true,
+								PlanModifiers: []planmodifier.Object{
+
+									objectplanmodifier.UseStateForUnknown(),
+								}, MarkdownDescription: "What the setting resolves to without the offering's own value: the service provider's, else the built-in default. Removing the offering's override leads to it.",
+							},
+							"source": schema.StringAttribute{
+								Optional: true,
+								Computed: true,
+								PlanModifiers: []planmodifier.String{
+
+									stringplanmodifier.UseStateForUnknown(),
+								}, MarkdownDescription: "Where the value comes from: the offering's own plugin option, the service provider's account options, or the built-in default."},
+							"value": schema.StringAttribute{
+								Optional: true,
+								Computed: true,
+								PlanModifiers: []planmodifier.String{
+
+									stringplanmodifier.UseStateForUnknown(),
+								}, MarkdownDescription: "The value the setting resolves to."},
+						},
+						Optional: true,
+						Computed: true,
+						PlanModifiers: []planmodifier.Object{
+
+							objectplanmodifier.UseStateForUnknown(),
+						}, MarkdownDescription: "Homedir Prefix",
+					},
+					"login_shell": schema.SingleNestedAttribute{
+						Attributes: map[string]schema.Attribute{
+							"inherited": schema.SingleNestedAttribute{
+								Attributes: map[string]schema.Attribute{
+									"source": schema.StringAttribute{
+										Optional: true,
+										Computed: true,
+										PlanModifiers: []planmodifier.String{
+
+											stringplanmodifier.UseStateForUnknown(),
+										}, MarkdownDescription: "Where the value comes from: the offering's own plugin option, the service provider's account options, or the built-in default."},
+									"value": schema.StringAttribute{
+										Optional: true,
+										Computed: true,
+										PlanModifiers: []planmodifier.String{
+
+											stringplanmodifier.UseStateForUnknown(),
+										}, MarkdownDescription: "The value the setting resolves to."},
+								},
+								Optional: true,
+								Computed: true,
+								PlanModifiers: []planmodifier.Object{
+
+									objectplanmodifier.UseStateForUnknown(),
+								}, MarkdownDescription: "What the setting resolves to without the offering's own value: the service provider's, else the built-in default. Removing the offering's override leads to it.",
+							},
+							"source": schema.StringAttribute{
+								Optional: true,
+								Computed: true,
+								PlanModifiers: []planmodifier.String{
+
+									stringplanmodifier.UseStateForUnknown(),
+								}, MarkdownDescription: "Where the value comes from: the offering's own plugin option, the service provider's account options, or the built-in default."},
+							"value": schema.StringAttribute{
+								Optional: true,
+								Computed: true,
+								PlanModifiers: []planmodifier.String{
+
+									stringplanmodifier.UseStateForUnknown(),
+								}, MarkdownDescription: "The value the setting resolves to."},
+						},
+						Optional: true,
+						Computed: true,
+						PlanModifiers: []planmodifier.Object{
+
+							objectplanmodifier.UseStateForUnknown(),
+						}, MarkdownDescription: "Login Shell",
+					},
+					"username_anonymized_prefix": schema.SingleNestedAttribute{
+						Attributes: map[string]schema.Attribute{
+							"inherited": schema.SingleNestedAttribute{
+								Attributes: map[string]schema.Attribute{
+									"source": schema.StringAttribute{
+										Optional: true,
+										Computed: true,
+										PlanModifiers: []planmodifier.String{
+
+											stringplanmodifier.UseStateForUnknown(),
+										}, MarkdownDescription: "Where the value comes from: the offering's own plugin option, the service provider's account options, or the built-in default."},
+									"value": schema.StringAttribute{
+										Optional: true,
+										Computed: true,
+										PlanModifiers: []planmodifier.String{
+
+											stringplanmodifier.UseStateForUnknown(),
+										}, MarkdownDescription: "The value the setting resolves to."},
+								},
+								Optional: true,
+								Computed: true,
+								PlanModifiers: []planmodifier.Object{
+
+									objectplanmodifier.UseStateForUnknown(),
+								}, MarkdownDescription: "What the setting resolves to without the offering's own value: the service provider's, else the built-in default. Removing the offering's override leads to it.",
+							},
+							"source": schema.StringAttribute{
+								Optional: true,
+								Computed: true,
+								PlanModifiers: []planmodifier.String{
+
+									stringplanmodifier.UseStateForUnknown(),
+								}, MarkdownDescription: "Where the value comes from: the offering's own plugin option, the service provider's account options, or the built-in default."},
+							"value": schema.StringAttribute{
+								Optional: true,
+								Computed: true,
+								PlanModifiers: []planmodifier.String{
+
+									stringplanmodifier.UseStateForUnknown(),
+								}, MarkdownDescription: "The value the setting resolves to."},
+						},
+						Optional: true,
+						Computed: true,
+						PlanModifiers: []planmodifier.Object{
+
+							objectplanmodifier.UseStateForUnknown(),
+						}, MarkdownDescription: "Username Anonymized Prefix",
+					},
+					"username_generation_policy": schema.SingleNestedAttribute{
+						Attributes: map[string]schema.Attribute{
+							"inherited": schema.SingleNestedAttribute{
+								Attributes: map[string]schema.Attribute{
+									"source": schema.StringAttribute{
+										Optional: true,
+										Computed: true,
+										PlanModifiers: []planmodifier.String{
+
+											stringplanmodifier.UseStateForUnknown(),
+										}, MarkdownDescription: "Where the value comes from: the offering's own plugin option, the service provider's account options, or the built-in default."},
+									"value": schema.StringAttribute{
+										Optional: true,
+										Computed: true,
+										PlanModifiers: []planmodifier.String{
+
+											stringplanmodifier.UseStateForUnknown(),
+										}, MarkdownDescription: "The value the setting resolves to."},
+								},
+								Optional: true,
+								Computed: true,
+								PlanModifiers: []planmodifier.Object{
+
+									objectplanmodifier.UseStateForUnknown(),
+								}, MarkdownDescription: "What the setting resolves to without the offering's own value: the service provider's, else the built-in default. Removing the offering's override leads to it.",
+							},
+							"source": schema.StringAttribute{
+								Optional: true,
+								Computed: true,
+								PlanModifiers: []planmodifier.String{
+
+									stringplanmodifier.UseStateForUnknown(),
+								}, MarkdownDescription: "Where the value comes from: the offering's own plugin option, the service provider's account options, or the built-in default."},
+							"value": schema.StringAttribute{
+								Optional: true,
+								Computed: true,
+								PlanModifiers: []planmodifier.String{
+
+									stringplanmodifier.UseStateForUnknown(),
+								}, MarkdownDescription: "The value the setting resolves to."},
+						},
+						Optional: true,
+						Computed: true,
+						PlanModifiers: []planmodifier.Object{
+
+							objectplanmodifier.UseStateForUnknown(),
+						}, MarkdownDescription: "Username Generation Policy",
+					},
+				},
+				Computed: true,
+				PlanModifiers: []planmodifier.Object{
+
+					objectplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Offering Account Settings",
+			},
 			"offering_backend_id": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
@@ -893,7 +1142,7 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 						PlanModifiers: []planmodifier.Float64{
 
 							float64planmodifier.UseStateForUnknown(),
-						}, MarkdownDescription: "Old Cost Estimate"},
+						}, MarkdownDescription: "The old-limits estimate, snapshotted by init_cost() at creation. Must not recompute live: _compute_old_cost_estimate() prices from \\\"today\\\", which keeps advancing on every read while `cost` stays fixed from creation -- the shown cost change would grow the longer an order sits unread. Orders that predate this field have no snapshot, so they fall back to the live computation rather than a wrong zero."},
 					"old_plan_billing_mode": schema.StringAttribute{
 						Computed: true,
 						PlanModifiers: []planmodifier.String{
@@ -1064,6 +1313,12 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 
 							stringplanmodifier.UseStateForUnknown(),
 						}, MarkdownDescription: "Request Comment"},
+					"resource_end_date": schema.StringAttribute{
+						Computed: true,
+						PlanModifiers: []planmodifier.String{
+
+							stringplanmodifier.UseStateForUnknown(),
+						}, MarkdownDescription: "Resource End Date"},
 					"resource_name": schema.StringAttribute{
 						Computed: true,
 						PlanModifiers: []planmodifier.String{

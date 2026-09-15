@@ -104,7 +104,7 @@ resource "waldur_marketplace_order" "example" {
 - `offering_thumbnail` (String) Offering Thumbnail
 - `offering_type` (String) Offering Type
 - `offering_uuid` (String) Offering Uuid
-- `old_cost_estimate` (Number) Old Cost Estimate
+- `old_cost_estimate` (Number) The old-limits estimate, snapshotted by init_cost() at creation. Must not recompute live: _compute_old_cost_estimate() prices from \"today\", which keeps advancing on every read while `cost` stays fixed from creation -- the shown cost change would grow the longer an order sits unread. Orders that predate this field have no snapshot, so they fall back to the live computation rather than a wrong zero.
 - `old_plan_billing_mode` (String) Old Plan Billing Mode
 - `old_plan_name` (String) Old Plan Name
 - `old_plan_uuid` (String) Old Plan Uuid
@@ -127,6 +127,7 @@ resource "waldur_marketplace_order" "example" {
 - `provider_reviewed_by_username` (String) Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters
 - `provider_slug` (String) Provider Slug
 - `provider_uuid` (String) Provider Uuid
+- `resource_end_date` (String) Resource End Date
 - `resource_name` (String) Resource Name
 - `resource_type` (String) Resource Type
 - `resource_uuid` (String) Resource Uuid

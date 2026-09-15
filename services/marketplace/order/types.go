@@ -205,6 +205,8 @@ type MarketplaceOrderResponse struct {
 
 	RequestComment *string `json:"request_comment,omitempty" tfsdk:"request_comment"`
 
+	ResourceEndDate *string `json:"resource_end_date,omitempty" tfsdk:"resource_end_date"`
+
 	ResourceName *string `json:"resource_name,omitempty" tfsdk:"resource_name"`
 
 	ResourceType *string `json:"resource_type,omitempty" tfsdk:"resource_type"`

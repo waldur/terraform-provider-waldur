@@ -105,7 +105,7 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 						"port_mac_address": schema.StringAttribute{
 							Computed: true, MarkdownDescription: "MAC address of the port"},
 						"subnet_cidr": schema.StringAttribute{
-							Computed: true, MarkdownDescription: "IPv4 network address in CIDR format (e.g. 192.168.0.0/24)"},
+							Computed: true, MarkdownDescription: "Network address in CIDR format (e.g. 192.168.0.0/24 or 2001:db8::/64)"},
 						"subnet_description": schema.StringAttribute{
 							Computed: true, MarkdownDescription: "Subnet Description"},
 						"subnet_name": schema.StringAttribute{
@@ -253,7 +253,7 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 							Computed: true, MarkdownDescription: "Security Groups",
 						},
 						"subnet_cidr": schema.StringAttribute{
-							Computed: true, MarkdownDescription: "IPv4 network address in CIDR format (e.g. 192.168.0.0/24)"},
+							Computed: true, MarkdownDescription: "Network address in CIDR format (e.g. 192.168.0.0/24 or 2001:db8::/64)"},
 						"subnet_description": schema.StringAttribute{
 							Computed: true, MarkdownDescription: "Subnet Description"},
 						"subnet_name": schema.StringAttribute{

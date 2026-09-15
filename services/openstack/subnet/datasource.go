@@ -85,6 +85,10 @@ func (d *OpenstackSubnetDataSource) Schema(ctx context.Context, req datasource.S
 			},
 			"ip_version": schema.Int64Attribute{
 				Computed: true, MarkdownDescription: "IP protocol version (4 or 6)"},
+			"ipv6_address_mode": schema.StringAttribute{
+				Computed: true, MarkdownDescription: "How instances on an IPv6 subnet get their address. Set at creation only; null for an IPv4 subnet."},
+			"ipv6_ra_mode": schema.StringAttribute{
+				Computed: true, MarkdownDescription: "How the router advertises an IPv6 subnet. Set at creation only; null for an IPv4 subnet."},
 			"is_connected": schema.BoolAttribute{
 				Computed: true, MarkdownDescription: "Is subnet connected to the default tenant router."},
 			"marketplace_offering_type": schema.StringAttribute{

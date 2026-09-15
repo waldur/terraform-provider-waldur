@@ -279,6 +279,245 @@
       "kind": "data_source",
       "attributes": [
         {
+          "name": "account_settings",
+          "type": "types.Object",
+          "required": false,
+          "optional": true,
+          "computed": false,
+          "attributes": [
+            {
+              "name": "account_scope",
+              "type": "types.Object",
+              "required": false,
+              "optional": true,
+              "computed": false,
+              "attributes": [
+                {
+                  "name": "inherited",
+                  "type": "types.Object",
+                  "required": false,
+                  "optional": true,
+                  "computed": false,
+                  "attributes": [
+                    {
+                      "name": "source",
+                      "type": "types.String",
+                      "required": false,
+                      "optional": true,
+                      "computed": false
+                    },
+                    {
+                      "name": "value",
+                      "type": "types.String",
+                      "required": false,
+                      "optional": true,
+                      "computed": false
+                    }
+                  ]
+                },
+                {
+                  "name": "source",
+                  "type": "types.String",
+                  "required": false,
+                  "optional": true,
+                  "computed": false
+                },
+                {
+                  "name": "value",
+                  "type": "types.String",
+                  "required": false,
+                  "optional": true,
+                  "computed": false
+                }
+              ]
+            },
+            {
+              "name": "homedir_prefix",
+              "type": "types.Object",
+              "required": false,
+              "optional": true,
+              "computed": false,
+              "attributes": [
+                {
+                  "name": "inherited",
+                  "type": "types.Object",
+                  "required": false,
+                  "optional": true,
+                  "computed": false,
+                  "attributes": [
+                    {
+                      "name": "source",
+                      "type": "types.String",
+                      "required": false,
+                      "optional": true,
+                      "computed": false
+                    },
+                    {
+                      "name": "value",
+                      "type": "types.String",
+                      "required": false,
+                      "optional": true,
+                      "computed": false
+                    }
+                  ]
+                },
+                {
+                  "name": "source",
+                  "type": "types.String",
+                  "required": false,
+                  "optional": true,
+                  "computed": false
+                },
+                {
+                  "name": "value",
+                  "type": "types.String",
+                  "required": false,
+                  "optional": true,
+                  "computed": false
+                }
+              ]
+            },
+            {
+              "name": "login_shell",
+              "type": "types.Object",
+              "required": false,
+              "optional": true,
+              "computed": false,
+              "attributes": [
+                {
+                  "name": "inherited",
+                  "type": "types.Object",
+                  "required": false,
+                  "optional": true,
+                  "computed": false,
+                  "attributes": [
+                    {
+                      "name": "source",
+                      "type": "types.String",
+                      "required": false,
+                      "optional": true,
+                      "computed": false
+                    },
+                    {
+                      "name": "value",
+                      "type": "types.String",
+                      "required": false,
+                      "optional": true,
+                      "computed": false
+                    }
+                  ]
+                },
+                {
+                  "name": "source",
+                  "type": "types.String",
+                  "required": false,
+                  "optional": true,
+                  "computed": false
+                },
+                {
+                  "name": "value",
+                  "type": "types.String",
+                  "required": false,
+                  "optional": true,
+                  "computed": false
+                }
+              ]
+            },
+            {
+              "name": "username_anonymized_prefix",
+              "type": "types.Object",
+              "required": false,
+              "optional": true,
+              "computed": false,
+              "attributes": [
+                {
+                  "name": "inherited",
+                  "type": "types.Object",
+                  "required": false,
+                  "optional": true,
+                  "computed": false,
+                  "attributes": [
+                    {
+                      "name": "source",
+                      "type": "types.String",
+                      "required": false,
+                      "optional": true,
+                      "computed": false
+                    },
+                    {
+                      "name": "value",
+                      "type": "types.String",
+                      "required": false,
+                      "optional": true,
+                      "computed": false
+                    }
+                  ]
+                },
+                {
+                  "name": "source",
+                  "type": "types.String",
+                  "required": false,
+                  "optional": true,
+                  "computed": false
+                },
+                {
+                  "name": "value",
+                  "type": "types.String",
+                  "required": false,
+                  "optional": true,
+                  "computed": false
+                }
+              ]
+            },
+            {
+              "name": "username_generation_policy",
+              "type": "types.Object",
+              "required": false,
+              "optional": true,
+              "computed": false,
+              "attributes": [
+                {
+                  "name": "inherited",
+                  "type": "types.Object",
+                  "required": false,
+                  "optional": true,
+                  "computed": false,
+                  "attributes": [
+                    {
+                      "name": "source",
+                      "type": "types.String",
+                      "required": false,
+                      "optional": true,
+                      "computed": false
+                    },
+                    {
+                      "name": "value",
+                      "type": "types.String",
+                      "required": false,
+                      "optional": true,
+                      "computed": false
+                    }
+                  ]
+                },
+                {
+                  "name": "source",
+                  "type": "types.String",
+                  "required": false,
+                  "optional": true,
+                  "computed": false
+                },
+                {
+                  "name": "value",
+                  "type": "types.String",
+                  "required": false,
+                  "optional": true,
+                  "computed": false
+                }
+              ]
+            }
+          ]
+        },
+        {
           "name": "attributes",
           "type": "types.Map",
           "required": false,
@@ -3303,6 +3542,13 @@
           "computed": true
         },
         {
+          "name": "resource_end_date",
+          "type": "types.String",
+          "required": false,
+          "optional": true,
+          "computed": false
+        },
+        {
           "name": "resource_name",
           "type": "types.String",
           "required": false,
@@ -3532,6 +3778,245 @@
           "required": false,
           "optional": false,
           "computed": true
+        },
+        {
+          "name": "offering_account_settings",
+          "type": "types.Object",
+          "required": false,
+          "optional": true,
+          "computed": false,
+          "attributes": [
+            {
+              "name": "account_scope",
+              "type": "types.Object",
+              "required": false,
+              "optional": false,
+              "computed": true,
+              "attributes": [
+                {
+                  "name": "inherited",
+                  "type": "types.Object",
+                  "required": false,
+                  "optional": false,
+                  "computed": true,
+                  "attributes": [
+                    {
+                      "name": "source",
+                      "type": "types.String",
+                      "required": false,
+                      "optional": false,
+                      "computed": true
+                    },
+                    {
+                      "name": "value",
+                      "type": "types.String",
+                      "required": false,
+                      "optional": false,
+                      "computed": true
+                    }
+                  ]
+                },
+                {
+                  "name": "source",
+                  "type": "types.String",
+                  "required": false,
+                  "optional": false,
+                  "computed": true
+                },
+                {
+                  "name": "value",
+                  "type": "types.String",
+                  "required": false,
+                  "optional": false,
+                  "computed": true
+                }
+              ]
+            },
+            {
+              "name": "homedir_prefix",
+              "type": "types.Object",
+              "required": false,
+              "optional": false,
+              "computed": true,
+              "attributes": [
+                {
+                  "name": "inherited",
+                  "type": "types.Object",
+                  "required": false,
+                  "optional": false,
+                  "computed": true,
+                  "attributes": [
+                    {
+                      "name": "source",
+                      "type": "types.String",
+                      "required": false,
+                      "optional": false,
+                      "computed": true
+                    },
+                    {
+                      "name": "value",
+                      "type": "types.String",
+                      "required": false,
+                      "optional": false,
+                      "computed": true
+                    }
+                  ]
+                },
+                {
+                  "name": "source",
+                  "type": "types.String",
+                  "required": false,
+                  "optional": false,
+                  "computed": true
+                },
+                {
+                  "name": "value",
+                  "type": "types.String",
+                  "required": false,
+                  "optional": false,
+                  "computed": true
+                }
+              ]
+            },
+            {
+              "name": "login_shell",
+              "type": "types.Object",
+              "required": false,
+              "optional": false,
+              "computed": true,
+              "attributes": [
+                {
+                  "name": "inherited",
+                  "type": "types.Object",
+                  "required": false,
+                  "optional": false,
+                  "computed": true,
+                  "attributes": [
+                    {
+                      "name": "source",
+                      "type": "types.String",
+                      "required": false,
+                      "optional": false,
+                      "computed": true
+                    },
+                    {
+                      "name": "value",
+                      "type": "types.String",
+                      "required": false,
+                      "optional": false,
+                      "computed": true
+                    }
+                  ]
+                },
+                {
+                  "name": "source",
+                  "type": "types.String",
+                  "required": false,
+                  "optional": false,
+                  "computed": true
+                },
+                {
+                  "name": "value",
+                  "type": "types.String",
+                  "required": false,
+                  "optional": false,
+                  "computed": true
+                }
+              ]
+            },
+            {
+              "name": "username_anonymized_prefix",
+              "type": "types.Object",
+              "required": false,
+              "optional": false,
+              "computed": true,
+              "attributes": [
+                {
+                  "name": "inherited",
+                  "type": "types.Object",
+                  "required": false,
+                  "optional": false,
+                  "computed": true,
+                  "attributes": [
+                    {
+                      "name": "source",
+                      "type": "types.String",
+                      "required": false,
+                      "optional": false,
+                      "computed": true
+                    },
+                    {
+                      "name": "value",
+                      "type": "types.String",
+                      "required": false,
+                      "optional": false,
+                      "computed": true
+                    }
+                  ]
+                },
+                {
+                  "name": "source",
+                  "type": "types.String",
+                  "required": false,
+                  "optional": false,
+                  "computed": true
+                },
+                {
+                  "name": "value",
+                  "type": "types.String",
+                  "required": false,
+                  "optional": false,
+                  "computed": true
+                }
+              ]
+            },
+            {
+              "name": "username_generation_policy",
+              "type": "types.Object",
+              "required": false,
+              "optional": false,
+              "computed": true,
+              "attributes": [
+                {
+                  "name": "inherited",
+                  "type": "types.Object",
+                  "required": false,
+                  "optional": false,
+                  "computed": true,
+                  "attributes": [
+                    {
+                      "name": "source",
+                      "type": "types.String",
+                      "required": false,
+                      "optional": false,
+                      "computed": true
+                    },
+                    {
+                      "name": "value",
+                      "type": "types.String",
+                      "required": false,
+                      "optional": false,
+                      "computed": true
+                    }
+                  ]
+                },
+                {
+                  "name": "source",
+                  "type": "types.String",
+                  "required": false,
+                  "optional": false,
+                  "computed": true
+                },
+                {
+                  "name": "value",
+                  "type": "types.String",
+                  "required": false,
+                  "optional": false,
+                  "computed": true
+                }
+              ]
+            }
+          ]
         },
         {
           "name": "offering_backend_id",
@@ -4383,6 +4868,13 @@
               "required": false,
               "optional": false,
               "computed": true
+            },
+            {
+              "name": "resource_end_date",
+              "type": "types.String",
+              "required": false,
+              "optional": true,
+              "computed": false
             },
             {
               "name": "resource_name",
@@ -6392,6 +6884,20 @@
               "computed": true
             },
             {
+              "name": "ipv6_address_mode",
+              "type": "types.String",
+              "required": false,
+              "optional": true,
+              "computed": false
+            },
+            {
+              "name": "ipv6_ra_mode",
+              "type": "types.String",
+              "required": false,
+              "optional": true,
+              "computed": false
+            },
+            {
               "name": "name",
               "type": "types.String",
               "required": false,
@@ -7250,6 +7756,20 @@
           "required": false,
           "optional": true,
           "computed": false
+        },
+        {
+          "name": "ipv6_address_mode",
+          "type": "types.String",
+          "required": false,
+          "optional": false,
+          "computed": true
+        },
+        {
+          "name": "ipv6_ra_mode",
+          "type": "types.String",
+          "required": false,
+          "optional": false,
+          "computed": true
         },
         {
           "name": "is_connected",

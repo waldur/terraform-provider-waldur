@@ -215,6 +215,7 @@ func (m *MarketplaceOfferingFiltersModel) GetSchema() schema.SingleNestedAttribu
 
 type MarketplaceOfferingModel struct {
 	UUID                      types.String `tfsdk:"id"`
+	AccountSettings           types.Object `tfsdk:"account_settings"`
 	Attributes                types.Map    `tfsdk:"attributes"`
 	BackendId                 types.String `tfsdk:"backend_id"`
 	Billable                  types.Bool   `tfsdk:"billable"`
@@ -300,6 +301,96 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 	var diags diag.Diagnostics
 
 	model.UUID = types.StringPointerValue(apiResp.UUID)
+
+	if apiResp.AccountSettings != nil {
+		valAccountSettings, diagsAccountSettings := types.ObjectValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+			"account_scope": types.ObjectType{AttrTypes: map[string]attr.Type{
+				"inherited": types.ObjectType{AttrTypes: map[string]attr.Type{
+					"source": types.StringType,
+					"value":  types.StringType,
+				}},
+				"source": types.StringType,
+				"value":  types.StringType,
+			}},
+			"homedir_prefix": types.ObjectType{AttrTypes: map[string]attr.Type{
+				"inherited": types.ObjectType{AttrTypes: map[string]attr.Type{
+					"source": types.StringType,
+					"value":  types.StringType,
+				}},
+				"source": types.StringType,
+				"value":  types.StringType,
+			}},
+			"login_shell": types.ObjectType{AttrTypes: map[string]attr.Type{
+				"inherited": types.ObjectType{AttrTypes: map[string]attr.Type{
+					"source": types.StringType,
+					"value":  types.StringType,
+				}},
+				"source": types.StringType,
+				"value":  types.StringType,
+			}},
+			"username_anonymized_prefix": types.ObjectType{AttrTypes: map[string]attr.Type{
+				"inherited": types.ObjectType{AttrTypes: map[string]attr.Type{
+					"source": types.StringType,
+					"value":  types.StringType,
+				}},
+				"source": types.StringType,
+				"value":  types.StringType,
+			}},
+			"username_generation_policy": types.ObjectType{AttrTypes: map[string]attr.Type{
+				"inherited": types.ObjectType{AttrTypes: map[string]attr.Type{
+					"source": types.StringType,
+					"value":  types.StringType,
+				}},
+				"source": types.StringType,
+				"value":  types.StringType,
+			}},
+		}}.AttrTypes, *apiResp.AccountSettings)
+		diags.Append(diagsAccountSettings...)
+		model.AccountSettings = valAccountSettings
+	} else {
+		model.AccountSettings = types.ObjectNull(types.ObjectType{AttrTypes: map[string]attr.Type{
+			"account_scope": types.ObjectType{AttrTypes: map[string]attr.Type{
+				"inherited": types.ObjectType{AttrTypes: map[string]attr.Type{
+					"source": types.StringType,
+					"value":  types.StringType,
+				}},
+				"source": types.StringType,
+				"value":  types.StringType,
+			}},
+			"homedir_prefix": types.ObjectType{AttrTypes: map[string]attr.Type{
+				"inherited": types.ObjectType{AttrTypes: map[string]attr.Type{
+					"source": types.StringType,
+					"value":  types.StringType,
+				}},
+				"source": types.StringType,
+				"value":  types.StringType,
+			}},
+			"login_shell": types.ObjectType{AttrTypes: map[string]attr.Type{
+				"inherited": types.ObjectType{AttrTypes: map[string]attr.Type{
+					"source": types.StringType,
+					"value":  types.StringType,
+				}},
+				"source": types.StringType,
+				"value":  types.StringType,
+			}},
+			"username_anonymized_prefix": types.ObjectType{AttrTypes: map[string]attr.Type{
+				"inherited": types.ObjectType{AttrTypes: map[string]attr.Type{
+					"source": types.StringType,
+					"value":  types.StringType,
+				}},
+				"source": types.StringType,
+				"value":  types.StringType,
+			}},
+			"username_generation_policy": types.ObjectType{AttrTypes: map[string]attr.Type{
+				"inherited": types.ObjectType{AttrTypes: map[string]attr.Type{
+					"source": types.StringType,
+					"value":  types.StringType,
+				}},
+				"source": types.StringType,
+				"value":  types.StringType,
+			}},
+		}}.AttrTypes)
+	}
 
 	if apiResp.Attributes != nil {
 		valAttributes, diagsAttributes := types.MapValueFrom(ctx, types.StringType, apiResp.Attributes)

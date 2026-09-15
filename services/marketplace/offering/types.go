@@ -10,6 +10,8 @@ type MarketplaceOfferingCreateRequest struct {
 type MarketplaceOfferingResponse struct {
 	UUID *string `json:"uuid"`
 
+	AccountSettings *MarketplaceOfferingAccountSettingsResponse `json:"account_settings,omitempty" tfsdk:"account_settings"`
+
 	Attributes common.JSONStringMap `json:"attributes,omitempty" tfsdk:"attributes"`
 
 	BackendId *string `json:"backend_id,omitempty" tfsdk:"backend_id"`
@@ -165,6 +167,88 @@ type MarketplaceOfferingResponse struct {
 	UserHasOfferingUser *bool `json:"user_has_offering_user,omitempty" tfsdk:"user_has_offering_user"`
 
 	VendorDetails *string `json:"vendor_details,omitempty" tfsdk:"vendor_details"`
+}
+
+type MarketplaceOfferingAccountSettingsResponse struct {
+	AccountScope *common.AccountSetting `json:"account_scope,omitempty" tfsdk:"account_scope"`
+
+	HomedirPrefix *common.AccountSetting `json:"homedir_prefix,omitempty" tfsdk:"homedir_prefix"`
+
+	LoginShell *common.AccountSetting `json:"login_shell,omitempty" tfsdk:"login_shell"`
+
+	UsernameAnonymizedPrefix *common.AccountSetting `json:"username_anonymized_prefix,omitempty" tfsdk:"username_anonymized_prefix"`
+
+	UsernameGenerationPolicy *common.AccountSetting `json:"username_generation_policy,omitempty" tfsdk:"username_generation_policy"`
+}
+
+type MarketplaceOfferingAccountSettingsAccountScopeResponse struct {
+	Inherited *MarketplaceOfferingAccountSettingsAccountScopeInheritedResponse `json:"inherited,omitempty" tfsdk:"inherited"`
+
+	Source *string `json:"source,omitempty" tfsdk:"source"`
+
+	Value *string `json:"value,omitempty" tfsdk:"value"`
+}
+
+type MarketplaceOfferingAccountSettingsAccountScopeInheritedResponse struct {
+	Source *string `json:"source,omitempty" tfsdk:"source"`
+
+	Value *string `json:"value,omitempty" tfsdk:"value"`
+}
+
+type MarketplaceOfferingAccountSettingsHomedirPrefixResponse struct {
+	Inherited *MarketplaceOfferingAccountSettingsHomedirPrefixInheritedResponse `json:"inherited,omitempty" tfsdk:"inherited"`
+
+	Source *string `json:"source,omitempty" tfsdk:"source"`
+
+	Value *string `json:"value,omitempty" tfsdk:"value"`
+}
+
+type MarketplaceOfferingAccountSettingsHomedirPrefixInheritedResponse struct {
+	Source *string `json:"source,omitempty" tfsdk:"source"`
+
+	Value *string `json:"value,omitempty" tfsdk:"value"`
+}
+
+type MarketplaceOfferingAccountSettingsLoginShellResponse struct {
+	Inherited *MarketplaceOfferingAccountSettingsLoginShellInheritedResponse `json:"inherited,omitempty" tfsdk:"inherited"`
+
+	Source *string `json:"source,omitempty" tfsdk:"source"`
+
+	Value *string `json:"value,omitempty" tfsdk:"value"`
+}
+
+type MarketplaceOfferingAccountSettingsLoginShellInheritedResponse struct {
+	Source *string `json:"source,omitempty" tfsdk:"source"`
+
+	Value *string `json:"value,omitempty" tfsdk:"value"`
+}
+
+type MarketplaceOfferingAccountSettingsUsernameAnonymizedPrefixResponse struct {
+	Inherited *MarketplaceOfferingAccountSettingsUsernameAnonymizedPrefixInheritedResponse `json:"inherited,omitempty" tfsdk:"inherited"`
+
+	Source *string `json:"source,omitempty" tfsdk:"source"`
+
+	Value *string `json:"value,omitempty" tfsdk:"value"`
+}
+
+type MarketplaceOfferingAccountSettingsUsernameAnonymizedPrefixInheritedResponse struct {
+	Source *string `json:"source,omitempty" tfsdk:"source"`
+
+	Value *string `json:"value,omitempty" tfsdk:"value"`
+}
+
+type MarketplaceOfferingAccountSettingsUsernameGenerationPolicyResponse struct {
+	Inherited *MarketplaceOfferingAccountSettingsUsernameGenerationPolicyInheritedResponse `json:"inherited,omitempty" tfsdk:"inherited"`
+
+	Source *string `json:"source,omitempty" tfsdk:"source"`
+
+	Value *string `json:"value,omitempty" tfsdk:"value"`
+}
+
+type MarketplaceOfferingAccountSettingsUsernameGenerationPolicyInheritedResponse struct {
+	Source *string `json:"source,omitempty" tfsdk:"source"`
+
+	Value *string `json:"value,omitempty" tfsdk:"value"`
 }
 
 type MarketplaceOfferingAttributesResponse struct {

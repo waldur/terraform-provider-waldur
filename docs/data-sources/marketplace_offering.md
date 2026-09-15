@@ -22,6 +22,7 @@ Marketplace Offering data source - lookup by name or UUID
 
 ### Read-Only
 
+- `account_settings` (Attributes) Account Settings (see [below for nested schema](#nestedatt--account_settings))
 - `attributes` (Map of String) Attributes
 - `backend_id` (String) Backend Id
 - `billable` (Boolean) Purchase and usage is invoiced.
@@ -144,6 +145,113 @@ Optional:
 - `user_has_consent` (Boolean) User Has Consent
 - `user_has_offering_user` (Boolean) User Has Offering User
 - `uuid_list` (String) Comma-separated offering UUIDs
+
+
+<a id="nestedatt--account_settings"></a>
+### Nested Schema for `account_settings`
+
+Read-Only:
+
+- `account_scope` (Attributes) Account Scope (see [below for nested schema](#nestedatt--account_settings--account_scope))
+- `homedir_prefix` (Attributes) Homedir Prefix (see [below for nested schema](#nestedatt--account_settings--homedir_prefix))
+- `login_shell` (Attributes) Login Shell (see [below for nested schema](#nestedatt--account_settings--login_shell))
+- `username_anonymized_prefix` (Attributes) Username Anonymized Prefix (see [below for nested schema](#nestedatt--account_settings--username_anonymized_prefix))
+- `username_generation_policy` (Attributes) Username Generation Policy (see [below for nested schema](#nestedatt--account_settings--username_generation_policy))
+
+<a id="nestedatt--account_settings--account_scope"></a>
+### Nested Schema for `account_settings.account_scope`
+
+Read-Only:
+
+- `inherited` (Attributes) What the setting resolves to without the offering's own value: the service provider's, else the built-in default. Removing the offering's override leads to it. (see [below for nested schema](#nestedatt--account_settings--account_scope--inherited))
+- `source` (String) Where the value comes from: the offering's own plugin option, the service provider's account options, or the built-in default.
+- `value` (String) The value the setting resolves to.
+
+<a id="nestedatt--account_settings--account_scope--inherited"></a>
+### Nested Schema for `account_settings.account_scope.inherited`
+
+Read-Only:
+
+- `source` (String) Where the value comes from: the offering's own plugin option, the service provider's account options, or the built-in default.
+- `value` (String) The value the setting resolves to.
+
+
+
+<a id="nestedatt--account_settings--homedir_prefix"></a>
+### Nested Schema for `account_settings.homedir_prefix`
+
+Read-Only:
+
+- `inherited` (Attributes) What the setting resolves to without the offering's own value: the service provider's, else the built-in default. Removing the offering's override leads to it. (see [below for nested schema](#nestedatt--account_settings--homedir_prefix--inherited))
+- `source` (String) Where the value comes from: the offering's own plugin option, the service provider's account options, or the built-in default.
+- `value` (String) The value the setting resolves to.
+
+<a id="nestedatt--account_settings--homedir_prefix--inherited"></a>
+### Nested Schema for `account_settings.homedir_prefix.inherited`
+
+Read-Only:
+
+- `source` (String) Where the value comes from: the offering's own plugin option, the service provider's account options, or the built-in default.
+- `value` (String) The value the setting resolves to.
+
+
+
+<a id="nestedatt--account_settings--login_shell"></a>
+### Nested Schema for `account_settings.login_shell`
+
+Read-Only:
+
+- `inherited` (Attributes) What the setting resolves to without the offering's own value: the service provider's, else the built-in default. Removing the offering's override leads to it. (see [below for nested schema](#nestedatt--account_settings--login_shell--inherited))
+- `source` (String) Where the value comes from: the offering's own plugin option, the service provider's account options, or the built-in default.
+- `value` (String) The value the setting resolves to.
+
+<a id="nestedatt--account_settings--login_shell--inherited"></a>
+### Nested Schema for `account_settings.login_shell.inherited`
+
+Read-Only:
+
+- `source` (String) Where the value comes from: the offering's own plugin option, the service provider's account options, or the built-in default.
+- `value` (String) The value the setting resolves to.
+
+
+
+<a id="nestedatt--account_settings--username_anonymized_prefix"></a>
+### Nested Schema for `account_settings.username_anonymized_prefix`
+
+Read-Only:
+
+- `inherited` (Attributes) What the setting resolves to without the offering's own value: the service provider's, else the built-in default. Removing the offering's override leads to it. (see [below for nested schema](#nestedatt--account_settings--username_anonymized_prefix--inherited))
+- `source` (String) Where the value comes from: the offering's own plugin option, the service provider's account options, or the built-in default.
+- `value` (String) The value the setting resolves to.
+
+<a id="nestedatt--account_settings--username_anonymized_prefix--inherited"></a>
+### Nested Schema for `account_settings.username_anonymized_prefix.inherited`
+
+Read-Only:
+
+- `source` (String) Where the value comes from: the offering's own plugin option, the service provider's account options, or the built-in default.
+- `value` (String) The value the setting resolves to.
+
+
+
+<a id="nestedatt--account_settings--username_generation_policy"></a>
+### Nested Schema for `account_settings.username_generation_policy`
+
+Read-Only:
+
+- `inherited` (Attributes) What the setting resolves to without the offering's own value: the service provider's, else the built-in default. Removing the offering's override leads to it. (see [below for nested schema](#nestedatt--account_settings--username_generation_policy--inherited))
+- `source` (String) Where the value comes from: the offering's own plugin option, the service provider's account options, or the built-in default.
+- `value` (String) The value the setting resolves to.
+
+<a id="nestedatt--account_settings--username_generation_policy--inherited"></a>
+### Nested Schema for `account_settings.username_generation_policy.inherited`
+
+Read-Only:
+
+- `source` (String) Where the value comes from: the offering's own plugin option, the service provider's account options, or the built-in default.
+- `value` (String) The value the setting resolves to.
+
+
 
 
 <a id="nestedatt--components"></a>
@@ -340,7 +448,7 @@ Read-Only:
 
 Read-Only:
 
-- `account_scope` (String) Where this offering's accounts are held, overriding the service provider's own account_scope. 'offering' keeps one account per offering (the historical behaviour); 'provider' shares one account per user across the provider's offerings. Omit to inherit.
+- `account_scope` (String) Where accounts are held: 'offering' keeps one account per offering (the historical behaviour); 'provider' shares one account per user across the provider's offerings.
 - `action_on_usage_limit` (String) If set to 'pause' or 'downscale', resources are automatically paused or downscaled when reported usage in the current period reaches a component's limit_amount, and the restriction is lifted when usage drops below the limit again (e.g. a new billing period or a raised limit).
 - `auto_approve_for_roles` (List of String) List of project or organization role names (e.g. 'PROJECT.MANAGER') whose orders skip consumer review for this offering. The creator must hold the role on the target project or its organization. Independent of restricted_to_roles (which governs visibility/ordering) and of the ORDER.APPROVE permission. Provider review and purchase-order requirements still apply. Only staff can change this option.
 - `auto_approve_in_service_provider_projects` (Boolean) Skip approval of public offering belonging to the same organization under which the request is done
@@ -382,11 +490,11 @@ Read-Only:
 - `heappe_url` (String) HEAppE url
 - `heappe_username` (String) HEAppE username
 - `highlight_backend_id_display` (Boolean) Defines if backend_id should be shown more prominently by the UI
-- `homedir_prefix` (String) GLAuth homedir prefix
+- `homedir_prefix` (String) Prefix of each account's home directory; the username follows.
 - `is_resource_termination_date_required` (Boolean) If set to True, resource termination date is required
 - `latest_date_for_resource_termination` (String) If set, it will be used as a latest date for resource termination. Format: YYYY-MM-DD
 - `lbaas_enabled` (Boolean) If True, Octavia LBaaS (load balancers) is intended to be available for tenants from this offering.
-- `login_shell` (String) Default login shell assigned to GLAuth/LDAP accounts.
+- `login_shell` (String) Login shell assigned to GLAuth/LDAP accounts.
 - `managed_rancher_load_balancer_data_volume_size_gb` (Number) Data volume size in GB for managed Rancher load balancer
 - `managed_rancher_load_balancer_data_volume_type_name` (String) Data volume type name for managed Rancher load balancer
 - `managed_rancher_load_balancer_flavor_name` (String) Flavor name for managed Rancher load balancer
@@ -438,8 +546,8 @@ Read-Only:
 - `uid_source` (String) Where each offering user's UID comes from: allocated from the POSIX ID pool (default), or taken from the user's uid_number attribute (e.g. an OIDC claim). Pair 'user_attribute' with a GID-only pool to avoid UID collisions.
 - `unique_resource_per_attribute` (String) Attribute name to enforce uniqueness per value. E.g., 'storage_data_type' ensures only one resource per storage type per project.
 - `usage_poll_interval_minutes` (Number) Interval in minutes between usage polling for this offering (default: 60)
-- `username_anonymized_prefix` (String) Prefix for anonymized usernames; the name is the prefix followed by the account's POSIX UID
-- `username_generation_policy` (String) GLAuth username generation policy
+- `username_anonymized_prefix` (String) Prefix for anonymized usernames; the name is the prefix followed by the account's POSIX UID.
+- `username_generation_policy` (String) How the usernames of offering users are generated.
 
 
 <a id="nestedatt--promotion_campaigns"></a>

@@ -19,6 +19,10 @@ type OpenstackSubnetCreateRequest struct {
 
 	HostRoutes *[]common.OpenStackStaticRouteRequest `json:"host_routes,omitempty" tfsdk:"host_routes"`
 
+	Ipv6AddressMode *string `json:"ipv6_address_mode,omitempty" tfsdk:"ipv6_address_mode"`
+
+	Ipv6RaMode *string `json:"ipv6_ra_mode,omitempty" tfsdk:"ipv6_ra_mode"`
+
 	Name *string `json:"name" tfsdk:"name"`
 
 	Router *string `json:"router,omitempty" tfsdk:"router"`
@@ -40,6 +44,10 @@ type OpenstackSubnetUpdateRequest struct {
 	GatewayIp *string `json:"gateway_ip,omitempty" tfsdk:"gateway_ip"`
 
 	HostRoutes *[]common.OpenStackStaticRouteRequest `json:"host_routes,omitempty" tfsdk:"host_routes"`
+
+	Ipv6AddressMode *string `json:"ipv6_address_mode,omitempty" tfsdk:"ipv6_address_mode"`
+
+	Ipv6RaMode *string `json:"ipv6_ra_mode,omitempty" tfsdk:"ipv6_ra_mode"`
 
 	Name *string `json:"name,omitempty" tfsdk:"name"`
 
@@ -74,6 +82,10 @@ type OpenstackSubnetResponse struct {
 	HostRoutes *[]common.OpenStackStaticRouteRequest `json:"host_routes,omitempty" tfsdk:"host_routes"`
 
 	IpVersion *int64 `json:"ip_version,omitempty" tfsdk:"ip_version"`
+
+	Ipv6AddressMode *string `json:"ipv6_address_mode,omitempty" tfsdk:"ipv6_address_mode"`
+
+	Ipv6RaMode *string `json:"ipv6_ra_mode,omitempty" tfsdk:"ipv6_ra_mode"`
 
 	IsConnected *bool `json:"is_connected,omitempty" tfsdk:"is_connected"`
 

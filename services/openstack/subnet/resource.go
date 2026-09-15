@@ -153,6 +153,20 @@ func (r *OpenstackSubnetResource) Schema(ctx context.Context, req resource.Schem
 
 					int64planmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "IP protocol version (4 or 6)"},
+			"ipv6_address_mode": schema.StringAttribute{
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+
+					stringplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "How instances on an IPv6 subnet get their address. Set at creation only; null for an IPv4 subnet."},
+			"ipv6_ra_mode": schema.StringAttribute{
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+
+					stringplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "How the router advertises an IPv6 subnet. Set at creation only; null for an IPv4 subnet."},
 			"is_connected": schema.BoolAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.Bool{
@@ -301,6 +315,14 @@ func (r *OpenstackSubnetResource) Create(ctx context.Context, req resource.Creat
 
 		requestBody.GatewayIp = data.GatewayIp.ValueStringPointer()
 	}
+	if !data.Ipv6AddressMode.IsNull() && !data.Ipv6AddressMode.IsUnknown() {
+
+		requestBody.Ipv6AddressMode = data.Ipv6AddressMode.ValueStringPointer()
+	}
+	if !data.Ipv6RaMode.IsNull() && !data.Ipv6RaMode.IsUnknown() {
+
+		requestBody.Ipv6RaMode = data.Ipv6RaMode.ValueStringPointer()
+	}
 
 	requestBody.Name = data.Name.ValueStringPointer()
 	if !data.Router.IsNull() && !data.Router.IsUnknown() {
@@ -422,6 +444,16 @@ func (r *OpenstackSubnetResource) Update(ctx context.Context, req resource.Updat
 	}
 	if !data.HostRoutes.Equal(state.HostRoutes) {
 		anyChanges = true
+	}
+	if !data.Ipv6AddressMode.IsNull() && !data.Ipv6AddressMode.IsUnknown() && !data.Ipv6AddressMode.Equal(state.Ipv6AddressMode) {
+		anyChanges = true
+
+		requestBody.Ipv6AddressMode = data.Ipv6AddressMode.ValueStringPointer()
+	}
+	if !data.Ipv6RaMode.IsNull() && !data.Ipv6RaMode.IsUnknown() && !data.Ipv6RaMode.Equal(state.Ipv6RaMode) {
+		anyChanges = true
+
+		requestBody.Ipv6RaMode = data.Ipv6RaMode.ValueStringPointer()
 	}
 	if !data.Name.IsNull() && !data.Name.IsUnknown() && !data.Name.Equal(state.Name) {
 		anyChanges = true

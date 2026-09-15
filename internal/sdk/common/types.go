@@ -27,6 +27,19 @@ func init() {
 	}
 }
 
+type AccountSetting struct {
+	Inherited *AccountSettingInherited `json:"inherited,omitempty" tfsdk:"inherited"`
+
+	Source *string `json:"source,omitempty" tfsdk:"source"`
+
+	Value *string `json:"value,omitempty" tfsdk:"value"`
+}
+type AccountSettingInherited struct {
+	Source *string `json:"source,omitempty" tfsdk:"source"`
+
+	Value *string `json:"value,omitempty" tfsdk:"value"`
+}
+
 type AffiliatedOrganization struct {
 	Abbreviation *string `json:"abbreviation,omitempty" tfsdk:"abbreviation"`
 
@@ -526,6 +539,10 @@ type OpenStackNestedSubNet struct {
 
 	IpVersion *int64 `json:"ip_version,omitempty" tfsdk:"ip_version"`
 
+	Ipv6AddressMode *string `json:"ipv6_address_mode,omitempty" tfsdk:"ipv6_address_mode"`
+
+	Ipv6RaMode *string `json:"ipv6_ra_mode,omitempty" tfsdk:"ipv6_ra_mode"`
+
 	Name *string `json:"name,omitempty" tfsdk:"name"`
 
 	PortSecurityEnabled *bool `json:"port_security_enabled,omitempty" tfsdk:"port_security_enabled"`
@@ -845,6 +862,8 @@ type OrderDetails struct {
 	ProviderUuid *string `json:"provider_uuid,omitempty" tfsdk:"provider_uuid"`
 
 	RequestComment *string `json:"request_comment,omitempty" tfsdk:"request_comment"`
+
+	ResourceEndDate *string `json:"resource_end_date,omitempty" tfsdk:"resource_end_date"`
 
 	ResourceName *string `json:"resource_name,omitempty" tfsdk:"resource_name"`
 
