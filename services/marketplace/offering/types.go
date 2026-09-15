@@ -509,6 +509,8 @@ type MarketplaceOfferingPluginOptionsResponse struct {
 
 	HeappeClusterId *string `json:"heappe_cluster_id,omitempty" tfsdk:"heappe_cluster_id"`
 
+	HeappeIdentifier *string `json:"heappe_identifier,omitempty" tfsdk:"heappe_identifier"`
+
 	HeappeLocalBasePath *string `json:"heappe_local_base_path,omitempty" tfsdk:"heappe_local_base_path"`
 
 	HeappeUrl *string `json:"heappe_url,omitempty" tfsdk:"heappe_url"`

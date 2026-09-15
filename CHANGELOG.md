@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-09-15
+
+### Added
+
+- `marketplace_offering`: new attribute `plugin_options.heappe_identifier`
+
 ## 2026-09-14
 
 ### Added

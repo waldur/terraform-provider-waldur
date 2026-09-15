@@ -377,6 +377,7 @@ Read-Only:
 - `flavors_regex` (String) Regular expression to limit flavors list
 - `gid_source` (String) Where each offering user's primary GID comes from: the POSIX ID pool (default), or the user's primary_gid attribute.
 - `heappe_cluster_id` (String) HEAppE cluster id
+- `heappe_identifier` (String) Identifier of the HEAppE instance this offering targets, e.g. 'it4i-heappe-prod'. Lets providers with multiple HEAppE deployments disambiguate which one a given offering uses.
 - `heappe_local_base_path` (String) HEAppE local base path
 - `heappe_url` (String) HEAppE url
 - `heappe_username` (String) HEAppE username

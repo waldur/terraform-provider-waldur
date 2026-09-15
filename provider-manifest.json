@@ -1673,6 +1673,13 @@
               "computed": false
             },
             {
+              "name": "heappe_identifier",
+              "type": "types.String",
+              "required": false,
+              "optional": true,
+              "computed": false
+            },
+            {
               "name": "heappe_local_base_path",
               "type": "types.String",
               "required": false,

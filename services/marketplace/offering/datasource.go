@@ -643,6 +643,8 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 						Computed: true, MarkdownDescription: "Where each offering user's primary GID comes from: the POSIX ID pool (default), or the user's primary_gid attribute."},
 					"heappe_cluster_id": schema.StringAttribute{
 						Computed: true, MarkdownDescription: "HEAppE cluster id"},
+					"heappe_identifier": schema.StringAttribute{
+						Computed: true, MarkdownDescription: "Identifier of the HEAppE instance this offering targets, e.g. 'it4i-heappe-prod'. Lets providers with multiple HEAppE deployments disambiguate which one a given offering uses."},
 					"heappe_local_base_path": schema.StringAttribute{
 						Computed: true, MarkdownDescription: "HEAppE local base path"},
 					"heappe_url": schema.StringAttribute{
