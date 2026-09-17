@@ -19,7 +19,15 @@ type OpenstackSubnetCreateRequest struct {
 
 	HostRoutes *[]common.OpenStackStaticRouteRequest `json:"host_routes,omitempty" tfsdk:"host_routes"`
 
+	Ipv6AddressMode *string `json:"ipv6_address_mode,omitempty" tfsdk:"ipv6_address_mode"`
+
+	Ipv6RaMode *string `json:"ipv6_ra_mode,omitempty" tfsdk:"ipv6_ra_mode"`
+
 	Name *string `json:"name" tfsdk:"name"`
+
+	Router *string `json:"router,omitempty" tfsdk:"router"`
+
+	SkipRouterConnection *bool `json:"skip_router_connection,omitempty" tfsdk:"skip_router_connection"`
 }
 
 type OpenstackSubnetUpdateRequest struct {
@@ -37,7 +45,15 @@ type OpenstackSubnetUpdateRequest struct {
 
 	HostRoutes *[]common.OpenStackStaticRouteRequest `json:"host_routes,omitempty" tfsdk:"host_routes"`
 
+	Ipv6AddressMode *string `json:"ipv6_address_mode,omitempty" tfsdk:"ipv6_address_mode"`
+
+	Ipv6RaMode *string `json:"ipv6_ra_mode,omitempty" tfsdk:"ipv6_ra_mode"`
+
 	Name *string `json:"name,omitempty" tfsdk:"name"`
+
+	Router *string `json:"router,omitempty" tfsdk:"router"`
+
+	SkipRouterConnection *bool `json:"skip_router_connection,omitempty" tfsdk:"skip_router_connection"`
 }
 
 type OpenstackSubnetResponse struct {
@@ -67,6 +83,10 @@ type OpenstackSubnetResponse struct {
 
 	IpVersion *int64 `json:"ip_version,omitempty" tfsdk:"ip_version"`
 
+	Ipv6AddressMode *string `json:"ipv6_address_mode,omitempty" tfsdk:"ipv6_address_mode"`
+
+	Ipv6RaMode *string `json:"ipv6_ra_mode,omitempty" tfsdk:"ipv6_ra_mode"`
+
 	IsConnected *bool `json:"is_connected,omitempty" tfsdk:"is_connected"`
 
 	MarketplaceOfferingType *string `json:"marketplace_offering_type,omitempty" tfsdk:"marketplace_offering_type"`
@@ -84,6 +104,12 @@ type OpenstackSubnetResponse struct {
 	Project *string `json:"project,omitempty" tfsdk:"project"`
 
 	ResourceType *string `json:"resource_type,omitempty" tfsdk:"resource_type"`
+
+	Router *string `json:"router,omitempty" tfsdk:"router"`
+
+	RouterName *string `json:"router_name,omitempty" tfsdk:"router_name"`
+
+	RouterUuid *string `json:"router_uuid,omitempty" tfsdk:"router_uuid"`
 
 	State *string `json:"state,omitempty" tfsdk:"state"`
 

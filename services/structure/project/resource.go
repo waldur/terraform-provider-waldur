@@ -369,7 +369,7 @@ func (r *StructureProjectResource) Schema(ctx context.Context, req resource.Sche
 				PlanModifiers: []planmodifier.List{
 
 					listplanmodifier.UseStateForUnknown(),
-				}, MarkdownDescription: "Answers to the customer's project-metadata checklist (read-only).",
+				}, MarkdownDescription: "Answers to the customer's project-metadata checklist (read-only): the latest answer per question.",
 			},
 			"resources_count": schema.Int64Attribute{
 				Computed: true,

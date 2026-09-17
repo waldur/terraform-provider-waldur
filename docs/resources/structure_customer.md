@@ -85,6 +85,7 @@ resource "waldur_structure_customer" "example" {
 - `has_affiliate_links` (Boolean) Has Affiliate Links
 - `id` (String) Structure Customer UUID (used as Terraform ID)
 - `is_service_provider` (Boolean) Is Service Provider
+- `is_service_provider_manager_only` (Boolean) True when the requesting user's only link to this organization is a role on its service provider. Such a row carries only identity fields.
 - `organization_groups` (Attributes List) Organization groups this customer belongs to (see [below for nested schema](#nestedatt--organization_groups))
 - `payment_profiles` (Attributes List) Payment Profiles (see [below for nested schema](#nestedatt--payment_profiles))
 - `projects_count` (Number) Number of projects in this organization

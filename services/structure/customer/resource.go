@@ -403,6 +403,12 @@ func (r *StructureCustomerResource) Schema(ctx context.Context, req resource.Sch
 
 					boolplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "Is Service Provider"},
+			"is_service_provider_manager_only": schema.BoolAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.Bool{
+
+					boolplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "True when the requesting user's only link to this organization is a role on its service provider. Such a row carries only identity fields."},
 			"latitude": schema.Float64Attribute{
 				Optional: true,
 				Computed: true,

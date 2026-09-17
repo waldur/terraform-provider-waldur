@@ -42,6 +42,8 @@ Optional:
 - `project_uuid` (String) Project UUID
 - `query` (String) Search by name, internal IP, or external IP
 - `runtime_state` (String) Runtime state
+- `security_group` (String) Security group URL
+- `security_group_uuid` (String) Security group UUID
 - `service_settings_name` (String) Service settings name
 - `service_settings_uuid` (String) Service settings UUID
 - `tenant` (String) Tenant URL

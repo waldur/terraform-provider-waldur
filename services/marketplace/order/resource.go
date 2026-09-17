@@ -315,7 +315,7 @@ func (r *MarketplaceOrderResource) Schema(ctx context.Context, req resource.Sche
 				}, MarkdownDescription: "Issue",
 			},
 			"limits": schema.MapAttribute{
-				ElementType: types.Int64Type,
+				ElementType: types.Float64Type,
 				Optional:    true,
 				Computed:    true,
 				PlanModifiers: []planmodifier.Map{
@@ -337,6 +337,12 @@ func (r *MarketplaceOrderResource) Schema(ctx context.Context, req resource.Sche
 				Validators: []validator.String{
 					stringvalidator.RegexMatches(regexp.MustCompile(`^-?\d{0,12}(?:\.\d{0,10})?$`), ""),
 				}},
+			"new_plan_billing_mode": schema.StringAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+
+					stringplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "New Plan Billing Mode"},
 			"new_plan_name": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
@@ -409,7 +415,13 @@ func (r *MarketplaceOrderResource) Schema(ctx context.Context, req resource.Sche
 				PlanModifiers: []planmodifier.Float64{
 
 					float64planmodifier.UseStateForUnknown(),
-				}, MarkdownDescription: "Old Cost Estimate"},
+				}, MarkdownDescription: "The old-limits estimate, snapshotted by init_cost() at creation. Must not recompute live: _compute_old_cost_estimate() prices from \\\"today\\\", which keeps advancing on every read while `cost` stays fixed from creation -- the shown cost change would grow the longer an order sits unread. Orders that predate this field have no snapshot, so they fall back to the live computation rather than a wrong zero."},
+			"old_plan_billing_mode": schema.StringAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+
+					stringplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Old Plan Billing Mode"},
 			"old_plan_name": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
@@ -585,6 +597,12 @@ func (r *MarketplaceOrderResource) Schema(ctx context.Context, req resource.Sche
 					stringplanmodifier.RequiresReplace(),
 					stringplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "Request Comment"},
+			"resource_end_date": schema.StringAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+
+					stringplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Resource End Date"},
 			"resource_name": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{

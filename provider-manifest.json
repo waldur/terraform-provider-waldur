@@ -279,6 +279,245 @@
       "kind": "data_source",
       "attributes": [
         {
+          "name": "account_settings",
+          "type": "types.Object",
+          "required": false,
+          "optional": true,
+          "computed": false,
+          "attributes": [
+            {
+              "name": "account_scope",
+              "type": "types.Object",
+              "required": false,
+              "optional": true,
+              "computed": false,
+              "attributes": [
+                {
+                  "name": "inherited",
+                  "type": "types.Object",
+                  "required": false,
+                  "optional": true,
+                  "computed": false,
+                  "attributes": [
+                    {
+                      "name": "source",
+                      "type": "types.String",
+                      "required": false,
+                      "optional": true,
+                      "computed": false
+                    },
+                    {
+                      "name": "value",
+                      "type": "types.String",
+                      "required": false,
+                      "optional": true,
+                      "computed": false
+                    }
+                  ]
+                },
+                {
+                  "name": "source",
+                  "type": "types.String",
+                  "required": false,
+                  "optional": true,
+                  "computed": false
+                },
+                {
+                  "name": "value",
+                  "type": "types.String",
+                  "required": false,
+                  "optional": true,
+                  "computed": false
+                }
+              ]
+            },
+            {
+              "name": "homedir_prefix",
+              "type": "types.Object",
+              "required": false,
+              "optional": true,
+              "computed": false,
+              "attributes": [
+                {
+                  "name": "inherited",
+                  "type": "types.Object",
+                  "required": false,
+                  "optional": true,
+                  "computed": false,
+                  "attributes": [
+                    {
+                      "name": "source",
+                      "type": "types.String",
+                      "required": false,
+                      "optional": true,
+                      "computed": false
+                    },
+                    {
+                      "name": "value",
+                      "type": "types.String",
+                      "required": false,
+                      "optional": true,
+                      "computed": false
+                    }
+                  ]
+                },
+                {
+                  "name": "source",
+                  "type": "types.String",
+                  "required": false,
+                  "optional": true,
+                  "computed": false
+                },
+                {
+                  "name": "value",
+                  "type": "types.String",
+                  "required": false,
+                  "optional": true,
+                  "computed": false
+                }
+              ]
+            },
+            {
+              "name": "login_shell",
+              "type": "types.Object",
+              "required": false,
+              "optional": true,
+              "computed": false,
+              "attributes": [
+                {
+                  "name": "inherited",
+                  "type": "types.Object",
+                  "required": false,
+                  "optional": true,
+                  "computed": false,
+                  "attributes": [
+                    {
+                      "name": "source",
+                      "type": "types.String",
+                      "required": false,
+                      "optional": true,
+                      "computed": false
+                    },
+                    {
+                      "name": "value",
+                      "type": "types.String",
+                      "required": false,
+                      "optional": true,
+                      "computed": false
+                    }
+                  ]
+                },
+                {
+                  "name": "source",
+                  "type": "types.String",
+                  "required": false,
+                  "optional": true,
+                  "computed": false
+                },
+                {
+                  "name": "value",
+                  "type": "types.String",
+                  "required": false,
+                  "optional": true,
+                  "computed": false
+                }
+              ]
+            },
+            {
+              "name": "username_anonymized_prefix",
+              "type": "types.Object",
+              "required": false,
+              "optional": true,
+              "computed": false,
+              "attributes": [
+                {
+                  "name": "inherited",
+                  "type": "types.Object",
+                  "required": false,
+                  "optional": true,
+                  "computed": false,
+                  "attributes": [
+                    {
+                      "name": "source",
+                      "type": "types.String",
+                      "required": false,
+                      "optional": true,
+                      "computed": false
+                    },
+                    {
+                      "name": "value",
+                      "type": "types.String",
+                      "required": false,
+                      "optional": true,
+                      "computed": false
+                    }
+                  ]
+                },
+                {
+                  "name": "source",
+                  "type": "types.String",
+                  "required": false,
+                  "optional": true,
+                  "computed": false
+                },
+                {
+                  "name": "value",
+                  "type": "types.String",
+                  "required": false,
+                  "optional": true,
+                  "computed": false
+                }
+              ]
+            },
+            {
+              "name": "username_generation_policy",
+              "type": "types.Object",
+              "required": false,
+              "optional": true,
+              "computed": false,
+              "attributes": [
+                {
+                  "name": "inherited",
+                  "type": "types.Object",
+                  "required": false,
+                  "optional": true,
+                  "computed": false,
+                  "attributes": [
+                    {
+                      "name": "source",
+                      "type": "types.String",
+                      "required": false,
+                      "optional": true,
+                      "computed": false
+                    },
+                    {
+                      "name": "value",
+                      "type": "types.String",
+                      "required": false,
+                      "optional": true,
+                      "computed": false
+                    }
+                  ]
+                },
+                {
+                  "name": "source",
+                  "type": "types.String",
+                  "required": false,
+                  "optional": true,
+                  "computed": false
+                },
+                {
+                  "name": "value",
+                  "type": "types.String",
+                  "required": false,
+                  "optional": true,
+                  "computed": false
+                }
+              ]
+            }
+          ]
+        },
+        {
           "name": "attributes",
           "type": "types.Map",
           "required": false,
@@ -300,8 +539,36 @@
           "computed": false
         },
         {
+          "name": "billing_mode_components",
+          "type": "types.Map",
+          "required": false,
+          "optional": true,
+          "computed": false
+        },
+        {
+          "name": "billing_period_applies",
+          "type": "types.Map",
+          "required": false,
+          "optional": true,
+          "computed": false
+        },
+        {
           "name": "billing_type_classification",
           "type": "types.String",
+          "required": false,
+          "optional": true,
+          "computed": false
+        },
+        {
+          "name": "can_update_integration",
+          "type": "types.Bool",
+          "required": false,
+          "optional": true,
+          "computed": false
+        },
+        {
+          "name": "can_update_options",
+          "type": "types.Bool",
           "required": false,
           "optional": true,
           "computed": false
@@ -357,7 +624,7 @@
             },
             {
               "name": "default_limit",
-              "type": "types.Int64",
+              "type": "types.Float64",
               "required": false,
               "optional": true,
               "computed": false
@@ -399,6 +666,13 @@
             },
             {
               "name": "limit_amount",
+              "type": "types.Float64",
+              "required": false,
+              "optional": true,
+              "computed": false
+            },
+            {
+              "name": "limit_decimal_places",
               "type": "types.Int64",
               "required": false,
               "optional": true,
@@ -413,7 +687,7 @@
             },
             {
               "name": "max_available_limit",
-              "type": "types.Int64",
+              "type": "types.Float64",
               "required": false,
               "optional": true,
               "computed": false
@@ -434,7 +708,7 @@
             },
             {
               "name": "max_value",
-              "type": "types.Int64",
+              "type": "types.Float64",
               "required": false,
               "optional": true,
               "computed": false
@@ -462,7 +736,7 @@
             },
             {
               "name": "min_value",
-              "type": "types.Int64",
+              "type": "types.Float64",
               "required": false,
               "optional": true,
               "computed": false
@@ -1107,6 +1381,13 @@
               "computed": false
             },
             {
+              "name": "billing_mode",
+              "type": "types.String",
+              "required": false,
+              "optional": true,
+              "computed": false
+            },
+            {
               "name": "components",
               "type": "types.List\u003cobject\u003e",
               "required": false,
@@ -1116,6 +1397,13 @@
                 {
                   "name": "amount",
                   "type": "types.Int64",
+                  "required": false,
+                  "optional": true,
+                  "computed": false
+                },
+                {
+                  "name": "billing_type",
+                  "type": "types.String",
                   "required": false,
                   "optional": true,
                   "computed": false
@@ -1143,6 +1431,20 @@
                 },
                 {
                   "name": "future_price",
+                  "type": "types.String",
+                  "required": false,
+                  "optional": true,
+                  "computed": false
+                },
+                {
+                  "name": "is_prepaid",
+                  "type": "types.Bool",
+                  "required": false,
+                  "optional": true,
+                  "computed": false
+                },
+                {
+                  "name": "limit_period",
                   "type": "types.String",
                   "required": false,
                   "optional": true,
@@ -1351,6 +1653,13 @@
           "computed": false,
           "attributes": [
             {
+              "name": "account_scope",
+              "type": "types.String",
+              "required": false,
+              "optional": true,
+              "computed": false
+            },
+            {
               "name": "action_on_usage_limit",
               "type": "types.String",
               "required": false,
@@ -1554,6 +1863,13 @@
               "computed": false
             },
             {
+              "name": "enable_resource_limit_change_requests",
+              "type": "types.Bool",
+              "required": false,
+              "optional": true,
+              "computed": false
+            },
+            {
               "name": "enable_resource_projects",
               "type": "types.Bool",
               "required": false,
@@ -1590,6 +1906,13 @@
             },
             {
               "name": "heappe_cluster_id",
+              "type": "types.String",
+              "required": false,
+              "optional": true,
+              "computed": false
+            },
+            {
+              "name": "heappe_identifier",
               "type": "types.String",
               "required": false,
               "optional": true,
@@ -2327,6 +2650,27 @@
           "computed": false
         },
         {
+          "name": "scope_resource",
+          "type": "types.String",
+          "required": false,
+          "optional": true,
+          "computed": false
+        },
+        {
+          "name": "scope_resource_name",
+          "type": "types.String",
+          "required": false,
+          "optional": true,
+          "computed": false
+        },
+        {
+          "name": "scope_resource_uuid",
+          "type": "types.String",
+          "required": false,
+          "optional": true,
+          "computed": false
+        },
+        {
           "name": "scope_state",
           "type": "types.String",
           "required": false,
@@ -2597,6 +2941,13 @@
         },
         {
           "name": "user_has_consent",
+          "type": "types.Bool",
+          "required": false,
+          "optional": true,
+          "computed": false
+        },
+        {
+          "name": "user_has_offering_user",
           "type": "types.Bool",
           "required": false,
           "optional": true,
@@ -2904,6 +3255,13 @@
           "computed": false
         },
         {
+          "name": "new_plan_billing_mode",
+          "type": "types.String",
+          "required": false,
+          "optional": true,
+          "computed": false
+        },
+        {
           "name": "new_plan_name",
           "type": "types.String",
           "required": false,
@@ -2983,6 +3341,13 @@
         {
           "name": "old_cost_estimate",
           "type": "types.Float64",
+          "required": false,
+          "optional": true,
+          "computed": false
+        },
+        {
+          "name": "old_plan_billing_mode",
+          "type": "types.String",
           "required": false,
           "optional": true,
           "computed": false
@@ -3175,6 +3540,13 @@
           "required": false,
           "optional": false,
           "computed": true
+        },
+        {
+          "name": "resource_end_date",
+          "type": "types.String",
+          "required": false,
+          "optional": true,
+          "computed": false
         },
         {
           "name": "resource_name",
@@ -3408,6 +3780,245 @@
           "computed": true
         },
         {
+          "name": "offering_account_settings",
+          "type": "types.Object",
+          "required": false,
+          "optional": true,
+          "computed": false,
+          "attributes": [
+            {
+              "name": "account_scope",
+              "type": "types.Object",
+              "required": false,
+              "optional": false,
+              "computed": true,
+              "attributes": [
+                {
+                  "name": "inherited",
+                  "type": "types.Object",
+                  "required": false,
+                  "optional": false,
+                  "computed": true,
+                  "attributes": [
+                    {
+                      "name": "source",
+                      "type": "types.String",
+                      "required": false,
+                      "optional": false,
+                      "computed": true
+                    },
+                    {
+                      "name": "value",
+                      "type": "types.String",
+                      "required": false,
+                      "optional": false,
+                      "computed": true
+                    }
+                  ]
+                },
+                {
+                  "name": "source",
+                  "type": "types.String",
+                  "required": false,
+                  "optional": false,
+                  "computed": true
+                },
+                {
+                  "name": "value",
+                  "type": "types.String",
+                  "required": false,
+                  "optional": false,
+                  "computed": true
+                }
+              ]
+            },
+            {
+              "name": "homedir_prefix",
+              "type": "types.Object",
+              "required": false,
+              "optional": false,
+              "computed": true,
+              "attributes": [
+                {
+                  "name": "inherited",
+                  "type": "types.Object",
+                  "required": false,
+                  "optional": false,
+                  "computed": true,
+                  "attributes": [
+                    {
+                      "name": "source",
+                      "type": "types.String",
+                      "required": false,
+                      "optional": false,
+                      "computed": true
+                    },
+                    {
+                      "name": "value",
+                      "type": "types.String",
+                      "required": false,
+                      "optional": false,
+                      "computed": true
+                    }
+                  ]
+                },
+                {
+                  "name": "source",
+                  "type": "types.String",
+                  "required": false,
+                  "optional": false,
+                  "computed": true
+                },
+                {
+                  "name": "value",
+                  "type": "types.String",
+                  "required": false,
+                  "optional": false,
+                  "computed": true
+                }
+              ]
+            },
+            {
+              "name": "login_shell",
+              "type": "types.Object",
+              "required": false,
+              "optional": false,
+              "computed": true,
+              "attributes": [
+                {
+                  "name": "inherited",
+                  "type": "types.Object",
+                  "required": false,
+                  "optional": false,
+                  "computed": true,
+                  "attributes": [
+                    {
+                      "name": "source",
+                      "type": "types.String",
+                      "required": false,
+                      "optional": false,
+                      "computed": true
+                    },
+                    {
+                      "name": "value",
+                      "type": "types.String",
+                      "required": false,
+                      "optional": false,
+                      "computed": true
+                    }
+                  ]
+                },
+                {
+                  "name": "source",
+                  "type": "types.String",
+                  "required": false,
+                  "optional": false,
+                  "computed": true
+                },
+                {
+                  "name": "value",
+                  "type": "types.String",
+                  "required": false,
+                  "optional": false,
+                  "computed": true
+                }
+              ]
+            },
+            {
+              "name": "username_anonymized_prefix",
+              "type": "types.Object",
+              "required": false,
+              "optional": false,
+              "computed": true,
+              "attributes": [
+                {
+                  "name": "inherited",
+                  "type": "types.Object",
+                  "required": false,
+                  "optional": false,
+                  "computed": true,
+                  "attributes": [
+                    {
+                      "name": "source",
+                      "type": "types.String",
+                      "required": false,
+                      "optional": false,
+                      "computed": true
+                    },
+                    {
+                      "name": "value",
+                      "type": "types.String",
+                      "required": false,
+                      "optional": false,
+                      "computed": true
+                    }
+                  ]
+                },
+                {
+                  "name": "source",
+                  "type": "types.String",
+                  "required": false,
+                  "optional": false,
+                  "computed": true
+                },
+                {
+                  "name": "value",
+                  "type": "types.String",
+                  "required": false,
+                  "optional": false,
+                  "computed": true
+                }
+              ]
+            },
+            {
+              "name": "username_generation_policy",
+              "type": "types.Object",
+              "required": false,
+              "optional": false,
+              "computed": true,
+              "attributes": [
+                {
+                  "name": "inherited",
+                  "type": "types.Object",
+                  "required": false,
+                  "optional": false,
+                  "computed": true,
+                  "attributes": [
+                    {
+                      "name": "source",
+                      "type": "types.String",
+                      "required": false,
+                      "optional": false,
+                      "computed": true
+                    },
+                    {
+                      "name": "value",
+                      "type": "types.String",
+                      "required": false,
+                      "optional": false,
+                      "computed": true
+                    }
+                  ]
+                },
+                {
+                  "name": "source",
+                  "type": "types.String",
+                  "required": false,
+                  "optional": false,
+                  "computed": true
+                },
+                {
+                  "name": "value",
+                  "type": "types.String",
+                  "required": false,
+                  "optional": false,
+                  "computed": true
+                }
+              ]
+            }
+          ]
+        },
+        {
           "name": "offering_backend_id",
           "type": "types.String",
           "required": false,
@@ -3444,7 +4055,7 @@
             },
             {
               "name": "default_limit",
-              "type": "types.Int64",
+              "type": "types.Float64",
               "required": false,
               "optional": false,
               "computed": true
@@ -3486,6 +4097,13 @@
             },
             {
               "name": "limit_amount",
+              "type": "types.Float64",
+              "required": false,
+              "optional": false,
+              "computed": true
+            },
+            {
+              "name": "limit_decimal_places",
               "type": "types.Int64",
               "required": false,
               "optional": false,
@@ -3500,7 +4118,7 @@
             },
             {
               "name": "max_available_limit",
-              "type": "types.Int64",
+              "type": "types.Float64",
               "required": false,
               "optional": false,
               "computed": true
@@ -3521,7 +4139,7 @@
             },
             {
               "name": "max_value",
-              "type": "types.Int64",
+              "type": "types.Float64",
               "required": false,
               "optional": false,
               "computed": true
@@ -3549,7 +4167,7 @@
             },
             {
               "name": "min_value",
-              "type": "types.Int64",
+              "type": "types.Float64",
               "required": false,
               "optional": false,
               "computed": true
@@ -3972,6 +4590,13 @@
               "computed": false
             },
             {
+              "name": "new_plan_billing_mode",
+              "type": "types.String",
+              "required": false,
+              "optional": true,
+              "computed": false
+            },
+            {
               "name": "new_plan_name",
               "type": "types.String",
               "required": false,
@@ -4051,6 +4676,13 @@
             {
               "name": "old_cost_estimate",
               "type": "types.Float64",
+              "required": false,
+              "optional": true,
+              "computed": false
+            },
+            {
+              "name": "old_plan_billing_mode",
+              "type": "types.String",
               "required": false,
               "optional": true,
               "computed": false
@@ -4236,6 +4868,13 @@
               "required": false,
               "optional": false,
               "computed": true
+            },
+            {
+              "name": "resource_end_date",
+              "type": "types.String",
+              "required": false,
+              "optional": true,
+              "computed": false
             },
             {
               "name": "resource_name",
@@ -4430,6 +5069,13 @@
         },
         {
           "name": "project_slug",
+          "type": "types.String",
+          "required": false,
+          "optional": true,
+          "computed": false
+        },
+        {
+          "name": "project_start_date",
           "type": "types.String",
           "required": false,
           "optional": true,
@@ -5380,6 +6026,13 @@
                   "computed": false
                 },
                 {
+                  "name": "instance_count",
+                  "type": "types.Int64",
+                  "required": false,
+                  "optional": true,
+                  "computed": false
+                },
+                {
                   "name": "marketplace_offering_type",
                   "type": "types.String",
                   "required": false,
@@ -6231,6 +6884,20 @@
               "computed": true
             },
             {
+              "name": "ipv6_address_mode",
+              "type": "types.String",
+              "required": false,
+              "optional": true,
+              "computed": false
+            },
+            {
+              "name": "ipv6_ra_mode",
+              "type": "types.String",
+              "required": false,
+              "optional": true,
+              "computed": false
+            },
+            {
               "name": "name",
               "type": "types.String",
               "required": false,
@@ -6660,6 +7327,13 @@
           "computed": false
         },
         {
+          "name": "instance_count",
+          "type": "types.Int64",
+          "required": false,
+          "optional": true,
+          "computed": false
+        },
+        {
           "name": "marketplace_offering_type",
           "type": "types.String",
           "required": false,
@@ -7084,6 +7758,20 @@
           "computed": false
         },
         {
+          "name": "ipv6_address_mode",
+          "type": "types.String",
+          "required": false,
+          "optional": false,
+          "computed": true
+        },
+        {
+          "name": "ipv6_ra_mode",
+          "type": "types.String",
+          "required": false,
+          "optional": false,
+          "computed": true
+        },
+        {
           "name": "is_connected",
           "type": "types.Bool",
           "required": false,
@@ -7142,6 +7830,34 @@
         {
           "name": "resource_type",
           "type": "types.String",
+          "required": false,
+          "optional": true,
+          "computed": false
+        },
+        {
+          "name": "router",
+          "type": "types.String",
+          "required": false,
+          "optional": false,
+          "computed": true
+        },
+        {
+          "name": "router_name",
+          "type": "types.String",
+          "required": false,
+          "optional": true,
+          "computed": false
+        },
+        {
+          "name": "router_uuid",
+          "type": "types.String",
+          "required": false,
+          "optional": true,
+          "computed": false
+        },
+        {
+          "name": "skip_router_connection",
+          "type": "types.Bool",
           "required": false,
           "optional": true,
           "computed": false
@@ -8364,6 +9080,13 @@
         },
         {
           "name": "is_service_provider",
+          "type": "types.Bool",
+          "required": false,
+          "optional": true,
+          "computed": false
+        },
+        {
+          "name": "is_service_provider_manager_only",
           "type": "types.Bool",
           "required": false,
           "optional": true,

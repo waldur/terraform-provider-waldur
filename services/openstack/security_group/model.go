@@ -140,6 +140,7 @@ type OpenstackSecurityGroupModel struct {
 	Customer                types.String `tfsdk:"customer"`
 	Description             types.String `tfsdk:"description"`
 	ErrorMessage            types.String `tfsdk:"error_message"`
+	InstanceCount           types.Int64  `tfsdk:"instance_count"`
 	MarketplaceOfferingType types.String `tfsdk:"marketplace_offering_type"`
 	MarketplaceResourceUuid types.String `tfsdk:"marketplace_resource_uuid"`
 	Name                    types.String `tfsdk:"name"`
@@ -166,6 +167,8 @@ func (model *OpenstackSecurityGroupModel) CopyFrom(ctx context.Context, apiResp 
 	model.Description = common.StringPointerValue(apiResp.Description)
 
 	model.ErrorMessage = common.StringPointerValue(apiResp.ErrorMessage)
+
+	model.InstanceCount = types.Int64PointerValue(apiResp.InstanceCount)
 
 	model.MarketplaceOfferingType = common.StringPointerValue(apiResp.MarketplaceOfferingType)
 
