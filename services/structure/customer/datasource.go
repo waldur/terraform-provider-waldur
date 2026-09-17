@@ -11,6 +11,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
+	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
@@ -160,8 +161,10 @@ func (d *StructureCustomerDataSource) Schema(ctx context.Context, req datasource
 				Computed: true, MarkdownDescription: "Image"},
 			"is_service_provider": schema.BoolAttribute{
 				Computed: true, MarkdownDescription: "Is Service Provider"},
-			"is_service_provider_manager_only": schema.BoolAttribute{
-				Computed: true, MarkdownDescription: "True when the requesting user's only link to this organization is a role on its service provider. Such a row carries only identity fields."},
+			"latitude": schema.Float64Attribute{
+				Computed: true, MarkdownDescription: "Latitude"},
+			"longitude": schema.Float64Attribute{
+				Computed: true, MarkdownDescription: "Longitude"},
 			"max_service_accounts": schema.Int64Attribute{
 				Computed: true, MarkdownDescription: "Maximum number of service accounts allowed",
 				Validators: []validator.Int64{
@@ -265,6 +268,15 @@ func (d *StructureCustomerDataSource) Schema(ctx context.Context, req datasource
 				Computed: true, MarkdownDescription: "Street"},
 			"url": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Url"},
+			"user_affiliations": schema.ListAttribute{
+				ElementType: types.StringType,
+				Computed:    true, MarkdownDescription: "User Affiliations"},
+			"user_email_patterns": schema.ListAttribute{
+				ElementType: types.StringType,
+				Computed:    true, MarkdownDescription: "User Email Patterns"},
+			"user_identity_sources": schema.ListAttribute{
+				ElementType: types.StringType,
+				Computed:    true, MarkdownDescription: "User Identity Sources"},
 			"users_count": schema.Int64Attribute{
 				Computed: true, MarkdownDescription: "Number of users with access to this organization"},
 			"vat_code": schema.StringAttribute{

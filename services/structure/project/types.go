@@ -36,6 +36,12 @@ type StructureProjectCreateRequest struct {
 	StartDate *string `json:"start_date,omitempty" tfsdk:"start_date"`
 
 	Type *string `json:"type,omitempty" tfsdk:"type"`
+
+	UserAffiliations *[]string `json:"user_affiliations,omitempty" tfsdk:"user_affiliations"`
+
+	UserEmailPatterns *[]string `json:"user_email_patterns,omitempty" tfsdk:"user_email_patterns"`
+
+	UserIdentitySources *[]string `json:"user_identity_sources,omitempty" tfsdk:"user_identity_sources"`
 }
 
 type StructureProjectUpdateRequest struct {
@@ -70,6 +76,12 @@ type StructureProjectUpdateRequest struct {
 	StartDate *string `json:"start_date,omitempty" tfsdk:"start_date"`
 
 	Type *string `json:"type,omitempty" tfsdk:"type"`
+
+	UserAffiliations *[]string `json:"user_affiliations,omitempty" tfsdk:"user_affiliations"`
+
+	UserEmailPatterns *[]string `json:"user_email_patterns,omitempty" tfsdk:"user_email_patterns"`
+
+	UserIdentitySources *[]string `json:"user_identity_sources,omitempty" tfsdk:"user_identity_sources"`
 }
 
 type StructureProjectResponse struct {
@@ -160,6 +172,12 @@ type StructureProjectResponse struct {
 	TypeUuid *string `json:"type_uuid,omitempty" tfsdk:"type_uuid"`
 
 	Url *string `json:"url,omitempty" tfsdk:"url"`
+
+	UserAffiliations *[]string `json:"user_affiliations,omitempty" tfsdk:"user_affiliations"`
+
+	UserEmailPatterns *[]string `json:"user_email_patterns,omitempty" tfsdk:"user_email_patterns"`
+
+	UserIdentitySources *[]string `json:"user_identity_sources,omitempty" tfsdk:"user_identity_sources"`
 }
 
 type StructureProjectAffiliationResponse struct {

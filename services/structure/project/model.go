@@ -225,6 +225,9 @@ type StructureProjectModel struct {
 	TypeName                             types.String      `tfsdk:"type_name"`
 	TypeUuid                             types.String      `tfsdk:"type_uuid"`
 	Url                                  types.String      `tfsdk:"url"`
+	UserAffiliations                     types.List        `tfsdk:"user_affiliations"`
+	UserEmailPatterns                    types.List        `tfsdk:"user_email_patterns"`
+	UserIdentitySources                  types.List        `tfsdk:"user_identity_sources"`
 }
 
 // CopyFrom maps the API response to the model fields.
@@ -350,6 +353,30 @@ func (model *StructureProjectModel) CopyFrom(ctx context.Context, apiResp Struct
 	model.TypeUuid = common.StringPointerValue(apiResp.TypeUuid)
 
 	model.Url = common.StringPointerValue(apiResp.Url)
+
+	if apiResp.UserAffiliations != nil {
+		valUserAffiliations, diagsUserAffiliations := types.ListValueFrom(ctx, types.StringType, apiResp.UserAffiliations)
+		diags.Append(diagsUserAffiliations...)
+		model.UserAffiliations = valUserAffiliations
+	} else {
+		model.UserAffiliations = types.ListNull(types.StringType)
+	}
+
+	if apiResp.UserEmailPatterns != nil {
+		valUserEmailPatterns, diagsUserEmailPatterns := types.ListValueFrom(ctx, types.StringType, apiResp.UserEmailPatterns)
+		diags.Append(diagsUserEmailPatterns...)
+		model.UserEmailPatterns = valUserEmailPatterns
+	} else {
+		model.UserEmailPatterns = types.ListNull(types.StringType)
+	}
+
+	if apiResp.UserIdentitySources != nil {
+		valUserIdentitySources, diagsUserIdentitySources := types.ListValueFrom(ctx, types.StringType, apiResp.UserIdentitySources)
+		diags.Append(diagsUserIdentitySources...)
+		model.UserIdentitySources = valUserIdentitySources
+	} else {
+		model.UserIdentitySources = types.ListNull(types.StringType)
+	}
 
 	return diags
 }

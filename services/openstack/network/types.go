@@ -105,10 +105,6 @@ type OpenstackNetworkSubnetsResponse struct {
 
 	IpVersion *int64 `json:"ip_version,omitempty" tfsdk:"ip_version"`
 
-	Ipv6AddressMode *string `json:"ipv6_address_mode,omitempty" tfsdk:"ipv6_address_mode"`
-
-	Ipv6RaMode *string `json:"ipv6_ra_mode,omitempty" tfsdk:"ipv6_ra_mode"`
-
 	Name *string `json:"name,omitempty" tfsdk:"name"`
 
 	PortSecurityEnabled *bool `json:"port_security_enabled,omitempty" tfsdk:"port_security_enabled"`

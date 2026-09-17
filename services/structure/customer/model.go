@@ -215,7 +215,8 @@ type StructureCustomerModel struct {
 	Household                    types.String      `tfsdk:"household"`
 	Image                        types.String      `tfsdk:"image"`
 	IsServiceProvider            types.Bool        `tfsdk:"is_service_provider"`
-	IsServiceProviderManagerOnly types.Bool        `tfsdk:"is_service_provider_manager_only"`
+	Latitude                     types.Float64     `tfsdk:"latitude"`
+	Longitude                    types.Float64     `tfsdk:"longitude"`
 	MaxServiceAccounts           types.Int64       `tfsdk:"max_service_accounts"`
 	Name                         types.String      `tfsdk:"name"`
 	NativeName                   types.String      `tfsdk:"native_name"`
@@ -235,6 +236,9 @@ type StructureCustomerModel struct {
 	SponsorNumber                types.Int64       `tfsdk:"sponsor_number"`
 	Street                       types.String      `tfsdk:"street"`
 	Url                          types.String      `tfsdk:"url"`
+	UserAffiliations             types.List        `tfsdk:"user_affiliations"`
+	UserEmailPatterns            types.List        `tfsdk:"user_email_patterns"`
+	UserIdentitySources          types.List        `tfsdk:"user_identity_sources"`
 	UsersCount                   types.Int64       `tfsdk:"users_count"`
 	VatCode                      types.String      `tfsdk:"vat_code"`
 	State                        types.String      `tfsdk:"state"`
@@ -328,7 +332,9 @@ func (model *StructureCustomerModel) CopyFrom(ctx context.Context, apiResp Struc
 
 	model.IsServiceProvider = types.BoolPointerValue(apiResp.IsServiceProvider)
 
-	model.IsServiceProviderManagerOnly = types.BoolPointerValue(apiResp.IsServiceProviderManagerOnly)
+	model.Latitude = types.Float64PointerValue(apiResp.Latitude.Float64Ptr())
+
+	model.Longitude = types.Float64PointerValue(apiResp.Longitude.Float64Ptr())
 
 	model.MaxServiceAccounts = types.Int64PointerValue(apiResp.MaxServiceAccounts)
 
@@ -379,6 +385,30 @@ func (model *StructureCustomerModel) CopyFrom(ctx context.Context, apiResp Struc
 	model.Street = common.StringPointerValue(apiResp.Street)
 
 	model.Url = common.StringPointerValue(apiResp.Url)
+
+	if apiResp.UserAffiliations != nil {
+		valUserAffiliations, diagsUserAffiliations := types.ListValueFrom(ctx, types.StringType, apiResp.UserAffiliations)
+		diags.Append(diagsUserAffiliations...)
+		model.UserAffiliations = valUserAffiliations
+	} else {
+		model.UserAffiliations = types.ListNull(types.StringType)
+	}
+
+	if apiResp.UserEmailPatterns != nil {
+		valUserEmailPatterns, diagsUserEmailPatterns := types.ListValueFrom(ctx, types.StringType, apiResp.UserEmailPatterns)
+		diags.Append(diagsUserEmailPatterns...)
+		model.UserEmailPatterns = valUserEmailPatterns
+	} else {
+		model.UserEmailPatterns = types.ListNull(types.StringType)
+	}
+
+	if apiResp.UserIdentitySources != nil {
+		valUserIdentitySources, diagsUserIdentitySources := types.ListValueFrom(ctx, types.StringType, apiResp.UserIdentitySources)
+		diags.Append(diagsUserIdentitySources...)
+		model.UserIdentitySources = valUserIdentitySources
+	} else {
+		model.UserIdentitySources = types.ListNull(types.StringType)
+	}
 
 	model.UsersCount = types.Int64PointerValue(apiResp.UsersCount)
 

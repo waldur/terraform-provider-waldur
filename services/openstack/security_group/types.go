@@ -39,8 +39,6 @@ type OpenstackSecurityGroupResponse struct {
 
 	ErrorMessage *string `json:"error_message,omitempty" tfsdk:"error_message"`
 
-	InstanceCount *int64 `json:"instance_count,omitempty" tfsdk:"instance_count"`
-
 	MarketplaceOfferingType *string `json:"marketplace_offering_type,omitempty" tfsdk:"marketplace_offering_type"`
 
 	MarketplaceResourceUuid *string `json:"marketplace_resource_uuid,omitempty" tfsdk:"marketplace_resource_uuid"`

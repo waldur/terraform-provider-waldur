@@ -117,7 +117,7 @@ func (d *OpenstackNetworkDataSource) Schema(ctx context.Context, req datasource.
 							Computed: true, MarkdownDescription: "Allocation Pools",
 						},
 						"cidr": schema.StringAttribute{
-							Computed: true, MarkdownDescription: "Network address in CIDR format (e.g. 192.168.0.0/24 or 2001:db8::/64)"},
+							Computed: true, MarkdownDescription: "IPv4 network address in CIDR format (e.g. 192.168.0.0/24)"},
 						"description": schema.StringAttribute{
 							Computed: true, MarkdownDescription: "Description"},
 						"enable_dhcp": schema.BoolAttribute{
@@ -130,10 +130,6 @@ func (d *OpenstackNetworkDataSource) Schema(ctx context.Context, req datasource.
 								int64validator.AtLeast(-32768),
 								int64validator.AtMost(32767),
 							}},
-						"ipv6_address_mode": schema.StringAttribute{
-							Computed: true, MarkdownDescription: "Ipv6 Address Mode"},
-						"ipv6_ra_mode": schema.StringAttribute{
-							Computed: true, MarkdownDescription: "Ipv6 Ra Mode"},
 						"name": schema.StringAttribute{
 							Computed: true, MarkdownDescription: "Name"},
 						"port_security_enabled": schema.BoolAttribute{

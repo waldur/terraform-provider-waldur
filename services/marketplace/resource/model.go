@@ -12,13 +12,6 @@ import (
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
-func AccountSettingType() types.ObjectType {
-	return types.ObjectType{AttrTypes: map[string]attr.Type{
-		"inherited": OfferingAccountSettingsAccountScopeInheritedType(),
-		"source":    types.StringType,
-		"value":     types.StringType,
-	}}
-}
 func NestedEndpointType() types.ObjectType {
 	return types.ObjectType{AttrTypes: map[string]attr.Type{
 		"name": types.StringType,
@@ -26,42 +19,26 @@ func NestedEndpointType() types.ObjectType {
 		"uuid": types.StringType,
 	}}
 }
-func OfferingAccountSettingsType() types.ObjectType {
-	return types.ObjectType{AttrTypes: map[string]attr.Type{
-		"account_scope":              AccountSettingType(),
-		"homedir_prefix":             AccountSettingType(),
-		"login_shell":                AccountSettingType(),
-		"username_anonymized_prefix": AccountSettingType(),
-		"username_generation_policy": AccountSettingType(),
-	}}
-}
-func OfferingAccountSettingsAccountScopeInheritedType() types.ObjectType {
-	return types.ObjectType{AttrTypes: map[string]attr.Type{
-		"source": types.StringType,
-		"value":  types.StringType,
-	}}
-}
 func OfferingComponentType() types.ObjectType {
 	return types.ObjectType{AttrTypes: map[string]attr.Type{
 		"article_code":          types.StringType,
 		"billing_type":          types.StringType,
-		"default_limit":         types.Float64Type,
+		"default_limit":         types.Int64Type,
 		"description":           types.StringType,
 		"factor":                types.Int64Type,
 		"is_boolean":            types.BoolType,
 		"is_builtin":            types.BoolType,
 		"is_prepaid":            types.BoolType,
-		"limit_amount":          types.Float64Type,
-		"limit_decimal_places":  types.Int64Type,
+		"limit_amount":          types.Int64Type,
 		"limit_period":          types.StringType,
-		"max_available_limit":   types.Float64Type,
+		"max_available_limit":   types.Int64Type,
 		"max_prepaid_duration":  types.Int64Type,
 		"max_renewal_duration":  types.Int64Type,
-		"max_value":             types.Float64Type,
+		"max_value":             types.Int64Type,
 		"measured_unit":         types.StringType,
 		"min_prepaid_duration":  types.Int64Type,
 		"min_renewal_duration":  types.Int64Type,
-		"min_value":             types.Float64Type,
+		"min_value":             types.Int64Type,
 		"name":                  types.StringType,
 		"offering_uuid":         types.StringType,
 		"overage_component":     types.StringType,
@@ -109,10 +86,9 @@ func OrderInProgressType() types.ObjectType {
 		"error_updated_at":                      types.StringType,
 		"fixed_price":                           types.Float64Type,
 		"issue":                                 OrderInProgressIssueType(),
-		"limits":                                types.MapType{ElemType: types.Float64Type},
+		"limits":                                types.MapType{ElemType: types.Int64Type},
 		"marketplace_resource_uuid":             types.StringType,
 		"new_cost_estimate":                     types.StringType,
-		"new_plan_billing_mode":                 types.StringType,
 		"new_plan_name":                         types.StringType,
 		"new_plan_uuid":                         types.StringType,
 		"offering":                              types.StringType,
@@ -125,7 +101,6 @@ func OrderInProgressType() types.ObjectType {
 		"offering_type":                         types.StringType,
 		"offering_uuid":                         types.StringType,
 		"old_cost_estimate":                     types.Float64Type,
-		"old_plan_billing_mode":                 types.StringType,
 		"old_plan_name":                         types.StringType,
 		"old_plan_uuid":                         types.StringType,
 		"order_subtype":                         types.StringType,
@@ -152,7 +127,6 @@ func OrderInProgressType() types.ObjectType {
 		"provider_slug":                         types.StringType,
 		"provider_uuid":                         types.StringType,
 		"request_comment":                       types.StringType,
-		"resource_end_date":                     types.StringType,
 		"resource_name":                         types.StringType,
 		"resource_type":                         types.StringType,
 		"resource_uuid":                         types.StringType,
@@ -417,7 +391,6 @@ type MarketplaceResourceModel struct {
 	Limits                    types.Map         `tfsdk:"limits"`
 	Name                      types.String      `tfsdk:"name"`
 	Offering                  types.String      `tfsdk:"offering"`
-	OfferingAccountSettings   types.Object      `tfsdk:"offering_account_settings"`
 	OfferingBackendId         types.String      `tfsdk:"offering_backend_id"`
 	OfferingBillable          types.Bool        `tfsdk:"offering_billable"`
 	OfferingComponents        types.List        `tfsdk:"offering_components"`
@@ -450,7 +423,6 @@ type MarketplaceResourceModel struct {
 	ProjectEndDateRequestedBy types.String      `tfsdk:"project_end_date_requested_by"`
 	ProjectIsInGracePeriod    types.Bool        `tfsdk:"project_is_in_grace_period"`
 	ProjectSlug               types.String      `tfsdk:"project_slug"`
-	ProjectStartDate          types.String      `tfsdk:"project_start_date"`
 	ProviderDescription       types.String      `tfsdk:"provider_description"`
 	ProviderName              types.String      `tfsdk:"provider_name"`
 	ProviderSlug              types.String      `tfsdk:"provider_slug"`
@@ -533,24 +505,16 @@ func (model *MarketplaceResourceModel) CopyFrom(ctx context.Context, apiResp Mar
 	}
 
 	if apiResp.Limits != nil {
-		valLimits, diagsLimits := types.MapValueFrom(ctx, types.Float64Type, apiResp.Limits)
+		valLimits, diagsLimits := types.MapValueFrom(ctx, types.Int64Type, apiResp.Limits)
 		diags.Append(diagsLimits...)
 		model.Limits = valLimits
 	} else {
-		model.Limits = types.MapNull(types.Float64Type)
+		model.Limits = types.MapNull(types.Int64Type)
 	}
 
 	model.Name = common.StringPointerValue(apiResp.Name)
 
 	model.Offering = common.StringPointerValue(apiResp.Offering)
-
-	if apiResp.OfferingAccountSettings != nil {
-		valOfferingAccountSettings, diagsOfferingAccountSettings := types.ObjectValueFrom(ctx, OfferingAccountSettingsType().AttrTypes, *apiResp.OfferingAccountSettings)
-		diags.Append(diagsOfferingAccountSettings...)
-		model.OfferingAccountSettings = valOfferingAccountSettings
-	} else {
-		model.OfferingAccountSettings = types.ObjectNull(OfferingAccountSettingsType().AttrTypes)
-	}
 
 	model.OfferingBackendId = common.StringPointerValue(apiResp.OfferingBackendId)
 
@@ -639,8 +603,6 @@ func (model *MarketplaceResourceModel) CopyFrom(ctx context.Context, apiResp Mar
 	model.ProjectIsInGracePeriod = types.BoolPointerValue(apiResp.ProjectIsInGracePeriod)
 
 	model.ProjectSlug = common.StringPointerValue(apiResp.ProjectSlug)
-
-	model.ProjectStartDate = common.StringPointerValue(apiResp.ProjectStartDate)
 
 	model.ProviderDescription = common.StringPointerValue(apiResp.ProviderDescription)
 

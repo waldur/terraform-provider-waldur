@@ -135,7 +135,7 @@ func (d *MarketplaceOrderDataSource) Schema(ctx context.Context, req datasource.
 				Computed: true, MarkdownDescription: "Issue",
 			},
 			"limits": schema.MapAttribute{
-				ElementType: types.Float64Type,
+				ElementType: types.Int64Type,
 				Computed:    true, MarkdownDescription: "Limits"},
 			"marketplace_resource_uuid": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Marketplace Resource Uuid"},
@@ -144,8 +144,6 @@ func (d *MarketplaceOrderDataSource) Schema(ctx context.Context, req datasource.
 				Validators: []validator.String{
 					stringvalidator.RegexMatches(regexp.MustCompile(`^-?\d{0,12}(?:\.\d{0,10})?$`), ""),
 				}},
-			"new_plan_billing_mode": schema.StringAttribute{
-				Computed: true, MarkdownDescription: "New Plan Billing Mode"},
 			"new_plan_name": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "New Plan Name"},
 			"new_plan_uuid": schema.StringAttribute{
@@ -170,9 +168,7 @@ func (d *MarketplaceOrderDataSource) Schema(ctx context.Context, req datasource.
 			"offering_uuid": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Offering Uuid"},
 			"old_cost_estimate": schema.Float64Attribute{
-				Computed: true, MarkdownDescription: "The old-limits estimate, snapshotted by init_cost() at creation. Must not recompute live: _compute_old_cost_estimate() prices from \\\"today\\\", which keeps advancing on every read while `cost` stays fixed from creation -- the shown cost change would grow the longer an order sits unread. Orders that predate this field have no snapshot, so they fall back to the live computation rather than a wrong zero."},
-			"old_plan_billing_mode": schema.StringAttribute{
-				Computed: true, MarkdownDescription: "Old Plan Billing Mode"},
+				Computed: true, MarkdownDescription: "Old Cost Estimate"},
 			"old_plan_name": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Old Plan Name"},
 			"old_plan_uuid": schema.StringAttribute{
@@ -228,8 +224,6 @@ func (d *MarketplaceOrderDataSource) Schema(ctx context.Context, req datasource.
 				Computed: true, MarkdownDescription: "Provider Uuid"},
 			"request_comment": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Request Comment"},
-			"resource_end_date": schema.StringAttribute{
-				Computed: true, MarkdownDescription: "Resource End Date"},
 			"resource_name": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Resource Name"},
 			"resource_type": schema.StringAttribute{

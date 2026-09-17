@@ -51,6 +51,8 @@ resource "waldur_structure_customer" "example" {
 - `house_nr` (String) House Nr
 - `household` (String) Household
 - `image` (String) Image
+- `latitude` (Number) Latitude
+- `longitude` (Number) Longitude
 - `max_service_accounts` (Number) Maximum number of service accounts allowed
 - `native_name` (String) Native Name
 - `notification_emails` (String) Comma-separated list of notification email addresses
@@ -65,6 +67,9 @@ resource "waldur_structure_customer" "example" {
 - `state` (String) State
 - `street` (String) Street
 - `timeouts` (Block, Optional) (see [below for nested schema](#nestedblock--timeouts))
+- `user_affiliations` (List of String) User Affiliations
+- `user_email_patterns` (List of String) User Email Patterns
+- `user_identity_sources` (List of String) User Identity Sources
 - `vat_code` (String) VAT number
 
 ### Read-Only
@@ -80,7 +85,6 @@ resource "waldur_structure_customer" "example" {
 - `has_affiliate_links` (Boolean) Has Affiliate Links
 - `id` (String) Structure Customer UUID (used as Terraform ID)
 - `is_service_provider` (Boolean) Is Service Provider
-- `is_service_provider_manager_only` (Boolean) True when the requesting user's only link to this organization is a role on its service provider. Such a row carries only identity fields.
 - `organization_groups` (Attributes List) Organization groups this customer belongs to (see [below for nested schema](#nestedatt--organization_groups))
 - `payment_profiles` (Attributes List) Payment Profiles (see [below for nested schema](#nestedatt--payment_profiles))
 - `projects_count` (Number) Number of projects in this organization

@@ -22,6 +22,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+
+	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
 // Ensure provider defined types fully satisfy framework interfaces.
@@ -401,12 +403,20 @@ func (r *StructureCustomerResource) Schema(ctx context.Context, req resource.Sch
 
 					boolplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "Is Service Provider"},
-			"is_service_provider_manager_only": schema.BoolAttribute{
+			"latitude": schema.Float64Attribute{
+				Optional: true,
 				Computed: true,
-				PlanModifiers: []planmodifier.Bool{
+				PlanModifiers: []planmodifier.Float64{
 
-					boolplanmodifier.UseStateForUnknown(),
-				}, MarkdownDescription: "True when the requesting user's only link to this organization is a role on its service provider. Such a row carries only identity fields."},
+					float64planmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Latitude"},
+			"longitude": schema.Float64Attribute{
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.Float64{
+
+					float64planmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Longitude"},
 			"max_service_accounts": schema.Int64Attribute{
 				Optional: true,
 				Computed: true,
@@ -680,6 +690,30 @@ func (r *StructureCustomerResource) Schema(ctx context.Context, req resource.Sch
 
 					stringplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "Url"},
+			"user_affiliations": schema.ListAttribute{
+				ElementType: types.StringType,
+				Optional:    true,
+				Computed:    true,
+				PlanModifiers: []planmodifier.List{
+
+					listplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "User Affiliations"},
+			"user_email_patterns": schema.ListAttribute{
+				ElementType: types.StringType,
+				Optional:    true,
+				Computed:    true,
+				PlanModifiers: []planmodifier.List{
+
+					listplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "User Email Patterns"},
+			"user_identity_sources": schema.ListAttribute{
+				ElementType: types.StringType,
+				Optional:    true,
+				Computed:    true,
+				PlanModifiers: []planmodifier.List{
+
+					listplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "User Identity Sources"},
 			"users_count": schema.Int64Attribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.Int64{
@@ -828,6 +862,14 @@ func (r *StructureCustomerResource) Create(ctx context.Context, req resource.Cre
 
 		requestBody.Image = data.Image.ValueStringPointer()
 	}
+	if !data.Latitude.IsNull() && !data.Latitude.IsUnknown() {
+
+		requestBody.Latitude = data.Latitude.ValueFloat64Pointer()
+	}
+	if !data.Longitude.IsNull() && !data.Longitude.IsUnknown() {
+
+		requestBody.Longitude = data.Longitude.ValueFloat64Pointer()
+	}
 	if !data.MaxServiceAccounts.IsNull() && !data.MaxServiceAccounts.IsUnknown() {
 
 		requestBody.MaxServiceAccounts = data.MaxServiceAccounts.ValueInt64Pointer()
@@ -882,6 +924,9 @@ func (r *StructureCustomerResource) Create(ctx context.Context, req resource.Cre
 
 		requestBody.VatCode = data.VatCode.ValueStringPointer()
 	}
+	resp.Diagnostics.Append(common.PopulateOptionalSliceField(ctx, data.UserAffiliations, &requestBody.UserAffiliations)...)
+	resp.Diagnostics.Append(common.PopulateOptionalSliceField(ctx, data.UserEmailPatterns, &requestBody.UserEmailPatterns)...)
+	resp.Diagnostics.Append(common.PopulateOptionalSliceField(ctx, data.UserIdentitySources, &requestBody.UserIdentitySources)...)
 
 	apiResp, err := r.client.Create(ctx, &requestBody)
 	if err != nil {
@@ -1062,6 +1107,16 @@ func (r *StructureCustomerResource) Update(ctx context.Context, req resource.Upd
 
 		requestBody.Image = data.Image.ValueStringPointer()
 	}
+	if !data.Latitude.IsNull() && !data.Latitude.IsUnknown() && !data.Latitude.Equal(state.Latitude) {
+		anyChanges = true
+
+		requestBody.Latitude = data.Latitude.ValueFloat64Pointer()
+	}
+	if !data.Longitude.IsNull() && !data.Longitude.IsUnknown() && !data.Longitude.Equal(state.Longitude) {
+		anyChanges = true
+
+		requestBody.Longitude = data.Longitude.ValueFloat64Pointer()
+	}
 	if !data.MaxServiceAccounts.IsNull() && !data.MaxServiceAccounts.IsUnknown() && !data.MaxServiceAccounts.Equal(state.MaxServiceAccounts) {
 		anyChanges = true
 
@@ -1127,11 +1182,24 @@ func (r *StructureCustomerResource) Update(ctx context.Context, req resource.Upd
 
 		requestBody.Street = data.Street.ValueStringPointer()
 	}
+	if !data.UserAffiliations.Equal(state.UserAffiliations) {
+		anyChanges = true
+	}
+	if !data.UserEmailPatterns.Equal(state.UserEmailPatterns) {
+		anyChanges = true
+	}
+	if !data.UserIdentitySources.Equal(state.UserIdentitySources) {
+		anyChanges = true
+	}
 	if !data.VatCode.IsNull() && !data.VatCode.IsUnknown() && !data.VatCode.Equal(state.VatCode) {
 		anyChanges = true
 
 		requestBody.VatCode = data.VatCode.ValueStringPointer()
 	}
+
+	resp.Diagnostics.Append(common.PopulateOptionalSliceField(ctx, data.UserAffiliations, &requestBody.UserAffiliations)...)
+	resp.Diagnostics.Append(common.PopulateOptionalSliceField(ctx, data.UserEmailPatterns, &requestBody.UserEmailPatterns)...)
+	resp.Diagnostics.Append(common.PopulateOptionalSliceField(ctx, data.UserIdentitySources, &requestBody.UserIdentitySources)...)
 
 	if anyChanges {
 		var err error

@@ -53,6 +53,10 @@ type StructureCustomerCreateRequest struct {
 
 	Image *string `json:"image,omitempty" tfsdk:"image"`
 
+	Latitude *float64 `json:"latitude,omitempty" tfsdk:"latitude"`
+
+	Longitude *float64 `json:"longitude,omitempty" tfsdk:"longitude"`
+
 	MaxServiceAccounts *int64 `json:"max_service_accounts,omitempty" tfsdk:"max_service_accounts"`
 
 	Name *string `json:"name" tfsdk:"name"`
@@ -78,6 +82,12 @@ type StructureCustomerCreateRequest struct {
 	SponsorNumber *int64 `json:"sponsor_number,omitempty" tfsdk:"sponsor_number"`
 
 	Street *string `json:"street,omitempty" tfsdk:"street"`
+
+	UserAffiliations *[]string `json:"user_affiliations,omitempty" tfsdk:"user_affiliations"`
+
+	UserEmailPatterns *[]string `json:"user_email_patterns,omitempty" tfsdk:"user_email_patterns"`
+
+	UserIdentitySources *[]string `json:"user_identity_sources,omitempty" tfsdk:"user_identity_sources"`
 
 	VatCode *string `json:"vat_code,omitempty" tfsdk:"vat_code"`
 }
@@ -131,6 +141,10 @@ type StructureCustomerUpdateRequest struct {
 
 	Image *string `json:"image,omitempty" tfsdk:"image"`
 
+	Latitude *float64 `json:"latitude,omitempty" tfsdk:"latitude"`
+
+	Longitude *float64 `json:"longitude,omitempty" tfsdk:"longitude"`
+
 	MaxServiceAccounts *int64 `json:"max_service_accounts,omitempty" tfsdk:"max_service_accounts"`
 
 	Name *string `json:"name,omitempty" tfsdk:"name"`
@@ -156,6 +170,12 @@ type StructureCustomerUpdateRequest struct {
 	SponsorNumber *int64 `json:"sponsor_number,omitempty" tfsdk:"sponsor_number"`
 
 	Street *string `json:"street,omitempty" tfsdk:"street"`
+
+	UserAffiliations *[]string `json:"user_affiliations,omitempty" tfsdk:"user_affiliations"`
+
+	UserEmailPatterns *[]string `json:"user_email_patterns,omitempty" tfsdk:"user_email_patterns"`
+
+	UserIdentitySources *[]string `json:"user_identity_sources,omitempty" tfsdk:"user_identity_sources"`
 
 	VatCode *string `json:"vat_code,omitempty" tfsdk:"vat_code"`
 }
@@ -231,7 +251,9 @@ type StructureCustomerResponse struct {
 
 	IsServiceProvider *bool `json:"is_service_provider,omitempty" tfsdk:"is_service_provider"`
 
-	IsServiceProviderManagerOnly *bool `json:"is_service_provider_manager_only,omitempty" tfsdk:"is_service_provider_manager_only"`
+	Latitude common.FlexibleNumber `json:"latitude,omitempty" tfsdk:"latitude"`
+
+	Longitude common.FlexibleNumber `json:"longitude,omitempty" tfsdk:"longitude"`
 
 	MaxServiceAccounts *int64 `json:"max_service_accounts,omitempty" tfsdk:"max_service_accounts"`
 
@@ -270,6 +292,12 @@ type StructureCustomerResponse struct {
 	Street *string `json:"street,omitempty" tfsdk:"street"`
 
 	Url *string `json:"url,omitempty" tfsdk:"url"`
+
+	UserAffiliations *[]string `json:"user_affiliations,omitempty" tfsdk:"user_affiliations"`
+
+	UserEmailPatterns *[]string `json:"user_email_patterns,omitempty" tfsdk:"user_email_patterns"`
+
+	UserIdentitySources *[]string `json:"user_identity_sources,omitempty" tfsdk:"user_identity_sources"`
 
 	UsersCount *int64 `json:"users_count,omitempty" tfsdk:"users_count"`
 

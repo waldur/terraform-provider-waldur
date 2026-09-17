@@ -22,15 +22,10 @@ Marketplace Offering data source - lookup by name or UUID
 
 ### Read-Only
 
-- `account_settings` (Attributes) Account Settings (see [below for nested schema](#nestedatt--account_settings))
 - `attributes` (Map of String) Attributes
 - `backend_id` (String) Backend Id
 - `billable` (Boolean) Purchase and usage is invoiced.
-- `billing_mode_components` (Map of String) Per plan billing mode, every component of this offering as a plan in that mode would bill it: billing type, measured unit, prepaid flag and limit period.
-- `billing_period_applies` (Map of Boolean) Per plan billing mode, whether a plan's billing period changes what is invoiced. False means every component of this offering would price a quantity of its own under that mode, so the period is inert on the invoice.
 - `billing_type_classification` (String) Classify offering components by billing type. Returns 'limit_only', 'usage_only', or 'mixed'.
-- `can_update_integration` (Boolean) Can Update Integration
-- `can_update_options` (Boolean) Can Update Options
 - `category` (String) Category
 - `category_uuid` (String) Category Uuid
 - `citation_count` (Number) Number of citations of a DOI
@@ -81,9 +76,6 @@ Marketplace Offering data source - lookup by name or UUID
 - `scope` (String) Scope
 - `scope_error_message` (String) Scope Error Message
 - `scope_name` (String) Scope Name
-- `scope_resource` (String) Scope Resource
-- `scope_resource_name` (String) Scope Resource Name
-- `scope_resource_uuid` (String) Scope Resource Uuid
 - `scope_state` (String) Scope State
 - `scope_uuid` (String) Scope Uuid
 - `screenshots` (Attributes List) Screenshots (see [below for nested schema](#nestedatt--screenshots))
@@ -99,7 +91,6 @@ Marketplace Offering data source - lookup by name or UUID
 - `type` (String) Type
 - `url` (String) Url
 - `user_has_consent` (Boolean) User Has Consent
-- `user_has_offering_user` (Boolean) User Has Offering User
 - `vendor_details` (String) Vendor Details
 
 <a id="nestedatt--filters"></a>
@@ -147,113 +138,6 @@ Optional:
 - `uuid_list` (String) Comma-separated offering UUIDs
 
 
-<a id="nestedatt--account_settings"></a>
-### Nested Schema for `account_settings`
-
-Read-Only:
-
-- `account_scope` (Attributes) Account Scope (see [below for nested schema](#nestedatt--account_settings--account_scope))
-- `homedir_prefix` (Attributes) Homedir Prefix (see [below for nested schema](#nestedatt--account_settings--homedir_prefix))
-- `login_shell` (Attributes) Login Shell (see [below for nested schema](#nestedatt--account_settings--login_shell))
-- `username_anonymized_prefix` (Attributes) Username Anonymized Prefix (see [below for nested schema](#nestedatt--account_settings--username_anonymized_prefix))
-- `username_generation_policy` (Attributes) Username Generation Policy (see [below for nested schema](#nestedatt--account_settings--username_generation_policy))
-
-<a id="nestedatt--account_settings--account_scope"></a>
-### Nested Schema for `account_settings.account_scope`
-
-Read-Only:
-
-- `inherited` (Attributes) What the setting resolves to without the offering's own value: the service provider's, else the built-in default. Removing the offering's override leads to it. (see [below for nested schema](#nestedatt--account_settings--account_scope--inherited))
-- `source` (String) Where the value comes from: the offering's own plugin option, the service provider's account options, or the built-in default.
-- `value` (String) The value the setting resolves to.
-
-<a id="nestedatt--account_settings--account_scope--inherited"></a>
-### Nested Schema for `account_settings.account_scope.inherited`
-
-Read-Only:
-
-- `source` (String) Where the value comes from: the offering's own plugin option, the service provider's account options, or the built-in default.
-- `value` (String) The value the setting resolves to.
-
-
-
-<a id="nestedatt--account_settings--homedir_prefix"></a>
-### Nested Schema for `account_settings.homedir_prefix`
-
-Read-Only:
-
-- `inherited` (Attributes) What the setting resolves to without the offering's own value: the service provider's, else the built-in default. Removing the offering's override leads to it. (see [below for nested schema](#nestedatt--account_settings--homedir_prefix--inherited))
-- `source` (String) Where the value comes from: the offering's own plugin option, the service provider's account options, or the built-in default.
-- `value` (String) The value the setting resolves to.
-
-<a id="nestedatt--account_settings--homedir_prefix--inherited"></a>
-### Nested Schema for `account_settings.homedir_prefix.inherited`
-
-Read-Only:
-
-- `source` (String) Where the value comes from: the offering's own plugin option, the service provider's account options, or the built-in default.
-- `value` (String) The value the setting resolves to.
-
-
-
-<a id="nestedatt--account_settings--login_shell"></a>
-### Nested Schema for `account_settings.login_shell`
-
-Read-Only:
-
-- `inherited` (Attributes) What the setting resolves to without the offering's own value: the service provider's, else the built-in default. Removing the offering's override leads to it. (see [below for nested schema](#nestedatt--account_settings--login_shell--inherited))
-- `source` (String) Where the value comes from: the offering's own plugin option, the service provider's account options, or the built-in default.
-- `value` (String) The value the setting resolves to.
-
-<a id="nestedatt--account_settings--login_shell--inherited"></a>
-### Nested Schema for `account_settings.login_shell.inherited`
-
-Read-Only:
-
-- `source` (String) Where the value comes from: the offering's own plugin option, the service provider's account options, or the built-in default.
-- `value` (String) The value the setting resolves to.
-
-
-
-<a id="nestedatt--account_settings--username_anonymized_prefix"></a>
-### Nested Schema for `account_settings.username_anonymized_prefix`
-
-Read-Only:
-
-- `inherited` (Attributes) What the setting resolves to without the offering's own value: the service provider's, else the built-in default. Removing the offering's override leads to it. (see [below for nested schema](#nestedatt--account_settings--username_anonymized_prefix--inherited))
-- `source` (String) Where the value comes from: the offering's own plugin option, the service provider's account options, or the built-in default.
-- `value` (String) The value the setting resolves to.
-
-<a id="nestedatt--account_settings--username_anonymized_prefix--inherited"></a>
-### Nested Schema for `account_settings.username_anonymized_prefix.inherited`
-
-Read-Only:
-
-- `source` (String) Where the value comes from: the offering's own plugin option, the service provider's account options, or the built-in default.
-- `value` (String) The value the setting resolves to.
-
-
-
-<a id="nestedatt--account_settings--username_generation_policy"></a>
-### Nested Schema for `account_settings.username_generation_policy`
-
-Read-Only:
-
-- `inherited` (Attributes) What the setting resolves to without the offering's own value: the service provider's, else the built-in default. Removing the offering's override leads to it. (see [below for nested schema](#nestedatt--account_settings--username_generation_policy--inherited))
-- `source` (String) Where the value comes from: the offering's own plugin option, the service provider's account options, or the built-in default.
-- `value` (String) The value the setting resolves to.
-
-<a id="nestedatt--account_settings--username_generation_policy--inherited"></a>
-### Nested Schema for `account_settings.username_generation_policy.inherited`
-
-Read-Only:
-
-- `source` (String) Where the value comes from: the offering's own plugin option, the service provider's account options, or the built-in default.
-- `value` (String) The value the setting resolves to.
-
-
-
-
 <a id="nestedatt--components"></a>
 ### Nested Schema for `components`
 
@@ -265,10 +149,9 @@ Read-Only:
 - `description` (String) Description
 - `factor` (Number) Factor
 - `is_boolean` (Boolean) Is Boolean
-- `is_builtin` (Boolean) The API's older name for ``billed_per_plan``. It used to ask the plugin registry whether this component's type is one the plugin declares, which left out the OpenStack per-volume-type quotas: they are created by the volume type sync rather than declared, so the API called them provider components while the billing resolver treated them as builtin. Reading the stored flag makes the two agree.
+- `is_builtin` (Boolean) Is Builtin
 - `is_prepaid` (Boolean) Is Prepaid
 - `limit_amount` (Number) Limit Amount
-- `limit_decimal_places` (Number) Number of decimal places accepted for this component's limit. 0 keeps the limit integer-only.
 - `limit_period` (String) Limit Period
 - `max_available_limit` (Number) Max Available Limit
 - `max_prepaid_duration` (Number) Max Prepaid Duration
@@ -390,7 +273,6 @@ Read-Only:
 - `archived` (Boolean) Forbids creation of new resources.
 - `article_code` (String) Article Code
 - `backend_id` (String) Backend Id
-- `billing_mode` (String) How the offering's builtin components are billed under this plan. Custom components keep their own accounting type.
 - `components` (Attributes List) Components (see [below for nested schema](#nestedatt--plans--components))
 - `description` (String) Description
 - `future_prices` (Map of String) Future Prices
@@ -415,14 +297,11 @@ Read-Only:
 Read-Only:
 
 - `amount` (Number) Amount
-- `billing_type` (String) Billing Type
 - `discount_aggregation` (String) Whether the volume discount is computed on a single resource's usage or aggregated across all of the customer's resources of this offering.
 - `discount_description` (String) Discount Description
 - `discount_formula` (String) Volume discount formula evaluated with the billed quantity bound to `usage`; returns a discount percentage (clamped to 0-100). Empty means no discount. Example: '10 if usage >= 100 else 0'.
 - `future_price` (String) Future Price
-- `is_prepaid` (Boolean) Is Prepaid
-- `limit_period` (String) Limit Period
-- `measured_unit` (String) Measured Unit
+- `measured_unit` (String) Unit of measurement, for example, GB.
 - `name` (String) Display name for the measured unit, for example, Floating IP.
 - `price` (String) Price
 - `type` (String) Unique internal name of the measured unit, for example floating_ip.
@@ -448,7 +327,6 @@ Read-Only:
 
 Read-Only:
 
-- `account_scope` (String) Where accounts are held: 'offering' keeps one account per offering (the historical behaviour); 'provider' shares one account per user across the provider's offerings.
 - `action_on_usage_limit` (String) If set to 'pause' or 'downscale', resources are automatically paused or downscaled when reported usage in the current period reaches a component's limit_amount, and the restriction is lifted when usage drops below the limit again (e.g. a new billing period or a raised limit).
 - `auto_approve_for_roles` (List of String) List of project or organization role names (e.g. 'PROJECT.MANAGER') whose orders skip consumer review for this offering. The creator must hold the role on the target project or its organization. Independent of restricted_to_roles (which governs visibility/ordering) and of the ORDER.APPROVE permission. Provider review and purchase-order requirements still apply. Only staff can change this option.
 - `auto_approve_in_service_provider_projects` (Boolean) Skip approval of public offering belonging to the same organization under which the request is done
@@ -465,7 +343,7 @@ Read-Only:
 - `default_internal_network_mtu` (Number) If set, it will be used as a default MTU for the first network in a tenant
 - `default_resource_termination_offset_in_days` (Number) If set, it will be used as a default resource termination offset in days
 - `deployment_mode` (String) Rancher deployment mode
-- `disable_autoapprove` (Boolean) If set to True, orders for this offering will always require manual consumer approval, overriding every other consumer-side auto-approve mechanism (auto_approve_in_service_provider_projects, auto_approve_for_roles, project auto-approval rules, and the ORDER.APPROVE permission). Termination orders, staff users and provider approval are not affected
+- `disable_autoapprove` (Boolean) If set to True, orders for this offering will always require manual approval, overriding auto_approve_in_service_provider_projects
 - `disable_grace_period` (Boolean) If set to True, this offering's resources ignore the project grace period and are terminated on the project end date. Only staff can change this option.
 - `disabled_resource_actions` (List of String) List of disabled marketplace resource actions for this offering.
 - `emit_display_name` (Boolean) Emit the user's full name as a GLAuth displayName custom attribute (rendered to LDAP displayName).
@@ -478,23 +356,21 @@ Read-Only:
 - `enable_purchase_order_upload` (Boolean) If set to True, users will be able to upload purchase orders.
 - `enable_resource_access_subnets` (Boolean) If set to True, an Access subnets tab is shown on resource detail pages, letting consumers curate the IPs allowed to reach the backend entity. The list is advisory data for external firewalls.
 - `enable_resource_end_date_change_requests` (Boolean) If set to True, users without RESOURCE.SET_END_DATE can request an end date change, and holders of that permission approve or reject. Approval writes the date directly; no order is created. Requests are published as events so an external approval system can decide instead. Not applicable to prepaid offerings, which extend through renewal instead.
-- `enable_resource_limit_change_requests` (Boolean) If set to True, users who cannot change resource limits directly (RESOURCE.SET_LIMITS together with ORDER.CREATE) can request a limit change, and holders of RESOURCE.SET_LIMITS approve or reject. Approval submits an update order for the requested limits.
 - `enable_resource_projects` (Boolean) Enable sub-project management within resources.
 - `enforce_qos` (Boolean) When enabled, the site agent enforces the offering's QoS selection by granting the chosen QoS on the SLURM association (QosLevel/DefaultQOS). When disabled (default), QoS is informational only — profiles are shown and the selection is recorded on the resource, but the agent does not touch SLURM QoS. The agent config may override this per deployment.
 - `expose_inference_playground` (Boolean) Show an in-browser inference playground action for resources of this offering (for offerings whose resources expose an OpenAI-compatible endpoint).
 - `flavors_regex` (String) Regular expression to limit flavors list
 - `gid_source` (String) Where each offering user's primary GID comes from: the POSIX ID pool (default), or the user's primary_gid attribute.
 - `heappe_cluster_id` (String) HEAppE cluster id
-- `heappe_identifier` (String) Identifier of the HEAppE instance this offering targets, e.g. 'it4i-heappe-prod'. Lets providers with multiple HEAppE deployments disambiguate which one a given offering uses.
 - `heappe_local_base_path` (String) HEAppE local base path
 - `heappe_url` (String) HEAppE url
 - `heappe_username` (String) HEAppE username
 - `highlight_backend_id_display` (Boolean) Defines if backend_id should be shown more prominently by the UI
-- `homedir_prefix` (String) Prefix of each account's home directory; the username follows.
+- `homedir_prefix` (String) GLAuth homedir prefix
 - `is_resource_termination_date_required` (Boolean) If set to True, resource termination date is required
 - `latest_date_for_resource_termination` (String) If set, it will be used as a latest date for resource termination. Format: YYYY-MM-DD
 - `lbaas_enabled` (Boolean) If True, Octavia LBaaS (load balancers) is intended to be available for tenants from this offering.
-- `login_shell` (String) Login shell assigned to GLAuth/LDAP accounts.
+- `login_shell` (String) Default login shell assigned to GLAuth/LDAP accounts.
 - `managed_rancher_load_balancer_data_volume_size_gb` (Number) Data volume size in GB for managed Rancher load balancer
 - `managed_rancher_load_balancer_data_volume_type_name` (String) Data volume type name for managed Rancher load balancer
 - `managed_rancher_load_balancer_flavor_name` (String) Flavor name for managed Rancher load balancer
@@ -546,8 +422,8 @@ Read-Only:
 - `uid_source` (String) Where each offering user's UID comes from: allocated from the POSIX ID pool (default), or taken from the user's uid_number attribute (e.g. an OIDC claim). Pair 'user_attribute' with a GID-only pool to avoid UID collisions.
 - `unique_resource_per_attribute` (String) Attribute name to enforce uniqueness per value. E.g., 'storage_data_type' ensures only one resource per storage type per project.
 - `usage_poll_interval_minutes` (Number) Interval in minutes between usage polling for this offering (default: 60)
-- `username_anonymized_prefix` (String) Prefix for anonymized usernames; the name is the prefix followed by the account's POSIX UID.
-- `username_generation_policy` (String) How the usernames of offering users are generated.
+- `username_anonymized_prefix` (String) GLAuth prefix for anonymized usernames
+- `username_generation_policy` (String) GLAuth username generation policy
 
 
 <a id="nestedatt--promotion_campaigns"></a>

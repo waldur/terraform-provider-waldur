@@ -56,7 +56,8 @@ Structure Customer data source - lookup by name or UUID
 - `household` (String) Household
 - `image` (String) Image
 - `is_service_provider` (Boolean) Is Service Provider
-- `is_service_provider_manager_only` (Boolean) True when the requesting user's only link to this organization is a role on its service provider. Such a row carries only identity fields.
+- `latitude` (Number) Latitude
+- `longitude` (Number) Longitude
 - `max_service_accounts` (Number) Maximum number of service accounts allowed
 - `name` (String) Name
 - `native_name` (String) Native Name
@@ -77,6 +78,9 @@ Structure Customer data source - lookup by name or UUID
 - `state` (String) State
 - `street` (String) Street
 - `url` (String) Url
+- `user_affiliations` (List of String) User Affiliations
+- `user_email_patterns` (List of String) User Email Patterns
+- `user_identity_sources` (List of String) User Identity Sources
 - `users_count` (Number) Number of users with access to this organization
 - `vat_code` (String) VAT number
 

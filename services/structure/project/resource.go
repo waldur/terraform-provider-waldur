@@ -23,6 +23,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+
+	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
 // Ensure provider defined types fully satisfy framework interfaces.
@@ -367,7 +369,7 @@ func (r *StructureProjectResource) Schema(ctx context.Context, req resource.Sche
 				PlanModifiers: []planmodifier.List{
 
 					listplanmodifier.UseStateForUnknown(),
-				}, MarkdownDescription: "Answers to the customer's project-metadata checklist (read-only): the latest answer per question.",
+				}, MarkdownDescription: "Answers to the customer's project-metadata checklist (read-only).",
 			},
 			"resources_count": schema.Int64Attribute{
 				Computed: true,
@@ -468,6 +470,30 @@ func (r *StructureProjectResource) Schema(ctx context.Context, req resource.Sche
 
 					stringplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "Url"},
+			"user_affiliations": schema.ListAttribute{
+				ElementType: types.StringType,
+				Optional:    true,
+				Computed:    true,
+				PlanModifiers: []planmodifier.List{
+
+					listplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "User Affiliations"},
+			"user_email_patterns": schema.ListAttribute{
+				ElementType: types.StringType,
+				Optional:    true,
+				Computed:    true,
+				PlanModifiers: []planmodifier.List{
+
+					listplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "User Email Patterns"},
+			"user_identity_sources": schema.ListAttribute{
+				ElementType: types.StringType,
+				Optional:    true,
+				Computed:    true,
+				PlanModifiers: []planmodifier.List{
+
+					listplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "User Identity Sources"},
 		},
 
 		Blocks: map[string]schema.Block{
@@ -565,6 +591,9 @@ func (r *StructureProjectResource) Create(ctx context.Context, req resource.Crea
 
 		requestBody.Type = data.Type.ValueStringPointer()
 	}
+	resp.Diagnostics.Append(common.PopulateOptionalSliceField(ctx, data.UserAffiliations, &requestBody.UserAffiliations)...)
+	resp.Diagnostics.Append(common.PopulateOptionalSliceField(ctx, data.UserEmailPatterns, &requestBody.UserEmailPatterns)...)
+	resp.Diagnostics.Append(common.PopulateOptionalSliceField(ctx, data.UserIdentitySources, &requestBody.UserIdentitySources)...)
 
 	apiResp, err := r.client.Create(ctx, &requestBody)
 	if err != nil {
@@ -705,6 +734,19 @@ func (r *StructureProjectResource) Update(ctx context.Context, req resource.Upda
 
 		requestBody.Type = data.Type.ValueStringPointer()
 	}
+	if !data.UserAffiliations.Equal(state.UserAffiliations) {
+		anyChanges = true
+	}
+	if !data.UserEmailPatterns.Equal(state.UserEmailPatterns) {
+		anyChanges = true
+	}
+	if !data.UserIdentitySources.Equal(state.UserIdentitySources) {
+		anyChanges = true
+	}
+
+	resp.Diagnostics.Append(common.PopulateOptionalSliceField(ctx, data.UserAffiliations, &requestBody.UserAffiliations)...)
+	resp.Diagnostics.Append(common.PopulateOptionalSliceField(ctx, data.UserEmailPatterns, &requestBody.UserEmailPatterns)...)
+	resp.Diagnostics.Append(common.PopulateOptionalSliceField(ctx, data.UserIdentitySources, &requestBody.UserIdentitySources)...)
 
 	if anyChanges {
 		var err error

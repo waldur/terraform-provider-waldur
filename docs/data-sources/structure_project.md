@@ -49,7 +49,7 @@ Structure Project data source - lookup by name or UUID
 - `oecd_fos_2007_code` (String) Oecd Fos 2007 Code
 - `oecd_fos_2007_label` (String) Human-readable label for the OECD FOS 2007 classification code
 - `project_credit` (Number) Project Credit
-- `project_metadata` (Attributes List) Answers to the customer's project-metadata checklist (read-only): the latest answer per question. (see [below for nested schema](#nestedatt--project_metadata))
+- `project_metadata` (Attributes List) Answers to the customer's project-metadata checklist (read-only). (see [below for nested schema](#nestedatt--project_metadata))
 - `resources_count` (Number) Number of active resources in this project
 - `science_domain_code` (String) Domain code (e.g. '1'). Auto-derived if left blank.
 - `science_domain_name` (String) Science Domain Name
@@ -65,6 +65,9 @@ Structure Project data source - lookup by name or UUID
 - `type_name` (String) Type Name
 - `type_uuid` (String) Type Uuid
 - `url` (String) Url
+- `user_affiliations` (List of String) User Affiliations
+- `user_email_patterns` (List of String) User Email Patterns
+- `user_identity_sources` (List of String) User Identity Sources
 
 <a id="nestedatt--filters"></a>
 ### Nested Schema for `filters`

@@ -1,5 +1,68 @@
 # Changelog
 
+## 2026-09-17
+
+### ⚠️ Breaking changes
+
+- `marketplace_offering`: attribute `components.default_limit` type changed from `types.Float64` to `types.Int64`
+- `marketplace_offering`: attribute `components.limit_amount` type changed from `types.Float64` to `types.Int64`
+- `marketplace_offering`: attribute `components.max_available_limit` type changed from `types.Float64` to `types.Int64`
+- `marketplace_offering`: attribute `components.max_value` type changed from `types.Float64` to `types.Int64`
+- `marketplace_offering`: attribute `components.min_value` type changed from `types.Float64` to `types.Int64`
+- `marketplace_offering`: removed attribute `account_settings`
+- `marketplace_offering`: removed attribute `billing_mode_components`
+- `marketplace_offering`: removed attribute `billing_period_applies`
+- `marketplace_offering`: removed attribute `can_update_integration`
+- `marketplace_offering`: removed attribute `can_update_options`
+- `marketplace_offering`: removed attribute `components.limit_decimal_places`
+- `marketplace_offering`: removed attribute `plans.billing_mode`
+- `marketplace_offering`: removed attribute `plans.components.billing_type`
+- `marketplace_offering`: removed attribute `plans.components.is_prepaid`
+- `marketplace_offering`: removed attribute `plans.components.limit_period`
+- `marketplace_offering`: removed attribute `plugin_options.account_scope`
+- `marketplace_offering`: removed attribute `plugin_options.enable_resource_limit_change_requests`
+- `marketplace_offering`: removed attribute `plugin_options.heappe_identifier`
+- `marketplace_offering`: removed attribute `scope_resource_name`
+- `marketplace_offering`: removed attribute `scope_resource_uuid`
+- `marketplace_offering`: removed attribute `scope_resource`
+- `marketplace_offering`: removed attribute `user_has_offering_user`
+- `marketplace_order`: removed attribute `new_plan_billing_mode`
+- `marketplace_order`: removed attribute `old_plan_billing_mode`
+- `marketplace_order`: removed attribute `resource_end_date`
+- `marketplace_resource`: attribute `offering_components.default_limit` type changed from `types.Float64` to `types.Int64`
+- `marketplace_resource`: attribute `offering_components.limit_amount` type changed from `types.Float64` to `types.Int64`
+- `marketplace_resource`: attribute `offering_components.max_available_limit` type changed from `types.Float64` to `types.Int64`
+- `marketplace_resource`: attribute `offering_components.max_value` type changed from `types.Float64` to `types.Int64`
+- `marketplace_resource`: attribute `offering_components.min_value` type changed from `types.Float64` to `types.Int64`
+- `marketplace_resource`: removed attribute `offering_account_settings`
+- `marketplace_resource`: removed attribute `offering_components.limit_decimal_places`
+- `marketplace_resource`: removed attribute `order_in_progress.new_plan_billing_mode`
+- `marketplace_resource`: removed attribute `order_in_progress.old_plan_billing_mode`
+- `marketplace_resource`: removed attribute `order_in_progress.resource_end_date`
+- `marketplace_resource`: removed attribute `project_start_date`
+- `openstack_instance`: removed attribute `ports.security_groups.instance_count`
+- `openstack_network`: removed attribute `subnets.ipv6_address_mode`
+- `openstack_network`: removed attribute `subnets.ipv6_ra_mode`
+- `openstack_security_group`: removed attribute `instance_count`
+- `openstack_subnet`: removed attribute `ipv6_address_mode`
+- `openstack_subnet`: removed attribute `ipv6_ra_mode`
+- `openstack_subnet`: removed attribute `router_name`
+- `openstack_subnet`: removed attribute `router_uuid`
+- `openstack_subnet`: removed attribute `router`
+- `openstack_subnet`: removed attribute `skip_router_connection`
+- `structure_customer`: removed attribute `is_service_provider_manager_only`
+
+### Added
+
+- `structure_customer`: new attribute `latitude`
+- `structure_customer`: new attribute `longitude`
+- `structure_customer`: new attribute `user_affiliations`
+- `structure_customer`: new attribute `user_email_patterns`
+- `structure_customer`: new attribute `user_identity_sources`
+- `structure_project`: new attribute `user_affiliations`
+- `structure_project`: new attribute `user_email_patterns`
+- `structure_project`: new attribute `user_identity_sources`
+
 ## 2026-09-15
 
 ### Added

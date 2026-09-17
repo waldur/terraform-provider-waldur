@@ -158,7 +158,7 @@ func (d *StructureProjectDataSource) Schema(ctx context.Context, req datasource.
 							Computed: true, MarkdownDescription: "Question Uuid"},
 					},
 				},
-				Computed: true, MarkdownDescription: "Answers to the customer's project-metadata checklist (read-only): the latest answer per question.",
+				Computed: true, MarkdownDescription: "Answers to the customer's project-metadata checklist (read-only).",
 			},
 			"resources_count": schema.Int64Attribute{
 				Computed: true, MarkdownDescription: "Number of active resources in this project"},
@@ -194,6 +194,15 @@ func (d *StructureProjectDataSource) Schema(ctx context.Context, req datasource.
 				Computed: true, MarkdownDescription: "Type Uuid"},
 			"url": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Url"},
+			"user_affiliations": schema.ListAttribute{
+				ElementType: types.StringType,
+				Computed:    true, MarkdownDescription: "User Affiliations"},
+			"user_email_patterns": schema.ListAttribute{
+				ElementType: types.StringType,
+				Computed:    true, MarkdownDescription: "User Email Patterns"},
+			"user_identity_sources": schema.ListAttribute{
+				ElementType: types.StringType,
+				Computed:    true, MarkdownDescription: "User Identity Sources"},
 		},
 	}
 }
