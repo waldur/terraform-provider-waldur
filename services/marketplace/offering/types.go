@@ -583,6 +583,8 @@ type MarketplaceOfferingPluginOptionsResponse struct {
 
 	EnableResourceProjects *bool `json:"enable_resource_projects,omitempty" tfsdk:"enable_resource_projects"`
 
+	EnableScimEntitlements *bool `json:"enable_scim_entitlements,omitempty" tfsdk:"enable_scim_entitlements"`
+
 	EnforceQos *bool `json:"enforce_qos,omitempty" tfsdk:"enforce_qos"`
 
 	ExposeInferencePlayground *bool `json:"expose_inference_playground,omitempty" tfsdk:"expose_inference_playground"`

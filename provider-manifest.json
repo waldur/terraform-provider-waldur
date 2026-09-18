@@ -1877,6 +1877,13 @@
               "computed": false
             },
             {
+              "name": "enable_scim_entitlements",
+              "type": "types.Bool",
+              "required": false,
+              "optional": true,
+              "computed": false
+            },
+            {
               "name": "enforce_qos",
               "type": "types.Bool",
               "required": false,

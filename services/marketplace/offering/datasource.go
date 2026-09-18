@@ -728,6 +728,8 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 						Computed: true, MarkdownDescription: "If set to True, users who cannot change resource limits directly (RESOURCE.SET_LIMITS together with ORDER.CREATE) can request a limit change, and holders of RESOURCE.SET_LIMITS approve or reject. Approval submits an update order for the requested limits."},
 					"enable_resource_projects": schema.BoolAttribute{
 						Computed: true, MarkdownDescription: "Enable sub-project management within resources."},
+					"enable_scim_entitlements": schema.BoolAttribute{
+						Computed: true, MarkdownDescription: "Include this offering in outbound SCIM user entitlement sync. When unset or false, SSH access endpoints on this offering are not pushed to the remote SCIM service even if SCIM_MEMBERSHIP_SYNC_ENABLED is on."},
 					"enforce_qos": schema.BoolAttribute{
 						Computed: true, MarkdownDescription: "When enabled, the site agent enforces the offering's QoS selection by granting the chosen QoS on the SLURM association (QosLevel/DefaultQOS). When disabled (default), QoS is informational only — profiles are shown and the selection is recorded on the resource, but the agent does not touch SLURM QoS. The agent config may override this per deployment."},
 					"expose_inference_playground": schema.BoolAttribute{

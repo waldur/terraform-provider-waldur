@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-09-18
+
+### Added
+
+- `marketplace_offering`: new attribute `plugin_options.enable_scim_entitlements`
+
 ## 2026-09-17
 
 ### ⚠️ Breaking changes
