@@ -896,6 +896,8 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 						Computed: true, MarkdownDescription: "Prefix for anonymized usernames; the name is the prefix followed by the account's POSIX UID."},
 					"username_generation_policy": schema.StringAttribute{
 						Computed: true, MarkdownDescription: "How the usernames of offering users are generated."},
+					"uses_robot_accounts": schema.BoolAttribute{
+						Computed: true, MarkdownDescription: "This offering's identity model is per-resource robot accounts rather than automatic offering users. Unset means false. Cannot be combined with service_provider_can_create_offering_user. Does not block creating robot accounts on offerings that use offering users."},
 				},
 				Computed: true, MarkdownDescription: "Plugin Options",
 			},

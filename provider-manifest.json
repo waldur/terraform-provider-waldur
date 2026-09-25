@@ -2358,6 +2358,13 @@
               "required": false,
               "optional": true,
               "computed": false
+            },
+            {
+              "name": "uses_robot_accounts",
+              "type": "types.Bool",
+              "required": false,
+              "optional": true,
+              "computed": false
             }
           ]
         },

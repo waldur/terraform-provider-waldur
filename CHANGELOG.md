@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-09-25
+
+### Added
+
+- `marketplace_offering`: new attribute `plugin_options.uses_robot_accounts`
+
 ## 2026-09-18
 
 ### Added

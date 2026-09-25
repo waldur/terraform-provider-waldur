@@ -905,6 +905,7 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 			"usage_poll_interval_minutes":                           types.Int64Type,
 			"username_anonymized_prefix":                            types.StringType,
 			"username_generation_policy":                            types.StringType,
+			"uses_robot_accounts":                                   types.BoolType,
 		}}.AttrTypes, *apiResp.PluginOptions)
 		diags.Append(diagsPluginOptions...)
 		model.PluginOptions = valPluginOptions
@@ -1011,6 +1012,7 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 			"usage_poll_interval_minutes":                           types.Int64Type,
 			"username_anonymized_prefix":                            types.StringType,
 			"username_generation_policy":                            types.StringType,
+			"uses_robot_accounts":                                   types.BoolType,
 		}}.AttrTypes)
 	}
 

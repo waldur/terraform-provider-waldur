@@ -720,6 +720,8 @@ type MarketplaceOfferingPluginOptionsResponse struct {
 	UsernameAnonymizedPrefix *string `json:"username_anonymized_prefix,omitempty" tfsdk:"username_anonymized_prefix"`
 
 	UsernameGenerationPolicy *string `json:"username_generation_policy,omitempty" tfsdk:"username_generation_policy"`
+
+	UsesRobotAccounts *bool `json:"uses_robot_accounts,omitempty" tfsdk:"uses_robot_accounts"`
 }
 
 type MarketplaceOfferingPluginOptionsResourceProjectRoleMapResponse struct {

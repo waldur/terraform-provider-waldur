@@ -549,6 +549,7 @@ Read-Only:
 - `usage_poll_interval_minutes` (Number) Interval in minutes between usage polling for this offering (default: 60)
 - `username_anonymized_prefix` (String) Prefix for anonymized usernames; the name is the prefix followed by the account's POSIX UID.
 - `username_generation_policy` (String) How the usernames of offering users are generated.
+- `uses_robot_accounts` (Boolean) This offering's identity model is per-resource robot accounts rather than automatic offering users. Unset means false. Cannot be combined with service_provider_can_create_offering_user. Does not block creating robot accounts on offerings that use offering users.
 
 
 <a id="nestedatt--promotion_campaigns"></a>
