@@ -169,6 +169,19 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 				Computed: true, MarkdownDescription: "Number of citations of a DOI"},
 			"compliance_checklist": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Compliance Checklist"},
+			"compliance_checklist_details": schema.SingleNestedAttribute{
+				Attributes: map[string]schema.Attribute{
+					"description": schema.StringAttribute{
+						Computed: true, MarkdownDescription: "Description"},
+					"name": schema.StringAttribute{
+						Computed: true, MarkdownDescription: "Name"},
+					"questions_count": schema.Int64Attribute{
+						Computed: true, MarkdownDescription: "Questions Count"},
+					"uuid": schema.StringAttribute{
+						Computed: true, MarkdownDescription: "Uuid"},
+				},
+				Computed: true, MarkdownDescription: "Compliance Checklist Details",
+			},
 			"components": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{

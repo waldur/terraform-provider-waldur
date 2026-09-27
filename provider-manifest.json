@@ -602,6 +602,43 @@
           "computed": false
         },
         {
+          "name": "compliance_checklist_details",
+          "type": "types.Object",
+          "required": false,
+          "optional": true,
+          "computed": false,
+          "attributes": [
+            {
+              "name": "description",
+              "type": "types.String",
+              "required": false,
+              "optional": true,
+              "computed": false
+            },
+            {
+              "name": "name",
+              "type": "types.String",
+              "required": false,
+              "optional": true,
+              "computed": false
+            },
+            {
+              "name": "questions_count",
+              "type": "types.Int64",
+              "required": false,
+              "optional": true,
+              "computed": false
+            },
+            {
+              "name": "uuid",
+              "type": "types.String",
+              "required": false,
+              "optional": true,
+              "computed": false
+            }
+          ]
+        },
+        {
           "name": "components",
           "type": "types.List\u003cobject\u003e",
           "required": false,

@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-09-27
+
+### Added
+
+- `marketplace_offering`: new attribute `compliance_checklist_details`
+
 ## 2026-09-25
 
 ### Added

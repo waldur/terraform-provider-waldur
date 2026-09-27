@@ -36,6 +36,8 @@ type MarketplaceOfferingResponse struct {
 
 	ComplianceChecklist *string `json:"compliance_checklist,omitempty" tfsdk:"compliance_checklist"`
 
+	ComplianceChecklistDetails *MarketplaceOfferingComplianceChecklistDetailsResponse `json:"compliance_checklist_details,omitempty" tfsdk:"compliance_checklist_details"`
+
 	Components *[]common.OfferingComponent `json:"components,omitempty" tfsdk:"components"`
 
 	ConfigDriveDefault *bool `json:"config_drive_default,omitempty" tfsdk:"config_drive_default"`
@@ -258,6 +260,16 @@ type MarketplaceOfferingBillingModeComponentsResponse struct {
 }
 
 type MarketplaceOfferingBillingPeriodAppliesResponse struct {
+}
+
+type MarketplaceOfferingComplianceChecklistDetailsResponse struct {
+	Description *string `json:"description,omitempty" tfsdk:"description"`
+
+	Name *string `json:"name,omitempty" tfsdk:"name"`
+
+	QuestionsCount *int64 `json:"questions_count,omitempty" tfsdk:"questions_count"`
+
+	Uuid *string `json:"uuid,omitempty" tfsdk:"uuid"`
 }
 
 type MarketplaceOfferingComponentsResponse struct {

@@ -35,6 +35,7 @@ Marketplace Offering data source - lookup by name or UUID
 - `category_uuid` (String) Category Uuid
 - `citation_count` (Number) Number of citations of a DOI
 - `compliance_checklist` (String) Compliance Checklist
+- `compliance_checklist_details` (Attributes) Compliance Checklist Details (see [below for nested schema](#nestedatt--compliance_checklist_details))
 - `components` (Attributes List) Components (see [below for nested schema](#nestedatt--components))
 - `config_drive_default` (Boolean) Config Drive Default
 - `country` (String) Country code (ISO 3166-1 alpha-2)
@@ -252,6 +253,17 @@ Read-Only:
 - `value` (String) The value the setting resolves to.
 
 
+
+
+<a id="nestedatt--compliance_checklist_details"></a>
+### Nested Schema for `compliance_checklist_details`
+
+Read-Only:
+
+- `description` (String) Description
+- `name` (String) Name
+- `questions_count` (Number) Questions Count
+- `uuid` (String) Uuid
 
 
 <a id="nestedatt--components"></a>
