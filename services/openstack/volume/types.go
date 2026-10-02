@@ -47,7 +47,7 @@ type OpenstackVolumeUpdateRequest struct {
 }
 
 type OpenstackVolumeExtendActionRequest struct {
-	Size *int64 `json:"size,omitempty"`
+	Size *int64 `json:"disk_size,omitempty"`
 }
 
 type OpenstackVolumeRetypeActionRequest struct {
