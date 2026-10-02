@@ -251,8 +251,6 @@ type StructureCustomerResponse struct {
 
 	IsServiceProvider *bool `json:"is_service_provider,omitempty" tfsdk:"is_service_provider"`
 
-	IsServiceProviderManagerOnly *bool `json:"is_service_provider_manager_only,omitempty" tfsdk:"is_service_provider_manager_only"`
-
 	Latitude common.FlexibleNumber `json:"latitude,omitempty" tfsdk:"latitude"`
 
 	Longitude common.FlexibleNumber `json:"longitude,omitempty" tfsdk:"longitude"`

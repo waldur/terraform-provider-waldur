@@ -217,17 +217,11 @@ func (r *OpenstackPortResource) Schema(ctx context.Context, req resource.SchemaR
 						"name": schema.StringAttribute{
 							Required: true, MarkdownDescription: "Name"},
 						"url": schema.StringAttribute{
-							Computed: true,
-							PlanModifiers: []planmodifier.String{
-
-								stringplanmodifier.UseStateForUnknown(),
-							}, MarkdownDescription: "Url"},
+							Computed:      true,
+							PlanModifiers: []planmodifier.String{}, MarkdownDescription: "Url"},
 						"uuid": schema.StringAttribute{
-							Computed: true,
-							PlanModifiers: []planmodifier.String{
-
-								stringplanmodifier.UseStateForUnknown(),
-							}, MarkdownDescription: "Uuid"},
+							Computed:      true,
+							PlanModifiers: []planmodifier.String{}, MarkdownDescription: "Uuid"},
 					},
 				},
 				Optional: true,
@@ -235,6 +229,7 @@ func (r *OpenstackPortResource) Schema(ctx context.Context, req resource.SchemaR
 				PlanModifiers: []planmodifier.Set{
 
 					setplanmodifier.UseStateForUnknown(),
+					common.SetElementsFromState{Keys: []string{"name"}},
 				}, MarkdownDescription: "Security Groups",
 			},
 			"state": schema.StringAttribute{

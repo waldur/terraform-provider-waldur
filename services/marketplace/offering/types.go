@@ -10,23 +10,13 @@ type MarketplaceOfferingCreateRequest struct {
 type MarketplaceOfferingResponse struct {
 	UUID *string `json:"uuid"`
 
-	AccountSettings *MarketplaceOfferingAccountSettingsResponse `json:"account_settings,omitempty" tfsdk:"account_settings"`
-
 	Attributes common.JSONStringMap `json:"attributes,omitempty" tfsdk:"attributes"`
 
 	BackendId *string `json:"backend_id,omitempty" tfsdk:"backend_id"`
 
 	Billable *bool `json:"billable,omitempty" tfsdk:"billable"`
 
-	BillingModeComponents common.JSONStringMap `json:"billing_mode_components,omitempty" tfsdk:"billing_mode_components"`
-
-	BillingPeriodApplies map[string]interface{} `json:"billing_period_applies,omitempty" tfsdk:"billing_period_applies"`
-
 	BillingTypeClassification *string `json:"billing_type_classification,omitempty" tfsdk:"billing_type_classification"`
-
-	CanUpdateIntegration *bool `json:"can_update_integration,omitempty" tfsdk:"can_update_integration"`
-
-	CanUpdateOptions *bool `json:"can_update_options,omitempty" tfsdk:"can_update_options"`
 
 	Category *string `json:"category,omitempty" tfsdk:"category"`
 
@@ -35,8 +25,6 @@ type MarketplaceOfferingResponse struct {
 	CitationCount *int64 `json:"citation_count,omitempty" tfsdk:"citation_count"`
 
 	ComplianceChecklist *string `json:"compliance_checklist,omitempty" tfsdk:"compliance_checklist"`
-
-	ComplianceChecklistDetails *MarketplaceOfferingComplianceChecklistDetailsResponse `json:"compliance_checklist_details,omitempty" tfsdk:"compliance_checklist_details"`
 
 	Components *[]common.OfferingComponent `json:"components,omitempty" tfsdk:"components"`
 
@@ -130,12 +118,6 @@ type MarketplaceOfferingResponse struct {
 
 	ScopeName *string `json:"scope_name,omitempty" tfsdk:"scope_name"`
 
-	ScopeResource *string `json:"scope_resource,omitempty" tfsdk:"scope_resource"`
-
-	ScopeResourceName *string `json:"scope_resource_name,omitempty" tfsdk:"scope_resource_name"`
-
-	ScopeResourceUuid *string `json:"scope_resource_uuid,omitempty" tfsdk:"scope_resource_uuid"`
-
 	ScopeState *string `json:"scope_state,omitempty" tfsdk:"scope_state"`
 
 	ScopeUuid *string `json:"scope_uuid,omitempty" tfsdk:"scope_uuid"`
@@ -166,110 +148,10 @@ type MarketplaceOfferingResponse struct {
 
 	UserHasConsent *bool `json:"user_has_consent,omitempty" tfsdk:"user_has_consent"`
 
-	UserHasOfferingUser *bool `json:"user_has_offering_user,omitempty" tfsdk:"user_has_offering_user"`
-
 	VendorDetails *string `json:"vendor_details,omitempty" tfsdk:"vendor_details"`
 }
 
-type MarketplaceOfferingAccountSettingsResponse struct {
-	AccountScope *common.AccountSetting `json:"account_scope,omitempty" tfsdk:"account_scope"`
-
-	HomedirPrefix *common.AccountSetting `json:"homedir_prefix,omitempty" tfsdk:"homedir_prefix"`
-
-	LoginShell *common.AccountSetting `json:"login_shell,omitempty" tfsdk:"login_shell"`
-
-	UsernameAnonymizedPrefix *common.AccountSetting `json:"username_anonymized_prefix,omitempty" tfsdk:"username_anonymized_prefix"`
-
-	UsernameGenerationPolicy *common.AccountSetting `json:"username_generation_policy,omitempty" tfsdk:"username_generation_policy"`
-}
-
-type MarketplaceOfferingAccountSettingsAccountScopeResponse struct {
-	Inherited *MarketplaceOfferingAccountSettingsAccountScopeInheritedResponse `json:"inherited,omitempty" tfsdk:"inherited"`
-
-	Source *string `json:"source,omitempty" tfsdk:"source"`
-
-	Value *string `json:"value,omitempty" tfsdk:"value"`
-}
-
-type MarketplaceOfferingAccountSettingsAccountScopeInheritedResponse struct {
-	Source *string `json:"source,omitempty" tfsdk:"source"`
-
-	Value *string `json:"value,omitempty" tfsdk:"value"`
-}
-
-type MarketplaceOfferingAccountSettingsHomedirPrefixResponse struct {
-	Inherited *MarketplaceOfferingAccountSettingsHomedirPrefixInheritedResponse `json:"inherited,omitempty" tfsdk:"inherited"`
-
-	Source *string `json:"source,omitempty" tfsdk:"source"`
-
-	Value *string `json:"value,omitempty" tfsdk:"value"`
-}
-
-type MarketplaceOfferingAccountSettingsHomedirPrefixInheritedResponse struct {
-	Source *string `json:"source,omitempty" tfsdk:"source"`
-
-	Value *string `json:"value,omitempty" tfsdk:"value"`
-}
-
-type MarketplaceOfferingAccountSettingsLoginShellResponse struct {
-	Inherited *MarketplaceOfferingAccountSettingsLoginShellInheritedResponse `json:"inherited,omitempty" tfsdk:"inherited"`
-
-	Source *string `json:"source,omitempty" tfsdk:"source"`
-
-	Value *string `json:"value,omitempty" tfsdk:"value"`
-}
-
-type MarketplaceOfferingAccountSettingsLoginShellInheritedResponse struct {
-	Source *string `json:"source,omitempty" tfsdk:"source"`
-
-	Value *string `json:"value,omitempty" tfsdk:"value"`
-}
-
-type MarketplaceOfferingAccountSettingsUsernameAnonymizedPrefixResponse struct {
-	Inherited *MarketplaceOfferingAccountSettingsUsernameAnonymizedPrefixInheritedResponse `json:"inherited,omitempty" tfsdk:"inherited"`
-
-	Source *string `json:"source,omitempty" tfsdk:"source"`
-
-	Value *string `json:"value,omitempty" tfsdk:"value"`
-}
-
-type MarketplaceOfferingAccountSettingsUsernameAnonymizedPrefixInheritedResponse struct {
-	Source *string `json:"source,omitempty" tfsdk:"source"`
-
-	Value *string `json:"value,omitempty" tfsdk:"value"`
-}
-
-type MarketplaceOfferingAccountSettingsUsernameGenerationPolicyResponse struct {
-	Inherited *MarketplaceOfferingAccountSettingsUsernameGenerationPolicyInheritedResponse `json:"inherited,omitempty" tfsdk:"inherited"`
-
-	Source *string `json:"source,omitempty" tfsdk:"source"`
-
-	Value *string `json:"value,omitempty" tfsdk:"value"`
-}
-
-type MarketplaceOfferingAccountSettingsUsernameGenerationPolicyInheritedResponse struct {
-	Source *string `json:"source,omitempty" tfsdk:"source"`
-
-	Value *string `json:"value,omitempty" tfsdk:"value"`
-}
-
 type MarketplaceOfferingAttributesResponse struct {
-}
-
-type MarketplaceOfferingBillingModeComponentsResponse struct {
-}
-
-type MarketplaceOfferingBillingPeriodAppliesResponse struct {
-}
-
-type MarketplaceOfferingComplianceChecklistDetailsResponse struct {
-	Description *string `json:"description,omitempty" tfsdk:"description"`
-
-	Name *string `json:"name,omitempty" tfsdk:"name"`
-
-	QuestionsCount *int64 `json:"questions_count,omitempty" tfsdk:"questions_count"`
-
-	Uuid *string `json:"uuid,omitempty" tfsdk:"uuid"`
 }
 
 type MarketplaceOfferingComponentsResponse struct {
@@ -277,7 +159,7 @@ type MarketplaceOfferingComponentsResponse struct {
 
 	BillingType *string `json:"billing_type,omitempty" tfsdk:"billing_type"`
 
-	DefaultLimit common.FlexibleNumber `json:"default_limit,omitempty" tfsdk:"default_limit"`
+	DefaultLimit *int64 `json:"default_limit,omitempty" tfsdk:"default_limit"`
 
 	Description *string `json:"description,omitempty" tfsdk:"description"`
 
@@ -289,19 +171,17 @@ type MarketplaceOfferingComponentsResponse struct {
 
 	IsPrepaid *bool `json:"is_prepaid,omitempty" tfsdk:"is_prepaid"`
 
-	LimitAmount common.FlexibleNumber `json:"limit_amount,omitempty" tfsdk:"limit_amount"`
-
-	LimitDecimalPlaces *int64 `json:"limit_decimal_places,omitempty" tfsdk:"limit_decimal_places"`
+	LimitAmount *int64 `json:"limit_amount,omitempty" tfsdk:"limit_amount"`
 
 	LimitPeriod *string `json:"limit_period,omitempty" tfsdk:"limit_period"`
 
-	MaxAvailableLimit common.FlexibleNumber `json:"max_available_limit,omitempty" tfsdk:"max_available_limit"`
+	MaxAvailableLimit *int64 `json:"max_available_limit,omitempty" tfsdk:"max_available_limit"`
 
 	MaxPrepaidDuration *int64 `json:"max_prepaid_duration,omitempty" tfsdk:"max_prepaid_duration"`
 
 	MaxRenewalDuration *int64 `json:"max_renewal_duration,omitempty" tfsdk:"max_renewal_duration"`
 
-	MaxValue common.FlexibleNumber `json:"max_value,omitempty" tfsdk:"max_value"`
+	MaxValue *int64 `json:"max_value,omitempty" tfsdk:"max_value"`
 
 	MeasuredUnit *string `json:"measured_unit,omitempty" tfsdk:"measured_unit"`
 
@@ -309,7 +189,7 @@ type MarketplaceOfferingComponentsResponse struct {
 
 	MinRenewalDuration *int64 `json:"min_renewal_duration,omitempty" tfsdk:"min_renewal_duration"`
 
-	MinValue common.FlexibleNumber `json:"min_value,omitempty" tfsdk:"min_value"`
+	MinValue *int64 `json:"min_value,omitempty" tfsdk:"min_value"`
 
 	Name *string `json:"name,omitempty" tfsdk:"name"`
 
@@ -442,8 +322,6 @@ type MarketplaceOfferingPlansResponse struct {
 
 	BackendId *string `json:"backend_id,omitempty" tfsdk:"backend_id"`
 
-	BillingMode *string `json:"billing_mode,omitempty" tfsdk:"billing_mode"`
-
 	Components *[]common.NestedPlanComponent `json:"components,omitempty" tfsdk:"components"`
 
 	Description *string `json:"description,omitempty" tfsdk:"description"`
@@ -482,8 +360,6 @@ type MarketplaceOfferingPlansResponse struct {
 type MarketplaceOfferingPlansComponentsResponse struct {
 	Amount *int64 `json:"amount,omitempty" tfsdk:"amount"`
 
-	BillingType *string `json:"billing_type,omitempty" tfsdk:"billing_type"`
-
 	DiscountAggregation *string `json:"discount_aggregation,omitempty" tfsdk:"discount_aggregation"`
 
 	DiscountDescription *string `json:"discount_description,omitempty" tfsdk:"discount_description"`
@@ -491,10 +367,6 @@ type MarketplaceOfferingPlansComponentsResponse struct {
 	DiscountFormula *string `json:"discount_formula,omitempty" tfsdk:"discount_formula"`
 
 	FuturePrice *string `json:"future_price,omitempty" tfsdk:"future_price"`
-
-	IsPrepaid *bool `json:"is_prepaid,omitempty" tfsdk:"is_prepaid"`
-
-	LimitPeriod *string `json:"limit_period,omitempty" tfsdk:"limit_period"`
 
 	MeasuredUnit *string `json:"measured_unit,omitempty" tfsdk:"measured_unit"`
 
@@ -531,8 +403,6 @@ type MarketplaceOfferingPlansQuotasResponse struct {
 }
 
 type MarketplaceOfferingPluginOptionsResponse struct {
-	AccountScope *string `json:"account_scope,omitempty" tfsdk:"account_scope"`
-
 	ActionOnUsageLimit *string `json:"action_on_usage_limit,omitempty" tfsdk:"action_on_usage_limit"`
 
 	AutoApproveForRoles *[]string `json:"auto_approve_for_roles,omitempty" tfsdk:"auto_approve_for_roles"`
@@ -575,8 +445,6 @@ type MarketplaceOfferingPluginOptionsResponse struct {
 
 	EmitWaldurUsername *bool `json:"emit_waldur_username,omitempty" tfsdk:"emit_waldur_username"`
 
-	EnableApiKeyProvisioning *bool `json:"enable_api_key_provisioning,omitempty" tfsdk:"enable_api_key_provisioning"`
-
 	EnableDisplayOfOrderActionsForServiceProvider *bool `json:"enable_display_of_order_actions_for_service_provider,omitempty" tfsdk:"enable_display_of_order_actions_for_service_provider"`
 
 	EnableIssuesForMembershipChanges *bool `json:"enable_issues_for_membership_changes,omitempty" tfsdk:"enable_issues_for_membership_changes"`
@@ -593,11 +461,7 @@ type MarketplaceOfferingPluginOptionsResponse struct {
 
 	EnableResourceEndDateChangeRequests *bool `json:"enable_resource_end_date_change_requests,omitempty" tfsdk:"enable_resource_end_date_change_requests"`
 
-	EnableResourceLimitChangeRequests *bool `json:"enable_resource_limit_change_requests,omitempty" tfsdk:"enable_resource_limit_change_requests"`
-
 	EnableResourceProjects *bool `json:"enable_resource_projects,omitempty" tfsdk:"enable_resource_projects"`
-
-	EnableScimEntitlements *bool `json:"enable_scim_entitlements,omitempty" tfsdk:"enable_scim_entitlements"`
 
 	EnforceQos *bool `json:"enforce_qos,omitempty" tfsdk:"enforce_qos"`
 
@@ -609,15 +473,11 @@ type MarketplaceOfferingPluginOptionsResponse struct {
 
 	HeappeClusterId *string `json:"heappe_cluster_id,omitempty" tfsdk:"heappe_cluster_id"`
 
-	HeappeIdentifier *string `json:"heappe_identifier,omitempty" tfsdk:"heappe_identifier"`
-
 	HeappeLocalBasePath *string `json:"heappe_local_base_path,omitempty" tfsdk:"heappe_local_base_path"`
 
 	HeappeUrl *string `json:"heappe_url,omitempty" tfsdk:"heappe_url"`
 
 	HeappeUsername *string `json:"heappe_username,omitempty" tfsdk:"heappe_username"`
-
-	HideApiKeysTab *bool `json:"hide_api_keys_tab,omitempty" tfsdk:"hide_api_keys_tab"`
 
 	HighlightBackendIdDisplay *bool `json:"highlight_backend_id_display,omitempty" tfsdk:"highlight_backend_id_display"`
 
@@ -736,8 +596,6 @@ type MarketplaceOfferingPluginOptionsResponse struct {
 	UsernameAnonymizedPrefix *string `json:"username_anonymized_prefix,omitempty" tfsdk:"username_anonymized_prefix"`
 
 	UsernameGenerationPolicy *string `json:"username_generation_policy,omitempty" tfsdk:"username_generation_policy"`
-
-	UsesRobotAccounts *bool `json:"uses_robot_accounts,omitempty" tfsdk:"uses_robot_accounts"`
 }
 
 type MarketplaceOfferingPluginOptionsResourceProjectRoleMapResponse struct {
@@ -847,8 +705,6 @@ type MarketplaceOfferingSoftwareCatalogsCatalogResponse struct {
 	Description *string `json:"description,omitempty" tfsdk:"description"`
 
 	Name *string `json:"name,omitempty" tfsdk:"name"`
-
-	SupportsCpuTargetRestrictions *bool `json:"supports_cpu_target_restrictions,omitempty" tfsdk:"supports_cpu_target_restrictions"`
 
 	Uuid *string `json:"uuid,omitempty" tfsdk:"uuid"`
 

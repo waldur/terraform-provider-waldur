@@ -72,7 +72,6 @@ resource "waldur_marketplace_resource" "example" {
 - `last_sync` (String) Last Sync
 - `limit_usage` (Map of Number) Dictionary mapping limit-based component types to their consumed usage. Sums the ComponentUsage rows of the component's current period (the monthly billing period unless the component defines a longer limit_period), i.e. the period's high-watermark rather than the instantaneous current_usages value.
 - `limits` (Map of Number) Limits
-- `offering_account_settings` (Attributes) Offering Account Settings (see [below for nested schema](#nestedatt--offering_account_settings))
 - `offering_backend_id` (String) Offering Backend Id
 - `offering_billable` (Boolean) Purchase and usage is invoiced.
 - `offering_components` (Attributes List) Offering Components (see [below for nested schema](#nestedatt--offering_components))
@@ -103,7 +102,6 @@ resource "waldur_marketplace_resource" "example" {
 - `project_end_date_requested_by` (String) Project End Date Requested By
 - `project_is_in_grace_period` (Boolean) True if the project is past its end date but still within the grace period.
 - `project_slug` (String) Project Slug
-- `project_start_date` (String) Project Start Date
 - `provider_description` (String) Provider Description
 - `provider_name` (String) Provider Name
 - `provider_slug` (String) Provider Slug
@@ -144,113 +142,6 @@ Read-Only:
 - `uuid` (String) Uuid
 
 
-<a id="nestedatt--offering_account_settings"></a>
-### Nested Schema for `offering_account_settings`
-
-Optional:
-
-- `account_scope` (Attributes) Account Scope (see [below for nested schema](#nestedatt--offering_account_settings--account_scope))
-- `homedir_prefix` (Attributes) Homedir Prefix (see [below for nested schema](#nestedatt--offering_account_settings--homedir_prefix))
-- `login_shell` (Attributes) Login Shell (see [below for nested schema](#nestedatt--offering_account_settings--login_shell))
-- `username_anonymized_prefix` (Attributes) Username Anonymized Prefix (see [below for nested schema](#nestedatt--offering_account_settings--username_anonymized_prefix))
-- `username_generation_policy` (Attributes) Username Generation Policy (see [below for nested schema](#nestedatt--offering_account_settings--username_generation_policy))
-
-<a id="nestedatt--offering_account_settings--account_scope"></a>
-### Nested Schema for `offering_account_settings.account_scope`
-
-Optional:
-
-- `inherited` (Attributes) What the setting resolves to without the offering's own value: the service provider's, else the built-in default. Removing the offering's override leads to it. (see [below for nested schema](#nestedatt--offering_account_settings--account_scope--inherited))
-- `source` (String) Where the value comes from: the offering's own plugin option, the service provider's account options, or the built-in default.
-- `value` (String) The value the setting resolves to.
-
-<a id="nestedatt--offering_account_settings--account_scope--inherited"></a>
-### Nested Schema for `offering_account_settings.account_scope.inherited`
-
-Optional:
-
-- `source` (String) Where the value comes from: the offering's own plugin option, the service provider's account options, or the built-in default.
-- `value` (String) The value the setting resolves to.
-
-
-
-<a id="nestedatt--offering_account_settings--homedir_prefix"></a>
-### Nested Schema for `offering_account_settings.homedir_prefix`
-
-Optional:
-
-- `inherited` (Attributes) What the setting resolves to without the offering's own value: the service provider's, else the built-in default. Removing the offering's override leads to it. (see [below for nested schema](#nestedatt--offering_account_settings--homedir_prefix--inherited))
-- `source` (String) Where the value comes from: the offering's own plugin option, the service provider's account options, or the built-in default.
-- `value` (String) The value the setting resolves to.
-
-<a id="nestedatt--offering_account_settings--homedir_prefix--inherited"></a>
-### Nested Schema for `offering_account_settings.homedir_prefix.inherited`
-
-Optional:
-
-- `source` (String) Where the value comes from: the offering's own plugin option, the service provider's account options, or the built-in default.
-- `value` (String) The value the setting resolves to.
-
-
-
-<a id="nestedatt--offering_account_settings--login_shell"></a>
-### Nested Schema for `offering_account_settings.login_shell`
-
-Optional:
-
-- `inherited` (Attributes) What the setting resolves to without the offering's own value: the service provider's, else the built-in default. Removing the offering's override leads to it. (see [below for nested schema](#nestedatt--offering_account_settings--login_shell--inherited))
-- `source` (String) Where the value comes from: the offering's own plugin option, the service provider's account options, or the built-in default.
-- `value` (String) The value the setting resolves to.
-
-<a id="nestedatt--offering_account_settings--login_shell--inherited"></a>
-### Nested Schema for `offering_account_settings.login_shell.inherited`
-
-Optional:
-
-- `source` (String) Where the value comes from: the offering's own plugin option, the service provider's account options, or the built-in default.
-- `value` (String) The value the setting resolves to.
-
-
-
-<a id="nestedatt--offering_account_settings--username_anonymized_prefix"></a>
-### Nested Schema for `offering_account_settings.username_anonymized_prefix`
-
-Optional:
-
-- `inherited` (Attributes) What the setting resolves to without the offering's own value: the service provider's, else the built-in default. Removing the offering's override leads to it. (see [below for nested schema](#nestedatt--offering_account_settings--username_anonymized_prefix--inherited))
-- `source` (String) Where the value comes from: the offering's own plugin option, the service provider's account options, or the built-in default.
-- `value` (String) The value the setting resolves to.
-
-<a id="nestedatt--offering_account_settings--username_anonymized_prefix--inherited"></a>
-### Nested Schema for `offering_account_settings.username_anonymized_prefix.inherited`
-
-Optional:
-
-- `source` (String) Where the value comes from: the offering's own plugin option, the service provider's account options, or the built-in default.
-- `value` (String) The value the setting resolves to.
-
-
-
-<a id="nestedatt--offering_account_settings--username_generation_policy"></a>
-### Nested Schema for `offering_account_settings.username_generation_policy`
-
-Optional:
-
-- `inherited` (Attributes) What the setting resolves to without the offering's own value: the service provider's, else the built-in default. Removing the offering's override leads to it. (see [below for nested schema](#nestedatt--offering_account_settings--username_generation_policy--inherited))
-- `source` (String) Where the value comes from: the offering's own plugin option, the service provider's account options, or the built-in default.
-- `value` (String) The value the setting resolves to.
-
-<a id="nestedatt--offering_account_settings--username_generation_policy--inherited"></a>
-### Nested Schema for `offering_account_settings.username_generation_policy.inherited`
-
-Optional:
-
-- `source` (String) Where the value comes from: the offering's own plugin option, the service provider's account options, or the built-in default.
-- `value` (String) The value the setting resolves to.
-
-
-
-
 <a id="nestedatt--offering_components"></a>
 ### Nested Schema for `offering_components`
 
@@ -263,7 +154,6 @@ Optional:
 - `is_boolean` (Boolean) Is Boolean
 - `is_prepaid` (Boolean) Is Prepaid
 - `limit_amount` (Number) Limit Amount
-- `limit_decimal_places` (Number) Number of decimal places accepted for this component's limit. 0 keeps the limit integer-only.
 - `limit_period` (String) Limit Period
 - `max_available_limit` (Number) Max Available Limit
 - `max_prepaid_duration` (Number) Max Prepaid Duration
@@ -283,7 +173,7 @@ Optional:
 Read-Only:
 
 - `factor` (Number) Factor
-- `is_builtin` (Boolean) The API's older name for ``billed_per_plan``. It used to ask the plugin registry whether this component's type is one the plugin declares, which left out the OpenStack per-volume-type quotas: they are created by the volume type sync rather than declared, so the API called them provider components while the billing resolver treated them as builtin. Reading the stored flag makes the two agree.
+- `is_builtin` (Boolean) Is Builtin
 - `offering_uuid` (String) Offering Uuid
 - `uuid` (String) Uuid
 
@@ -342,7 +232,6 @@ Read-Only:
 - `issue` (Attributes) Issue (see [below for nested schema](#nestedatt--order_in_progress--issue))
 - `marketplace_resource_uuid` (String) Marketplace Resource Uuid
 - `new_cost_estimate` (String) New Cost Estimate
-- `new_plan_billing_mode` (String) New Plan Billing Mode
 - `new_plan_name` (String) New Plan Name
 - `new_plan_uuid` (String) New Plan Uuid
 - `offering_billable` (Boolean) Purchase and usage is invoiced.
@@ -353,8 +242,7 @@ Read-Only:
 - `offering_thumbnail` (String) Offering Thumbnail
 - `offering_type` (String) Offering Type
 - `offering_uuid` (String) Offering Uuid
-- `old_cost_estimate` (Number) The old-limits estimate, snapshotted by init_cost() at creation. Must not recompute live: _compute_old_cost_estimate() prices from \"today\", which keeps advancing on every read while `cost` stays fixed from creation -- the shown cost change would grow the longer an order sits unread. Orders that predate this field have no snapshot, so they fall back to the live computation rather than a wrong zero.
-- `old_plan_billing_mode` (String) Old Plan Billing Mode
+- `old_cost_estimate` (Number) Old Cost Estimate
 - `old_plan_name` (String) Old Plan Name
 - `old_plan_uuid` (String) Old Plan Uuid
 - `order_subtype` (String) Order Subtype
@@ -376,7 +264,6 @@ Read-Only:
 - `provider_reviewed_by_username` (String) Required. 128 characters or fewer. Lowercase letters, numbers and @/./+/-/_ characters
 - `provider_slug` (String) Provider Slug
 - `provider_uuid` (String) Provider Uuid
-- `resource_end_date` (String) Resource End Date
 - `resource_name` (String) Resource Name
 - `resource_type` (String) Resource Type
 - `resource_uuid` (String) Resource Uuid

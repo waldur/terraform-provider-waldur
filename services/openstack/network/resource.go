@@ -257,7 +257,7 @@ func (r *OpenstackNetworkResource) Schema(ctx context.Context, req resource.Sche
 							PlanModifiers: []planmodifier.String{
 
 								stringplanmodifier.UseStateForUnknown(),
-							}, MarkdownDescription: "Network address in CIDR format (e.g. 192.168.0.0/24 or 2001:db8::/64)"},
+							}, MarkdownDescription: "IPv4 network address in CIDR format (e.g. 192.168.0.0/24)"},
 						"description": schema.StringAttribute{
 							Optional: true,
 							Computed: true,
@@ -290,18 +290,6 @@ func (r *OpenstackNetworkResource) Schema(ctx context.Context, req resource.Sche
 								int64validator.AtLeast(-32768),
 								int64validator.AtMost(32767),
 							}},
-						"ipv6_address_mode": schema.StringAttribute{
-							Computed: true,
-							PlanModifiers: []planmodifier.String{
-
-								stringplanmodifier.UseStateForUnknown(),
-							}, MarkdownDescription: "Ipv6 Address Mode"},
-						"ipv6_ra_mode": schema.StringAttribute{
-							Computed: true,
-							PlanModifiers: []planmodifier.String{
-
-								stringplanmodifier.UseStateForUnknown(),
-							}, MarkdownDescription: "Ipv6 Ra Mode"},
 						"name": schema.StringAttribute{
 							Optional: true,
 							Computed: true,

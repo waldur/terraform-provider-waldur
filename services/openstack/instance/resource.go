@@ -236,84 +236,54 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 						"subnet": schema.StringAttribute{
 							Required: true, MarkdownDescription: "Subnet"},
 						"url": schema.StringAttribute{
-							Computed: true,
-							PlanModifiers: []planmodifier.String{
-
-								stringplanmodifier.UseStateForUnknown(),
-							}, MarkdownDescription: "Url"},
+							Optional:      true,
+							Computed:      true,
+							PlanModifiers: []planmodifier.String{}, MarkdownDescription: "Url"},
 						"address": schema.StringAttribute{
-							Computed: true,
-							PlanModifiers: []planmodifier.String{
-
-								stringplanmodifier.UseStateForUnknown(),
-							}, MarkdownDescription: "The public IPv4 address of the floating IP"},
+							Computed:      true,
+							PlanModifiers: []planmodifier.String{}, MarkdownDescription: "The public IPv4 address of the floating IP"},
 						"port_fixed_ips": schema.ListNestedAttribute{
 							NestedObject: schema.NestedAttributeObject{
 								Attributes: map[string]schema.Attribute{
 									"ip_address": schema.StringAttribute{
-										Optional: true,
-										Computed: true,
-										PlanModifiers: []planmodifier.String{
-
-											stringplanmodifier.UseStateForUnknown(),
-										}, MarkdownDescription: "IP address to assign to the port"},
+										Optional:      true,
+										Computed:      true,
+										PlanModifiers: []planmodifier.String{}, MarkdownDescription: "IP address to assign to the port"},
 									"subnet_id": schema.StringAttribute{
-										Optional: true,
-										Computed: true,
-										PlanModifiers: []planmodifier.String{
-
-											stringplanmodifier.UseStateForUnknown(),
-										}, MarkdownDescription: "ID of the subnet in which to assign the IP address"},
+										Optional:      true,
+										Computed:      true,
+										PlanModifiers: []planmodifier.String{}, MarkdownDescription: "ID of the subnet in which to assign the IP address"},
 								},
 							},
-							Computed: true,
-							PlanModifiers: []planmodifier.List{
-
-								listplanmodifier.UseStateForUnknown(),
-							}, MarkdownDescription: "Port Fixed Ips",
+							Computed:      true,
+							PlanModifiers: []planmodifier.List{}, MarkdownDescription: "Port Fixed Ips",
 						},
 						"port_mac_address": schema.StringAttribute{
-							Computed: true,
-							PlanModifiers: []planmodifier.String{
-
-								stringplanmodifier.UseStateForUnknown(),
-							}, MarkdownDescription: "MAC address of the port"},
+							Computed:      true,
+							PlanModifiers: []planmodifier.String{}, MarkdownDescription: "MAC address of the port"},
 						"subnet_cidr": schema.StringAttribute{
-							Computed: true,
-							PlanModifiers: []planmodifier.String{
-
-								stringplanmodifier.UseStateForUnknown(),
-							}, MarkdownDescription: "Network address in CIDR format (e.g. 192.168.0.0/24 or 2001:db8::/64)"},
+							Computed:      true,
+							PlanModifiers: []planmodifier.String{}, MarkdownDescription: "IPv4 network address in CIDR format (e.g. 192.168.0.0/24)"},
 						"subnet_description": schema.StringAttribute{
-							Computed: true,
-							PlanModifiers: []planmodifier.String{
-
-								stringplanmodifier.UseStateForUnknown(),
-							}, MarkdownDescription: "Subnet Description"},
+							Computed:      true,
+							PlanModifiers: []planmodifier.String{}, MarkdownDescription: "Subnet Description"},
 						"subnet_name": schema.StringAttribute{
-							Computed: true,
-							PlanModifiers: []planmodifier.String{
-
-								stringplanmodifier.UseStateForUnknown(),
-							}, MarkdownDescription: "Subnet Name"},
+							Computed:      true,
+							PlanModifiers: []planmodifier.String{}, MarkdownDescription: "Subnet Name"},
 						"subnet_uuid": schema.StringAttribute{
-							Computed: true,
-							PlanModifiers: []planmodifier.String{
-
-								stringplanmodifier.UseStateForUnknown(),
-							}, MarkdownDescription: "Subnet Uuid"},
+							Computed:      true,
+							PlanModifiers: []planmodifier.String{}, MarkdownDescription: "Subnet Uuid"},
 						"uuid": schema.StringAttribute{
-							Computed: true,
-							PlanModifiers: []planmodifier.String{
-
-								stringplanmodifier.UseStateForUnknown(),
-							}, MarkdownDescription: "Uuid"},
+							Computed:      true,
+							PlanModifiers: []planmodifier.String{}, MarkdownDescription: "Uuid"},
 					},
 				},
+				Optional: true,
 				Computed: true,
 				PlanModifiers: []planmodifier.Set{
 
 					setplanmodifier.UseStateForUnknown(),
+					common.SetElementsFromState{Keys: []string{"ip_address", "subnet", "url"}},
 				}, MarkdownDescription: "Floating IPs to assign to the instance",
 			},
 			"hypervisor_hostname": schema.StringAttribute{
@@ -475,197 +445,110 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 							NestedObject: schema.NestedAttributeObject{
 								Attributes: map[string]schema.Attribute{
 									"backend_id": schema.StringAttribute{
-										Computed: true,
-										PlanModifiers: []planmodifier.String{
-
-											stringplanmodifier.UseStateForUnknown(),
-										}, MarkdownDescription: "Backend Id"},
+										Computed:      true,
+										PlanModifiers: []planmodifier.String{}, MarkdownDescription: "Backend Id"},
 									"customer": schema.StringAttribute{
-										Computed: true,
-										PlanModifiers: []planmodifier.String{
-
-											stringplanmodifier.UseStateForUnknown(),
-										}, MarkdownDescription: "Customer"},
+										Computed:      true,
+										PlanModifiers: []planmodifier.String{}, MarkdownDescription: "Customer"},
 									"description": schema.StringAttribute{
-										Optional: true,
-										Computed: true,
-										PlanModifiers: []planmodifier.String{
-
-											stringplanmodifier.UseStateForUnknown(),
-										}, MarkdownDescription: "Description"},
+										Optional:      true,
+										Computed:      true,
+										PlanModifiers: []planmodifier.String{}, MarkdownDescription: "Description"},
 									"error_message": schema.StringAttribute{
-										Computed: true,
-										PlanModifiers: []planmodifier.String{
-
-											stringplanmodifier.UseStateForUnknown(),
-										}, MarkdownDescription: "Error Message"},
-									"instance_count": schema.Int64Attribute{
-										Computed: true,
-										PlanModifiers: []planmodifier.Int64{
-
-											int64planmodifier.UseStateForUnknown(),
-										}, MarkdownDescription: "Number of instances the security group is attached to. It is annotated by the security group endpoints only, so it is null when the group is rendered as a nested object."},
+										Computed:      true,
+										PlanModifiers: []planmodifier.String{}, MarkdownDescription: "Error Message"},
 									"marketplace_offering_type": schema.StringAttribute{
-										Computed: true,
-										PlanModifiers: []planmodifier.String{
-
-											stringplanmodifier.UseStateForUnknown(),
-										}, MarkdownDescription: "Marketplace Offering Type"},
+										Computed:      true,
+										PlanModifiers: []planmodifier.String{}, MarkdownDescription: "Marketplace Offering Type"},
 									"marketplace_resource_uuid": schema.StringAttribute{
-										Computed: true,
-										PlanModifiers: []planmodifier.String{
-
-											stringplanmodifier.UseStateForUnknown(),
-										}, MarkdownDescription: "Marketplace Resource Uuid"},
+										Computed:      true,
+										PlanModifiers: []planmodifier.String{}, MarkdownDescription: "Marketplace Resource Uuid"},
 									"name": schema.StringAttribute{
-										Optional: true,
-										Computed: true,
-										PlanModifiers: []planmodifier.String{
-
-											stringplanmodifier.UseStateForUnknown(),
-										}, MarkdownDescription: "Name"},
+										Optional:      true,
+										Computed:      true,
+										PlanModifiers: []planmodifier.String{}, MarkdownDescription: "Name"},
 									"project": schema.StringAttribute{
-										Computed: true,
-										PlanModifiers: []planmodifier.String{
-
-											stringplanmodifier.UseStateForUnknown(),
-										}, MarkdownDescription: "Project"},
+										Computed:      true,
+										PlanModifiers: []planmodifier.String{}, MarkdownDescription: "Project"},
 									"resource_type": schema.StringAttribute{
-										Computed: true,
-										PlanModifiers: []planmodifier.String{
-
-											stringplanmodifier.UseStateForUnknown(),
-										}, MarkdownDescription: "Resource Type"},
+										Computed:      true,
+										PlanModifiers: []planmodifier.String{}, MarkdownDescription: "Resource Type"},
 									"rules": schema.ListNestedAttribute{
 										NestedObject: schema.NestedAttributeObject{
 											Attributes: map[string]schema.Attribute{
 												"cidr": schema.StringAttribute{
-													Optional: true,
-													Computed: true,
-													PlanModifiers: []planmodifier.String{
-
-														stringplanmodifier.UseStateForUnknown(),
-													}, MarkdownDescription: "CIDR notation for the source/destination network address range"},
+													Optional:      true,
+													Computed:      true,
+													PlanModifiers: []planmodifier.String{}, MarkdownDescription: "CIDR notation for the source/destination network address range"},
 												"description": schema.StringAttribute{
-													Optional: true,
-													Computed: true,
-													PlanModifiers: []planmodifier.String{
-
-														stringplanmodifier.UseStateForUnknown(),
-													}, MarkdownDescription: "Description"},
+													Optional:      true,
+													Computed:      true,
+													PlanModifiers: []planmodifier.String{}, MarkdownDescription: "Description"},
 												"direction": schema.StringAttribute{
-													Optional: true,
-													Computed: true,
-													PlanModifiers: []planmodifier.String{
-
-														stringplanmodifier.UseStateForUnknown(),
-													}, MarkdownDescription: "Traffic direction - either 'ingress' (incoming) or 'egress' (outgoing)"},
+													Optional:      true,
+													Computed:      true,
+													PlanModifiers: []planmodifier.String{}, MarkdownDescription: "Traffic direction - either 'ingress' (incoming) or 'egress' (outgoing)"},
 												"ethertype": schema.StringAttribute{
-													Optional: true,
-													Computed: true,
-													PlanModifiers: []planmodifier.String{
-
-														stringplanmodifier.UseStateForUnknown(),
-													}, MarkdownDescription: "IP protocol version - either 'IPv4' or 'IPv6'"},
+													Optional:      true,
+													Computed:      true,
+													PlanModifiers: []planmodifier.String{}, MarkdownDescription: "IP protocol version - either 'IPv4' or 'IPv6'"},
 												"from_port": schema.Int64Attribute{
-													Optional: true,
-													Computed: true,
-													PlanModifiers: []planmodifier.Int64{
-
-														int64planmodifier.UseStateForUnknown(),
-													}, MarkdownDescription: "Starting port number in the range (1-65535)",
+													Optional:      true,
+													Computed:      true,
+													PlanModifiers: []planmodifier.Int64{}, MarkdownDescription: "Starting port number in the range (1-65535)",
 													Validators: []validator.Int64{
 														int64validator.AtLeast(-2147483648),
 														int64validator.AtMost(65535),
 													}},
 												"id": schema.Int64Attribute{
-													Computed: true,
-													PlanModifiers: []planmodifier.Int64{
-
-														int64planmodifier.UseStateForUnknown(),
-													}, MarkdownDescription: "Id"},
+													Computed:      true,
+													PlanModifiers: []planmodifier.Int64{}, MarkdownDescription: "Id"},
 												"protocol": schema.StringAttribute{
-													Optional: true,
-													Computed: true,
-													PlanModifiers: []planmodifier.String{
-
-														stringplanmodifier.UseStateForUnknown(),
-													}, MarkdownDescription: "Network protocol: 'tcp', 'udp', 'icmp', empty (any) or an IANA protocol number 0-255 (e.g. '112' for VRRP)."},
+													Optional:      true,
+													Computed:      true,
+													PlanModifiers: []planmodifier.String{}, MarkdownDescription: "Network protocol: 'tcp', 'udp', 'icmp', empty (any) or an IANA protocol number 0-255 (e.g. '112' for VRRP)."},
 												"remote_group": schema.StringAttribute{
-													Optional: true,
-													Computed: true,
-													PlanModifiers: []planmodifier.String{
-
-														stringplanmodifier.UseStateForUnknown(),
-													}, MarkdownDescription: "Remote security group that this rule references, if any"},
+													Optional:      true,
+													Computed:      true,
+													PlanModifiers: []planmodifier.String{}, MarkdownDescription: "Remote security group that this rule references, if any"},
 												"remote_group_name": schema.StringAttribute{
-													Computed: true,
-													PlanModifiers: []planmodifier.String{
-
-														stringplanmodifier.UseStateForUnknown(),
-													}, MarkdownDescription: "Remote Group Name"},
+													Computed:      true,
+													PlanModifiers: []planmodifier.String{}, MarkdownDescription: "Remote Group Name"},
 												"remote_group_uuid": schema.StringAttribute{
-													Computed: true,
-													PlanModifiers: []planmodifier.String{
-
-														stringplanmodifier.UseStateForUnknown(),
-													}, MarkdownDescription: "Remote Group Uuid"},
+													Computed:      true,
+													PlanModifiers: []planmodifier.String{}, MarkdownDescription: "Remote Group Uuid"},
 												"to_port": schema.Int64Attribute{
-													Optional: true,
-													Computed: true,
-													PlanModifiers: []planmodifier.Int64{
-
-														int64planmodifier.UseStateForUnknown(),
-													}, MarkdownDescription: "Ending port number in the range (1-65535)",
+													Optional:      true,
+													Computed:      true,
+													PlanModifiers: []planmodifier.Int64{}, MarkdownDescription: "Ending port number in the range (1-65535)",
 													Validators: []validator.Int64{
 														int64validator.AtLeast(-2147483648),
 														int64validator.AtMost(65535),
 													}},
 											},
 										},
-										Optional: true,
-										Computed: true,
-										PlanModifiers: []planmodifier.List{
-
-											listplanmodifier.UseStateForUnknown(),
-										}, MarkdownDescription: "Rules",
+										Optional:      true,
+										Computed:      true,
+										PlanModifiers: []planmodifier.List{}, MarkdownDescription: "Rules",
 									},
 									"state": schema.StringAttribute{
-										Computed: true,
-										PlanModifiers: []planmodifier.String{
-
-											stringplanmodifier.UseStateForUnknown(),
-										}, MarkdownDescription: "State"},
+										Computed:      true,
+										PlanModifiers: []planmodifier.String{}, MarkdownDescription: "State"},
 									"tenant": schema.StringAttribute{
-										Computed: true,
-										PlanModifiers: []planmodifier.String{
-
-											stringplanmodifier.UseStateForUnknown(),
-										}, MarkdownDescription: "Tenant"},
+										Computed:      true,
+										PlanModifiers: []planmodifier.String{}, MarkdownDescription: "Tenant"},
 									"tenant_name": schema.StringAttribute{
-										Computed: true,
-										PlanModifiers: []planmodifier.String{
-
-											stringplanmodifier.UseStateForUnknown(),
-										}, MarkdownDescription: "Tenant Name"},
+										Computed:      true,
+										PlanModifiers: []planmodifier.String{}, MarkdownDescription: "Tenant Name"},
 									"tenant_uuid": schema.StringAttribute{
-										Computed: true,
-										PlanModifiers: []planmodifier.String{
-
-											stringplanmodifier.UseStateForUnknown(),
-										}, MarkdownDescription: "Tenant Uuid"},
+										Computed:      true,
+										PlanModifiers: []planmodifier.String{}, MarkdownDescription: "Tenant Uuid"},
 									"url": schema.StringAttribute{
-										Computed: true,
-										PlanModifiers: []planmodifier.String{
-
-											stringplanmodifier.UseStateForUnknown(),
-										}, MarkdownDescription: "Url"},
+										Computed:      true,
+										PlanModifiers: []planmodifier.String{}, MarkdownDescription: "Url"},
 									"uuid": schema.StringAttribute{
-										Computed: true,
-										PlanModifiers: []planmodifier.String{
-
-											stringplanmodifier.UseStateForUnknown(),
-										}, MarkdownDescription: "Uuid"},
+										Computed:      true,
+										PlanModifiers: []planmodifier.String{}, MarkdownDescription: "Uuid"},
 								},
 							},
 							Computed: true,
@@ -679,7 +562,7 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 							PlanModifiers: []planmodifier.String{
 
 								stringplanmodifier.UseStateForUnknown(),
-							}, MarkdownDescription: "Network address in CIDR format (e.g. 192.168.0.0/24 or 2001:db8::/64)"},
+							}, MarkdownDescription: "IPv4 network address in CIDR format (e.g. 192.168.0.0/24)"},
 						"subnet_description": schema.StringAttribute{
 							Computed: true,
 							PlanModifiers: []planmodifier.String{
@@ -772,112 +655,69 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"url": schema.StringAttribute{
-							Computed:      true,
-							PlanModifiers: []planmodifier.String{}, MarkdownDescription: "Url"},
+							Required: true, MarkdownDescription: "Url"},
 						"description": schema.StringAttribute{
-							Computed: true,
-							PlanModifiers: []planmodifier.String{
-
-								stringplanmodifier.UseStateForUnknown(),
-							}, MarkdownDescription: "Description"},
+							Computed:      true,
+							PlanModifiers: []planmodifier.String{}, MarkdownDescription: "Description"},
 						"name": schema.StringAttribute{
-							Computed: true,
-							PlanModifiers: []planmodifier.String{
-
-								stringplanmodifier.UseStateForUnknown(),
-							}, MarkdownDescription: "Name"},
+							Computed:      true,
+							PlanModifiers: []planmodifier.String{}, MarkdownDescription: "Name"},
 						"rules": schema.ListNestedAttribute{
 							NestedObject: schema.NestedAttributeObject{
 								Attributes: map[string]schema.Attribute{
 									"cidr": schema.StringAttribute{
-										Optional: true,
-										Computed: true,
-										PlanModifiers: []planmodifier.String{
-
-											stringplanmodifier.UseStateForUnknown(),
-										}, MarkdownDescription: "CIDR notation for the source/destination network address range"},
+										Optional:      true,
+										Computed:      true,
+										PlanModifiers: []planmodifier.String{}, MarkdownDescription: "CIDR notation for the source/destination network address range"},
 									"description": schema.StringAttribute{
-										Optional: true,
-										Computed: true,
-										PlanModifiers: []planmodifier.String{
-
-											stringplanmodifier.UseStateForUnknown(),
-										}, MarkdownDescription: "Description"},
+										Optional:      true,
+										Computed:      true,
+										PlanModifiers: []planmodifier.String{}, MarkdownDescription: "Description"},
 									"direction": schema.StringAttribute{
-										Optional: true,
-										Computed: true,
-										PlanModifiers: []planmodifier.String{
-
-											stringplanmodifier.UseStateForUnknown(),
-										}, MarkdownDescription: "Traffic direction - either 'ingress' (incoming) or 'egress' (outgoing)"},
+										Optional:      true,
+										Computed:      true,
+										PlanModifiers: []planmodifier.String{}, MarkdownDescription: "Traffic direction - either 'ingress' (incoming) or 'egress' (outgoing)"},
 									"ethertype": schema.StringAttribute{
-										Optional: true,
-										Computed: true,
-										PlanModifiers: []planmodifier.String{
-
-											stringplanmodifier.UseStateForUnknown(),
-										}, MarkdownDescription: "IP protocol version - either 'IPv4' or 'IPv6'"},
+										Optional:      true,
+										Computed:      true,
+										PlanModifiers: []planmodifier.String{}, MarkdownDescription: "IP protocol version - either 'IPv4' or 'IPv6'"},
 									"from_port": schema.Int64Attribute{
-										Optional: true,
-										Computed: true,
-										PlanModifiers: []planmodifier.Int64{
-
-											int64planmodifier.UseStateForUnknown(),
-										}, MarkdownDescription: "Starting port number in the range (1-65535)",
+										Optional:      true,
+										Computed:      true,
+										PlanModifiers: []planmodifier.Int64{}, MarkdownDescription: "Starting port number in the range (1-65535)",
 										Validators: []validator.Int64{
 											int64validator.AtLeast(-2147483648),
 											int64validator.AtMost(65535),
 										}},
 									"id": schema.Int64Attribute{
-										Computed: true,
-										PlanModifiers: []planmodifier.Int64{
-
-											int64planmodifier.UseStateForUnknown(),
-										}, MarkdownDescription: "Id"},
+										Computed:      true,
+										PlanModifiers: []planmodifier.Int64{}, MarkdownDescription: "Id"},
 									"protocol": schema.StringAttribute{
-										Optional: true,
-										Computed: true,
-										PlanModifiers: []planmodifier.String{
-
-											stringplanmodifier.UseStateForUnknown(),
-										}, MarkdownDescription: "Network protocol: 'tcp', 'udp', 'icmp', empty (any) or an IANA protocol number 0-255 (e.g. '112' for VRRP)."},
+										Optional:      true,
+										Computed:      true,
+										PlanModifiers: []planmodifier.String{}, MarkdownDescription: "Network protocol: 'tcp', 'udp', 'icmp', empty (any) or an IANA protocol number 0-255 (e.g. '112' for VRRP)."},
 									"remote_group_name": schema.StringAttribute{
-										Computed: true,
-										PlanModifiers: []planmodifier.String{
-
-											stringplanmodifier.UseStateForUnknown(),
-										}, MarkdownDescription: "Remote Group Name"},
+										Computed:      true,
+										PlanModifiers: []planmodifier.String{}, MarkdownDescription: "Remote Group Name"},
 									"remote_group_uuid": schema.StringAttribute{
-										Computed: true,
-										PlanModifiers: []planmodifier.String{
-
-											stringplanmodifier.UseStateForUnknown(),
-										}, MarkdownDescription: "Remote Group Uuid"},
+										Computed:      true,
+										PlanModifiers: []planmodifier.String{}, MarkdownDescription: "Remote Group Uuid"},
 									"to_port": schema.Int64Attribute{
-										Optional: true,
-										Computed: true,
-										PlanModifiers: []planmodifier.Int64{
-
-											int64planmodifier.UseStateForUnknown(),
-										}, MarkdownDescription: "Ending port number in the range (1-65535)",
+										Optional:      true,
+										Computed:      true,
+										PlanModifiers: []planmodifier.Int64{}, MarkdownDescription: "Ending port number in the range (1-65535)",
 										Validators: []validator.Int64{
 											int64validator.AtLeast(-2147483648),
 											int64validator.AtMost(65535),
 										}},
 								},
 							},
-							Computed: true,
-							PlanModifiers: []planmodifier.List{
-
-								listplanmodifier.UseStateForUnknown(),
-							}, MarkdownDescription: "Rules",
+							Computed:      true,
+							PlanModifiers: []planmodifier.List{}, MarkdownDescription: "Rules",
 						},
 						"state": schema.StringAttribute{
-							Computed: true,
-							PlanModifiers: []planmodifier.String{
-
-								stringplanmodifier.UseStateForUnknown(),
-							}, MarkdownDescription: "State"},
+							Computed:      true,
+							PlanModifiers: []planmodifier.String{}, MarkdownDescription: "State"},
 					},
 				},
 				Optional: true,
@@ -885,13 +725,13 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 				PlanModifiers: []planmodifier.Set{
 
 					setplanmodifier.UseStateForUnknown(),
+					common.SetElementsFromState{Keys: []string{"url"}},
 				}, MarkdownDescription: "List of security groups to apply to the instance",
 			},
 			"server_group": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
 					"url": schema.StringAttribute{
-						Computed:      true,
-						PlanModifiers: []planmodifier.String{}, MarkdownDescription: "Url"},
+						Required: true, MarkdownDescription: "Url"},
 					"name": schema.StringAttribute{
 						Computed: true,
 						PlanModifiers: []planmodifier.String{

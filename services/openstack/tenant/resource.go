@@ -253,7 +253,11 @@ func (r *OpenstackTenantResource) Schema(ctx context.Context, req resource.Schem
 						},
 					},
 				},
-				Optional: true, MarkdownDescription: "Security Groups",
+				Optional: true,
+				PlanModifiers: []planmodifier.Set{
+
+					common.SetElementsFromState{Keys: []string{"description", "name", "rules"}},
+				}, MarkdownDescription: "Security Groups",
 			},
 			"skip_connection_extnet": schema.BoolAttribute{
 				Optional: true,

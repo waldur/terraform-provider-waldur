@@ -1,6 +1,8 @@
 package instance
 
 import (
+	"encoding/json"
+
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
@@ -82,6 +84,14 @@ type OpenstackInstanceUpdatePortsActionRequest struct {
 
 type OpenstackInstanceUpdateSecurityGroupsActionRequest struct {
 	SecurityGroups []common.OpenStackSecurityGroupHyperlinkRequest `json:"security_groups"`
+}
+
+func (r OpenstackInstanceUpdateSecurityGroupsActionRequest) MarshalJSON() ([]byte, error) {
+	urls := make([]*string, len(r.SecurityGroups))
+	for i, item := range r.SecurityGroups {
+		urls[i] = item.Url
+	}
+	return json.Marshal(map[string][]*string{"security_groups": urls})
 }
 
 type OpenstackInstanceResponse struct {
@@ -253,8 +263,6 @@ type OpenstackInstancePortsSecurityGroupsResponse struct {
 	Description *string `json:"description,omitempty" tfsdk:"description"`
 
 	ErrorMessage *string `json:"error_message,omitempty" tfsdk:"error_message"`
-
-	InstanceCount *int64 `json:"instance_count,omitempty" tfsdk:"instance_count"`
 
 	MarketplaceOfferingType *string `json:"marketplace_offering_type,omitempty" tfsdk:"marketplace_offering_type"`
 
