@@ -170,6 +170,8 @@ type OpenstackSubnetModel struct {
 	GatewayIp               types.String `tfsdk:"gateway_ip"`
 	HostRoutes              types.List   `tfsdk:"host_routes"`
 	IpVersion               types.Int64  `tfsdk:"ip_version"`
+	Ipv6AddressMode         types.String `tfsdk:"ipv6_address_mode"`
+	Ipv6RaMode              types.String `tfsdk:"ipv6_ra_mode"`
 	IsConnected             types.Bool   `tfsdk:"is_connected"`
 	MarketplaceOfferingType types.String `tfsdk:"marketplace_offering_type"`
 	MarketplaceResourceUuid types.String `tfsdk:"marketplace_resource_uuid"`
@@ -179,6 +181,9 @@ type OpenstackSubnetModel struct {
 	PortSecurityEnabled     types.Bool   `tfsdk:"port_security_enabled"`
 	Project                 types.String `tfsdk:"project"`
 	ResourceType            types.String `tfsdk:"resource_type"`
+	Router                  types.String `tfsdk:"router"`
+	RouterName              types.String `tfsdk:"router_name"`
+	RouterUuid              types.String `tfsdk:"router_uuid"`
 	State                   types.String `tfsdk:"state"`
 	Tenant                  types.String `tfsdk:"tenant"`
 	TenantName              types.String `tfsdk:"tenant_name"`
@@ -233,6 +238,10 @@ func (model *OpenstackSubnetModel) CopyFrom(ctx context.Context, apiResp Opensta
 
 	model.IpVersion = types.Int64PointerValue(apiResp.IpVersion)
 
+	model.Ipv6AddressMode = common.StringPointerValue(apiResp.Ipv6AddressMode)
+
+	model.Ipv6RaMode = common.StringPointerValue(apiResp.Ipv6RaMode)
+
 	model.IsConnected = types.BoolPointerValue(apiResp.IsConnected)
 
 	model.MarketplaceOfferingType = common.StringPointerValue(apiResp.MarketplaceOfferingType)
@@ -250,6 +259,12 @@ func (model *OpenstackSubnetModel) CopyFrom(ctx context.Context, apiResp Opensta
 	model.Project = common.StringPointerValue(apiResp.Project)
 
 	model.ResourceType = common.StringPointerValue(apiResp.ResourceType)
+
+	model.Router = common.StringPointerValue(apiResp.Router)
+
+	model.RouterName = common.StringPointerValue(apiResp.RouterName)
+
+	model.RouterUuid = common.StringPointerValue(apiResp.RouterUuid)
 
 	model.State = common.StringPointerValue(apiResp.State)
 

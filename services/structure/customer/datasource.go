@@ -161,6 +161,8 @@ func (d *StructureCustomerDataSource) Schema(ctx context.Context, req datasource
 				Computed: true, MarkdownDescription: "Image"},
 			"is_service_provider": schema.BoolAttribute{
 				Computed: true, MarkdownDescription: "Is Service Provider"},
+			"is_service_provider_manager_only": schema.BoolAttribute{
+				Computed: true, MarkdownDescription: "True when the requesting user's only link to this organization is a role on its service provider. Such a row carries only identity fields."},
 			"latitude": schema.Float64Attribute{
 				Computed: true, MarkdownDescription: "Latitude"},
 			"longitude": schema.Float64Attribute{

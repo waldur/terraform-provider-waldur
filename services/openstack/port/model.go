@@ -25,8 +25,8 @@ func OpenStackFixedIpRequestType() types.ObjectType {
 }
 func OpenStackPortNestedSecurityGroupRequestType() types.ObjectType {
 	return types.ObjectType{AttrTypes: map[string]attr.Type{
-		"name": types.StringType,
 		"url":  types.StringType,
+		"name": types.StringType,
 		"uuid": types.StringType,
 	}}
 }

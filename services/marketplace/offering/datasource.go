@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"regexp"
 
+	"github.com/hashicorp/terraform-plugin-framework-validators/float64validator"
 	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
@@ -46,6 +47,101 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 				MarkdownDescription: "Marketplace Offering UUID",
 			},
 			"filters": (&MarketplaceOfferingFiltersModel{}).GetSchema(),
+			"account_settings": schema.SingleNestedAttribute{
+				Attributes: map[string]schema.Attribute{
+					"account_scope": schema.SingleNestedAttribute{
+						Attributes: map[string]schema.Attribute{
+							"inherited": schema.SingleNestedAttribute{
+								Attributes: map[string]schema.Attribute{
+									"source": schema.StringAttribute{
+										Computed: true, MarkdownDescription: "Where the value comes from: the offering's own plugin option, the service provider's account options, or the built-in default."},
+									"value": schema.StringAttribute{
+										Computed: true, MarkdownDescription: "The value the setting resolves to."},
+								},
+								Computed: true, MarkdownDescription: "What the setting resolves to without the offering's own value: the service provider's, else the built-in default. Removing the offering's override leads to it.",
+							},
+							"source": schema.StringAttribute{
+								Computed: true, MarkdownDescription: "Where the value comes from: the offering's own plugin option, the service provider's account options, or the built-in default."},
+							"value": schema.StringAttribute{
+								Computed: true, MarkdownDescription: "The value the setting resolves to."},
+						},
+						Computed: true, MarkdownDescription: "Account Scope",
+					},
+					"homedir_prefix": schema.SingleNestedAttribute{
+						Attributes: map[string]schema.Attribute{
+							"inherited": schema.SingleNestedAttribute{
+								Attributes: map[string]schema.Attribute{
+									"source": schema.StringAttribute{
+										Computed: true, MarkdownDescription: "Where the value comes from: the offering's own plugin option, the service provider's account options, or the built-in default."},
+									"value": schema.StringAttribute{
+										Computed: true, MarkdownDescription: "The value the setting resolves to."},
+								},
+								Computed: true, MarkdownDescription: "What the setting resolves to without the offering's own value: the service provider's, else the built-in default. Removing the offering's override leads to it.",
+							},
+							"source": schema.StringAttribute{
+								Computed: true, MarkdownDescription: "Where the value comes from: the offering's own plugin option, the service provider's account options, or the built-in default."},
+							"value": schema.StringAttribute{
+								Computed: true, MarkdownDescription: "The value the setting resolves to."},
+						},
+						Computed: true, MarkdownDescription: "Homedir Prefix",
+					},
+					"login_shell": schema.SingleNestedAttribute{
+						Attributes: map[string]schema.Attribute{
+							"inherited": schema.SingleNestedAttribute{
+								Attributes: map[string]schema.Attribute{
+									"source": schema.StringAttribute{
+										Computed: true, MarkdownDescription: "Where the value comes from: the offering's own plugin option, the service provider's account options, or the built-in default."},
+									"value": schema.StringAttribute{
+										Computed: true, MarkdownDescription: "The value the setting resolves to."},
+								},
+								Computed: true, MarkdownDescription: "What the setting resolves to without the offering's own value: the service provider's, else the built-in default. Removing the offering's override leads to it.",
+							},
+							"source": schema.StringAttribute{
+								Computed: true, MarkdownDescription: "Where the value comes from: the offering's own plugin option, the service provider's account options, or the built-in default."},
+							"value": schema.StringAttribute{
+								Computed: true, MarkdownDescription: "The value the setting resolves to."},
+						},
+						Computed: true, MarkdownDescription: "Login Shell",
+					},
+					"username_anonymized_prefix": schema.SingleNestedAttribute{
+						Attributes: map[string]schema.Attribute{
+							"inherited": schema.SingleNestedAttribute{
+								Attributes: map[string]schema.Attribute{
+									"source": schema.StringAttribute{
+										Computed: true, MarkdownDescription: "Where the value comes from: the offering's own plugin option, the service provider's account options, or the built-in default."},
+									"value": schema.StringAttribute{
+										Computed: true, MarkdownDescription: "The value the setting resolves to."},
+								},
+								Computed: true, MarkdownDescription: "What the setting resolves to without the offering's own value: the service provider's, else the built-in default. Removing the offering's override leads to it.",
+							},
+							"source": schema.StringAttribute{
+								Computed: true, MarkdownDescription: "Where the value comes from: the offering's own plugin option, the service provider's account options, or the built-in default."},
+							"value": schema.StringAttribute{
+								Computed: true, MarkdownDescription: "The value the setting resolves to."},
+						},
+						Computed: true, MarkdownDescription: "Username Anonymized Prefix",
+					},
+					"username_generation_policy": schema.SingleNestedAttribute{
+						Attributes: map[string]schema.Attribute{
+							"inherited": schema.SingleNestedAttribute{
+								Attributes: map[string]schema.Attribute{
+									"source": schema.StringAttribute{
+										Computed: true, MarkdownDescription: "Where the value comes from: the offering's own plugin option, the service provider's account options, or the built-in default."},
+									"value": schema.StringAttribute{
+										Computed: true, MarkdownDescription: "The value the setting resolves to."},
+								},
+								Computed: true, MarkdownDescription: "What the setting resolves to without the offering's own value: the service provider's, else the built-in default. Removing the offering's override leads to it.",
+							},
+							"source": schema.StringAttribute{
+								Computed: true, MarkdownDescription: "Where the value comes from: the offering's own plugin option, the service provider's account options, or the built-in default."},
+							"value": schema.StringAttribute{
+								Computed: true, MarkdownDescription: "The value the setting resolves to."},
+						},
+						Computed: true, MarkdownDescription: "Username Generation Policy",
+					},
+				},
+				Computed: true, MarkdownDescription: "Account Settings",
+			},
 			"attributes": schema.MapAttribute{
 				ElementType: types.StringType,
 				Computed:    true, MarkdownDescription: "Attributes"},
@@ -53,8 +149,18 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 				Computed: true, MarkdownDescription: "Backend Id"},
 			"billable": schema.BoolAttribute{
 				Computed: true, MarkdownDescription: "Purchase and usage is invoiced."},
+			"billing_mode_components": schema.MapAttribute{
+				ElementType: types.StringType,
+				Computed:    true, MarkdownDescription: "Per plan billing mode, every component of this offering as a plan in that mode would bill it: billing type, measured unit, prepaid flag and limit period."},
+			"billing_period_applies": schema.MapAttribute{
+				ElementType: types.BoolType,
+				Computed:    true, MarkdownDescription: "Per plan billing mode, whether a plan's billing period changes what is invoiced. False means every component of this offering would price a quantity of its own under that mode, so the period is inert on the invoice."},
 			"billing_type_classification": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Classify offering components by billing type. Returns 'limit_only', 'usage_only', or 'mixed'."},
+			"can_update_integration": schema.BoolAttribute{
+				Computed: true, MarkdownDescription: "Can Update Integration"},
+			"can_update_options": schema.BoolAttribute{
+				Computed: true, MarkdownDescription: "Can Update Options"},
 			"category": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Category"},
 			"category_uuid": schema.StringAttribute{
@@ -63,6 +169,19 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 				Computed: true, MarkdownDescription: "Number of citations of a DOI"},
 			"compliance_checklist": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Compliance Checklist"},
+			"compliance_checklist_details": schema.SingleNestedAttribute{
+				Attributes: map[string]schema.Attribute{
+					"description": schema.StringAttribute{
+						Computed: true, MarkdownDescription: "Description"},
+					"name": schema.StringAttribute{
+						Computed: true, MarkdownDescription: "Name"},
+					"questions_count": schema.Int64Attribute{
+						Computed: true, MarkdownDescription: "Questions Count"},
+					"uuid": schema.StringAttribute{
+						Computed: true, MarkdownDescription: "Uuid"},
+				},
+				Computed: true, MarkdownDescription: "Compliance Checklist Details",
+			},
 			"components": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
@@ -73,11 +192,11 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 							Validators: []validator.String{
 								stringvalidator.OneOf("fixed", "usage", "limit", "one", "few"),
 							}},
-						"default_limit": schema.Int64Attribute{
+						"default_limit": schema.Float64Attribute{
 							Computed: true, MarkdownDescription: "Default Limit",
-							Validators: []validator.Int64{
-								int64validator.AtLeast(-2147483648),
-								int64validator.AtMost(2147483647),
+							Validators: []validator.Float64{
+								float64validator.AtLeast(-1e+18),
+								float64validator.AtMost(1e+18),
 							}},
 						"description": schema.StringAttribute{
 							Computed: true, MarkdownDescription: "Description"},
@@ -86,22 +205,28 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 						"is_boolean": schema.BoolAttribute{
 							Computed: true, MarkdownDescription: "Is Boolean"},
 						"is_builtin": schema.BoolAttribute{
-							Computed: true, MarkdownDescription: "Is Builtin"},
+							Computed: true, MarkdownDescription: "The API's older name for ``billed_per_plan``. It used to ask the plugin registry whether this component's type is one the plugin declares, which left out the OpenStack per-volume-type quotas: they are created by the volume type sync rather than declared, so the API called them provider components while the billing resolver treated them as builtin. Reading the stored flag makes the two agree."},
 						"is_prepaid": schema.BoolAttribute{
 							Computed: true, MarkdownDescription: "Is Prepaid"},
-						"limit_amount": schema.Int64Attribute{
+						"limit_amount": schema.Float64Attribute{
 							Computed: true, MarkdownDescription: "Limit Amount",
+							Validators: []validator.Float64{
+								float64validator.AtLeast(-1e+18),
+								float64validator.AtMost(1e+18),
+							}},
+						"limit_decimal_places": schema.Int64Attribute{
+							Computed: true, MarkdownDescription: "Number of decimal places accepted for this component's limit. 0 keeps the limit integer-only.",
 							Validators: []validator.Int64{
-								int64validator.AtLeast(-2147483648),
-								int64validator.AtMost(2147483647),
+								int64validator.AtLeast(0),
+								int64validator.AtMost(2),
 							}},
 						"limit_period": schema.StringAttribute{
 							Computed: true, MarkdownDescription: "Limit Period"},
-						"max_available_limit": schema.Int64Attribute{
+						"max_available_limit": schema.Float64Attribute{
 							Computed: true, MarkdownDescription: "Max Available Limit",
-							Validators: []validator.Int64{
-								int64validator.AtLeast(-2147483648),
-								int64validator.AtMost(2147483647),
+							Validators: []validator.Float64{
+								float64validator.AtLeast(-1e+18),
+								float64validator.AtMost(1e+18),
 							}},
 						"max_prepaid_duration": schema.Int64Attribute{
 							Computed: true, MarkdownDescription: "Max Prepaid Duration",
@@ -115,11 +240,11 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 								int64validator.AtLeast(0),
 								int64validator.AtMost(2147483647),
 							}},
-						"max_value": schema.Int64Attribute{
+						"max_value": schema.Float64Attribute{
 							Computed: true, MarkdownDescription: "Max Value",
-							Validators: []validator.Int64{
-								int64validator.AtLeast(-2147483648),
-								int64validator.AtMost(2147483647),
+							Validators: []validator.Float64{
+								float64validator.AtLeast(-1e+18),
+								float64validator.AtMost(1e+18),
 							}},
 						"measured_unit": schema.StringAttribute{
 							Computed: true, MarkdownDescription: "Unit of measurement, for example, GB."},
@@ -135,11 +260,11 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 								int64validator.AtLeast(0),
 								int64validator.AtMost(2147483647),
 							}},
-						"min_value": schema.Int64Attribute{
+						"min_value": schema.Float64Attribute{
 							Computed: true, MarkdownDescription: "Min Value",
-							Validators: []validator.Int64{
-								int64validator.AtLeast(-2147483648),
-								int64validator.AtMost(2147483647),
+							Validators: []validator.Float64{
+								float64validator.AtLeast(-1e+18),
+								float64validator.AtMost(1e+18),
 							}},
 						"name": schema.StringAttribute{
 							Computed: true, MarkdownDescription: "Display name for the measured unit, for example, Floating IP."},
@@ -430,6 +555,8 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 							Computed: true, MarkdownDescription: "Article Code"},
 						"backend_id": schema.StringAttribute{
 							Computed: true, MarkdownDescription: "Backend Id"},
+						"billing_mode": schema.StringAttribute{
+							Computed: true, MarkdownDescription: "How the offering's builtin components are billed under this plan. Custom components keep their own accounting type."},
 						"components": schema.ListNestedAttribute{
 							NestedObject: schema.NestedAttributeObject{
 								Attributes: map[string]schema.Attribute{
@@ -439,6 +566,8 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 											int64validator.AtLeast(0),
 											int64validator.AtMost(2147483647),
 										}},
+									"billing_type": schema.StringAttribute{
+										Computed: true, MarkdownDescription: "Billing Type"},
 									"discount_aggregation": schema.StringAttribute{
 										Computed: true, MarkdownDescription: "Whether the volume discount is computed on a single resource's usage or aggregated across all of the customer's resources of this offering."},
 									"discount_description": schema.StringAttribute{
@@ -450,8 +579,12 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 										Validators: []validator.String{
 											stringvalidator.RegexMatches(regexp.MustCompile(`^-?\d{0,12}(?:\.\d{0,10})?$`), ""),
 										}},
+									"is_prepaid": schema.BoolAttribute{
+										Computed: true, MarkdownDescription: "Is Prepaid"},
+									"limit_period": schema.StringAttribute{
+										Computed: true, MarkdownDescription: "Limit Period"},
 									"measured_unit": schema.StringAttribute{
-										Computed: true, MarkdownDescription: "Unit of measurement, for example, GB."},
+										Computed: true, MarkdownDescription: "Measured Unit"},
 									"name": schema.StringAttribute{
 										Computed: true, MarkdownDescription: "Display name for the measured unit, for example, Floating IP."},
 									"price": schema.StringAttribute{
@@ -535,6 +668,8 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 			},
 			"plugin_options": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
+					"account_scope": schema.StringAttribute{
+						Computed: true, MarkdownDescription: "Where accounts are held: 'offering' keeps one account per offering (the historical behaviour); 'provider' shares one account per user across the provider's offerings."},
 					"action_on_usage_limit": schema.StringAttribute{
 						Computed: true, MarkdownDescription: "If set to 'pause' or 'downscale', resources are automatically paused or downscaled when reported usage in the current period reaches a component's limit_amount, and the restriction is lifted when usage drops below the limit again (e.g. a new billing period or a raised limit)."},
 					"auto_approve_for_roles": schema.ListAttribute{
@@ -576,7 +711,7 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 					"deployment_mode": schema.StringAttribute{
 						Computed: true, MarkdownDescription: "Rancher deployment mode"},
 					"disable_autoapprove": schema.BoolAttribute{
-						Computed: true, MarkdownDescription: "If set to True, orders for this offering will always require manual approval, overriding auto_approve_in_service_provider_projects"},
+						Computed: true, MarkdownDescription: "If set to True, orders for this offering will always require manual consumer approval, overriding every other consumer-side auto-approve mechanism (auto_approve_in_service_provider_projects, auto_approve_for_roles, project auto-approval rules, and the ORDER.APPROVE permission). Termination orders, staff users and provider approval are not affected"},
 					"disable_grace_period": schema.BoolAttribute{
 						Computed: true, MarkdownDescription: "If set to True, this offering's resources ignore the project grace period and are terminated on the project end date. Only staff can change this option."},
 					"disabled_resource_actions": schema.ListAttribute{
@@ -586,6 +721,8 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 						Computed: true, MarkdownDescription: "Emit the user's full name as a GLAuth displayName custom attribute (rendered to LDAP displayName)."},
 					"emit_waldur_username": schema.BoolAttribute{
 						Computed: true, MarkdownDescription: "Emit the Waldur username as a GLAuth waldurUsername custom attribute, alongside the generated POSIX login name."},
+					"enable_api_key_provisioning": schema.BoolAttribute{
+						Computed: true, MarkdownDescription: "Declares that the site agent can govern resource API keys one by one: request, assign, limit, pause, resume and delete them. Without it a resource's keys can only be revealed and rotated. Nothing checks the claim: turn it on only if the agent's backend supports per-key commands (such as the Envoy AI Gateway); on one that does not (such as Ceph S3) every such command errs."},
 					"enable_display_of_order_actions_for_service_provider": schema.BoolAttribute{
 						Computed: true, MarkdownDescription: "Enable display of order actions for service provider"},
 					"enable_issues_for_membership_changes": schema.BoolAttribute{
@@ -602,8 +739,12 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 						Computed: true, MarkdownDescription: "If set to True, an Access subnets tab is shown on resource detail pages, letting consumers curate the IPs allowed to reach the backend entity. The list is advisory data for external firewalls."},
 					"enable_resource_end_date_change_requests": schema.BoolAttribute{
 						Computed: true, MarkdownDescription: "If set to True, users without RESOURCE.SET_END_DATE can request an end date change, and holders of that permission approve or reject. Approval writes the date directly; no order is created. Requests are published as events so an external approval system can decide instead. Not applicable to prepaid offerings, which extend through renewal instead."},
+					"enable_resource_limit_change_requests": schema.BoolAttribute{
+						Computed: true, MarkdownDescription: "If set to True, users who cannot change resource limits directly (RESOURCE.SET_LIMITS together with ORDER.CREATE) can request a limit change, and holders of RESOURCE.SET_LIMITS approve or reject. Approval submits an update order for the requested limits."},
 					"enable_resource_projects": schema.BoolAttribute{
 						Computed: true, MarkdownDescription: "Enable sub-project management within resources."},
+					"enable_scim_entitlements": schema.BoolAttribute{
+						Computed: true, MarkdownDescription: "Include this offering in outbound SCIM user entitlement sync. When unset or false, SSH access endpoints on this offering are not pushed to the remote SCIM service even if SCIM_MEMBERSHIP_SYNC_ENABLED is on."},
 					"enforce_qos": schema.BoolAttribute{
 						Computed: true, MarkdownDescription: "When enabled, the site agent enforces the offering's QoS selection by granting the chosen QoS on the SLURM association (QosLevel/DefaultQOS). When disabled (default), QoS is informational only — profiles are shown and the selection is recorded on the resource, but the agent does not touch SLURM QoS. The agent config may override this per deployment."},
 					"expose_inference_playground": schema.BoolAttribute{
@@ -614,16 +755,20 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 						Computed: true, MarkdownDescription: "Where each offering user's primary GID comes from: the POSIX ID pool (default), or the user's primary_gid attribute."},
 					"heappe_cluster_id": schema.StringAttribute{
 						Computed: true, MarkdownDescription: "HEAppE cluster id"},
+					"heappe_identifier": schema.StringAttribute{
+						Computed: true, MarkdownDescription: "Identifier of the HEAppE instance this offering targets, e.g. 'it4i-heappe-prod'. Lets providers with multiple HEAppE deployments disambiguate which one a given offering uses."},
 					"heappe_local_base_path": schema.StringAttribute{
 						Computed: true, MarkdownDescription: "HEAppE local base path"},
 					"heappe_url": schema.StringAttribute{
 						Computed: true, MarkdownDescription: "HEAppE url"},
 					"heappe_username": schema.StringAttribute{
 						Computed: true, MarkdownDescription: "HEAppE username"},
+					"hide_api_keys_tab": schema.BoolAttribute{
+						Computed: true, MarkdownDescription: "Hide the API keys tab on resources of this offering."},
 					"highlight_backend_id_display": schema.BoolAttribute{
 						Computed: true, MarkdownDescription: "Defines if backend_id should be shown more prominently by the UI"},
 					"homedir_prefix": schema.StringAttribute{
-						Computed: true, MarkdownDescription: "GLAuth homedir prefix"},
+						Computed: true, MarkdownDescription: "Prefix of each account's home directory; the username follows."},
 					"is_resource_termination_date_required": schema.BoolAttribute{
 						Computed: true, MarkdownDescription: "If set to True, resource termination date is required"},
 					"latest_date_for_resource_termination": schema.StringAttribute{
@@ -631,7 +776,7 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 					"lbaas_enabled": schema.BoolAttribute{
 						Computed: true, MarkdownDescription: "If True, Octavia LBaaS (load balancers) is intended to be available for tenants from this offering."},
 					"login_shell": schema.StringAttribute{
-						Computed: true, MarkdownDescription: "Default login shell assigned to GLAuth/LDAP accounts."},
+						Computed: true, MarkdownDescription: "Login shell assigned to GLAuth/LDAP accounts."},
 					"managed_rancher_load_balancer_data_volume_size_gb": schema.Int64Attribute{
 						Computed: true, MarkdownDescription: "Data volume size in GB for managed Rancher load balancer"},
 					"managed_rancher_load_balancer_data_volume_type_name": schema.StringAttribute{
@@ -765,9 +910,11 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 							int64validator.AtMost(1440),
 						}},
 					"username_anonymized_prefix": schema.StringAttribute{
-						Computed: true, MarkdownDescription: "GLAuth prefix for anonymized usernames"},
+						Computed: true, MarkdownDescription: "Prefix for anonymized usernames; the name is the prefix followed by the account's POSIX UID."},
 					"username_generation_policy": schema.StringAttribute{
-						Computed: true, MarkdownDescription: "GLAuth username generation policy"},
+						Computed: true, MarkdownDescription: "How the usernames of offering users are generated."},
+					"uses_robot_accounts": schema.BoolAttribute{
+						Computed: true, MarkdownDescription: "This offering's identity model is per-resource robot accounts rather than automatic offering users. Unset means false. Cannot be combined with service_provider_can_create_offering_user. Does not block creating robot accounts on offerings that use offering users."},
 				},
 				Computed: true, MarkdownDescription: "Plugin Options",
 			},
@@ -915,6 +1062,12 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 				Computed: true, MarkdownDescription: "Scope Error Message"},
 			"scope_name": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Scope Name"},
+			"scope_resource": schema.StringAttribute{
+				Computed: true, MarkdownDescription: "Scope Resource"},
+			"scope_resource_name": schema.StringAttribute{
+				Computed: true, MarkdownDescription: "Scope Resource Name"},
+			"scope_resource_uuid": schema.StringAttribute{
+				Computed: true, MarkdownDescription: "Scope Resource Uuid"},
 			"scope_state": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Scope State"},
 			"scope_uuid": schema.StringAttribute{
@@ -952,6 +1105,8 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 									Computed: true, MarkdownDescription: "Description"},
 								"name": schema.StringAttribute{
 									Computed: true, MarkdownDescription: "Catalog name (e.g., EESSI, Spack)"},
+								"supports_cpu_target_restrictions": schema.BoolAttribute{
+									Computed: true, MarkdownDescription: "Supports Cpu Target Restrictions"},
 								"uuid": schema.StringAttribute{
 									Computed: true, MarkdownDescription: "Uuid"},
 								"version": schema.StringAttribute{
@@ -1021,6 +1176,8 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 				Computed: true, MarkdownDescription: "Url"},
 			"user_has_consent": schema.BoolAttribute{
 				Computed: true, MarkdownDescription: "User Has Consent"},
+			"user_has_offering_user": schema.BoolAttribute{
+				Computed: true, MarkdownDescription: "User Has Offering User"},
 			"vendor_details": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Vendor Details"},
 		},

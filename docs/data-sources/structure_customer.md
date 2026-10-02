@@ -56,6 +56,7 @@ Structure Customer data source - lookup by name or UUID
 - `household` (String) Household
 - `image` (String) Image
 - `is_service_provider` (Boolean) Is Service Provider
+- `is_service_provider_manager_only` (Boolean) True when the requesting user's only link to this organization is a role on its service provider. Such a row carries only identity fields.
 - `latitude` (Number) Latitude
 - `longitude` (Number) Longitude
 - `max_service_accounts` (Number) Maximum number of service accounts allowed

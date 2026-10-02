@@ -263,7 +263,7 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 							PlanModifiers: []planmodifier.String{}, MarkdownDescription: "MAC address of the port"},
 						"subnet_cidr": schema.StringAttribute{
 							Computed:      true,
-							PlanModifiers: []planmodifier.String{}, MarkdownDescription: "IPv4 network address in CIDR format (e.g. 192.168.0.0/24)"},
+							PlanModifiers: []planmodifier.String{}, MarkdownDescription: "Network address in CIDR format (e.g. 192.168.0.0/24 or 2001:db8::/64)"},
 						"subnet_description": schema.StringAttribute{
 							Computed:      true,
 							PlanModifiers: []planmodifier.String{}, MarkdownDescription: "Subnet Description"},
@@ -457,6 +457,9 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 									"error_message": schema.StringAttribute{
 										Computed:      true,
 										PlanModifiers: []planmodifier.String{}, MarkdownDescription: "Error Message"},
+									"instance_count": schema.Int64Attribute{
+										Computed:      true,
+										PlanModifiers: []planmodifier.Int64{}, MarkdownDescription: "Number of instances the security group is attached to. It is annotated by the security group endpoints only, so it is null when the group is rendered as a nested object."},
 									"marketplace_offering_type": schema.StringAttribute{
 										Computed:      true,
 										PlanModifiers: []planmodifier.String{}, MarkdownDescription: "Marketplace Offering Type"},
@@ -562,7 +565,7 @@ func (r *OpenstackInstanceResource) Schema(ctx context.Context, req resource.Sch
 							PlanModifiers: []planmodifier.String{
 
 								stringplanmodifier.UseStateForUnknown(),
-							}, MarkdownDescription: "IPv4 network address in CIDR format (e.g. 192.168.0.0/24)"},
+							}, MarkdownDescription: "Network address in CIDR format (e.g. 192.168.0.0/24 or 2001:db8::/64)"},
 						"subnet_description": schema.StringAttribute{
 							Computed: true,
 							PlanModifiers: []planmodifier.String{

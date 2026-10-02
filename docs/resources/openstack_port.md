@@ -117,11 +117,11 @@ Required:
 
 Required:
 
-- `name` (String) Name
+- `url` (String) Url
 
 Read-Only:
 
-- `url` (String) Url
+- `name` (String) Name
 - `uuid` (String) Uuid
 
 

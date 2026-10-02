@@ -66,11 +66,13 @@ type MarketplaceResourceResponse struct {
 
 	LimitUsage map[string]float64 `json:"limit_usage,omitempty" tfsdk:"limit_usage"`
 
-	Limits map[string]int64 `json:"limits,omitempty" tfsdk:"limits"`
+	Limits map[string]float64 `json:"limits,omitempty" tfsdk:"limits"`
 
 	Name *string `json:"name,omitempty" tfsdk:"name"`
 
 	Offering *string `json:"offering,omitempty" tfsdk:"offering"`
+
+	OfferingAccountSettings *MarketplaceResourceOfferingAccountSettingsResponse `json:"offering_account_settings,omitempty" tfsdk:"offering_account_settings"`
 
 	OfferingBackendId *string `json:"offering_backend_id,omitempty" tfsdk:"offering_backend_id"`
 
@@ -136,6 +138,8 @@ type MarketplaceResourceResponse struct {
 
 	ProjectSlug *string `json:"project_slug,omitempty" tfsdk:"project_slug"`
 
+	ProjectStartDate *string `json:"project_start_date,omitempty" tfsdk:"project_start_date"`
+
 	ProviderDescription *string `json:"provider_description,omitempty" tfsdk:"provider_description"`
 
 	ProviderName *string `json:"provider_name,omitempty" tfsdk:"provider_name"`
@@ -188,12 +192,94 @@ type MarketplaceResourceLimitUsageResponse struct {
 type MarketplaceResourceLimitsResponse struct {
 }
 
+type MarketplaceResourceOfferingAccountSettingsResponse struct {
+	AccountScope *common.AccountSetting `json:"account_scope,omitempty" tfsdk:"account_scope"`
+
+	HomedirPrefix *common.AccountSetting `json:"homedir_prefix,omitempty" tfsdk:"homedir_prefix"`
+
+	LoginShell *common.AccountSetting `json:"login_shell,omitempty" tfsdk:"login_shell"`
+
+	UsernameAnonymizedPrefix *common.AccountSetting `json:"username_anonymized_prefix,omitempty" tfsdk:"username_anonymized_prefix"`
+
+	UsernameGenerationPolicy *common.AccountSetting `json:"username_generation_policy,omitempty" tfsdk:"username_generation_policy"`
+}
+
+type MarketplaceResourceOfferingAccountSettingsAccountScopeResponse struct {
+	Inherited *MarketplaceResourceOfferingAccountSettingsAccountScopeInheritedResponse `json:"inherited,omitempty" tfsdk:"inherited"`
+
+	Source *string `json:"source,omitempty" tfsdk:"source"`
+
+	Value *string `json:"value,omitempty" tfsdk:"value"`
+}
+
+type MarketplaceResourceOfferingAccountSettingsAccountScopeInheritedResponse struct {
+	Source *string `json:"source,omitempty" tfsdk:"source"`
+
+	Value *string `json:"value,omitempty" tfsdk:"value"`
+}
+
+type MarketplaceResourceOfferingAccountSettingsHomedirPrefixResponse struct {
+	Inherited *MarketplaceResourceOfferingAccountSettingsHomedirPrefixInheritedResponse `json:"inherited,omitempty" tfsdk:"inherited"`
+
+	Source *string `json:"source,omitempty" tfsdk:"source"`
+
+	Value *string `json:"value,omitempty" tfsdk:"value"`
+}
+
+type MarketplaceResourceOfferingAccountSettingsHomedirPrefixInheritedResponse struct {
+	Source *string `json:"source,omitempty" tfsdk:"source"`
+
+	Value *string `json:"value,omitempty" tfsdk:"value"`
+}
+
+type MarketplaceResourceOfferingAccountSettingsLoginShellResponse struct {
+	Inherited *MarketplaceResourceOfferingAccountSettingsLoginShellInheritedResponse `json:"inherited,omitempty" tfsdk:"inherited"`
+
+	Source *string `json:"source,omitempty" tfsdk:"source"`
+
+	Value *string `json:"value,omitempty" tfsdk:"value"`
+}
+
+type MarketplaceResourceOfferingAccountSettingsLoginShellInheritedResponse struct {
+	Source *string `json:"source,omitempty" tfsdk:"source"`
+
+	Value *string `json:"value,omitempty" tfsdk:"value"`
+}
+
+type MarketplaceResourceOfferingAccountSettingsUsernameAnonymizedPrefixResponse struct {
+	Inherited *MarketplaceResourceOfferingAccountSettingsUsernameAnonymizedPrefixInheritedResponse `json:"inherited,omitempty" tfsdk:"inherited"`
+
+	Source *string `json:"source,omitempty" tfsdk:"source"`
+
+	Value *string `json:"value,omitempty" tfsdk:"value"`
+}
+
+type MarketplaceResourceOfferingAccountSettingsUsernameAnonymizedPrefixInheritedResponse struct {
+	Source *string `json:"source,omitempty" tfsdk:"source"`
+
+	Value *string `json:"value,omitempty" tfsdk:"value"`
+}
+
+type MarketplaceResourceOfferingAccountSettingsUsernameGenerationPolicyResponse struct {
+	Inherited *MarketplaceResourceOfferingAccountSettingsUsernameGenerationPolicyInheritedResponse `json:"inherited,omitempty" tfsdk:"inherited"`
+
+	Source *string `json:"source,omitempty" tfsdk:"source"`
+
+	Value *string `json:"value,omitempty" tfsdk:"value"`
+}
+
+type MarketplaceResourceOfferingAccountSettingsUsernameGenerationPolicyInheritedResponse struct {
+	Source *string `json:"source,omitempty" tfsdk:"source"`
+
+	Value *string `json:"value,omitempty" tfsdk:"value"`
+}
+
 type MarketplaceResourceOfferingComponentsResponse struct {
 	ArticleCode *string `json:"article_code,omitempty" tfsdk:"article_code"`
 
 	BillingType *string `json:"billing_type,omitempty" tfsdk:"billing_type"`
 
-	DefaultLimit *int64 `json:"default_limit,omitempty" tfsdk:"default_limit"`
+	DefaultLimit common.FlexibleNumber `json:"default_limit,omitempty" tfsdk:"default_limit"`
 
 	Description *string `json:"description,omitempty" tfsdk:"description"`
 
@@ -205,17 +291,19 @@ type MarketplaceResourceOfferingComponentsResponse struct {
 
 	IsPrepaid *bool `json:"is_prepaid,omitempty" tfsdk:"is_prepaid"`
 
-	LimitAmount *int64 `json:"limit_amount,omitempty" tfsdk:"limit_amount"`
+	LimitAmount common.FlexibleNumber `json:"limit_amount,omitempty" tfsdk:"limit_amount"`
+
+	LimitDecimalPlaces *int64 `json:"limit_decimal_places,omitempty" tfsdk:"limit_decimal_places"`
 
 	LimitPeriod *string `json:"limit_period,omitempty" tfsdk:"limit_period"`
 
-	MaxAvailableLimit *int64 `json:"max_available_limit,omitempty" tfsdk:"max_available_limit"`
+	MaxAvailableLimit common.FlexibleNumber `json:"max_available_limit,omitempty" tfsdk:"max_available_limit"`
 
 	MaxPrepaidDuration *int64 `json:"max_prepaid_duration,omitempty" tfsdk:"max_prepaid_duration"`
 
 	MaxRenewalDuration *int64 `json:"max_renewal_duration,omitempty" tfsdk:"max_renewal_duration"`
 
-	MaxValue *int64 `json:"max_value,omitempty" tfsdk:"max_value"`
+	MaxValue common.FlexibleNumber `json:"max_value,omitempty" tfsdk:"max_value"`
 
 	MeasuredUnit *string `json:"measured_unit,omitempty" tfsdk:"measured_unit"`
 
@@ -223,7 +311,7 @@ type MarketplaceResourceOfferingComponentsResponse struct {
 
 	MinRenewalDuration *int64 `json:"min_renewal_duration,omitempty" tfsdk:"min_renewal_duration"`
 
-	MinValue *int64 `json:"min_value,omitempty" tfsdk:"min_value"`
+	MinValue common.FlexibleNumber `json:"min_value,omitempty" tfsdk:"min_value"`
 
 	Name *string `json:"name,omitempty" tfsdk:"name"`
 
@@ -319,11 +407,13 @@ type MarketplaceResourceOrderInProgressResponse struct {
 
 	Issue *MarketplaceResourceOrderInProgressIssueResponse `json:"issue,omitempty" tfsdk:"issue"`
 
-	Limits map[string]int64 `json:"limits,omitempty" tfsdk:"limits"`
+	Limits map[string]float64 `json:"limits,omitempty" tfsdk:"limits"`
 
 	MarketplaceResourceUuid *string `json:"marketplace_resource_uuid,omitempty" tfsdk:"marketplace_resource_uuid"`
 
 	NewCostEstimate *string `json:"new_cost_estimate,omitempty" tfsdk:"new_cost_estimate"`
+
+	NewPlanBillingMode *string `json:"new_plan_billing_mode,omitempty" tfsdk:"new_plan_billing_mode"`
 
 	NewPlanName *string `json:"new_plan_name,omitempty" tfsdk:"new_plan_name"`
 
@@ -348,6 +438,8 @@ type MarketplaceResourceOrderInProgressResponse struct {
 	OfferingUuid *string `json:"offering_uuid,omitempty" tfsdk:"offering_uuid"`
 
 	OldCostEstimate common.FlexibleNumber `json:"old_cost_estimate,omitempty" tfsdk:"old_cost_estimate"`
+
+	OldPlanBillingMode *string `json:"old_plan_billing_mode,omitempty" tfsdk:"old_plan_billing_mode"`
 
 	OldPlanName *string `json:"old_plan_name,omitempty" tfsdk:"old_plan_name"`
 
@@ -400,6 +492,8 @@ type MarketplaceResourceOrderInProgressResponse struct {
 	ProviderUuid *string `json:"provider_uuid,omitempty" tfsdk:"provider_uuid"`
 
 	RequestComment *string `json:"request_comment,omitempty" tfsdk:"request_comment"`
+
+	ResourceEndDate *string `json:"resource_end_date,omitempty" tfsdk:"resource_end_date"`
 
 	ResourceName *string `json:"resource_name,omitempty" tfsdk:"resource_name"`
 
