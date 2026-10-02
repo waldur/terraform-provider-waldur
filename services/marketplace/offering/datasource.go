@@ -721,6 +721,8 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 						Computed: true, MarkdownDescription: "Emit the user's full name as a GLAuth displayName custom attribute (rendered to LDAP displayName)."},
 					"emit_waldur_username": schema.BoolAttribute{
 						Computed: true, MarkdownDescription: "Emit the Waldur username as a GLAuth waldurUsername custom attribute, alongside the generated POSIX login name."},
+					"enable_api_key_provisioning": schema.BoolAttribute{
+						Computed: true, MarkdownDescription: "Declares that the site agent can govern resource API keys one by one: request, assign, limit, pause, resume and delete them. Without it a resource's keys can only be revealed and rotated. Nothing checks the claim: turn it on only if the agent's backend supports per-key commands (such as the Envoy AI Gateway); on one that does not (such as Ceph S3) every such command errs."},
 					"enable_display_of_order_actions_for_service_provider": schema.BoolAttribute{
 						Computed: true, MarkdownDescription: "Enable display of order actions for service provider"},
 					"enable_issues_for_membership_changes": schema.BoolAttribute{
@@ -761,6 +763,8 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 						Computed: true, MarkdownDescription: "HEAppE url"},
 					"heappe_username": schema.StringAttribute{
 						Computed: true, MarkdownDescription: "HEAppE username"},
+					"hide_api_keys_tab": schema.BoolAttribute{
+						Computed: true, MarkdownDescription: "Hide the API keys tab on resources of this offering."},
 					"highlight_backend_id_display": schema.BoolAttribute{
 						Computed: true, MarkdownDescription: "Defines if backend_id should be shown more prominently by the UI"},
 					"homedir_prefix": schema.StringAttribute{

@@ -575,6 +575,8 @@ type MarketplaceOfferingPluginOptionsResponse struct {
 
 	EmitWaldurUsername *bool `json:"emit_waldur_username,omitempty" tfsdk:"emit_waldur_username"`
 
+	EnableApiKeyProvisioning *bool `json:"enable_api_key_provisioning,omitempty" tfsdk:"enable_api_key_provisioning"`
+
 	EnableDisplayOfOrderActionsForServiceProvider *bool `json:"enable_display_of_order_actions_for_service_provider,omitempty" tfsdk:"enable_display_of_order_actions_for_service_provider"`
 
 	EnableIssuesForMembershipChanges *bool `json:"enable_issues_for_membership_changes,omitempty" tfsdk:"enable_issues_for_membership_changes"`
@@ -614,6 +616,8 @@ type MarketplaceOfferingPluginOptionsResponse struct {
 	HeappeUrl *string `json:"heappe_url,omitempty" tfsdk:"heappe_url"`
 
 	HeappeUsername *string `json:"heappe_username,omitempty" tfsdk:"heappe_username"`
+
+	HideApiKeysTab *bool `json:"hide_api_keys_tab,omitempty" tfsdk:"hide_api_keys_tab"`
 
 	HighlightBackendIdDisplay *bool `json:"highlight_backend_id_display,omitempty" tfsdk:"highlight_backend_id_display"`
 

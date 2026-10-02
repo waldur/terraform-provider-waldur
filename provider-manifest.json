@@ -1844,6 +1844,13 @@
               "computed": false
             },
             {
+              "name": "enable_api_key_provisioning",
+              "type": "types.Bool",
+              "required": false,
+              "optional": true,
+              "computed": false
+            },
+            {
               "name": "enable_display_of_order_actions_for_service_provider",
               "type": "types.Bool",
               "required": false,
@@ -1979,6 +1986,13 @@
             {
               "name": "heappe_username",
               "type": "types.String",
+              "required": false,
+              "optional": true,
+              "computed": false
+            },
+            {
+              "name": "hide_api_keys_tab",
+              "type": "types.Bool",
               "required": false,
               "optional": true,
               "computed": false

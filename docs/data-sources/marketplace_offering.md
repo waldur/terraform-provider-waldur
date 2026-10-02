@@ -482,6 +482,7 @@ Read-Only:
 - `disabled_resource_actions` (List of String) List of disabled marketplace resource actions for this offering.
 - `emit_display_name` (Boolean) Emit the user's full name as a GLAuth displayName custom attribute (rendered to LDAP displayName).
 - `emit_waldur_username` (Boolean) Emit the Waldur username as a GLAuth waldurUsername custom attribute, alongside the generated POSIX login name.
+- `enable_api_key_provisioning` (Boolean) Declares that the site agent can govern resource API keys one by one: request, assign, limit, pause, resume and delete them. Without it a resource's keys can only be revealed and rotated. Nothing checks the claim: turn it on only if the agent's backend supports per-key commands (such as the Envoy AI Gateway); on one that does not (such as Ceph S3) every such command errs.
 - `enable_display_of_order_actions_for_service_provider` (Boolean) Enable display of order actions for service provider
 - `enable_issues_for_membership_changes` (Boolean) Enable issues for membership changes
 - `enable_membership_sync_status` (Boolean) Enable per-member sync status reporting by the site agent: team views show whether each role grant has propagated to the provider backend, and providers can trigger a resync.
@@ -502,6 +503,7 @@ Read-Only:
 - `heappe_local_base_path` (String) HEAppE local base path
 - `heappe_url` (String) HEAppE url
 - `heappe_username` (String) HEAppE username
+- `hide_api_keys_tab` (Boolean) Hide the API keys tab on resources of this offering.
 - `highlight_backend_id_display` (Boolean) Defines if backend_id should be shown more prominently by the UI
 - `homedir_prefix` (String) Prefix of each account's home directory; the username follows.
 - `is_resource_termination_date_required` (Boolean) If set to True, resource termination date is required
