@@ -844,6 +844,8 @@ type MarketplaceOfferingSoftwareCatalogsCatalogResponse struct {
 
 	Name *string `json:"name,omitempty" tfsdk:"name"`
 
+	SupportsCpuTargetRestrictions *bool `json:"supports_cpu_target_restrictions,omitempty" tfsdk:"supports_cpu_target_restrictions"`
+
 	Uuid *string `json:"uuid,omitempty" tfsdk:"uuid"`
 
 	Version *string `json:"version,omitempty" tfsdk:"version"`

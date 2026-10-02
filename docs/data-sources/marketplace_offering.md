@@ -653,6 +653,7 @@ Read-Only:
 
 - `description` (String) Description
 - `name` (String) Catalog name (e.g., EESSI, Spack)
+- `supports_cpu_target_restrictions` (Boolean) Supports Cpu Target Restrictions
 - `uuid` (String) Uuid
 - `version` (String) Catalog version (e.g., 2023.06, 0.21.0)
 

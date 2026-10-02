@@ -1101,6 +1101,8 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 									Computed: true, MarkdownDescription: "Description"},
 								"name": schema.StringAttribute{
 									Computed: true, MarkdownDescription: "Catalog name (e.g., EESSI, Spack)"},
+								"supports_cpu_target_restrictions": schema.BoolAttribute{
+									Computed: true, MarkdownDescription: "Supports Cpu Target Restrictions"},
 								"uuid": schema.StringAttribute{
 									Computed: true, MarkdownDescription: "Uuid"},
 								"version": schema.StringAttribute{

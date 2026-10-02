@@ -1186,10 +1186,11 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 	if apiResp.SoftwareCatalogs != nil {
 		valSoftwareCatalogs, diagsSoftwareCatalogs := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
 			"catalog": types.ObjectType{AttrTypes: map[string]attr.Type{
-				"description": types.StringType,
-				"name":        types.StringType,
-				"uuid":        types.StringType,
-				"version":     types.StringType,
+				"description":                      types.StringType,
+				"name":                             types.StringType,
+				"supports_cpu_target_restrictions": types.BoolType,
+				"uuid":                             types.StringType,
+				"version":                          types.StringType,
 			}},
 			"enabled_cpu_family":             types.ListType{ElemType: types.StringType},
 			"enabled_cpu_microarchitectures": types.ListType{ElemType: types.StringType},
@@ -1209,10 +1210,11 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 	} else {
 		model.SoftwareCatalogs = types.ListNull(types.ObjectType{AttrTypes: map[string]attr.Type{
 			"catalog": types.ObjectType{AttrTypes: map[string]attr.Type{
-				"description": types.StringType,
-				"name":        types.StringType,
-				"uuid":        types.StringType,
-				"version":     types.StringType,
+				"description":                      types.StringType,
+				"name":                             types.StringType,
+				"supports_cpu_target_restrictions": types.BoolType,
+				"uuid":                             types.StringType,
+				"version":                          types.StringType,
 			}},
 			"enabled_cpu_family":             types.ListType{ElemType: types.StringType},
 			"enabled_cpu_microarchitectures": types.ListType{ElemType: types.StringType},

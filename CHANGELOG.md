@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-10-02
+
+### Added
+
+- `marketplace_offering`: new attribute `software_catalogs.catalog.supports_cpu_target_restrictions`
+
 ## 2026-09-27
 
 ### Added
