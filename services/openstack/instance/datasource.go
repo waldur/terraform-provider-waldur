@@ -105,7 +105,7 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 						"port_mac_address": schema.StringAttribute{
 							Computed: true, MarkdownDescription: "MAC address of the port"},
 						"subnet_cidr": schema.StringAttribute{
-							Computed: true, MarkdownDescription: "Network address in CIDR format (e.g. 192.168.0.0/24 or 2001:db8::/64)"},
+							Computed: true, MarkdownDescription: "IPv4 network address in CIDR format (e.g. 192.168.0.0/24)"},
 						"subnet_description": schema.StringAttribute{
 							Computed: true, MarkdownDescription: "Subnet Description"},
 						"subnet_name": schema.StringAttribute{
@@ -187,8 +187,6 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 										Computed: true, MarkdownDescription: "Description"},
 									"error_message": schema.StringAttribute{
 										Computed: true, MarkdownDescription: "Error Message"},
-									"instance_count": schema.Int64Attribute{
-										Computed: true, MarkdownDescription: "Number of instances the security group is attached to. It is annotated by the security group endpoints only, so it is null when the group is rendered as a nested object."},
 									"marketplace_offering_type": schema.StringAttribute{
 										Computed: true, MarkdownDescription: "Marketplace Offering Type"},
 									"marketplace_resource_uuid": schema.StringAttribute{
@@ -253,7 +251,7 @@ func (d *OpenstackInstanceDataSource) Schema(ctx context.Context, req datasource
 							Computed: true, MarkdownDescription: "Security Groups",
 						},
 						"subnet_cidr": schema.StringAttribute{
-							Computed: true, MarkdownDescription: "Network address in CIDR format (e.g. 192.168.0.0/24 or 2001:db8::/64)"},
+							Computed: true, MarkdownDescription: "IPv4 network address in CIDR format (e.g. 192.168.0.0/24)"},
 						"subnet_description": schema.StringAttribute{
 							Computed: true, MarkdownDescription: "Subnet Description"},
 						"subnet_name": schema.StringAttribute{

@@ -33,6 +33,13 @@ data "waldur_openstack_network" "example" {
   }
 }
 
+data "waldur_openstack_security_group" "default" {
+  filters = {
+    name        = "default"
+    tenant_uuid = data.waldur_openstack_tenant.example.id
+  }
+}
+
 resource "waldur_openstack_port" "example" {
   name    = "example-port"
   network = data.waldur_openstack_network.example.url
@@ -46,7 +53,7 @@ resource "waldur_openstack_port" "example" {
 
   security_groups = [
     {
-      name = "default"
+      url = data.waldur_openstack_security_group.default.url
     },
   ]
 }
@@ -117,11 +124,11 @@ Required:
 
 Required:
 
-- `url` (String) Url
+- `name` (String) Name
 
 Read-Only:
 
-- `name` (String) Name
+- `url` (String) Url
 - `uuid` (String) Uuid
 
 

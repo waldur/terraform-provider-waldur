@@ -214,11 +214,11 @@ func (r *OpenstackPortResource) Schema(ctx context.Context, req resource.SchemaR
 			"security_groups": schema.SetNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
-						"url": schema.StringAttribute{
-							Required: true, MarkdownDescription: "Url"},
 						"name": schema.StringAttribute{
+							Required: true, MarkdownDescription: "Name"},
+						"url": schema.StringAttribute{
 							Computed:      true,
-							PlanModifiers: []planmodifier.String{}, MarkdownDescription: "Name"},
+							PlanModifiers: []planmodifier.String{}, MarkdownDescription: "Url"},
 						"uuid": schema.StringAttribute{
 							Computed:      true,
 							PlanModifiers: []planmodifier.String{}, MarkdownDescription: "Uuid"},
@@ -229,7 +229,7 @@ func (r *OpenstackPortResource) Schema(ctx context.Context, req resource.SchemaR
 				PlanModifiers: []planmodifier.Set{
 
 					setplanmodifier.UseStateForUnknown(),
-					common.SetElementsFromState{Keys: []string{"url"}},
+					common.SetElementsFromState{Keys: []string{"name"}},
 				}, MarkdownDescription: "Security Groups",
 			},
 			"state": schema.StringAttribute{
@@ -427,6 +427,8 @@ func (r *OpenstackPortResource) Update(ctx context.Context, req resource.UpdateR
 
 		requestBody.TargetTenant = data.TargetTenant.ValueStringPointer()
 	}
+
+	resp.Diagnostics.Append(common.PopulateOptionalSetField(ctx, data.SecurityGroups, &requestBody.SecurityGroups)...)
 
 	if anyChanges {
 		var err error

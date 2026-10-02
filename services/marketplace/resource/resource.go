@@ -7,7 +7,6 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework-timeouts/resource/timeouts"
 	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
-	"github.com/hashicorp/terraform-plugin-framework-validators/float64validator"
 	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
@@ -198,7 +197,7 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 					mapplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "Dictionary mapping limit-based component types to their consumed usage. Sums the ComponentUsage rows of the component's current period (the monthly billing period unless the component defines a longer limit_period), i.e. the period's high-watermark rather than the instantaneous current_usages value."},
 			"limits": schema.MapAttribute{
-				ElementType: types.Float64Type,
+				ElementType: types.Int64Type,
 				Computed:    true,
 				PlanModifiers: []planmodifier.Map{
 
@@ -219,255 +218,6 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 					stringplanmodifier.RequiresReplace(),
 					stringplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "Offering"},
-			"offering_account_settings": schema.SingleNestedAttribute{
-				Attributes: map[string]schema.Attribute{
-					"account_scope": schema.SingleNestedAttribute{
-						Attributes: map[string]schema.Attribute{
-							"inherited": schema.SingleNestedAttribute{
-								Attributes: map[string]schema.Attribute{
-									"source": schema.StringAttribute{
-										Optional: true,
-										Computed: true,
-										PlanModifiers: []planmodifier.String{
-
-											stringplanmodifier.UseStateForUnknown(),
-										}, MarkdownDescription: "Where the value comes from: the offering's own plugin option, the service provider's account options, or the built-in default."},
-									"value": schema.StringAttribute{
-										Optional: true,
-										Computed: true,
-										PlanModifiers: []planmodifier.String{
-
-											stringplanmodifier.UseStateForUnknown(),
-										}, MarkdownDescription: "The value the setting resolves to."},
-								},
-								Optional: true,
-								Computed: true,
-								PlanModifiers: []planmodifier.Object{
-
-									objectplanmodifier.UseStateForUnknown(),
-								}, MarkdownDescription: "What the setting resolves to without the offering's own value: the service provider's, else the built-in default. Removing the offering's override leads to it.",
-							},
-							"source": schema.StringAttribute{
-								Optional: true,
-								Computed: true,
-								PlanModifiers: []planmodifier.String{
-
-									stringplanmodifier.UseStateForUnknown(),
-								}, MarkdownDescription: "Where the value comes from: the offering's own plugin option, the service provider's account options, or the built-in default."},
-							"value": schema.StringAttribute{
-								Optional: true,
-								Computed: true,
-								PlanModifiers: []planmodifier.String{
-
-									stringplanmodifier.UseStateForUnknown(),
-								}, MarkdownDescription: "The value the setting resolves to."},
-						},
-						Optional: true,
-						Computed: true,
-						PlanModifiers: []planmodifier.Object{
-
-							objectplanmodifier.UseStateForUnknown(),
-						}, MarkdownDescription: "Account Scope",
-					},
-					"homedir_prefix": schema.SingleNestedAttribute{
-						Attributes: map[string]schema.Attribute{
-							"inherited": schema.SingleNestedAttribute{
-								Attributes: map[string]schema.Attribute{
-									"source": schema.StringAttribute{
-										Optional: true,
-										Computed: true,
-										PlanModifiers: []planmodifier.String{
-
-											stringplanmodifier.UseStateForUnknown(),
-										}, MarkdownDescription: "Where the value comes from: the offering's own plugin option, the service provider's account options, or the built-in default."},
-									"value": schema.StringAttribute{
-										Optional: true,
-										Computed: true,
-										PlanModifiers: []planmodifier.String{
-
-											stringplanmodifier.UseStateForUnknown(),
-										}, MarkdownDescription: "The value the setting resolves to."},
-								},
-								Optional: true,
-								Computed: true,
-								PlanModifiers: []planmodifier.Object{
-
-									objectplanmodifier.UseStateForUnknown(),
-								}, MarkdownDescription: "What the setting resolves to without the offering's own value: the service provider's, else the built-in default. Removing the offering's override leads to it.",
-							},
-							"source": schema.StringAttribute{
-								Optional: true,
-								Computed: true,
-								PlanModifiers: []planmodifier.String{
-
-									stringplanmodifier.UseStateForUnknown(),
-								}, MarkdownDescription: "Where the value comes from: the offering's own plugin option, the service provider's account options, or the built-in default."},
-							"value": schema.StringAttribute{
-								Optional: true,
-								Computed: true,
-								PlanModifiers: []planmodifier.String{
-
-									stringplanmodifier.UseStateForUnknown(),
-								}, MarkdownDescription: "The value the setting resolves to."},
-						},
-						Optional: true,
-						Computed: true,
-						PlanModifiers: []planmodifier.Object{
-
-							objectplanmodifier.UseStateForUnknown(),
-						}, MarkdownDescription: "Homedir Prefix",
-					},
-					"login_shell": schema.SingleNestedAttribute{
-						Attributes: map[string]schema.Attribute{
-							"inherited": schema.SingleNestedAttribute{
-								Attributes: map[string]schema.Attribute{
-									"source": schema.StringAttribute{
-										Optional: true,
-										Computed: true,
-										PlanModifiers: []planmodifier.String{
-
-											stringplanmodifier.UseStateForUnknown(),
-										}, MarkdownDescription: "Where the value comes from: the offering's own plugin option, the service provider's account options, or the built-in default."},
-									"value": schema.StringAttribute{
-										Optional: true,
-										Computed: true,
-										PlanModifiers: []planmodifier.String{
-
-											stringplanmodifier.UseStateForUnknown(),
-										}, MarkdownDescription: "The value the setting resolves to."},
-								},
-								Optional: true,
-								Computed: true,
-								PlanModifiers: []planmodifier.Object{
-
-									objectplanmodifier.UseStateForUnknown(),
-								}, MarkdownDescription: "What the setting resolves to without the offering's own value: the service provider's, else the built-in default. Removing the offering's override leads to it.",
-							},
-							"source": schema.StringAttribute{
-								Optional: true,
-								Computed: true,
-								PlanModifiers: []planmodifier.String{
-
-									stringplanmodifier.UseStateForUnknown(),
-								}, MarkdownDescription: "Where the value comes from: the offering's own plugin option, the service provider's account options, or the built-in default."},
-							"value": schema.StringAttribute{
-								Optional: true,
-								Computed: true,
-								PlanModifiers: []planmodifier.String{
-
-									stringplanmodifier.UseStateForUnknown(),
-								}, MarkdownDescription: "The value the setting resolves to."},
-						},
-						Optional: true,
-						Computed: true,
-						PlanModifiers: []planmodifier.Object{
-
-							objectplanmodifier.UseStateForUnknown(),
-						}, MarkdownDescription: "Login Shell",
-					},
-					"username_anonymized_prefix": schema.SingleNestedAttribute{
-						Attributes: map[string]schema.Attribute{
-							"inherited": schema.SingleNestedAttribute{
-								Attributes: map[string]schema.Attribute{
-									"source": schema.StringAttribute{
-										Optional: true,
-										Computed: true,
-										PlanModifiers: []planmodifier.String{
-
-											stringplanmodifier.UseStateForUnknown(),
-										}, MarkdownDescription: "Where the value comes from: the offering's own plugin option, the service provider's account options, or the built-in default."},
-									"value": schema.StringAttribute{
-										Optional: true,
-										Computed: true,
-										PlanModifiers: []planmodifier.String{
-
-											stringplanmodifier.UseStateForUnknown(),
-										}, MarkdownDescription: "The value the setting resolves to."},
-								},
-								Optional: true,
-								Computed: true,
-								PlanModifiers: []planmodifier.Object{
-
-									objectplanmodifier.UseStateForUnknown(),
-								}, MarkdownDescription: "What the setting resolves to without the offering's own value: the service provider's, else the built-in default. Removing the offering's override leads to it.",
-							},
-							"source": schema.StringAttribute{
-								Optional: true,
-								Computed: true,
-								PlanModifiers: []planmodifier.String{
-
-									stringplanmodifier.UseStateForUnknown(),
-								}, MarkdownDescription: "Where the value comes from: the offering's own plugin option, the service provider's account options, or the built-in default."},
-							"value": schema.StringAttribute{
-								Optional: true,
-								Computed: true,
-								PlanModifiers: []planmodifier.String{
-
-									stringplanmodifier.UseStateForUnknown(),
-								}, MarkdownDescription: "The value the setting resolves to."},
-						},
-						Optional: true,
-						Computed: true,
-						PlanModifiers: []planmodifier.Object{
-
-							objectplanmodifier.UseStateForUnknown(),
-						}, MarkdownDescription: "Username Anonymized Prefix",
-					},
-					"username_generation_policy": schema.SingleNestedAttribute{
-						Attributes: map[string]schema.Attribute{
-							"inherited": schema.SingleNestedAttribute{
-								Attributes: map[string]schema.Attribute{
-									"source": schema.StringAttribute{
-										Optional: true,
-										Computed: true,
-										PlanModifiers: []planmodifier.String{
-
-											stringplanmodifier.UseStateForUnknown(),
-										}, MarkdownDescription: "Where the value comes from: the offering's own plugin option, the service provider's account options, or the built-in default."},
-									"value": schema.StringAttribute{
-										Optional: true,
-										Computed: true,
-										PlanModifiers: []planmodifier.String{
-
-											stringplanmodifier.UseStateForUnknown(),
-										}, MarkdownDescription: "The value the setting resolves to."},
-								},
-								Optional: true,
-								Computed: true,
-								PlanModifiers: []planmodifier.Object{
-
-									objectplanmodifier.UseStateForUnknown(),
-								}, MarkdownDescription: "What the setting resolves to without the offering's own value: the service provider's, else the built-in default. Removing the offering's override leads to it.",
-							},
-							"source": schema.StringAttribute{
-								Optional: true,
-								Computed: true,
-								PlanModifiers: []planmodifier.String{
-
-									stringplanmodifier.UseStateForUnknown(),
-								}, MarkdownDescription: "Where the value comes from: the offering's own plugin option, the service provider's account options, or the built-in default."},
-							"value": schema.StringAttribute{
-								Optional: true,
-								Computed: true,
-								PlanModifiers: []planmodifier.String{
-
-									stringplanmodifier.UseStateForUnknown(),
-								}, MarkdownDescription: "The value the setting resolves to."},
-						},
-						Optional: true,
-						Computed: true,
-						PlanModifiers: []planmodifier.Object{
-
-							objectplanmodifier.UseStateForUnknown(),
-						}, MarkdownDescription: "Username Generation Policy",
-					},
-				},
-				Computed: true,
-				PlanModifiers: []planmodifier.Object{
-
-					objectplanmodifier.UseStateForUnknown(),
-				}, MarkdownDescription: "Offering Account Settings",
-			},
 			"offering_backend_id": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
@@ -500,16 +250,16 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 							Validators: []validator.String{
 								stringvalidator.OneOf("fixed", "usage", "limit", "one", "few"),
 							}},
-						"default_limit": schema.Float64Attribute{
+						"default_limit": schema.Int64Attribute{
 							Optional: true,
 							Computed: true,
-							PlanModifiers: []planmodifier.Float64{
+							PlanModifiers: []planmodifier.Int64{
 
-								float64planmodifier.UseStateForUnknown(),
+								int64planmodifier.UseStateForUnknown(),
 							}, MarkdownDescription: "Default Limit",
-							Validators: []validator.Float64{
-								float64validator.AtLeast(-1e+18),
-								float64validator.AtMost(1e+18),
+							Validators: []validator.Int64{
+								int64validator.AtLeast(-2147483648),
+								int64validator.AtMost(2147483647),
 							}},
 						"description": schema.StringAttribute{
 							Optional: true,
@@ -536,7 +286,7 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 							PlanModifiers: []planmodifier.Bool{
 
 								boolplanmodifier.UseStateForUnknown(),
-							}, MarkdownDescription: "The API's older name for ``billed_per_plan``. It used to ask the plugin registry whether this component's type is one the plugin declares, which left out the OpenStack per-volume-type quotas: they are created by the volume type sync rather than declared, so the API called them provider components while the billing resolver treated them as builtin. Reading the stored flag makes the two agree."},
+							}, MarkdownDescription: "Is Builtin"},
 						"is_prepaid": schema.BoolAttribute{
 							Optional: true,
 							Computed: true,
@@ -544,27 +294,16 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 
 								boolplanmodifier.UseStateForUnknown(),
 							}, MarkdownDescription: "Is Prepaid"},
-						"limit_amount": schema.Float64Attribute{
-							Optional: true,
-							Computed: true,
-							PlanModifiers: []planmodifier.Float64{
-
-								float64planmodifier.UseStateForUnknown(),
-							}, MarkdownDescription: "Limit Amount",
-							Validators: []validator.Float64{
-								float64validator.AtLeast(-1e+18),
-								float64validator.AtMost(1e+18),
-							}},
-						"limit_decimal_places": schema.Int64Attribute{
+						"limit_amount": schema.Int64Attribute{
 							Optional: true,
 							Computed: true,
 							PlanModifiers: []planmodifier.Int64{
 
 								int64planmodifier.UseStateForUnknown(),
-							}, MarkdownDescription: "Number of decimal places accepted for this component's limit. 0 keeps the limit integer-only.",
+							}, MarkdownDescription: "Limit Amount",
 							Validators: []validator.Int64{
-								int64validator.AtLeast(0),
-								int64validator.AtMost(2),
+								int64validator.AtLeast(-2147483648),
+								int64validator.AtMost(2147483647),
 							}},
 						"limit_period": schema.StringAttribute{
 							Optional: true,
@@ -573,16 +312,16 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 
 								stringplanmodifier.UseStateForUnknown(),
 							}, MarkdownDescription: "Limit Period"},
-						"max_available_limit": schema.Float64Attribute{
+						"max_available_limit": schema.Int64Attribute{
 							Optional: true,
 							Computed: true,
-							PlanModifiers: []planmodifier.Float64{
+							PlanModifiers: []planmodifier.Int64{
 
-								float64planmodifier.UseStateForUnknown(),
+								int64planmodifier.UseStateForUnknown(),
 							}, MarkdownDescription: "Max Available Limit",
-							Validators: []validator.Float64{
-								float64validator.AtLeast(-1e+18),
-								float64validator.AtMost(1e+18),
+							Validators: []validator.Int64{
+								int64validator.AtLeast(-2147483648),
+								int64validator.AtMost(2147483647),
 							}},
 						"max_prepaid_duration": schema.Int64Attribute{
 							Optional: true,
@@ -606,16 +345,16 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 								int64validator.AtLeast(0),
 								int64validator.AtMost(2147483647),
 							}},
-						"max_value": schema.Float64Attribute{
+						"max_value": schema.Int64Attribute{
 							Optional: true,
 							Computed: true,
-							PlanModifiers: []planmodifier.Float64{
+							PlanModifiers: []planmodifier.Int64{
 
-								float64planmodifier.UseStateForUnknown(),
+								int64planmodifier.UseStateForUnknown(),
 							}, MarkdownDescription: "Max Value",
-							Validators: []validator.Float64{
-								float64validator.AtLeast(-1e+18),
-								float64validator.AtMost(1e+18),
+							Validators: []validator.Int64{
+								int64validator.AtLeast(-2147483648),
+								int64validator.AtMost(2147483647),
 							}},
 						"measured_unit": schema.StringAttribute{
 							Optional: true,
@@ -646,16 +385,16 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 								int64validator.AtLeast(0),
 								int64validator.AtMost(2147483647),
 							}},
-						"min_value": schema.Float64Attribute{
+						"min_value": schema.Int64Attribute{
 							Optional: true,
 							Computed: true,
-							PlanModifiers: []planmodifier.Float64{
+							PlanModifiers: []planmodifier.Int64{
 
-								float64planmodifier.UseStateForUnknown(),
+								int64planmodifier.UseStateForUnknown(),
 							}, MarkdownDescription: "Min Value",
-							Validators: []validator.Float64{
-								float64validator.AtLeast(-1e+18),
-								float64validator.AtMost(1e+18),
+							Validators: []validator.Int64{
+								int64validator.AtLeast(-2147483648),
+								int64validator.AtMost(2147483647),
 							}},
 						"name": schema.StringAttribute{
 							Optional: true,
@@ -1041,7 +780,7 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 						}, MarkdownDescription: "Issue",
 					},
 					"limits": schema.MapAttribute{
-						ElementType: types.Float64Type,
+						ElementType: types.Int64Type,
 						Optional:    true,
 						Computed:    true,
 						PlanModifiers: []planmodifier.Map{
@@ -1063,12 +802,6 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 						Validators: []validator.String{
 							stringvalidator.RegexMatches(regexp.MustCompile(`^-?\d{0,12}(?:\.\d{0,10})?$`), ""),
 						}},
-					"new_plan_billing_mode": schema.StringAttribute{
-						Computed: true,
-						PlanModifiers: []planmodifier.String{
-
-							stringplanmodifier.UseStateForUnknown(),
-						}, MarkdownDescription: "New Plan Billing Mode"},
 					"new_plan_name": schema.StringAttribute{
 						Computed: true,
 						PlanModifiers: []planmodifier.String{
@@ -1142,13 +875,7 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 						PlanModifiers: []planmodifier.Float64{
 
 							float64planmodifier.UseStateForUnknown(),
-						}, MarkdownDescription: "The old-limits estimate, snapshotted by init_cost() at creation. Must not recompute live: _compute_old_cost_estimate() prices from \\\"today\\\", which keeps advancing on every read while `cost` stays fixed from creation -- the shown cost change would grow the longer an order sits unread. Orders that predate this field have no snapshot, so they fall back to the live computation rather than a wrong zero."},
-					"old_plan_billing_mode": schema.StringAttribute{
-						Computed: true,
-						PlanModifiers: []planmodifier.String{
-
-							stringplanmodifier.UseStateForUnknown(),
-						}, MarkdownDescription: "Old Plan Billing Mode"},
+						}, MarkdownDescription: "Old Cost Estimate"},
 					"old_plan_name": schema.StringAttribute{
 						Computed: true,
 						PlanModifiers: []planmodifier.String{
@@ -1313,12 +1040,6 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 
 							stringplanmodifier.UseStateForUnknown(),
 						}, MarkdownDescription: "Request Comment"},
-					"resource_end_date": schema.StringAttribute{
-						Computed: true,
-						PlanModifiers: []planmodifier.String{
-
-							stringplanmodifier.UseStateForUnknown(),
-						}, MarkdownDescription: "Resource End Date"},
 					"resource_name": schema.StringAttribute{
 						Computed: true,
 						PlanModifiers: []planmodifier.String{
@@ -1503,12 +1224,6 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 
 					stringplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "Project Slug"},
-			"project_start_date": schema.StringAttribute{
-				Computed: true,
-				PlanModifiers: []planmodifier.String{
-
-					stringplanmodifier.UseStateForUnknown(),
-				}, MarkdownDescription: "Project Start Date"},
 			"provider_description": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{

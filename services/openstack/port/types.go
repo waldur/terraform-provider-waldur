@@ -1,8 +1,6 @@
 package port
 
 import (
-	"encoding/json"
-
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
@@ -31,19 +29,13 @@ type OpenstackPortUpdateRequest struct {
 
 	Name *string `json:"name,omitempty" tfsdk:"name"`
 
+	SecurityGroups *[]common.OpenStackPortNestedSecurityGroupRequest `json:"security_groups,omitempty" tfsdk:"security_groups"`
+
 	TargetTenant *string `json:"target_tenant,omitempty" tfsdk:"target_tenant"`
 }
 
 type OpenstackPortUpdateSecurityGroupsActionRequest struct {
 	SecurityGroups []common.OpenStackPortNestedSecurityGroupRequest `json:"security_groups"`
-}
-
-func (r OpenstackPortUpdateSecurityGroupsActionRequest) MarshalJSON() ([]byte, error) {
-	urls := make([]*string, len(r.SecurityGroups))
-	for i, item := range r.SecurityGroups {
-		urls[i] = item.Url
-	}
-	return json.Marshal(map[string][]*string{"security_groups": urls})
 }
 
 type OpenstackPortResponse struct {
@@ -117,9 +109,9 @@ type OpenstackPortFixedIpsResponse struct {
 }
 
 type OpenstackPortSecurityGroupsResponse struct {
-	Url *string `json:"url" tfsdk:"url"`
+	Name *string `json:"name" tfsdk:"name"`
 
-	Name *string `json:"name,omitempty" tfsdk:"name"`
+	Url *string `json:"url,omitempty" tfsdk:"url"`
 
 	Uuid *string `json:"uuid,omitempty" tfsdk:"uuid"`
 }

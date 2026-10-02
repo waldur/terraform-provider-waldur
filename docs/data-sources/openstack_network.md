@@ -98,13 +98,11 @@ Read-Only:
 Read-Only:
 
 - `allocation_pools` (Attributes List) Allocation Pools (see [below for nested schema](#nestedatt--subnets--allocation_pools))
-- `cidr` (String) Network address in CIDR format (e.g. 192.168.0.0/24 or 2001:db8::/64)
+- `cidr` (String) IPv4 network address in CIDR format (e.g. 192.168.0.0/24)
 - `description` (String) Description
 - `enable_dhcp` (Boolean) If True, DHCP service will be enabled on this subnet
 - `gateway_ip` (String) IP address of the gateway for this subnet
 - `ip_version` (Number) IP protocol version (4 or 6)
-- `ipv6_address_mode` (String) Ipv6 Address Mode
-- `ipv6_ra_mode` (String) Ipv6 Ra Mode
 - `name` (String) Name
 - `port_security_enabled` (Boolean) Port Security Enabled
 - `uuid` (String) Uuid
