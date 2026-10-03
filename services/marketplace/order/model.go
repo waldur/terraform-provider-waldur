@@ -171,6 +171,7 @@ type MarketplaceOrderModel struct {
 	Limits                            types.Map         `tfsdk:"limits"`
 	MarketplaceResourceUuid           types.String      `tfsdk:"marketplace_resource_uuid"`
 	NewCostEstimate                   types.String      `tfsdk:"new_cost_estimate"`
+	NewPlanBillingMode                types.String      `tfsdk:"new_plan_billing_mode"`
 	NewPlanName                       types.String      `tfsdk:"new_plan_name"`
 	NewPlanUuid                       types.String      `tfsdk:"new_plan_uuid"`
 	Offering                          types.String      `tfsdk:"offering"`
@@ -183,6 +184,7 @@ type MarketplaceOrderModel struct {
 	OfferingType                      types.String      `tfsdk:"offering_type"`
 	OfferingUuid                      types.String      `tfsdk:"offering_uuid"`
 	OldCostEstimate                   types.Float64     `tfsdk:"old_cost_estimate"`
+	OldPlanBillingMode                types.String      `tfsdk:"old_plan_billing_mode"`
 	OldPlanName                       types.String      `tfsdk:"old_plan_name"`
 	OldPlanUuid                       types.String      `tfsdk:"old_plan_uuid"`
 	OrderSubtype                      types.String      `tfsdk:"order_subtype"`
@@ -209,6 +211,7 @@ type MarketplaceOrderModel struct {
 	ProviderSlug                      types.String      `tfsdk:"provider_slug"`
 	ProviderUuid                      types.String      `tfsdk:"provider_uuid"`
 	RequestComment                    types.String      `tfsdk:"request_comment"`
+	ResourceEndDate                   types.String      `tfsdk:"resource_end_date"`
 	ResourceName                      types.String      `tfsdk:"resource_name"`
 	ResourceType                      types.String      `tfsdk:"resource_type"`
 	ResourceUuid                      types.String      `tfsdk:"resource_uuid"`
@@ -317,16 +320,18 @@ func (model *MarketplaceOrderModel) CopyFrom(ctx context.Context, apiResp Market
 	}
 
 	if apiResp.Limits != nil {
-		valLimits, diagsLimits := types.MapValueFrom(ctx, types.Int64Type, apiResp.Limits)
+		valLimits, diagsLimits := types.MapValueFrom(ctx, types.Float64Type, apiResp.Limits)
 		diags.Append(diagsLimits...)
 		model.Limits = valLimits
 	} else {
-		model.Limits = types.MapNull(types.Int64Type)
+		model.Limits = types.MapNull(types.Float64Type)
 	}
 
 	model.MarketplaceResourceUuid = common.StringPointerValue(apiResp.MarketplaceResourceUuid)
 
 	model.NewCostEstimate = common.StringPointerValue(apiResp.NewCostEstimate)
+
+	model.NewPlanBillingMode = common.StringPointerValue(apiResp.NewPlanBillingMode)
 
 	model.NewPlanName = common.StringPointerValue(apiResp.NewPlanName)
 
@@ -357,6 +362,8 @@ func (model *MarketplaceOrderModel) CopyFrom(ctx context.Context, apiResp Market
 	model.OfferingUuid = common.StringPointerValue(apiResp.OfferingUuid)
 
 	model.OldCostEstimate = types.Float64PointerValue(apiResp.OldCostEstimate.Float64Ptr())
+
+	model.OldPlanBillingMode = common.StringPointerValue(apiResp.OldPlanBillingMode)
 
 	model.OldPlanName = common.StringPointerValue(apiResp.OldPlanName)
 
@@ -415,6 +422,8 @@ func (model *MarketplaceOrderModel) CopyFrom(ctx context.Context, apiResp Market
 	model.ProviderUuid = common.StringPointerValue(apiResp.ProviderUuid)
 
 	model.RequestComment = common.StringPointerValue(apiResp.RequestComment)
+
+	model.ResourceEndDate = common.StringPointerValue(apiResp.ResourceEndDate)
 
 	model.ResourceName = common.StringPointerValue(apiResp.ResourceName)
 

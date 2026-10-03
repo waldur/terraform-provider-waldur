@@ -214,77 +214,87 @@ func (m *MarketplaceOfferingFiltersModel) GetSchema() schema.SingleNestedAttribu
 }
 
 type MarketplaceOfferingModel struct {
-	UUID                      types.String `tfsdk:"id"`
-	Attributes                types.Map    `tfsdk:"attributes"`
-	BackendId                 types.String `tfsdk:"backend_id"`
-	Billable                  types.Bool   `tfsdk:"billable"`
-	BillingTypeClassification types.String `tfsdk:"billing_type_classification"`
-	Category                  types.String `tfsdk:"category"`
-	CategoryUuid              types.String `tfsdk:"category_uuid"`
-	CitationCount             types.Int64  `tfsdk:"citation_count"`
-	ComplianceChecklist       types.String `tfsdk:"compliance_checklist"`
-	Components                types.List   `tfsdk:"components"`
-	ConfigDriveDefault        types.Bool   `tfsdk:"config_drive_default"`
-	Country                   types.String `tfsdk:"country"`
-	Customer                  types.String `tfsdk:"customer"`
-	DataciteDoi               types.String `tfsdk:"datacite_doi"`
-	DefaultAccessSubnets      types.List   `tfsdk:"default_access_subnets"`
-	Description               types.String `tfsdk:"description"`
-	DocumentationUrl          types.String `tfsdk:"documentation_url"`
-	EffectiveAvailableLimits  types.List   `tfsdk:"effective_available_limits"`
-	Endpoints                 types.List   `tfsdk:"endpoints"`
-	Files                     types.List   `tfsdk:"files"`
-	FullDescription           types.String `tfsdk:"full_description"`
-	GettingStarted            types.String `tfsdk:"getting_started"`
-	GoogleCalendarIsPublic    types.Bool   `tfsdk:"google_calendar_is_public"`
-	GoogleCalendarLink        types.String `tfsdk:"google_calendar_link"`
-	HasComplianceRequirements types.Bool   `tfsdk:"has_compliance_requirements"`
-	HelpdeskUrl               types.String `tfsdk:"helpdesk_url"`
-	Image                     types.String `tfsdk:"image"`
-	IntegrationGuide          types.String `tfsdk:"integration_guide"`
-	IsAccessible              types.Bool   `tfsdk:"is_accessible"`
-	Name                      types.String `tfsdk:"name"`
-	OfferingGroup             types.String `tfsdk:"offering_group"`
-	OfferingGroupTitle        types.String `tfsdk:"offering_group_title"`
-	OfferingGroupUuid         types.String `tfsdk:"offering_group_uuid"`
-	OpenForProposals          types.Bool   `tfsdk:"open_for_proposals"`
-	Options                   types.Object `tfsdk:"options"`
-	OrderCount                types.Int64  `tfsdk:"order_count"`
-	OrganizationGroups        types.List   `tfsdk:"organization_groups"`
-	ParentDescription         types.String `tfsdk:"parent_description"`
-	ParentName                types.String `tfsdk:"parent_name"`
-	ParentUuid                types.String `tfsdk:"parent_uuid"`
-	Partitions                types.List   `tfsdk:"partitions"`
-	PausedReason              types.String `tfsdk:"paused_reason"`
-	Plans                     types.List   `tfsdk:"plans"`
-	PluginOptions             types.Object `tfsdk:"plugin_options"`
-	PrivacyPolicyLink         types.String `tfsdk:"privacy_policy_link"`
-	ProfileName               types.String `tfsdk:"profile_name"`
-	ProfileUuid               types.String `tfsdk:"profile_uuid"`
-	Project                   types.String `tfsdk:"project"`
-	PromotionCampaigns        types.List   `tfsdk:"promotion_campaigns"`
-	QosProfiles               types.List   `tfsdk:"qos_profiles"`
-	Quotas                    types.List   `tfsdk:"quotas"`
-	ResourceOptions           types.Object `tfsdk:"resource_options"`
-	Scope                     types.String `tfsdk:"scope"`
-	ScopeErrorMessage         types.String `tfsdk:"scope_error_message"`
-	ScopeName                 types.String `tfsdk:"scope_name"`
-	ScopeState                types.String `tfsdk:"scope_state"`
-	ScopeUuid                 types.String `tfsdk:"scope_uuid"`
-	Screenshots               types.List   `tfsdk:"screenshots"`
-	Shared                    types.Bool   `tfsdk:"shared"`
-	Slug                      types.String `tfsdk:"slug"`
-	SoftwareCatalogs          types.List   `tfsdk:"software_catalogs"`
-	State                     types.String `tfsdk:"state"`
-	Tags                      types.Set    `tfsdk:"tags"`
-	Thumbnail                 types.String `tfsdk:"thumbnail"`
-	TotalCost                 types.Int64  `tfsdk:"total_cost"`
-	TotalCostEstimated        types.Int64  `tfsdk:"total_cost_estimated"`
-	TotalCustomers            types.Int64  `tfsdk:"total_customers"`
-	Type                      types.String `tfsdk:"type"`
-	Url                       types.String `tfsdk:"url"`
-	UserHasConsent            types.Bool   `tfsdk:"user_has_consent"`
-	VendorDetails             types.String `tfsdk:"vendor_details"`
+	UUID                       types.String `tfsdk:"id"`
+	AccountSettings            types.Object `tfsdk:"account_settings"`
+	Attributes                 types.Map    `tfsdk:"attributes"`
+	BackendId                  types.String `tfsdk:"backend_id"`
+	Billable                   types.Bool   `tfsdk:"billable"`
+	BillingModeComponents      types.Map    `tfsdk:"billing_mode_components"`
+	BillingPeriodApplies       types.Map    `tfsdk:"billing_period_applies"`
+	BillingTypeClassification  types.String `tfsdk:"billing_type_classification"`
+	CanUpdateIntegration       types.Bool   `tfsdk:"can_update_integration"`
+	CanUpdateOptions           types.Bool   `tfsdk:"can_update_options"`
+	Category                   types.String `tfsdk:"category"`
+	CategoryUuid               types.String `tfsdk:"category_uuid"`
+	CitationCount              types.Int64  `tfsdk:"citation_count"`
+	ComplianceChecklist        types.String `tfsdk:"compliance_checklist"`
+	ComplianceChecklistDetails types.Object `tfsdk:"compliance_checklist_details"`
+	Components                 types.List   `tfsdk:"components"`
+	ConfigDriveDefault         types.Bool   `tfsdk:"config_drive_default"`
+	Country                    types.String `tfsdk:"country"`
+	Customer                   types.String `tfsdk:"customer"`
+	DataciteDoi                types.String `tfsdk:"datacite_doi"`
+	DefaultAccessSubnets       types.List   `tfsdk:"default_access_subnets"`
+	Description                types.String `tfsdk:"description"`
+	DocumentationUrl           types.String `tfsdk:"documentation_url"`
+	EffectiveAvailableLimits   types.List   `tfsdk:"effective_available_limits"`
+	Endpoints                  types.List   `tfsdk:"endpoints"`
+	Files                      types.List   `tfsdk:"files"`
+	FullDescription            types.String `tfsdk:"full_description"`
+	GettingStarted             types.String `tfsdk:"getting_started"`
+	GoogleCalendarIsPublic     types.Bool   `tfsdk:"google_calendar_is_public"`
+	GoogleCalendarLink         types.String `tfsdk:"google_calendar_link"`
+	HasComplianceRequirements  types.Bool   `tfsdk:"has_compliance_requirements"`
+	HelpdeskUrl                types.String `tfsdk:"helpdesk_url"`
+	Image                      types.String `tfsdk:"image"`
+	IntegrationGuide           types.String `tfsdk:"integration_guide"`
+	IsAccessible               types.Bool   `tfsdk:"is_accessible"`
+	Name                       types.String `tfsdk:"name"`
+	OfferingGroup              types.String `tfsdk:"offering_group"`
+	OfferingGroupTitle         types.String `tfsdk:"offering_group_title"`
+	OfferingGroupUuid          types.String `tfsdk:"offering_group_uuid"`
+	OpenForProposals           types.Bool   `tfsdk:"open_for_proposals"`
+	Options                    types.Object `tfsdk:"options"`
+	OrderCount                 types.Int64  `tfsdk:"order_count"`
+	OrganizationGroups         types.List   `tfsdk:"organization_groups"`
+	ParentDescription          types.String `tfsdk:"parent_description"`
+	ParentName                 types.String `tfsdk:"parent_name"`
+	ParentUuid                 types.String `tfsdk:"parent_uuid"`
+	Partitions                 types.List   `tfsdk:"partitions"`
+	PausedReason               types.String `tfsdk:"paused_reason"`
+	Plans                      types.List   `tfsdk:"plans"`
+	PluginOptions              types.Object `tfsdk:"plugin_options"`
+	PrivacyPolicyLink          types.String `tfsdk:"privacy_policy_link"`
+	ProfileName                types.String `tfsdk:"profile_name"`
+	ProfileUuid                types.String `tfsdk:"profile_uuid"`
+	Project                    types.String `tfsdk:"project"`
+	PromotionCampaigns         types.List   `tfsdk:"promotion_campaigns"`
+	QosProfiles                types.List   `tfsdk:"qos_profiles"`
+	Quotas                     types.List   `tfsdk:"quotas"`
+	ResourceOptions            types.Object `tfsdk:"resource_options"`
+	Scope                      types.String `tfsdk:"scope"`
+	ScopeErrorMessage          types.String `tfsdk:"scope_error_message"`
+	ScopeName                  types.String `tfsdk:"scope_name"`
+	ScopeResource              types.String `tfsdk:"scope_resource"`
+	ScopeResourceName          types.String `tfsdk:"scope_resource_name"`
+	ScopeResourceUuid          types.String `tfsdk:"scope_resource_uuid"`
+	ScopeState                 types.String `tfsdk:"scope_state"`
+	ScopeUuid                  types.String `tfsdk:"scope_uuid"`
+	Screenshots                types.List   `tfsdk:"screenshots"`
+	Shared                     types.Bool   `tfsdk:"shared"`
+	Slug                       types.String `tfsdk:"slug"`
+	SoftwareCatalogs           types.List   `tfsdk:"software_catalogs"`
+	State                      types.String `tfsdk:"state"`
+	Tags                       types.Set    `tfsdk:"tags"`
+	Thumbnail                  types.String `tfsdk:"thumbnail"`
+	TotalCost                  types.Int64  `tfsdk:"total_cost"`
+	TotalCostEstimated         types.Int64  `tfsdk:"total_cost_estimated"`
+	TotalCustomers             types.Int64  `tfsdk:"total_customers"`
+	Type                       types.String `tfsdk:"type"`
+	Url                        types.String `tfsdk:"url"`
+	UserHasConsent             types.Bool   `tfsdk:"user_has_consent"`
+	UserHasOfferingUser        types.Bool   `tfsdk:"user_has_offering_user"`
+	VendorDetails              types.String `tfsdk:"vendor_details"`
 }
 
 // CopyFrom maps the API response to the model fields.
@@ -292,6 +302,96 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 	var diags diag.Diagnostics
 
 	model.UUID = types.StringPointerValue(apiResp.UUID)
+
+	if apiResp.AccountSettings != nil {
+		valAccountSettings, diagsAccountSettings := types.ObjectValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+			"account_scope": types.ObjectType{AttrTypes: map[string]attr.Type{
+				"inherited": types.ObjectType{AttrTypes: map[string]attr.Type{
+					"source": types.StringType,
+					"value":  types.StringType,
+				}},
+				"source": types.StringType,
+				"value":  types.StringType,
+			}},
+			"homedir_prefix": types.ObjectType{AttrTypes: map[string]attr.Type{
+				"inherited": types.ObjectType{AttrTypes: map[string]attr.Type{
+					"source": types.StringType,
+					"value":  types.StringType,
+				}},
+				"source": types.StringType,
+				"value":  types.StringType,
+			}},
+			"login_shell": types.ObjectType{AttrTypes: map[string]attr.Type{
+				"inherited": types.ObjectType{AttrTypes: map[string]attr.Type{
+					"source": types.StringType,
+					"value":  types.StringType,
+				}},
+				"source": types.StringType,
+				"value":  types.StringType,
+			}},
+			"username_anonymized_prefix": types.ObjectType{AttrTypes: map[string]attr.Type{
+				"inherited": types.ObjectType{AttrTypes: map[string]attr.Type{
+					"source": types.StringType,
+					"value":  types.StringType,
+				}},
+				"source": types.StringType,
+				"value":  types.StringType,
+			}},
+			"username_generation_policy": types.ObjectType{AttrTypes: map[string]attr.Type{
+				"inherited": types.ObjectType{AttrTypes: map[string]attr.Type{
+					"source": types.StringType,
+					"value":  types.StringType,
+				}},
+				"source": types.StringType,
+				"value":  types.StringType,
+			}},
+		}}.AttrTypes, *apiResp.AccountSettings)
+		diags.Append(diagsAccountSettings...)
+		model.AccountSettings = valAccountSettings
+	} else {
+		model.AccountSettings = types.ObjectNull(types.ObjectType{AttrTypes: map[string]attr.Type{
+			"account_scope": types.ObjectType{AttrTypes: map[string]attr.Type{
+				"inherited": types.ObjectType{AttrTypes: map[string]attr.Type{
+					"source": types.StringType,
+					"value":  types.StringType,
+				}},
+				"source": types.StringType,
+				"value":  types.StringType,
+			}},
+			"homedir_prefix": types.ObjectType{AttrTypes: map[string]attr.Type{
+				"inherited": types.ObjectType{AttrTypes: map[string]attr.Type{
+					"source": types.StringType,
+					"value":  types.StringType,
+				}},
+				"source": types.StringType,
+				"value":  types.StringType,
+			}},
+			"login_shell": types.ObjectType{AttrTypes: map[string]attr.Type{
+				"inherited": types.ObjectType{AttrTypes: map[string]attr.Type{
+					"source": types.StringType,
+					"value":  types.StringType,
+				}},
+				"source": types.StringType,
+				"value":  types.StringType,
+			}},
+			"username_anonymized_prefix": types.ObjectType{AttrTypes: map[string]attr.Type{
+				"inherited": types.ObjectType{AttrTypes: map[string]attr.Type{
+					"source": types.StringType,
+					"value":  types.StringType,
+				}},
+				"source": types.StringType,
+				"value":  types.StringType,
+			}},
+			"username_generation_policy": types.ObjectType{AttrTypes: map[string]attr.Type{
+				"inherited": types.ObjectType{AttrTypes: map[string]attr.Type{
+					"source": types.StringType,
+					"value":  types.StringType,
+				}},
+				"source": types.StringType,
+				"value":  types.StringType,
+			}},
+		}}.AttrTypes)
+	}
 
 	if apiResp.Attributes != nil {
 		valAttributes, diagsAttributes := types.MapValueFrom(ctx, types.StringType, apiResp.Attributes)
@@ -305,7 +405,27 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 
 	model.Billable = types.BoolPointerValue(apiResp.Billable)
 
+	if apiResp.BillingModeComponents != nil {
+		valBillingModeComponents, diagsBillingModeComponents := types.MapValueFrom(ctx, types.StringType, apiResp.BillingModeComponents)
+		diags.Append(diagsBillingModeComponents...)
+		model.BillingModeComponents = valBillingModeComponents
+	} else {
+		model.BillingModeComponents = types.MapNull(types.StringType)
+	}
+
+	if apiResp.BillingPeriodApplies != nil {
+		valBillingPeriodApplies, diagsBillingPeriodApplies := types.MapValueFrom(ctx, types.BoolType, apiResp.BillingPeriodApplies)
+		diags.Append(diagsBillingPeriodApplies...)
+		model.BillingPeriodApplies = valBillingPeriodApplies
+	} else {
+		model.BillingPeriodApplies = types.MapNull(types.BoolType)
+	}
+
 	model.BillingTypeClassification = common.StringPointerValue(apiResp.BillingTypeClassification)
+
+	model.CanUpdateIntegration = types.BoolPointerValue(apiResp.CanUpdateIntegration)
+
+	model.CanUpdateOptions = types.BoolPointerValue(apiResp.CanUpdateOptions)
 
 	model.Category = common.StringPointerValue(apiResp.Category)
 
@@ -315,26 +435,45 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 
 	model.ComplianceChecklist = common.StringPointerValue(apiResp.ComplianceChecklist)
 
+	if apiResp.ComplianceChecklistDetails != nil {
+		valComplianceChecklistDetails, diagsComplianceChecklistDetails := types.ObjectValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+			"description":     types.StringType,
+			"name":            types.StringType,
+			"questions_count": types.Int64Type,
+			"uuid":            types.StringType,
+		}}.AttrTypes, *apiResp.ComplianceChecklistDetails)
+		diags.Append(diagsComplianceChecklistDetails...)
+		model.ComplianceChecklistDetails = valComplianceChecklistDetails
+	} else {
+		model.ComplianceChecklistDetails = types.ObjectNull(types.ObjectType{AttrTypes: map[string]attr.Type{
+			"description":     types.StringType,
+			"name":            types.StringType,
+			"questions_count": types.Int64Type,
+			"uuid":            types.StringType,
+		}}.AttrTypes)
+	}
+
 	if apiResp.Components != nil {
 		valComponents, diagsComponents := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
 			"article_code":          types.StringType,
 			"billing_type":          types.StringType,
-			"default_limit":         types.Int64Type,
+			"default_limit":         types.Float64Type,
 			"description":           types.StringType,
 			"factor":                types.Int64Type,
 			"is_boolean":            types.BoolType,
 			"is_builtin":            types.BoolType,
 			"is_prepaid":            types.BoolType,
-			"limit_amount":          types.Int64Type,
+			"limit_amount":          types.Float64Type,
+			"limit_decimal_places":  types.Int64Type,
 			"limit_period":          types.StringType,
-			"max_available_limit":   types.Int64Type,
+			"max_available_limit":   types.Float64Type,
 			"max_prepaid_duration":  types.Int64Type,
 			"max_renewal_duration":  types.Int64Type,
-			"max_value":             types.Int64Type,
+			"max_value":             types.Float64Type,
 			"measured_unit":         types.StringType,
 			"min_prepaid_duration":  types.Int64Type,
 			"min_renewal_duration":  types.Int64Type,
-			"min_value":             types.Int64Type,
+			"min_value":             types.Float64Type,
 			"name":                  types.StringType,
 			"offering_uuid":         types.StringType,
 			"overage_component":     types.StringType,
@@ -350,22 +489,23 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 		model.Components = types.ListNull(types.ObjectType{AttrTypes: map[string]attr.Type{
 			"article_code":          types.StringType,
 			"billing_type":          types.StringType,
-			"default_limit":         types.Int64Type,
+			"default_limit":         types.Float64Type,
 			"description":           types.StringType,
 			"factor":                types.Int64Type,
 			"is_boolean":            types.BoolType,
 			"is_builtin":            types.BoolType,
 			"is_prepaid":            types.BoolType,
-			"limit_amount":          types.Int64Type,
+			"limit_amount":          types.Float64Type,
+			"limit_decimal_places":  types.Int64Type,
 			"limit_period":          types.StringType,
-			"max_available_limit":   types.Int64Type,
+			"max_available_limit":   types.Float64Type,
 			"max_prepaid_duration":  types.Int64Type,
 			"max_renewal_duration":  types.Int64Type,
-			"max_value":             types.Int64Type,
+			"max_value":             types.Float64Type,
 			"measured_unit":         types.StringType,
 			"min_prepaid_duration":  types.Int64Type,
 			"min_renewal_duration":  types.Int64Type,
-			"min_value":             types.Int64Type,
+			"min_value":             types.Float64Type,
 			"name":                  types.StringType,
 			"offering_uuid":         types.StringType,
 			"overage_component":     types.StringType,
@@ -592,12 +732,16 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 			"archived":     types.BoolType,
 			"article_code": types.StringType,
 			"backend_id":   types.StringType,
+			"billing_mode": types.StringType,
 			"components": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
 				"amount":               types.Int64Type,
+				"billing_type":         types.StringType,
 				"discount_aggregation": types.StringType,
 				"discount_description": types.StringType,
 				"discount_formula":     types.StringType,
 				"future_price":         types.StringType,
+				"is_prepaid":           types.BoolType,
+				"limit_period":         types.StringType,
 				"measured_unit":        types.StringType,
 				"name":                 types.StringType,
 				"price":                types.StringType,
@@ -635,12 +779,16 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 			"archived":     types.BoolType,
 			"article_code": types.StringType,
 			"backend_id":   types.StringType,
+			"billing_mode": types.StringType,
 			"components": types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{
 				"amount":               types.Int64Type,
+				"billing_type":         types.StringType,
 				"discount_aggregation": types.StringType,
 				"discount_description": types.StringType,
 				"discount_formula":     types.StringType,
 				"future_price":         types.StringType,
+				"is_prepaid":           types.BoolType,
+				"limit_period":         types.StringType,
 				"measured_unit":        types.StringType,
 				"name":                 types.StringType,
 				"price":                types.StringType,
@@ -675,6 +823,7 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 
 	if apiResp.PluginOptions != nil {
 		valPluginOptions, diagsPluginOptions := types.ObjectValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
+			"account_scope":                                         types.StringType,
 			"action_on_usage_limit":                                 types.StringType,
 			"auto_approve_for_roles":                                types.ListType{ElemType: types.StringType},
 			"auto_approve_in_service_provider_projects":             types.BoolType,
@@ -696,6 +845,7 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 			"disabled_resource_actions":                             types.ListType{ElemType: types.StringType},
 			"emit_display_name":                                     types.BoolType,
 			"emit_waldur_username":                                  types.BoolType,
+			"enable_api_key_provisioning":                           types.BoolType,
 			"enable_display_of_order_actions_for_service_provider":  types.BoolType,
 			"enable_issues_for_membership_changes":                  types.BoolType,
 			"enable_membership_sync_status":                         types.BoolType,
@@ -704,15 +854,19 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 			"enable_purchase_order_upload":                          types.BoolType,
 			"enable_resource_access_subnets":                        types.BoolType,
 			"enable_resource_end_date_change_requests":              types.BoolType,
+			"enable_resource_limit_change_requests":                 types.BoolType,
 			"enable_resource_projects":                              types.BoolType,
+			"enable_scim_entitlements":                              types.BoolType,
 			"enforce_qos":                                           types.BoolType,
 			"expose_inference_playground":                           types.BoolType,
 			"flavors_regex":                                         types.StringType,
 			"gid_source":                                            types.StringType,
 			"heappe_cluster_id":                                     types.StringType,
+			"heappe_identifier":                                     types.StringType,
 			"heappe_local_base_path":                                types.StringType,
 			"heappe_url":                                            types.StringType,
 			"heappe_username":                                       types.StringType,
+			"hide_api_keys_tab":                                     types.BoolType,
 			"highlight_backend_id_display":                          types.BoolType,
 			"homedir_prefix":                                        types.StringType,
 			"is_resource_termination_date_required":                 types.BoolType,
@@ -772,11 +926,13 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 			"usage_poll_interval_minutes":                           types.Int64Type,
 			"username_anonymized_prefix":                            types.StringType,
 			"username_generation_policy":                            types.StringType,
+			"uses_robot_accounts":                                   types.BoolType,
 		}}.AttrTypes, *apiResp.PluginOptions)
 		diags.Append(diagsPluginOptions...)
 		model.PluginOptions = valPluginOptions
 	} else {
 		model.PluginOptions = types.ObjectNull(types.ObjectType{AttrTypes: map[string]attr.Type{
+			"account_scope":                                         types.StringType,
 			"action_on_usage_limit":                                 types.StringType,
 			"auto_approve_for_roles":                                types.ListType{ElemType: types.StringType},
 			"auto_approve_in_service_provider_projects":             types.BoolType,
@@ -798,6 +954,7 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 			"disabled_resource_actions":                             types.ListType{ElemType: types.StringType},
 			"emit_display_name":                                     types.BoolType,
 			"emit_waldur_username":                                  types.BoolType,
+			"enable_api_key_provisioning":                           types.BoolType,
 			"enable_display_of_order_actions_for_service_provider":  types.BoolType,
 			"enable_issues_for_membership_changes":                  types.BoolType,
 			"enable_membership_sync_status":                         types.BoolType,
@@ -806,15 +963,19 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 			"enable_purchase_order_upload":                          types.BoolType,
 			"enable_resource_access_subnets":                        types.BoolType,
 			"enable_resource_end_date_change_requests":              types.BoolType,
+			"enable_resource_limit_change_requests":                 types.BoolType,
 			"enable_resource_projects":                              types.BoolType,
+			"enable_scim_entitlements":                              types.BoolType,
 			"enforce_qos":                                           types.BoolType,
 			"expose_inference_playground":                           types.BoolType,
 			"flavors_regex":                                         types.StringType,
 			"gid_source":                                            types.StringType,
 			"heappe_cluster_id":                                     types.StringType,
+			"heappe_identifier":                                     types.StringType,
 			"heappe_local_base_path":                                types.StringType,
 			"heappe_url":                                            types.StringType,
 			"heappe_username":                                       types.StringType,
+			"hide_api_keys_tab":                                     types.BoolType,
 			"highlight_backend_id_display":                          types.BoolType,
 			"homedir_prefix":                                        types.StringType,
 			"is_resource_termination_date_required":                 types.BoolType,
@@ -874,6 +1035,7 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 			"usage_poll_interval_minutes":                           types.Int64Type,
 			"username_anonymized_prefix":                            types.StringType,
 			"username_generation_policy":                            types.StringType,
+			"uses_robot_accounts":                                   types.BoolType,
 		}}.AttrTypes)
 	}
 
@@ -991,6 +1153,12 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 
 	model.ScopeName = common.StringPointerValue(apiResp.ScopeName)
 
+	model.ScopeResource = common.StringPointerValue(apiResp.ScopeResource)
+
+	model.ScopeResourceName = common.StringPointerValue(apiResp.ScopeResourceName)
+
+	model.ScopeResourceUuid = common.StringPointerValue(apiResp.ScopeResourceUuid)
+
 	model.ScopeState = common.StringPointerValue(apiResp.ScopeState)
 
 	model.ScopeUuid = common.StringPointerValue(apiResp.ScopeUuid)
@@ -1022,10 +1190,11 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 	if apiResp.SoftwareCatalogs != nil {
 		valSoftwareCatalogs, diagsSoftwareCatalogs := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
 			"catalog": types.ObjectType{AttrTypes: map[string]attr.Type{
-				"description": types.StringType,
-				"name":        types.StringType,
-				"uuid":        types.StringType,
-				"version":     types.StringType,
+				"description":                      types.StringType,
+				"name":                             types.StringType,
+				"supports_cpu_target_restrictions": types.BoolType,
+				"uuid":                             types.StringType,
+				"version":                          types.StringType,
 			}},
 			"enabled_cpu_family":             types.ListType{ElemType: types.StringType},
 			"enabled_cpu_microarchitectures": types.ListType{ElemType: types.StringType},
@@ -1045,10 +1214,11 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 	} else {
 		model.SoftwareCatalogs = types.ListNull(types.ObjectType{AttrTypes: map[string]attr.Type{
 			"catalog": types.ObjectType{AttrTypes: map[string]attr.Type{
-				"description": types.StringType,
-				"name":        types.StringType,
-				"uuid":        types.StringType,
-				"version":     types.StringType,
+				"description":                      types.StringType,
+				"name":                             types.StringType,
+				"supports_cpu_target_restrictions": types.BoolType,
+				"uuid":                             types.StringType,
+				"version":                          types.StringType,
 			}},
 			"enabled_cpu_family":             types.ListType{ElemType: types.StringType},
 			"enabled_cpu_microarchitectures": types.ListType{ElemType: types.StringType},
@@ -1094,6 +1264,8 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 	model.Url = common.StringPointerValue(apiResp.Url)
 
 	model.UserHasConsent = types.BoolPointerValue(apiResp.UserHasConsent)
+
+	model.UserHasOfferingUser = types.BoolPointerValue(apiResp.UserHasOfferingUser)
 
 	model.VendorDetails = common.StringPointerValue(apiResp.VendorDetails)
 

@@ -158,7 +158,7 @@ func (d *StructureProjectDataSource) Schema(ctx context.Context, req datasource.
 							Computed: true, MarkdownDescription: "Question Uuid"},
 					},
 				},
-				Computed: true, MarkdownDescription: "Answers to the customer's project-metadata checklist (read-only).",
+				Computed: true, MarkdownDescription: "Answers to the customer's project-metadata checklist (read-only): the latest answer per question.",
 			},
 			"resources_count": schema.Int64Attribute{
 				Computed: true, MarkdownDescription: "Number of active resources in this project"},

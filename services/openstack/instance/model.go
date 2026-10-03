@@ -99,6 +99,7 @@ func OpenStackSecurityGroupType() types.ObjectType {
 		"customer":                  types.StringType,
 		"description":               types.StringType,
 		"error_message":             types.StringType,
+		"instance_count":            types.Int64Type,
 		"marketplace_offering_type": types.StringType,
 		"marketplace_resource_uuid": types.StringType,
 		"name":                      types.StringType,
@@ -172,6 +173,8 @@ type OpenstackInstanceFiltersModel struct {
 	ProjectUuid          types.String `tfsdk:"project_uuid"`
 	Query                types.String `tfsdk:"query"`
 	RuntimeState         types.String `tfsdk:"runtime_state"`
+	SecurityGroup        types.String `tfsdk:"security_group"`
+	SecurityGroupUuid    types.String `tfsdk:"security_group_uuid"`
 	ServiceSettingsName  types.String `tfsdk:"service_settings_name"`
 	ServiceSettingsUuid  types.String `tfsdk:"service_settings_uuid"`
 	Tenant               types.String `tfsdk:"tenant"`
@@ -254,6 +257,14 @@ func (m *OpenstackInstanceFiltersModel) GetSchema() schema.SingleNestedAttribute
 			"runtime_state": schema.StringAttribute{
 				Optional:            true,
 				MarkdownDescription: "Runtime state",
+			},
+			"security_group": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Security group URL",
+			},
+			"security_group_uuid": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Security group UUID",
 			},
 			"service_settings_name": schema.StringAttribute{
 				Optional:            true,

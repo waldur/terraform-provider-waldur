@@ -65,6 +65,10 @@ resource "waldur_openstack_subnet" "example" {
 - `dns_nameservers` (List of String) Dns Nameservers
 - `gateway_ip` (String) IP address of the gateway for this subnet
 - `host_routes` (Attributes List) Host Routes (see [below for nested schema](#nestedatt--host_routes))
+- `ipv6_address_mode` (String) How instances on an IPv6 subnet get their address. Set at creation only; null for an IPv4 subnet.
+- `ipv6_ra_mode` (String) How the router advertises an IPv6 subnet. Set at creation only; null for an IPv4 subnet.
+- `router` (String) Router to attach the subnet to. Optional: when omitted Waldur picks a router of the tenant itself. Cannot be changed here afterwards -- use the router's add/remove interface actions.
+- `skip_router_connection` (Boolean) Create the subnet without attaching it to a router. Off by default, so an omitted field behaves exactly as before: Waldur attaches the subnet to a router of the tenant.
 - `timeouts` (Block, Optional) (see [below for nested schema](#nestedblock--timeouts))
 
 ### Read-Only
@@ -82,6 +86,8 @@ resource "waldur_openstack_subnet" "example" {
 - `port_security_enabled` (Boolean) Port Security Enabled
 - `project` (String) Project
 - `resource_type` (String) Resource Type
+- `router_name` (String) Router Name
+- `router_uuid` (String) Router Uuid
 - `state` (String) State
 - `tenant` (String) Tenant
 - `tenant_name` (String) Tenant Name

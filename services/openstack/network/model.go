@@ -35,6 +35,8 @@ func OpenStackNestedSubNetType() types.ObjectType {
 		"enable_dhcp":           types.BoolType,
 		"gateway_ip":            types.StringType,
 		"ip_version":            types.Int64Type,
+		"ipv6_address_mode":     types.StringType,
+		"ipv6_ra_mode":          types.StringType,
 		"name":                  types.StringType,
 		"port_security_enabled": types.BoolType,
 		"uuid":                  types.StringType,

@@ -104,10 +104,10 @@ func (d *OpenstackPortDataSource) Schema(ctx context.Context, req datasource.Sch
 			"security_groups": schema.SetNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
-						"name": schema.StringAttribute{
-							Computed: true, MarkdownDescription: "Name"},
 						"url": schema.StringAttribute{
 							Computed: true, MarkdownDescription: "Url"},
+						"name": schema.StringAttribute{
+							Computed: true, MarkdownDescription: "Name"},
 						"uuid": schema.StringAttribute{
 							Computed: true, MarkdownDescription: "Uuid"},
 					},
