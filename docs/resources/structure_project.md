@@ -64,6 +64,7 @@ resource "waldur_structure_project" "example" {
 - `effective_end_date` (String) Effective end date including grace period. After this date, project resources will be terminated.
 - `end_date_requested_by` (String) End Date Requested By
 - `end_date_updated_at` (String) Timestamp of the last end_date change.
+- `has_metrics` (Boolean) Has Metrics
 - `id` (String) Structure Project UUID (used as Terraform ID)
 - `is_in_grace_period` (Boolean) True if the project is past its end date but still within the grace period.
 - `is_removed` (Boolean) Is Removed

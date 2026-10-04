@@ -268,6 +268,12 @@ func (r *StructureProjectResource) Schema(ctx context.Context, req resource.Sche
 					int64validator.AtLeast(0),
 					int64validator.AtMost(2147483647),
 				}},
+			"has_metrics": schema.BoolAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.Bool{
+
+					boolplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Has Metrics"},
 			"image": schema.StringAttribute{
 				Optional: true,
 				Computed: true,

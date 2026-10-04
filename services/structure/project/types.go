@@ -119,6 +119,8 @@ type StructureProjectResponse struct {
 
 	GracePeriodDays *int64 `json:"grace_period_days,omitempty" tfsdk:"grace_period_days"`
 
+	HasMetrics *bool `json:"has_metrics,omitempty" tfsdk:"has_metrics"`
+
 	Image *string `json:"image,omitempty" tfsdk:"image"`
 
 	IsInGracePeriod *bool `json:"is_in_grace_period,omitempty" tfsdk:"is_in_grace_period"`

@@ -198,6 +198,7 @@ type StructureProjectModel struct {
 	EndDateRequestedBy                   types.String      `tfsdk:"end_date_requested_by"`
 	EndDateUpdatedAt                     timetypes.RFC3339 `tfsdk:"end_date_updated_at"`
 	GracePeriodDays                      types.Int64       `tfsdk:"grace_period_days"`
+	HasMetrics                           types.Bool        `tfsdk:"has_metrics"`
 	Image                                types.String      `tfsdk:"image"`
 	IsInGracePeriod                      types.Bool        `tfsdk:"is_in_grace_period"`
 	IsIndustry                           types.Bool        `tfsdk:"is_industry"`
@@ -281,6 +282,8 @@ func (model *StructureProjectModel) CopyFrom(ctx context.Context, apiResp Struct
 	model.EndDateUpdatedAt = valEndDateUpdatedAt
 
 	model.GracePeriodDays = types.Int64PointerValue(apiResp.GracePeriodDays)
+
+	model.HasMetrics = types.BoolPointerValue(apiResp.HasMetrics)
 
 	model.Image = common.StringPointerValue(apiResp.Image)
 

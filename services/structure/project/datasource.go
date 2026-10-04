@@ -120,6 +120,8 @@ func (d *StructureProjectDataSource) Schema(ctx context.Context, req datasource.
 					int64validator.AtLeast(0),
 					int64validator.AtMost(2147483647),
 				}},
+			"has_metrics": schema.BoolAttribute{
+				Computed: true, MarkdownDescription: "Has Metrics"},
 			"image": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Image"},
 			"is_in_grace_period": schema.BoolAttribute{

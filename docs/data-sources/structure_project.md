@@ -38,6 +38,7 @@ Structure Project data source - lookup by name or UUID
 - `end_date_requested_by` (String) End Date Requested By
 - `end_date_updated_at` (String) Timestamp of the last end_date change.
 - `grace_period_days` (Number) Number of extra days after project end date before resources are terminated. Overrides customer-level setting.
+- `has_metrics` (Boolean) Has Metrics
 - `image` (String) Image
 - `is_in_grace_period` (Boolean) True if the project is past its end date but still within the grace period.
 - `is_industry` (Boolean) Is Industry

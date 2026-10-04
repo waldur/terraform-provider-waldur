@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-10-04
+
+### Added
+
+- `structure_project`: new attribute `has_metrics`
+
 ## 2026-10-03
 
 ### ⚠️ Breaking changes
