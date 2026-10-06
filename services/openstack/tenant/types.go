@@ -91,6 +91,8 @@ type OpenstackTenantResponse struct {
 
 	InternalNetworkId *string `json:"internal_network_id,omitempty" tfsdk:"internal_network_id"`
 
+	IsManaged *bool `json:"is_managed,omitempty" tfsdk:"is_managed"`
+
 	MarketplaceOfferingType *string `json:"marketplace_offering_type,omitempty" tfsdk:"marketplace_offering_type"`
 
 	MarketplaceResourceUuid *string `json:"marketplace_resource_uuid,omitempty" tfsdk:"marketplace_resource_uuid"`

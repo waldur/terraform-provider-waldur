@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-10-06
+
+### Added
+
+- `openstack_network`: new attribute `tenant_is_managed`
+- `openstack_tenant`: new attribute `is_managed`
+
 ## 2026-10-04
 
 ### Added

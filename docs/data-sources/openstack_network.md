@@ -39,6 +39,7 @@ Openstack Network data source - lookup by name or UUID
 - `state` (String) State
 - `subnets` (Attributes List) Subnets (see [below for nested schema](#nestedatt--subnets))
 - `tenant` (String) OpenStack tenant this network belongs to
+- `tenant_is_managed` (Boolean) False when the network belongs to an OpenStack project that Waldur does not manage and only reaches tenants through an RBAC share.
 - `tenant_name` (String) Tenant Name
 - `tenant_uuid` (String) Tenant Uuid
 - `type` (String) Network type, such as local, flat, vlan, vxlan, or gre

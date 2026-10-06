@@ -190,6 +190,7 @@ type OpenstackNetworkModel struct {
 	State                   types.String `tfsdk:"state"`
 	Subnets                 types.List   `tfsdk:"subnets"`
 	Tenant                  types.String `tfsdk:"tenant"`
+	TenantIsManaged         types.Bool   `tfsdk:"tenant_is_managed"`
 	TenantName              types.String `tfsdk:"tenant_name"`
 	TenantUuid              types.String `tfsdk:"tenant_uuid"`
 	Type                    types.String `tfsdk:"type"`
@@ -247,6 +248,8 @@ func (model *OpenstackNetworkModel) CopyFrom(ctx context.Context, apiResp Openst
 	}
 
 	model.Tenant = common.StringPointerValue(apiResp.Tenant)
+
+	model.TenantIsManaged = types.BoolPointerValue(apiResp.TenantIsManaged)
 
 	model.TenantName = common.StringPointerValue(apiResp.TenantName)
 

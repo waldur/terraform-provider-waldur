@@ -7001,6 +7001,13 @@
           "computed": false
         },
         {
+          "name": "tenant_is_managed",
+          "type": "types.Bool",
+          "required": false,
+          "optional": false,
+          "computed": true
+        },
+        {
           "name": "tenant_name",
           "type": "types.String",
           "required": false,
@@ -8041,6 +8048,13 @@
         {
           "name": "internal_network_id",
           "type": "types.String",
+          "required": false,
+          "optional": false,
+          "computed": true
+        },
+        {
+          "name": "is_managed",
+          "type": "types.Bool",
           "required": false,
           "optional": false,
           "computed": true

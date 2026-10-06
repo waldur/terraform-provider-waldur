@@ -146,6 +146,8 @@ func (d *OpenstackNetworkDataSource) Schema(ctx context.Context, req datasource.
 			},
 			"tenant": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "OpenStack tenant this network belongs to"},
+			"tenant_is_managed": schema.BoolAttribute{
+				Computed: true, MarkdownDescription: "False when the network belongs to an OpenStack project that Waldur does not manage and only reaches tenants through an RBAC share."},
 			"tenant_name": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Tenant Name"},
 			"tenant_uuid": schema.StringAttribute{

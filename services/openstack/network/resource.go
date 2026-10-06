@@ -335,6 +335,12 @@ func (r *OpenstackNetworkResource) Schema(ctx context.Context, req resource.Sche
 
 					stringplanmodifier.RequiresReplace(),
 				}, MarkdownDescription: "OpenStack tenant this network belongs to"},
+			"tenant_is_managed": schema.BoolAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.Bool{
+
+					boolplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "False when the network belongs to an OpenStack project that Waldur does not manage and only reaches tenants through an RBAC share."},
 			"tenant_name": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{

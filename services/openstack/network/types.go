@@ -57,6 +57,8 @@ type OpenstackNetworkResponse struct {
 
 	Tenant *string `json:"tenant" tfsdk:"tenant"`
 
+	TenantIsManaged *bool `json:"tenant_is_managed,omitempty" tfsdk:"tenant_is_managed"`
+
 	TenantName *string `json:"tenant_name,omitempty" tfsdk:"tenant_name"`
 
 	TenantUuid *string `json:"tenant_uuid,omitempty" tfsdk:"tenant_uuid"`

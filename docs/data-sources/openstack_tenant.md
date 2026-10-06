@@ -32,6 +32,7 @@ Openstack Tenant data source - lookup by name or UUID
 - `external_network_ref_name` (String) External Network Ref Name
 - `external_network_ref_uuid` (String) External Network Ref Uuid
 - `internal_network_id` (String) ID of internal network in OpenStack tenant
+- `is_managed` (Boolean) False for an OpenStack project that Waldur does not manage but that shares networks with managed tenants. Waldur only reads such a project: it holds no credentials for it and never provisions, pulls with tenant credentials, bills or deletes it.
 - `marketplace_offering_type` (String) Marketplace Offering Type
 - `marketplace_resource_uuid` (String) Marketplace Resource Uuid
 - `name` (String) Name

@@ -77,6 +77,7 @@ data "waldur_marketplace_offering" "offering" {
 - `external_network_ref_uuid` (String) External Network Ref Uuid
 - `id` (String) Openstack Tenant UUID (used as Terraform ID)
 - `internal_network_id` (String) ID of internal network in OpenStack tenant
+- `is_managed` (Boolean) False for an OpenStack project that Waldur does not manage but that shares networks with managed tenants. Waldur only reads such a project: it holds no credentials for it and never provisions, pulls with tenant credentials, bills or deletes it.
 - `marketplace_offering_type` (String) Marketplace Offering Type
 - `marketplace_resource_uuid` (String) Marketplace Resource Uuid
 - `quotas` (Attributes List) Quotas (see [below for nested schema](#nestedatt--quotas))

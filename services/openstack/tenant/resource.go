@@ -136,6 +136,12 @@ func (r *OpenstackTenantResource) Schema(ctx context.Context, req resource.Schem
 
 					stringplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "ID of internal network in OpenStack tenant"},
+			"is_managed": schema.BoolAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.Bool{
+
+					boolplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "False for an OpenStack project that Waldur does not manage but that shares networks with managed tenants. Waldur only reads such a project: it holds no credentials for it and never provisions, pulls with tenant credentials, bills or deletes it."},
 			"limits": schema.MapAttribute{
 				ElementType: types.Float64Type,
 				Optional:    true,
@@ -376,6 +382,9 @@ func (r *OpenstackTenantResource) resolveUnknownAttributes(data *OpenstackTenant
 	}
 	if data.InternalNetworkId.IsUnknown() {
 		data.InternalNetworkId = types.StringNull()
+	}
+	if data.IsManaged.IsUnknown() {
+		data.IsManaged = types.BoolNull()
 	}
 	if data.Limits.IsUnknown() {
 		data.Limits = types.MapNull(types.Float64Type)

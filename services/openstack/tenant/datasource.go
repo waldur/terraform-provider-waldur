@@ -61,6 +61,8 @@ func (d *OpenstackTenantDataSource) Schema(ctx context.Context, req datasource.S
 				Computed: true, MarkdownDescription: "External Network Ref Uuid"},
 			"internal_network_id": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "ID of internal network in OpenStack tenant"},
+			"is_managed": schema.BoolAttribute{
+				Computed: true, MarkdownDescription: "False for an OpenStack project that Waldur does not manage but that shares networks with managed tenants. Waldur only reads such a project: it holds no credentials for it and never provisions, pulls with tenant credentials, bills or deletes it."},
 			"marketplace_offering_type": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Marketplace Offering Type"},
 			"marketplace_resource_uuid": schema.StringAttribute{

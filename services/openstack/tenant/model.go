@@ -142,6 +142,7 @@ type OpenstackTenantModel struct {
 	ExternalNetworkRefName      types.String `tfsdk:"external_network_ref_name"`
 	ExternalNetworkRefUuid      types.String `tfsdk:"external_network_ref_uuid"`
 	InternalNetworkId           types.String `tfsdk:"internal_network_id"`
+	IsManaged                   types.Bool   `tfsdk:"is_managed"`
 	MarketplaceOfferingType     types.String `tfsdk:"marketplace_offering_type"`
 	MarketplaceResourceUuid     types.String `tfsdk:"marketplace_resource_uuid"`
 	Name                        types.String `tfsdk:"name"`
@@ -180,6 +181,8 @@ func (model *OpenstackTenantModel) CopyFrom(ctx context.Context, apiResp Opensta
 	model.ExternalNetworkRefUuid = common.StringPointerValue(apiResp.ExternalNetworkRefUuid)
 
 	model.InternalNetworkId = common.StringPointerValue(apiResp.InternalNetworkId)
+
+	model.IsManaged = types.BoolPointerValue(apiResp.IsManaged)
 
 	model.MarketplaceOfferingType = common.StringPointerValue(apiResp.MarketplaceOfferingType)
 
