@@ -115,6 +115,8 @@ type OpenstackSubnetResponse struct {
 
 	Tenant *string `json:"tenant,omitempty" tfsdk:"tenant"`
 
+	TenantIsManaged *bool `json:"tenant_is_managed,omitempty" tfsdk:"tenant_is_managed"`
+
 	TenantName *string `json:"tenant_name,omitempty" tfsdk:"tenant_name"`
 
 	Url *string `json:"url,omitempty" tfsdk:"url"`

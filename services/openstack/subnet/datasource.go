@@ -117,6 +117,8 @@ func (d *OpenstackSubnetDataSource) Schema(ctx context.Context, req datasource.S
 				Computed: true, MarkdownDescription: "State"},
 			"tenant": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Tenant"},
+			"tenant_is_managed": schema.BoolAttribute{
+				Computed: true, MarkdownDescription: "False when the subnet's network belongs to an OpenStack project that Waldur does not manage and only reaches tenants through an RBAC share."},
 			"tenant_name": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Tenant Name"},
 			"url": schema.StringAttribute{

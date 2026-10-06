@@ -7957,6 +7957,13 @@
           "computed": true
         },
         {
+          "name": "tenant_is_managed",
+          "type": "types.Bool",
+          "required": false,
+          "optional": false,
+          "computed": true
+        },
+        {
           "name": "tenant_name",
           "type": "types.String",
           "required": false,

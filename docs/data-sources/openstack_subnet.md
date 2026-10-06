@@ -50,6 +50,7 @@ Openstack Subnet data source - lookup by name or UUID
 - `router_uuid` (String) Router Uuid
 - `state` (String) State
 - `tenant` (String) Tenant
+- `tenant_is_managed` (Boolean) False when the subnet's network belongs to an OpenStack project that Waldur does not manage and only reaches tenants through an RBAC share.
 - `tenant_name` (String) Tenant Name
 - `url` (String) Url
 

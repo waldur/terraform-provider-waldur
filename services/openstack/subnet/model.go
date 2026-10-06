@@ -186,6 +186,7 @@ type OpenstackSubnetModel struct {
 	RouterUuid              types.String `tfsdk:"router_uuid"`
 	State                   types.String `tfsdk:"state"`
 	Tenant                  types.String `tfsdk:"tenant"`
+	TenantIsManaged         types.Bool   `tfsdk:"tenant_is_managed"`
 	TenantName              types.String `tfsdk:"tenant_name"`
 	Url                     types.String `tfsdk:"url"`
 }
@@ -269,6 +270,8 @@ func (model *OpenstackSubnetModel) CopyFrom(ctx context.Context, apiResp Opensta
 	model.State = common.StringPointerValue(apiResp.State)
 
 	model.Tenant = common.StringPointerValue(apiResp.Tenant)
+
+	model.TenantIsManaged = types.BoolPointerValue(apiResp.TenantIsManaged)
 
 	model.TenantName = common.StringPointerValue(apiResp.TenantName)
 
