@@ -2321,6 +2321,13 @@
               "computed": true
             },
             {
+              "name": "scim_login_nodes",
+              "type": "types.List\u003cstring\u003e",
+              "required": false,
+              "optional": false,
+              "computed": true
+            },
+            {
               "name": "scratch_project_directory",
               "type": "types.String",
               "required": false,

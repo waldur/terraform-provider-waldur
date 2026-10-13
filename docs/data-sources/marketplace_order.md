@@ -104,7 +104,7 @@ Marketplace Order data source - lookup by name or UUID
 - `resource_name` (String) Resource Name
 - `resource_type` (String) Resource Type
 - `resource_uuid` (String) Resource Uuid
-- `slug` (String) URL-friendly identifier. Only editable by staff users.
+- `slug` (String) Slug of the new resource. Used when the caller is staff or holds RESOURCE.SET_SLUG on the project, the offering or their organizations; otherwise ignored.
 - `start_date` (String) Enables delayed processing of resource provisioning order.
 - `state` (String) State
 - `termination_comment` (String) Termination Comment

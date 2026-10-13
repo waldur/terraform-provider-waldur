@@ -1,5 +1,11 @@
 # Changelog
 
+## v8.1.3
+
+### Added
+
+- `marketplace_offering`: new attribute `plugin_options.scim_login_nodes`
+
 ## 2026-10-06
 
 ### Added

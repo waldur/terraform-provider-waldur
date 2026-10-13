@@ -744,7 +744,7 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 					"enable_resource_projects": schema.BoolAttribute{
 						Computed: true, MarkdownDescription: "Enable sub-project management within resources."},
 					"enable_scim_entitlements": schema.BoolAttribute{
-						Computed: true, MarkdownDescription: "Include this offering in outbound SCIM user entitlement sync. When unset or false, SSH access endpoints on this offering are not pushed to the remote SCIM service even if SCIM_MEMBERSHIP_SYNC_ENABLED is on."},
+						Computed: true, MarkdownDescription: "Include this offering in outbound SCIM user entitlement sync. Login hosts are read from scim_login_nodes. When unset or false, this offering is not pushed to the remote SCIM service even if SCIM_MEMBERSHIP_SYNC_ENABLED is on."},
 					"enforce_qos": schema.BoolAttribute{
 						Computed: true, MarkdownDescription: "When enabled, the site agent enforces the offering's QoS selection by granting the chosen QoS on the SLURM association (QosLevel/DefaultQOS). When disabled (default), QoS is informational only — profiles are shown and the selection is recorded on the resource, but the agent does not touch SLURM QoS. The agent config may override this per deployment."},
 					"expose_inference_playground": schema.BoolAttribute{
@@ -880,6 +880,9 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 					"restricted_to_roles": schema.ListAttribute{
 						ElementType: types.StringType,
 						Computed:    true, MarkdownDescription: "List of project or organization role names (e.g. 'PROJECT.MANAGER') allowed to view and order this offering. When set, the offering is hidden from the catalog for other users and they cannot create orders for it. Whether their orders skip consumer review still depends on the role having the order-approval permission."},
+					"scim_login_nodes": schema.ListAttribute{
+						ElementType: types.StringType,
+						Computed:    true, MarkdownDescription: "Bare hostnames of login nodes included in outbound SCIM entitlements when enable_scim_entitlements is set. Each entry is a DNS hostname only (for example login.example.org): stored lowercased, with no ssh:// URL, user@host, or host:port. These are not access links and do not appear in the resource access dropdown."},
 					"scratch_project_directory": schema.StringAttribute{
 						Computed: true, MarkdownDescription: "HEAppE scratch project directory"},
 					"service_provider_can_create_offering_user": schema.BoolAttribute{

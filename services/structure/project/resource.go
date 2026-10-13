@@ -426,7 +426,7 @@ func (r *StructureProjectResource) Schema(ctx context.Context, req resource.Sche
 				PlanModifiers: []planmodifier.String{
 
 					stringplanmodifier.UseStateForUnknown(),
-				}, MarkdownDescription: "URL-friendly identifier. Only editable by staff users.",
+				}, MarkdownDescription: "URL-friendly identifier. Editable by staff; on create also by holders of PROJECT.SET_SLUG on the organization, otherwise ignored.",
 				Validators: []validator.String{
 					stringvalidator.RegexMatches(regexp.MustCompile(`^[-a-zA-Z0-9_]+$`), ""),
 				}},

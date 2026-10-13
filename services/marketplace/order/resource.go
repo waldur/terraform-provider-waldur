@@ -626,7 +626,7 @@ func (r *MarketplaceOrderResource) Schema(ctx context.Context, req resource.Sche
 				PlanModifiers: []planmodifier.String{
 
 					stringplanmodifier.UseStateForUnknown(),
-				}, MarkdownDescription: "URL-friendly identifier. Only editable by staff users.",
+				}, MarkdownDescription: "Slug of the new resource. Used when the caller is staff or holds RESOURCE.SET_SLUG on the project, the offering or their organizations; otherwise ignored.",
 				Validators: []validator.String{
 					stringvalidator.RegexMatches(regexp.MustCompile(`^[-a-zA-Z0-9_]+$`), ""),
 				}},

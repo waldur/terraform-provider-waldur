@@ -131,7 +131,7 @@ resource "waldur_marketplace_order" "example" {
 - `resource_name` (String) Resource Name
 - `resource_type` (String) Resource Type
 - `resource_uuid` (String) Resource Uuid
-- `slug` (String) URL-friendly identifier. Only editable by staff users.
+- `slug` (String) Slug of the new resource. Used when the caller is staff or holds RESOURCE.SET_SLUG on the project, the offering or their organizations; otherwise ignored.
 - `state` (String) State
 - `termination_comment` (String) Termination Comment
 - `url` (String) Url

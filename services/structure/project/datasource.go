@@ -177,7 +177,7 @@ func (d *StructureProjectDataSource) Schema(ctx context.Context, req datasource.
 			"science_sub_domain_name": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Science Sub Domain Name"},
 			"slug": schema.StringAttribute{
-				Computed: true, MarkdownDescription: "URL-friendly identifier. Only editable by staff users.",
+				Computed: true, MarkdownDescription: "URL-friendly identifier. Editable by staff; on create also by holders of PROJECT.SET_SLUG on the organization, otherwise ignored.",
 				Validators: []validator.String{
 					stringvalidator.RegexMatches(regexp.MustCompile(`^[-a-zA-Z0-9_]+$`), ""),
 				}},

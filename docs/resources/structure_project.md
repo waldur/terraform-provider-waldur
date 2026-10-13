@@ -43,7 +43,7 @@ resource "waldur_structure_project" "example" {
 - `kind` (String) Kind
 - `oecd_fos_2007_code` (String) Oecd Fos 2007 Code
 - `science_sub_domain` (String) Science Sub Domain
-- `slug` (String) URL-friendly identifier. Only editable by staff users.
+- `slug` (String) URL-friendly identifier. Editable by staff; on create also by holders of PROJECT.SET_SLUG on the organization, otherwise ignored.
 - `staff_notes` (String) Internal notes visible only to staff and support users (HTML content will be sanitized)
 - `start_date` (String) Project start date. Cannot be edited after the start date has arrived.
 - `timeouts` (Block, Optional) (see [below for nested schema](#nestedblock--timeouts))

@@ -58,7 +58,7 @@ Structure Project data source - lookup by name or UUID
 - `science_sub_domain` (String) Science Sub Domain
 - `science_sub_domain_code` (String) Sub-domain code (e.g. '1.1'). Auto-derived from domain code if left blank.
 - `science_sub_domain_name` (String) Science Sub Domain Name
-- `slug` (String) URL-friendly identifier. Only editable by staff users.
+- `slug` (String) URL-friendly identifier. Editable by staff; on create also by holders of PROJECT.SET_SLUG on the organization, otherwise ignored.
 - `staff_notes` (String) Internal notes visible only to staff and support users (HTML content will be sanitized)
 - `start_date` (String) Project start date. Cannot be edited after the start date has arrived.
 - `termination_metadata` (Map of String) Metadata about project termination (read-only)

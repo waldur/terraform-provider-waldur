@@ -237,7 +237,7 @@ func (d *MarketplaceOrderDataSource) Schema(ctx context.Context, req datasource.
 			"resource_uuid": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Resource Uuid"},
 			"slug": schema.StringAttribute{
-				Computed: true, MarkdownDescription: "URL-friendly identifier. Only editable by staff users.",
+				Computed: true, MarkdownDescription: "Slug of the new resource. Used when the caller is staff or holds RESOURCE.SET_SLUG on the project, the offering or their organizations; otherwise ignored.",
 				Validators: []validator.String{
 					stringvalidator.RegexMatches(regexp.MustCompile(`^[-a-zA-Z0-9_]+$`), ""),
 				}},
