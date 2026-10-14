@@ -9180,6 +9180,13 @@
           "computed": true
         },
         {
+          "name": "is_private_person",
+          "type": "types.Bool",
+          "required": false,
+          "optional": true,
+          "computed": true
+        },
+        {
           "name": "is_service_provider",
           "type": "types.Bool",
           "required": false,
@@ -9519,6 +9526,27 @@
           "type": "types.String",
           "required": false,
           "optional": true,
+          "computed": true
+        },
+        {
+          "name": "vat_code_verified",
+          "type": "types.Bool",
+          "required": false,
+          "optional": false,
+          "computed": true
+        },
+        {
+          "name": "vat_percent",
+          "type": "types.String",
+          "required": false,
+          "optional": false,
+          "computed": true
+        },
+        {
+          "name": "vat_rule",
+          "type": "types.String",
+          "required": false,
+          "optional": false,
           "computed": true
         }
       ]

@@ -1,5 +1,14 @@
 # Changelog
 
+## 2026-10-14
+
+### Added
+
+- `structure_customer`: new attribute `is_private_person`
+- `structure_customer`: new attribute `vat_code_verified`
+- `structure_customer`: new attribute `vat_percent`
+- `structure_customer`: new attribute `vat_rule`
+
 ## v8.1.3
 
 ### Added

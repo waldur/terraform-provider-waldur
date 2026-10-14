@@ -397,6 +397,13 @@ func (r *StructureCustomerResource) Schema(ctx context.Context, req resource.Sch
 
 					stringplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "Image"},
+			"is_private_person": schema.BoolAttribute{
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.Bool{
+
+					boolplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Organization represents a private person rather than a legal entity. Used for EU VAT calculation."},
 			"is_service_provider": schema.BoolAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.Bool{
@@ -733,6 +740,27 @@ func (r *StructureCustomerResource) Schema(ctx context.Context, req resource.Sch
 
 					stringplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "VAT number"},
+			"vat_code_verified": schema.BoolAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.Bool{
+
+					boolplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Whether the EU VIES service confirmed the current VAT number."},
+			"vat_percent": schema.StringAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+
+					stringplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "VAT percent calculated from EU VAT rules, when VAT taxation is on.",
+				Validators: []validator.String{
+					stringvalidator.RegexMatches(regexp.MustCompile(`^-?\d{0,2}(?:\.\d{0,2})?$`), ""),
+				}},
+			"vat_rule": schema.StringAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+
+					stringplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Which EU VAT rule picked vat_percent, or why it cannot be calculated."},
 			"state": schema.StringAttribute{
 				Optional: true, MarkdownDescription: "State"},
 		},
@@ -867,6 +895,10 @@ func (r *StructureCustomerResource) Create(ctx context.Context, req resource.Cre
 	if !data.Image.IsNull() && !data.Image.IsUnknown() {
 
 		requestBody.Image = data.Image.ValueStringPointer()
+	}
+	if !data.IsPrivatePerson.IsNull() && !data.IsPrivatePerson.IsUnknown() {
+
+		requestBody.IsPrivatePerson = data.IsPrivatePerson.ValueBoolPointer()
 	}
 	if !data.Latitude.IsNull() && !data.Latitude.IsUnknown() {
 
@@ -1112,6 +1144,11 @@ func (r *StructureCustomerResource) Update(ctx context.Context, req resource.Upd
 		anyChanges = true
 
 		requestBody.Image = data.Image.ValueStringPointer()
+	}
+	if !data.IsPrivatePerson.IsNull() && !data.IsPrivatePerson.IsUnknown() && !data.IsPrivatePerson.Equal(state.IsPrivatePerson) {
+		anyChanges = true
+
+		requestBody.IsPrivatePerson = data.IsPrivatePerson.ValueBoolPointer()
 	}
 	if !data.Latitude.IsNull() && !data.Latitude.IsUnknown() && !data.Latitude.Equal(state.Latitude) {
 		anyChanges = true
