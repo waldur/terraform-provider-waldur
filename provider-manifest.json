@@ -3746,6 +3746,13 @@
           "computed": true
         },
         {
+          "name": "display_limits",
+          "type": "types.Map",
+          "required": false,
+          "optional": false,
+          "computed": true
+        },
+        {
           "name": "downscaled",
           "type": "types.Bool",
           "required": false,

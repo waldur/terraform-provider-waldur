@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-10-15
+
+### Added
+
+- `marketplace_resource`: new attribute `display_limits`
+
 ## 2026-10-14
 
 ### Added

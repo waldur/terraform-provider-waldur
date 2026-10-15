@@ -404,6 +404,7 @@ type MarketplaceResourceModel struct {
 	CategoryUuid              types.String      `tfsdk:"category_uuid"`
 	CustomerSlug              types.String      `tfsdk:"customer_slug"`
 	Description               types.String      `tfsdk:"description"`
+	DisplayLimits             types.Map         `tfsdk:"display_limits"`
 	Downscaled                types.Bool        `tfsdk:"downscaled"`
 	EffectiveId               types.String      `tfsdk:"effective_id"`
 	EndDate                   types.String      `tfsdk:"end_date"`
@@ -495,6 +496,14 @@ func (model *MarketplaceResourceModel) CopyFrom(ctx context.Context, apiResp Mar
 	model.CustomerSlug = common.StringPointerValue(apiResp.CustomerSlug)
 
 	model.Description = common.StringPointerValue(apiResp.Description)
+
+	if apiResp.DisplayLimits != nil {
+		valDisplayLimits, diagsDisplayLimits := types.MapValueFrom(ctx, types.Float64Type, apiResp.DisplayLimits)
+		diags.Append(diagsDisplayLimits...)
+		model.DisplayLimits = valDisplayLimits
+	} else {
+		model.DisplayLimits = types.MapNull(types.Float64Type)
+	}
 
 	model.Downscaled = types.BoolPointerValue(apiResp.Downscaled)
 

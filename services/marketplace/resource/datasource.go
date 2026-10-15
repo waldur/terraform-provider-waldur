@@ -63,6 +63,9 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 				Computed: true, MarkdownDescription: "Customer Slug"},
 			"description": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Description"},
+			"display_limits": schema.MapAttribute{
+				ElementType: types.Float64Type,
+				Computed:    true, MarkdownDescription: "Resource option values shown as the limits of usage-based components. Display only: not stored in limits, billed or enforced."},
 			"downscaled": schema.BoolAttribute{
 				Computed: true, MarkdownDescription: "Downscaled"},
 			"effective_id": schema.StringAttribute{

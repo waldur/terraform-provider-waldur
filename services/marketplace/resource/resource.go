@@ -106,6 +106,13 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 
 					stringplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "Description"},
+			"display_limits": schema.MapAttribute{
+				ElementType: types.Float64Type,
+				Computed:    true,
+				PlanModifiers: []planmodifier.Map{
+
+					mapplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Resource option values shown as the limits of usage-based components. Display only: not stored in limits, billed or enforced."},
 			"downscaled": schema.BoolAttribute{
 				Optional: true,
 				Computed: true,

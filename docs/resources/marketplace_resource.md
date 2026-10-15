@@ -62,6 +62,7 @@ resource "waldur_marketplace_resource" "example" {
 - `category_uuid` (String) Category Uuid
 - `customer_slug` (String) Customer Slug
 - `description` (String) Description
+- `display_limits` (Map of Number) Resource option values shown as the limits of usage-based components. Display only: not stored in limits, billed or enforced.
 - `effective_id` (String) Effective Id
 - `end_date_requested_by` (String) End Date Requested By
 - `end_date_updated_at` (String) Timestamp of the last end_date change.

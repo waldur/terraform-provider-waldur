@@ -46,6 +46,8 @@ type MarketplaceResourceResponse struct {
 
 	Description *string `json:"description,omitempty" tfsdk:"description"`
 
+	DisplayLimits map[string]float64 `json:"display_limits,omitempty" tfsdk:"display_limits"`
+
 	Downscaled *bool `json:"downscaled,omitempty" tfsdk:"downscaled"`
 
 	EffectiveId *string `json:"effective_id,omitempty" tfsdk:"effective_id"`
@@ -176,6 +178,9 @@ type MarketplaceResourceResponse struct {
 }
 
 type MarketplaceResourceAttributesResponse struct {
+}
+
+type MarketplaceResourceDisplayLimitsResponse struct {
 }
 
 type MarketplaceResourceEndpointsResponse struct {

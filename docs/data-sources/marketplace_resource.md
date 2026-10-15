@@ -29,6 +29,7 @@ Marketplace Resource data source - lookup by name or UUID
 - `category_uuid` (String) Category Uuid
 - `customer_slug` (String) Customer Slug
 - `description` (String) Description
+- `display_limits` (Map of Number) Resource option values shown as the limits of usage-based components. Display only: not stored in limits, billed or enforced.
 - `downscaled` (Boolean) Downscaled
 - `effective_id` (String) Effective Id
 - `end_date` (String) The date is inclusive. Once reached, a resource will be scheduled for termination.
