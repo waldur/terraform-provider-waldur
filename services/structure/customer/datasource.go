@@ -159,6 +159,8 @@ func (d *StructureCustomerDataSource) Schema(ctx context.Context, req datasource
 				Computed: true, MarkdownDescription: "Household"},
 			"image": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Image"},
+			"invoice_emails": schema.StringAttribute{
+				Computed: true, MarkdownDescription: "Comma-separated list of email addresses that receive invoice notifications instead of the organization owners"},
 			"is_private_person": schema.BoolAttribute{
 				Computed: true, MarkdownDescription: "Organization represents a private person rather than a legal entity. Used for EU VAT calculation."},
 			"is_service_provider": schema.BoolAttribute{

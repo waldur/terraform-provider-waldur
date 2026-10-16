@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-10-16
+
+### Added
+
+- `structure_customer`: new attribute `invoice_emails`
+
 ## 2026-10-15
 
 ### Added

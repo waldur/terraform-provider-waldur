@@ -55,6 +55,7 @@ Structure Customer data source - lookup by name or UUID
 - `house_nr` (String) House Nr
 - `household` (String) Household
 - `image` (String) Image
+- `invoice_emails` (String) Comma-separated list of email addresses that receive invoice notifications instead of the organization owners
 - `is_private_person` (Boolean) Organization represents a private person rather than a legal entity. Used for EU VAT calculation.
 - `is_service_provider` (Boolean) Is Service Provider
 - `is_service_provider_manager_only` (Boolean) True when the requesting user's only link to this organization is a role on its service provider. Such a row carries only identity fields.

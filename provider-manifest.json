@@ -9187,6 +9187,13 @@
           "computed": true
         },
         {
+          "name": "invoice_emails",
+          "type": "types.String",
+          "required": false,
+          "optional": true,
+          "computed": true
+        },
+        {
           "name": "is_private_person",
           "type": "types.Bool",
           "required": false,

@@ -51,6 +51,7 @@ resource "waldur_structure_customer" "example" {
 - `house_nr` (String) House Nr
 - `household` (String) Household
 - `image` (String) Image
+- `invoice_emails` (String) Comma-separated list of email addresses that receive invoice notifications instead of the organization owners
 - `is_private_person` (Boolean) Organization represents a private person rather than a legal entity. Used for EU VAT calculation.
 - `latitude` (Number) Latitude
 - `longitude` (Number) Longitude

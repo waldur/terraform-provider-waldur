@@ -397,6 +397,13 @@ func (r *StructureCustomerResource) Schema(ctx context.Context, req resource.Sch
 
 					stringplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "Image"},
+			"invoice_emails": schema.StringAttribute{
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+
+					stringplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Comma-separated list of email addresses that receive invoice notifications instead of the organization owners"},
 			"is_private_person": schema.BoolAttribute{
 				Optional: true,
 				Computed: true,
@@ -896,6 +903,10 @@ func (r *StructureCustomerResource) Create(ctx context.Context, req resource.Cre
 
 		requestBody.Image = data.Image.ValueStringPointer()
 	}
+	if !data.InvoiceEmails.IsNull() && !data.InvoiceEmails.IsUnknown() {
+
+		requestBody.InvoiceEmails = data.InvoiceEmails.ValueStringPointer()
+	}
 	if !data.IsPrivatePerson.IsNull() && !data.IsPrivatePerson.IsUnknown() {
 
 		requestBody.IsPrivatePerson = data.IsPrivatePerson.ValueBoolPointer()
@@ -1144,6 +1155,11 @@ func (r *StructureCustomerResource) Update(ctx context.Context, req resource.Upd
 		anyChanges = true
 
 		requestBody.Image = data.Image.ValueStringPointer()
+	}
+	if !data.InvoiceEmails.IsNull() && !data.InvoiceEmails.IsUnknown() && !data.InvoiceEmails.Equal(state.InvoiceEmails) {
+		anyChanges = true
+
+		requestBody.InvoiceEmails = data.InvoiceEmails.ValueStringPointer()
 	}
 	if !data.IsPrivatePerson.IsNull() && !data.IsPrivatePerson.IsUnknown() && !data.IsPrivatePerson.Equal(state.IsPrivatePerson) {
 		anyChanges = true

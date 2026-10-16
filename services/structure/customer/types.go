@@ -53,6 +53,8 @@ type StructureCustomerCreateRequest struct {
 
 	Image *string `json:"image,omitempty" tfsdk:"image"`
 
+	InvoiceEmails *string `json:"invoice_emails,omitempty" tfsdk:"invoice_emails"`
+
 	IsPrivatePerson *bool `json:"is_private_person,omitempty" tfsdk:"is_private_person"`
 
 	Latitude *float64 `json:"latitude,omitempty" tfsdk:"latitude"`
@@ -142,6 +144,8 @@ type StructureCustomerUpdateRequest struct {
 	Household *string `json:"household,omitempty" tfsdk:"household"`
 
 	Image *string `json:"image,omitempty" tfsdk:"image"`
+
+	InvoiceEmails *string `json:"invoice_emails,omitempty" tfsdk:"invoice_emails"`
 
 	IsPrivatePerson *bool `json:"is_private_person,omitempty" tfsdk:"is_private_person"`
 
@@ -252,6 +256,8 @@ type StructureCustomerResponse struct {
 	Household *string `json:"household,omitempty" tfsdk:"household"`
 
 	Image *string `json:"image,omitempty" tfsdk:"image"`
+
+	InvoiceEmails *string `json:"invoice_emails,omitempty" tfsdk:"invoice_emails"`
 
 	IsPrivatePerson *bool `json:"is_private_person,omitempty" tfsdk:"is_private_person"`
 
