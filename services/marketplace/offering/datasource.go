@@ -669,7 +669,7 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 			"plugin_options": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
 					"account_scope": schema.StringAttribute{
-						Computed: true, MarkdownDescription: "Where accounts are held: 'offering' keeps one account per offering (the historical behaviour); 'provider' shares one account per user across the provider's offerings."},
+						Computed: true, MarkdownDescription: "Where accounts are held: 'offering' keeps one account per offering (the historical behavior); 'provider' shares one account per user across the provider's offerings."},
 					"action_on_usage_limit": schema.StringAttribute{
 						Computed: true, MarkdownDescription: "If set to 'pause' or 'downscale', resources are automatically paused or downscaled when reported usage in the current period reaches a component's limit_amount, and the restriction is lifted when usage drops below the limit again (e.g. a new billing period or a raised limit)."},
 					"auto_approve_for_roles": schema.ListAttribute{
