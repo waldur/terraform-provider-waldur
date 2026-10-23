@@ -310,7 +310,7 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 							}},
 						"spending_limit_periods": schema.MapAttribute{
 							ElementType: types.StringType,
-							Computed:    true, MarkdownDescription: "Periods (day, week, month, quarter, year) for which customers can set a spending limit on this usage-based component. Day and week need the integration to report usage per day. Empty when customers cannot set spending limits."},
+							Computed:    true, MarkdownDescription: "Periods (day, week, month, quarter, year, total) for which customers can set a spending limit on this usage-based component; total counts all the usage since the resource started and never resets. Day and week need the integration to report usage per day. Empty when customers cannot set spending limits."},
 						"type": schema.StringAttribute{
 							Computed: true, MarkdownDescription: "Unique internal name of the measured unit, for example floating_ip.",
 							Validators: []validator.String{
@@ -650,13 +650,13 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 						"period": schema.StringAttribute{
 							Computed: true, MarkdownDescription: "Period",
 							Validators: []validator.String{
-								stringvalidator.OneOf("day", "week", "month", "quarter", "year"),
+								stringvalidator.OneOf("day", "week", "month", "quarter", "year", "total"),
 							}},
 						"reached": schema.BoolAttribute{
 							Computed: true, MarkdownDescription: "Reached"},
 						"resets_at": schema.StringAttribute{
 							CustomType: timetypes.RFC3339Type{},
-							Computed:   true, MarkdownDescription: "When the current period ends and its usage starts from zero."},
+							Computed:   true, MarkdownDescription: "When the current period ends and its usage starts from zero. Null for total, which never resets."},
 						"used": schema.Float64Attribute{
 							Computed: true, MarkdownDescription: "Usage reported in the current period."},
 					},
@@ -674,7 +674,7 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 				Computed: true, MarkdownDescription: "Which restriction (paused or downscaled) was automatically applied because reported usage reached a component limit. Empty when no such restriction is active. Used so the automatic lift never clears a restriction that was set for another reason."},
 			"usage_limit_resumes_at": schema.StringAttribute{
 				CustomType: timetypes.RFC3339Type{},
-				Computed:   true, MarkdownDescription: "When the spending limits that restrict the resource reset and the restriction lifts. Empty when no spending limit restricts the resource, or when a limit-based component's limit does too."},
+				Computed:   true, MarkdownDescription: "When the spending limits that restrict the resource reset and the restriction lifts. Empty when no spending limit restricts the resource, when a limit-based component's limit does too, or while a reached total limit holds it: a total never resets, so the restriction lifts only when that limit is raised or cleared."},
 			"user_requires_reconsent": schema.BoolAttribute{
 				Computed: true, MarkdownDescription: "Check if the current user needs to re-consent for this resource's offering."},
 			"username": schema.StringAttribute{

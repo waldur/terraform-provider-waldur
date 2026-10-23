@@ -713,7 +713,7 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 							PlanModifiers: []planmodifier.Map{
 
 								mapplanmodifier.UseStateForUnknown(),
-							}, MarkdownDescription: "Periods (day, week, month, quarter, year) for which customers can set a spending limit on this usage-based component. Day and week need the integration to report usage per day. Empty when customers cannot set spending limits."},
+							}, MarkdownDescription: "Periods (day, week, month, quarter, year, total) for which customers can set a spending limit on this usage-based component; total counts all the usage since the resource started and never resets. Day and week need the integration to report usage per day. Empty when customers cannot set spending limits."},
 						"type": schema.StringAttribute{
 							Optional: true,
 							Computed: true,
@@ -1654,7 +1654,7 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 								stringplanmodifier.UseStateForUnknown(),
 							}, MarkdownDescription: "Period",
 							Validators: []validator.String{
-								stringvalidator.OneOf("day", "week", "month", "quarter", "year"),
+								stringvalidator.OneOf("day", "week", "month", "quarter", "year", "total"),
 							}},
 						"reached": schema.BoolAttribute{
 							Optional: true,
@@ -1670,7 +1670,7 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 							PlanModifiers: []planmodifier.String{
 
 								stringplanmodifier.UseStateForUnknown(),
-							}, MarkdownDescription: "When the current period ends and its usage starts from zero."},
+							}, MarkdownDescription: "When the current period ends and its usage starts from zero. Null for total, which never resets."},
 						"used": schema.Float64Attribute{
 							Optional: true,
 							Computed: true,
@@ -1717,7 +1717,7 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 				PlanModifiers: []planmodifier.String{
 
 					stringplanmodifier.UseStateForUnknown(),
-				}, MarkdownDescription: "When the spending limits that restrict the resource reset and the restriction lifts. Empty when no spending limit restricts the resource, or when a limit-based component's limit does too."},
+				}, MarkdownDescription: "When the spending limits that restrict the resource reset and the restriction lifts. Empty when no spending limit restricts the resource, when a limit-based component's limit does too, or while a reached total limit holds it: a total never resets, so the restriction lifts only when that limit is raised or cleared."},
 			"user_requires_reconsent": schema.BoolAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.Bool{

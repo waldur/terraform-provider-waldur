@@ -286,7 +286,7 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 							}},
 						"spending_limit_periods": schema.MapAttribute{
 							ElementType: types.StringType,
-							Computed:    true, MarkdownDescription: "Periods (day, week, month, quarter, year) for which customers can set a spending limit on this usage-based component. Day and week need the integration to report usage per day. Empty when customers cannot set spending limits."},
+							Computed:    true, MarkdownDescription: "Periods (day, week, month, quarter, year, total) for which customers can set a spending limit on this usage-based component; total counts all the usage since the resource started and never resets. Day and week need the integration to report usage per day. Empty when customers cannot set spending limits."},
 						"type": schema.StringAttribute{
 							Computed: true, MarkdownDescription: "Unique internal name of the measured unit, for example floating_ip.",
 							Validators: []validator.String{
@@ -676,7 +676,7 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 					"action_on_usage_limit": schema.StringAttribute{
 						Computed: true, MarkdownDescription: "If set to 'pause' or 'downscale', resources are automatically paused or downscaled when reported usage in the current period reaches a component's limit_amount, and the restriction is lifted when usage drops below the limit again (e.g. a new billing period or a raised limit)."},
 					"api_key_daily_usage": schema.BoolAttribute{
-						Computed: true, MarkdownDescription: "Declares that the site agent reports each API key's usage per day. Only then are keys offered limits other than month: the day and week periods, and the quarter and year, that a component offers to resources. Off unless set; needs enable_api_key_provisioning. Nothing checks the claim: turn it on only if the agent reports per-key daily usage, or those limits are never reached."},
+						Computed: true, MarkdownDescription: "Declares that the site agent reports each API key's usage per day. Only then are keys offered the day and week periods, and the quarter and year, that a component offers to resources; month, and total where the component offers it, are offered without it, as they need no usage per day. Off unless set; needs enable_api_key_provisioning. Nothing checks the claim: turn it on only if the agent reports per-key daily usage, or those limits are never reached."},
 					"api_key_limits": schema.BoolAttribute{
 						Computed: true, MarkdownDescription: "Lets consumers set spending limits on API keys one by one. On unless set to false; needs enable_api_key_provisioning. Turned off, no new key limit is accepted, and limits keys already hold stay until cleared."},
 					"auto_approve_for_roles": schema.ListAttribute{
