@@ -1,5 +1,18 @@
 # Changelog
 
+## 2026-10-23
+
+### Added
+
+- `marketplace_offering`: new attribute `components.spending_limit_periods`
+- `marketplace_offering`: new attribute `plugin_options.api_key_daily_usage`
+- `marketplace_offering`: new attribute `plugin_options.api_key_limits`
+- `marketplace_order`: new attribute `spending_limits`
+- `marketplace_resource`: new attribute `offering_components.spending_limit_periods`
+- `marketplace_resource`: new attribute `spending_limit_status`
+- `marketplace_resource`: new attribute `spending_limits`
+- `marketplace_resource`: new attribute `usage_limit_resumes_at`
+
 ## 2026-10-16
 
 ### Added

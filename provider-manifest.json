@@ -815,6 +815,13 @@
               "computed": true
             },
             {
+              "name": "spending_limit_periods",
+              "type": "types.Map",
+              "required": false,
+              "optional": false,
+              "computed": true
+            },
+            {
               "name": "type",
               "type": "types.String",
               "required": false,
@@ -1700,6 +1707,20 @@
             {
               "name": "action_on_usage_limit",
               "type": "types.String",
+              "required": false,
+              "optional": false,
+              "computed": true
+            },
+            {
+              "name": "api_key_daily_usage",
+              "type": "types.Bool",
+              "required": false,
+              "optional": false,
+              "computed": true
+            },
+            {
+              "name": "api_key_limits",
+              "type": "types.Bool",
               "required": false,
               "optional": false,
               "computed": true
@@ -3657,6 +3678,13 @@
           "computed": true
         },
         {
+          "name": "spending_limits",
+          "type": "types.Map",
+          "required": false,
+          "optional": true,
+          "computed": false
+        },
+        {
           "name": "start_date",
           "type": "types.String",
           "required": false,
@@ -4290,6 +4318,13 @@
             {
               "name": "renewal_duration_step",
               "type": "types.Int64",
+              "required": false,
+              "optional": true,
+              "computed": true
+            },
+            {
+              "name": "spending_limit_periods",
+              "type": "types.Map",
               "required": false,
               "optional": true,
               "computed": true
@@ -5269,6 +5304,71 @@
           "computed": true
         },
         {
+          "name": "spending_limit_status",
+          "type": "types.List\u003cobject\u003e",
+          "required": false,
+          "optional": false,
+          "computed": true,
+          "attributes": [
+            {
+              "name": "component_type",
+              "type": "types.String",
+              "required": false,
+              "optional": true,
+              "computed": true
+            },
+            {
+              "name": "last_reported_at",
+              "type": "types.String",
+              "required": false,
+              "optional": true,
+              "computed": true
+            },
+            {
+              "name": "limit",
+              "type": "types.Float64",
+              "required": false,
+              "optional": true,
+              "computed": true
+            },
+            {
+              "name": "period",
+              "type": "types.String",
+              "required": false,
+              "optional": true,
+              "computed": true
+            },
+            {
+              "name": "reached",
+              "type": "types.Bool",
+              "required": false,
+              "optional": true,
+              "computed": true
+            },
+            {
+              "name": "resets_at",
+              "type": "types.String",
+              "required": false,
+              "optional": true,
+              "computed": true
+            },
+            {
+              "name": "used",
+              "type": "types.Float64",
+              "required": false,
+              "optional": true,
+              "computed": true
+            }
+          ]
+        },
+        {
+          "name": "spending_limits",
+          "type": "types.Map",
+          "required": false,
+          "optional": false,
+          "computed": true
+        },
+        {
           "name": "state",
           "type": "types.String",
           "required": false,
@@ -5284,6 +5384,13 @@
         },
         {
           "name": "usage_limit_restriction",
+          "type": "types.String",
+          "required": false,
+          "optional": false,
+          "computed": true
+        },
+        {
+          "name": "usage_limit_resumes_at",
           "type": "types.String",
           "required": false,
           "optional": false,

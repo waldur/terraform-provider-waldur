@@ -116,9 +116,12 @@ resource "waldur_marketplace_resource" "example" {
 - `resource_uuid` (String) Resource Uuid
 - `restrict_member_access` (Boolean) Restrict Member Access
 - `scope` (String) Scope
+- `spending_limit_status` (Attributes List) Spending Limit Status (see [below for nested schema](#nestedatt--spending_limit_status))
+- `spending_limits` (Map of String) Spending limits on usage-based components, per period. Changed with the set_spending_limits action.
 - `state` (String) State
 - `url` (String) Url
 - `usage_limit_restriction` (String) Which restriction (paused or downscaled) was automatically applied because reported usage reached a component limit. Empty when no such restriction is active. Used so the automatic lift never clears a restriction that was set for another reason.
+- `usage_limit_resumes_at` (String) When the spending limits that restrict the resource reset and the restriction lifts. Empty when no spending limit restricts the resource, or when a limit-based component's limit does too.
 - `user_requires_reconsent` (Boolean) Check if the current user needs to re-consent for this resource's offering.
 - `username` (String) Username
 
@@ -278,6 +281,7 @@ Optional:
 - `overage_component` (String) Overage Component
 - `prepaid_duration_step` (Number) Step size in months for the initial prepaid duration at order creation. If set, only multiples of this value (starting from min_prepaid_duration) are valid. Defaults to 1 (any value between min and max).
 - `renewal_duration_step` (Number) Step size in months for renewal. Only multiples of this value (starting from min_renewal_duration) are valid. Defaults to 1.
+- `spending_limit_periods` (Map of String) Periods (day, week, month, quarter, year) for which customers can set a spending limit on this usage-based component. Day and week need the integration to report usage per day. Empty when customers cannot set spending limits.
 - `type` (String) Unique internal name of the measured unit, for example floating_ip.
 - `unit_factor` (Number) The conversion factor from backend units to measured_unit
 
@@ -404,3 +408,17 @@ Optional:
 
 - `body` (String) Section body content
 - `header` (String) Section header text
+
+
+<a id="nestedatt--spending_limit_status"></a>
+### Nested Schema for `spending_limit_status`
+
+Optional:
+
+- `component_type` (String) Component Type
+- `last_reported_at` (String) When usage of the component was last reported.
+- `limit` (Number) Limit
+- `period` (String) Period
+- `reached` (Boolean) Reached
+- `resets_at` (String) When the current period ends and its usage starts from zero.
+- `used` (Number) Usage reported in the current period.

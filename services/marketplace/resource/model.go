@@ -43,33 +43,34 @@ func OfferingAccountSettingsAccountScopeInheritedType() types.ObjectType {
 }
 func OfferingComponentType() types.ObjectType {
 	return types.ObjectType{AttrTypes: map[string]attr.Type{
-		"article_code":          types.StringType,
-		"billing_type":          types.StringType,
-		"default_limit":         types.Float64Type,
-		"description":           types.StringType,
-		"factor":                types.Int64Type,
-		"is_boolean":            types.BoolType,
-		"is_builtin":            types.BoolType,
-		"is_prepaid":            types.BoolType,
-		"limit_amount":          types.Float64Type,
-		"limit_decimal_places":  types.Int64Type,
-		"limit_period":          types.StringType,
-		"max_available_limit":   types.Float64Type,
-		"max_prepaid_duration":  types.Int64Type,
-		"max_renewal_duration":  types.Int64Type,
-		"max_value":             types.Float64Type,
-		"measured_unit":         types.StringType,
-		"min_prepaid_duration":  types.Int64Type,
-		"min_renewal_duration":  types.Int64Type,
-		"min_value":             types.Float64Type,
-		"name":                  types.StringType,
-		"offering_uuid":         types.StringType,
-		"overage_component":     types.StringType,
-		"prepaid_duration_step": types.Int64Type,
-		"renewal_duration_step": types.Int64Type,
-		"type":                  types.StringType,
-		"unit_factor":           types.Int64Type,
-		"uuid":                  types.StringType,
+		"article_code":           types.StringType,
+		"billing_type":           types.StringType,
+		"default_limit":          types.Float64Type,
+		"description":            types.StringType,
+		"factor":                 types.Int64Type,
+		"is_boolean":             types.BoolType,
+		"is_builtin":             types.BoolType,
+		"is_prepaid":             types.BoolType,
+		"limit_amount":           types.Float64Type,
+		"limit_decimal_places":   types.Int64Type,
+		"limit_period":           types.StringType,
+		"max_available_limit":    types.Float64Type,
+		"max_prepaid_duration":   types.Int64Type,
+		"max_renewal_duration":   types.Int64Type,
+		"max_value":              types.Float64Type,
+		"measured_unit":          types.StringType,
+		"min_prepaid_duration":   types.Int64Type,
+		"min_renewal_duration":   types.Int64Type,
+		"min_value":              types.Float64Type,
+		"name":                   types.StringType,
+		"offering_uuid":          types.StringType,
+		"overage_component":      types.StringType,
+		"prepaid_duration_step":  types.Int64Type,
+		"renewal_duration_step":  types.Int64Type,
+		"spending_limit_periods": types.MapType{ElemType: types.StringType},
+		"type":                   types.StringType,
+		"unit_factor":            types.Int64Type,
+		"uuid":                   types.StringType,
 	}}
 }
 func OrderInProgressType() types.ObjectType {
@@ -175,6 +176,17 @@ func ReportSectionType() types.ObjectType {
 	return types.ObjectType{AttrTypes: map[string]attr.Type{
 		"body":   types.StringType,
 		"header": types.StringType,
+	}}
+}
+func SpendingLimitStatusType() types.ObjectType {
+	return types.ObjectType{AttrTypes: map[string]attr.Type{
+		"component_type":   types.StringType,
+		"last_reported_at": types.StringType,
+		"limit":            types.Float64Type,
+		"period":           types.StringType,
+		"reached":          types.BoolType,
+		"resets_at":        types.StringType,
+		"used":             types.Float64Type,
 	}}
 }
 
@@ -464,9 +476,12 @@ type MarketplaceResourceModel struct {
 	RestrictMemberAccess      types.Bool        `tfsdk:"restrict_member_access"`
 	Scope                     types.String      `tfsdk:"scope"`
 	Slug                      types.String      `tfsdk:"slug"`
+	SpendingLimitStatus       types.List        `tfsdk:"spending_limit_status"`
+	SpendingLimits            types.Map         `tfsdk:"spending_limits"`
 	State                     types.String      `tfsdk:"state"`
 	Url                       types.String      `tfsdk:"url"`
 	UsageLimitRestriction     types.String      `tfsdk:"usage_limit_restriction"`
+	UsageLimitResumesAt       timetypes.RFC3339 `tfsdk:"usage_limit_resumes_at"`
 	UserRequiresReconsent     types.Bool        `tfsdk:"user_requires_reconsent"`
 	Username                  types.String      `tfsdk:"username"`
 }
@@ -687,11 +702,31 @@ func (model *MarketplaceResourceModel) CopyFrom(ctx context.Context, apiResp Mar
 
 	model.Slug = common.StringPointerValue(apiResp.Slug)
 
+	if apiResp.SpendingLimitStatus != nil {
+		valSpendingLimitStatus, diagsSpendingLimitStatus := types.ListValueFrom(ctx, SpendingLimitStatusType(), apiResp.SpendingLimitStatus)
+		diags.Append(diagsSpendingLimitStatus...)
+		model.SpendingLimitStatus = valSpendingLimitStatus
+	} else {
+		model.SpendingLimitStatus = types.ListNull(SpendingLimitStatusType())
+	}
+
+	if apiResp.SpendingLimits != nil {
+		valSpendingLimits, diagsSpendingLimits := types.MapValueFrom(ctx, types.StringType, apiResp.SpendingLimits)
+		diags.Append(diagsSpendingLimits...)
+		model.SpendingLimits = valSpendingLimits
+	} else {
+		model.SpendingLimits = types.MapNull(types.StringType)
+	}
+
 	model.State = common.StringPointerValue(apiResp.State)
 
 	model.Url = common.StringPointerValue(apiResp.Url)
 
 	model.UsageLimitRestriction = common.StringPointerValue(apiResp.UsageLimitRestriction)
+
+	valUsageLimitResumesAt, diagsUsageLimitResumesAt := timetypes.NewRFC3339PointerValue(apiResp.UsageLimitResumesAt)
+	diags.Append(diagsUsageLimitResumesAt...)
+	model.UsageLimitResumesAt = valUsageLimitResumesAt
 
 	model.UserRequiresReconsent = types.BoolPointerValue(apiResp.UserRequiresReconsent)
 

@@ -429,11 +429,15 @@ type OfferingComponent struct {
 
 	RenewalDurationStep *int64 `json:"renewal_duration_step,omitempty" tfsdk:"renewal_duration_step"`
 
+	SpendingLimitPeriods map[string]interface{} `json:"spending_limit_periods,omitempty" tfsdk:"spending_limit_periods"`
+
 	Type *string `json:"type,omitempty" tfsdk:"type"`
 
 	UnitFactor *int64 `json:"unit_factor,omitempty" tfsdk:"unit_factor"`
 
 	Uuid *string `json:"uuid,omitempty" tfsdk:"uuid"`
+}
+type OfferingComponentSpendingLimitPeriods struct {
 }
 
 type OpenStackAllowedAddressPair struct {
@@ -963,4 +967,20 @@ type ReportSection struct {
 	Body *string `json:"body,omitempty" tfsdk:"body"`
 
 	Header *string `json:"header,omitempty" tfsdk:"header"`
+}
+
+type SpendingLimitStatus struct {
+	ComponentType *string `json:"component_type,omitempty" tfsdk:"component_type"`
+
+	LastReportedAt *string `json:"last_reported_at,omitempty" tfsdk:"last_reported_at"`
+
+	Limit FlexibleNumber `json:"limit,omitempty" tfsdk:"limit"`
+
+	Period *string `json:"period,omitempty" tfsdk:"period"`
+
+	Reached *bool `json:"reached,omitempty" tfsdk:"reached"`
+
+	ResetsAt *string `json:"resets_at,omitempty" tfsdk:"resets_at"`
+
+	Used FlexibleNumber `json:"used,omitempty" tfsdk:"used"`
 }

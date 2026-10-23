@@ -321,11 +321,16 @@ type MarketplaceOfferingComponentsResponse struct {
 
 	RenewalDurationStep *int64 `json:"renewal_duration_step,omitempty" tfsdk:"renewal_duration_step"`
 
+	SpendingLimitPeriods common.JSONStringMap `json:"spending_limit_periods,omitempty" tfsdk:"spending_limit_periods"`
+
 	Type *string `json:"type,omitempty" tfsdk:"type"`
 
 	UnitFactor *int64 `json:"unit_factor,omitempty" tfsdk:"unit_factor"`
 
 	Uuid *string `json:"uuid,omitempty" tfsdk:"uuid"`
+}
+
+type MarketplaceOfferingComponentsSpendingLimitPeriodsResponse struct {
 }
 
 type MarketplaceOfferingDefaultAccessSubnetsResponse struct {
@@ -534,6 +539,10 @@ type MarketplaceOfferingPluginOptionsResponse struct {
 	AccountScope *string `json:"account_scope,omitempty" tfsdk:"account_scope"`
 
 	ActionOnUsageLimit *string `json:"action_on_usage_limit,omitempty" tfsdk:"action_on_usage_limit"`
+
+	ApiKeyDailyUsage *bool `json:"api_key_daily_usage,omitempty" tfsdk:"api_key_daily_usage"`
+
+	ApiKeyLimits *bool `json:"api_key_limits,omitempty" tfsdk:"api_key_limits"`
 
 	AutoApproveForRoles *[]string `json:"auto_approve_for_roles,omitempty" tfsdk:"auto_approve_for_roles"`
 

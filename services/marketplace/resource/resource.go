@@ -706,6 +706,14 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 								int64validator.AtLeast(0),
 								int64validator.AtMost(2147483647),
 							}},
+						"spending_limit_periods": schema.MapAttribute{
+							ElementType: types.StringType,
+							Optional:    true,
+							Computed:    true,
+							PlanModifiers: []planmodifier.Map{
+
+								mapplanmodifier.UseStateForUnknown(),
+							}, MarkdownDescription: "Periods (day, week, month, quarter, year) for which customers can set a spending limit on this usage-based component. Day and week need the integration to report usage per day. Empty when customers cannot set spending limits."},
 						"type": schema.StringAttribute{
 							Optional: true,
 							Computed: true,
@@ -1613,6 +1621,78 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 				Validators: []validator.String{
 					stringvalidator.RegexMatches(regexp.MustCompile(`^[-a-zA-Z0-9_]+$`), ""),
 				}},
+			"spending_limit_status": schema.ListNestedAttribute{
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: map[string]schema.Attribute{
+						"component_type": schema.StringAttribute{
+							Optional: true,
+							Computed: true,
+							PlanModifiers: []planmodifier.String{
+
+								stringplanmodifier.UseStateForUnknown(),
+							}, MarkdownDescription: "Component Type"},
+						"last_reported_at": schema.StringAttribute{
+							CustomType: timetypes.RFC3339Type{},
+							Optional:   true,
+							Computed:   true,
+							PlanModifiers: []planmodifier.String{
+
+								stringplanmodifier.UseStateForUnknown(),
+							}, MarkdownDescription: "When usage of the component was last reported."},
+						"limit": schema.Float64Attribute{
+							Optional: true,
+							Computed: true,
+							PlanModifiers: []planmodifier.Float64{
+
+								float64planmodifier.UseStateForUnknown(),
+							}, MarkdownDescription: "Limit"},
+						"period": schema.StringAttribute{
+							Optional: true,
+							Computed: true,
+							PlanModifiers: []planmodifier.String{
+
+								stringplanmodifier.UseStateForUnknown(),
+							}, MarkdownDescription: "Period",
+							Validators: []validator.String{
+								stringvalidator.OneOf("day", "week", "month", "quarter", "year"),
+							}},
+						"reached": schema.BoolAttribute{
+							Optional: true,
+							Computed: true,
+							PlanModifiers: []planmodifier.Bool{
+
+								boolplanmodifier.UseStateForUnknown(),
+							}, MarkdownDescription: "Reached"},
+						"resets_at": schema.StringAttribute{
+							CustomType: timetypes.RFC3339Type{},
+							Optional:   true,
+							Computed:   true,
+							PlanModifiers: []planmodifier.String{
+
+								stringplanmodifier.UseStateForUnknown(),
+							}, MarkdownDescription: "When the current period ends and its usage starts from zero."},
+						"used": schema.Float64Attribute{
+							Optional: true,
+							Computed: true,
+							PlanModifiers: []planmodifier.Float64{
+
+								float64planmodifier.UseStateForUnknown(),
+							}, MarkdownDescription: "Usage reported in the current period."},
+					},
+				},
+				Computed: true,
+				PlanModifiers: []planmodifier.List{
+
+					listplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Spending Limit Status",
+			},
+			"spending_limits": schema.MapAttribute{
+				ElementType: types.StringType,
+				Computed:    true,
+				PlanModifiers: []planmodifier.Map{
+
+					mapplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Spending limits on usage-based components, per period. Changed with the set_spending_limits action."},
 			"state": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
@@ -1631,6 +1711,13 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 
 					stringplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "Which restriction (paused or downscaled) was automatically applied because reported usage reached a component limit. Empty when no such restriction is active. Used so the automatic lift never clears a restriction that was set for another reason."},
+			"usage_limit_resumes_at": schema.StringAttribute{
+				CustomType: timetypes.RFC3339Type{},
+				Computed:   true,
+				PlanModifiers: []planmodifier.String{
+
+					stringplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "When the spending limits that restrict the resource reset and the restriction lifts. Empty when no spending limit restricts the resource, or when a limit-based component's limit does too."},
 			"user_requires_reconsent": schema.BoolAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.Bool{

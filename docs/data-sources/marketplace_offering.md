@@ -295,6 +295,7 @@ Read-Only:
 - `overage_component` (String) Overage Component
 - `prepaid_duration_step` (Number) Step size in months for the initial prepaid duration at order creation. If set, only multiples of this value (starting from min_prepaid_duration) are valid. Defaults to 1 (any value between min and max).
 - `renewal_duration_step` (Number) Step size in months for renewal. Only multiples of this value (starting from min_renewal_duration) are valid. Defaults to 1.
+- `spending_limit_periods` (Map of String) Periods (day, week, month, quarter, year) for which customers can set a spending limit on this usage-based component. Day and week need the integration to report usage per day. Empty when customers cannot set spending limits.
 - `type` (String) Unique internal name of the measured unit, for example floating_ip.
 - `unit_factor` (Number) The conversion factor from backend units to measured_unit
 - `uuid` (String) Uuid
@@ -462,6 +463,8 @@ Read-Only:
 
 - `account_scope` (String) Where accounts are held: 'offering' keeps one account per offering (the historical behavior); 'provider' shares one account per user across the provider's offerings.
 - `action_on_usage_limit` (String) If set to 'pause' or 'downscale', resources are automatically paused or downscaled when reported usage in the current period reaches a component's limit_amount, and the restriction is lifted when usage drops below the limit again (e.g. a new billing period or a raised limit).
+- `api_key_daily_usage` (Boolean) Declares that the site agent reports each API key's usage per day. Only then are keys offered limits other than month: the day and week periods, and the quarter and year, that a component offers to resources. Off unless set; needs enable_api_key_provisioning. Nothing checks the claim: turn it on only if the agent reports per-key daily usage, or those limits are never reached.
+- `api_key_limits` (Boolean) Lets consumers set spending limits on API keys one by one. On unless set to false; needs enable_api_key_provisioning. Turned off, no new key limit is accepted, and limits keys already hold stay until cleared.
 - `auto_approve_for_roles` (List of String) List of project or organization role names (e.g. 'PROJECT.MANAGER') whose orders skip consumer review for this offering. The creator must hold the role on the target project or its organization. Independent of restricted_to_roles (which governs visibility/ordering) and of the ORDER.APPROVE permission. Provider review and purchase-order requirements still apply. Only staff can change this option.
 - `auto_approve_in_service_provider_projects` (Boolean) Skip approval of public offering belonging to the same organization under which the request is done
 - `auto_approve_marketplace_script` (Boolean) If set to False, all orders require manual provider approval, including for service provider owners and staff

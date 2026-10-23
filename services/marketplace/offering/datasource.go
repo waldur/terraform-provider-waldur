@@ -284,6 +284,9 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 								int64validator.AtLeast(0),
 								int64validator.AtMost(2147483647),
 							}},
+						"spending_limit_periods": schema.MapAttribute{
+							ElementType: types.StringType,
+							Computed:    true, MarkdownDescription: "Periods (day, week, month, quarter, year) for which customers can set a spending limit on this usage-based component. Day and week need the integration to report usage per day. Empty when customers cannot set spending limits."},
 						"type": schema.StringAttribute{
 							Computed: true, MarkdownDescription: "Unique internal name of the measured unit, for example floating_ip.",
 							Validators: []validator.String{
@@ -672,6 +675,10 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 						Computed: true, MarkdownDescription: "Where accounts are held: 'offering' keeps one account per offering (the historical behavior); 'provider' shares one account per user across the provider's offerings."},
 					"action_on_usage_limit": schema.StringAttribute{
 						Computed: true, MarkdownDescription: "If set to 'pause' or 'downscale', resources are automatically paused or downscaled when reported usage in the current period reaches a component's limit_amount, and the restriction is lifted when usage drops below the limit again (e.g. a new billing period or a raised limit)."},
+					"api_key_daily_usage": schema.BoolAttribute{
+						Computed: true, MarkdownDescription: "Declares that the site agent reports each API key's usage per day. Only then are keys offered limits other than month: the day and week periods, and the quarter and year, that a component offers to resources. Off unless set; needs enable_api_key_provisioning. Nothing checks the claim: turn it on only if the agent reports per-key daily usage, or those limits are never reached."},
+					"api_key_limits": schema.BoolAttribute{
+						Computed: true, MarkdownDescription: "Lets consumers set spending limits on API keys one by one. On unless set to false; needs enable_api_key_provisioning. Turned off, no new key limit is accepted, and limits keys already hold stay until cleared."},
 					"auto_approve_for_roles": schema.ListAttribute{
 						ElementType: types.StringType,
 						Computed:    true, MarkdownDescription: "List of project or organization role names (e.g. 'PROJECT.MANAGER') whose orders skip consumer review for this offering. The creator must hold the role on the target project or its organization. Independent of restricted_to_roles (which governs visibility/ordering) and of the ORDER.APPROVE permission. Provider review and purchase-order requirements still apply. Only staff can change this option."},

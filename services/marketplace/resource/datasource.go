@@ -308,6 +308,9 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 								int64validator.AtLeast(0),
 								int64validator.AtMost(2147483647),
 							}},
+						"spending_limit_periods": schema.MapAttribute{
+							ElementType: types.StringType,
+							Computed:    true, MarkdownDescription: "Periods (day, week, month, quarter, year) for which customers can set a spending limit on this usage-based component. Day and week need the integration to report usage per day. Empty when customers cannot set spending limits."},
 						"type": schema.StringAttribute{
 							Computed: true, MarkdownDescription: "Unique internal name of the measured unit, for example floating_ip.",
 							Validators: []validator.String{
@@ -634,12 +637,44 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 				Validators: []validator.String{
 					stringvalidator.RegexMatches(regexp.MustCompile(`^[-a-zA-Z0-9_]+$`), ""),
 				}},
+			"spending_limit_status": schema.ListNestedAttribute{
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: map[string]schema.Attribute{
+						"component_type": schema.StringAttribute{
+							Computed: true, MarkdownDescription: "Component Type"},
+						"last_reported_at": schema.StringAttribute{
+							CustomType: timetypes.RFC3339Type{},
+							Computed:   true, MarkdownDescription: "When usage of the component was last reported."},
+						"limit": schema.Float64Attribute{
+							Computed: true, MarkdownDescription: "Limit"},
+						"period": schema.StringAttribute{
+							Computed: true, MarkdownDescription: "Period",
+							Validators: []validator.String{
+								stringvalidator.OneOf("day", "week", "month", "quarter", "year"),
+							}},
+						"reached": schema.BoolAttribute{
+							Computed: true, MarkdownDescription: "Reached"},
+						"resets_at": schema.StringAttribute{
+							CustomType: timetypes.RFC3339Type{},
+							Computed:   true, MarkdownDescription: "When the current period ends and its usage starts from zero."},
+						"used": schema.Float64Attribute{
+							Computed: true, MarkdownDescription: "Usage reported in the current period."},
+					},
+				},
+				Computed: true, MarkdownDescription: "Spending Limit Status",
+			},
+			"spending_limits": schema.MapAttribute{
+				ElementType: types.StringType,
+				Computed:    true, MarkdownDescription: "Spending limits on usage-based components, per period. Changed with the set_spending_limits action."},
 			"state": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "State"},
 			"url": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Url"},
 			"usage_limit_restriction": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Which restriction (paused or downscaled) was automatically applied because reported usage reached a component limit. Empty when no such restriction is active. Used so the automatic lift never clears a restriction that was set for another reason."},
+			"usage_limit_resumes_at": schema.StringAttribute{
+				CustomType: timetypes.RFC3339Type{},
+				Computed:   true, MarkdownDescription: "When the spending limits that restrict the resource reset and the restriction lifts. Empty when no spending limit restricts the resource, or when a limit-based component's limit does too."},
 			"user_requires_reconsent": schema.BoolAttribute{
 				Computed: true, MarkdownDescription: "Check if the current user needs to re-consent for this resource's offering."},
 			"username": schema.StringAttribute{
