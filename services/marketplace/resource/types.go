@@ -126,6 +126,8 @@ type MarketplaceResourceResponse struct {
 
 	PlanUuid *string `json:"plan_uuid,omitempty" tfsdk:"plan_uuid"`
 
+	PrepaidTotalComponentTypes *[]string `json:"prepaid_total_component_types,omitempty" tfsdk:"prepaid_total_component_types"`
+
 	Project *string `json:"project,omitempty" tfsdk:"project"`
 
 	ProjectDescription *string `json:"project_description,omitempty" tfsdk:"project_description"`

@@ -4,6 +4,13 @@
 
 ### Added
 
+- `marketplace_offering`: new attribute `plugin_options.display_prepaid_limits_as_total`
+- `marketplace_resource`: new attribute `prepaid_total_component_types`
+
+## 2026-10-23
+
+### Added
+
 - `marketplace_offering`: new attribute `components.spending_limit_periods`
 - `marketplace_offering`: new attribute `plugin_options.api_key_daily_usage`
 - `marketplace_offering`: new attribute `plugin_options.api_key_limits`

@@ -724,6 +724,8 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 					"disabled_resource_actions": schema.ListAttribute{
 						ElementType: types.StringType,
 						Computed:    true, MarkdownDescription: "List of disabled marketplace resource actions for this offering."},
+					"display_prepaid_limits_as_total": schema.BoolAttribute{
+						Computed: true, MarkdownDescription: "If set to True, the UI shows each prepaid component as the total for the whole subscription (the monthly amount times the months ordered) instead of a monthly amount, and the resource's limit_usage sums its usage over the whole subscription. Ordering and billing do not change."},
 					"emit_display_name": schema.BoolAttribute{
 						Computed: true, MarkdownDescription: "Emit the user's full name as a GLAuth displayName custom attribute (rendered to LDAP displayName)."},
 					"emit_waldur_username": schema.BoolAttribute{

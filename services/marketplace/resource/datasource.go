@@ -584,6 +584,9 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 				Computed: true, MarkdownDescription: "Plan Unit"},
 			"plan_uuid": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Plan Uuid"},
+			"prepaid_total_component_types": schema.ListAttribute{
+				ElementType: types.StringType,
+				Computed:    true, MarkdownDescription: "Component types whose limit_usage covers the whole subscription, so the UI shows their limit as the monthly limit times the months ordered. Empty unless the offering shows prepaid limits as a total (display_prepaid_limits_as_total)."},
 			"project": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Project"},
 			"project_description": schema.StringAttribute{

@@ -580,6 +580,8 @@ type MarketplaceOfferingPluginOptionsResponse struct {
 
 	DisabledResourceActions *[]string `json:"disabled_resource_actions,omitempty" tfsdk:"disabled_resource_actions"`
 
+	DisplayPrepaidLimitsAsTotal *bool `json:"display_prepaid_limits_as_total,omitempty" tfsdk:"display_prepaid_limits_as_total"`
+
 	EmitDisplayName *bool `json:"emit_display_name,omitempty" tfsdk:"emit_display_name"`
 
 	EmitWaldurUsername *bool `json:"emit_waldur_username,omitempty" tfsdk:"emit_waldur_username"`

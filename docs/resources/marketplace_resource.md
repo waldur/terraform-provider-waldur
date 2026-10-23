@@ -97,6 +97,7 @@ resource "waldur_marketplace_resource" "example" {
 - `plan_name` (String) Plan Name
 - `plan_unit` (String) Plan Unit
 - `plan_uuid` (String) Plan Uuid
+- `prepaid_total_component_types` (List of String) Component types whose limit_usage covers the whole subscription, so the UI shows their limit as the monthly limit times the months ordered. Empty unless the offering shows prepaid limits as a total (display_prepaid_limits_as_total).
 - `project` (String) Project
 - `project_description` (String) Project Description
 - `project_effective_end_date` (String) Effective project end date including grace period. After this date, resources are terminated, except resources of offerings that disable the grace period — those are terminated on the raw project end date.

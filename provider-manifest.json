@@ -1852,6 +1852,13 @@
               "computed": true
             },
             {
+              "name": "display_prepaid_limits_as_total",
+              "type": "types.Bool",
+              "required": false,
+              "optional": false,
+              "computed": true
+            },
+            {
               "name": "emit_display_name",
               "type": "types.Bool",
               "required": false,
@@ -5143,6 +5150,13 @@
         {
           "name": "plan_uuid",
           "type": "types.String",
+          "required": false,
+          "optional": false,
+          "computed": true
+        },
+        {
+          "name": "prepaid_total_component_types",
+          "type": "types.List\u003cstring\u003e",
           "required": false,
           "optional": false,
           "computed": true
