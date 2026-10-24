@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-10-24
+
+### ⚠️ Breaking changes
+
+- `marketplace_offering`: removed attribute `google_calendar_is_public`
+- `marketplace_offering`: removed attribute `google_calendar_link`
+
 ## 2026-10-23
 
 ### Added

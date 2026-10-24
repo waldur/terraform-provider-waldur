@@ -64,10 +64,6 @@ type MarketplaceOfferingResponse struct {
 
 	GettingStarted *string `json:"getting_started,omitempty" tfsdk:"getting_started"`
 
-	GoogleCalendarIsPublic *bool `json:"google_calendar_is_public,omitempty" tfsdk:"google_calendar_is_public"`
-
-	GoogleCalendarLink *string `json:"google_calendar_link,omitempty" tfsdk:"google_calendar_link"`
-
 	HasComplianceRequirements *bool `json:"has_compliance_requirements,omitempty" tfsdk:"has_compliance_requirements"`
 
 	HelpdeskUrl *string `json:"helpdesk_url,omitempty" tfsdk:"helpdesk_url"`

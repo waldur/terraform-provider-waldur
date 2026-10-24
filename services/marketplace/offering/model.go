@@ -242,8 +242,6 @@ type MarketplaceOfferingModel struct {
 	Files                      types.List   `tfsdk:"files"`
 	FullDescription            types.String `tfsdk:"full_description"`
 	GettingStarted             types.String `tfsdk:"getting_started"`
-	GoogleCalendarIsPublic     types.Bool   `tfsdk:"google_calendar_is_public"`
-	GoogleCalendarLink         types.String `tfsdk:"google_calendar_link"`
 	HasComplianceRequirements  types.Bool   `tfsdk:"has_compliance_requirements"`
 	HelpdeskUrl                types.String `tfsdk:"helpdesk_url"`
 	Image                      types.String `tfsdk:"image"`
@@ -588,10 +586,6 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 	model.FullDescription = common.StringPointerValue(apiResp.FullDescription)
 
 	model.GettingStarted = common.StringPointerValue(apiResp.GettingStarted)
-
-	model.GoogleCalendarIsPublic = types.BoolPointerValue(apiResp.GoogleCalendarIsPublic)
-
-	model.GoogleCalendarLink = common.StringPointerValue(apiResp.GoogleCalendarLink)
 
 	model.HasComplianceRequirements = types.BoolPointerValue(apiResp.HasComplianceRequirements)
 

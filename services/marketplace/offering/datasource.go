@@ -360,10 +360,6 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 				Computed: true, MarkdownDescription: "Full Description"},
 			"getting_started": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Getting Started"},
-			"google_calendar_is_public": schema.BoolAttribute{
-				Computed: true, MarkdownDescription: "Google Calendar Is Public"},
-			"google_calendar_link": schema.StringAttribute{
-				Computed: true, MarkdownDescription: "Get the Google Calendar link for an offering."},
 			"has_compliance_requirements": schema.BoolAttribute{
 				Computed: true, MarkdownDescription: "Has Compliance Requirements"},
 			"helpdesk_url": schema.StringAttribute{

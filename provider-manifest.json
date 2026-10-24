@@ -991,20 +991,6 @@
           "computed": true
         },
         {
-          "name": "google_calendar_is_public",
-          "type": "types.Bool",
-          "required": false,
-          "optional": false,
-          "computed": true
-        },
-        {
-          "name": "google_calendar_link",
-          "type": "types.String",
-          "required": false,
-          "optional": false,
-          "computed": true
-        },
-        {
           "name": "has_compliance_requirements",
           "type": "types.Bool",
           "required": false,

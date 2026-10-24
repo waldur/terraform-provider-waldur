@@ -49,8 +49,6 @@ Marketplace Offering data source - lookup by name or UUID
 - `files` (Attributes List) Files (see [below for nested schema](#nestedatt--files))
 - `full_description` (String) Full Description
 - `getting_started` (String) Getting Started
-- `google_calendar_is_public` (Boolean) Google Calendar Is Public
-- `google_calendar_link` (String) Get the Google Calendar link for an offering.
 - `has_compliance_requirements` (Boolean) Has Compliance Requirements
 - `helpdesk_url` (String) Helpdesk Url
 - `image` (String) Image
