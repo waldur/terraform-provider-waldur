@@ -214,6 +214,8 @@ type StructureCustomerModel struct {
 	HouseNr                      types.String      `tfsdk:"house_nr"`
 	Household                    types.String      `tfsdk:"household"`
 	Image                        types.String      `tfsdk:"image"`
+	InvoiceEmails                types.String      `tfsdk:"invoice_emails"`
+	IsPrivatePerson              types.Bool        `tfsdk:"is_private_person"`
 	IsServiceProvider            types.Bool        `tfsdk:"is_service_provider"`
 	IsServiceProviderManagerOnly types.Bool        `tfsdk:"is_service_provider_manager_only"`
 	Latitude                     types.Float64     `tfsdk:"latitude"`
@@ -242,6 +244,9 @@ type StructureCustomerModel struct {
 	UserIdentitySources          types.List        `tfsdk:"user_identity_sources"`
 	UsersCount                   types.Int64       `tfsdk:"users_count"`
 	VatCode                      types.String      `tfsdk:"vat_code"`
+	VatCodeVerified              types.Bool        `tfsdk:"vat_code_verified"`
+	VatPercent                   types.String      `tfsdk:"vat_percent"`
+	VatRule                      types.String      `tfsdk:"vat_rule"`
 	State                        types.String      `tfsdk:"state"`
 }
 
@@ -331,6 +336,10 @@ func (model *StructureCustomerModel) CopyFrom(ctx context.Context, apiResp Struc
 
 	model.Image = common.StringPointerValue(apiResp.Image)
 
+	model.InvoiceEmails = common.StringPointerValue(apiResp.InvoiceEmails)
+
+	model.IsPrivatePerson = types.BoolPointerValue(apiResp.IsPrivatePerson)
+
 	model.IsServiceProvider = types.BoolPointerValue(apiResp.IsServiceProvider)
 
 	model.IsServiceProviderManagerOnly = types.BoolPointerValue(apiResp.IsServiceProviderManagerOnly)
@@ -416,6 +425,12 @@ func (model *StructureCustomerModel) CopyFrom(ctx context.Context, apiResp Struc
 	model.UsersCount = types.Int64PointerValue(apiResp.UsersCount)
 
 	model.VatCode = common.StringPointerValue(apiResp.VatCode)
+
+	model.VatCodeVerified = types.BoolPointerValue(apiResp.VatCodeVerified)
+
+	model.VatPercent = common.StringPointerValue(apiResp.VatPercent)
+
+	model.VatRule = common.StringPointerValue(apiResp.VatRule)
 
 	model.State = common.StringPointerValue(apiResp.State)
 

@@ -284,6 +284,9 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 								int64validator.AtLeast(0),
 								int64validator.AtMost(2147483647),
 							}},
+						"spending_limit_periods": schema.MapAttribute{
+							ElementType: types.StringType,
+							Computed:    true, MarkdownDescription: "Periods (day, week, month, quarter, year, total) for which customers can set a spending limit on this usage-based component; total counts all the usage since the resource started and never resets. Day and week need the integration to report usage per day. Empty when customers cannot set spending limits."},
 						"type": schema.StringAttribute{
 							Computed: true, MarkdownDescription: "Unique internal name of the measured unit, for example floating_ip.",
 							Validators: []validator.String{
@@ -357,10 +360,6 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 				Computed: true, MarkdownDescription: "Full Description"},
 			"getting_started": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Getting Started"},
-			"google_calendar_is_public": schema.BoolAttribute{
-				Computed: true, MarkdownDescription: "Google Calendar Is Public"},
-			"google_calendar_link": schema.StringAttribute{
-				Computed: true, MarkdownDescription: "Get the Google Calendar link for an offering."},
 			"has_compliance_requirements": schema.BoolAttribute{
 				Computed: true, MarkdownDescription: "Has Compliance Requirements"},
 			"helpdesk_url": schema.StringAttribute{
@@ -669,9 +668,13 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 			"plugin_options": schema.SingleNestedAttribute{
 				Attributes: map[string]schema.Attribute{
 					"account_scope": schema.StringAttribute{
-						Computed: true, MarkdownDescription: "Where accounts are held: 'offering' keeps one account per offering (the historical behaviour); 'provider' shares one account per user across the provider's offerings."},
+						Computed: true, MarkdownDescription: "Where accounts are held: 'offering' keeps one account per offering (the historical behavior); 'provider' shares one account per user across the provider's offerings."},
 					"action_on_usage_limit": schema.StringAttribute{
 						Computed: true, MarkdownDescription: "If set to 'pause' or 'downscale', resources are automatically paused or downscaled when reported usage in the current period reaches a component's limit_amount, and the restriction is lifted when usage drops below the limit again (e.g. a new billing period or a raised limit)."},
+					"api_key_daily_usage": schema.BoolAttribute{
+						Computed: true, MarkdownDescription: "Declares that the site agent reports each API key's usage per day. Only then are keys offered the day and week periods, and the quarter and year, that a component offers to resources; month, and total where the component offers it, are offered without it, as they need no usage per day. Off unless set; needs enable_api_key_provisioning. Nothing checks the claim: turn it on only if the agent reports per-key daily usage, or those limits are never reached."},
+					"api_key_limits": schema.BoolAttribute{
+						Computed: true, MarkdownDescription: "Lets consumers set spending limits on API keys one by one. On unless set to false; needs enable_api_key_provisioning. Turned off, no new key limit is accepted, and limits keys already hold stay until cleared."},
 					"auto_approve_for_roles": schema.ListAttribute{
 						ElementType: types.StringType,
 						Computed:    true, MarkdownDescription: "List of project or organization role names (e.g. 'PROJECT.MANAGER') whose orders skip consumer review for this offering. The creator must hold the role on the target project or its organization. Independent of restricted_to_roles (which governs visibility/ordering) and of the ORDER.APPROVE permission. Provider review and purchase-order requirements still apply. Only staff can change this option."},
@@ -717,6 +720,8 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 					"disabled_resource_actions": schema.ListAttribute{
 						ElementType: types.StringType,
 						Computed:    true, MarkdownDescription: "List of disabled marketplace resource actions for this offering."},
+					"display_prepaid_limits_as_total": schema.BoolAttribute{
+						Computed: true, MarkdownDescription: "If set to True, the UI shows each prepaid component as the total for the whole subscription (the monthly amount times the months ordered) instead of a monthly amount, and the resource's limit_usage sums its usage over the whole subscription. Ordering and billing do not change."},
 					"emit_display_name": schema.BoolAttribute{
 						Computed: true, MarkdownDescription: "Emit the user's full name as a GLAuth displayName custom attribute (rendered to LDAP displayName)."},
 					"emit_waldur_username": schema.BoolAttribute{
@@ -769,6 +774,17 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 						Computed: true, MarkdownDescription: "Defines if backend_id should be shown more prominently by the UI"},
 					"homedir_prefix": schema.StringAttribute{
 						Computed: true, MarkdownDescription: "Prefix of each account's home directory; the username follows."},
+					"instance_metrics": schema.ListAttribute{
+						ElementType: types.StringType,
+						Computed:    true, MarkdownDescription: "Instance and volume metrics shown to projects; empty shows all of them."},
+					"instance_metrics_enabled": schema.BoolAttribute{
+						Computed: true, MarkdownDescription: "Collect custom metrics of the instances in tenants of this offering and show them to their projects."},
+					"instance_metrics_poll_interval_minutes": schema.Int64Attribute{
+						Computed: true, MarkdownDescription: "Minutes between custom metrics polls of each instance in tenants of this offering (default: 360).",
+						Validators: []validator.Int64{
+							int64validator.AtLeast(5),
+							int64validator.AtMost(1440),
+						}},
 					"is_resource_termination_date_required": schema.BoolAttribute{
 						Computed: true, MarkdownDescription: "If set to True, resource termination date is required"},
 					"latest_date_for_resource_termination": schema.StringAttribute{

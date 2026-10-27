@@ -131,6 +131,11 @@ Read-Only:
 
 Optional:
 
+- `likert_high_label` (String) Likert High Label
+- `likert_low_label` (String) Likert Low Label
+- `likert_scale_length` (Number) Likert Scale Length
+- `max_value` (String) Max Value
+- `min_value` (String) Min Value
 - `question` (String) Question description.
 - `question_type` (String) Question Type
 - `question_uuid` (String) Question Uuid

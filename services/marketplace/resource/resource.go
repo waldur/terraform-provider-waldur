@@ -106,6 +106,13 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 
 					stringplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "Description"},
+			"display_limits": schema.MapAttribute{
+				ElementType: types.Float64Type,
+				Computed:    true,
+				PlanModifiers: []planmodifier.Map{
+
+					mapplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Resource option values shown as the limits of usage-based components. Display only: not stored in limits, billed or enforced."},
 			"downscaled": schema.BoolAttribute{
 				Optional: true,
 				Computed: true,
@@ -699,6 +706,14 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 								int64validator.AtLeast(0),
 								int64validator.AtMost(2147483647),
 							}},
+						"spending_limit_periods": schema.MapAttribute{
+							ElementType: types.StringType,
+							Optional:    true,
+							Computed:    true,
+							PlanModifiers: []planmodifier.Map{
+
+								mapplanmodifier.UseStateForUnknown(),
+							}, MarkdownDescription: "Periods (day, week, month, quarter, year, total) for which customers can set a spending limit on this usage-based component; total counts all the usage since the resource started and never resets. Day and week need the integration to report usage per day. Empty when customers cannot set spending limits."},
 						"type": schema.StringAttribute{
 							Optional: true,
 							Computed: true,
@@ -1461,6 +1476,13 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 
 					stringplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "Plan Uuid"},
+			"prepaid_total_component_types": schema.ListAttribute{
+				ElementType: types.StringType,
+				Computed:    true,
+				PlanModifiers: []planmodifier.List{
+
+					listplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Component types whose limit_usage covers the whole subscription, so the UI shows their limit as the monthly limit times the months ordered. Empty unless the offering shows prepaid limits as a total (display_prepaid_limits_as_total)."},
 			"project": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
@@ -1606,6 +1628,78 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 				Validators: []validator.String{
 					stringvalidator.RegexMatches(regexp.MustCompile(`^[-a-zA-Z0-9_]+$`), ""),
 				}},
+			"spending_limit_status": schema.ListNestedAttribute{
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: map[string]schema.Attribute{
+						"component_type": schema.StringAttribute{
+							Optional: true,
+							Computed: true,
+							PlanModifiers: []planmodifier.String{
+
+								stringplanmodifier.UseStateForUnknown(),
+							}, MarkdownDescription: "Component Type"},
+						"last_reported_at": schema.StringAttribute{
+							CustomType: timetypes.RFC3339Type{},
+							Optional:   true,
+							Computed:   true,
+							PlanModifiers: []planmodifier.String{
+
+								stringplanmodifier.UseStateForUnknown(),
+							}, MarkdownDescription: "When usage of the component was last reported."},
+						"limit": schema.Float64Attribute{
+							Optional: true,
+							Computed: true,
+							PlanModifiers: []planmodifier.Float64{
+
+								float64planmodifier.UseStateForUnknown(),
+							}, MarkdownDescription: "Limit"},
+						"period": schema.StringAttribute{
+							Optional: true,
+							Computed: true,
+							PlanModifiers: []planmodifier.String{
+
+								stringplanmodifier.UseStateForUnknown(),
+							}, MarkdownDescription: "Period",
+							Validators: []validator.String{
+								stringvalidator.OneOf("day", "week", "month", "quarter", "year", "total"),
+							}},
+						"reached": schema.BoolAttribute{
+							Optional: true,
+							Computed: true,
+							PlanModifiers: []planmodifier.Bool{
+
+								boolplanmodifier.UseStateForUnknown(),
+							}, MarkdownDescription: "Reached"},
+						"resets_at": schema.StringAttribute{
+							CustomType: timetypes.RFC3339Type{},
+							Optional:   true,
+							Computed:   true,
+							PlanModifiers: []planmodifier.String{
+
+								stringplanmodifier.UseStateForUnknown(),
+							}, MarkdownDescription: "When the current period ends and its usage starts from zero. Null for total, which never resets."},
+						"used": schema.Float64Attribute{
+							Optional: true,
+							Computed: true,
+							PlanModifiers: []planmodifier.Float64{
+
+								float64planmodifier.UseStateForUnknown(),
+							}, MarkdownDescription: "Usage reported in the current period."},
+					},
+				},
+				Computed: true,
+				PlanModifiers: []planmodifier.List{
+
+					listplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Spending Limit Status",
+			},
+			"spending_limits": schema.MapAttribute{
+				ElementType: types.StringType,
+				Computed:    true,
+				PlanModifiers: []planmodifier.Map{
+
+					mapplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Spending limits on usage-based components, per period. Changed with the set_spending_limits action."},
 			"state": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
@@ -1624,6 +1718,13 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 
 					stringplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "Which restriction (paused or downscaled) was automatically applied because reported usage reached a component limit. Empty when no such restriction is active. Used so the automatic lift never clears a restriction that was set for another reason."},
+			"usage_limit_resumes_at": schema.StringAttribute{
+				CustomType: timetypes.RFC3339Type{},
+				Computed:   true,
+				PlanModifiers: []planmodifier.String{
+
+					stringplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "When the spending limits that restrict the resource reset and the restriction lifts. Empty when no spending limit restricts the resource, when a limit-based component's limit does too, or while a reached total limit holds it: a total never resets, so the restriction lifts only when that limit is raised or cleared."},
 			"user_requires_reconsent": schema.BoolAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.Bool{

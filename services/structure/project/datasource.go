@@ -152,6 +152,22 @@ func (d *StructureProjectDataSource) Schema(ctx context.Context, req datasource.
 			"project_metadata": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
+						"likert_high_label": schema.StringAttribute{
+							Computed: true, MarkdownDescription: "Likert High Label"},
+						"likert_low_label": schema.StringAttribute{
+							Computed: true, MarkdownDescription: "Likert Low Label"},
+						"likert_scale_length": schema.Int64Attribute{
+							Computed: true, MarkdownDescription: "Likert Scale Length"},
+						"max_value": schema.StringAttribute{
+							Computed: true, MarkdownDescription: "Max Value",
+							Validators: []validator.String{
+								stringvalidator.RegexMatches(regexp.MustCompile(`^-?\d{0,16}(?:\.\d{0,4})?$`), ""),
+							}},
+						"min_value": schema.StringAttribute{
+							Computed: true, MarkdownDescription: "Min Value",
+							Validators: []validator.String{
+								stringvalidator.RegexMatches(regexp.MustCompile(`^-?\d{0,16}(?:\.\d{0,4})?$`), ""),
+							}},
 						"question": schema.StringAttribute{
 							Computed: true, MarkdownDescription: "Question description."},
 						"question_type": schema.StringAttribute{

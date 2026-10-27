@@ -37,9 +37,14 @@ func BillingPriceEstimateType() types.ObjectType {
 }
 func ProjectMetadataAnswerType() types.ObjectType {
 	return types.ObjectType{AttrTypes: map[string]attr.Type{
-		"question":      types.StringType,
-		"question_type": types.StringType,
-		"question_uuid": types.StringType,
+		"likert_high_label":   types.StringType,
+		"likert_low_label":    types.StringType,
+		"likert_scale_length": types.Int64Type,
+		"max_value":           types.StringType,
+		"min_value":           types.StringType,
+		"question":            types.StringType,
+		"question_type":       types.StringType,
+		"question_uuid":       types.StringType,
 	}}
 }
 

@@ -64,10 +64,6 @@ type MarketplaceOfferingResponse struct {
 
 	GettingStarted *string `json:"getting_started,omitempty" tfsdk:"getting_started"`
 
-	GoogleCalendarIsPublic *bool `json:"google_calendar_is_public,omitempty" tfsdk:"google_calendar_is_public"`
-
-	GoogleCalendarLink *string `json:"google_calendar_link,omitempty" tfsdk:"google_calendar_link"`
-
 	HasComplianceRequirements *bool `json:"has_compliance_requirements,omitempty" tfsdk:"has_compliance_requirements"`
 
 	HelpdeskUrl *string `json:"helpdesk_url,omitempty" tfsdk:"helpdesk_url"`
@@ -321,11 +317,16 @@ type MarketplaceOfferingComponentsResponse struct {
 
 	RenewalDurationStep *int64 `json:"renewal_duration_step,omitempty" tfsdk:"renewal_duration_step"`
 
+	SpendingLimitPeriods common.JSONStringMap `json:"spending_limit_periods,omitempty" tfsdk:"spending_limit_periods"`
+
 	Type *string `json:"type,omitempty" tfsdk:"type"`
 
 	UnitFactor *int64 `json:"unit_factor,omitempty" tfsdk:"unit_factor"`
 
 	Uuid *string `json:"uuid,omitempty" tfsdk:"uuid"`
+}
+
+type MarketplaceOfferingComponentsSpendingLimitPeriodsResponse struct {
 }
 
 type MarketplaceOfferingDefaultAccessSubnetsResponse struct {
@@ -535,6 +536,10 @@ type MarketplaceOfferingPluginOptionsResponse struct {
 
 	ActionOnUsageLimit *string `json:"action_on_usage_limit,omitempty" tfsdk:"action_on_usage_limit"`
 
+	ApiKeyDailyUsage *bool `json:"api_key_daily_usage,omitempty" tfsdk:"api_key_daily_usage"`
+
+	ApiKeyLimits *bool `json:"api_key_limits,omitempty" tfsdk:"api_key_limits"`
+
 	AutoApproveForRoles *[]string `json:"auto_approve_for_roles,omitempty" tfsdk:"auto_approve_for_roles"`
 
 	AutoApproveInServiceProviderProjects *bool `json:"auto_approve_in_service_provider_projects,omitempty" tfsdk:"auto_approve_in_service_provider_projects"`
@@ -570,6 +575,8 @@ type MarketplaceOfferingPluginOptionsResponse struct {
 	DisableGracePeriod *bool `json:"disable_grace_period,omitempty" tfsdk:"disable_grace_period"`
 
 	DisabledResourceActions *[]string `json:"disabled_resource_actions,omitempty" tfsdk:"disabled_resource_actions"`
+
+	DisplayPrepaidLimitsAsTotal *bool `json:"display_prepaid_limits_as_total,omitempty" tfsdk:"display_prepaid_limits_as_total"`
 
 	EmitDisplayName *bool `json:"emit_display_name,omitempty" tfsdk:"emit_display_name"`
 
@@ -622,6 +629,12 @@ type MarketplaceOfferingPluginOptionsResponse struct {
 	HighlightBackendIdDisplay *bool `json:"highlight_backend_id_display,omitempty" tfsdk:"highlight_backend_id_display"`
 
 	HomedirPrefix *string `json:"homedir_prefix,omitempty" tfsdk:"homedir_prefix"`
+
+	InstanceMetrics *[]string `json:"instance_metrics,omitempty" tfsdk:"instance_metrics"`
+
+	InstanceMetricsEnabled *bool `json:"instance_metrics_enabled,omitempty" tfsdk:"instance_metrics_enabled"`
+
+	InstanceMetricsPollIntervalMinutes *int64 `json:"instance_metrics_poll_interval_minutes,omitempty" tfsdk:"instance_metrics_poll_interval_minutes"`
 
 	IsResourceTerminationDateRequired *bool `json:"is_resource_termination_date_required,omitempty" tfsdk:"is_resource_termination_date_required"`
 

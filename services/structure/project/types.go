@@ -220,6 +220,16 @@ type StructureProjectMarketplaceResourceCountResponse struct {
 }
 
 type StructureProjectProjectMetadataResponse struct {
+	LikertHighLabel *string `json:"likert_high_label,omitempty" tfsdk:"likert_high_label"`
+
+	LikertLowLabel *string `json:"likert_low_label,omitempty" tfsdk:"likert_low_label"`
+
+	LikertScaleLength *int64 `json:"likert_scale_length,omitempty" tfsdk:"likert_scale_length"`
+
+	MaxValue *string `json:"max_value,omitempty" tfsdk:"max_value"`
+
+	MinValue *string `json:"min_value,omitempty" tfsdk:"min_value"`
+
 	Question *string `json:"question,omitempty" tfsdk:"question"`
 
 	QuestionType *string `json:"question_type,omitempty" tfsdk:"question_type"`
