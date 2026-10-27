@@ -815,13 +815,6 @@
               "computed": true
             },
             {
-              "name": "spending_limit_periods",
-              "type": "types.Map",
-              "required": false,
-              "optional": false,
-              "computed": true
-            },
-            {
               "name": "type",
               "type": "types.String",
               "required": false,
@@ -985,6 +978,20 @@
         },
         {
           "name": "getting_started",
+          "type": "types.String",
+          "required": false,
+          "optional": false,
+          "computed": true
+        },
+        {
+          "name": "google_calendar_is_public",
+          "type": "types.Bool",
+          "required": false,
+          "optional": false,
+          "computed": true
+        },
+        {
+          "name": "google_calendar_link",
           "type": "types.String",
           "required": false,
           "optional": false,
@@ -1698,20 +1705,6 @@
               "computed": true
             },
             {
-              "name": "api_key_daily_usage",
-              "type": "types.Bool",
-              "required": false,
-              "optional": false,
-              "computed": true
-            },
-            {
-              "name": "api_key_limits",
-              "type": "types.Bool",
-              "required": false,
-              "optional": false,
-              "computed": true
-            },
-            {
               "name": "auto_approve_for_roles",
               "type": "types.List\u003cstring\u003e",
               "required": false,
@@ -1833,13 +1826,6 @@
             {
               "name": "disabled_resource_actions",
               "type": "types.List\u003cstring\u003e",
-              "required": false,
-              "optional": false,
-              "computed": true
-            },
-            {
-              "name": "display_prepaid_limits_as_total",
-              "type": "types.Bool",
               "required": false,
               "optional": false,
               "computed": true
@@ -3671,13 +3657,6 @@
           "computed": true
         },
         {
-          "name": "spending_limits",
-          "type": "types.Map",
-          "required": false,
-          "optional": true,
-          "computed": false
-        },
-        {
           "name": "start_date",
           "type": "types.String",
           "required": false,
@@ -3762,13 +3741,6 @@
         {
           "name": "description",
           "type": "types.String",
-          "required": false,
-          "optional": false,
-          "computed": true
-        },
-        {
-          "name": "display_limits",
-          "type": "types.Map",
           "required": false,
           "optional": false,
           "computed": true
@@ -4311,13 +4283,6 @@
             {
               "name": "renewal_duration_step",
               "type": "types.Int64",
-              "required": false,
-              "optional": true,
-              "computed": true
-            },
-            {
-              "name": "spending_limit_periods",
-              "type": "types.Map",
               "required": false,
               "optional": true,
               "computed": true
@@ -5141,13 +5106,6 @@
           "computed": true
         },
         {
-          "name": "prepaid_total_component_types",
-          "type": "types.List\u003cstring\u003e",
-          "required": false,
-          "optional": false,
-          "computed": true
-        },
-        {
           "name": "project",
           "type": "types.String",
           "required": false,
@@ -5304,71 +5262,6 @@
           "computed": true
         },
         {
-          "name": "spending_limit_status",
-          "type": "types.List\u003cobject\u003e",
-          "required": false,
-          "optional": false,
-          "computed": true,
-          "attributes": [
-            {
-              "name": "component_type",
-              "type": "types.String",
-              "required": false,
-              "optional": true,
-              "computed": true
-            },
-            {
-              "name": "last_reported_at",
-              "type": "types.String",
-              "required": false,
-              "optional": true,
-              "computed": true
-            },
-            {
-              "name": "limit",
-              "type": "types.Float64",
-              "required": false,
-              "optional": true,
-              "computed": true
-            },
-            {
-              "name": "period",
-              "type": "types.String",
-              "required": false,
-              "optional": true,
-              "computed": true
-            },
-            {
-              "name": "reached",
-              "type": "types.Bool",
-              "required": false,
-              "optional": true,
-              "computed": true
-            },
-            {
-              "name": "resets_at",
-              "type": "types.String",
-              "required": false,
-              "optional": true,
-              "computed": true
-            },
-            {
-              "name": "used",
-              "type": "types.Float64",
-              "required": false,
-              "optional": true,
-              "computed": true
-            }
-          ]
-        },
-        {
-          "name": "spending_limits",
-          "type": "types.Map",
-          "required": false,
-          "optional": false,
-          "computed": true
-        },
-        {
           "name": "state",
           "type": "types.String",
           "required": false,
@@ -5384,13 +5277,6 @@
         },
         {
           "name": "usage_limit_restriction",
-          "type": "types.String",
-          "required": false,
-          "optional": false,
-          "computed": true
-        },
-        {
-          "name": "usage_limit_resumes_at",
           "type": "types.String",
           "required": false,
           "optional": false,
@@ -9294,20 +9180,6 @@
           "computed": true
         },
         {
-          "name": "invoice_emails",
-          "type": "types.String",
-          "required": false,
-          "optional": true,
-          "computed": true
-        },
-        {
-          "name": "is_private_person",
-          "type": "types.Bool",
-          "required": false,
-          "optional": true,
-          "computed": true
-        },
-        {
           "name": "is_service_provider",
           "type": "types.Bool",
           "required": false,
@@ -9647,27 +9519,6 @@
           "type": "types.String",
           "required": false,
           "optional": true,
-          "computed": true
-        },
-        {
-          "name": "vat_code_verified",
-          "type": "types.Bool",
-          "required": false,
-          "optional": false,
-          "computed": true
-        },
-        {
-          "name": "vat_percent",
-          "type": "types.String",
-          "required": false,
-          "optional": false,
-          "computed": true
-        },
-        {
-          "name": "vat_rule",
-          "type": "types.String",
-          "required": false,
-          "optional": false,
           "computed": true
         }
       ]

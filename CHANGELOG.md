@@ -1,5 +1,31 @@
 # Changelog
 
+## 2026-10-27
+
+### ⚠️ Breaking changes
+
+- `marketplace_offering`: removed attribute `components.spending_limit_periods`
+- `marketplace_offering`: removed attribute `plugin_options.api_key_daily_usage`
+- `marketplace_offering`: removed attribute `plugin_options.api_key_limits`
+- `marketplace_offering`: removed attribute `plugin_options.display_prepaid_limits_as_total`
+- `marketplace_order`: removed attribute `spending_limits`
+- `marketplace_resource`: removed attribute `display_limits`
+- `marketplace_resource`: removed attribute `offering_components.spending_limit_periods`
+- `marketplace_resource`: removed attribute `prepaid_total_component_types`
+- `marketplace_resource`: removed attribute `spending_limit_status`
+- `marketplace_resource`: removed attribute `spending_limits`
+- `marketplace_resource`: removed attribute `usage_limit_resumes_at`
+- `structure_customer`: removed attribute `invoice_emails`
+- `structure_customer`: removed attribute `is_private_person`
+- `structure_customer`: removed attribute `vat_code_verified`
+- `structure_customer`: removed attribute `vat_percent`
+- `structure_customer`: removed attribute `vat_rule`
+
+### Added
+
+- `marketplace_offering`: new attribute `google_calendar_is_public`
+- `marketplace_offering`: new attribute `google_calendar_link`
+
 ## 2026-10-24
 
 ### ⚠️ Breaking changes

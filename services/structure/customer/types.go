@@ -53,10 +53,6 @@ type StructureCustomerCreateRequest struct {
 
 	Image *string `json:"image,omitempty" tfsdk:"image"`
 
-	InvoiceEmails *string `json:"invoice_emails,omitempty" tfsdk:"invoice_emails"`
-
-	IsPrivatePerson *bool `json:"is_private_person,omitempty" tfsdk:"is_private_person"`
-
 	Latitude *float64 `json:"latitude,omitempty" tfsdk:"latitude"`
 
 	Longitude *float64 `json:"longitude,omitempty" tfsdk:"longitude"`
@@ -144,10 +140,6 @@ type StructureCustomerUpdateRequest struct {
 	Household *string `json:"household,omitempty" tfsdk:"household"`
 
 	Image *string `json:"image,omitempty" tfsdk:"image"`
-
-	InvoiceEmails *string `json:"invoice_emails,omitempty" tfsdk:"invoice_emails"`
-
-	IsPrivatePerson *bool `json:"is_private_person,omitempty" tfsdk:"is_private_person"`
 
 	Latitude *float64 `json:"latitude,omitempty" tfsdk:"latitude"`
 
@@ -257,10 +249,6 @@ type StructureCustomerResponse struct {
 
 	Image *string `json:"image,omitempty" tfsdk:"image"`
 
-	InvoiceEmails *string `json:"invoice_emails,omitempty" tfsdk:"invoice_emails"`
-
-	IsPrivatePerson *bool `json:"is_private_person,omitempty" tfsdk:"is_private_person"`
-
 	IsServiceProvider *bool `json:"is_service_provider,omitempty" tfsdk:"is_service_provider"`
 
 	IsServiceProviderManagerOnly *bool `json:"is_service_provider_manager_only,omitempty" tfsdk:"is_service_provider_manager_only"`
@@ -316,12 +304,6 @@ type StructureCustomerResponse struct {
 	UsersCount *int64 `json:"users_count,omitempty" tfsdk:"users_count"`
 
 	VatCode *string `json:"vat_code,omitempty" tfsdk:"vat_code"`
-
-	VatCodeVerified *bool `json:"vat_code_verified,omitempty" tfsdk:"vat_code_verified"`
-
-	VatPercent *string `json:"vat_percent,omitempty" tfsdk:"vat_percent"`
-
-	VatRule *string `json:"vat_rule,omitempty" tfsdk:"vat_rule"`
 
 	State *string `json:"state,omitempty" tfsdk:"state"`
 }

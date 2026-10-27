@@ -49,6 +49,8 @@ Marketplace Offering data source - lookup by name or UUID
 - `files` (Attributes List) Files (see [below for nested schema](#nestedatt--files))
 - `full_description` (String) Full Description
 - `getting_started` (String) Getting Started
+- `google_calendar_is_public` (Boolean) Google Calendar Is Public
+- `google_calendar_link` (String) Get the Google Calendar link for an offering.
 - `has_compliance_requirements` (Boolean) Has Compliance Requirements
 - `helpdesk_url` (String) Helpdesk Url
 - `image` (String) Image
@@ -293,7 +295,6 @@ Read-Only:
 - `overage_component` (String) Overage Component
 - `prepaid_duration_step` (Number) Step size in months for the initial prepaid duration at order creation. If set, only multiples of this value (starting from min_prepaid_duration) are valid. Defaults to 1 (any value between min and max).
 - `renewal_duration_step` (Number) Step size in months for renewal. Only multiples of this value (starting from min_renewal_duration) are valid. Defaults to 1.
-- `spending_limit_periods` (Map of String) Periods (day, week, month, quarter, year, total) for which customers can set a spending limit on this usage-based component; total counts all the usage since the resource started and never resets. Day and week need the integration to report usage per day. Empty when customers cannot set spending limits.
 - `type` (String) Unique internal name of the measured unit, for example floating_ip.
 - `unit_factor` (Number) The conversion factor from backend units to measured_unit
 - `uuid` (String) Uuid
@@ -459,10 +460,8 @@ Read-Only:
 
 Read-Only:
 
-- `account_scope` (String) Where accounts are held: 'offering' keeps one account per offering (the historical behavior); 'provider' shares one account per user across the provider's offerings.
+- `account_scope` (String) Where accounts are held: 'offering' keeps one account per offering (the historical behaviour); 'provider' shares one account per user across the provider's offerings.
 - `action_on_usage_limit` (String) If set to 'pause' or 'downscale', resources are automatically paused or downscaled when reported usage in the current period reaches a component's limit_amount, and the restriction is lifted when usage drops below the limit again (e.g. a new billing period or a raised limit).
-- `api_key_daily_usage` (Boolean) Declares that the site agent reports each API key's usage per day. Only then are keys offered the day and week periods, and the quarter and year, that a component offers to resources; month, and total where the component offers it, are offered without it, as they need no usage per day. Off unless set; needs enable_api_key_provisioning. Nothing checks the claim: turn it on only if the agent reports per-key daily usage, or those limits are never reached.
-- `api_key_limits` (Boolean) Lets consumers set spending limits on API keys one by one. On unless set to false; needs enable_api_key_provisioning. Turned off, no new key limit is accepted, and limits keys already hold stay until cleared.
 - `auto_approve_for_roles` (List of String) List of project or organization role names (e.g. 'PROJECT.MANAGER') whose orders skip consumer review for this offering. The creator must hold the role on the target project or its organization. Independent of restricted_to_roles (which governs visibility/ordering) and of the ORDER.APPROVE permission. Provider review and purchase-order requirements still apply. Only staff can change this option.
 - `auto_approve_in_service_provider_projects` (Boolean) Skip approval of public offering belonging to the same organization under which the request is done
 - `auto_approve_marketplace_script` (Boolean) If set to False, all orders require manual provider approval, including for service provider owners and staff
@@ -481,7 +480,6 @@ Read-Only:
 - `disable_autoapprove` (Boolean) If set to True, orders for this offering will always require manual consumer approval, overriding every other consumer-side auto-approve mechanism (auto_approve_in_service_provider_projects, auto_approve_for_roles, project auto-approval rules, and the ORDER.APPROVE permission). Termination orders, staff users and provider approval are not affected
 - `disable_grace_period` (Boolean) If set to True, this offering's resources ignore the project grace period and are terminated on the project end date. Only staff can change this option.
 - `disabled_resource_actions` (List of String) List of disabled marketplace resource actions for this offering.
-- `display_prepaid_limits_as_total` (Boolean) If set to True, the UI shows each prepaid component as the total for the whole subscription (the monthly amount times the months ordered) instead of a monthly amount, and the resource's limit_usage sums its usage over the whole subscription. Ordering and billing do not change.
 - `emit_display_name` (Boolean) Emit the user's full name as a GLAuth displayName custom attribute (rendered to LDAP displayName).
 - `emit_waldur_username` (Boolean) Emit the Waldur username as a GLAuth waldurUsername custom attribute, alongside the generated POSIX login name.
 - `enable_api_key_provisioning` (Boolean) Declares that the site agent can govern resource API keys one by one: request, assign, limit, pause, resume and delete them. Without it a resource's keys can only be revealed and rotated. Nothing checks the claim: turn it on only if the agent's backend supports per-key commands (such as the Envoy AI Gateway); on one that does not (such as Ceph S3) every such command errs.

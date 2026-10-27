@@ -242,6 +242,8 @@ type MarketplaceOfferingModel struct {
 	Files                      types.List   `tfsdk:"files"`
 	FullDescription            types.String `tfsdk:"full_description"`
 	GettingStarted             types.String `tfsdk:"getting_started"`
+	GoogleCalendarIsPublic     types.Bool   `tfsdk:"google_calendar_is_public"`
+	GoogleCalendarLink         types.String `tfsdk:"google_calendar_link"`
 	HasComplianceRequirements  types.Bool   `tfsdk:"has_compliance_requirements"`
 	HelpdeskUrl                types.String `tfsdk:"helpdesk_url"`
 	Image                      types.String `tfsdk:"image"`
@@ -453,67 +455,65 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 
 	if apiResp.Components != nil {
 		valComponents, diagsComponents := types.ListValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
-			"article_code":           types.StringType,
-			"billing_type":           types.StringType,
-			"default_limit":          types.Float64Type,
-			"description":            types.StringType,
-			"factor":                 types.Int64Type,
-			"is_boolean":             types.BoolType,
-			"is_builtin":             types.BoolType,
-			"is_prepaid":             types.BoolType,
-			"limit_amount":           types.Float64Type,
-			"limit_decimal_places":   types.Int64Type,
-			"limit_period":           types.StringType,
-			"max_available_limit":    types.Float64Type,
-			"max_prepaid_duration":   types.Int64Type,
-			"max_renewal_duration":   types.Int64Type,
-			"max_value":              types.Float64Type,
-			"measured_unit":          types.StringType,
-			"min_prepaid_duration":   types.Int64Type,
-			"min_renewal_duration":   types.Int64Type,
-			"min_value":              types.Float64Type,
-			"name":                   types.StringType,
-			"offering_uuid":          types.StringType,
-			"overage_component":      types.StringType,
-			"prepaid_duration_step":  types.Int64Type,
-			"renewal_duration_step":  types.Int64Type,
-			"spending_limit_periods": types.MapType{ElemType: types.StringType},
-			"type":                   types.StringType,
-			"unit_factor":            types.Int64Type,
-			"uuid":                   types.StringType,
+			"article_code":          types.StringType,
+			"billing_type":          types.StringType,
+			"default_limit":         types.Float64Type,
+			"description":           types.StringType,
+			"factor":                types.Int64Type,
+			"is_boolean":            types.BoolType,
+			"is_builtin":            types.BoolType,
+			"is_prepaid":            types.BoolType,
+			"limit_amount":          types.Float64Type,
+			"limit_decimal_places":  types.Int64Type,
+			"limit_period":          types.StringType,
+			"max_available_limit":   types.Float64Type,
+			"max_prepaid_duration":  types.Int64Type,
+			"max_renewal_duration":  types.Int64Type,
+			"max_value":             types.Float64Type,
+			"measured_unit":         types.StringType,
+			"min_prepaid_duration":  types.Int64Type,
+			"min_renewal_duration":  types.Int64Type,
+			"min_value":             types.Float64Type,
+			"name":                  types.StringType,
+			"offering_uuid":         types.StringType,
+			"overage_component":     types.StringType,
+			"prepaid_duration_step": types.Int64Type,
+			"renewal_duration_step": types.Int64Type,
+			"type":                  types.StringType,
+			"unit_factor":           types.Int64Type,
+			"uuid":                  types.StringType,
 		}}, apiResp.Components)
 		diags.Append(diagsComponents...)
 		model.Components = valComponents
 	} else {
 		model.Components = types.ListNull(types.ObjectType{AttrTypes: map[string]attr.Type{
-			"article_code":           types.StringType,
-			"billing_type":           types.StringType,
-			"default_limit":          types.Float64Type,
-			"description":            types.StringType,
-			"factor":                 types.Int64Type,
-			"is_boolean":             types.BoolType,
-			"is_builtin":             types.BoolType,
-			"is_prepaid":             types.BoolType,
-			"limit_amount":           types.Float64Type,
-			"limit_decimal_places":   types.Int64Type,
-			"limit_period":           types.StringType,
-			"max_available_limit":    types.Float64Type,
-			"max_prepaid_duration":   types.Int64Type,
-			"max_renewal_duration":   types.Int64Type,
-			"max_value":              types.Float64Type,
-			"measured_unit":          types.StringType,
-			"min_prepaid_duration":   types.Int64Type,
-			"min_renewal_duration":   types.Int64Type,
-			"min_value":              types.Float64Type,
-			"name":                   types.StringType,
-			"offering_uuid":          types.StringType,
-			"overage_component":      types.StringType,
-			"prepaid_duration_step":  types.Int64Type,
-			"renewal_duration_step":  types.Int64Type,
-			"spending_limit_periods": types.MapType{ElemType: types.StringType},
-			"type":                   types.StringType,
-			"unit_factor":            types.Int64Type,
-			"uuid":                   types.StringType,
+			"article_code":          types.StringType,
+			"billing_type":          types.StringType,
+			"default_limit":         types.Float64Type,
+			"description":           types.StringType,
+			"factor":                types.Int64Type,
+			"is_boolean":            types.BoolType,
+			"is_builtin":            types.BoolType,
+			"is_prepaid":            types.BoolType,
+			"limit_amount":          types.Float64Type,
+			"limit_decimal_places":  types.Int64Type,
+			"limit_period":          types.StringType,
+			"max_available_limit":   types.Float64Type,
+			"max_prepaid_duration":  types.Int64Type,
+			"max_renewal_duration":  types.Int64Type,
+			"max_value":             types.Float64Type,
+			"measured_unit":         types.StringType,
+			"min_prepaid_duration":  types.Int64Type,
+			"min_renewal_duration":  types.Int64Type,
+			"min_value":             types.Float64Type,
+			"name":                  types.StringType,
+			"offering_uuid":         types.StringType,
+			"overage_component":     types.StringType,
+			"prepaid_duration_step": types.Int64Type,
+			"renewal_duration_step": types.Int64Type,
+			"type":                  types.StringType,
+			"unit_factor":           types.Int64Type,
+			"uuid":                  types.StringType,
 		}})
 	}
 
@@ -586,6 +586,10 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 	model.FullDescription = common.StringPointerValue(apiResp.FullDescription)
 
 	model.GettingStarted = common.StringPointerValue(apiResp.GettingStarted)
+
+	model.GoogleCalendarIsPublic = types.BoolPointerValue(apiResp.GoogleCalendarIsPublic)
+
+	model.GoogleCalendarLink = common.StringPointerValue(apiResp.GoogleCalendarLink)
 
 	model.HasComplianceRequirements = types.BoolPointerValue(apiResp.HasComplianceRequirements)
 
@@ -821,8 +825,6 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 		valPluginOptions, diagsPluginOptions := types.ObjectValueFrom(ctx, types.ObjectType{AttrTypes: map[string]attr.Type{
 			"account_scope":                                         types.StringType,
 			"action_on_usage_limit":                                 types.StringType,
-			"api_key_daily_usage":                                   types.BoolType,
-			"api_key_limits":                                        types.BoolType,
 			"auto_approve_for_roles":                                types.ListType{ElemType: types.StringType},
 			"auto_approve_in_service_provider_projects":             types.BoolType,
 			"auto_approve_marketplace_script":                       types.BoolType,
@@ -841,7 +843,6 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 			"disable_autoapprove":                                   types.BoolType,
 			"disable_grace_period":                                  types.BoolType,
 			"disabled_resource_actions":                             types.ListType{ElemType: types.StringType},
-			"display_prepaid_limits_as_total":                       types.BoolType,
 			"emit_display_name":                                     types.BoolType,
 			"emit_waldur_username":                                  types.BoolType,
 			"enable_api_key_provisioning":                           types.BoolType,
@@ -934,8 +935,6 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 		model.PluginOptions = types.ObjectNull(types.ObjectType{AttrTypes: map[string]attr.Type{
 			"account_scope":                                         types.StringType,
 			"action_on_usage_limit":                                 types.StringType,
-			"api_key_daily_usage":                                   types.BoolType,
-			"api_key_limits":                                        types.BoolType,
 			"auto_approve_for_roles":                                types.ListType{ElemType: types.StringType},
 			"auto_approve_in_service_provider_projects":             types.BoolType,
 			"auto_approve_marketplace_script":                       types.BoolType,
@@ -954,7 +953,6 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 			"disable_autoapprove":                                   types.BoolType,
 			"disable_grace_period":                                  types.BoolType,
 			"disabled_resource_actions":                             types.ListType{ElemType: types.StringType},
-			"display_prepaid_limits_as_total":                       types.BoolType,
 			"emit_display_name":                                     types.BoolType,
 			"emit_waldur_username":                                  types.BoolType,
 			"enable_api_key_provisioning":                           types.BoolType,

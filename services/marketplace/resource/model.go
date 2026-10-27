@@ -43,34 +43,33 @@ func OfferingAccountSettingsAccountScopeInheritedType() types.ObjectType {
 }
 func OfferingComponentType() types.ObjectType {
 	return types.ObjectType{AttrTypes: map[string]attr.Type{
-		"article_code":           types.StringType,
-		"billing_type":           types.StringType,
-		"default_limit":          types.Float64Type,
-		"description":            types.StringType,
-		"factor":                 types.Int64Type,
-		"is_boolean":             types.BoolType,
-		"is_builtin":             types.BoolType,
-		"is_prepaid":             types.BoolType,
-		"limit_amount":           types.Float64Type,
-		"limit_decimal_places":   types.Int64Type,
-		"limit_period":           types.StringType,
-		"max_available_limit":    types.Float64Type,
-		"max_prepaid_duration":   types.Int64Type,
-		"max_renewal_duration":   types.Int64Type,
-		"max_value":              types.Float64Type,
-		"measured_unit":          types.StringType,
-		"min_prepaid_duration":   types.Int64Type,
-		"min_renewal_duration":   types.Int64Type,
-		"min_value":              types.Float64Type,
-		"name":                   types.StringType,
-		"offering_uuid":          types.StringType,
-		"overage_component":      types.StringType,
-		"prepaid_duration_step":  types.Int64Type,
-		"renewal_duration_step":  types.Int64Type,
-		"spending_limit_periods": types.MapType{ElemType: types.StringType},
-		"type":                   types.StringType,
-		"unit_factor":            types.Int64Type,
-		"uuid":                   types.StringType,
+		"article_code":          types.StringType,
+		"billing_type":          types.StringType,
+		"default_limit":         types.Float64Type,
+		"description":           types.StringType,
+		"factor":                types.Int64Type,
+		"is_boolean":            types.BoolType,
+		"is_builtin":            types.BoolType,
+		"is_prepaid":            types.BoolType,
+		"limit_amount":          types.Float64Type,
+		"limit_decimal_places":  types.Int64Type,
+		"limit_period":          types.StringType,
+		"max_available_limit":   types.Float64Type,
+		"max_prepaid_duration":  types.Int64Type,
+		"max_renewal_duration":  types.Int64Type,
+		"max_value":             types.Float64Type,
+		"measured_unit":         types.StringType,
+		"min_prepaid_duration":  types.Int64Type,
+		"min_renewal_duration":  types.Int64Type,
+		"min_value":             types.Float64Type,
+		"name":                  types.StringType,
+		"offering_uuid":         types.StringType,
+		"overage_component":     types.StringType,
+		"prepaid_duration_step": types.Int64Type,
+		"renewal_duration_step": types.Int64Type,
+		"type":                  types.StringType,
+		"unit_factor":           types.Int64Type,
+		"uuid":                  types.StringType,
 	}}
 }
 func OrderInProgressType() types.ObjectType {
@@ -176,17 +175,6 @@ func ReportSectionType() types.ObjectType {
 	return types.ObjectType{AttrTypes: map[string]attr.Type{
 		"body":   types.StringType,
 		"header": types.StringType,
-	}}
-}
-func SpendingLimitStatusType() types.ObjectType {
-	return types.ObjectType{AttrTypes: map[string]attr.Type{
-		"component_type":   types.StringType,
-		"last_reported_at": types.StringType,
-		"limit":            types.Float64Type,
-		"period":           types.StringType,
-		"reached":          types.BoolType,
-		"resets_at":        types.StringType,
-		"used":             types.Float64Type,
 	}}
 }
 
@@ -408,83 +396,78 @@ func (m *MarketplaceResourceFiltersModel) GetSchema() schema.SingleNestedAttribu
 }
 
 type MarketplaceResourceModel struct {
-	UUID                       types.String      `tfsdk:"id"`
-	Attributes                 types.Map         `tfsdk:"attributes"`
-	BackendId                  types.String      `tfsdk:"backend_id"`
-	CanTerminate               types.Bool        `tfsdk:"can_terminate"`
-	CategoryIcon               types.String      `tfsdk:"category_icon"`
-	CategoryUuid               types.String      `tfsdk:"category_uuid"`
-	CustomerSlug               types.String      `tfsdk:"customer_slug"`
-	Description                types.String      `tfsdk:"description"`
-	DisplayLimits              types.Map         `tfsdk:"display_limits"`
-	Downscaled                 types.Bool        `tfsdk:"downscaled"`
-	EffectiveId                types.String      `tfsdk:"effective_id"`
-	EndDate                    types.String      `tfsdk:"end_date"`
-	EndDateRequestedBy         types.String      `tfsdk:"end_date_requested_by"`
-	EndDateUpdatedAt           timetypes.RFC3339 `tfsdk:"end_date_updated_at"`
-	Endpoints                  types.List        `tfsdk:"endpoints"`
-	ErrorMessage               types.String      `tfsdk:"error_message"`
-	HasApiKeys                 types.Bool        `tfsdk:"has_api_keys"`
-	LastSync                   timetypes.RFC3339 `tfsdk:"last_sync"`
-	LimitUsage                 types.Map         `tfsdk:"limit_usage"`
-	Limits                     types.Map         `tfsdk:"limits"`
-	Name                       types.String      `tfsdk:"name"`
-	Offering                   types.String      `tfsdk:"offering"`
-	OfferingAccountSettings    types.Object      `tfsdk:"offering_account_settings"`
-	OfferingBackendId          types.String      `tfsdk:"offering_backend_id"`
-	OfferingBillable           types.Bool        `tfsdk:"offering_billable"`
-	OfferingComponents         types.List        `tfsdk:"offering_components"`
-	OfferingDescription        types.String      `tfsdk:"offering_description"`
-	OfferingImage              types.String      `tfsdk:"offering_image"`
-	OfferingPluginOptions      types.Map         `tfsdk:"offering_plugin_options"`
-	OfferingShared             types.Bool        `tfsdk:"offering_shared"`
-	OfferingSlug               types.String      `tfsdk:"offering_slug"`
-	OfferingState              types.String      `tfsdk:"offering_state"`
-	OfferingThumbnail          types.String      `tfsdk:"offering_thumbnail"`
-	OfferingType               types.String      `tfsdk:"offering_type"`
-	OfferingUuid               types.String      `tfsdk:"offering_uuid"`
-	Options                    types.Map         `tfsdk:"options"`
-	OrderInProgress            types.Object      `tfsdk:"order_in_progress"`
-	ParentName                 types.String      `tfsdk:"parent_name"`
-	ParentOfferingName         types.String      `tfsdk:"parent_offering_name"`
-	ParentOfferingSlug         types.String      `tfsdk:"parent_offering_slug"`
-	ParentOfferingUuid         types.String      `tfsdk:"parent_offering_uuid"`
-	ParentUuid                 types.String      `tfsdk:"parent_uuid"`
-	Paused                     types.Bool        `tfsdk:"paused"`
-	Plan                       types.String      `tfsdk:"plan"`
-	PlanDescription            types.String      `tfsdk:"plan_description"`
-	PlanName                   types.String      `tfsdk:"plan_name"`
-	PlanUnit                   types.String      `tfsdk:"plan_unit"`
-	PlanUuid                   types.String      `tfsdk:"plan_uuid"`
-	PrepaidTotalComponentTypes types.List        `tfsdk:"prepaid_total_component_types"`
-	Project                    types.String      `tfsdk:"project"`
-	ProjectDescription         types.String      `tfsdk:"project_description"`
-	ProjectEffectiveEndDate    types.String      `tfsdk:"project_effective_end_date"`
-	ProjectEndDate             types.String      `tfsdk:"project_end_date"`
-	ProjectEndDateRequestedBy  types.String      `tfsdk:"project_end_date_requested_by"`
-	ProjectIsInGracePeriod     types.Bool        `tfsdk:"project_is_in_grace_period"`
-	ProjectSlug                types.String      `tfsdk:"project_slug"`
-	ProjectStartDate           types.String      `tfsdk:"project_start_date"`
-	ProviderDescription        types.String      `tfsdk:"provider_description"`
-	ProviderName               types.String      `tfsdk:"provider_name"`
-	ProviderSlug               types.String      `tfsdk:"provider_slug"`
-	ProviderUuid               types.String      `tfsdk:"provider_uuid"`
-	RenewalDate                types.Map         `tfsdk:"renewal_date"`
-	Report                     types.List        `tfsdk:"report"`
-	ResourceEffectiveEndDate   types.String      `tfsdk:"resource_effective_end_date"`
-	ResourceType               types.String      `tfsdk:"resource_type"`
-	ResourceUuid               types.String      `tfsdk:"resource_uuid"`
-	RestrictMemberAccess       types.Bool        `tfsdk:"restrict_member_access"`
-	Scope                      types.String      `tfsdk:"scope"`
-	Slug                       types.String      `tfsdk:"slug"`
-	SpendingLimitStatus        types.List        `tfsdk:"spending_limit_status"`
-	SpendingLimits             types.Map         `tfsdk:"spending_limits"`
-	State                      types.String      `tfsdk:"state"`
-	Url                        types.String      `tfsdk:"url"`
-	UsageLimitRestriction      types.String      `tfsdk:"usage_limit_restriction"`
-	UsageLimitResumesAt        timetypes.RFC3339 `tfsdk:"usage_limit_resumes_at"`
-	UserRequiresReconsent      types.Bool        `tfsdk:"user_requires_reconsent"`
-	Username                   types.String      `tfsdk:"username"`
+	UUID                      types.String      `tfsdk:"id"`
+	Attributes                types.Map         `tfsdk:"attributes"`
+	BackendId                 types.String      `tfsdk:"backend_id"`
+	CanTerminate              types.Bool        `tfsdk:"can_terminate"`
+	CategoryIcon              types.String      `tfsdk:"category_icon"`
+	CategoryUuid              types.String      `tfsdk:"category_uuid"`
+	CustomerSlug              types.String      `tfsdk:"customer_slug"`
+	Description               types.String      `tfsdk:"description"`
+	Downscaled                types.Bool        `tfsdk:"downscaled"`
+	EffectiveId               types.String      `tfsdk:"effective_id"`
+	EndDate                   types.String      `tfsdk:"end_date"`
+	EndDateRequestedBy        types.String      `tfsdk:"end_date_requested_by"`
+	EndDateUpdatedAt          timetypes.RFC3339 `tfsdk:"end_date_updated_at"`
+	Endpoints                 types.List        `tfsdk:"endpoints"`
+	ErrorMessage              types.String      `tfsdk:"error_message"`
+	HasApiKeys                types.Bool        `tfsdk:"has_api_keys"`
+	LastSync                  timetypes.RFC3339 `tfsdk:"last_sync"`
+	LimitUsage                types.Map         `tfsdk:"limit_usage"`
+	Limits                    types.Map         `tfsdk:"limits"`
+	Name                      types.String      `tfsdk:"name"`
+	Offering                  types.String      `tfsdk:"offering"`
+	OfferingAccountSettings   types.Object      `tfsdk:"offering_account_settings"`
+	OfferingBackendId         types.String      `tfsdk:"offering_backend_id"`
+	OfferingBillable          types.Bool        `tfsdk:"offering_billable"`
+	OfferingComponents        types.List        `tfsdk:"offering_components"`
+	OfferingDescription       types.String      `tfsdk:"offering_description"`
+	OfferingImage             types.String      `tfsdk:"offering_image"`
+	OfferingPluginOptions     types.Map         `tfsdk:"offering_plugin_options"`
+	OfferingShared            types.Bool        `tfsdk:"offering_shared"`
+	OfferingSlug              types.String      `tfsdk:"offering_slug"`
+	OfferingState             types.String      `tfsdk:"offering_state"`
+	OfferingThumbnail         types.String      `tfsdk:"offering_thumbnail"`
+	OfferingType              types.String      `tfsdk:"offering_type"`
+	OfferingUuid              types.String      `tfsdk:"offering_uuid"`
+	Options                   types.Map         `tfsdk:"options"`
+	OrderInProgress           types.Object      `tfsdk:"order_in_progress"`
+	ParentName                types.String      `tfsdk:"parent_name"`
+	ParentOfferingName        types.String      `tfsdk:"parent_offering_name"`
+	ParentOfferingSlug        types.String      `tfsdk:"parent_offering_slug"`
+	ParentOfferingUuid        types.String      `tfsdk:"parent_offering_uuid"`
+	ParentUuid                types.String      `tfsdk:"parent_uuid"`
+	Paused                    types.Bool        `tfsdk:"paused"`
+	Plan                      types.String      `tfsdk:"plan"`
+	PlanDescription           types.String      `tfsdk:"plan_description"`
+	PlanName                  types.String      `tfsdk:"plan_name"`
+	PlanUnit                  types.String      `tfsdk:"plan_unit"`
+	PlanUuid                  types.String      `tfsdk:"plan_uuid"`
+	Project                   types.String      `tfsdk:"project"`
+	ProjectDescription        types.String      `tfsdk:"project_description"`
+	ProjectEffectiveEndDate   types.String      `tfsdk:"project_effective_end_date"`
+	ProjectEndDate            types.String      `tfsdk:"project_end_date"`
+	ProjectEndDateRequestedBy types.String      `tfsdk:"project_end_date_requested_by"`
+	ProjectIsInGracePeriod    types.Bool        `tfsdk:"project_is_in_grace_period"`
+	ProjectSlug               types.String      `tfsdk:"project_slug"`
+	ProjectStartDate          types.String      `tfsdk:"project_start_date"`
+	ProviderDescription       types.String      `tfsdk:"provider_description"`
+	ProviderName              types.String      `tfsdk:"provider_name"`
+	ProviderSlug              types.String      `tfsdk:"provider_slug"`
+	ProviderUuid              types.String      `tfsdk:"provider_uuid"`
+	RenewalDate               types.Map         `tfsdk:"renewal_date"`
+	Report                    types.List        `tfsdk:"report"`
+	ResourceEffectiveEndDate  types.String      `tfsdk:"resource_effective_end_date"`
+	ResourceType              types.String      `tfsdk:"resource_type"`
+	ResourceUuid              types.String      `tfsdk:"resource_uuid"`
+	RestrictMemberAccess      types.Bool        `tfsdk:"restrict_member_access"`
+	Scope                     types.String      `tfsdk:"scope"`
+	Slug                      types.String      `tfsdk:"slug"`
+	State                     types.String      `tfsdk:"state"`
+	Url                       types.String      `tfsdk:"url"`
+	UsageLimitRestriction     types.String      `tfsdk:"usage_limit_restriction"`
+	UserRequiresReconsent     types.Bool        `tfsdk:"user_requires_reconsent"`
+	Username                  types.String      `tfsdk:"username"`
 }
 
 // CopyFrom maps the API response to the model fields.
@@ -512,14 +495,6 @@ func (model *MarketplaceResourceModel) CopyFrom(ctx context.Context, apiResp Mar
 	model.CustomerSlug = common.StringPointerValue(apiResp.CustomerSlug)
 
 	model.Description = common.StringPointerValue(apiResp.Description)
-
-	if apiResp.DisplayLimits != nil {
-		valDisplayLimits, diagsDisplayLimits := types.MapValueFrom(ctx, types.Float64Type, apiResp.DisplayLimits)
-		diags.Append(diagsDisplayLimits...)
-		model.DisplayLimits = valDisplayLimits
-	} else {
-		model.DisplayLimits = types.MapNull(types.Float64Type)
-	}
 
 	model.Downscaled = types.BoolPointerValue(apiResp.Downscaled)
 
@@ -651,14 +626,6 @@ func (model *MarketplaceResourceModel) CopyFrom(ctx context.Context, apiResp Mar
 
 	model.PlanUuid = common.StringPointerValue(apiResp.PlanUuid)
 
-	if apiResp.PrepaidTotalComponentTypes != nil {
-		valPrepaidTotalComponentTypes, diagsPrepaidTotalComponentTypes := types.ListValueFrom(ctx, types.StringType, apiResp.PrepaidTotalComponentTypes)
-		diags.Append(diagsPrepaidTotalComponentTypes...)
-		model.PrepaidTotalComponentTypes = valPrepaidTotalComponentTypes
-	} else {
-		model.PrepaidTotalComponentTypes = types.ListNull(types.StringType)
-	}
-
 	model.Project = common.StringPointerValue(apiResp.Project)
 
 	model.ProjectDescription = common.StringPointerValue(apiResp.ProjectDescription)
@@ -711,31 +678,11 @@ func (model *MarketplaceResourceModel) CopyFrom(ctx context.Context, apiResp Mar
 
 	model.Slug = common.StringPointerValue(apiResp.Slug)
 
-	if apiResp.SpendingLimitStatus != nil {
-		valSpendingLimitStatus, diagsSpendingLimitStatus := types.ListValueFrom(ctx, SpendingLimitStatusType(), apiResp.SpendingLimitStatus)
-		diags.Append(diagsSpendingLimitStatus...)
-		model.SpendingLimitStatus = valSpendingLimitStatus
-	} else {
-		model.SpendingLimitStatus = types.ListNull(SpendingLimitStatusType())
-	}
-
-	if apiResp.SpendingLimits != nil {
-		valSpendingLimits, diagsSpendingLimits := types.MapValueFrom(ctx, types.StringType, apiResp.SpendingLimits)
-		diags.Append(diagsSpendingLimits...)
-		model.SpendingLimits = valSpendingLimits
-	} else {
-		model.SpendingLimits = types.MapNull(types.StringType)
-	}
-
 	model.State = common.StringPointerValue(apiResp.State)
 
 	model.Url = common.StringPointerValue(apiResp.Url)
 
 	model.UsageLimitRestriction = common.StringPointerValue(apiResp.UsageLimitRestriction)
-
-	valUsageLimitResumesAt, diagsUsageLimitResumesAt := timetypes.NewRFC3339PointerValue(apiResp.UsageLimitResumesAt)
-	diags.Append(diagsUsageLimitResumesAt...)
-	model.UsageLimitResumesAt = valUsageLimitResumesAt
 
 	model.UserRequiresReconsent = types.BoolPointerValue(apiResp.UserRequiresReconsent)
 

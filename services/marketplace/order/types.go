@@ -23,8 +23,6 @@ type MarketplaceOrderCreateRequest struct {
 
 	Slug *string `json:"slug,omitempty" tfsdk:"slug"`
 
-	SpendingLimits map[string]interface{} `json:"spending_limits,omitempty" tfsdk:"spending_limits"`
-
 	StartDate *string `json:"start_date,omitempty" tfsdk:"start_date"`
 }
 
@@ -32,9 +30,6 @@ type MarketplaceOrderCreateAttributesRequest struct {
 }
 
 type MarketplaceOrderCreateLimitsRequest struct {
-}
-
-type MarketplaceOrderCreateSpendingLimitsRequest struct {
 }
 
 type MarketplaceOrderUpdateRequest struct {
