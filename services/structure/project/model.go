@@ -72,6 +72,7 @@ type StructureProjectFiltersModel struct {
 	ScienceDomainUuid       types.String `tfsdk:"science_domain_uuid"`
 	ScienceSubDomainUuid    types.String `tfsdk:"science_sub_domain_uuid"`
 	Slug                    types.String `tfsdk:"slug"`
+	UserRole                types.String `tfsdk:"user_role"`
 	UserUuid                types.String `tfsdk:"user_uuid"`
 	UserUuidWithActiveRole  types.String `tfsdk:"user_uuid_with_active_role"`
 }
@@ -172,6 +173,10 @@ func (m *StructureProjectFiltersModel) GetSchema() schema.SingleNestedAttribute 
 			"slug": schema.StringAttribute{
 				Optional:            true,
 				MarkdownDescription: "Slug",
+			},
+			"user_role": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Role name or UUID; narrows user_uuid_with_active_role to that role.",
 			},
 			"user_uuid": schema.StringAttribute{
 				Optional:            true,
