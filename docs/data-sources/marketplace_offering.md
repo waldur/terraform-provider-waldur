@@ -601,6 +601,7 @@ Read-Only:
 - `grp_tres` (String) Aggregate TRES the QOS may allocate at once (GrpTRES)
 - `max_nodes` (Number) Maximum nodes per job
 - `max_time` (Number) Maximum wall time in minutes
+- `max_tres_mins_per_job` (String) Max TRES-minutes per job (MaxTRESMinsPerJob)
 - `max_tres_per_job` (String) Max TRES per job (MaxTRESPerJob)
 - `max_tres_per_node` (String) Max TRES per node (MaxTRESPerNode)
 - `max_tres_per_user` (String) Max TRES per user (MaxTRESPerUser)

@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-10-29
+
+### Added
+
+- `marketplace_offering`: new attribute `qos_profiles.max_tres_mins_per_job`
+
 ## 2026-10-27
 
 ### ⚠️ Breaking changes

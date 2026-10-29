@@ -259,6 +259,8 @@ type NestedQoS struct {
 
 	MaxTime *int64 `json:"max_time,omitempty" tfsdk:"max_time"`
 
+	MaxTresMinsPerJob *string `json:"max_tres_mins_per_job,omitempty" tfsdk:"max_tres_mins_per_job"`
+
 	MaxTresPerJob *string `json:"max_tres_per_job,omitempty" tfsdk:"max_tres_per_job"`
 
 	MaxTresPerNode *string `json:"max_tres_per_node,omitempty" tfsdk:"max_tres_per_node"`

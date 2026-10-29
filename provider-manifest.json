@@ -2626,6 +2626,13 @@
               "computed": true
             },
             {
+              "name": "max_tres_mins_per_job",
+              "type": "types.String",
+              "required": false,
+              "optional": false,
+              "computed": true
+            },
+            {
               "name": "max_tres_per_job",
               "type": "types.String",
               "required": false,

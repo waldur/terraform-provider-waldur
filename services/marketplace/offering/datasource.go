@@ -1007,7 +1007,10 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 								int64validator.AtMost(2147483647),
 							}},
 						"grp_tres": schema.StringAttribute{
-							Computed: true, MarkdownDescription: "Aggregate TRES the QOS may allocate at once (GrpTRES)"},
+							Computed: true, MarkdownDescription: "Aggregate TRES the QOS may allocate at once (GrpTRES)",
+							Validators: []validator.String{
+								stringvalidator.RegexMatches(regexp.MustCompile(`^([A-Za-z][\w/:.@-]*|[1-9]\d*)=\d+[KMGTPkmgtp]?(,([A-Za-z][\w/:.@-]*|[1-9]\d*)=\d+[KMGTPkmgtp]?)*$`), ""),
+							}},
 						"max_nodes": schema.Int64Attribute{
 							Computed: true, MarkdownDescription: "Maximum nodes per job",
 							Validators: []validator.Int64{
@@ -1020,12 +1023,26 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 								int64validator.AtLeast(0),
 								int64validator.AtMost(2147483647),
 							}},
+						"max_tres_mins_per_job": schema.StringAttribute{
+							Computed: true, MarkdownDescription: "Max TRES-minutes per job (MaxTRESMinsPerJob)",
+							Validators: []validator.String{
+								stringvalidator.RegexMatches(regexp.MustCompile(`^([A-Za-z][\w/:.@-]*|[1-9]\d*)=\d+[KMGTPkmgtp]?(,([A-Za-z][\w/:.@-]*|[1-9]\d*)=\d+[KMGTPkmgtp]?)*$`), ""),
+							}},
 						"max_tres_per_job": schema.StringAttribute{
-							Computed: true, MarkdownDescription: "Max TRES per job (MaxTRESPerJob)"},
+							Computed: true, MarkdownDescription: "Max TRES per job (MaxTRESPerJob)",
+							Validators: []validator.String{
+								stringvalidator.RegexMatches(regexp.MustCompile(`^([A-Za-z][\w/:.@-]*|[1-9]\d*)=\d+[KMGTPkmgtp]?(,([A-Za-z][\w/:.@-]*|[1-9]\d*)=\d+[KMGTPkmgtp]?)*$`), ""),
+							}},
 						"max_tres_per_node": schema.StringAttribute{
-							Computed: true, MarkdownDescription: "Max TRES per node (MaxTRESPerNode)"},
+							Computed: true, MarkdownDescription: "Max TRES per node (MaxTRESPerNode)",
+							Validators: []validator.String{
+								stringvalidator.RegexMatches(regexp.MustCompile(`^([A-Za-z][\w/:.@-]*|[1-9]\d*)=\d+[KMGTPkmgtp]?(,([A-Za-z][\w/:.@-]*|[1-9]\d*)=\d+[KMGTPkmgtp]?)*$`), ""),
+							}},
 						"max_tres_per_user": schema.StringAttribute{
-							Computed: true, MarkdownDescription: "Max TRES per user (MaxTRESPerUser)"},
+							Computed: true, MarkdownDescription: "Max TRES per user (MaxTRESPerUser)",
+							Validators: []validator.String{
+								stringvalidator.RegexMatches(regexp.MustCompile(`^([A-Za-z][\w/:.@-]*|[1-9]\d*)=\d+[KMGTPkmgtp]?(,([A-Za-z][\w/:.@-]*|[1-9]\d*)=\d+[KMGTPkmgtp]?)*$`), ""),
+							}},
 						"min_nodes": schema.Int64Attribute{
 							Computed: true, MarkdownDescription: "Minimum nodes per job",
 							Validators: []validator.Int64{
@@ -1033,7 +1050,10 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 								int64validator.AtMost(2147483647),
 							}},
 						"min_tres_per_job": schema.StringAttribute{
-							Computed: true, MarkdownDescription: "Min TRES per job (MinTRESPerJob)"},
+							Computed: true, MarkdownDescription: "Min TRES per job (MinTRESPerJob)",
+							Validators: []validator.String{
+								stringvalidator.RegexMatches(regexp.MustCompile(`^([A-Za-z][\w/:.@-]*|[1-9]\d*)=\d+[KMGTPkmgtp]?(,([A-Za-z][\w/:.@-]*|[1-9]\d*)=\d+[KMGTPkmgtp]?)*$`), ""),
+							}},
 						"name": schema.StringAttribute{
 							Computed: true, MarkdownDescription: "Name of the SLURM QOS.",
 							Validators: []validator.String{
