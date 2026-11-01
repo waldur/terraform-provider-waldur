@@ -51,8 +51,6 @@ resource "waldur_structure_customer" "example" {
 - `house_nr` (String) House Nr
 - `household` (String) Household
 - `image` (String) Image
-- `invoice_emails` (String) Comma-separated list of email addresses that receive invoice notifications instead of the organization owners
-- `is_private_person` (Boolean) Organization represents a private person rather than a legal entity. Used for EU VAT calculation.
 - `latitude` (Number) Latitude
 - `longitude` (Number) Longitude
 - `max_service_accounts` (Number) Maximum number of service accounts allowed
@@ -95,9 +93,6 @@ resource "waldur_structure_customer" "example" {
 - `service_provider_uuid` (String) Service Provider Uuid
 - `url` (String) Url
 - `users_count` (Number) Number of users with access to this organization
-- `vat_code_verified` (Boolean) Whether the EU VIES service confirmed the current VAT number.
-- `vat_percent` (String) VAT percent calculated from EU VAT rules, when VAT taxation is on.
-- `vat_rule` (String) Which EU VAT rule picked vat_percent, or why it cannot be calculated.
 
 <a id="nestedblock--timeouts"></a>
 ### Nested Schema for `timeouts`

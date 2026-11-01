@@ -46,8 +46,6 @@ type MarketplaceResourceResponse struct {
 
 	Description *string `json:"description,omitempty" tfsdk:"description"`
 
-	DisplayLimits map[string]float64 `json:"display_limits,omitempty" tfsdk:"display_limits"`
-
 	Downscaled *bool `json:"downscaled,omitempty" tfsdk:"downscaled"`
 
 	EffectiveId *string `json:"effective_id,omitempty" tfsdk:"effective_id"`
@@ -126,8 +124,6 @@ type MarketplaceResourceResponse struct {
 
 	PlanUuid *string `json:"plan_uuid,omitempty" tfsdk:"plan_uuid"`
 
-	PrepaidTotalComponentTypes *[]string `json:"prepaid_total_component_types,omitempty" tfsdk:"prepaid_total_component_types"`
-
 	Project *string `json:"project,omitempty" tfsdk:"project"`
 
 	ProjectDescription *string `json:"project_description,omitempty" tfsdk:"project_description"`
@@ -168,17 +164,11 @@ type MarketplaceResourceResponse struct {
 
 	Slug *string `json:"slug,omitempty" tfsdk:"slug"`
 
-	SpendingLimitStatus *[]common.SpendingLimitStatus `json:"spending_limit_status,omitempty" tfsdk:"spending_limit_status"`
-
-	SpendingLimits common.JSONStringMap `json:"spending_limits,omitempty" tfsdk:"spending_limits"`
-
 	State *string `json:"state,omitempty" tfsdk:"state"`
 
 	Url *string `json:"url,omitempty" tfsdk:"url"`
 
 	UsageLimitRestriction *string `json:"usage_limit_restriction,omitempty" tfsdk:"usage_limit_restriction"`
-
-	UsageLimitResumesAt *string `json:"usage_limit_resumes_at,omitempty" tfsdk:"usage_limit_resumes_at"`
 
 	UserRequiresReconsent *bool `json:"user_requires_reconsent,omitempty" tfsdk:"user_requires_reconsent"`
 
@@ -186,9 +176,6 @@ type MarketplaceResourceResponse struct {
 }
 
 type MarketplaceResourceAttributesResponse struct {
-}
-
-type MarketplaceResourceDisplayLimitsResponse struct {
 }
 
 type MarketplaceResourceEndpointsResponse struct {
@@ -336,16 +323,11 @@ type MarketplaceResourceOfferingComponentsResponse struct {
 
 	RenewalDurationStep *int64 `json:"renewal_duration_step,omitempty" tfsdk:"renewal_duration_step"`
 
-	SpendingLimitPeriods common.JSONStringMap `json:"spending_limit_periods,omitempty" tfsdk:"spending_limit_periods"`
-
 	Type *string `json:"type,omitempty" tfsdk:"type"`
 
 	UnitFactor *int64 `json:"unit_factor,omitempty" tfsdk:"unit_factor"`
 
 	Uuid *string `json:"uuid,omitempty" tfsdk:"uuid"`
-}
-
-type MarketplaceResourceOfferingComponentsSpendingLimitPeriodsResponse struct {
 }
 
 type MarketplaceResourceOfferingPluginOptionsResponse struct {
@@ -556,25 +538,6 @@ type MarketplaceResourceReportResponse struct {
 	Body *string `json:"body,omitempty" tfsdk:"body"`
 
 	Header *string `json:"header,omitempty" tfsdk:"header"`
-}
-
-type MarketplaceResourceSpendingLimitStatusResponse struct {
-	ComponentType *string `json:"component_type,omitempty" tfsdk:"component_type"`
-
-	LastReportedAt *string `json:"last_reported_at,omitempty" tfsdk:"last_reported_at"`
-
-	Limit common.FlexibleNumber `json:"limit,omitempty" tfsdk:"limit"`
-
-	Period *string `json:"period,omitempty" tfsdk:"period"`
-
-	Reached *bool `json:"reached,omitempty" tfsdk:"reached"`
-
-	ResetsAt *string `json:"resets_at,omitempty" tfsdk:"resets_at"`
-
-	Used common.FlexibleNumber `json:"used,omitempty" tfsdk:"used"`
-}
-
-type MarketplaceResourceSpendingLimitsResponse struct {
 }
 
 func (r *MarketplaceResourceResponse) GetState() string {

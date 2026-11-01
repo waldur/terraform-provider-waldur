@@ -29,7 +29,6 @@ Marketplace Resource data source - lookup by name or UUID
 - `category_uuid` (String) Category Uuid
 - `customer_slug` (String) Customer Slug
 - `description` (String) Description
-- `display_limits` (Map of Number) Resource option values shown as the limits of usage-based components. Display only: not stored in limits, billed or enforced.
 - `downscaled` (Boolean) Downscaled
 - `effective_id` (String) Effective Id
 - `end_date` (String) The date is inclusive. Once reached, a resource will be scheduled for termination.
@@ -69,7 +68,6 @@ Marketplace Resource data source - lookup by name or UUID
 - `plan_name` (String) Plan Name
 - `plan_unit` (String) Plan Unit
 - `plan_uuid` (String) Plan Uuid
-- `prepaid_total_component_types` (List of String) Component types whose limit_usage covers the whole subscription, so the UI shows their limit as the monthly limit times the months ordered. Empty unless the offering shows prepaid limits as a total (display_prepaid_limits_as_total).
 - `project` (String) Project
 - `project_description` (String) Project Description
 - `project_effective_end_date` (String) Effective project end date including grace period. After this date, resources are terminated, except resources of offerings that disable the grace period — those are terminated on the raw project end date.
@@ -90,12 +88,9 @@ Marketplace Resource data source - lookup by name or UUID
 - `restrict_member_access` (Boolean) Restrict Member Access
 - `scope` (String) Scope
 - `slug` (String) URL-friendly identifier. Only editable by staff users.
-- `spending_limit_status` (Attributes List) Spending Limit Status (see [below for nested schema](#nestedatt--spending_limit_status))
-- `spending_limits` (Map of String) Spending limits on usage-based components, per period. Changed with the set_spending_limits action.
 - `state` (String) State
 - `url` (String) Url
 - `usage_limit_restriction` (String) Which restriction (paused or downscaled) was automatically applied because reported usage reached a component limit. Empty when no such restriction is active. Used so the automatic lift never clears a restriction that was set for another reason.
-- `usage_limit_resumes_at` (String) When the spending limits that restrict the resource reset and the restriction lifts. Empty when no spending limit restricts the resource, when a limit-based component's limit does too, or while a reached total limit holds it: a total never resets, so the restriction lifts only when that limit is raised or cleared.
 - `user_requires_reconsent` (Boolean) Check if the current user needs to re-consent for this resource's offering.
 - `username` (String) Username
 
@@ -293,7 +288,6 @@ Read-Only:
 - `overage_component` (String) Overage Component
 - `prepaid_duration_step` (Number) Step size in months for the initial prepaid duration at order creation. If set, only multiples of this value (starting from min_prepaid_duration) are valid. Defaults to 1 (any value between min and max).
 - `renewal_duration_step` (Number) Step size in months for renewal. Only multiples of this value (starting from min_renewal_duration) are valid. Defaults to 1.
-- `spending_limit_periods` (Map of String) Periods (day, week, month, quarter, year, total) for which customers can set a spending limit on this usage-based component; total counts all the usage since the resource started and never resets. Day and week need the integration to report usage per day. Empty when customers cannot set spending limits.
 - `type` (String) Unique internal name of the measured unit, for example floating_ip.
 - `unit_factor` (Number) The conversion factor from backend units to measured_unit
 - `uuid` (String) Uuid
@@ -411,17 +405,3 @@ Read-Only:
 
 - `body` (String) Section body content
 - `header` (String) Section header text
-
-
-<a id="nestedatt--spending_limit_status"></a>
-### Nested Schema for `spending_limit_status`
-
-Read-Only:
-
-- `component_type` (String) Component Type
-- `last_reported_at` (String) When usage of the component was last reported.
-- `limit` (Number) Limit
-- `period` (String) Period
-- `reached` (Boolean) Reached
-- `resets_at` (String) When the current period ends and its usage starts from zero. Null for total, which never resets.
-- `used` (Number) Usage reported in the current period.

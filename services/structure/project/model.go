@@ -37,14 +37,9 @@ func BillingPriceEstimateType() types.ObjectType {
 }
 func ProjectMetadataAnswerType() types.ObjectType {
 	return types.ObjectType{AttrTypes: map[string]attr.Type{
-		"likert_high_label":   types.StringType,
-		"likert_low_label":    types.StringType,
-		"likert_scale_length": types.Int64Type,
-		"max_value":           types.StringType,
-		"min_value":           types.StringType,
-		"question":            types.StringType,
-		"question_type":       types.StringType,
-		"question_uuid":       types.StringType,
+		"question":      types.StringType,
+		"question_type": types.StringType,
+		"question_uuid": types.StringType,
 	}}
 }
 
@@ -72,7 +67,6 @@ type StructureProjectFiltersModel struct {
 	ScienceDomainUuid       types.String `tfsdk:"science_domain_uuid"`
 	ScienceSubDomainUuid    types.String `tfsdk:"science_sub_domain_uuid"`
 	Slug                    types.String `tfsdk:"slug"`
-	UserRole                types.String `tfsdk:"user_role"`
 	UserUuid                types.String `tfsdk:"user_uuid"`
 	UserUuidWithActiveRole  types.String `tfsdk:"user_uuid_with_active_role"`
 }
@@ -173,10 +167,6 @@ func (m *StructureProjectFiltersModel) GetSchema() schema.SingleNestedAttribute 
 			"slug": schema.StringAttribute{
 				Optional:            true,
 				MarkdownDescription: "Slug",
-			},
-			"user_role": schema.StringAttribute{
-				Optional:            true,
-				MarkdownDescription: "Role name or UUID; narrows user_uuid_with_active_role to that role.",
 			},
 			"user_uuid": schema.StringAttribute{
 				Optional:            true,
