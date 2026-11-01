@@ -205,7 +205,11 @@ func (r *StructureProjectResource) Schema(ctx context.Context, req resource.Sche
 				}, MarkdownDescription: "Billing Price Estimate",
 			},
 			"customer": schema.StringAttribute{
-				Required: true, MarkdownDescription: "Customer"},
+				Required: true,
+				PlanModifiers: []planmodifier.String{
+
+					stringplanmodifier.RequiresReplace(),
+				}, MarkdownDescription: "Customer"},
 			"customer_display_billing_info_in_projects": schema.BoolAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.Bool{
@@ -348,6 +352,47 @@ func (r *StructureProjectResource) Schema(ctx context.Context, req resource.Sche
 			"project_metadata": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
+						"likert_high_label": schema.StringAttribute{
+							Optional: true,
+							Computed: true,
+							PlanModifiers: []planmodifier.String{
+
+								stringplanmodifier.UseStateForUnknown(),
+							}, MarkdownDescription: "Likert High Label"},
+						"likert_low_label": schema.StringAttribute{
+							Optional: true,
+							Computed: true,
+							PlanModifiers: []planmodifier.String{
+
+								stringplanmodifier.UseStateForUnknown(),
+							}, MarkdownDescription: "Likert Low Label"},
+						"likert_scale_length": schema.Int64Attribute{
+							Optional: true,
+							Computed: true,
+							PlanModifiers: []planmodifier.Int64{
+
+								int64planmodifier.UseStateForUnknown(),
+							}, MarkdownDescription: "Likert Scale Length"},
+						"max_value": schema.StringAttribute{
+							Optional: true,
+							Computed: true,
+							PlanModifiers: []planmodifier.String{
+
+								stringplanmodifier.UseStateForUnknown(),
+							}, MarkdownDescription: "Max Value",
+							Validators: []validator.String{
+								stringvalidator.RegexMatches(regexp.MustCompile(`^-?\d{0,16}(?:\.\d{0,4})?$`), ""),
+							}},
+						"min_value": schema.StringAttribute{
+							Optional: true,
+							Computed: true,
+							PlanModifiers: []planmodifier.String{
+
+								stringplanmodifier.UseStateForUnknown(),
+							}, MarkdownDescription: "Min Value",
+							Validators: []validator.String{
+								stringvalidator.RegexMatches(regexp.MustCompile(`^-?\d{0,16}(?:\.\d{0,4})?$`), ""),
+							}},
 						"question": schema.StringAttribute{
 							Optional: true,
 							Computed: true,
@@ -484,6 +529,14 @@ func (r *StructureProjectResource) Schema(ctx context.Context, req resource.Sche
 
 					listplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "User Affiliations"},
+			"user_assurance_levels": schema.ListAttribute{
+				ElementType: types.StringType,
+				Optional:    true,
+				Computed:    true,
+				PlanModifiers: []planmodifier.List{
+
+					listplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Required assurance URIs (REFEDS). User must have all of these."},
 			"user_email_patterns": schema.ListAttribute{
 				ElementType: types.StringType,
 				Optional:    true,
@@ -500,6 +553,22 @@ func (r *StructureProjectResource) Schema(ctx context.Context, req resource.Sche
 
 					listplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "User Identity Sources"},
+			"user_nationalities": schema.ListAttribute{
+				ElementType: types.StringType,
+				Optional:    true,
+				Computed:    true,
+				PlanModifiers: []planmodifier.List{
+
+					listplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Allowed nationality codes (ISO 3166-1 alpha-2). User must have one."},
+			"user_organization_types": schema.ListAttribute{
+				ElementType: types.StringType,
+				Optional:    true,
+				Computed:    true,
+				PlanModifiers: []planmodifier.List{
+
+					listplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Allowed organization type URNs (SCHAC). User must match one."},
 		},
 
 		Blocks: map[string]schema.Block{
@@ -598,8 +667,11 @@ func (r *StructureProjectResource) Create(ctx context.Context, req resource.Crea
 		requestBody.Type = data.Type.ValueStringPointer()
 	}
 	resp.Diagnostics.Append(common.PopulateOptionalSliceField(ctx, data.UserAffiliations, &requestBody.UserAffiliations)...)
+	resp.Diagnostics.Append(common.PopulateOptionalSliceField(ctx, data.UserAssuranceLevels, &requestBody.UserAssuranceLevels)...)
 	resp.Diagnostics.Append(common.PopulateOptionalSliceField(ctx, data.UserEmailPatterns, &requestBody.UserEmailPatterns)...)
 	resp.Diagnostics.Append(common.PopulateOptionalSliceField(ctx, data.UserIdentitySources, &requestBody.UserIdentitySources)...)
+	resp.Diagnostics.Append(common.PopulateOptionalSliceField(ctx, data.UserNationalities, &requestBody.UserNationalities)...)
+	resp.Diagnostics.Append(common.PopulateOptionalSliceField(ctx, data.UserOrganizationTypes, &requestBody.UserOrganizationTypes)...)
 
 	apiResp, err := r.client.Create(ctx, &requestBody)
 	if err != nil {
@@ -670,11 +742,6 @@ func (r *StructureProjectResource) Update(ctx context.Context, req resource.Upda
 
 		requestBody.BackendId = data.BackendId.ValueStringPointer()
 	}
-	if !data.Customer.IsNull() && !data.Customer.IsUnknown() && !data.Customer.Equal(state.Customer) {
-		anyChanges = true
-
-		requestBody.Customer = data.Customer.ValueStringPointer()
-	}
 	if !data.Description.IsNull() && !data.Description.IsUnknown() && !data.Description.Equal(state.Description) {
 		anyChanges = true
 
@@ -743,16 +810,28 @@ func (r *StructureProjectResource) Update(ctx context.Context, req resource.Upda
 	if !data.UserAffiliations.Equal(state.UserAffiliations) {
 		anyChanges = true
 	}
+	if !data.UserAssuranceLevels.Equal(state.UserAssuranceLevels) {
+		anyChanges = true
+	}
 	if !data.UserEmailPatterns.Equal(state.UserEmailPatterns) {
 		anyChanges = true
 	}
 	if !data.UserIdentitySources.Equal(state.UserIdentitySources) {
 		anyChanges = true
 	}
+	if !data.UserNationalities.Equal(state.UserNationalities) {
+		anyChanges = true
+	}
+	if !data.UserOrganizationTypes.Equal(state.UserOrganizationTypes) {
+		anyChanges = true
+	}
 
 	resp.Diagnostics.Append(common.PopulateOptionalSliceField(ctx, data.UserAffiliations, &requestBody.UserAffiliations)...)
+	resp.Diagnostics.Append(common.PopulateOptionalSliceField(ctx, data.UserAssuranceLevels, &requestBody.UserAssuranceLevels)...)
 	resp.Diagnostics.Append(common.PopulateOptionalSliceField(ctx, data.UserEmailPatterns, &requestBody.UserEmailPatterns)...)
 	resp.Diagnostics.Append(common.PopulateOptionalSliceField(ctx, data.UserIdentitySources, &requestBody.UserIdentitySources)...)
+	resp.Diagnostics.Append(common.PopulateOptionalSliceField(ctx, data.UserNationalities, &requestBody.UserNationalities)...)
+	resp.Diagnostics.Append(common.PopulateOptionalSliceField(ctx, data.UserOrganizationTypes, &requestBody.UserOrganizationTypes)...)
 
 	if anyChanges {
 		var err error

@@ -159,6 +159,10 @@ func (d *StructureCustomerDataSource) Schema(ctx context.Context, req datasource
 				Computed: true, MarkdownDescription: "Household"},
 			"image": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Image"},
+			"invoice_emails": schema.StringAttribute{
+				Computed: true, MarkdownDescription: "Comma-separated list of email addresses that receive invoice notifications instead of the organization owners"},
+			"is_private_person": schema.BoolAttribute{
+				Computed: true, MarkdownDescription: "Organization represents a private person rather than a legal entity. Used for EU VAT calculation."},
 			"is_service_provider": schema.BoolAttribute{
 				Computed: true, MarkdownDescription: "Is Service Provider"},
 			"is_service_provider_manager_only": schema.BoolAttribute{
@@ -273,16 +277,34 @@ func (d *StructureCustomerDataSource) Schema(ctx context.Context, req datasource
 			"user_affiliations": schema.ListAttribute{
 				ElementType: types.StringType,
 				Computed:    true, MarkdownDescription: "User Affiliations"},
+			"user_assurance_levels": schema.ListAttribute{
+				ElementType: types.StringType,
+				Computed:    true, MarkdownDescription: "Required assurance URIs (REFEDS). User must have all of these."},
 			"user_email_patterns": schema.ListAttribute{
 				ElementType: types.StringType,
 				Computed:    true, MarkdownDescription: "User Email Patterns"},
 			"user_identity_sources": schema.ListAttribute{
 				ElementType: types.StringType,
 				Computed:    true, MarkdownDescription: "User Identity Sources"},
+			"user_nationalities": schema.ListAttribute{
+				ElementType: types.StringType,
+				Computed:    true, MarkdownDescription: "Allowed nationality codes (ISO 3166-1 alpha-2). User must have one."},
+			"user_organization_types": schema.ListAttribute{
+				ElementType: types.StringType,
+				Computed:    true, MarkdownDescription: "Allowed organization type URNs (SCHAC). User must match one."},
 			"users_count": schema.Int64Attribute{
 				Computed: true, MarkdownDescription: "Number of users with access to this organization"},
 			"vat_code": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "VAT number"},
+			"vat_code_verified": schema.BoolAttribute{
+				Computed: true, MarkdownDescription: "Whether the EU VIES service confirmed the current VAT number."},
+			"vat_percent": schema.StringAttribute{
+				Computed: true, MarkdownDescription: "VAT percent calculated from EU VAT rules, when VAT taxation is on.",
+				Validators: []validator.String{
+					stringvalidator.RegexMatches(regexp.MustCompile(`^-?\d{0,2}(?:\.\d{0,2})?$`), ""),
+				}},
+			"vat_rule": schema.StringAttribute{
+				Computed: true, MarkdownDescription: "Which EU VAT rule picked vat_percent, or why it cannot be calculated."},
 			"state": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "State"},
 		},

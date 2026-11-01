@@ -55,6 +55,7 @@ resource "waldur_marketplace_order" "example" {
 - `provider_message_attachment` (String) Provider Message Attachment
 - `provider_message_url` (String) Provider Message Url
 - `request_comment` (String) Request Comment
+- `spending_limits` (Map of String) Spending limits of the new resource on its usage-based components, per period: {component_type: {period: amount}}. Only the periods each component offers are accepted, up to their maximum.
 - `start_date` (String) Enables delayed processing of resource provisioning order.
 - `timeouts` (Block, Optional) (see [below for nested schema](#nestedblock--timeouts))
 - `type` (String) Type

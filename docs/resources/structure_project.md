@@ -49,8 +49,11 @@ resource "waldur_structure_project" "example" {
 - `timeouts` (Block, Optional) (see [below for nested schema](#nestedblock--timeouts))
 - `type` (String) Type
 - `user_affiliations` (List of String) User Affiliations
+- `user_assurance_levels` (List of String) Required assurance URIs (REFEDS). User must have all of these.
 - `user_email_patterns` (List of String) User Email Patterns
 - `user_identity_sources` (List of String) User Identity Sources
+- `user_nationalities` (List of String) Allowed nationality codes (ISO 3166-1 alpha-2). User must have one.
+- `user_organization_types` (List of String) Allowed organization type URNs (SCHAC). User must match one.
 
 ### Read-Only
 
@@ -131,6 +134,11 @@ Read-Only:
 
 Optional:
 
+- `likert_high_label` (String) Likert High Label
+- `likert_low_label` (String) Likert Low Label
+- `likert_scale_length` (Number) Likert Scale Length
+- `max_value` (String) Max Value
+- `min_value` (String) Min Value
 - `question` (String) Question description.
 - `question_type` (String) Question Type
 - `question_uuid` (String) Question Uuid

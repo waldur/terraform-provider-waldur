@@ -68,7 +68,6 @@ resource "waldur_openstack_port" "example" {
 
 ### Optional
 
-- `allowed_address_pairs` (Attributes List) Allowed Address Pairs (see [below for nested schema](#nestedatt--allowed_address_pairs))
 - `description` (String) Description
 - `fixed_ips` (Attributes List) Fixed Ips (see [below for nested schema](#nestedatt--fixed_ips))
 - `mac_address` (String) MAC address of the port
@@ -81,6 +80,7 @@ resource "waldur_openstack_port" "example" {
 ### Read-Only
 
 - `admin_state_up` (Boolean) Administrative state of the port. If down, port does not forward packets
+- `allowed_address_pairs` (Attributes List) Allowed Address Pairs (see [below for nested schema](#nestedatt--allowed_address_pairs))
 - `backend_id` (String) Port ID in OpenStack
 - `customer` (String) Customer
 - `device_id` (String) ID of device (instance, router etc) to which this port is connected
@@ -100,15 +100,6 @@ resource "waldur_openstack_port" "example" {
 - `tenant_name` (String) Tenant Name
 - `tenant_uuid` (String) Tenant Uuid
 - `url` (String) Url
-
-<a id="nestedatt--allowed_address_pairs"></a>
-### Nested Schema for `allowed_address_pairs`
-
-Optional:
-
-- `ip_address` (String) Ip Address
-- `mac_address` (String) Mac Address
-
 
 <a id="nestedatt--fixed_ips"></a>
 ### Nested Schema for `fixed_ips`
@@ -140,3 +131,12 @@ Optional:
 - `create` (String) A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
 - `delete` (String) A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs.
 - `update` (String) A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
+
+
+<a id="nestedatt--allowed_address_pairs"></a>
+### Nested Schema for `allowed_address_pairs`
+
+Optional:
+
+- `ip_address` (String) Ip Address
+- `mac_address` (String) Mac Address

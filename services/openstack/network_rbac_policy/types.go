@@ -8,14 +8,6 @@ type OpenstackNetworkRbacPolicyCreateRequest struct {
 	TargetTenant *string `json:"target_tenant" tfsdk:"target_tenant"`
 }
 
-type OpenstackNetworkRbacPolicyUpdateRequest struct {
-	Network *string `json:"network,omitempty" tfsdk:"network"`
-
-	PolicyType *string `json:"policy_type,omitempty" tfsdk:"policy_type"`
-
-	TargetTenant *string `json:"target_tenant,omitempty" tfsdk:"target_tenant"`
-}
-
 type OpenstackNetworkRbacPolicyResponse struct {
 	UUID *string `json:"uuid"`
 

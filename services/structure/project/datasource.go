@@ -152,6 +152,22 @@ func (d *StructureProjectDataSource) Schema(ctx context.Context, req datasource.
 			"project_metadata": schema.ListNestedAttribute{
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
+						"likert_high_label": schema.StringAttribute{
+							Computed: true, MarkdownDescription: "Likert High Label"},
+						"likert_low_label": schema.StringAttribute{
+							Computed: true, MarkdownDescription: "Likert Low Label"},
+						"likert_scale_length": schema.Int64Attribute{
+							Computed: true, MarkdownDescription: "Likert Scale Length"},
+						"max_value": schema.StringAttribute{
+							Computed: true, MarkdownDescription: "Max Value",
+							Validators: []validator.String{
+								stringvalidator.RegexMatches(regexp.MustCompile(`^-?\d{0,16}(?:\.\d{0,4})?$`), ""),
+							}},
+						"min_value": schema.StringAttribute{
+							Computed: true, MarkdownDescription: "Min Value",
+							Validators: []validator.String{
+								stringvalidator.RegexMatches(regexp.MustCompile(`^-?\d{0,16}(?:\.\d{0,4})?$`), ""),
+							}},
 						"question": schema.StringAttribute{
 							Computed: true, MarkdownDescription: "Question description."},
 						"question_type": schema.StringAttribute{
@@ -199,12 +215,21 @@ func (d *StructureProjectDataSource) Schema(ctx context.Context, req datasource.
 			"user_affiliations": schema.ListAttribute{
 				ElementType: types.StringType,
 				Computed:    true, MarkdownDescription: "User Affiliations"},
+			"user_assurance_levels": schema.ListAttribute{
+				ElementType: types.StringType,
+				Computed:    true, MarkdownDescription: "Required assurance URIs (REFEDS). User must have all of these."},
 			"user_email_patterns": schema.ListAttribute{
 				ElementType: types.StringType,
 				Computed:    true, MarkdownDescription: "User Email Patterns"},
 			"user_identity_sources": schema.ListAttribute{
 				ElementType: types.StringType,
 				Computed:    true, MarkdownDescription: "User Identity Sources"},
+			"user_nationalities": schema.ListAttribute{
+				ElementType: types.StringType,
+				Computed:    true, MarkdownDescription: "Allowed nationality codes (ISO 3166-1 alpha-2). User must have one."},
+			"user_organization_types": schema.ListAttribute{
+				ElementType: types.StringType,
+				Computed:    true, MarkdownDescription: "Allowed organization type URNs (SCHAC). User must match one."},
 		},
 	}
 }

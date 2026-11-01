@@ -11,7 +11,7 @@ import (
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
-func OpenStackAllowedAddressPairRequestType() types.ObjectType {
+func OpenStackAllowedAddressPairType() types.ObjectType {
 	return types.ObjectType{AttrTypes: map[string]attr.Type{
 		"ip_address":  types.StringType,
 		"mac_address": types.StringType,
@@ -163,11 +163,11 @@ func (model *OpenstackPortModel) CopyFrom(ctx context.Context, apiResp Openstack
 	model.AdminStateUp = types.BoolPointerValue(apiResp.AdminStateUp)
 
 	if apiResp.AllowedAddressPairs != nil {
-		valAllowedAddressPairs, diagsAllowedAddressPairs := types.ListValueFrom(ctx, OpenStackAllowedAddressPairRequestType(), apiResp.AllowedAddressPairs)
+		valAllowedAddressPairs, diagsAllowedAddressPairs := types.ListValueFrom(ctx, OpenStackAllowedAddressPairType(), apiResp.AllowedAddressPairs)
 		diags.Append(diagsAllowedAddressPairs...)
 		model.AllowedAddressPairs = valAllowedAddressPairs
 	} else {
-		model.AllowedAddressPairs = types.ListNull(OpenStackAllowedAddressPairRequestType())
+		model.AllowedAddressPairs = types.ListNull(OpenStackAllowedAddressPairType())
 	}
 
 	model.BackendId = common.StringPointerValue(apiResp.BackendId)

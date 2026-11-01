@@ -55,6 +55,8 @@ Structure Customer data source - lookup by name or UUID
 - `house_nr` (String) House Nr
 - `household` (String) Household
 - `image` (String) Image
+- `invoice_emails` (String) Comma-separated list of email addresses that receive invoice notifications instead of the organization owners
+- `is_private_person` (Boolean) Organization represents a private person rather than a legal entity. Used for EU VAT calculation.
 - `is_service_provider` (Boolean) Is Service Provider
 - `is_service_provider_manager_only` (Boolean) True when the requesting user's only link to this organization is a role on its service provider. Such a row carries only identity fields.
 - `latitude` (Number) Latitude
@@ -80,10 +82,16 @@ Structure Customer data source - lookup by name or UUID
 - `street` (String) Street
 - `url` (String) Url
 - `user_affiliations` (List of String) User Affiliations
+- `user_assurance_levels` (List of String) Required assurance URIs (REFEDS). User must have all of these.
 - `user_email_patterns` (List of String) User Email Patterns
 - `user_identity_sources` (List of String) User Identity Sources
+- `user_nationalities` (List of String) Allowed nationality codes (ISO 3166-1 alpha-2). User must have one.
+- `user_organization_types` (List of String) Allowed organization type URNs (SCHAC). User must match one.
 - `users_count` (Number) Number of users with access to this organization
 - `vat_code` (String) VAT number
+- `vat_code_verified` (Boolean) Whether the EU VIES service confirmed the current VAT number.
+- `vat_percent` (String) VAT percent calculated from EU VAT rules, when VAT taxation is on.
+- `vat_rule` (String) Which EU VAT rule picked vat_percent, or why it cannot be calculated.
 
 <a id="nestedatt--filters"></a>
 ### Nested Schema for `filters`

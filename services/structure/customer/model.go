@@ -214,6 +214,8 @@ type StructureCustomerModel struct {
 	HouseNr                      types.String      `tfsdk:"house_nr"`
 	Household                    types.String      `tfsdk:"household"`
 	Image                        types.String      `tfsdk:"image"`
+	InvoiceEmails                types.String      `tfsdk:"invoice_emails"`
+	IsPrivatePerson              types.Bool        `tfsdk:"is_private_person"`
 	IsServiceProvider            types.Bool        `tfsdk:"is_service_provider"`
 	IsServiceProviderManagerOnly types.Bool        `tfsdk:"is_service_provider_manager_only"`
 	Latitude                     types.Float64     `tfsdk:"latitude"`
@@ -238,10 +240,16 @@ type StructureCustomerModel struct {
 	Street                       types.String      `tfsdk:"street"`
 	Url                          types.String      `tfsdk:"url"`
 	UserAffiliations             types.List        `tfsdk:"user_affiliations"`
+	UserAssuranceLevels          types.List        `tfsdk:"user_assurance_levels"`
 	UserEmailPatterns            types.List        `tfsdk:"user_email_patterns"`
 	UserIdentitySources          types.List        `tfsdk:"user_identity_sources"`
+	UserNationalities            types.List        `tfsdk:"user_nationalities"`
+	UserOrganizationTypes        types.List        `tfsdk:"user_organization_types"`
 	UsersCount                   types.Int64       `tfsdk:"users_count"`
 	VatCode                      types.String      `tfsdk:"vat_code"`
+	VatCodeVerified              types.Bool        `tfsdk:"vat_code_verified"`
+	VatPercent                   types.String      `tfsdk:"vat_percent"`
+	VatRule                      types.String      `tfsdk:"vat_rule"`
 	State                        types.String      `tfsdk:"state"`
 }
 
@@ -331,6 +339,10 @@ func (model *StructureCustomerModel) CopyFrom(ctx context.Context, apiResp Struc
 
 	model.Image = common.StringPointerValue(apiResp.Image)
 
+	model.InvoiceEmails = common.StringPointerValue(apiResp.InvoiceEmails)
+
+	model.IsPrivatePerson = types.BoolPointerValue(apiResp.IsPrivatePerson)
+
 	model.IsServiceProvider = types.BoolPointerValue(apiResp.IsServiceProvider)
 
 	model.IsServiceProviderManagerOnly = types.BoolPointerValue(apiResp.IsServiceProviderManagerOnly)
@@ -397,6 +409,14 @@ func (model *StructureCustomerModel) CopyFrom(ctx context.Context, apiResp Struc
 		model.UserAffiliations = types.ListNull(types.StringType)
 	}
 
+	if apiResp.UserAssuranceLevels != nil {
+		valUserAssuranceLevels, diagsUserAssuranceLevels := types.ListValueFrom(ctx, types.StringType, apiResp.UserAssuranceLevels)
+		diags.Append(diagsUserAssuranceLevels...)
+		model.UserAssuranceLevels = valUserAssuranceLevels
+	} else {
+		model.UserAssuranceLevels = types.ListNull(types.StringType)
+	}
+
 	if apiResp.UserEmailPatterns != nil {
 		valUserEmailPatterns, diagsUserEmailPatterns := types.ListValueFrom(ctx, types.StringType, apiResp.UserEmailPatterns)
 		diags.Append(diagsUserEmailPatterns...)
@@ -413,9 +433,31 @@ func (model *StructureCustomerModel) CopyFrom(ctx context.Context, apiResp Struc
 		model.UserIdentitySources = types.ListNull(types.StringType)
 	}
 
+	if apiResp.UserNationalities != nil {
+		valUserNationalities, diagsUserNationalities := types.ListValueFrom(ctx, types.StringType, apiResp.UserNationalities)
+		diags.Append(diagsUserNationalities...)
+		model.UserNationalities = valUserNationalities
+	} else {
+		model.UserNationalities = types.ListNull(types.StringType)
+	}
+
+	if apiResp.UserOrganizationTypes != nil {
+		valUserOrganizationTypes, diagsUserOrganizationTypes := types.ListValueFrom(ctx, types.StringType, apiResp.UserOrganizationTypes)
+		diags.Append(diagsUserOrganizationTypes...)
+		model.UserOrganizationTypes = valUserOrganizationTypes
+	} else {
+		model.UserOrganizationTypes = types.ListNull(types.StringType)
+	}
+
 	model.UsersCount = types.Int64PointerValue(apiResp.UsersCount)
 
 	model.VatCode = common.StringPointerValue(apiResp.VatCode)
+
+	model.VatCodeVerified = types.BoolPointerValue(apiResp.VatCodeVerified)
+
+	model.VatPercent = common.StringPointerValue(apiResp.VatPercent)
+
+	model.VatRule = common.StringPointerValue(apiResp.VatRule)
 
 	model.State = common.StringPointerValue(apiResp.State)
 

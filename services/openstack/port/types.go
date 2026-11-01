@@ -7,8 +7,6 @@ import (
 )
 
 type OpenstackPortCreateRequest struct {
-	AllowedAddressPairs *[]common.OpenStackAllowedAddressPairRequest `json:"allowed_address_pairs,omitempty" tfsdk:"allowed_address_pairs"`
-
 	Description *string `json:"description,omitempty" tfsdk:"description"`
 
 	FixedIps *[]common.OpenStackFixedIpRequest `json:"fixed_ips,omitempty" tfsdk:"fixed_ips"`
@@ -51,7 +49,7 @@ type OpenstackPortResponse struct {
 
 	AdminStateUp *bool `json:"admin_state_up,omitempty" tfsdk:"admin_state_up"`
 
-	AllowedAddressPairs *[]common.OpenStackAllowedAddressPairRequest `json:"allowed_address_pairs,omitempty" tfsdk:"allowed_address_pairs"`
+	AllowedAddressPairs *[]common.OpenStackAllowedAddressPair `json:"allowed_address_pairs,omitempty" tfsdk:"allowed_address_pairs"`
 
 	BackendId *string `json:"backend_id,omitempty" tfsdk:"backend_id"`
 

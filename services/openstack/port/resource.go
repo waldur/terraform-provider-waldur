@@ -80,11 +80,9 @@ func (r *OpenstackPortResource) Schema(ctx context.Context, req resource.SchemaR
 							}, MarkdownDescription: "Mac Address"},
 					},
 				},
-				Optional: true,
 				Computed: true,
 				PlanModifiers: []planmodifier.List{
 
-					listplanmodifier.RequiresReplace(),
 					listplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "Allowed Address Pairs",
 			},
@@ -329,7 +327,6 @@ func (r *OpenstackPortResource) Create(ctx context.Context, req resource.CreateR
 
 		requestBody.TargetTenant = data.TargetTenant.ValueStringPointer()
 	}
-	resp.Diagnostics.Append(common.PopulateOptionalSliceField(ctx, data.AllowedAddressPairs, &requestBody.AllowedAddressPairs)...)
 	resp.Diagnostics.Append(common.PopulateOptionalSliceField(ctx, data.FixedIps, &requestBody.FixedIps)...)
 	resp.Diagnostics.Append(common.PopulateOptionalSetField(ctx, data.SecurityGroups, &requestBody.SecurityGroups)...)
 

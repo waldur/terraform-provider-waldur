@@ -37,9 +37,14 @@ func BillingPriceEstimateType() types.ObjectType {
 }
 func ProjectMetadataAnswerType() types.ObjectType {
 	return types.ObjectType{AttrTypes: map[string]attr.Type{
-		"question":      types.StringType,
-		"question_type": types.StringType,
-		"question_uuid": types.StringType,
+		"likert_high_label":   types.StringType,
+		"likert_low_label":    types.StringType,
+		"likert_scale_length": types.Int64Type,
+		"max_value":           types.StringType,
+		"min_value":           types.StringType,
+		"question":            types.StringType,
+		"question_type":       types.StringType,
+		"question_uuid":       types.StringType,
 	}}
 }
 
@@ -67,6 +72,7 @@ type StructureProjectFiltersModel struct {
 	ScienceDomainUuid       types.String `tfsdk:"science_domain_uuid"`
 	ScienceSubDomainUuid    types.String `tfsdk:"science_sub_domain_uuid"`
 	Slug                    types.String `tfsdk:"slug"`
+	UserRole                types.String `tfsdk:"user_role"`
 	UserUuid                types.String `tfsdk:"user_uuid"`
 	UserUuidWithActiveRole  types.String `tfsdk:"user_uuid_with_active_role"`
 }
@@ -168,6 +174,10 @@ func (m *StructureProjectFiltersModel) GetSchema() schema.SingleNestedAttribute 
 				Optional:            true,
 				MarkdownDescription: "Slug",
 			},
+			"user_role": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Role name or UUID; narrows user_uuid_with_active_role to that role.",
+			},
 			"user_uuid": schema.StringAttribute{
 				Optional:            true,
 				MarkdownDescription: "Filter by user UUID.",
@@ -227,8 +237,11 @@ type StructureProjectModel struct {
 	TypeUuid                             types.String      `tfsdk:"type_uuid"`
 	Url                                  types.String      `tfsdk:"url"`
 	UserAffiliations                     types.List        `tfsdk:"user_affiliations"`
+	UserAssuranceLevels                  types.List        `tfsdk:"user_assurance_levels"`
 	UserEmailPatterns                    types.List        `tfsdk:"user_email_patterns"`
 	UserIdentitySources                  types.List        `tfsdk:"user_identity_sources"`
+	UserNationalities                    types.List        `tfsdk:"user_nationalities"`
+	UserOrganizationTypes                types.List        `tfsdk:"user_organization_types"`
 }
 
 // CopyFrom maps the API response to the model fields.
@@ -365,6 +378,14 @@ func (model *StructureProjectModel) CopyFrom(ctx context.Context, apiResp Struct
 		model.UserAffiliations = types.ListNull(types.StringType)
 	}
 
+	if apiResp.UserAssuranceLevels != nil {
+		valUserAssuranceLevels, diagsUserAssuranceLevels := types.ListValueFrom(ctx, types.StringType, apiResp.UserAssuranceLevels)
+		diags.Append(diagsUserAssuranceLevels...)
+		model.UserAssuranceLevels = valUserAssuranceLevels
+	} else {
+		model.UserAssuranceLevels = types.ListNull(types.StringType)
+	}
+
 	if apiResp.UserEmailPatterns != nil {
 		valUserEmailPatterns, diagsUserEmailPatterns := types.ListValueFrom(ctx, types.StringType, apiResp.UserEmailPatterns)
 		diags.Append(diagsUserEmailPatterns...)
@@ -379,6 +400,22 @@ func (model *StructureProjectModel) CopyFrom(ctx context.Context, apiResp Struct
 		model.UserIdentitySources = valUserIdentitySources
 	} else {
 		model.UserIdentitySources = types.ListNull(types.StringType)
+	}
+
+	if apiResp.UserNationalities != nil {
+		valUserNationalities, diagsUserNationalities := types.ListValueFrom(ctx, types.StringType, apiResp.UserNationalities)
+		diags.Append(diagsUserNationalities...)
+		model.UserNationalities = valUserNationalities
+	} else {
+		model.UserNationalities = types.ListNull(types.StringType)
+	}
+
+	if apiResp.UserOrganizationTypes != nil {
+		valUserOrganizationTypes, diagsUserOrganizationTypes := types.ListValueFrom(ctx, types.StringType, apiResp.UserOrganizationTypes)
+		diags.Append(diagsUserOrganizationTypes...)
+		model.UserOrganizationTypes = valUserOrganizationTypes
+	} else {
+		model.UserOrganizationTypes = types.ListNull(types.StringType)
 	}
 
 	return diags

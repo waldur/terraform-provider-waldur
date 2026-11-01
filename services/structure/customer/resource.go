@@ -397,6 +397,20 @@ func (r *StructureCustomerResource) Schema(ctx context.Context, req resource.Sch
 
 					stringplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "Image"},
+			"invoice_emails": schema.StringAttribute{
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+
+					stringplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Comma-separated list of email addresses that receive invoice notifications instead of the organization owners"},
+			"is_private_person": schema.BoolAttribute{
+				Optional: true,
+				Computed: true,
+				PlanModifiers: []planmodifier.Bool{
+
+					boolplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Organization represents a private person rather than a legal entity. Used for EU VAT calculation."},
 			"is_service_provider": schema.BoolAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.Bool{
@@ -704,6 +718,14 @@ func (r *StructureCustomerResource) Schema(ctx context.Context, req resource.Sch
 
 					listplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "User Affiliations"},
+			"user_assurance_levels": schema.ListAttribute{
+				ElementType: types.StringType,
+				Optional:    true,
+				Computed:    true,
+				PlanModifiers: []planmodifier.List{
+
+					listplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Required assurance URIs (REFEDS). User must have all of these."},
 			"user_email_patterns": schema.ListAttribute{
 				ElementType: types.StringType,
 				Optional:    true,
@@ -720,6 +742,22 @@ func (r *StructureCustomerResource) Schema(ctx context.Context, req resource.Sch
 
 					listplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "User Identity Sources"},
+			"user_nationalities": schema.ListAttribute{
+				ElementType: types.StringType,
+				Optional:    true,
+				Computed:    true,
+				PlanModifiers: []planmodifier.List{
+
+					listplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Allowed nationality codes (ISO 3166-1 alpha-2). User must have one."},
+			"user_organization_types": schema.ListAttribute{
+				ElementType: types.StringType,
+				Optional:    true,
+				Computed:    true,
+				PlanModifiers: []planmodifier.List{
+
+					listplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Allowed organization type URNs (SCHAC). User must match one."},
 			"users_count": schema.Int64Attribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.Int64{
@@ -733,6 +771,27 @@ func (r *StructureCustomerResource) Schema(ctx context.Context, req resource.Sch
 
 					stringplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "VAT number"},
+			"vat_code_verified": schema.BoolAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.Bool{
+
+					boolplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Whether the EU VIES service confirmed the current VAT number."},
+			"vat_percent": schema.StringAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+
+					stringplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "VAT percent calculated from EU VAT rules, when VAT taxation is on.",
+				Validators: []validator.String{
+					stringvalidator.RegexMatches(regexp.MustCompile(`^-?\d{0,2}(?:\.\d{0,2})?$`), ""),
+				}},
+			"vat_rule": schema.StringAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+
+					stringplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Which EU VAT rule picked vat_percent, or why it cannot be calculated."},
 			"state": schema.StringAttribute{
 				Optional: true, MarkdownDescription: "State"},
 		},
@@ -868,6 +927,14 @@ func (r *StructureCustomerResource) Create(ctx context.Context, req resource.Cre
 
 		requestBody.Image = data.Image.ValueStringPointer()
 	}
+	if !data.InvoiceEmails.IsNull() && !data.InvoiceEmails.IsUnknown() {
+
+		requestBody.InvoiceEmails = data.InvoiceEmails.ValueStringPointer()
+	}
+	if !data.IsPrivatePerson.IsNull() && !data.IsPrivatePerson.IsUnknown() {
+
+		requestBody.IsPrivatePerson = data.IsPrivatePerson.ValueBoolPointer()
+	}
 	if !data.Latitude.IsNull() && !data.Latitude.IsUnknown() {
 
 		requestBody.Latitude = data.Latitude.ValueFloat64Pointer()
@@ -931,8 +998,11 @@ func (r *StructureCustomerResource) Create(ctx context.Context, req resource.Cre
 		requestBody.VatCode = data.VatCode.ValueStringPointer()
 	}
 	resp.Diagnostics.Append(common.PopulateOptionalSliceField(ctx, data.UserAffiliations, &requestBody.UserAffiliations)...)
+	resp.Diagnostics.Append(common.PopulateOptionalSliceField(ctx, data.UserAssuranceLevels, &requestBody.UserAssuranceLevels)...)
 	resp.Diagnostics.Append(common.PopulateOptionalSliceField(ctx, data.UserEmailPatterns, &requestBody.UserEmailPatterns)...)
 	resp.Diagnostics.Append(common.PopulateOptionalSliceField(ctx, data.UserIdentitySources, &requestBody.UserIdentitySources)...)
+	resp.Diagnostics.Append(common.PopulateOptionalSliceField(ctx, data.UserNationalities, &requestBody.UserNationalities)...)
+	resp.Diagnostics.Append(common.PopulateOptionalSliceField(ctx, data.UserOrganizationTypes, &requestBody.UserOrganizationTypes)...)
 
 	apiResp, err := r.client.Create(ctx, &requestBody)
 	if err != nil {
@@ -1113,6 +1183,16 @@ func (r *StructureCustomerResource) Update(ctx context.Context, req resource.Upd
 
 		requestBody.Image = data.Image.ValueStringPointer()
 	}
+	if !data.InvoiceEmails.IsNull() && !data.InvoiceEmails.IsUnknown() && !data.InvoiceEmails.Equal(state.InvoiceEmails) {
+		anyChanges = true
+
+		requestBody.InvoiceEmails = data.InvoiceEmails.ValueStringPointer()
+	}
+	if !data.IsPrivatePerson.IsNull() && !data.IsPrivatePerson.IsUnknown() && !data.IsPrivatePerson.Equal(state.IsPrivatePerson) {
+		anyChanges = true
+
+		requestBody.IsPrivatePerson = data.IsPrivatePerson.ValueBoolPointer()
+	}
 	if !data.Latitude.IsNull() && !data.Latitude.IsUnknown() && !data.Latitude.Equal(state.Latitude) {
 		anyChanges = true
 
@@ -1191,10 +1271,19 @@ func (r *StructureCustomerResource) Update(ctx context.Context, req resource.Upd
 	if !data.UserAffiliations.Equal(state.UserAffiliations) {
 		anyChanges = true
 	}
+	if !data.UserAssuranceLevels.Equal(state.UserAssuranceLevels) {
+		anyChanges = true
+	}
 	if !data.UserEmailPatterns.Equal(state.UserEmailPatterns) {
 		anyChanges = true
 	}
 	if !data.UserIdentitySources.Equal(state.UserIdentitySources) {
+		anyChanges = true
+	}
+	if !data.UserNationalities.Equal(state.UserNationalities) {
+		anyChanges = true
+	}
+	if !data.UserOrganizationTypes.Equal(state.UserOrganizationTypes) {
 		anyChanges = true
 	}
 	if !data.VatCode.IsNull() && !data.VatCode.IsUnknown() && !data.VatCode.Equal(state.VatCode) {
@@ -1204,8 +1293,11 @@ func (r *StructureCustomerResource) Update(ctx context.Context, req resource.Upd
 	}
 
 	resp.Diagnostics.Append(common.PopulateOptionalSliceField(ctx, data.UserAffiliations, &requestBody.UserAffiliations)...)
+	resp.Diagnostics.Append(common.PopulateOptionalSliceField(ctx, data.UserAssuranceLevels, &requestBody.UserAssuranceLevels)...)
 	resp.Diagnostics.Append(common.PopulateOptionalSliceField(ctx, data.UserEmailPatterns, &requestBody.UserEmailPatterns)...)
 	resp.Diagnostics.Append(common.PopulateOptionalSliceField(ctx, data.UserIdentitySources, &requestBody.UserIdentitySources)...)
+	resp.Diagnostics.Append(common.PopulateOptionalSliceField(ctx, data.UserNationalities, &requestBody.UserNationalities)...)
+	resp.Diagnostics.Append(common.PopulateOptionalSliceField(ctx, data.UserOrganizationTypes, &requestBody.UserOrganizationTypes)...)
 
 	if anyChanges {
 		var err error

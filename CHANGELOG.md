@@ -4,6 +4,49 @@
 
 ### ⚠️ Breaking changes
 
+- `marketplace_offering`: removed attribute `google_calendar_is_public`
+- `marketplace_offering`: removed attribute `google_calendar_link`
+- `openstack_port`: attribute `allowed_address_pairs` is now computed (read-only)
+
+### Added
+
+- `marketplace_offering`: new attribute `components.spending_limit_periods`
+- `marketplace_offering`: new attribute `plugin_options.api_key_daily_usage`
+- `marketplace_offering`: new attribute `plugin_options.api_key_limits`
+- `marketplace_offering`: new attribute `plugin_options.display_prepaid_limits_as_total`
+- `marketplace_offering`: new attribute `plugin_options.instance_metrics_enabled`
+- `marketplace_offering`: new attribute `plugin_options.instance_metrics_poll_interval_minutes`
+- `marketplace_offering`: new attribute `plugin_options.instance_metrics`
+- `marketplace_offering`: new attribute `qos_profiles.max_tres_mins_per_job`
+- `marketplace_order`: new attribute `spending_limits`
+- `marketplace_resource`: new attribute `display_limits`
+- `marketplace_resource`: new attribute `offering_components.spending_limit_periods`
+- `marketplace_resource`: new attribute `prepaid_total_component_types`
+- `marketplace_resource`: new attribute `spending_limit_status`
+- `marketplace_resource`: new attribute `spending_limits`
+- `marketplace_resource`: new attribute `terminated_at`
+- `marketplace_resource`: new attribute `usage_limit_resumes_at`
+- `structure_customer`: new attribute `invoice_emails`
+- `structure_customer`: new attribute `is_private_person`
+- `structure_customer`: new attribute `user_assurance_levels`
+- `structure_customer`: new attribute `user_nationalities`
+- `structure_customer`: new attribute `user_organization_types`
+- `structure_customer`: new attribute `vat_code_verified`
+- `structure_customer`: new attribute `vat_percent`
+- `structure_customer`: new attribute `vat_rule`
+- `structure_project`: new attribute `project_metadata.likert_high_label`
+- `structure_project`: new attribute `project_metadata.likert_low_label`
+- `structure_project`: new attribute `project_metadata.likert_scale_length`
+- `structure_project`: new attribute `project_metadata.max_value`
+- `structure_project`: new attribute `project_metadata.min_value`
+- `structure_project`: new attribute `user_assurance_levels`
+- `structure_project`: new attribute `user_nationalities`
+- `structure_project`: new attribute `user_organization_types`
+
+## 2026-11-01
+
+### ⚠️ Breaking changes
+
 - `marketplace_offering`: removed attribute `components.spending_limit_periods`
 - `marketplace_offering`: removed attribute `plugin_options.api_key_daily_usage`
 - `marketplace_offering`: removed attribute `plugin_options.api_key_limits`

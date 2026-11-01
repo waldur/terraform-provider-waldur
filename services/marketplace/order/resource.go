@@ -42,6 +42,7 @@ type MarketplaceOrderResourceModel struct {
 	MarketplaceOrderModel
 	AcceptingTermsOfService types.Bool     `tfsdk:"accepting_terms_of_service"`
 	Project                 types.String   `tfsdk:"project"`
+	SpendingLimits          types.Map      `tfsdk:"spending_limits"`
 	Timeouts                timeouts.Value `tfsdk:"timeouts"`
 }
 
@@ -630,6 +631,13 @@ func (r *MarketplaceOrderResource) Schema(ctx context.Context, req resource.Sche
 				Validators: []validator.String{
 					stringvalidator.RegexMatches(regexp.MustCompile(`^[-a-zA-Z0-9_]+$`), ""),
 				}},
+			"spending_limits": schema.MapAttribute{
+				ElementType: types.StringType,
+				Optional:    true,
+				PlanModifiers: []planmodifier.Map{
+
+					mapplanmodifier.RequiresReplace(),
+				}, MarkdownDescription: "Spending limits of the new resource on its usage-based components, per period: {component_type: {period: amount}}. Only the periods each component offers are accepted, up to their maximum."},
 			"start_date": schema.StringAttribute{
 				Optional: true,
 				Computed: true,
@@ -730,6 +738,7 @@ func (r *MarketplaceOrderResource) Create(ctx context.Context, req resource.Crea
 	}
 	resp.Diagnostics.Append(common.PopulateOptionalMapField(ctx, data.Attributes, &requestBody.Attributes)...)
 	resp.Diagnostics.Append(common.PopulateOptionalMapField(ctx, data.Limits, &requestBody.Limits)...)
+	resp.Diagnostics.Append(common.PopulateOptionalMapField(ctx, data.SpendingLimits, &requestBody.SpendingLimits)...)
 
 	apiResp, err := r.client.Create(ctx, &requestBody)
 	if err != nil {

@@ -54,14 +54,6 @@ func (c *OpenstackNetworkRbacPolicyClient) Get(ctx context.Context, id string) (
 	return &apiResp, nil
 }
 
-func (c *OpenstackNetworkRbacPolicyClient) Update(ctx context.Context, id string, req *OpenstackNetworkRbacPolicyUpdateRequest) (*OpenstackNetworkRbacPolicyResponse, error) {
-	var apiResp OpenstackNetworkRbacPolicyResponse
-	err := c.Client.Update(ctx, "/api/openstack-network-rbac-policies/{uuid}/", id, req, &apiResp)
-	if err != nil {
-		return nil, err
-	}
-	return &apiResp, nil
-}
 func (c *OpenstackNetworkRbacPolicyClient) Delete(ctx context.Context, id string) error {
 	return c.Client.Delete(ctx, "/api/openstack-network-rbac-policies/{uuid}/", id)
 }

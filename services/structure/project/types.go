@@ -39,17 +39,21 @@ type StructureProjectCreateRequest struct {
 
 	UserAffiliations *[]string `json:"user_affiliations,omitempty" tfsdk:"user_affiliations"`
 
+	UserAssuranceLevels *[]string `json:"user_assurance_levels,omitempty" tfsdk:"user_assurance_levels"`
+
 	UserEmailPatterns *[]string `json:"user_email_patterns,omitempty" tfsdk:"user_email_patterns"`
 
 	UserIdentitySources *[]string `json:"user_identity_sources,omitempty" tfsdk:"user_identity_sources"`
+
+	UserNationalities *[]string `json:"user_nationalities,omitempty" tfsdk:"user_nationalities"`
+
+	UserOrganizationTypes *[]string `json:"user_organization_types,omitempty" tfsdk:"user_organization_types"`
 }
 
 type StructureProjectUpdateRequest struct {
 	AffiliationUuid *string `json:"affiliation_uuid,omitempty" tfsdk:"affiliation_uuid"`
 
 	BackendId *string `json:"backend_id,omitempty" tfsdk:"backend_id"`
-
-	Customer *string `json:"customer,omitempty" tfsdk:"customer"`
 
 	Description *string `json:"description,omitempty" tfsdk:"description"`
 
@@ -79,9 +83,15 @@ type StructureProjectUpdateRequest struct {
 
 	UserAffiliations *[]string `json:"user_affiliations,omitempty" tfsdk:"user_affiliations"`
 
+	UserAssuranceLevels *[]string `json:"user_assurance_levels,omitempty" tfsdk:"user_assurance_levels"`
+
 	UserEmailPatterns *[]string `json:"user_email_patterns,omitempty" tfsdk:"user_email_patterns"`
 
 	UserIdentitySources *[]string `json:"user_identity_sources,omitempty" tfsdk:"user_identity_sources"`
+
+	UserNationalities *[]string `json:"user_nationalities,omitempty" tfsdk:"user_nationalities"`
+
+	UserOrganizationTypes *[]string `json:"user_organization_types,omitempty" tfsdk:"user_organization_types"`
 }
 
 type StructureProjectResponse struct {
@@ -177,9 +187,15 @@ type StructureProjectResponse struct {
 
 	UserAffiliations *[]string `json:"user_affiliations,omitempty" tfsdk:"user_affiliations"`
 
+	UserAssuranceLevels *[]string `json:"user_assurance_levels,omitempty" tfsdk:"user_assurance_levels"`
+
 	UserEmailPatterns *[]string `json:"user_email_patterns,omitempty" tfsdk:"user_email_patterns"`
 
 	UserIdentitySources *[]string `json:"user_identity_sources,omitempty" tfsdk:"user_identity_sources"`
+
+	UserNationalities *[]string `json:"user_nationalities,omitempty" tfsdk:"user_nationalities"`
+
+	UserOrganizationTypes *[]string `json:"user_organization_types,omitempty" tfsdk:"user_organization_types"`
 }
 
 type StructureProjectAffiliationResponse struct {
@@ -220,6 +236,16 @@ type StructureProjectMarketplaceResourceCountResponse struct {
 }
 
 type StructureProjectProjectMetadataResponse struct {
+	LikertHighLabel *string `json:"likert_high_label,omitempty" tfsdk:"likert_high_label"`
+
+	LikertLowLabel *string `json:"likert_low_label,omitempty" tfsdk:"likert_low_label"`
+
+	LikertScaleLength *int64 `json:"likert_scale_length,omitempty" tfsdk:"likert_scale_length"`
+
+	MaxValue *string `json:"max_value,omitempty" tfsdk:"max_value"`
+
+	MinValue *string `json:"min_value,omitempty" tfsdk:"min_value"`
+
 	Question *string `json:"question,omitempty" tfsdk:"question"`
 
 	QuestionType *string `json:"question_type,omitempty" tfsdk:"question_type"`

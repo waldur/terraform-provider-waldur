@@ -64,7 +64,11 @@ func (r *OpenstackNetworkRbacPolicyResource) Schema(ctx context.Context, req res
 					stringplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "Direction"},
 			"network": schema.StringAttribute{
-				Required: true, MarkdownDescription: "Network"},
+				Required: true,
+				PlanModifiers: []planmodifier.String{
+
+					stringplanmodifier.RequiresReplace(),
+				}, MarkdownDescription: "Network"},
 			"network_name": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
@@ -76,6 +80,7 @@ func (r *OpenstackNetworkRbacPolicyResource) Schema(ctx context.Context, req res
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 
+					stringplanmodifier.RequiresReplace(),
 					stringplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "Type of access granted - either shared access or external network access"},
 			"source_tenant_name": schema.StringAttribute{
@@ -97,7 +102,11 @@ func (r *OpenstackNetworkRbacPolicyResource) Schema(ctx context.Context, req res
 					stringplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "Target Label"},
 			"target_tenant": schema.StringAttribute{
-				Required: true, MarkdownDescription: "Target Tenant"},
+				Required: true,
+				PlanModifiers: []planmodifier.String{
+
+					stringplanmodifier.RequiresReplace(),
+				}, MarkdownDescription: "Target Tenant"},
 			"target_tenant_name": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
@@ -252,58 +261,7 @@ func (r *OpenstackNetworkRbacPolicyResource) Read(ctx context.Context, req resou
 
 func (r *OpenstackNetworkRbacPolicyResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
 
-	var data OpenstackNetworkRbacPolicyResourceModel
-	var state OpenstackNetworkRbacPolicyResourceModel
-	resp.Diagnostics.Append(req.Plan.Get(ctx, &data)...)
-	resp.Diagnostics.Append(req.State.Get(ctx, &state)...)
-	if resp.Diagnostics.HasError() {
-		return
-	}
-
-	var apiResp *OpenstackNetworkRbacPolicyResponse
-	anyChanges := false
-	requestBody := OpenstackNetworkRbacPolicyUpdateRequest{}
-	if !data.Network.IsNull() && !data.Network.IsUnknown() && !data.Network.Equal(state.Network) {
-		anyChanges = true
-
-		requestBody.Network = data.Network.ValueStringPointer()
-	}
-	if !data.PolicyType.IsNull() && !data.PolicyType.IsUnknown() && !data.PolicyType.Equal(state.PolicyType) {
-		anyChanges = true
-
-		requestBody.PolicyType = data.PolicyType.ValueStringPointer()
-	}
-	if !data.TargetTenant.IsNull() && !data.TargetTenant.IsUnknown() && !data.TargetTenant.Equal(state.TargetTenant) {
-		anyChanges = true
-
-		requestBody.TargetTenant = data.TargetTenant.ValueStringPointer()
-	}
-
-	if anyChanges {
-		var err error
-		apiResp, err = r.client.Update(ctx, data.UUID.ValueString(), &requestBody)
-		if err != nil {
-			resp.Diagnostics.AddError(
-				"Unable to Update Openstack Network Rbac Policy",
-				"An error occurred while updating the Openstack Network Rbac Policy: "+err.Error(),
-			)
-			return
-		}
-	}
-
-	newResp, err := r.client.Get(ctx, data.UUID.ValueString())
-	if err != nil {
-		if IsNotFoundError(err) {
-			resp.State.RemoveResource(ctx)
-			return
-		}
-		resp.Diagnostics.AddError("Failed to Read Resource After Update", err.Error())
-		return
-	}
-	apiResp = newResp
-
-	resp.Diagnostics.Append(data.CopyFrom(ctx, *apiResp)...)
-	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
+	resp.Diagnostics.AddError("Update Not Supported", "This resource cannot be updated via the API.")
 }
 
 func (r *OpenstackNetworkRbacPolicyResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
