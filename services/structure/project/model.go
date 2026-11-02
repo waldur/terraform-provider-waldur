@@ -176,7 +176,7 @@ func (m *StructureProjectFiltersModel) GetSchema() schema.SingleNestedAttribute 
 			},
 			"user_role": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "Role name or UUID; narrows user_uuid_with_active_role to that role.",
+				MarkdownDescription: "Role name or UUID; narrows user_uuid_with_active_role to that role and its organization copies.",
 			},
 			"user_uuid": schema.StringAttribute{
 				Optional:            true,
