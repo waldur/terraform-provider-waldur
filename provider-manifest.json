@@ -1957,6 +1957,20 @@
               "computed": true
             },
             {
+              "name": "firecrest_api_url",
+              "type": "types.String",
+              "required": false,
+              "optional": false,
+              "computed": true
+            },
+            {
+              "name": "firecrest_system_name",
+              "type": "types.String",
+              "required": false,
+              "optional": false,
+              "computed": true
+            },
+            {
               "name": "flavors_regex",
               "type": "types.String",
               "required": false,
@@ -2379,6 +2393,27 @@
             {
               "name": "show_ssh_key_loss_warning",
               "type": "types.Bool",
+              "required": false,
+              "optional": false,
+              "computed": true
+            },
+            {
+              "name": "slurm_maintenance_sync_enabled",
+              "type": "types.Bool",
+              "required": false,
+              "optional": false,
+              "computed": true
+            },
+            {
+              "name": "slurm_monitor_api_url",
+              "type": "types.String",
+              "required": false,
+              "optional": false,
+              "computed": true
+            },
+            {
+              "name": "slurm_monitor_cluster_name",
+              "type": "types.String",
               "required": false,
               "optional": false,
               "computed": true

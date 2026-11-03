@@ -1,5 +1,15 @@
 # Changelog
 
+## 2026-11-03
+
+### Added
+
+- `marketplace_offering`: new attribute `plugin_options.firecrest_api_url`
+- `marketplace_offering`: new attribute `plugin_options.firecrest_system_name`
+- `marketplace_offering`: new attribute `plugin_options.slurm_maintenance_sync_enabled`
+- `marketplace_offering`: new attribute `plugin_options.slurm_monitor_api_url`
+- `marketplace_offering`: new attribute `plugin_options.slurm_monitor_cluster_name`
+
 ## 2026-11-01
 
 ### ⚠️ Breaking changes

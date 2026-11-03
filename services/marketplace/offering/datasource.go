@@ -754,6 +754,10 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 						Computed: true, MarkdownDescription: "When enabled, the site agent enforces the offering's QoS selection by granting the chosen QoS on the SLURM association (QosLevel/DefaultQOS). When disabled (default), QoS is informational only — profiles are shown and the selection is recorded on the resource, but the agent does not touch SLURM QoS. The agent config may override this per deployment."},
 					"expose_inference_playground": schema.BoolAttribute{
 						Computed: true, MarkdownDescription: "Show an in-browser inference playground action for resources of this offering (for offerings whose resources expose an OpenAI-compatible endpoint)."},
+					"firecrest_api_url": schema.StringAttribute{
+						Computed: true, MarkdownDescription: "FirecREST v2 API URL users of this SLURM offering work through (jobs, files, cluster status). Must also be listed in the FIRECREST_ALLOWED_API_URLS setting. Leave empty to disable the HPC workspace."},
+					"firecrest_system_name": schema.StringAttribute{
+						Computed: true, MarkdownDescription: "Name of the cluster in FirecREST's systems list."},
 					"flavors_regex": schema.StringAttribute{
 						Computed: true, MarkdownDescription: "Regular expression to limit flavors list"},
 					"gid_source": schema.StringAttribute{
@@ -905,6 +909,12 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 						Computed: true, MarkdownDescription: "Service provider can create offering user"},
 					"show_ssh_key_loss_warning": schema.BoolAttribute{
 						Computed: true, MarkdownDescription: "Show a warning about unrecoverable loss of the SSH private key on the OpenStack instance order form."},
+					"slurm_maintenance_sync_enabled": schema.BoolAttribute{
+						Computed: true, MarkdownDescription: "When enabled, the site agent turns published maintenance announcements for this offering into Slurm MAINT reservations (full outage: all nodes; partial outage: the named partitions), so the scheduler holds back jobs that would run into them, and imports maintenance reservations made on the cluster as draft announcements."},
+					"slurm_monitor_api_url": schema.StringAttribute{
+						Computed: true, MarkdownDescription: "slurm-monitor API URL (ending in /api/v2) with the cluster's per-job samples (GPU, CPU, memory over time). Must also be listed in the SLURM_MONITOR_ALLOWED_API_URLS setting. Leave empty to hide job performance."},
+					"slurm_monitor_cluster_name": schema.StringAttribute{
+						Computed: true, MarkdownDescription: "Name of the cluster in slurm-monitor (Sonar's cluster name)."},
 					"slurm_periodic_policy_enabled": schema.BoolAttribute{
 						Computed: true, MarkdownDescription: "Enable SLURM periodic usage policy configuration. When enabled, allows configuring QoS-based threshold enforcement, carryover logic, and fairshare decay for site-agent managed SLURM offerings."},
 					"snapshot_size_limit_gb": schema.Int64Attribute{

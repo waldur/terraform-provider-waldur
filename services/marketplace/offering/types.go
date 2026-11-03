@@ -610,6 +610,10 @@ type MarketplaceOfferingPluginOptionsResponse struct {
 
 	ExposeInferencePlayground *bool `json:"expose_inference_playground,omitempty" tfsdk:"expose_inference_playground"`
 
+	FirecrestApiUrl *string `json:"firecrest_api_url,omitempty" tfsdk:"firecrest_api_url"`
+
+	FirecrestSystemName *string `json:"firecrest_system_name,omitempty" tfsdk:"firecrest_system_name"`
+
 	FlavorsRegex *string `json:"flavors_regex,omitempty" tfsdk:"flavors_regex"`
 
 	GidSource *string `json:"gid_source,omitempty" tfsdk:"gid_source"`
@@ -731,6 +735,12 @@ type MarketplaceOfferingPluginOptionsResponse struct {
 	ServiceProviderCanCreateOfferingUser *bool `json:"service_provider_can_create_offering_user,omitempty" tfsdk:"service_provider_can_create_offering_user"`
 
 	ShowSshKeyLossWarning *bool `json:"show_ssh_key_loss_warning,omitempty" tfsdk:"show_ssh_key_loss_warning"`
+
+	SlurmMaintenanceSyncEnabled *bool `json:"slurm_maintenance_sync_enabled,omitempty" tfsdk:"slurm_maintenance_sync_enabled"`
+
+	SlurmMonitorApiUrl *string `json:"slurm_monitor_api_url,omitempty" tfsdk:"slurm_monitor_api_url"`
+
+	SlurmMonitorClusterName *string `json:"slurm_monitor_cluster_name,omitempty" tfsdk:"slurm_monitor_cluster_name"`
 
 	SlurmPeriodicPolicyEnabled *bool `json:"slurm_periodic_policy_enabled,omitempty" tfsdk:"slurm_periodic_policy_enabled"`
 
