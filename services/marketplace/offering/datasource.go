@@ -755,7 +755,7 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 					"expose_inference_playground": schema.BoolAttribute{
 						Computed: true, MarkdownDescription: "Show an in-browser inference playground action for resources of this offering (for offerings whose resources expose an OpenAI-compatible endpoint)."},
 					"firecrest_api_url": schema.StringAttribute{
-						Computed: true, MarkdownDescription: "FirecREST v2 API URL users of this SLURM offering work through (jobs, files, cluster status). Must also be listed in the FIRECREST_ALLOWED_API_URLS setting. Leave empty to disable the HPC workspace."},
+						Computed: true, MarkdownDescription: "FirecREST v2 API URL users of this SLURM offering work through (jobs, files, cluster status). Must also be listed in the FIRECREST_ALLOWED_API_URLS setting. Leave empty to run no jobs through Waldur; with a slurm-monitor URL the workspace is then read-only."},
 					"firecrest_system_name": schema.StringAttribute{
 						Computed: true, MarkdownDescription: "Name of the cluster in FirecREST's systems list."},
 					"flavors_regex": schema.StringAttribute{
@@ -912,7 +912,7 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 					"slurm_maintenance_sync_enabled": schema.BoolAttribute{
 						Computed: true, MarkdownDescription: "When enabled, the site agent turns published maintenance announcements for this offering into Slurm MAINT reservations (full outage: all nodes; partial outage: the named partitions), so the scheduler holds back jobs that would run into them, and imports maintenance reservations made on the cluster as draft announcements."},
 					"slurm_monitor_api_url": schema.StringAttribute{
-						Computed: true, MarkdownDescription: "slurm-monitor API URL (ending in /api/v2) with the cluster's per-job samples (GPU, CPU, memory over time). Must also be listed in the SLURM_MONITOR_ALLOWED_API_URLS setting. Leave empty to hide job performance."},
+						Computed: true, MarkdownDescription: "slurm-monitor API URL (ending in /api/v2) with the cluster's per-job samples (GPU, CPU, memory over time). Must also be listed in the SLURM_MONITOR_ALLOWED_API_URLS setting. Leave empty to hide job performance. Without FirecREST, the allocations get a read-only workspace from it: jobs, their performance, job statistics and software."},
 					"slurm_monitor_cluster_name": schema.StringAttribute{
 						Computed: true, MarkdownDescription: "Name of the cluster in slurm-monitor (Sonar's cluster name)."},
 					"slurm_periodic_policy_enabled": schema.BoolAttribute{
