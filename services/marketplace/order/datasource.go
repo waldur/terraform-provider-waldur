@@ -64,8 +64,6 @@ func (d *MarketplaceOrderDataSource) Schema(ctx context.Context, req datasource.
 				}},
 			"backend_id": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Backend Id"},
-			"callback_url": schema.StringAttribute{
-				Computed: true, MarkdownDescription: "Callback Url"},
 			"can_terminate": schema.BoolAttribute{
 				Computed: true, MarkdownDescription: "Can Terminate"},
 			"category_icon": schema.StringAttribute{

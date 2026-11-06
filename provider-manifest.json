@@ -3183,7 +3183,7 @@
           "type": "types.String",
           "required": false,
           "optional": true,
-          "computed": true
+          "computed": false
         },
         {
           "name": "can_terminate",
@@ -4529,13 +4529,6 @@
             },
             {
               "name": "backend_id",
-              "type": "types.String",
-              "required": false,
-              "optional": true,
-              "computed": true
-            },
-            {
-              "name": "callback_url",
               "type": "types.String",
               "required": false,
               "optional": true,

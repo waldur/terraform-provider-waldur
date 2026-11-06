@@ -82,7 +82,6 @@ func OrderInProgressType() types.ObjectType {
 		"auto_approved_by_rule_uuid":            types.StringType,
 		"auto_approved_cost_limit_snapshot":     types.StringType,
 		"backend_id":                            types.StringType,
-		"callback_url":                          types.StringType,
 		"can_terminate":                         types.BoolType,
 		"category_icon":                         types.StringType,
 		"category_uuid":                         types.StringType,

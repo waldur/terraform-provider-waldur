@@ -862,13 +862,6 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 
 							stringplanmodifier.UseStateForUnknown(),
 						}, MarkdownDescription: "Backend Id"},
-					"callback_url": schema.StringAttribute{
-						Optional: true,
-						Computed: true,
-						PlanModifiers: []planmodifier.String{
-
-							stringplanmodifier.UseStateForUnknown(),
-						}, MarkdownDescription: "Callback Url"},
 					"can_terminate": schema.BoolAttribute{
 						Computed: true,
 						PlanModifiers: []planmodifier.Bool{

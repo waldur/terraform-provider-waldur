@@ -140,7 +140,6 @@ type MarketplaceOrderModel struct {
 	AutoApprovedByRuleUuid            types.String      `tfsdk:"auto_approved_by_rule_uuid"`
 	AutoApprovedCostLimitSnapshot     types.String      `tfsdk:"auto_approved_cost_limit_snapshot"`
 	BackendId                         types.String      `tfsdk:"backend_id"`
-	CallbackUrl                       types.String      `tfsdk:"callback_url"`
 	CanTerminate                      types.Bool        `tfsdk:"can_terminate"`
 	CategoryIcon                      types.String      `tfsdk:"category_icon"`
 	CategoryUuid                      types.String      `tfsdk:"category_uuid"`
@@ -248,8 +247,6 @@ func (model *MarketplaceOrderModel) CopyFrom(ctx context.Context, apiResp Market
 	model.AutoApprovedCostLimitSnapshot = common.StringPointerValue(apiResp.AutoApprovedCostLimitSnapshot)
 
 	model.BackendId = common.StringPointerValue(apiResp.BackendId)
-
-	model.CallbackUrl = common.StringPointerValue(apiResp.CallbackUrl)
 
 	model.CanTerminate = types.BoolPointerValue(apiResp.CanTerminate)
 

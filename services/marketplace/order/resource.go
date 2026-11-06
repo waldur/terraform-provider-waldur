@@ -41,6 +41,7 @@ type MarketplaceOrderResource struct {
 type MarketplaceOrderResourceModel struct {
 	MarketplaceOrderModel
 	AcceptingTermsOfService types.Bool     `tfsdk:"accepting_terms_of_service"`
+	CallbackUrl             types.String   `tfsdk:"callback_url"`
 	Project                 types.String   `tfsdk:"project"`
 	SpendingLimits          types.Map      `tfsdk:"spending_limits"`
 	Timeouts                timeouts.Value `tfsdk:"timeouts"`
@@ -121,12 +122,10 @@ func (r *MarketplaceOrderResource) Schema(ctx context.Context, req resource.Sche
 				}, MarkdownDescription: "Backend Id"},
 			"callback_url": schema.StringAttribute{
 				Optional: true,
-				Computed: true,
 				PlanModifiers: []planmodifier.String{
 
 					stringplanmodifier.RequiresReplace(),
-					stringplanmodifier.UseStateForUnknown(),
-				}, MarkdownDescription: "Callback Url"},
+				}, MarkdownDescription: "Sent by a Waldur that orders from this one through a remote offering: its public order pull endpoint (.../api/remote-waldur-api/pull_order/<its order uuid>). No other URL is accepted. Not stored: order callbacks are off."},
 			"can_terminate": schema.BoolAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.Bool{

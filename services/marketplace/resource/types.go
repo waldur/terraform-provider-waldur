@@ -371,8 +371,6 @@ type MarketplaceResourceOrderInProgressResponse struct {
 
 	BackendId *string `json:"backend_id,omitempty" tfsdk:"backend_id"`
 
-	CallbackUrl *string `json:"callback_url,omitempty" tfsdk:"callback_url"`
-
 	CanTerminate *bool `json:"can_terminate,omitempty" tfsdk:"can_terminate"`
 
 	CategoryIcon *string `json:"category_icon,omitempty" tfsdk:"category_icon"`

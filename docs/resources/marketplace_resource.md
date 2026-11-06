@@ -303,7 +303,6 @@ Optional:
 - `attachment` (String) Attachment
 - `attributes` (Map of String) Attributes
 - `backend_id` (String) Backend Id
-- `callback_url` (String) Callback Url
 - `consumer_message` (String) Consumer Message
 - `consumer_message_attachment` (String) Consumer Message Attachment
 - `limits` (Map of Number) Limits

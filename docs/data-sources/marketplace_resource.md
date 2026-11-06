@@ -312,7 +312,6 @@ Read-Only:
 - `auto_approved_by_rule_uuid` (String) Auto Approved By Rule Uuid
 - `auto_approved_cost_limit_snapshot` (String) Auto Approved Cost Limit Snapshot
 - `backend_id` (String) Backend Id
-- `callback_url` (String) Callback Url
 - `can_terminate` (Boolean) Can Terminate
 - `category_icon` (String) Category Icon
 - `category_uuid` (String) Category Uuid

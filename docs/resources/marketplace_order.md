@@ -46,7 +46,7 @@ resource "waldur_marketplace_order" "example" {
 - `attachment` (String) Attachment
 - `attributes` (Map of String) Attributes structure depends on the offering type specified in the parent object. Can also be a generic object for offerings without a specific attributes schema.
 - `backend_id` (String) Backend Id
-- `callback_url` (String) Callback Url
+- `callback_url` (String) Sent by a Waldur that orders from this one through a remote offering: its public order pull endpoint (.../api/remote-waldur-api/pull_order/<its order uuid>). No other URL is accepted. Not stored: order callbacks are off.
 - `consumer_message` (String) Consumer Message
 - `consumer_message_attachment` (String) Consumer Message Attachment
 - `limits` (Map of Number) Limits

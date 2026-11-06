@@ -1,5 +1,12 @@
 # Changelog
 
+## v8.1.4
+
+### ⚠️ Breaking changes
+
+- `marketplace_order`: attribute `callback_url` no longer has a server-side default
+- `marketplace_resource`: removed attribute `order_in_progress.callback_url`
+
 ## 2026-11-03
 
 ### Added
