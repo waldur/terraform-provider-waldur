@@ -8,6 +8,8 @@ type OpenstackVolumeTypeResponse struct {
 
 	Description *string `json:"description,omitempty" tfsdk:"description"`
 
+	IsPublic *bool `json:"is_public,omitempty" tfsdk:"is_public"`
+
 	Name *string `json:"name" tfsdk:"name"`
 
 	Settings *string `json:"settings" tfsdk:"settings"`

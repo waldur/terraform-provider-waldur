@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-11-06
+
+### Added
+
+- `openstack_volume_type`: new attribute `is_public`
+
 ## v8.1.4
 
 ### ⚠️ Breaking changes

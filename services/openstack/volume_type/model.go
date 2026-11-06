@@ -60,6 +60,7 @@ func (m *OpenstackVolumeTypeFiltersModel) GetSchema() schema.SingleNestedAttribu
 type OpenstackVolumeTypeModel struct {
 	UUID        types.String `tfsdk:"id"`
 	Description types.String `tfsdk:"description"`
+	IsPublic    types.Bool   `tfsdk:"is_public"`
 	Name        types.String `tfsdk:"name"`
 	Settings    types.String `tfsdk:"settings"`
 	Url         types.String `tfsdk:"url"`
@@ -72,6 +73,8 @@ func (model *OpenstackVolumeTypeModel) CopyFrom(ctx context.Context, apiResp Ope
 	model.UUID = types.StringPointerValue(apiResp.UUID)
 
 	model.Description = common.StringPointerValue(apiResp.Description)
+
+	model.IsPublic = types.BoolPointerValue(apiResp.IsPublic)
 
 	model.Name = common.StringPointerValue(apiResp.Name)
 

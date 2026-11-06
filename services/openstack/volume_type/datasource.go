@@ -43,6 +43,8 @@ func (d *OpenstackVolumeTypeDataSource) Schema(ctx context.Context, req datasour
 			"filters": (&OpenstackVolumeTypeFiltersModel{}).GetSchema(),
 			"description": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Description"},
+			"is_public": schema.BoolAttribute{
+				Computed: true, MarkdownDescription: "Whether every project of the cloud may use the volume type. Cinder gives a private type only to the projects it is assigned to."},
 			"name": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Name"},
 			"settings": schema.StringAttribute{

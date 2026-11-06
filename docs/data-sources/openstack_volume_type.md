@@ -23,6 +23,7 @@ Openstack Volume Type data source - lookup by name or UUID
 ### Read-Only
 
 - `description` (String) Description
+- `is_public` (Boolean) Whether every project of the cloud may use the volume type. Cinder gives a private type only to the projects it is assigned to.
 - `name` (String) Name
 - `settings` (String) Settings
 - `url` (String) Url
