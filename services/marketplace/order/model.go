@@ -12,6 +12,18 @@ import (
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
 )
 
+func AwardType() types.ObjectType {
+	return types.ObjectType{AttrTypes: map[string]attr.Type{
+		"awarded_limits":   types.MapType{ElemType: types.StringType},
+		"call_name":        types.StringType,
+		"call_uuid":        types.StringType,
+		"can_read":         types.BoolType,
+		"proposal_name":    types.StringType,
+		"proposal_uuid":    types.StringType,
+		"requested_limits": types.MapType{ElemType: types.StringType},
+		"round_name":       types.StringType,
+	}}
+}
 func IssueType() types.ObjectType {
 	return types.ObjectType{AttrTypes: map[string]attr.Type{
 		"key":  types.StringType,
@@ -139,6 +151,7 @@ type MarketplaceOrderModel struct {
 	AutoApproved                      types.Bool        `tfsdk:"auto_approved"`
 	AutoApprovedByRuleUuid            types.String      `tfsdk:"auto_approved_by_rule_uuid"`
 	AutoApprovedCostLimitSnapshot     types.String      `tfsdk:"auto_approved_cost_limit_snapshot"`
+	Award                             types.Object      `tfsdk:"award"`
 	BackendId                         types.String      `tfsdk:"backend_id"`
 	CanTerminate                      types.Bool        `tfsdk:"can_terminate"`
 	CategoryIcon                      types.String      `tfsdk:"category_icon"`
@@ -245,6 +258,14 @@ func (model *MarketplaceOrderModel) CopyFrom(ctx context.Context, apiResp Market
 	model.AutoApprovedByRuleUuid = common.StringPointerValue(apiResp.AutoApprovedByRuleUuid)
 
 	model.AutoApprovedCostLimitSnapshot = common.StringPointerValue(apiResp.AutoApprovedCostLimitSnapshot)
+
+	if apiResp.Award != nil {
+		valAward, diagsAward := types.ObjectValueFrom(ctx, AwardType().AttrTypes, *apiResp.Award)
+		diags.Append(diagsAward...)
+		model.Award = valAward
+	} else {
+		model.Award = types.ObjectNull(AwardType().AttrTypes)
+	}
 
 	model.BackendId = common.StringPointerValue(apiResp.BackendId)
 

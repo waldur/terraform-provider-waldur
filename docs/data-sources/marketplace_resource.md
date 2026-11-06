@@ -311,6 +311,7 @@ Read-Only:
 - `auto_approved` (Boolean) Auto Approved
 - `auto_approved_by_rule_uuid` (String) Auto Approved By Rule Uuid
 - `auto_approved_cost_limit_snapshot` (String) Auto Approved Cost Limit Snapshot
+- `award` (Attributes) Award (see [below for nested schema](#nestedatt--order_in_progress--award))
 - `backend_id` (String) Backend Id
 - `can_terminate` (Boolean) Can Terminate
 - `category_icon` (String) Category Icon
@@ -393,6 +394,21 @@ Read-Only:
 - `type` (String) Type
 - `url` (String) Url
 - `uuid` (String) Uuid
+
+<a id="nestedatt--order_in_progress--award"></a>
+### Nested Schema for `order_in_progress.award`
+
+Read-Only:
+
+- `awarded_limits` (Map of String) What the award grants on the order's offering.
+- `call_name` (String) Call Name
+- `call_uuid` (String) Call Uuid
+- `can_read` (Boolean) Whether the viewer may open the proposal.
+- `proposal_name` (String) Proposal Name
+- `proposal_uuid` (String) Proposal Uuid
+- `requested_limits` (Map of String) What the applicant asked for; null for an item the call manager added.
+- `round_name` (String) Round Name
+
 
 <a id="nestedatt--order_in_progress--issue"></a>
 ### Nested Schema for `order_in_progress.issue`

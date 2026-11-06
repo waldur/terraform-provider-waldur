@@ -3172,6 +3172,71 @@
           "computed": true
         },
         {
+          "name": "award",
+          "type": "types.Object",
+          "required": false,
+          "optional": false,
+          "computed": true,
+          "attributes": [
+            {
+              "name": "awarded_limits",
+              "type": "types.Map",
+              "required": false,
+              "optional": true,
+              "computed": true
+            },
+            {
+              "name": "call_name",
+              "type": "types.String",
+              "required": false,
+              "optional": true,
+              "computed": true
+            },
+            {
+              "name": "call_uuid",
+              "type": "types.String",
+              "required": false,
+              "optional": true,
+              "computed": true
+            },
+            {
+              "name": "can_read",
+              "type": "types.Bool",
+              "required": false,
+              "optional": true,
+              "computed": true
+            },
+            {
+              "name": "proposal_name",
+              "type": "types.String",
+              "required": false,
+              "optional": true,
+              "computed": true
+            },
+            {
+              "name": "proposal_uuid",
+              "type": "types.String",
+              "required": false,
+              "optional": true,
+              "computed": true
+            },
+            {
+              "name": "requested_limits",
+              "type": "types.Map",
+              "required": false,
+              "optional": true,
+              "computed": true
+            },
+            {
+              "name": "round_name",
+              "type": "types.String",
+              "required": false,
+              "optional": true,
+              "computed": true
+            }
+          ]
+        },
+        {
           "name": "backend_id",
           "type": "types.String",
           "required": false,
@@ -4526,6 +4591,71 @@
               "required": false,
               "optional": false,
               "computed": true
+            },
+            {
+              "name": "award",
+              "type": "types.Object",
+              "required": false,
+              "optional": false,
+              "computed": true,
+              "attributes": [
+                {
+                  "name": "awarded_limits",
+                  "type": "types.Map",
+                  "required": false,
+                  "optional": true,
+                  "computed": true
+                },
+                {
+                  "name": "call_name",
+                  "type": "types.String",
+                  "required": false,
+                  "optional": true,
+                  "computed": true
+                },
+                {
+                  "name": "call_uuid",
+                  "type": "types.String",
+                  "required": false,
+                  "optional": true,
+                  "computed": true
+                },
+                {
+                  "name": "can_read",
+                  "type": "types.Bool",
+                  "required": false,
+                  "optional": true,
+                  "computed": true
+                },
+                {
+                  "name": "proposal_name",
+                  "type": "types.String",
+                  "required": false,
+                  "optional": true,
+                  "computed": true
+                },
+                {
+                  "name": "proposal_uuid",
+                  "type": "types.String",
+                  "required": false,
+                  "optional": true,
+                  "computed": true
+                },
+                {
+                  "name": "requested_limits",
+                  "type": "types.Map",
+                  "required": false,
+                  "optional": true,
+                  "computed": true
+                },
+                {
+                  "name": "round_name",
+                  "type": "types.String",
+                  "required": false,
+                  "optional": true,
+                  "computed": true
+                }
+              ]
             },
             {
               "name": "backend_id",
@@ -9872,6 +10002,64 @@
           "required": false,
           "optional": true,
           "computed": true
+        },
+        {
+          "name": "awarded_proposal",
+          "type": "types.Object",
+          "required": false,
+          "optional": false,
+          "computed": true,
+          "attributes": [
+            {
+              "name": "call_name",
+              "type": "types.String",
+              "required": false,
+              "optional": true,
+              "computed": true
+            },
+            {
+              "name": "call_uuid",
+              "type": "types.String",
+              "required": false,
+              "optional": true,
+              "computed": true
+            },
+            {
+              "name": "can_read",
+              "type": "types.Bool",
+              "required": false,
+              "optional": true,
+              "computed": true
+            },
+            {
+              "name": "proposal_name",
+              "type": "types.String",
+              "required": false,
+              "optional": true,
+              "computed": true
+            },
+            {
+              "name": "proposal_uuid",
+              "type": "types.String",
+              "required": false,
+              "optional": true,
+              "computed": true
+            },
+            {
+              "name": "round_name",
+              "type": "types.String",
+              "required": false,
+              "optional": true,
+              "computed": true
+            },
+            {
+              "name": "round_uuid",
+              "type": "types.String",
+              "required": false,
+              "optional": true,
+              "computed": true
+            }
+          ]
         },
         {
           "name": "backend_id",

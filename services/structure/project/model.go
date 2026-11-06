@@ -27,6 +27,17 @@ func AffiliationType() types.ObjectType {
 		"uuid":           types.StringType,
 	}}
 }
+func AwardedProposalType() types.ObjectType {
+	return types.ObjectType{AttrTypes: map[string]attr.Type{
+		"call_name":     types.StringType,
+		"call_uuid":     types.StringType,
+		"can_read":      types.BoolType,
+		"proposal_name": types.StringType,
+		"proposal_uuid": types.StringType,
+		"round_name":    types.StringType,
+		"round_uuid":    types.StringType,
+	}}
+}
 func BillingPriceEstimateType() types.ObjectType {
 	return types.ObjectType{AttrTypes: map[string]attr.Type{
 		"current":     types.Float64Type,
@@ -196,6 +207,7 @@ type StructureProjectModel struct {
 	AffiliationCode                      types.String      `tfsdk:"affiliation_code"`
 	AffiliationName                      types.String      `tfsdk:"affiliation_name"`
 	AffiliationUuid                      types.String      `tfsdk:"affiliation_uuid"`
+	AwardedProposal                      types.Object      `tfsdk:"awarded_proposal"`
 	BackendId                            types.String      `tfsdk:"backend_id"`
 	BillingPriceEstimate                 types.Object      `tfsdk:"billing_price_estimate"`
 	Customer                             types.String      `tfsdk:"customer"`
@@ -263,6 +275,14 @@ func (model *StructureProjectModel) CopyFrom(ctx context.Context, apiResp Struct
 	model.AffiliationName = common.StringPointerValue(apiResp.AffiliationName)
 
 	model.AffiliationUuid = common.StringPointerValue(apiResp.AffiliationUuid)
+
+	if apiResp.AwardedProposal != nil {
+		valAwardedProposal, diagsAwardedProposal := types.ObjectValueFrom(ctx, AwardedProposalType().AttrTypes, *apiResp.AwardedProposal)
+		diags.Append(diagsAwardedProposal...)
+		model.AwardedProposal = valAwardedProposal
+	} else {
+		model.AwardedProposal = types.ObjectNull(AwardedProposalType().AttrTypes)
+	}
 
 	model.BackendId = common.StringPointerValue(apiResp.BackendId)
 

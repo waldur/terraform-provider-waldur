@@ -4,6 +4,14 @@
 
 ### Added
 
+- `marketplace_order`: new attribute `award`
+- `marketplace_resource`: new attribute `order_in_progress.award`
+- `structure_project`: new attribute `awarded_proposal`
+
+## 2026-11-06
+
+### Added
+
 - `openstack_volume_type`: new attribute `is_public`
 
 ## v8.1.4

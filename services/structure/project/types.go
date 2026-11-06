@@ -105,6 +105,8 @@ type StructureProjectResponse struct {
 
 	AffiliationUuid *string `json:"affiliation_uuid,omitempty" tfsdk:"affiliation_uuid"`
 
+	AwardedProposal *StructureProjectAwardedProposalResponse `json:"awarded_proposal,omitempty" tfsdk:"awarded_proposal"`
+
 	BackendId *string `json:"backend_id,omitempty" tfsdk:"backend_id"`
 
 	BillingPriceEstimate *StructureProjectBillingPriceEstimateResponse `json:"billing_price_estimate,omitempty" tfsdk:"billing_price_estimate"`
@@ -220,6 +222,22 @@ type StructureProjectAffiliationResponse struct {
 	Url *string `json:"url,omitempty" tfsdk:"url"`
 
 	Uuid *string `json:"uuid,omitempty" tfsdk:"uuid"`
+}
+
+type StructureProjectAwardedProposalResponse struct {
+	CallName *string `json:"call_name,omitempty" tfsdk:"call_name"`
+
+	CallUuid *string `json:"call_uuid,omitempty" tfsdk:"call_uuid"`
+
+	CanRead *bool `json:"can_read,omitempty" tfsdk:"can_read"`
+
+	ProposalName *string `json:"proposal_name,omitempty" tfsdk:"proposal_name"`
+
+	ProposalUuid *string `json:"proposal_uuid,omitempty" tfsdk:"proposal_uuid"`
+
+	RoundName *string `json:"round_name,omitempty" tfsdk:"round_name"`
+
+	RoundUuid *string `json:"round_uuid,omitempty" tfsdk:"round_uuid"`
 }
 
 type StructureProjectBillingPriceEstimateResponse struct {

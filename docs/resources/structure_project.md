@@ -60,6 +60,7 @@ resource "waldur_structure_project" "example" {
 - `affiliation` (Attributes) Affiliation (see [below for nested schema](#nestedatt--affiliation))
 - `affiliation_code` (String) Unique short identifier, e.g. CERN, EMBL.
 - `affiliation_name` (String) Affiliation Name
+- `awarded_proposal` (Attributes) Awarded Proposal (see [below for nested schema](#nestedatt--awarded_proposal))
 - `billing_price_estimate` (Attributes) Billing Price Estimate (see [below for nested schema](#nestedatt--billing_price_estimate))
 - `customer_display_billing_info_in_projects` (Boolean) Customer Display Billing Info In Projects
 - `customer_grace_period_days` (Number) Grace period days set at the customer (organization) level. Used as default when project-level is not set.
@@ -116,6 +117,20 @@ Read-Only:
 - `projects_count` (Number) Number of active projects affiliated with this organization
 - `url` (String) Url
 - `uuid` (String) Uuid
+
+
+<a id="nestedatt--awarded_proposal"></a>
+### Nested Schema for `awarded_proposal`
+
+Optional:
+
+- `call_name` (String) Call Name
+- `call_uuid` (String) Call Uuid
+- `can_read` (Boolean) Whether the viewer may open the proposal: its team and the call's overseers do; a collaborator added to the project later sees only where it came from.
+- `proposal_name` (String) Proposal Name
+- `proposal_uuid` (String) Proposal Uuid
+- `round_name` (String) Round Name
+- `round_uuid` (String) Round Uuid
 
 
 <a id="nestedatt--billing_price_estimate"></a>

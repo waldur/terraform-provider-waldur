@@ -368,6 +368,29 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 						Validators: []validator.String{
 							stringvalidator.RegexMatches(regexp.MustCompile(`^-?\d{0,12}(?:\.\d{0,10})?$`), ""),
 						}},
+					"award": schema.SingleNestedAttribute{
+						Attributes: map[string]schema.Attribute{
+							"awarded_limits": schema.MapAttribute{
+								ElementType: types.StringType,
+								Computed:    true, MarkdownDescription: "What the award grants on the order's offering."},
+							"call_name": schema.StringAttribute{
+								Computed: true, MarkdownDescription: "Call Name"},
+							"call_uuid": schema.StringAttribute{
+								Computed: true, MarkdownDescription: "Call Uuid"},
+							"can_read": schema.BoolAttribute{
+								Computed: true, MarkdownDescription: "Whether the viewer may open the proposal."},
+							"proposal_name": schema.StringAttribute{
+								Computed: true, MarkdownDescription: "Proposal Name"},
+							"proposal_uuid": schema.StringAttribute{
+								Computed: true, MarkdownDescription: "Proposal Uuid"},
+							"requested_limits": schema.MapAttribute{
+								ElementType: types.StringType,
+								Computed:    true, MarkdownDescription: "What the applicant asked for; null for an item the call manager added."},
+							"round_name": schema.StringAttribute{
+								Computed: true, MarkdownDescription: "Round Name"},
+						},
+						Computed: true, MarkdownDescription: "Award",
+					},
 					"backend_id": schema.StringAttribute{
 						Computed: true, MarkdownDescription: "Backend Id"},
 					"can_terminate": schema.BoolAttribute{

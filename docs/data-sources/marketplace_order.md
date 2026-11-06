@@ -28,6 +28,7 @@ Marketplace Order data source - lookup by name or UUID
 - `auto_approved` (Boolean) Auto Approved
 - `auto_approved_by_rule_uuid` (String) Auto Approved By Rule Uuid
 - `auto_approved_cost_limit_snapshot` (String) Auto Approved Cost Limit Snapshot
+- `award` (Attributes) Award (see [below for nested schema](#nestedatt--award))
 - `backend_id` (String) Backend Id
 - `can_terminate` (Boolean) Can Terminate
 - `category_icon` (String) Category Icon
@@ -135,6 +136,21 @@ Optional:
 - `service_manager_uuid` (String) Service manager UUID
 - `slug` (String) Slug
 - `was_auto_approved` (Boolean) Auto-approved
+
+
+<a id="nestedatt--award"></a>
+### Nested Schema for `award`
+
+Read-Only:
+
+- `awarded_limits` (Map of String) What the award grants on the order's offering.
+- `call_name` (String) Call Name
+- `call_uuid` (String) Call Uuid
+- `can_read` (Boolean) Whether the viewer may open the proposal.
+- `proposal_name` (String) Proposal Name
+- `proposal_uuid` (String) Proposal Uuid
+- `requested_limits` (Map of String) What the applicant asked for; null for an item the call manager added.
+- `round_name` (String) Round Name
 
 
 <a id="nestedatt--issue"></a>

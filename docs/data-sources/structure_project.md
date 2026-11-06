@@ -26,6 +26,7 @@ Structure Project data source - lookup by name or UUID
 - `affiliation_code` (String) Unique short identifier, e.g. CERN, EMBL.
 - `affiliation_name` (String) Affiliation Name
 - `affiliation_uuid` (String) Affiliation Uuid
+- `awarded_proposal` (Attributes) Awarded Proposal (see [below for nested schema](#nestedatt--awarded_proposal))
 - `backend_id` (String) Backend Id
 - `billing_price_estimate` (Attributes) Billing Price Estimate (see [below for nested schema](#nestedatt--billing_price_estimate))
 - `customer` (String) Customer
@@ -122,6 +123,20 @@ Read-Only:
 - `projects_count` (Number) Number of active projects affiliated with this organization
 - `url` (String) Url
 - `uuid` (String) Uuid
+
+
+<a id="nestedatt--awarded_proposal"></a>
+### Nested Schema for `awarded_proposal`
+
+Read-Only:
+
+- `call_name` (String) Call Name
+- `call_uuid` (String) Call Uuid
+- `can_read` (Boolean) Whether the viewer may open the proposal: its team and the call's overseers do; a collaborator added to the project later sees only where it came from.
+- `proposal_name` (String) Proposal Name
+- `proposal_uuid` (String) Proposal Uuid
+- `round_name` (String) Round Name
+- `round_uuid` (String) Round Uuid
 
 
 <a id="nestedatt--billing_price_estimate"></a>

@@ -81,6 +81,7 @@ func OrderInProgressType() types.ObjectType {
 		"auto_approved":                         types.BoolType,
 		"auto_approved_by_rule_uuid":            types.StringType,
 		"auto_approved_cost_limit_snapshot":     types.StringType,
+		"award":                                 OrderInProgressAwardType(),
 		"backend_id":                            types.StringType,
 		"can_terminate":                         types.BoolType,
 		"category_icon":                         types.StringType,
@@ -163,6 +164,18 @@ func OrderInProgressType() types.ObjectType {
 		"type":                                  types.StringType,
 		"url":                                   types.StringType,
 		"uuid":                                  types.StringType,
+	}}
+}
+func OrderInProgressAwardType() types.ObjectType {
+	return types.ObjectType{AttrTypes: map[string]attr.Type{
+		"awarded_limits":   types.MapType{ElemType: types.StringType},
+		"call_name":        types.StringType,
+		"call_uuid":        types.StringType,
+		"can_read":         types.BoolType,
+		"proposal_name":    types.StringType,
+		"proposal_uuid":    types.StringType,
+		"requested_limits": types.MapType{ElemType: types.StringType},
+		"round_name":       types.StringType,
 	}}
 }
 func OrderInProgressIssueType() types.ObjectType {

@@ -164,6 +164,64 @@ func (r *StructureProjectResource) Schema(ctx context.Context, req resource.Sche
 
 					stringplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "Affiliation Uuid"},
+			"awarded_proposal": schema.SingleNestedAttribute{
+				Attributes: map[string]schema.Attribute{
+					"call_name": schema.StringAttribute{
+						Optional: true,
+						Computed: true,
+						PlanModifiers: []planmodifier.String{
+
+							stringplanmodifier.UseStateForUnknown(),
+						}, MarkdownDescription: "Call Name"},
+					"call_uuid": schema.StringAttribute{
+						Optional: true,
+						Computed: true,
+						PlanModifiers: []planmodifier.String{
+
+							stringplanmodifier.UseStateForUnknown(),
+						}, MarkdownDescription: "Call Uuid"},
+					"can_read": schema.BoolAttribute{
+						Optional: true,
+						Computed: true,
+						PlanModifiers: []planmodifier.Bool{
+
+							boolplanmodifier.UseStateForUnknown(),
+						}, MarkdownDescription: "Whether the viewer may open the proposal: its team and the call's overseers do; a collaborator added to the project later sees only where it came from."},
+					"proposal_name": schema.StringAttribute{
+						Optional: true,
+						Computed: true,
+						PlanModifiers: []planmodifier.String{
+
+							stringplanmodifier.UseStateForUnknown(),
+						}, MarkdownDescription: "Proposal Name"},
+					"proposal_uuid": schema.StringAttribute{
+						Optional: true,
+						Computed: true,
+						PlanModifiers: []planmodifier.String{
+
+							stringplanmodifier.UseStateForUnknown(),
+						}, MarkdownDescription: "Proposal Uuid"},
+					"round_name": schema.StringAttribute{
+						Optional: true,
+						Computed: true,
+						PlanModifiers: []planmodifier.String{
+
+							stringplanmodifier.UseStateForUnknown(),
+						}, MarkdownDescription: "Round Name"},
+					"round_uuid": schema.StringAttribute{
+						Optional: true,
+						Computed: true,
+						PlanModifiers: []planmodifier.String{
+
+							stringplanmodifier.UseStateForUnknown(),
+						}, MarkdownDescription: "Round Uuid"},
+				},
+				Computed: true,
+				PlanModifiers: []planmodifier.Object{
+
+					objectplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Awarded Proposal",
+			},
 			"backend_id": schema.StringAttribute{
 				Optional: true,
 				Computed: true,

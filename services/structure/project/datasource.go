@@ -80,6 +80,25 @@ func (d *StructureProjectDataSource) Schema(ctx context.Context, req datasource.
 				Computed: true, MarkdownDescription: "Affiliation Name"},
 			"affiliation_uuid": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Affiliation Uuid"},
+			"awarded_proposal": schema.SingleNestedAttribute{
+				Attributes: map[string]schema.Attribute{
+					"call_name": schema.StringAttribute{
+						Computed: true, MarkdownDescription: "Call Name"},
+					"call_uuid": schema.StringAttribute{
+						Computed: true, MarkdownDescription: "Call Uuid"},
+					"can_read": schema.BoolAttribute{
+						Computed: true, MarkdownDescription: "Whether the viewer may open the proposal: its team and the call's overseers do; a collaborator added to the project later sees only where it came from."},
+					"proposal_name": schema.StringAttribute{
+						Computed: true, MarkdownDescription: "Proposal Name"},
+					"proposal_uuid": schema.StringAttribute{
+						Computed: true, MarkdownDescription: "Proposal Uuid"},
+					"round_name": schema.StringAttribute{
+						Computed: true, MarkdownDescription: "Round Name"},
+					"round_uuid": schema.StringAttribute{
+						Computed: true, MarkdownDescription: "Round Uuid"},
+				},
+				Computed: true, MarkdownDescription: "Awarded Proposal",
+			},
 			"backend_id": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Backend Id"},
 			"billing_price_estimate": schema.SingleNestedAttribute{

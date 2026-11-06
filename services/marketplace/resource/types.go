@@ -369,6 +369,8 @@ type MarketplaceResourceOrderInProgressResponse struct {
 
 	AutoApprovedCostLimitSnapshot *string `json:"auto_approved_cost_limit_snapshot,omitempty" tfsdk:"auto_approved_cost_limit_snapshot"`
 
+	Award *MarketplaceResourceOrderInProgressAwardResponse `json:"award,omitempty" tfsdk:"award"`
+
 	BackendId *string `json:"backend_id,omitempty" tfsdk:"backend_id"`
 
 	CanTerminate *bool `json:"can_terminate,omitempty" tfsdk:"can_terminate"`
@@ -535,6 +537,30 @@ type MarketplaceResourceOrderInProgressResponse struct {
 }
 
 type MarketplaceResourceOrderInProgressAttributesResponse struct {
+}
+
+type MarketplaceResourceOrderInProgressAwardResponse struct {
+	AwardedLimits common.JSONStringMap `json:"awarded_limits,omitempty" tfsdk:"awarded_limits"`
+
+	CallName *string `json:"call_name,omitempty" tfsdk:"call_name"`
+
+	CallUuid *string `json:"call_uuid,omitempty" tfsdk:"call_uuid"`
+
+	CanRead *bool `json:"can_read,omitempty" tfsdk:"can_read"`
+
+	ProposalName *string `json:"proposal_name,omitempty" tfsdk:"proposal_name"`
+
+	ProposalUuid *string `json:"proposal_uuid,omitempty" tfsdk:"proposal_uuid"`
+
+	RequestedLimits common.JSONStringMap `json:"requested_limits,omitempty" tfsdk:"requested_limits"`
+
+	RoundName *string `json:"round_name,omitempty" tfsdk:"round_name"`
+}
+
+type MarketplaceResourceOrderInProgressAwardAwardedLimitsResponse struct {
+}
+
+type MarketplaceResourceOrderInProgressAwardRequestedLimitsResponse struct {
 }
 
 type MarketplaceResourceOrderInProgressIssueResponse struct {

@@ -66,6 +66,7 @@ resource "waldur_marketplace_order" "example" {
 - `auto_approved` (Boolean) Auto Approved
 - `auto_approved_by_rule_uuid` (String) Auto Approved By Rule Uuid
 - `auto_approved_cost_limit_snapshot` (String) Auto Approved Cost Limit Snapshot
+- `award` (Attributes) Award (see [below for nested schema](#nestedatt--award))
 - `can_terminate` (Boolean) Can Terminate
 - `category_icon` (String) Category Icon
 - `category_uuid` (String) Category Uuid
@@ -145,6 +146,21 @@ Optional:
 - `create` (String) A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
 - `delete` (String) A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs.
 - `update` (String) A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
+
+
+<a id="nestedatt--award"></a>
+### Nested Schema for `award`
+
+Optional:
+
+- `awarded_limits` (Map of String) What the award grants on the order's offering.
+- `call_name` (String) Call Name
+- `call_uuid` (String) Call Uuid
+- `can_read` (Boolean) Whether the viewer may open the proposal.
+- `proposal_name` (String) Proposal Name
+- `proposal_uuid` (String) Proposal Uuid
+- `requested_limits` (Map of String) What the applicant asked for; null for an item the call manager added.
+- `round_name` (String) Round Name
 
 
 <a id="nestedatt--issue"></a>
