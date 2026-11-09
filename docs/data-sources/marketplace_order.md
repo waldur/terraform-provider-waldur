@@ -122,6 +122,7 @@ Optional:
 - `created` (String) Created after
 - `created_before` (String) Created before
 - `customer_uuid` (String) Customer UUID
+- `from_award` (Boolean) Placed by a proposal's award
 - `modified` (String) Modified after
 - `modified_before` (String) Modified before
 - `offering` (String) Offering

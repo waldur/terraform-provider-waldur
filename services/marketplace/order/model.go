@@ -38,6 +38,7 @@ type MarketplaceOrderFiltersModel struct {
 	Created              types.String `tfsdk:"created"`
 	CreatedBefore        types.String `tfsdk:"created_before"`
 	CustomerUuid         types.String `tfsdk:"customer_uuid"`
+	FromAward            types.Bool   `tfsdk:"from_award"`
 	Modified             types.String `tfsdk:"modified"`
 	ModifiedBefore       types.String `tfsdk:"modified_before"`
 	Offering             types.String `tfsdk:"offering"`
@@ -82,6 +83,10 @@ func (m *MarketplaceOrderFiltersModel) GetSchema() schema.SingleNestedAttribute 
 			"customer_uuid": schema.StringAttribute{
 				Optional:            true,
 				MarkdownDescription: "Customer UUID",
+			},
+			"from_award": schema.BoolAttribute{
+				Optional:            true,
+				MarkdownDescription: "Placed by a proposal's award",
 			},
 			"modified": schema.StringAttribute{
 				Optional:            true,
