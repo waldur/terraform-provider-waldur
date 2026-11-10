@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-11-10
+
+### Added
+
+- `marketplace_offering`: new attribute `plugin_options.show_order_period_totals`
+
 ## 2026-11-06
 
 ### Added

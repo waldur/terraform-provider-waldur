@@ -2391,6 +2391,13 @@
               "computed": true
             },
             {
+              "name": "show_order_period_totals",
+              "type": "types.Bool",
+              "required": false,
+              "optional": false,
+              "computed": true
+            },
+            {
               "name": "show_ssh_key_loss_warning",
               "type": "types.Bool",
               "required": false,

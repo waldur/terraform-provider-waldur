@@ -734,6 +734,8 @@ type MarketplaceOfferingPluginOptionsResponse struct {
 
 	ServiceProviderCanCreateOfferingUser *bool `json:"service_provider_can_create_offering_user,omitempty" tfsdk:"service_provider_can_create_offering_user"`
 
+	ShowOrderPeriodTotals *bool `json:"show_order_period_totals,omitempty" tfsdk:"show_order_period_totals"`
+
 	ShowSshKeyLossWarning *bool `json:"show_ssh_key_loss_warning,omitempty" tfsdk:"show_ssh_key_loss_warning"`
 
 	SlurmMaintenanceSyncEnabled *bool `json:"slurm_maintenance_sync_enabled,omitempty" tfsdk:"slurm_maintenance_sync_enabled"`

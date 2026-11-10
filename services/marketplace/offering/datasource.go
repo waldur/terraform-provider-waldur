@@ -907,6 +907,8 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 						Computed: true, MarkdownDescription: "HEAppE scratch project directory"},
 					"service_provider_can_create_offering_user": schema.BoolAttribute{
 						Computed: true, MarkdownDescription: "Service provider can create offering user"},
+					"show_order_period_totals": schema.BoolAttribute{
+						Computed: true, MarkdownDescription: "If set to True, the UI can show each limit-based component of a resource for the whole order period: the usage summed since the resource was created against the current limit times the months of the order. Ordering, billing and enforcement do not change."},
 					"show_ssh_key_loss_warning": schema.BoolAttribute{
 						Computed: true, MarkdownDescription: "Show a warning about unrecoverable loss of the SSH private key on the OpenStack instance order form."},
 					"slurm_maintenance_sync_enabled": schema.BoolAttribute{
