@@ -3853,6 +3853,13 @@
       "kind": "resource",
       "attributes": [
         {
+          "name": "api_key_counts",
+          "type": "types.Map",
+          "required": false,
+          "optional": false,
+          "computed": true
+        },
+        {
           "name": "attributes",
           "type": "types.Map",
           "required": false,

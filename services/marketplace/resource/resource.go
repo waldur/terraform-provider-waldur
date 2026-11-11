@@ -63,6 +63,13 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 					stringplanmodifier.UseStateForUnknown(),
 				},
 			},
+			"api_key_counts": schema.MapAttribute{
+				ElementType: types.Int64Type,
+				Computed:    true,
+				PlanModifiers: []planmodifier.Map{
+
+					mapplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "How many keys the resource has in each state, deleted ones left out, as {state: count}. States with no keys are absent."},
 			"attributes": schema.MapAttribute{
 				ElementType: types.StringType,
 				Computed:    true,

@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-11-11
+
+### Added
+
+- `marketplace_resource`: new attribute `api_key_counts`
+
 ## 2026-11-10
 
 ### Added

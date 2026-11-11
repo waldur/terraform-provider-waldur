@@ -55,6 +55,7 @@ resource "waldur_marketplace_resource" "example" {
 
 ### Read-Only
 
+- `api_key_counts` (Map of Number) How many keys the resource has in each state, deleted ones left out, as {state: count}. States with no keys are absent.
 - `attributes` (Map of String) Attributes
 - `backend_id` (String) Backend Id
 - `can_terminate` (Boolean) Can Terminate

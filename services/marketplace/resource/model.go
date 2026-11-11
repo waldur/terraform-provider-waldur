@@ -421,6 +421,7 @@ func (m *MarketplaceResourceFiltersModel) GetSchema() schema.SingleNestedAttribu
 
 type MarketplaceResourceModel struct {
 	UUID                       types.String      `tfsdk:"id"`
+	ApiKeyCounts               types.Map         `tfsdk:"api_key_counts"`
 	Attributes                 types.Map         `tfsdk:"attributes"`
 	BackendId                  types.String      `tfsdk:"backend_id"`
 	CanTerminate               types.Bool        `tfsdk:"can_terminate"`
@@ -505,6 +506,14 @@ func (model *MarketplaceResourceModel) CopyFrom(ctx context.Context, apiResp Mar
 	var diags diag.Diagnostics
 
 	model.UUID = types.StringPointerValue(apiResp.UUID)
+
+	if apiResp.ApiKeyCounts != nil {
+		valApiKeyCounts, diagsApiKeyCounts := types.MapValueFrom(ctx, types.Int64Type, apiResp.ApiKeyCounts)
+		diags.Append(diagsApiKeyCounts...)
+		model.ApiKeyCounts = valApiKeyCounts
+	} else {
+		model.ApiKeyCounts = types.MapNull(types.Int64Type)
+	}
 
 	if apiResp.Attributes != nil {
 		valAttributes, diagsAttributes := types.MapValueFrom(ctx, types.StringType, apiResp.Attributes)

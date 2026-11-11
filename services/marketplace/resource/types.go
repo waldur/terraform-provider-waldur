@@ -32,6 +32,8 @@ type MarketplaceResourceCreateOptionsRequest struct {
 type MarketplaceResourceResponse struct {
 	UUID *string `json:"uuid"`
 
+	ApiKeyCounts map[string]int64 `json:"api_key_counts,omitempty" tfsdk:"api_key_counts"`
+
 	Attributes common.JSONStringMap `json:"attributes,omitempty" tfsdk:"attributes"`
 
 	BackendId *string `json:"backend_id,omitempty" tfsdk:"backend_id"`
@@ -185,6 +187,9 @@ type MarketplaceResourceResponse struct {
 	UserRequiresReconsent *bool `json:"user_requires_reconsent,omitempty" tfsdk:"user_requires_reconsent"`
 
 	Username *string `json:"username,omitempty" tfsdk:"username"`
+}
+
+type MarketplaceResourceApiKeyCountsResponse struct {
 }
 
 type MarketplaceResourceAttributesResponse struct {
