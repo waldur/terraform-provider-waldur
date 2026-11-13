@@ -704,6 +704,8 @@ type MarketplaceOfferingPluginOptionsResponse struct {
 
 	RequiredTeamRoleForProvisioning *string `json:"required_team_role_for_provisioning,omitempty" tfsdk:"required_team_role_for_provisioning"`
 
+	ResourceExpirationReminders *[]int64 `json:"resource_expiration_reminders,omitempty" tfsdk:"resource_expiration_reminders"`
+
 	ResourceExpirationThreshold *int64 `json:"resource_expiration_threshold,omitempty" tfsdk:"resource_expiration_threshold"`
 
 	ResourceNamePattern *string `json:"resource_name_pattern,omitempty" tfsdk:"resource_name_pattern"`

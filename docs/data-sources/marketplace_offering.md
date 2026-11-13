@@ -545,6 +545,7 @@ Read-Only:
 - `require_effective_id_for_highlighted_display` (Boolean) If set to True, highlighted backend ID display is only shown when the resource has an effective_id.
 - `require_purchase_order_upload` (Boolean) If set to True, users will be required to upload purchase orders.
 - `required_team_role_for_provisioning` (String) Required user role in a project for provisioning of resources
+- `resource_expiration_reminders` (List of Number) Days before a resource's end date on which its users are reminded, by email and on the dashboard. When empty or unset, the email goes out 7 days and 1 day before the end, and the dashboard follows USER_ACTIONS_DEFAULT_EXPIRATION_REMINDERS. Only staff can change it.
 - `resource_expiration_threshold` (Number) Resource expiration threshold in days.
 - `resource_name_pattern` (String) Python format string for generating resource names. Available variables: {customer_name}, {customer_slug}, {project_name}, {project_slug}, {offering_name}, {offering_slug}, {plan_name}, {counter}, {attributes[KEY]}.
 - `resource_project_role_group_template` (String) string.Template for resource-project-scope role group names. Adds ${rp_uuid}, ${rp_uuid_short}, ${project_name} to the variables available for resource-scope templates.

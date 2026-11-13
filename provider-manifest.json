@@ -2286,6 +2286,13 @@
               "computed": true
             },
             {
+              "name": "resource_expiration_reminders",
+              "type": "types.List\u003cinteger\u003e",
+              "required": false,
+              "optional": false,
+              "computed": true
+            },
+            {
               "name": "resource_expiration_threshold",
               "type": "types.Int64",
               "required": false,

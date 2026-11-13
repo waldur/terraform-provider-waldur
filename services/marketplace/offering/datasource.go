@@ -869,6 +869,9 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 						Computed: true, MarkdownDescription: "If set to True, users will be required to upload purchase orders."},
 					"required_team_role_for_provisioning": schema.StringAttribute{
 						Computed: true, MarkdownDescription: "Required user role in a project for provisioning of resources"},
+					"resource_expiration_reminders": schema.ListAttribute{
+						ElementType: types.Int64Type,
+						Computed:    true, MarkdownDescription: "Days before a resource's end date on which its users are reminded, by email and on the dashboard. When empty or unset, the email goes out 7 days and 1 day before the end, and the dashboard follows USER_ACTIONS_DEFAULT_EXPIRATION_REMINDERS. Only staff can change it."},
 					"resource_expiration_threshold": schema.Int64Attribute{
 						Computed: true, MarkdownDescription: "Resource expiration threshold in days."},
 					"resource_name_pattern": schema.StringAttribute{

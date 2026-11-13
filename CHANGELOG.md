@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-11-13
+
+### Added
+
+- `marketplace_offering`: new attribute `plugin_options.resource_expiration_reminders`
+
 ## 2026-11-11
 
 ### Added
