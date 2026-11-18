@@ -1936,6 +1936,13 @@
               "computed": true
             },
             {
+              "name": "enable_s3_browser",
+              "type": "types.Bool",
+              "required": false,
+              "optional": false,
+              "computed": true
+            },
+            {
               "name": "enable_scim_entitlements",
               "type": "types.Bool",
               "required": false,
@@ -2372,6 +2379,13 @@
             {
               "name": "restricted_to_roles",
               "type": "types.List\u003cstring\u003e",
+              "required": false,
+              "optional": false,
+              "computed": true
+            },
+            {
+              "name": "s3_browser_flavor",
+              "type": "types.String",
               "required": false,
               "optional": false,
               "computed": true

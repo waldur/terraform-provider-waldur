@@ -604,6 +604,8 @@ type MarketplaceOfferingPluginOptionsResponse struct {
 
 	EnableResourceProjects *bool `json:"enable_resource_projects,omitempty" tfsdk:"enable_resource_projects"`
 
+	EnableS3Browser *bool `json:"enable_s3_browser,omitempty" tfsdk:"enable_s3_browser"`
+
 	EnableScimEntitlements *bool `json:"enable_scim_entitlements,omitempty" tfsdk:"enable_scim_entitlements"`
 
 	EnforceQos *bool `json:"enforce_qos,omitempty" tfsdk:"enforce_qos"`
@@ -729,6 +731,8 @@ type MarketplaceOfferingPluginOptionsResponse struct {
 	RestrictDeletionWithActiveResources *bool `json:"restrict_deletion_with_active_resources,omitempty" tfsdk:"restrict_deletion_with_active_resources"`
 
 	RestrictedToRoles *[]string `json:"restricted_to_roles,omitempty" tfsdk:"restricted_to_roles"`
+
+	S3BrowserFlavor *string `json:"s3_browser_flavor,omitempty" tfsdk:"s3_browser_flavor"`
 
 	ScimLoginNodes *[]string `json:"scim_login_nodes,omitempty" tfsdk:"scim_login_nodes"`
 

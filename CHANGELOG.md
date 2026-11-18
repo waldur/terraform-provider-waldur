@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-11-18
+
+### Added
+
+- `marketplace_offering`: new attribute `plugin_options.enable_s3_browser`
+- `marketplace_offering`: new attribute `plugin_options.s3_browser_flavor`
+
 ## 2026-11-13
 
 ### Added
