@@ -126,6 +126,8 @@ Optional:
 - `modified` (String) Modified after
 - `modified_before` (String) Modified before
 - `offering` (String) Offering
+- `offering_slug` (String) Multiple values may be separated by commas.
+- `offering_type` (String) Offering type
 - `offering_uuid` (String) Offering UUID
 - `parent_offering_uuid` (String) UUID of the parent offering
 - `project_uuid` (String) Project UUID
@@ -136,6 +138,8 @@ Optional:
 - `resource_uuid` (String) Resource UUID
 - `service_manager_uuid` (String) Service manager UUID
 - `slug` (String) Slug
+- `state` (String) Order state
+- `type` (String) Order type
 - `was_auto_approved` (Boolean) Auto-approved
 
 

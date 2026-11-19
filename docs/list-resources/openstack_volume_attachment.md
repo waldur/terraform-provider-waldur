@@ -47,5 +47,6 @@ Optional:
 - `service_settings_uuid` (String) Service settings UUID
 - `snapshot` (String) Snapshot URL
 - `snapshot_uuid` (String) Snapshot UUID
+- `state` (String) State
 - `tenant` (String) Tenant URL
 - `tenant_uuid` (String) Tenant UUID

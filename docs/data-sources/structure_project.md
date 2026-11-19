@@ -82,12 +82,15 @@ Optional:
 - `accounting_is_running` (Boolean) Filter by whether accounting is running.
 - `active_during` (String) Return projects active during a year (YYYY) or a month (YYYY-MM): started on or before the period's last day (start date, or creation date when there is none) and with no end date or one after the period's first day.
 - `affiliation_name` (String) Affiliation name
+- `affiliation_uuid` (String) Affiliation UUID
 - `backend_id` (String) ID of the backend
 - `can_admin` (Boolean) Return a list of projects where current user is admin.
 - `can_manage` (Boolean) Return a list of projects where current user is manager or a customer owner.
 - `conceal_finished_projects` (Boolean) Conceal finished projects
 - `created` (String) Created after
 - `created_before` (String) Created before
+- `current_user_has_role` (String) Multiple values may be separated by commas.
+- `customer` (String) Multiple values may be separated by commas.
 - `customer_abbreviation` (String) Customer abbreviation
 - `customer_name` (String) Customer name
 - `customer_native_name` (String) Customer native name

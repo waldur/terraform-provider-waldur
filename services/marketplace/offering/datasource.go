@@ -863,6 +863,8 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 					"openstack_offering_uuid_list": schema.ListAttribute{
 						ElementType: types.StringType,
 						Computed:    true, MarkdownDescription: "List of UUID of OpenStack offerings where tenant can be created"},
+					"pre_flight_check_enabled": schema.BoolAttribute{
+						Computed: true, MarkdownDescription: "Check the tenant's quotas before an instance is ordered"},
 					"project_permanent_directory": schema.StringAttribute{
 						Computed: true, MarkdownDescription: "HEAppE project permanent directory"},
 					"require_effective_id_for_highlighted_display": schema.BoolAttribute{

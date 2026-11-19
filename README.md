@@ -34,7 +34,7 @@ provider "waldur" {
 | Argument | Description | Required | Default |
 |----------|-------------|----------|---------|
 | `endpoint` | The Waldur API endpoint URL | No | `WALDUR_API_URL` env var |
-| `token` | API authentication token | No | `WALDUR_ACCESS_TOKEN` env var |
+| `token` | API token: an account token, or a personal access token (`w_…`, sent as a Bearer token) | No | `WALDUR_ACCESS_TOKEN` env var |
 
 ## Resources
 
@@ -99,6 +99,8 @@ provider "waldur" {
 | `waldur_marketplace_offering` | Retrieves Offering data |
 | `waldur_marketplace_order` | Retrieves Order data |
 | `waldur_marketplace_resource` | Retrieves Resource data |
+| `waldur_marketplace_resource_api_key` | Retrieves ResourceApiKey data |
+| `waldur_marketplace_resource_api_keys` | Lists ResourceApiKey objects matching filters |
 | `waldur_openstack_tenant` | Retrieves Tenant data |
 | `waldur_openstack_volume` | Retrieves Volume data |
 | `waldur_openstack_instance` | Retrieves Instance data |
@@ -112,6 +114,14 @@ provider "waldur" {
 | `waldur_openstack_server_group` | Retrieves ServerGroup data |
 | `waldur_openstack_network_rbac_policy` | Retrieves NetworkRbacPolicy data |
 | `waldur_openstack_floating_ip` | Retrieves FloatingIp data |
+
+## Ephemeral Resources
+
+Their values are fetched on every run and never written to the plan or the state (Terraform 1.10+).
+
+| Ephemeral Resource | Description |
+|--------------------|-------------|
+| `waldur_marketplace_resource_api_key` | Fetches ResourceApiKey without storing it |
 
 ## Documentation
 

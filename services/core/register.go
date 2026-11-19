@@ -3,6 +3,7 @@ package core
 import (
 	"github.com/hashicorp/terraform-plugin-framework/action"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
+	"github.com/hashicorp/terraform-plugin-framework/ephemeral"
 	"github.com/hashicorp/terraform-plugin-framework/list"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	pkg_ssh_public_key "github.com/waldur/terraform-provider-waldur/services/core/ssh_public_key"
@@ -28,4 +29,8 @@ func GetListResources() []func() list.ListResource {
 	return []func() list.ListResource{
 		pkg_ssh_public_key.NewCoreSshPublicKeyList,
 	}
+}
+
+func GetEphemeralResources() []func() ephemeral.EphemeralResource {
+	return []func() ephemeral.EphemeralResource{}
 }

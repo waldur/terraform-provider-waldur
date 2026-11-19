@@ -3,6 +3,7 @@ package openstack
 import (
 	"github.com/hashicorp/terraform-plugin-framework/action"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
+	"github.com/hashicorp/terraform-plugin-framework/ephemeral"
 	"github.com/hashicorp/terraform-plugin-framework/list"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	pkg_flavor "github.com/waldur/terraform-provider-waldur/services/openstack/flavor"
@@ -95,4 +96,8 @@ func GetListResources() []func() list.ListResource {
 		pkg_floating_ip.NewOpenstackFloatingIpList,
 		pkg_port.NewOpenstackPortList,
 	}
+}
+
+func GetEphemeralResources() []func() ephemeral.EphemeralResource {
+	return []func() ephemeral.EphemeralResource{}
 }

@@ -1,5 +1,14 @@
 # Changelog
 
+## 2026-11-19
+
+### Added
+
+- New data source `marketplace_resource_api_key`
+- New data source `marketplace_resource_api_keys`
+- New ephemeral resource `ephemeral.marketplace_resource_api_key`
+- `marketplace_offering`: new attribute `plugin_options.pre_flight_check_enabled`
+
 ## 2026-11-18
 
 ### Added

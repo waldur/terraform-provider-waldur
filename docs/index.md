@@ -45,4 +45,4 @@ provider "waldur" {
 ### Optional
 
 - `endpoint` (String) Waldur API endpoint URL. Can also be set via the `WALDUR_API_URL` environment variable.
-- `token` (String, Sensitive) API authentication token. Can also be set via the `WALDUR_ACCESS_TOKEN` environment variable.
+- `token` (String, Sensitive) API authentication token: an account token, or a personal access token (starting with `w_`), which is sent as a Bearer token. Can also be set via the `WALDUR_ACCESS_TOKEN` environment variable.

@@ -75,6 +75,7 @@ type StructureCustomerFiltersModel struct {
 	BackendId                             types.String `tfsdk:"backend_id"`
 	ContactDetails                        types.String `tfsdk:"contact_details"`
 	CurrentUserHasProjectCreatePermission types.Bool   `tfsdk:"current_user_has_project_create_permission"`
+	CurrentUserHasRole                    types.String `tfsdk:"current_user_has_role"`
 	HasResources                          types.String `tfsdk:"has_resources"`
 	IsCallManagingOrganization            types.Bool   `tfsdk:"is_call_managing_organization"`
 	IsServiceProvider                     types.Bool   `tfsdk:"is_service_provider"`
@@ -82,6 +83,7 @@ type StructureCustomerFiltersModel struct {
 	NameExact                             types.String `tfsdk:"name_exact"`
 	NativeName                            types.String `tfsdk:"native_name"`
 	OrganizationGroupName                 types.String `tfsdk:"organization_group_name"`
+	OrganizationGroupUuid                 types.String `tfsdk:"organization_group_uuid"`
 	OwnedByCurrentUser                    types.Bool   `tfsdk:"owned_by_current_user"`
 	Query                                 types.String `tfsdk:"query"`
 	RegistrationCode                      types.String `tfsdk:"registration_code"`
@@ -123,6 +125,10 @@ func (m *StructureCustomerFiltersModel) GetSchema() schema.SingleNestedAttribute
 				Optional:            true,
 				MarkdownDescription: "Return a list of customers where current user has project create permission.",
 			},
+			"current_user_has_role": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Multiple values may be separated by commas.",
+			},
 			"has_resources": schema.StringAttribute{
 				Optional:            true,
 				MarkdownDescription: "Filter by customers with resources.",
@@ -150,6 +156,10 @@ func (m *StructureCustomerFiltersModel) GetSchema() schema.SingleNestedAttribute
 			"organization_group_name": schema.StringAttribute{
 				Optional:            true,
 				MarkdownDescription: "Organization group name",
+			},
+			"organization_group_uuid": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Organization group UUID",
 			},
 			"owned_by_current_user": schema.BoolAttribute{
 				Optional:            true,

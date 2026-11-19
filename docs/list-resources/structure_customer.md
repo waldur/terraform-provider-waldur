@@ -31,6 +31,7 @@ Optional:
 - `backend_id` (String) ID of the backend
 - `contact_details` (String) Contact details
 - `current_user_has_project_create_permission` (Boolean) Return a list of customers where current user has project create permission.
+- `current_user_has_role` (String) Multiple values may be separated by commas.
 - `has_resources` (String) Filter by customers with resources.
 - `is_call_managing_organization` (Boolean) Filter by customers that are call managing organizations.
 - `is_service_provider` (Boolean) Filter by customers that are service providers.
@@ -38,6 +39,7 @@ Optional:
 - `name_exact` (String) Name (exact)
 - `native_name` (String) Native name
 - `organization_group_name` (String) Organization group name
+- `organization_group_uuid` (String) Organization group UUID
 - `owned_by_current_user` (Boolean) Return a list of customers where current user is owner.
 - `query` (String) Filter by name, native name, abbreviation, domain, UUID, registration code or agreement number
 - `registration_code` (String) Registration code

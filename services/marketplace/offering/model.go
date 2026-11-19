@@ -3,9 +3,11 @@ package offering
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
@@ -45,8 +47,12 @@ type MarketplaceOfferingFiltersModel struct {
 	ServiceManagerUuid      types.String `tfsdk:"service_manager_uuid"`
 	Shared                  types.Bool   `tfsdk:"shared"`
 	Slug                    types.String `tfsdk:"slug"`
+	State                   types.String `tfsdk:"state"`
+	Tag                     types.String `tfsdk:"tag"`
+	TagName                 types.String `tfsdk:"tag_name"`
 	TagNamesAnd             types.String `tfsdk:"tag_names_and"`
 	TagsAnd                 types.String `tfsdk:"tags_and"`
+	Type                    types.String `tfsdk:"type"`
 	UserHasConsent          types.Bool   `tfsdk:"user_has_consent"`
 	UserHasOfferingUser     types.Bool   `tfsdk:"user_has_offering_user"`
 	UuidList                types.String `tfsdk:"uuid_list"`
@@ -189,6 +195,22 @@ func (m *MarketplaceOfferingFiltersModel) GetSchema() schema.SingleNestedAttribu
 				Optional:            true,
 				MarkdownDescription: "Slug",
 			},
+			"state": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Offering state",
+
+				Validators: []validator.String{
+					stringvalidator.OneOf("Draft", "Active", "Paused", "Archived", "Unavailable"),
+				},
+			},
+			"tag": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Tag UUID (OR logic)",
+			},
+			"tag_name": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Tag name (OR logic)",
+			},
 			"tag_names_and": schema.StringAttribute{
 				Optional:            true,
 				MarkdownDescription: "Tag names with AND logic (comma-separated)",
@@ -196,6 +218,10 @@ func (m *MarketplaceOfferingFiltersModel) GetSchema() schema.SingleNestedAttribu
 			"tags_and": schema.StringAttribute{
 				Optional:            true,
 				MarkdownDescription: "Tag UUIDs with AND logic (comma-separated)",
+			},
+			"type": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Offering type",
 			},
 			"user_has_consent": schema.BoolAttribute{
 				Optional:            true,
@@ -902,6 +928,7 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 			"notify_about_provider_consumer_messages":               types.BoolType,
 			"offering_user_auto_deletion":                           types.BoolType,
 			"openstack_offering_uuid_list":                          types.ListType{ElemType: types.StringType},
+			"pre_flight_check_enabled":                              types.BoolType,
 			"project_permanent_directory":                           types.StringType,
 			"require_effective_id_for_highlighted_display":          types.BoolType,
 			"require_purchase_order_upload":                         types.BoolType,
@@ -1027,6 +1054,7 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 			"notify_about_provider_consumer_messages":               types.BoolType,
 			"offering_user_auto_deletion":                           types.BoolType,
 			"openstack_offering_uuid_list":                          types.ListType{ElemType: types.StringType},
+			"pre_flight_check_enabled":                              types.BoolType,
 			"project_permanent_directory":                           types.StringType,
 			"require_effective_id_for_highlighted_display":          types.BoolType,
 			"require_purchase_order_upload":                         types.BoolType,

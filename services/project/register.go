@@ -3,6 +3,7 @@ package project
 import (
 	"github.com/hashicorp/terraform-plugin-framework/action"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
+	"github.com/hashicorp/terraform-plugin-framework/ephemeral"
 	"github.com/hashicorp/terraform-plugin-framework/list"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	pkg_permission "github.com/waldur/terraform-provider-waldur/services/project/permission"
@@ -24,4 +25,8 @@ func GetActions() []func() action.Action {
 
 func GetListResources() []func() list.ListResource {
 	return []func() list.ListResource{}
+}
+
+func GetEphemeralResources() []func() ephemeral.EphemeralResource {
+	return []func() ephemeral.EphemeralResource{}
 }

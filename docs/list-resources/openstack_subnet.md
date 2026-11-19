@@ -46,5 +46,6 @@ Optional:
 - `rbac_only` (Boolean) RBAC only
 - `service_settings_name` (String) Service settings name
 - `service_settings_uuid` (String) Service settings UUID
+- `state` (String) State
 - `tenant` (String) Tenant URL
 - `tenant_uuid` (String) Tenant UUID

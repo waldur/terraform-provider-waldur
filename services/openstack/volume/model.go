@@ -3,8 +3,10 @@ package volume
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
@@ -34,6 +36,7 @@ type OpenstackVolumeFiltersModel struct {
 	ServiceSettingsUuid  types.String `tfsdk:"service_settings_uuid"`
 	Snapshot             types.String `tfsdk:"snapshot"`
 	SnapshotUuid         types.String `tfsdk:"snapshot_uuid"`
+	State                types.String `tfsdk:"state"`
 	Tenant               types.String `tfsdk:"tenant"`
 	TenantUuid           types.String `tfsdk:"tenant_uuid"`
 }
@@ -134,6 +137,14 @@ func (m *OpenstackVolumeFiltersModel) GetSchema() schema.SingleNestedAttribute {
 			"snapshot_uuid": schema.StringAttribute{
 				Optional:            true,
 				MarkdownDescription: "Snapshot UUID",
+			},
+			"state": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "State",
+
+				Validators: []validator.String{
+					stringvalidator.OneOf("CREATION_SCHEDULED", "CREATING", "UPDATE_SCHEDULED", "UPDATING", "DELETION_SCHEDULED", "DELETING", "OK", "ERRED"),
+				},
 			},
 			"tenant": schema.StringAttribute{
 				Optional:            true,

@@ -139,8 +139,12 @@ Optional:
 - `service_manager_uuid` (String) Service manager UUID
 - `shared` (Boolean) Shared
 - `slug` (String) Slug
+- `state` (String) Offering state
+- `tag` (String) Tag UUID (OR logic)
+- `tag_name` (String) Tag name (OR logic)
 - `tag_names_and` (String) Tag names with AND logic (comma-separated)
 - `tags_and` (String) Tag UUIDs with AND logic (comma-separated)
+- `type` (String) Offering type
 - `user_has_consent` (Boolean) User Has Consent
 - `user_has_offering_user` (Boolean) User Has Offering User
 - `uuid_list` (String) Comma-separated offering UUIDs
@@ -542,6 +546,7 @@ Read-Only:
 - `notify_about_provider_consumer_messages` (Boolean) If set to True, send email notifications when providers or consumers exchange messages on pending orders.
 - `offering_user_auto_deletion` (Boolean) If set to True, offering users will be automatically marked for deletion by the cleanup task when users lose project access. If False (default), deletion must be triggered manually by the service provider.
 - `openstack_offering_uuid_list` (List of String) List of UUID of OpenStack offerings where tenant can be created
+- `pre_flight_check_enabled` (Boolean) Check the tenant's quotas before an instance is ordered
 - `project_permanent_directory` (String) HEAppE project permanent directory
 - `require_effective_id_for_highlighted_display` (Boolean) If set to True, highlighted backend ID display is only shown when the resource has an effective_id.
 - `require_purchase_order_upload` (Boolean) If set to True, users will be required to upload purchase orders.

@@ -7,6 +7,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/action"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
+	"github.com/hashicorp/terraform-plugin-framework/ephemeral"
 	"github.com/hashicorp/terraform-plugin-framework/list"
 	"github.com/hashicorp/terraform-plugin-framework/provider"
 	"github.com/hashicorp/terraform-plugin-framework/provider/schema"
@@ -29,6 +30,7 @@ import (
 var _ provider.Provider = &waldurProvider{}
 var _ provider.ProviderWithActions = &waldurProvider{}
 var _ provider.ProviderWithListResources = &waldurProvider{}
+var _ provider.ProviderWithEphemeralResources = &waldurProvider{}
 
 // waldurProvider defines the provider implementation.
 type waldurProvider struct {
@@ -79,7 +81,7 @@ func (p *waldurProvider) Schema(ctx context.Context, req provider.SchemaRequest,
 				Optional:            true,
 			},
 			"token": schema.StringAttribute{
-				MarkdownDescription: "API authentication token. Can also be set via the `WALDUR_ACCESS_TOKEN` environment variable.",
+				MarkdownDescription: "API authentication token: an account token, or a personal access token (starting with `w_`), which is sent as a Bearer token. Can also be set via the `WALDUR_ACCESS_TOKEN` environment variable.",
 				Optional:            true,
 				Sensitive:           true,
 			},
@@ -143,6 +145,7 @@ func (p *waldurProvider) Configure(ctx context.Context, req provider.ConfigureRe
 	// Make client available to resources and data sources
 	resp.DataSourceData = apiClient
 	resp.ResourceData = apiClient
+	resp.EphemeralResourceData = apiClient
 }
 
 func (p *waldurProvider) Resources(ctx context.Context) []func() resource.Resource {
@@ -167,6 +170,18 @@ func (p *waldurProvider) DataSources(ctx context.Context) []func() datasource.Da
 	ds = append(ds, project.GetDataSources()...)
 	ds = append(ds, structure.GetDataSources()...)
 	return ds
+}
+
+func (p *waldurProvider) EphemeralResources(ctx context.Context) []func() ephemeral.EphemeralResource {
+	var er []func() ephemeral.EphemeralResource
+	er = append(er, core.GetEphemeralResources()...)
+	er = append(er, customer.GetEphemeralResources()...)
+	er = append(er, identity.GetEphemeralResources()...)
+	er = append(er, marketplace.GetEphemeralResources()...)
+	er = append(er, openstack.GetEphemeralResources()...)
+	er = append(er, project.GetEphemeralResources()...)
+	er = append(er, structure.GetEphemeralResources()...)
+	return er
 }
 
 func (p *waldurProvider) Actions(ctx context.Context) []func() action.Action {

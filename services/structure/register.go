@@ -3,6 +3,7 @@ package structure
 import (
 	"github.com/hashicorp/terraform-plugin-framework/action"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
+	"github.com/hashicorp/terraform-plugin-framework/ephemeral"
 	"github.com/hashicorp/terraform-plugin-framework/list"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	pkg_customer "github.com/waldur/terraform-provider-waldur/services/structure/customer"
@@ -32,4 +33,8 @@ func GetListResources() []func() list.ListResource {
 		pkg_project.NewStructureProjectList,
 		pkg_customer.NewStructureCustomerList,
 	}
+}
+
+func GetEphemeralResources() []func() ephemeral.EphemeralResource {
+	return []func() ephemeral.EphemeralResource{}
 }

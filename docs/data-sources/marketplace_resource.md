@@ -128,9 +128,12 @@ Optional:
 - `offering` (String) Offering
 - `offering_billable` (Boolean) Offering billable
 - `offering_shared` (Boolean) Offering shared
+- `offering_slug` (String) Multiple values may be separated by commas.
 - `offering_type` (String) Offering type
+- `offering_uuid` (String) Multiple values may be separated by commas.
 - `only_limit_based` (Boolean) Filter resources with only limit-based components
 - `only_usage_based` (Boolean) Filter resources with only usage-based components
+- `order_state` (String) Order state
 - `parent_offering_uuid` (String) UUID of the parent offering
 - `paused` (Boolean) Paused
 - `plan_uuid` (String) Plan UUID
@@ -144,6 +147,7 @@ Optional:
 - `scope` (String) Filter by scope URL.
 - `service_manager_uuid` (String) Service manager UUID
 - `slug` (String) Slug
+- `state` (String) Resource state
 - `usage_based` (Boolean) Filter by usage-based offerings
 - `visible_to_providers` (Boolean) Include only resources visible to service providers
 - `visible_to_username` (String) Visible to username

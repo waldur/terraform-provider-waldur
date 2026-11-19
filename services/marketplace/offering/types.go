@@ -698,6 +698,8 @@ type MarketplaceOfferingPluginOptionsResponse struct {
 
 	OpenstackOfferingUuidList *[]string `json:"openstack_offering_uuid_list,omitempty" tfsdk:"openstack_offering_uuid_list"`
 
+	PreFlightCheckEnabled *bool `json:"pre_flight_check_enabled,omitempty" tfsdk:"pre_flight_check_enabled"`
+
 	ProjectPermanentDirectory *string `json:"project_permanent_directory,omitempty" tfsdk:"project_permanent_directory"`
 
 	RequireEffectiveIdForHighlightedDisplay *bool `json:"require_effective_id_for_highlighted_display,omitempty" tfsdk:"require_effective_id_for_highlighted_display"`

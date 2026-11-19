@@ -8,6 +8,7 @@ import (
 	"io"
 	"net/http"
 	"net/url"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -56,6 +57,19 @@ func NewClient(config *Config) (*Client, error) {
 	}, nil
 }
 
+// personalAccessTokenPrefix starts every Waldur personal access token.
+const personalAccessTokenPrefix = "w_"
+
+// AuthorizationHeader returns the Authorization header value for a token.
+// Waldur takes a personal access token as a Bearer token and an account token
+// under the Token scheme; sent under the other scheme, either is refused with 401.
+func AuthorizationHeader(token string) string {
+	if strings.HasPrefix(token, personalAccessTokenPrefix) {
+		return "Bearer " + token
+	}
+	return "Token " + token
+}
+
 // doRequest performs an HTTP request with authentication
 func (c *Client) doRequest(ctx context.Context, method, path string, body interface{}) (*http.Response, error) {
 	// Construct full URL, avoiding double slashes and double 'api' segments
@@ -81,7 +95,7 @@ func (c *Client) doRequest(ctx context.Context, method, path string, body interf
 	}
 
 	// Set headers
-	req.Header.Set("Authorization", "Token "+c.token)
+	req.Header.Set("Authorization", AuthorizationHeader(c.token))
 	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("Accept", "application/json")
 
@@ -201,6 +215,95 @@ func (c *Client) List(ctx context.Context, path string, filters map[string]strin
 		path = path + "?" + query.Encode()
 	}
 	return c.GetURL(ctx, path, result)
+}
+
+// listPageSize is the page size ListAll asks for.
+const listPageSize = 100
+
+// maxListPages bounds ListAll, so that a server which never stops offering a
+// next page fails the read instead of looping forever.
+const maxListPages = 1000
+
+// ListAll is List across every page: the API returns one page per request, so
+// List alone sees at most the first page of a long result.
+//
+// It follows the API's Link header pagination: it asks for the next page only
+// while the response links one (rel="next"), and stops once it holds
+// X-Result-Count items. Asking past the last page is an error (404 "Invalid
+// page."), so a full last page must not be taken to mean there is more. An
+// endpoint that does not paginate sends no next link and is read once; one that
+// ignores the page parameter yet links a next page is caught when a page starts
+// with the same item as the page before it.
+func (c *Client) ListAll(ctx context.Context, path string, filters map[string]string, result interface{}) error {
+	all := []json.RawMessage{}
+	previousFirst := ""
+	for page := 1; ; page++ {
+		if page > maxListPages {
+			return fmt.Errorf("listing %s: more than %d pages of %d items", path, maxListPages, listPageSize)
+		}
+		query := url.Values{}
+		for key, value := range filters {
+			query.Set(key, value)
+		}
+		query.Set("page", fmt.Sprintf("%d", page))
+		query.Set("page_size", fmt.Sprintf("%d", listPageSize))
+
+		items, header, err := c.getPage(ctx, path+"?"+query.Encode())
+		if err != nil {
+			return err
+		}
+		if len(items) == 0 {
+			break
+		}
+		if page > 1 && string(items[0]) == previousFirst {
+			break // the page parameter is ignored: this page repeats the last one
+		}
+		previousFirst = string(items[0])
+		all = append(all, items...)
+
+		if !hasNextLink(header.Get("Link")) {
+			break
+		}
+		if total, err := strconv.Atoi(header.Get("X-Result-Count")); err == nil && len(all) >= total {
+			break
+		}
+	}
+	data, err := json.Marshal(all)
+	if err != nil {
+		return fmt.Errorf("failed to collect list results: %w", err)
+	}
+	return json.Unmarshal(data, result)
+}
+
+// getPage reads one page of a list along with the response headers, which
+// carry the pagination links.
+func (c *Client) getPage(ctx context.Context, path string) ([]json.RawMessage, http.Header, error) {
+	resp, err := c.doRequest(ctx, http.MethodGet, path, nil)
+	if err != nil {
+		return nil, nil, err
+	}
+	defer resp.Body.Close()
+
+	if err := c.checkResponse(resp); err != nil {
+		return nil, nil, err
+	}
+	var items []json.RawMessage
+	if err := json.NewDecoder(resp.Body).Decode(&items); err != nil {
+		return nil, nil, fmt.Errorf("failed to decode response: %w", err)
+	}
+	return items, resp.Header, nil
+}
+
+// hasNextLink reports whether an RFC 8288 Link header links a next page.
+func hasNextLink(link string) bool {
+	for _, part := range strings.Split(link, ",") {
+		for _, param := range strings.Split(part, ";")[1:] {
+			if strings.EqualFold(strings.ReplaceAll(strings.TrimSpace(param), " ", ""), `rel="next"`) {
+				return true
+			}
+		}
+	}
+	return false
 }
 
 // Get retrieves a single resource by UUID

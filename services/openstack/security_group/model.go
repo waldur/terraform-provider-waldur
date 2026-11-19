@@ -3,9 +3,11 @@ package security_group
 import (
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
@@ -45,6 +47,7 @@ type OpenstackSecurityGroupFiltersModel struct {
 	Query                types.String `tfsdk:"query"`
 	ServiceSettingsName  types.String `tfsdk:"service_settings_name"`
 	ServiceSettingsUuid  types.String `tfsdk:"service_settings_uuid"`
+	State                types.String `tfsdk:"state"`
 	Tenant               types.String `tfsdk:"tenant"`
 	TenantUuid           types.String `tfsdk:"tenant_uuid"`
 }
@@ -121,6 +124,14 @@ func (m *OpenstackSecurityGroupFiltersModel) GetSchema() schema.SingleNestedAttr
 			"service_settings_uuid": schema.StringAttribute{
 				Optional:            true,
 				MarkdownDescription: "Service settings UUID",
+			},
+			"state": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "State",
+
+				Validators: []validator.String{
+					stringvalidator.OneOf("CREATION_SCHEDULED", "CREATING", "UPDATE_SCHEDULED", "UPDATING", "DELETION_SCHEDULED", "DELETING", "OK", "ERRED"),
+				},
 			},
 			"tenant": schema.StringAttribute{
 				Optional:            true,

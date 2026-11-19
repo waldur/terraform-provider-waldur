@@ -3,11 +3,14 @@ package marketplace
 import (
 	"github.com/hashicorp/terraform-plugin-framework/action"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
+	"github.com/hashicorp/terraform-plugin-framework/ephemeral"
 	"github.com/hashicorp/terraform-plugin-framework/list"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	pkg_offering "github.com/waldur/terraform-provider-waldur/services/marketplace/offering"
 	pkg_order "github.com/waldur/terraform-provider-waldur/services/marketplace/order"
 	pkg_resource "github.com/waldur/terraform-provider-waldur/services/marketplace/resource"
+	pkg_resource_api_key "github.com/waldur/terraform-provider-waldur/services/marketplace/resource_api_key"
+	pkg_resource_api_key_ephemeral "github.com/waldur/terraform-provider-waldur/services/marketplace/resource_api_key_ephemeral"
 )
 
 func GetResources() []func() resource.Resource {
@@ -22,6 +25,8 @@ func GetDataSources() []func() datasource.DataSource {
 		pkg_order.NewMarketplaceOrderDataSource,
 		pkg_resource.NewMarketplaceResourceDataSource,
 		pkg_offering.NewMarketplaceOfferingDataSource,
+		pkg_resource_api_key.NewMarketplaceResourceApiKeyDataSource,
+		pkg_resource_api_key.NewMarketplaceResourceApiKeyListDataSource,
 	}
 }
 
@@ -37,5 +42,11 @@ func GetListResources() []func() list.ListResource {
 	return []func() list.ListResource{
 		pkg_order.NewMarketplaceOrderList,
 		pkg_resource.NewMarketplaceResourceList,
+	}
+}
+
+func GetEphemeralResources() []func() ephemeral.EphemeralResource {
+	return []func() ephemeral.EphemeralResource{
+		pkg_resource_api_key_ephemeral.NewMarketplaceResourceApiKeyEphemeralResource,
 	}
 }

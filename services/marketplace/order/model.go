@@ -4,9 +4,11 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
+	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
@@ -42,6 +44,8 @@ type MarketplaceOrderFiltersModel struct {
 	Modified             types.String `tfsdk:"modified"`
 	ModifiedBefore       types.String `tfsdk:"modified_before"`
 	Offering             types.String `tfsdk:"offering"`
+	OfferingSlug         types.String `tfsdk:"offering_slug"`
+	OfferingType         types.String `tfsdk:"offering_type"`
 	OfferingUuid         types.String `tfsdk:"offering_uuid"`
 	ParentOfferingUuid   types.String `tfsdk:"parent_offering_uuid"`
 	ProjectUuid          types.String `tfsdk:"project_uuid"`
@@ -52,6 +56,8 @@ type MarketplaceOrderFiltersModel struct {
 	ResourceUuid         types.String `tfsdk:"resource_uuid"`
 	ServiceManagerUuid   types.String `tfsdk:"service_manager_uuid"`
 	Slug                 types.String `tfsdk:"slug"`
+	State                types.String `tfsdk:"state"`
+	Type                 types.String `tfsdk:"type"`
 	WasAutoApproved      types.Bool   `tfsdk:"was_auto_approved"`
 }
 
@@ -100,6 +106,14 @@ func (m *MarketplaceOrderFiltersModel) GetSchema() schema.SingleNestedAttribute 
 				Optional:            true,
 				MarkdownDescription: "Offering",
 			},
+			"offering_slug": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Multiple values may be separated by commas.",
+			},
+			"offering_type": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Offering type",
+			},
 			"offering_uuid": schema.StringAttribute{
 				Optional:            true,
 				MarkdownDescription: "Offering UUID",
@@ -139,6 +153,22 @@ func (m *MarketplaceOrderFiltersModel) GetSchema() schema.SingleNestedAttribute 
 			"slug": schema.StringAttribute{
 				Optional:            true,
 				MarkdownDescription: "Slug",
+			},
+			"state": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Order state",
+
+				Validators: []validator.String{
+					stringvalidator.OneOf("pending-consumer", "pending-provider", "pending-project", "pending-start-date", "executing", "done", "erred", "canceled", "rejected"),
+				},
+			},
+			"type": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Order type",
+
+				Validators: []validator.String{
+					stringvalidator.OneOf("Create", "Update", "Terminate", "Restore"),
+				},
 			},
 			"was_auto_approved": schema.BoolAttribute{
 				Optional:            true,

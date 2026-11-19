@@ -63,12 +63,15 @@ type StructureProjectFiltersModel struct {
 	AccountingIsRunning     types.Bool   `tfsdk:"accounting_is_running"`
 	ActiveDuring            types.String `tfsdk:"active_during"`
 	AffiliationName         types.String `tfsdk:"affiliation_name"`
+	AffiliationUuid         types.String `tfsdk:"affiliation_uuid"`
 	BackendId               types.String `tfsdk:"backend_id"`
 	CanAdmin                types.Bool   `tfsdk:"can_admin"`
 	CanManage               types.Bool   `tfsdk:"can_manage"`
 	ConcealFinishedProjects types.Bool   `tfsdk:"conceal_finished_projects"`
 	Created                 types.String `tfsdk:"created"`
 	CreatedBefore           types.String `tfsdk:"created_before"`
+	CurrentUserHasRole      types.String `tfsdk:"current_user_has_role"`
+	Customer                types.String `tfsdk:"customer"`
 	CustomerAbbreviation    types.String `tfsdk:"customer_abbreviation"`
 	CustomerName            types.String `tfsdk:"customer_name"`
 	CustomerNativeName      types.String `tfsdk:"customer_native_name"`
@@ -113,6 +116,10 @@ func (m *StructureProjectFiltersModel) GetSchema() schema.SingleNestedAttribute 
 				Optional:            true,
 				MarkdownDescription: "Affiliation name",
 			},
+			"affiliation_uuid": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Affiliation UUID",
+			},
 			"backend_id": schema.StringAttribute{
 				Optional:            true,
 				MarkdownDescription: "ID of the backend",
@@ -136,6 +143,14 @@ func (m *StructureProjectFiltersModel) GetSchema() schema.SingleNestedAttribute 
 			"created_before": schema.StringAttribute{
 				Optional:            true,
 				MarkdownDescription: "Created before",
+			},
+			"current_user_has_role": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Multiple values may be separated by commas.",
+			},
+			"customer": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Multiple values may be separated by commas.",
 			},
 			"customer_abbreviation": schema.StringAttribute{
 				Optional:            true,

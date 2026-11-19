@@ -103,6 +103,230 @@
         }
       ]
     },
+    "ephemeral.marketplace_resource_api_key": {
+      "kind": "ephemeral_resource",
+      "attributes": [
+        {
+          "name": "allowed_models",
+          "type": "types.List\u003cstring\u003e",
+          "required": false,
+          "optional": false,
+          "computed": true
+        },
+        {
+          "name": "api_key",
+          "type": "types.String",
+          "required": false,
+          "optional": false,
+          "computed": true
+        },
+        {
+          "name": "client_id",
+          "type": "types.String",
+          "required": false,
+          "optional": false,
+          "computed": true
+        },
+        {
+          "name": "description",
+          "type": "types.String",
+          "required": false,
+          "optional": false,
+          "computed": true
+        },
+        {
+          "name": "effective_models",
+          "type": "types.List\u003cstring\u003e",
+          "required": false,
+          "optional": false,
+          "computed": true
+        },
+        {
+          "name": "error_message",
+          "type": "types.String",
+          "required": false,
+          "optional": false,
+          "computed": true
+        },
+        {
+          "name": "estimated_cost",
+          "type": "types.String",
+          "required": false,
+          "optional": false,
+          "computed": true
+        },
+        {
+          "name": "id",
+          "type": "types.String",
+          "required": true,
+          "optional": false,
+          "computed": false
+        },
+        {
+          "name": "issued_at",
+          "type": "types.String",
+          "required": false,
+          "optional": false,
+          "computed": true
+        },
+        {
+          "name": "limit_resumes_at",
+          "type": "types.String",
+          "required": false,
+          "optional": false,
+          "computed": true
+        },
+        {
+          "name": "limits",
+          "type": "types.Map",
+          "required": false,
+          "optional": false,
+          "computed": true
+        },
+        {
+          "name": "offering_uuid",
+          "type": "types.String",
+          "required": false,
+          "optional": false,
+          "computed": true
+        },
+        {
+          "name": "paused_by_limit",
+          "type": "types.Bool",
+          "required": false,
+          "optional": false,
+          "computed": true
+        },
+        {
+          "name": "pending_action",
+          "type": "types.String",
+          "required": false,
+          "optional": false,
+          "computed": true
+        },
+        {
+          "name": "resource_backend_id",
+          "type": "types.String",
+          "required": false,
+          "optional": false,
+          "computed": true
+        },
+        {
+          "name": "resource_name",
+          "type": "types.String",
+          "required": false,
+          "optional": false,
+          "computed": true
+        },
+        {
+          "name": "resource_plan_uuid",
+          "type": "types.String",
+          "required": false,
+          "optional": false,
+          "computed": true
+        },
+        {
+          "name": "resource_spending_limits",
+          "type": "types.Map",
+          "required": false,
+          "optional": false,
+          "computed": true
+        },
+        {
+          "name": "resource_uuid",
+          "type": "types.String",
+          "required": false,
+          "optional": false,
+          "computed": true
+        },
+        {
+          "name": "spending_limit_status",
+          "type": "types.List\u003cobject\u003e",
+          "required": false,
+          "optional": false,
+          "computed": true,
+          "attributes": [
+            {
+              "name": "component_type",
+              "type": "types.String",
+              "required": false,
+              "optional": false,
+              "computed": true
+            },
+            {
+              "name": "limit",
+              "type": "types.Float64",
+              "required": false,
+              "optional": false,
+              "computed": true
+            },
+            {
+              "name": "period",
+              "type": "types.String",
+              "required": false,
+              "optional": false,
+              "computed": true
+            },
+            {
+              "name": "reached",
+              "type": "types.Bool",
+              "required": false,
+              "optional": false,
+              "computed": true
+            },
+            {
+              "name": "resets_at",
+              "type": "types.String",
+              "required": false,
+              "optional": false,
+              "computed": true
+            },
+            {
+              "name": "used",
+              "type": "types.Float64",
+              "required": false,
+              "optional": false,
+              "computed": true
+            }
+          ]
+        },
+        {
+          "name": "spending_limits",
+          "type": "types.Map",
+          "required": false,
+          "optional": false,
+          "computed": true
+        },
+        {
+          "name": "state",
+          "type": "types.String",
+          "required": false,
+          "optional": false,
+          "computed": true
+        },
+        {
+          "name": "usage_period",
+          "type": "types.String",
+          "required": false,
+          "optional": false,
+          "computed": true
+        },
+        {
+          "name": "user_full_name",
+          "type": "types.String",
+          "required": false,
+          "optional": false,
+          "computed": true
+        },
+        {
+          "name": "user_uuid",
+          "type": "types.String",
+          "required": false,
+          "optional": false,
+          "computed": true
+        }
+      ]
+    },
     "identity_bridge_link": {
       "kind": "resource",
       "attributes": [
@@ -2260,6 +2484,13 @@
             {
               "name": "openstack_offering_uuid_list",
               "type": "types.List\u003cstring\u003e",
+              "required": false,
+              "optional": false,
+              "computed": true
+            },
+            {
+              "name": "pre_flight_check_enabled",
+              "type": "types.Bool",
               "required": false,
               "optional": false,
               "computed": true
@@ -5637,6 +5868,435 @@
           "required": false,
           "optional": false,
           "computed": true
+        }
+      ]
+    },
+    "marketplace_resource_api_key": {
+      "kind": "data_source",
+      "attributes": [
+        {
+          "name": "allowed_models",
+          "type": "types.List\u003cstring\u003e",
+          "required": false,
+          "optional": false,
+          "computed": true
+        },
+        {
+          "name": "client_id",
+          "type": "types.String",
+          "required": false,
+          "optional": false,
+          "computed": true
+        },
+        {
+          "name": "description",
+          "type": "types.String",
+          "required": false,
+          "optional": false,
+          "computed": true
+        },
+        {
+          "name": "effective_models",
+          "type": "types.List\u003cstring\u003e",
+          "required": false,
+          "optional": false,
+          "computed": true
+        },
+        {
+          "name": "error_message",
+          "type": "types.String",
+          "required": false,
+          "optional": false,
+          "computed": true
+        },
+        {
+          "name": "estimated_cost",
+          "type": "types.String",
+          "required": false,
+          "optional": false,
+          "computed": true
+        },
+        {
+          "name": "issued_at",
+          "type": "types.String",
+          "required": false,
+          "optional": false,
+          "computed": true
+        },
+        {
+          "name": "limit_resumes_at",
+          "type": "types.String",
+          "required": false,
+          "optional": false,
+          "computed": true
+        },
+        {
+          "name": "limits",
+          "type": "types.Map",
+          "required": false,
+          "optional": false,
+          "computed": true
+        },
+        {
+          "name": "offering_uuid",
+          "type": "types.String",
+          "required": false,
+          "optional": false,
+          "computed": true
+        },
+        {
+          "name": "paused_by_limit",
+          "type": "types.Bool",
+          "required": false,
+          "optional": false,
+          "computed": true
+        },
+        {
+          "name": "pending_action",
+          "type": "types.String",
+          "required": false,
+          "optional": false,
+          "computed": true
+        },
+        {
+          "name": "resource_backend_id",
+          "type": "types.String",
+          "required": false,
+          "optional": false,
+          "computed": true
+        },
+        {
+          "name": "resource_name",
+          "type": "types.String",
+          "required": false,
+          "optional": false,
+          "computed": true
+        },
+        {
+          "name": "resource_plan_uuid",
+          "type": "types.String",
+          "required": false,
+          "optional": false,
+          "computed": true
+        },
+        {
+          "name": "resource_spending_limits",
+          "type": "types.Map",
+          "required": false,
+          "optional": false,
+          "computed": true
+        },
+        {
+          "name": "resource_uuid",
+          "type": "types.String",
+          "required": false,
+          "optional": false,
+          "computed": true
+        },
+        {
+          "name": "spending_limit_status",
+          "type": "types.List\u003cobject\u003e",
+          "required": false,
+          "optional": false,
+          "computed": true,
+          "attributes": [
+            {
+              "name": "component_type",
+              "type": "types.String",
+              "required": false,
+              "optional": false,
+              "computed": true
+            },
+            {
+              "name": "limit",
+              "type": "types.Float64",
+              "required": false,
+              "optional": false,
+              "computed": true
+            },
+            {
+              "name": "period",
+              "type": "types.String",
+              "required": false,
+              "optional": false,
+              "computed": true
+            },
+            {
+              "name": "reached",
+              "type": "types.Bool",
+              "required": false,
+              "optional": false,
+              "computed": true
+            },
+            {
+              "name": "resets_at",
+              "type": "types.String",
+              "required": false,
+              "optional": false,
+              "computed": true
+            },
+            {
+              "name": "used",
+              "type": "types.Float64",
+              "required": false,
+              "optional": false,
+              "computed": true
+            }
+          ]
+        },
+        {
+          "name": "spending_limits",
+          "type": "types.Map",
+          "required": false,
+          "optional": false,
+          "computed": true
+        },
+        {
+          "name": "state",
+          "type": "types.String",
+          "required": false,
+          "optional": false,
+          "computed": true
+        },
+        {
+          "name": "usage_period",
+          "type": "types.String",
+          "required": false,
+          "optional": false,
+          "computed": true
+        },
+        {
+          "name": "user_full_name",
+          "type": "types.String",
+          "required": false,
+          "optional": false,
+          "computed": true
+        },
+        {
+          "name": "user_uuid",
+          "type": "types.String",
+          "required": false,
+          "optional": false,
+          "computed": true
+        }
+      ]
+    },
+    "marketplace_resource_api_keys": {
+      "kind": "data_source",
+      "attributes": [
+        {
+          "name": "items",
+          "type": "types.List\u003cobject\u003e",
+          "required": false,
+          "optional": false,
+          "computed": true,
+          "attributes": [
+            {
+              "name": "allowed_models",
+              "type": "types.List\u003cstring\u003e",
+              "required": false,
+              "optional": false,
+              "computed": true
+            },
+            {
+              "name": "client_id",
+              "type": "types.String",
+              "required": false,
+              "optional": false,
+              "computed": true
+            },
+            {
+              "name": "description",
+              "type": "types.String",
+              "required": false,
+              "optional": false,
+              "computed": true
+            },
+            {
+              "name": "effective_models",
+              "type": "types.List\u003cstring\u003e",
+              "required": false,
+              "optional": false,
+              "computed": true
+            },
+            {
+              "name": "error_message",
+              "type": "types.String",
+              "required": false,
+              "optional": false,
+              "computed": true
+            },
+            {
+              "name": "estimated_cost",
+              "type": "types.String",
+              "required": false,
+              "optional": false,
+              "computed": true
+            },
+            {
+              "name": "issued_at",
+              "type": "types.String",
+              "required": false,
+              "optional": false,
+              "computed": true
+            },
+            {
+              "name": "limit_resumes_at",
+              "type": "types.String",
+              "required": false,
+              "optional": false,
+              "computed": true
+            },
+            {
+              "name": "limits",
+              "type": "types.Map",
+              "required": false,
+              "optional": false,
+              "computed": true
+            },
+            {
+              "name": "offering_uuid",
+              "type": "types.String",
+              "required": false,
+              "optional": false,
+              "computed": true
+            },
+            {
+              "name": "paused_by_limit",
+              "type": "types.Bool",
+              "required": false,
+              "optional": false,
+              "computed": true
+            },
+            {
+              "name": "pending_action",
+              "type": "types.String",
+              "required": false,
+              "optional": false,
+              "computed": true
+            },
+            {
+              "name": "resource_backend_id",
+              "type": "types.String",
+              "required": false,
+              "optional": false,
+              "computed": true
+            },
+            {
+              "name": "resource_name",
+              "type": "types.String",
+              "required": false,
+              "optional": false,
+              "computed": true
+            },
+            {
+              "name": "resource_plan_uuid",
+              "type": "types.String",
+              "required": false,
+              "optional": false,
+              "computed": true
+            },
+            {
+              "name": "resource_spending_limits",
+              "type": "types.Map",
+              "required": false,
+              "optional": false,
+              "computed": true
+            },
+            {
+              "name": "resource_uuid",
+              "type": "types.String",
+              "required": false,
+              "optional": false,
+              "computed": true
+            },
+            {
+              "name": "spending_limit_status",
+              "type": "types.List\u003cobject\u003e",
+              "required": false,
+              "optional": false,
+              "computed": true,
+              "attributes": [
+                {
+                  "name": "component_type",
+                  "type": "types.String",
+                  "required": false,
+                  "optional": false,
+                  "computed": true
+                },
+                {
+                  "name": "limit",
+                  "type": "types.Float64",
+                  "required": false,
+                  "optional": false,
+                  "computed": true
+                },
+                {
+                  "name": "period",
+                  "type": "types.String",
+                  "required": false,
+                  "optional": false,
+                  "computed": true
+                },
+                {
+                  "name": "reached",
+                  "type": "types.Bool",
+                  "required": false,
+                  "optional": false,
+                  "computed": true
+                },
+                {
+                  "name": "resets_at",
+                  "type": "types.String",
+                  "required": false,
+                  "optional": false,
+                  "computed": true
+                },
+                {
+                  "name": "used",
+                  "type": "types.Float64",
+                  "required": false,
+                  "optional": false,
+                  "computed": true
+                }
+              ]
+            },
+            {
+              "name": "spending_limits",
+              "type": "types.Map",
+              "required": false,
+              "optional": false,
+              "computed": true
+            },
+            {
+              "name": "state",
+              "type": "types.String",
+              "required": false,
+              "optional": false,
+              "computed": true
+            },
+            {
+              "name": "usage_period",
+              "type": "types.String",
+              "required": false,
+              "optional": false,
+              "computed": true
+            },
+            {
+              "name": "user_full_name",
+              "type": "types.String",
+              "required": false,
+              "optional": false,
+              "computed": true
+            },
+            {
+              "name": "user_uuid",
+              "type": "types.String",
+              "required": false,
+              "optional": false,
+              "computed": true
+            }
+          ]
         }
       ]
     },

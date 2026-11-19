@@ -66,6 +66,7 @@ Optional:
 - `project_uuid` (String) Project UUID
 - `service_settings_name` (String) Service settings name
 - `service_settings_uuid` (String) Service settings UUID
+- `state` (String) State
 
 
 <a id="nestedatt--quotas"></a>

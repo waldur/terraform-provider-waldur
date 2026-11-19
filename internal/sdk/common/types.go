@@ -1011,3 +1011,17 @@ type SpendingLimitStatus struct {
 
 	Used FlexibleNumber `json:"used,omitempty" tfsdk:"used"`
 }
+
+type SpendingLimitUsage struct {
+	ComponentType *string `json:"component_type" tfsdk:"component_type"`
+
+	Limit FlexibleNumber `json:"limit" tfsdk:"limit"`
+
+	Period *string `json:"period" tfsdk:"period"`
+
+	Reached *bool `json:"reached" tfsdk:"reached"`
+
+	ResetsAt *string `json:"resets_at" tfsdk:"resets_at"`
+
+	Used FlexibleNumber `json:"used" tfsdk:"used"`
+}

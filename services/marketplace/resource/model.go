@@ -4,9 +4,11 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
+	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/waldur/terraform-provider-waldur/internal/sdk/common"
@@ -225,9 +227,12 @@ type MarketplaceResourceFiltersModel struct {
 	Offering             types.String  `tfsdk:"offering"`
 	OfferingBillable     types.Bool    `tfsdk:"offering_billable"`
 	OfferingShared       types.Bool    `tfsdk:"offering_shared"`
+	OfferingSlug         types.String  `tfsdk:"offering_slug"`
 	OfferingType         types.String  `tfsdk:"offering_type"`
+	OfferingUuid         types.String  `tfsdk:"offering_uuid"`
 	OnlyLimitBased       types.Bool    `tfsdk:"only_limit_based"`
 	OnlyUsageBased       types.Bool    `tfsdk:"only_usage_based"`
+	OrderState           types.String  `tfsdk:"order_state"`
 	ParentOfferingUuid   types.String  `tfsdk:"parent_offering_uuid"`
 	Paused               types.Bool    `tfsdk:"paused"`
 	PlanUuid             types.String  `tfsdk:"plan_uuid"`
@@ -241,6 +246,7 @@ type MarketplaceResourceFiltersModel struct {
 	Scope                types.String  `tfsdk:"scope"`
 	ServiceManagerUuid   types.String  `tfsdk:"service_manager_uuid"`
 	Slug                 types.String  `tfsdk:"slug"`
+	State                types.String  `tfsdk:"state"`
 	UsageBased           types.Bool    `tfsdk:"usage_based"`
 	VisibleToProviders   types.Bool    `tfsdk:"visible_to_providers"`
 	VisibleToUsername    types.String  `tfsdk:"visible_to_username"`
@@ -339,9 +345,17 @@ func (m *MarketplaceResourceFiltersModel) GetSchema() schema.SingleNestedAttribu
 				Optional:            true,
 				MarkdownDescription: "Offering shared",
 			},
+			"offering_slug": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Multiple values may be separated by commas.",
+			},
 			"offering_type": schema.StringAttribute{
 				Optional:            true,
 				MarkdownDescription: "Offering type",
+			},
+			"offering_uuid": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Multiple values may be separated by commas.",
 			},
 			"only_limit_based": schema.BoolAttribute{
 				Optional:            true,
@@ -350,6 +364,14 @@ func (m *MarketplaceResourceFiltersModel) GetSchema() schema.SingleNestedAttribu
 			"only_usage_based": schema.BoolAttribute{
 				Optional:            true,
 				MarkdownDescription: "Filter resources with only usage-based components",
+			},
+			"order_state": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Order state",
+
+				Validators: []validator.String{
+					stringvalidator.OneOf("pending-consumer", "pending-provider", "pending-project", "pending-start-date", "executing", "done", "erred", "canceled", "rejected"),
+				},
 			},
 			"parent_offering_uuid": schema.StringAttribute{
 				Optional:            true,
@@ -402,6 +424,14 @@ func (m *MarketplaceResourceFiltersModel) GetSchema() schema.SingleNestedAttribu
 			"slug": schema.StringAttribute{
 				Optional:            true,
 				MarkdownDescription: "Slug",
+			},
+			"state": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Resource state",
+
+				Validators: []validator.String{
+					stringvalidator.OneOf("Creating", "OK", "Erred", "Updating", "Terminating", "Terminated"),
+				},
 			},
 			"usage_based": schema.BoolAttribute{
 				Optional:            true,
