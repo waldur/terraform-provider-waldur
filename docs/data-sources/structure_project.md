@@ -80,6 +80,7 @@ Structure Project data source - lookup by name or UUID
 Optional:
 
 - `accounting_is_running` (Boolean) Filter by whether accounting is running.
+- `active_during` (String) Return projects active during a year (YYYY) or a month (YYYY-MM): started on or before the period's last day (start date, or creation date when there is none) and with no end date or one after the period's first day.
 - `affiliation_name` (String) Affiliation name
 - `backend_id` (String) ID of the backend
 - `can_admin` (Boolean) Return a list of projects where current user is admin.
@@ -91,7 +92,11 @@ Optional:
 - `customer_name` (String) Customer name
 - `customer_native_name` (String) Customer native name
 - `description` (String) Description
+- `end_date_after` (String) Return projects whose end date is on or after the given date.
+- `end_date_before` (String) Return projects whose end date is on or before the given date.
+- `ended` (Boolean) true: projects whose end date is today or earlier. false: projects with no end date or one after today.
 - `has_affiliation` (Boolean) Filter projects that have an affiliation.
+- `in_grace` (Boolean) true: projects that have ended but whose end date plus grace period (the project's, else the organization's, else none) is after today. false: all other projects.
 - `include_terminated` (Boolean) Include soft-deleted (terminated) projects. Only available to staff and support users, or users with organizational roles who can see their terminated projects.
 - `is_removed` (Boolean) Is removed
 - `modified` (String) Modified after
@@ -102,6 +107,9 @@ Optional:
 - `science_domain_uuid` (String) Science domain UUID
 - `science_sub_domain_uuid` (String) Science sub-domain UUID
 - `slug` (String) Slug
+- `start_date_after` (String) Return projects whose start date is on or after the given date.
+- `start_date_before` (String) Return projects whose start date is on or before the given date.
+- `started` (Boolean) true: projects with no start date or one not after today. false: projects whose start date is after today.
 - `user_role` (String) Role name or UUID; narrows user_uuid_with_active_role to that role and its organization copies.
 - `user_uuid` (String) Filter by user UUID.
 - `user_uuid_with_active_role` (String) Filter projects where the given user has a role.

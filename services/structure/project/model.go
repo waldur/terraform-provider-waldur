@@ -61,6 +61,7 @@ func ProjectMetadataAnswerType() types.ObjectType {
 
 type StructureProjectFiltersModel struct {
 	AccountingIsRunning     types.Bool   `tfsdk:"accounting_is_running"`
+	ActiveDuring            types.String `tfsdk:"active_during"`
 	AffiliationName         types.String `tfsdk:"affiliation_name"`
 	BackendId               types.String `tfsdk:"backend_id"`
 	CanAdmin                types.Bool   `tfsdk:"can_admin"`
@@ -72,7 +73,11 @@ type StructureProjectFiltersModel struct {
 	CustomerName            types.String `tfsdk:"customer_name"`
 	CustomerNativeName      types.String `tfsdk:"customer_native_name"`
 	Description             types.String `tfsdk:"description"`
+	EndDateAfter            types.String `tfsdk:"end_date_after"`
+	EndDateBefore           types.String `tfsdk:"end_date_before"`
+	Ended                   types.Bool   `tfsdk:"ended"`
 	HasAffiliation          types.Bool   `tfsdk:"has_affiliation"`
+	InGrace                 types.Bool   `tfsdk:"in_grace"`
 	IncludeTerminated       types.Bool   `tfsdk:"include_terminated"`
 	IsRemoved               types.Bool   `tfsdk:"is_removed"`
 	Modified                types.String `tfsdk:"modified"`
@@ -83,6 +88,9 @@ type StructureProjectFiltersModel struct {
 	ScienceDomainUuid       types.String `tfsdk:"science_domain_uuid"`
 	ScienceSubDomainUuid    types.String `tfsdk:"science_sub_domain_uuid"`
 	Slug                    types.String `tfsdk:"slug"`
+	StartDateAfter          types.String `tfsdk:"start_date_after"`
+	StartDateBefore         types.String `tfsdk:"start_date_before"`
+	Started                 types.Bool   `tfsdk:"started"`
 	UserRole                types.String `tfsdk:"user_role"`
 	UserUuid                types.String `tfsdk:"user_uuid"`
 	UserUuidWithActiveRole  types.String `tfsdk:"user_uuid_with_active_role"`
@@ -96,6 +104,10 @@ func (m *StructureProjectFiltersModel) GetSchema() schema.SingleNestedAttribute 
 			"accounting_is_running": schema.BoolAttribute{
 				Optional:            true,
 				MarkdownDescription: "Filter by whether accounting is running.",
+			},
+			"active_during": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Return projects active during a year (YYYY) or a month (YYYY-MM): started on or before the period's last day (start date, or creation date when there is none) and with no end date or one after the period's first day.",
 			},
 			"affiliation_name": schema.StringAttribute{
 				Optional:            true,
@@ -141,9 +153,25 @@ func (m *StructureProjectFiltersModel) GetSchema() schema.SingleNestedAttribute 
 				Optional:            true,
 				MarkdownDescription: "Description",
 			},
+			"end_date_after": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Return projects whose end date is on or after the given date.",
+			},
+			"end_date_before": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Return projects whose end date is on or before the given date.",
+			},
+			"ended": schema.BoolAttribute{
+				Optional:            true,
+				MarkdownDescription: "true: projects whose end date is today or earlier. false: projects with no end date or one after today.",
+			},
 			"has_affiliation": schema.BoolAttribute{
 				Optional:            true,
 				MarkdownDescription: "Filter projects that have an affiliation.",
+			},
+			"in_grace": schema.BoolAttribute{
+				Optional:            true,
+				MarkdownDescription: "true: projects that have ended but whose end date plus grace period (the project's, else the organization's, else none) is after today. false: all other projects.",
 			},
 			"include_terminated": schema.BoolAttribute{
 				Optional:            true,
@@ -184,6 +212,18 @@ func (m *StructureProjectFiltersModel) GetSchema() schema.SingleNestedAttribute 
 			"slug": schema.StringAttribute{
 				Optional:            true,
 				MarkdownDescription: "Slug",
+			},
+			"start_date_after": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Return projects whose start date is on or after the given date.",
+			},
+			"start_date_before": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Return projects whose start date is on or before the given date.",
+			},
+			"started": schema.BoolAttribute{
+				Optional:            true,
+				MarkdownDescription: "true: projects with no start date or one not after today. false: projects whose start date is after today.",
 			},
 			"user_role": schema.StringAttribute{
 				Optional:            true,
