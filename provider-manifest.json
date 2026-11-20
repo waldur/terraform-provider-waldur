@@ -2629,6 +2629,13 @@
               "computed": true
             },
             {
+              "name": "scim_login_port",
+              "type": "types.Int64",
+              "required": false,
+              "optional": false,
+              "computed": true
+            },
+            {
               "name": "scratch_project_directory",
               "type": "types.String",
               "required": false,

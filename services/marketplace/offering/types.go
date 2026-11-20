@@ -738,6 +738,8 @@ type MarketplaceOfferingPluginOptionsResponse struct {
 
 	ScimLoginNodes *[]string `json:"scim_login_nodes,omitempty" tfsdk:"scim_login_nodes"`
 
+	ScimLoginPort *int64 `json:"scim_login_port,omitempty" tfsdk:"scim_login_port"`
+
 	ScratchProjectDirectory *string `json:"scratch_project_directory,omitempty" tfsdk:"scratch_project_directory"`
 
 	ServiceProviderCanCreateOfferingUser *bool `json:"service_provider_can_create_offering_user,omitempty" tfsdk:"service_provider_can_create_offering_user"`

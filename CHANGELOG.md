@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-11-20
+
+### Added
+
+- `marketplace_offering`: new attribute `plugin_options.scim_login_port`
+
 ## 2026-11-19
 
 ### Added

@@ -912,6 +912,12 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 					"scim_login_nodes": schema.ListAttribute{
 						ElementType: types.StringType,
 						Computed:    true, MarkdownDescription: "Bare hostnames of login nodes included in outbound SCIM entitlements when enable_scim_entitlements is set. Each entry is a DNS hostname only (for example login.example.org): stored lowercased, with no ssh:// URL, user@host, or host:port. These are not access links and do not appear in the resource access dropdown."},
+					"scim_login_port": schema.Int64Attribute{
+						Computed: true, MarkdownDescription: "SSH port clients should use for every host in scim_login_nodes. When unset, clients use port 22. Outbound SCIM entitlements carry the hostname only and ignore this value.",
+						Validators: []validator.Int64{
+							int64validator.AtLeast(1),
+							int64validator.AtMost(65535),
+						}},
 					"scratch_project_directory": schema.StringAttribute{
 						Computed: true, MarkdownDescription: "HEAppE scratch project directory"},
 					"service_provider_can_create_offering_user": schema.BoolAttribute{
