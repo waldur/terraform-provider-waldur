@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-11-21
+
+### Added
+
+- `marketplace_offering`: new attribute `components.limit_increase_only`
+- `marketplace_resource`: new attribute `offering_components.limit_increase_only`
+
 ## 2026-11-20
 
 ### Added

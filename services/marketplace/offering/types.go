@@ -289,6 +289,8 @@ type MarketplaceOfferingComponentsResponse struct {
 
 	LimitDecimalPlaces *int64 `json:"limit_decimal_places,omitempty" tfsdk:"limit_decimal_places"`
 
+	LimitIncreaseOnly *bool `json:"limit_increase_only,omitempty" tfsdk:"limit_increase_only"`
+
 	LimitPeriod *string `json:"limit_period,omitempty" tfsdk:"limit_period"`
 
 	MaxAvailableLimit common.FlexibleNumber `json:"max_available_limit,omitempty" tfsdk:"max_available_limit"`

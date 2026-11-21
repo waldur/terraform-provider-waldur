@@ -247,6 +247,8 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 								int64validator.AtLeast(0),
 								int64validator.AtMost(2),
 							}},
+						"limit_increase_only": schema.BoolAttribute{
+							Computed: true, MarkdownDescription: "If set, a consumer cannot lower this component's limit below the resource's current limit."},
 						"limit_period": schema.StringAttribute{
 							Computed: true, MarkdownDescription: "Limit Period"},
 						"max_available_limit": schema.Float64Attribute{

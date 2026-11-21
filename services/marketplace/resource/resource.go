@@ -580,6 +580,13 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 								int64validator.AtLeast(0),
 								int64validator.AtMost(2),
 							}},
+						"limit_increase_only": schema.BoolAttribute{
+							Optional: true,
+							Computed: true,
+							PlanModifiers: []planmodifier.Bool{
+
+								boolplanmodifier.UseStateForUnknown(),
+							}, MarkdownDescription: "If set, a consumer cannot lower this component's limit below the resource's current limit."},
 						"limit_period": schema.StringAttribute{
 							Optional: true,
 							Computed: true,

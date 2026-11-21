@@ -941,6 +941,13 @@
               "computed": true
             },
             {
+              "name": "limit_increase_only",
+              "type": "types.Bool",
+              "required": false,
+              "optional": false,
+              "computed": true
+            },
+            {
               "name": "limit_period",
               "type": "types.String",
               "required": false,
@@ -4614,6 +4621,13 @@
             {
               "name": "limit_decimal_places",
               "type": "types.Int64",
+              "required": false,
+              "optional": true,
+              "computed": true
+            },
+            {
+              "name": "limit_increase_only",
+              "type": "types.Bool",
               "required": false,
               "optional": true,
               "computed": true

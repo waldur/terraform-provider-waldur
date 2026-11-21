@@ -55,6 +55,7 @@ func OfferingComponentType() types.ObjectType {
 		"is_prepaid":             types.BoolType,
 		"limit_amount":           types.Float64Type,
 		"limit_decimal_places":   types.Int64Type,
+		"limit_increase_only":    types.BoolType,
 		"limit_period":           types.StringType,
 		"max_available_limit":    types.Float64Type,
 		"max_prepaid_duration":   types.Int64Type,
