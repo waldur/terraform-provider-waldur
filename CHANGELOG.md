@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-11-24
+
+### Added
+
+- `openstack_port`: new attribute `floating_ip_addresses`
+
 ## 2026-11-21
 
 ### Added

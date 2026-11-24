@@ -66,6 +66,7 @@ Optional:
 - `project` (String) Project UUID
 - `project_name` (String) Project name
 - `project_uuid` (String) Project UUID
+- `query` (String) Search by name, address or mapped public IP
 - `runtime_state` (String) Runtime state
 - `service_settings_name` (String) Service settings name
 - `service_settings_uuid` (String) Service settings UUID

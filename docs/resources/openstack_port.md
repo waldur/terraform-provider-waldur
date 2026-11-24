@@ -86,6 +86,7 @@ resource "waldur_openstack_port" "example" {
 - `device_id` (String) ID of device (instance, router etc) to which this port is connected
 - `device_owner` (String) Entity that uses this port (e.g. network:router_interface)
 - `error_message` (String) Error Message
+- `floating_ip_addresses` (Attributes List) Floating IPs associated with the port, with the public IP each one is mapped to, if any (see [below for nested schema](#nestedatt--floating_ip_addresses))
 - `floating_ips` (Set of String) Floating Ips
 - `id` (String) Openstack Port UUID (used as Terraform ID)
 - `marketplace_offering_type` (String) Marketplace Offering Type
@@ -140,3 +141,13 @@ Optional:
 
 - `ip_address` (String) Ip Address
 - `mac_address` (String) Mac Address
+
+
+<a id="nestedatt--floating_ip_addresses"></a>
+### Nested Schema for `floating_ip_addresses`
+
+Read-Only:
+
+- `address` (String) The public IPv4 address of the floating IP
+- `external_address` (String) Optional address that maps to floating IP's address in external networks
+- `uuid` (String) Uuid

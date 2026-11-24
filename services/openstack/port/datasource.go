@@ -78,6 +78,19 @@ func (d *OpenstackPortDataSource) Schema(ctx context.Context, req datasource.Sch
 				},
 				Computed: true, MarkdownDescription: "Fixed Ips",
 			},
+			"floating_ip_addresses": schema.ListNestedAttribute{
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: map[string]schema.Attribute{
+						"address": schema.StringAttribute{
+							Computed: true, MarkdownDescription: "The public IPv4 address of the floating IP"},
+						"external_address": schema.StringAttribute{
+							Computed: true, MarkdownDescription: "Optional address that maps to floating IP's address in external networks"},
+						"uuid": schema.StringAttribute{
+							Computed: true, MarkdownDescription: "Uuid"},
+					},
+				},
+				Computed: true, MarkdownDescription: "Floating IPs associated with the port, with the public IP each one is mapped to, if any",
+			},
 			"floating_ips": schema.SetAttribute{
 				ElementType: types.StringType,
 				Computed:    true, MarkdownDescription: "Floating Ips"},

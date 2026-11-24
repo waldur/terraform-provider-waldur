@@ -8248,6 +8248,36 @@
           ]
         },
         {
+          "name": "floating_ip_addresses",
+          "type": "types.List\u003cobject\u003e",
+          "required": false,
+          "optional": false,
+          "computed": true,
+          "attributes": [
+            {
+              "name": "address",
+              "type": "types.String",
+              "required": false,
+              "optional": false,
+              "computed": true
+            },
+            {
+              "name": "external_address",
+              "type": "types.String",
+              "required": false,
+              "optional": false,
+              "computed": true
+            },
+            {
+              "name": "uuid",
+              "type": "types.String",
+              "required": false,
+              "optional": false,
+              "computed": true
+            }
+          ]
+        },
+        {
           "name": "floating_ips",
           "type": "types.Set\u003cstring\u003e",
           "required": false,

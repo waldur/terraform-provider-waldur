@@ -23,6 +23,13 @@ func OpenStackFixedIpRequestType() types.ObjectType {
 		"subnet_id":  types.StringType,
 	}}
 }
+func OpenStackPortFloatingIpType() types.ObjectType {
+	return types.ObjectType{AttrTypes: map[string]attr.Type{
+		"address":          types.StringType,
+		"external_address": types.StringType,
+		"uuid":             types.StringType,
+	}}
+}
 func OpenStackPortNestedSecurityGroupRequestType() types.ObjectType {
 	return types.ObjectType{AttrTypes: map[string]attr.Type{
 		"url":  types.StringType,
@@ -105,7 +112,7 @@ func (m *OpenstackPortFiltersModel) GetSchema() schema.SingleNestedAttribute {
 			},
 			"query": schema.StringAttribute{
 				Optional:            true,
-				MarkdownDescription: "Search by name, MAC address or backend ID",
+				MarkdownDescription: "Search by name, MAC address, backend ID, fixed IP, floating IP or its mapped public IP",
 			},
 			"status": schema.StringAttribute{
 				Optional:            true,
@@ -134,6 +141,7 @@ type OpenstackPortModel struct {
 	DeviceOwner             types.String `tfsdk:"device_owner"`
 	ErrorMessage            types.String `tfsdk:"error_message"`
 	FixedIps                types.List   `tfsdk:"fixed_ips"`
+	FloatingIpAddresses     types.List   `tfsdk:"floating_ip_addresses"`
 	FloatingIps             types.Set    `tfsdk:"floating_ips"`
 	MacAddress              types.String `tfsdk:"mac_address"`
 	MarketplaceOfferingType types.String `tfsdk:"marketplace_offering_type"`
@@ -188,6 +196,14 @@ func (model *OpenstackPortModel) CopyFrom(ctx context.Context, apiResp Openstack
 		model.FixedIps = valFixedIps
 	} else {
 		model.FixedIps = types.ListNull(OpenStackFixedIpRequestType())
+	}
+
+	if apiResp.FloatingIpAddresses != nil {
+		valFloatingIpAddresses, diagsFloatingIpAddresses := types.ListValueFrom(ctx, OpenStackPortFloatingIpType(), apiResp.FloatingIpAddresses)
+		diags.Append(diagsFloatingIpAddresses...)
+		model.FloatingIpAddresses = valFloatingIpAddresses
+	} else {
+		model.FloatingIpAddresses = types.ListNull(OpenStackPortFloatingIpType())
 	}
 
 	if apiResp.FloatingIps != nil {

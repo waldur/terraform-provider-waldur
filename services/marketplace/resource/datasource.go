@@ -74,7 +74,7 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 			"effective_id": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Effective Id"},
 			"end_date": schema.StringAttribute{
-				Computed: true, MarkdownDescription: "The date is inclusive. Once reached, a resource will be scheduled for termination."},
+				Computed: true, MarkdownDescription: "The resource is scheduled for termination on this date, so the day before is the last full day of use."},
 			"end_date_requested_by": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "End Date Requested By"},
 			"end_date_updated_at": schema.StringAttribute{
@@ -620,7 +620,7 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 			"project_effective_end_date": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Effective project end date including grace period. After this date, resources are terminated, except resources of offerings that disable the grace period — those are terminated on the raw project end date."},
 			"project_end_date": schema.StringAttribute{
-				Computed: true, MarkdownDescription: "The date is inclusive. Once reached, all project resource will be scheduled for termination."},
+				Computed: true, MarkdownDescription: "The project's resources are scheduled for termination on this date plus the grace period, if one is configured. Offerings that disable the grace period terminate them on this date."},
 			"project_end_date_requested_by": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Project End Date Requested By"},
 			"project_is_in_grace_period": schema.BoolAttribute{

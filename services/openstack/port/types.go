@@ -65,6 +65,8 @@ type OpenstackPortResponse struct {
 
 	FixedIps *[]common.OpenStackFixedIpRequest `json:"fixed_ips,omitempty" tfsdk:"fixed_ips"`
 
+	FloatingIpAddresses *[]common.OpenStackPortFloatingIp `json:"floating_ip_addresses,omitempty" tfsdk:"floating_ip_addresses"`
+
 	FloatingIps *[]string `json:"floating_ips,omitempty" tfsdk:"floating_ips"`
 
 	MacAddress *string `json:"mac_address,omitempty" tfsdk:"mac_address"`
@@ -112,6 +114,14 @@ type OpenstackPortFixedIpsResponse struct {
 	IpAddress *string `json:"ip_address" tfsdk:"ip_address"`
 
 	SubnetId *string `json:"subnet_id" tfsdk:"subnet_id"`
+}
+
+type OpenstackPortFloatingIpAddressesResponse struct {
+	Address *string `json:"address,omitempty" tfsdk:"address"`
+
+	ExternalAddress *string `json:"external_address,omitempty" tfsdk:"external_address"`
+
+	Uuid *string `json:"uuid,omitempty" tfsdk:"uuid"`
 }
 
 type OpenstackPortSecurityGroupsResponse struct {

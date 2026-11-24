@@ -140,6 +140,35 @@ func (r *OpenstackPortResource) Schema(ctx context.Context, req resource.SchemaR
 					listplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "Fixed Ips",
 			},
+			"floating_ip_addresses": schema.ListNestedAttribute{
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: map[string]schema.Attribute{
+						"address": schema.StringAttribute{
+							Computed: true,
+							PlanModifiers: []planmodifier.String{
+
+								stringplanmodifier.UseStateForUnknown(),
+							}, MarkdownDescription: "The public IPv4 address of the floating IP"},
+						"external_address": schema.StringAttribute{
+							Computed: true,
+							PlanModifiers: []planmodifier.String{
+
+								stringplanmodifier.UseStateForUnknown(),
+							}, MarkdownDescription: "Optional address that maps to floating IP's address in external networks"},
+						"uuid": schema.StringAttribute{
+							Computed: true,
+							PlanModifiers: []planmodifier.String{
+
+								stringplanmodifier.UseStateForUnknown(),
+							}, MarkdownDescription: "Uuid"},
+					},
+				},
+				Computed: true,
+				PlanModifiers: []planmodifier.List{
+
+					listplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Floating IPs associated with the port, with the public IP each one is mapped to, if any",
+			},
 			"floating_ips": schema.SetAttribute{
 				ElementType: types.StringType,
 				Computed:    true,

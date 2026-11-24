@@ -580,6 +580,14 @@ type OpenStackNestedVolume struct {
 	Uuid *string `json:"uuid,omitempty" tfsdk:"uuid"`
 }
 
+type OpenStackPortFloatingIp struct {
+	Address *string `json:"address,omitempty" tfsdk:"address"`
+
+	ExternalAddress *string `json:"external_address,omitempty" tfsdk:"external_address"`
+
+	Uuid *string `json:"uuid,omitempty" tfsdk:"uuid"`
+}
+
 type OpenStackPortNestedSecurityGroupRequest struct {
 	Name *string `json:"name,omitempty" tfsdk:"name"`
 

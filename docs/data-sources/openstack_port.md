@@ -31,6 +31,7 @@ Openstack Port data source - lookup by name or UUID
 - `device_owner` (String) Entity that uses this port (e.g. network:router_interface)
 - `error_message` (String) Error Message
 - `fixed_ips` (Attributes List) Fixed Ips (see [below for nested schema](#nestedatt--fixed_ips))
+- `floating_ip_addresses` (Attributes List) Floating IPs associated with the port, with the public IP each one is mapped to, if any (see [below for nested schema](#nestedatt--floating_ip_addresses))
 - `floating_ips` (Set of String) Floating Ips
 - `mac_address` (String) MAC address of the port
 - `marketplace_offering_type` (String) Marketplace Offering Type
@@ -67,7 +68,7 @@ Optional:
 - `name_exact` (String) Name (exact)
 - `network_name` (String) Search by network name
 - `network_uuid` (String) Search by network UUID
-- `query` (String) Search by name, MAC address or backend ID
+- `query` (String) Search by name, MAC address, backend ID, fixed IP, floating IP or its mapped public IP
 - `status` (String) Status
 - `tenant` (String) Tenant URL
 - `tenant_uuid` (String) Tenant UUID
@@ -89,6 +90,16 @@ Read-Only:
 
 - `ip_address` (String) IP address to assign to the port
 - `subnet_id` (String) ID of the subnet in which to assign the IP address
+
+
+<a id="nestedatt--floating_ip_addresses"></a>
+### Nested Schema for `floating_ip_addresses`
+
+Read-Only:
+
+- `address` (String) The public IPv4 address of the floating IP
+- `external_address` (String) Optional address that maps to floating IP's address in external networks
+- `uuid` (String) Uuid
 
 
 <a id="nestedatt--security_groups"></a>

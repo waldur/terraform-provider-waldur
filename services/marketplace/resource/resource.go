@@ -140,7 +140,7 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 				PlanModifiers: []planmodifier.String{
 
 					stringplanmodifier.UseStateForUnknown(),
-				}, MarkdownDescription: "The date is inclusive. Once reached, a resource will be scheduled for termination."},
+				}, MarkdownDescription: "The resource is scheduled for termination on this date, so the day before is the last full day of use."},
 			"end_date_requested_by": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
@@ -1580,7 +1580,7 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 				PlanModifiers: []planmodifier.String{
 
 					stringplanmodifier.UseStateForUnknown(),
-				}, MarkdownDescription: "The date is inclusive. Once reached, all project resource will be scheduled for termination."},
+				}, MarkdownDescription: "The project's resources are scheduled for termination on this date plus the grace period, if one is configured. Offerings that disable the grace period terminate them on this date."},
 			"project_end_date_requested_by": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{

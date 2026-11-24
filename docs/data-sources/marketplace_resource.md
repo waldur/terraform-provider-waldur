@@ -33,7 +33,7 @@ Marketplace Resource data source - lookup by name or UUID
 - `display_limits` (Map of Number) Resource option values shown as the limits of usage-based components. Display only: not stored in limits, billed or enforced.
 - `downscaled` (Boolean) Downscaled
 - `effective_id` (String) Effective Id
-- `end_date` (String) The date is inclusive. Once reached, a resource will be scheduled for termination.
+- `end_date` (String) The resource is scheduled for termination on this date, so the day before is the last full day of use.
 - `end_date_requested_by` (String) End Date Requested By
 - `end_date_updated_at` (String) Timestamp of the last end_date change.
 - `endpoints` (Attributes List) Endpoints (see [below for nested schema](#nestedatt--endpoints))
@@ -74,7 +74,7 @@ Marketplace Resource data source - lookup by name or UUID
 - `project` (String) Project
 - `project_description` (String) Project Description
 - `project_effective_end_date` (String) Effective project end date including grace period. After this date, resources are terminated, except resources of offerings that disable the grace period — those are terminated on the raw project end date.
-- `project_end_date` (String) The date is inclusive. Once reached, all project resource will be scheduled for termination.
+- `project_end_date` (String) The project's resources are scheduled for termination on this date plus the grace period, if one is configured. Offerings that disable the grace period terminate them on this date.
 - `project_end_date_requested_by` (String) Project End Date Requested By
 - `project_is_in_grace_period` (Boolean) True if the project is past its end date but still within the grace period.
 - `project_slug` (String) Project Slug

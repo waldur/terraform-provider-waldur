@@ -45,7 +45,7 @@ resource "waldur_marketplace_resource" "example" {
 ### Optional
 
 - `downscaled` (Boolean) Downscaled
-- `end_date` (String) The date is inclusive. Once reached, a resource will be scheduled for termination.
+- `end_date` (String) The resource is scheduled for termination on this date, so the day before is the last full day of use.
 - `name` (String) Name
 - `offering` (String) Offering
 - `paused` (Boolean) Paused
@@ -102,7 +102,7 @@ resource "waldur_marketplace_resource" "example" {
 - `project` (String) Project
 - `project_description` (String) Project Description
 - `project_effective_end_date` (String) Effective project end date including grace period. After this date, resources are terminated, except resources of offerings that disable the grace period — those are terminated on the raw project end date.
-- `project_end_date` (String) The date is inclusive. Once reached, all project resource will be scheduled for termination.
+- `project_end_date` (String) The project's resources are scheduled for termination on this date plus the grace period, if one is configured. Offerings that disable the grace period terminate them on this date.
 - `project_end_date_requested_by` (String) Project End Date Requested By
 - `project_is_in_grace_period` (Boolean) True if the project is past its end date but still within the grace period.
 - `project_slug` (String) Project Slug

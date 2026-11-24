@@ -37,6 +37,7 @@ type OpenstackFloatingIpFiltersModel struct {
 	Project              types.String `tfsdk:"project"`
 	ProjectName          types.String `tfsdk:"project_name"`
 	ProjectUuid          types.String `tfsdk:"project_uuid"`
+	Query                types.String `tfsdk:"query"`
 	RuntimeState         types.String `tfsdk:"runtime_state"`
 	ServiceSettingsName  types.String `tfsdk:"service_settings_name"`
 	ServiceSettingsUuid  types.String `tfsdk:"service_settings_uuid"`
@@ -113,6 +114,10 @@ func (m *OpenstackFloatingIpFiltersModel) GetSchema() schema.SingleNestedAttribu
 			"project_uuid": schema.StringAttribute{
 				Optional:            true,
 				MarkdownDescription: "Project UUID",
+			},
+			"query": schema.StringAttribute{
+				Optional:            true,
+				MarkdownDescription: "Search by name, address or mapped public IP",
 			},
 			"runtime_state": schema.StringAttribute{
 				Optional:            true,

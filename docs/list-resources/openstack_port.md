@@ -36,7 +36,7 @@ Optional:
 - `name_exact` (String) Name (exact)
 - `network_name` (String) Search by network name
 - `network_uuid` (String) Search by network UUID
-- `query` (String) Search by name, MAC address or backend ID
+- `query` (String) Search by name, MAC address, backend ID, fixed IP, floating IP or its mapped public IP
 - `status` (String) Status
 - `tenant` (String) Tenant URL
 - `tenant_uuid` (String) Tenant UUID
