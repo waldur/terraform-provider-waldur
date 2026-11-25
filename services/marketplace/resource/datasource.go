@@ -502,7 +502,7 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 					"offering_uuid": schema.StringAttribute{
 						Computed: true, MarkdownDescription: "Offering Uuid"},
 					"old_cost_estimate": schema.Float64Attribute{
-						Computed: true, MarkdownDescription: "The old-limits estimate, snapshotted by init_cost() at creation. Must not recompute live: _compute_old_cost_estimate() prices from \\\"today\\\", which keeps advancing on every read while `cost` stays fixed from creation -- the shown cost change would grow the longer an order sits unread. Orders that predate this field have no snapshot, so they fall back to the live computation rather than a wrong zero."},
+						Computed: true, MarkdownDescription: "Cost estimate for the old limits, snapshotted when the order was created."},
 					"old_plan_billing_mode": schema.StringAttribute{
 						Computed: true, MarkdownDescription: "Old Plan Billing Mode"},
 					"old_plan_name": schema.StringAttribute{
