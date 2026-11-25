@@ -310,6 +310,9 @@ type MarketplaceOfferingModel struct {
 	SoftwareCatalogs           types.List   `tfsdk:"software_catalogs"`
 	State                      types.String `tfsdk:"state"`
 	Tags                       types.Set    `tfsdk:"tags"`
+	TemplateName               types.String `tfsdk:"template_name"`
+	TemplateUuid               types.String `tfsdk:"template_uuid"`
+	TemplateVersion            types.Int64  `tfsdk:"template_version"`
 	Thumbnail                  types.String `tfsdk:"thumbnail"`
 	TotalCost                  types.Int64  `tfsdk:"total_cost"`
 	TotalCostEstimated         types.Int64  `tfsdk:"total_cost_estimated"`
@@ -1312,6 +1315,12 @@ func (model *MarketplaceOfferingModel) CopyFrom(ctx context.Context, apiResp Mar
 			"uuid": types.StringType,
 		}})
 	}
+
+	model.TemplateName = common.StringPointerValue(apiResp.TemplateName)
+
+	model.TemplateUuid = common.StringPointerValue(apiResp.TemplateUuid)
+
+	model.TemplateVersion = types.Int64PointerValue(apiResp.TemplateVersion)
 
 	model.Thumbnail = common.StringPointerValue(apiResp.Thumbnail)
 

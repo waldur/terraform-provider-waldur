@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026-11-25
+
+### Added
+
+- `marketplace_offering`: new attribute `template_name`
+- `marketplace_offering`: new attribute `template_uuid`
+- `marketplace_offering`: new attribute `template_version`
+
 ## 2026-11-24
 
 ### Added

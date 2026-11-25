@@ -91,6 +91,9 @@ Marketplace Offering data source - lookup by name or UUID
 - `software_catalogs` (Attributes List) Software Catalogs (see [below for nested schema](#nestedatt--software_catalogs))
 - `state` (String) State
 - `tags` (Attributes Set) Tags (see [below for nested schema](#nestedatt--tags))
+- `template_name` (String) Template Name
+- `template_uuid` (String) Template Uuid
+- `template_version` (Number) Template Version
 - `thumbnail` (String) Thumbnail
 - `total_cost` (Number) Total Cost
 - `total_cost_estimated` (Number) Total Cost Estimated
