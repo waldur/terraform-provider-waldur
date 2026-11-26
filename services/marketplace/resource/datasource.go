@@ -352,6 +352,9 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 				Computed: true, MarkdownDescription: "Offering Type"},
 			"offering_uuid": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Offering Uuid"},
+			"option_secrets": schema.MapAttribute{
+				ElementType: types.StringType,
+				Computed:    true, MarkdownDescription: "Whether each secret option of the offering is set, by option name. Never the value; the reveal_option_secret action returns it to whom may read it."},
 			"options": schema.MapAttribute{
 				ElementType: types.StringType,
 				Computed:    true, MarkdownDescription: "Options"},
@@ -509,6 +512,9 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 						Computed: true, MarkdownDescription: "Old Plan Name"},
 					"old_plan_uuid": schema.StringAttribute{
 						Computed: true, MarkdownDescription: "Old Plan Uuid"},
+					"option_secrets": schema.MapAttribute{
+						ElementType: types.StringType,
+						Computed:    true, MarkdownDescription: "Of the order's resource: whether each secret option of the offering is set, by option name. Never the value."},
 					"order_subtype": schema.StringAttribute{
 						Computed: true, MarkdownDescription: "Order Subtype"},
 					"output": schema.StringAttribute{

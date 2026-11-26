@@ -162,6 +162,8 @@ type MarketplaceOrderResponse struct {
 
 	OldPlanUuid *string `json:"old_plan_uuid,omitempty" tfsdk:"old_plan_uuid"`
 
+	OptionSecrets common.JSONStringMap `json:"option_secrets,omitempty" tfsdk:"option_secrets"`
+
 	OrderSubtype *string `json:"order_subtype,omitempty" tfsdk:"order_subtype"`
 
 	Output *string `json:"output,omitempty" tfsdk:"output"`
@@ -268,6 +270,9 @@ type MarketplaceOrderLimitsResponse struct {
 }
 
 type MarketplaceOrderOfferingPluginOptionsResponse struct {
+}
+
+type MarketplaceOrderOptionSecretsResponse struct {
 }
 
 func (r *MarketplaceOrderResponse) GetState() string {

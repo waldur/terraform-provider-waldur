@@ -87,6 +87,7 @@ resource "waldur_marketplace_resource" "example" {
 - `offering_thumbnail` (String) Offering Thumbnail
 - `offering_type` (String) Offering Type
 - `offering_uuid` (String) Offering Uuid
+- `option_secrets` (Map of String) Whether each secret option of the offering is set, by option name. Never the value; the reveal_option_secret action returns it to whom may read it.
 - `options` (Map of String) Options
 - `order_in_progress` (Attributes) Order In Progress (see [below for nested schema](#nestedatt--order_in_progress))
 - `parent_name` (String) Parent Name
@@ -366,6 +367,7 @@ Read-Only:
 - `old_plan_billing_mode` (String) Old Plan Billing Mode
 - `old_plan_name` (String) Old Plan Name
 - `old_plan_uuid` (String) Old Plan Uuid
+- `option_secrets` (Map of String) Of the order's resource: whether each secret option of the offering is set, by option name. Never the value.
 - `order_subtype` (String) Order Subtype
 - `output` (String) Output
 - `output_updated_at` (String) Output Updated At

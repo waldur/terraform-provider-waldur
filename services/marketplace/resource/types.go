@@ -102,6 +102,8 @@ type MarketplaceResourceResponse struct {
 
 	OfferingUuid *string `json:"offering_uuid,omitempty" tfsdk:"offering_uuid"`
 
+	OptionSecrets common.JSONStringMap `json:"option_secrets,omitempty" tfsdk:"option_secrets"`
+
 	Options common.JSONStringMap `json:"options,omitempty" tfsdk:"options"`
 
 	OrderInProgress *MarketplaceResourceOrderInProgressResponse `json:"order_in_progress,omitempty" tfsdk:"order_in_progress"`
@@ -360,6 +362,9 @@ type MarketplaceResourceOfferingComponentsSpendingLimitPeriodsResponse struct {
 type MarketplaceResourceOfferingPluginOptionsResponse struct {
 }
 
+type MarketplaceResourceOptionSecretsResponse struct {
+}
+
 type MarketplaceResourceOptionsResponse struct {
 }
 
@@ -472,6 +477,8 @@ type MarketplaceResourceOrderInProgressResponse struct {
 
 	OldPlanUuid *string `json:"old_plan_uuid,omitempty" tfsdk:"old_plan_uuid"`
 
+	OptionSecrets common.JSONStringMap `json:"option_secrets,omitempty" tfsdk:"option_secrets"`
+
 	OrderSubtype *string `json:"order_subtype,omitempty" tfsdk:"order_subtype"`
 
 	Output *string `json:"output,omitempty" tfsdk:"output"`
@@ -580,6 +587,9 @@ type MarketplaceResourceOrderInProgressLimitsResponse struct {
 }
 
 type MarketplaceResourceOrderInProgressOfferingPluginOptionsResponse struct {
+}
+
+type MarketplaceResourceOrderInProgressOptionSecretsResponse struct {
 }
 
 type MarketplaceResourceRenewalDateResponse struct {

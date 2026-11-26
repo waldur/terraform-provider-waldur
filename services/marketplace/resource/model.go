@@ -132,6 +132,7 @@ func OrderInProgressType() types.ObjectType {
 		"old_plan_billing_mode":                 types.StringType,
 		"old_plan_name":                         types.StringType,
 		"old_plan_uuid":                         types.StringType,
+		"option_secrets":                        types.MapType{ElemType: types.StringType},
 		"order_subtype":                         types.StringType,
 		"output":                                types.StringType,
 		"output_updated_at":                     types.StringType,
@@ -487,6 +488,7 @@ type MarketplaceResourceModel struct {
 	OfferingThumbnail          types.String      `tfsdk:"offering_thumbnail"`
 	OfferingType               types.String      `tfsdk:"offering_type"`
 	OfferingUuid               types.String      `tfsdk:"offering_uuid"`
+	OptionSecrets              types.Map         `tfsdk:"option_secrets"`
 	Options                    types.Map         `tfsdk:"options"`
 	OrderInProgress            types.Object      `tfsdk:"order_in_progress"`
 	ParentName                 types.String      `tfsdk:"parent_name"`
@@ -665,6 +667,14 @@ func (model *MarketplaceResourceModel) CopyFrom(ctx context.Context, apiResp Mar
 	model.OfferingType = common.StringPointerValue(apiResp.OfferingType)
 
 	model.OfferingUuid = common.StringPointerValue(apiResp.OfferingUuid)
+
+	if apiResp.OptionSecrets != nil {
+		valOptionSecrets, diagsOptionSecrets := types.MapValueFrom(ctx, types.StringType, apiResp.OptionSecrets)
+		diags.Append(diagsOptionSecrets...)
+		model.OptionSecrets = valOptionSecrets
+	} else {
+		model.OptionSecrets = types.MapNull(types.StringType)
+	}
 
 	if apiResp.Options != nil {
 		valOptions, diagsOptions := types.MapValueFrom(ctx, types.StringType, apiResp.Options)

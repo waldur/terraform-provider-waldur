@@ -3883,6 +3883,13 @@
           "computed": true
         },
         {
+          "name": "option_secrets",
+          "type": "types.Map",
+          "required": false,
+          "optional": false,
+          "computed": true
+        },
+        {
           "name": "order_subtype",
           "type": "types.String",
           "required": false,
@@ -4845,6 +4852,13 @@
           "computed": true
         },
         {
+          "name": "option_secrets",
+          "type": "types.Map",
+          "required": false,
+          "optional": false,
+          "computed": true
+        },
+        {
           "name": "options",
           "type": "types.Map",
           "required": false,
@@ -5306,6 +5320,13 @@
             {
               "name": "old_plan_uuid",
               "type": "types.String",
+              "required": false,
+              "optional": false,
+              "computed": true
+            },
+            {
+              "name": "option_secrets",
+              "type": "types.Map",
               "required": false,
               "optional": false,
               "computed": true

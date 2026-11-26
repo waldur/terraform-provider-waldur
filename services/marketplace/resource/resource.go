@@ -818,6 +818,13 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 
 					stringplanmodifier.UseStateForUnknown(),
 				}, MarkdownDescription: "Offering Uuid"},
+			"option_secrets": schema.MapAttribute{
+				ElementType: types.StringType,
+				Computed:    true,
+				PlanModifiers: []planmodifier.Map{
+
+					mapplanmodifier.UseStateForUnknown(),
+				}, MarkdownDescription: "Whether each secret option of the offering is set, by option name. Never the value; the reveal_option_secret action returns it to whom may read it."},
 			"options": schema.MapAttribute{
 				ElementType: types.StringType,
 				Computed:    true,
@@ -1250,6 +1257,13 @@ func (r *MarketplaceResourceResource) Schema(ctx context.Context, req resource.S
 
 							stringplanmodifier.UseStateForUnknown(),
 						}, MarkdownDescription: "Old Plan Uuid"},
+					"option_secrets": schema.MapAttribute{
+						ElementType: types.StringType,
+						Computed:    true,
+						PlanModifiers: []planmodifier.Map{
+
+							mapplanmodifier.UseStateForUnknown(),
+						}, MarkdownDescription: "Of the order's resource: whether each secret option of the offering is set, by option name. Never the value."},
 					"order_subtype": schema.StringAttribute{
 						Computed: true,
 						PlanModifiers: []planmodifier.String{

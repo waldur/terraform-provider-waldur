@@ -234,6 +234,7 @@ type MarketplaceOrderModel struct {
 	OldPlanBillingMode                types.String      `tfsdk:"old_plan_billing_mode"`
 	OldPlanName                       types.String      `tfsdk:"old_plan_name"`
 	OldPlanUuid                       types.String      `tfsdk:"old_plan_uuid"`
+	OptionSecrets                     types.Map         `tfsdk:"option_secrets"`
 	OrderSubtype                      types.String      `tfsdk:"order_subtype"`
 	Output                            types.String      `tfsdk:"output"`
 	OutputUpdatedAt                   timetypes.RFC3339 `tfsdk:"output_updated_at"`
@@ -421,6 +422,14 @@ func (model *MarketplaceOrderModel) CopyFrom(ctx context.Context, apiResp Market
 	model.OldPlanName = common.StringPointerValue(apiResp.OldPlanName)
 
 	model.OldPlanUuid = common.StringPointerValue(apiResp.OldPlanUuid)
+
+	if apiResp.OptionSecrets != nil {
+		valOptionSecrets, diagsOptionSecrets := types.MapValueFrom(ctx, types.StringType, apiResp.OptionSecrets)
+		diags.Append(diagsOptionSecrets...)
+		model.OptionSecrets = valOptionSecrets
+	} else {
+		model.OptionSecrets = types.MapNull(types.StringType)
+	}
 
 	model.OrderSubtype = common.StringPointerValue(apiResp.OrderSubtype)
 

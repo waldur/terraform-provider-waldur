@@ -198,6 +198,9 @@ func (d *MarketplaceOrderDataSource) Schema(ctx context.Context, req datasource.
 				Computed: true, MarkdownDescription: "Old Plan Name"},
 			"old_plan_uuid": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Old Plan Uuid"},
+			"option_secrets": schema.MapAttribute{
+				ElementType: types.StringType,
+				Computed:    true, MarkdownDescription: "Of the order's resource: whether each secret option of the offering is set, by option name. Never the value."},
 			"order_subtype": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Order Subtype"},
 			"output": schema.StringAttribute{

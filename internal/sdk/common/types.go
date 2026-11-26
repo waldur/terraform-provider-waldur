@@ -827,6 +827,8 @@ type OrderDetails struct {
 
 	OldPlanUuid *string `json:"old_plan_uuid,omitempty" tfsdk:"old_plan_uuid"`
 
+	OptionSecrets map[string]interface{} `json:"option_secrets,omitempty" tfsdk:"option_secrets"`
+
 	OrderSubtype *string `json:"order_subtype,omitempty" tfsdk:"order_subtype"`
 
 	Output *string `json:"output,omitempty" tfsdk:"output"`
@@ -928,6 +930,8 @@ type OrderDetailsIssue struct {
 type OrderDetailsLimits struct {
 }
 type OrderDetailsOfferingPluginOptions struct {
+}
+type OrderDetailsOptionSecrets struct {
 }
 
 type OrganizationGroup struct {

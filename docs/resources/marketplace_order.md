@@ -110,6 +110,7 @@ resource "waldur_marketplace_order" "example" {
 - `old_plan_billing_mode` (String) Old Plan Billing Mode
 - `old_plan_name` (String) Old Plan Name
 - `old_plan_uuid` (String) Old Plan Uuid
+- `option_secrets` (Map of String) Of the order's resource: whether each secret option of the offering is set, by option name. Never the value.
 - `order_subtype` (String) Order Subtype
 - `output` (String) Output
 - `output_updated_at` (String) Output Updated At
