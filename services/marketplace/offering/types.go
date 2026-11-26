@@ -148,12 +148,6 @@ type MarketplaceOfferingResponse struct {
 
 	Tags *[]common.NestedTag `json:"tags,omitempty" tfsdk:"tags"`
 
-	TemplateName *string `json:"template_name,omitempty" tfsdk:"template_name"`
-
-	TemplateUuid *string `json:"template_uuid,omitempty" tfsdk:"template_uuid"`
-
-	TemplateVersion *int64 `json:"template_version,omitempty" tfsdk:"template_version"`
-
 	Thumbnail *string `json:"thumbnail,omitempty" tfsdk:"thumbnail"`
 
 	TotalCost *int64 `json:"total_cost,omitempty" tfsdk:"total_cost"`

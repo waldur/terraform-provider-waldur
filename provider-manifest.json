@@ -3335,27 +3335,6 @@
           ]
         },
         {
-          "name": "template_name",
-          "type": "types.String",
-          "required": false,
-          "optional": false,
-          "computed": true
-        },
-        {
-          "name": "template_uuid",
-          "type": "types.String",
-          "required": false,
-          "optional": false,
-          "computed": true
-        },
-        {
-          "name": "template_version",
-          "type": "types.Int64",
-          "required": false,
-          "optional": false,
-          "computed": true
-        },
-        {
           "name": "thumbnail",
           "type": "types.String",
           "required": false,

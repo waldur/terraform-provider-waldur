@@ -1232,12 +1232,6 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 				},
 				Computed: true, MarkdownDescription: "Tags",
 			},
-			"template_name": schema.StringAttribute{
-				Computed: true, MarkdownDescription: "Template Name"},
-			"template_uuid": schema.StringAttribute{
-				Computed: true, MarkdownDescription: "Template Uuid"},
-			"template_version": schema.Int64Attribute{
-				Computed: true, MarkdownDescription: "Template Version"},
 			"thumbnail": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Thumbnail"},
 			"total_cost": schema.Int64Attribute{

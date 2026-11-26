@@ -2,6 +2,14 @@
 
 ## 2026-11-26
 
+### ⚠️ Breaking changes
+
+- `marketplace_offering`: removed attribute `template_name`
+- `marketplace_offering`: removed attribute `template_uuid`
+- `marketplace_offering`: removed attribute `template_version`
+
+## 2026-11-26
+
 ### Added
 
 - `marketplace_offering`: new attribute `plugin_options.renewal_limit_decrease_policy`
