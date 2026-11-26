@@ -869,6 +869,8 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 						Computed: true, MarkdownDescription: "Check the tenant's quotas before an instance is ordered"},
 					"project_permanent_directory": schema.StringAttribute{
 						Computed: true, MarkdownDescription: "HEAppE project permanent directory"},
+					"renewal_limit_decrease_policy": schema.StringAttribute{
+						Computed: true, MarkdownDescription: "What a renewal that only lowers prepaid limits does with the value already paid for the rest of the current term: 'no_credit' (the lower limits apply at once and the extension starts at the current end date, default) or 'stretch_paid_term' (the value is spread over the lower limits, so the paid-up period lasts longer, and the extension starts when it runs out). Neither refunds or credits anything."},
 					"require_effective_id_for_highlighted_display": schema.BoolAttribute{
 						Computed: true, MarkdownDescription: "If set to True, highlighted backend ID display is only shown when the resource has an effective_id."},
 					"require_purchase_order_upload": schema.BoolAttribute{

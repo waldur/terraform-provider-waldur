@@ -4,6 +4,12 @@
 
 ### Added
 
+- `marketplace_offering`: new attribute `plugin_options.renewal_limit_decrease_policy`
+
+## 2026-11-26
+
+### Added
+
 - `marketplace_order`: new attribute `option_secrets`
 - `marketplace_resource`: new attribute `option_secrets`
 - `marketplace_resource`: new attribute `order_in_progress.option_secrets`

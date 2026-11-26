@@ -710,6 +710,8 @@ type MarketplaceOfferingPluginOptionsResponse struct {
 
 	ProjectPermanentDirectory *string `json:"project_permanent_directory,omitempty" tfsdk:"project_permanent_directory"`
 
+	RenewalLimitDecreasePolicy *string `json:"renewal_limit_decrease_policy,omitempty" tfsdk:"renewal_limit_decrease_policy"`
+
 	RequireEffectiveIdForHighlightedDisplay *bool `json:"require_effective_id_for_highlighted_display,omitempty" tfsdk:"require_effective_id_for_highlighted_display"`
 
 	RequirePurchaseOrderUpload *bool `json:"require_purchase_order_upload,omitempty" tfsdk:"require_purchase_order_upload"`

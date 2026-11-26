@@ -2510,6 +2510,13 @@
               "computed": true
             },
             {
+              "name": "renewal_limit_decrease_policy",
+              "type": "types.String",
+              "required": false,
+              "optional": false,
+              "computed": true
+            },
+            {
               "name": "require_effective_id_for_highlighted_display",
               "type": "types.Bool",
               "required": false,
