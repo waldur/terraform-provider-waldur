@@ -690,6 +690,8 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 						Computed: true, MarkdownDescription: "If set to True, newly-created resource projects are immediately transitioned from CREATING to OK on save, bypassing the provider/site-agent reconciliation callback. Use for offerings that have no external backend to reconcile against."},
 					"backend_id_display_label": schema.StringAttribute{
 						Computed: true, MarkdownDescription: "Label used by UI for showing value of the backend_id"},
+					"bill_inactive_instances": schema.BoolAttribute{
+						Computed: true, MarkdownDescription: "Bill the cores, RAM and other compute of instances that are not running (SHUTOFF, SUSPENDED, SHELVED, SHELVED_OFFLOADED) under usage-based billing (default: true). Storage is billed either way."},
 					"billing_source": schema.StringAttribute{
 						Computed: true, MarkdownDescription: "Source for OpenStack instance compute ComponentUsage: 'quota' (flavor-derived Nova quota, default) or 'placement' (Placement allocations; also bills VGPU/PCI/custom resource classes)."},
 					"can_restore_resource": schema.BoolAttribute{
@@ -718,7 +720,7 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 					"disable_autoapprove": schema.BoolAttribute{
 						Computed: true, MarkdownDescription: "If set to True, orders for this offering will always require manual consumer approval, overriding every other consumer-side auto-approve mechanism (auto_approve_in_service_provider_projects, auto_approve_for_roles, project auto-approval rules, and the ORDER.APPROVE permission). Termination orders, staff users and provider approval are not affected"},
 					"disable_grace_period": schema.BoolAttribute{
-						Computed: true, MarkdownDescription: "If set to True, this offering's resources ignore the project grace period and are terminated on the project end date. Only staff can change this option."},
+						Computed: true, MarkdownDescription: "Deprecated. If set to True, and grace_period_days is unset, this offering's resources ignore the project grace period and are terminated on the project end date. Prefer grace_period_days: 0. Only staff can change this option."},
 					"disabled_resource_actions": schema.ListAttribute{
 						ElementType: types.StringType,
 						Computed:    true, MarkdownDescription: "List of disabled marketplace resource actions for this offering."},
@@ -766,6 +768,11 @@ func (d *MarketplaceOfferingDataSource) Schema(ctx context.Context, req datasour
 						Computed: true, MarkdownDescription: "Regular expression to limit flavors list"},
 					"gid_source": schema.StringAttribute{
 						Computed: true, MarkdownDescription: "Where each offering user's primary GID comes from: the POSIX ID pool (default), or the user's primary_gid attribute."},
+					"grace_period_days": schema.Int64Attribute{
+						Computed: true, MarkdownDescription: "Days after a project or resource end date before this offering's resources are terminated. Unset inherits the organization and project grace period for the project end date, and keeps a resource's own end date a hard stop. 0 terminates on the raw end date. A value above 0 is that many days past either end date and overrides the organization and project length. Null clears the setting so the offering inherits again. Only staff can change it.",
+						Validators: []validator.Int64{
+							int64validator.AtLeast(0),
+						}},
 					"heappe_cluster_id": schema.StringAttribute{
 						Computed: true, MarkdownDescription: "HEAppE cluster id"},
 					"heappe_identifier": schema.StringAttribute{

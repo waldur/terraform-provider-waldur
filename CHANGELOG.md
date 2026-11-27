@@ -1,5 +1,14 @@
 # Changelog
 
+## 2026-11-27
+
+### Added
+
+- `marketplace_offering`: new attribute `plugin_options.bill_inactive_instances`
+- `marketplace_offering`: new attribute `plugin_options.grace_period_days`
+- `marketplace_resource`: new attribute `grace_period_end_date`
+- `marketplace_resource`: new attribute `is_in_grace_period`
+
 ## 2026-11-26
 
 ### ⚠️ Breaking changes

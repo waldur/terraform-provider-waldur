@@ -474,6 +474,7 @@ Read-Only:
 - `auto_approve_remote_orders` (Boolean) If set to True, an order can be processed without approval
 - `auto_ok_resource_projects` (Boolean) If set to True, newly-created resource projects are immediately transitioned from CREATING to OK on save, bypassing the provider/site-agent reconciliation callback. Use for offerings that have no external backend to reconcile against.
 - `backend_id_display_label` (String) Label used by UI for showing value of the backend_id
+- `bill_inactive_instances` (Boolean) Bill the cores, RAM and other compute of instances that are not running (SHUTOFF, SUSPENDED, SHELVED, SHELVED_OFFLOADED) under usage-based billing (default: true). Storage is billed either way.
 - `billing_source` (String) Source for OpenStack instance compute ComponentUsage: 'quota' (flavor-derived Nova quota, default) or 'placement' (Placement allocations; also bills VGPU/PCI/custom resource classes).
 - `can_restore_resource` (Boolean) If set to True, resource can be restored.
 - `conceal_billing_data` (Boolean) If set to True, pricing and components tab would be concealed.
@@ -484,7 +485,7 @@ Read-Only:
 - `default_resource_termination_offset_in_days` (Number) If set, it will be used as a default resource termination offset in days
 - `deployment_mode` (String) Rancher deployment mode
 - `disable_autoapprove` (Boolean) If set to True, orders for this offering will always require manual consumer approval, overriding every other consumer-side auto-approve mechanism (auto_approve_in_service_provider_projects, auto_approve_for_roles, project auto-approval rules, and the ORDER.APPROVE permission). Termination orders, staff users and provider approval are not affected
-- `disable_grace_period` (Boolean) If set to True, this offering's resources ignore the project grace period and are terminated on the project end date. Only staff can change this option.
+- `disable_grace_period` (Boolean) Deprecated. If set to True, and grace_period_days is unset, this offering's resources ignore the project grace period and are terminated on the project end date. Prefer grace_period_days: 0. Only staff can change this option.
 - `disabled_resource_actions` (List of String) List of disabled marketplace resource actions for this offering.
 - `display_prepaid_limits_as_total` (Boolean) If set to True, the UI shows each prepaid component as the total for the whole subscription (the monthly amount times the months ordered) instead of a monthly amount, and the resource's limit_usage sums its usage over the whole subscription. Ordering and billing do not change.
 - `emit_display_name` (Boolean) Emit the user's full name as a GLAuth displayName custom attribute (rendered to LDAP displayName).
@@ -508,6 +509,7 @@ Read-Only:
 - `firecrest_system_name` (String) Name of the cluster in FirecREST's systems list.
 - `flavors_regex` (String) Regular expression to limit flavors list
 - `gid_source` (String) Where each offering user's primary GID comes from: the POSIX ID pool (default), or the user's primary_gid attribute.
+- `grace_period_days` (Number) Days after a project or resource end date before this offering's resources are terminated. Unset inherits the organization and project grace period for the project end date, and keeps a resource's own end date a hard stop. 0 terminates on the raw end date. A value above 0 is that many days past either end date and overrides the organization and project length. Null clears the setting so the offering inherits again. Only staff can change it.
 - `heappe_cluster_id` (String) HEAppE cluster id
 - `heappe_identifier` (String) Identifier of the HEAppE instance this offering targets, e.g. 'it4i-heappe-prod'. Lets providers with multiple HEAppE deployments disambiguate which one a given offering uses.
 - `heappe_local_base_path` (String) HEAppE local base path

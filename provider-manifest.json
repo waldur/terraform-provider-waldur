@@ -1985,6 +1985,13 @@
               "computed": true
             },
             {
+              "name": "bill_inactive_instances",
+              "type": "types.Bool",
+              "required": false,
+              "optional": false,
+              "computed": true
+            },
+            {
               "name": "billing_source",
               "type": "types.String",
               "required": false,
@@ -2218,6 +2225,13 @@
             {
               "name": "gid_source",
               "type": "types.String",
+              "required": false,
+              "optional": false,
+              "computed": true
+            },
+            {
+              "name": "grace_period_days",
+              "type": "types.Int64",
               "required": false,
               "optional": false,
               "computed": true
@@ -4268,7 +4282,21 @@
           "computed": true
         },
         {
+          "name": "grace_period_end_date",
+          "type": "types.String",
+          "required": false,
+          "optional": false,
+          "computed": true
+        },
+        {
           "name": "has_api_keys",
+          "type": "types.Bool",
+          "required": false,
+          "optional": false,
+          "computed": true
+        },
+        {
+          "name": "is_in_grace_period",
           "type": "types.Bool",
           "required": false,
           "optional": false,

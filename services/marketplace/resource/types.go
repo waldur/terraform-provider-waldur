@@ -64,7 +64,11 @@ type MarketplaceResourceResponse struct {
 
 	ErrorMessage *string `json:"error_message,omitempty" tfsdk:"error_message"`
 
+	GracePeriodEndDate *string `json:"grace_period_end_date,omitempty" tfsdk:"grace_period_end_date"`
+
 	HasApiKeys *bool `json:"has_api_keys,omitempty" tfsdk:"has_api_keys"`
+
+	IsInGracePeriod *bool `json:"is_in_grace_period,omitempty" tfsdk:"is_in_grace_period"`
 
 	LastSync *string `json:"last_sync,omitempty" tfsdk:"last_sync"`
 

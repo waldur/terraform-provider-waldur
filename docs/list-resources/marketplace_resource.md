@@ -36,6 +36,7 @@ Optional:
 - `has_terminate_date` (Boolean) Has termination date
 - `image_name` (String) Image name
 - `is_attached` (Boolean) Filter by attached state
+- `is_in_grace_period` (Boolean) In the offering-resolved grace period
 - `lexis_links_supported` (Boolean) LEXIS links supported
 - `limit_based` (Boolean) Filter by limit-based offerings
 - `limit_component_count` (Number) Filter by exact number of limit-based components

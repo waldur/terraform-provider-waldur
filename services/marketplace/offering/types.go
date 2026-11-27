@@ -554,6 +554,8 @@ type MarketplaceOfferingPluginOptionsResponse struct {
 
 	BackendIdDisplayLabel *string `json:"backend_id_display_label,omitempty" tfsdk:"backend_id_display_label"`
 
+	BillInactiveInstances *bool `json:"bill_inactive_instances,omitempty" tfsdk:"bill_inactive_instances"`
+
 	BillingSource *string `json:"billing_source,omitempty" tfsdk:"billing_source"`
 
 	CanRestoreResource *bool `json:"can_restore_resource,omitempty" tfsdk:"can_restore_resource"`
@@ -621,6 +623,8 @@ type MarketplaceOfferingPluginOptionsResponse struct {
 	FlavorsRegex *string `json:"flavors_regex,omitempty" tfsdk:"flavors_regex"`
 
 	GidSource *string `json:"gid_source,omitempty" tfsdk:"gid_source"`
+
+	GracePeriodDays *int64 `json:"grace_period_days,omitempty" tfsdk:"grace_period_days"`
 
 	HeappeClusterId *string `json:"heappe_cluster_id,omitempty" tfsdk:"heappe_cluster_id"`
 

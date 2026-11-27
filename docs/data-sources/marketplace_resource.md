@@ -38,7 +38,9 @@ Marketplace Resource data source - lookup by name or UUID
 - `end_date_updated_at` (String) Timestamp of the last end_date change.
 - `endpoints` (Attributes List) Endpoints (see [below for nested schema](#nestedatt--endpoints))
 - `error_message` (String) Error Message
+- `grace_period_end_date` (String) The last day of this resource's grace window. Empty when the offering gives it no grace period.
 - `has_api_keys` (Boolean) Whether the resource owns any API keys, so the portal can offer key management without knowing which backend serves the resource.
+- `is_in_grace_period` (Boolean) True when this resource is past a raw end date and still within the grace period its offering resolves. Independent of whether the resource is paused.
 - `last_sync` (String) Last Sync
 - `limit_usage` (Map of Number) Dictionary mapping limit-based component types to their consumed usage. Sums the ComponentUsage rows of the component's current period (the monthly billing period unless the component defines a longer limit_period), i.e. the period's high-watermark rather than the instantaneous current_usages value.
 - `limits` (Map of Number) Limits
@@ -77,7 +79,7 @@ Marketplace Resource data source - lookup by name or UUID
 - `project_effective_end_date` (String) Effective project end date including grace period. After this date, resources are terminated, except resources of offerings that disable the grace period — those are terminated on the raw project end date.
 - `project_end_date` (String) The project's resources are scheduled for termination on this date plus the grace period, if one is configured. Offerings that disable the grace period terminate them on this date.
 - `project_end_date_requested_by` (String) Project End Date Requested By
-- `project_is_in_grace_period` (Boolean) True if the project is past its end date but still within the grace period.
+- `project_is_in_grace_period` (Boolean) True if the project is past its end date but still within the organization and project grace period. This is the project clock. is_in_grace_period is the clock this resource's offering resolves.
 - `project_slug` (String) Project Slug
 - `project_start_date` (String) Project Start Date
 - `provider_description` (String) Provider Description
@@ -86,7 +88,7 @@ Marketplace Resource data source - lookup by name or UUID
 - `provider_uuid` (String) Provider Uuid
 - `renewal_date` (Map of String) Renewal Date
 - `report` (Attributes List) Report (see [below for nested schema](#nestedatt--report))
-- `resource_effective_end_date` (String) The date this resource is scheduled to terminate: the earliest of its own end date and the project-driven termination date (the raw project end date if the offering disables the grace period, otherwise the effective with-grace end date).
+- `resource_effective_end_date` (String) The date this resource is scheduled to terminate: the earliest of its own end date and the project end date, each plus the grace length the offering resolves. Unset offering grace keeps a resource end date as a hard stop and inherits the project grace. grace_period_days 0, and disable_grace_period, use the raw project end date.
 - `resource_type` (String) Resource Type
 - `resource_uuid` (String) Resource Uuid
 - `restrict_member_access` (Boolean) Restrict Member Access
@@ -119,6 +121,7 @@ Optional:
 - `has_terminate_date` (Boolean) Has termination date
 - `image_name` (String) Image name
 - `is_attached` (Boolean) Filter by attached state
+- `is_in_grace_period` (Boolean) In the offering-resolved grace period
 - `lexis_links_supported` (Boolean) LEXIS links supported
 - `limit_based` (Boolean) Filter by limit-based offerings
 - `limit_component_count` (Number) Filter by exact number of limit-based components

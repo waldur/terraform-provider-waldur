@@ -95,8 +95,12 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 			},
 			"error_message": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Error Message"},
+			"grace_period_end_date": schema.StringAttribute{
+				Computed: true, MarkdownDescription: "The last day of this resource's grace window. Empty when the offering gives it no grace period."},
 			"has_api_keys": schema.BoolAttribute{
 				Computed: true, MarkdownDescription: "Whether the resource owns any API keys, so the portal can offer key management without knowing which backend serves the resource."},
+			"is_in_grace_period": schema.BoolAttribute{
+				Computed: true, MarkdownDescription: "True when this resource is past a raw end date and still within the grace period its offering resolves. Independent of whether the resource is paused."},
 			"last_sync": schema.StringAttribute{
 				CustomType: timetypes.RFC3339Type{},
 				Computed:   true, MarkdownDescription: "Last Sync"},
@@ -630,7 +634,7 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 			"project_end_date_requested_by": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Project End Date Requested By"},
 			"project_is_in_grace_period": schema.BoolAttribute{
-				Computed: true, MarkdownDescription: "True if the project is past its end date but still within the grace period."},
+				Computed: true, MarkdownDescription: "True if the project is past its end date but still within the organization and project grace period. This is the project clock. is_in_grace_period is the clock this resource's offering resolves."},
 			"project_slug": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Project Slug"},
 			"project_start_date": schema.StringAttribute{
@@ -658,7 +662,7 @@ func (d *MarketplaceResourceDataSource) Schema(ctx context.Context, req datasour
 				Computed: true, MarkdownDescription: "Report",
 			},
 			"resource_effective_end_date": schema.StringAttribute{
-				Computed: true, MarkdownDescription: "The date this resource is scheduled to terminate: the earliest of its own end date and the project-driven termination date (the raw project end date if the offering disables the grace period, otherwise the effective with-grace end date)."},
+				Computed: true, MarkdownDescription: "The date this resource is scheduled to terminate: the earliest of its own end date and the project end date, each plus the grace length the offering resolves. Unset offering grace keeps a resource end date as a hard stop and inherits the project grace. grace_period_days 0, and disable_grace_period, use the raw project end date."},
 			"resource_type": schema.StringAttribute{
 				Computed: true, MarkdownDescription: "Resource Type"},
 			"resource_uuid": schema.StringAttribute{

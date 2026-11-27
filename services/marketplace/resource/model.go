@@ -219,6 +219,7 @@ type MarketplaceResourceFiltersModel struct {
 	HasTerminateDate     types.Bool    `tfsdk:"has_terminate_date"`
 	ImageName            types.String  `tfsdk:"image_name"`
 	IsAttached           types.Bool    `tfsdk:"is_attached"`
+	IsInGracePeriod      types.Bool    `tfsdk:"is_in_grace_period"`
 	LexisLinksSupported  types.Bool    `tfsdk:"lexis_links_supported"`
 	LimitBased           types.Bool    `tfsdk:"limit_based"`
 	LimitComponentCount  types.Float64 `tfsdk:"limit_component_count"`
@@ -306,6 +307,10 @@ func (m *MarketplaceResourceFiltersModel) GetSchema() schema.SingleNestedAttribu
 			"is_attached": schema.BoolAttribute{
 				Optional:            true,
 				MarkdownDescription: "Filter by attached state",
+			},
+			"is_in_grace_period": schema.BoolAttribute{
+				Optional:            true,
+				MarkdownDescription: "In the offering-resolved grace period",
 			},
 			"lexis_links_supported": schema.BoolAttribute{
 				Optional:            true,
@@ -469,7 +474,9 @@ type MarketplaceResourceModel struct {
 	EndDateUpdatedAt           timetypes.RFC3339 `tfsdk:"end_date_updated_at"`
 	Endpoints                  types.List        `tfsdk:"endpoints"`
 	ErrorMessage               types.String      `tfsdk:"error_message"`
+	GracePeriodEndDate         types.String      `tfsdk:"grace_period_end_date"`
 	HasApiKeys                 types.Bool        `tfsdk:"has_api_keys"`
+	IsInGracePeriod            types.Bool        `tfsdk:"is_in_grace_period"`
 	LastSync                   timetypes.RFC3339 `tfsdk:"last_sync"`
 	LimitUsage                 types.Map         `tfsdk:"limit_usage"`
 	Limits                     types.Map         `tfsdk:"limits"`
@@ -598,7 +605,11 @@ func (model *MarketplaceResourceModel) CopyFrom(ctx context.Context, apiResp Mar
 
 	model.ErrorMessage = common.StringPointerValue(apiResp.ErrorMessage)
 
+	model.GracePeriodEndDate = common.StringPointerValue(apiResp.GracePeriodEndDate)
+
 	model.HasApiKeys = types.BoolPointerValue(apiResp.HasApiKeys)
+
+	model.IsInGracePeriod = types.BoolPointerValue(apiResp.IsInGracePeriod)
 
 	valLastSync, diagsLastSync := timetypes.NewRFC3339PointerValue(apiResp.LastSync)
 	diags.Append(diagsLastSync...)
